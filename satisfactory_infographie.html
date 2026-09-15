@@ -176,6 +176,8 @@
   .podium .pr{align-items:center}
   .podium .pr .cs{flex:1}
   .podium .pr button{flex:0 0 auto;padding:4px 8px;font-size:11px}
+  .podium .chip .stn{font-style:normal;font-family:"Saira Condensed",sans-serif;font-size:11px;font-weight:700;
+    color:#141414;background:var(--alt);min-width:14px;text-align:center;line-height:14px;margin-right:5px}
   .seq{margin-top:12px;background:var(--deep);border:1px solid var(--rule);border-top:3px solid var(--gold);
     padding:10px 12px 6px;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%)}
   .seq .sh{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;justify-content:space-between}
@@ -766,8 +768,8 @@ function reconstruct(target, alts, score, m){
   }
   return planCache[key] = best;
 }
-function buildSeq(target, choice, rate){
-  const used = usedItems(target, choice), stage = {};
+function stagesOf(target, choice){
+  const stage = {};
   const depth = it=>{
     if(isRaw(it)) return 0;
     if(it in stage) return stage[it];
@@ -775,6 +777,22 @@ function buildSeq(target, choice, rate){
     return stage[it] = 1 + Math.max(0, ...choice[it].r.ig.map(g=>depth(g[0])));
   };
   depth(target);
+  return stage;
+}
+/* ordre d'affichage des recettes d'une chaîne : celui de la séquence (étape, puis nom de l'item) */
+function orderAlts(target, alts, score){
+  const plan = reconstruct(target, alts, score, mode);
+  if(!plan) return alts.map(a=>({a, st:null}));
+  const stage = stagesOf(target, plan.choice), pos = {};
+  usedItems(target, plan.choice).forEach(it=>{
+    const n = plan.choice[it].r.n, k = [stage[it], IT_(it)];
+    if(!pos[n] || k[0] < pos[n][0]) pos[n] = k;
+  });
+  return alts.map(a=>({a, st: pos[a] ? pos[a][0] : null, nm: pos[a] ? pos[a][1] : a}))
+    .sort((x,y)=>(x.st??99)-(y.st??99) || x.nm.localeCompare(y.nm));
+}
+function buildSeq(target, choice, rate){
+  const used = usedItems(target, choice), stage = stagesOf(target, choice);
   const need = {[target]: rate}, raw = {}, steps = [];
   [...used].sort((a,b)=>stage[b]-stage[a]).forEach(it=>{
     const ch = choice[it], runs = (need[it]||0) / outRate(ch, it);
@@ -794,8 +812,8 @@ function machinesTxt(runs, r){
 }
 const seqPick = {}, seqRate = {};
 function seqHTML(c, pod){
-  const i = seqPick[c.cible] || 0, p = pod[i];
-  if(!p) return '';
+  const i = seqPick[c.cible], p = pod[i];
+  if(i == null || !p) return '';
   const plan = reconstruct(c.cible, p[1], p[0], mode);
   if(!plan) return `<div class="seq"><div class="sum warn">Chaîne introuvable dans les données : séquence indisponible.</div></div>`;
   const fin = plan.choice[c.cible];
@@ -876,11 +894,11 @@ function renderCombi(){
       <div>Recettes retenues dans la combinaison optimale :</div>
       <div class="chips">${alts.map(a=>`<span class="chip up lk" data-goduel="${esc(RI[a]||'')}" data-alt="${esc(a)}">${icoR(a)}${RC_(a)}</span>`).join('')
         || '<span class="chip">aucune : la chaîne de base est déjà optimale</span>'}</div>
-      <div style="margin-top:9px">Podium des meilleures chaînes :</div>
+      <div style="margin-top:9px">Podium des meilleures chaînes <span class="unit">— recettes dans l'ordre de production, numéro d'étape en tête</span> :</div>
       <div class="podium">${pod.map((p,k)=>`<div class="pr"><b>${SYM()}=${nf(p[0])}</b>
-        <span class="cs">${p[1].length ? p[1].map(a=>`<span class="chip lk" data-goduel="${esc(RI[a]||'')}" data-alt="${esc(a)}">${icoR(a)}${RC_(a)}</span>`).join('')
+        <span class="cs">${p[1].length ? orderAlts(c.cible, p[1], p[0]).map(({a,st})=>`<span class="chip lk" data-goduel="${esc(RI[a]||'')}" data-alt="${esc(a)}">${st!=null?`<i class="stn">${st}</i>`:''}${icoR(a)}${RC_(a)}</span>`).join('')
           : '<span class="chip">aucune alternative</span>'}</span>
-        <button data-seq="${esc(c.cible)}" data-k="${k}" aria-pressed="${(seqPick[c.cible]||0)===k}">Séquence</button></div>`).join('')}</div>
+        <button data-seq="${esc(c.cible)}" data-k="${k}" aria-pressed="${seqPick[c.cible]===k}">${seqPick[c.cible]===k ? 'Masquer' : 'Séquence'}</button></div>`).join('')}</div>
       ${seqHTML(c, pod)}
       <div class="foot" style="margin-top:6px">${det && det.exact
         ? 'Énumération exhaustive : les ' + fmtBig(c.nb_chaines) + ' chaînes ont toutes été évaluées.'
@@ -900,7 +918,9 @@ function renderCombi(){
     e.stopPropagation(); goDuel(el.dataset.goduel, el.dataset.alt);
   }));
   document.querySelectorAll('#combi [data-seq]').forEach(el=>el.addEventListener('click', e=>{
-    e.stopPropagation(); seqPick[el.dataset.seq] = +el.dataset.k; renderCombi();
+    e.stopPropagation(); const t = el.dataset.seq, k = +el.dataset.k;
+    if(seqPick[t] === k) delete seqPick[t]; else seqPick[t] = k;
+    renderCombi();
   }));
   document.querySelectorAll('#combi [data-rate]').forEach(el=>el.addEventListener('change', ()=>{
     const v = parseFloat(String(el.value).replace(',', '.'));

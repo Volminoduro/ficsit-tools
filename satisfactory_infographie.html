@@ -172,6 +172,50 @@
   .podium .pr{display:flex;gap:8px;padding:5px 0;font-size:13px;border-top:1px solid var(--rule)}
   .podium .pr b{font-size:16px;color:var(--gold);min-width:64px;flex:0 0 auto}
   .podium .pr .cs{display:flex;flex-wrap:wrap;gap:5px}
+  /* séquence de production */
+  .podium .pr{align-items:center}
+  .podium .pr .cs{flex:1}
+  .podium .pr button{flex:0 0 auto;padding:4px 8px;font-size:11px}
+  .seq{margin-top:12px;background:var(--deep);border:1px solid var(--rule);border-top:3px solid var(--gold);
+    padding:10px 12px 6px;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%)}
+  .seq .sh{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;justify-content:space-between}
+  .seq .sh b{font-family:"Saira Condensed",sans-serif;font-size:18px;color:#fff;text-transform:uppercase;
+    letter-spacing:.03em;font-weight:600}
+  .seq .rate{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--dim)}
+  .seq .rate input{width:86px;text-align:right}
+  .seq .sum{font-size:12.5px;color:var(--dim);margin:6px 0 4px;line-height:1.5}
+  .seq .sum b{color:var(--gold);font-family:"Saira Condensed",sans-serif;font-size:15px;font-weight:600}
+  .seq .sum .warn{color:var(--bad)}
+  .stp{display:grid;grid-template-columns:40px 1fr;gap:10px}
+  .stp .rail{display:flex;flex-direction:column;align-items:center;padding-top:8px}
+  .stp .sn{width:34px;font-family:"Saira Condensed",sans-serif;font-size:21px;font-weight:700;color:#141414;
+    background:var(--alt);text-align:center;line-height:1.35;
+    clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%)}
+  .stp.raw .sn{background:var(--std)}
+  .stp.goal .sn{background:var(--gold)}
+  .stp .rail::after{content:"";flex:1;width:8px;margin:5px 0 -3px;min-height:14px;
+    background:repeating-linear-gradient(180deg,var(--rule2) 0 5px,transparent 5px 10px);
+    border-left:1px solid var(--rule);border-right:1px solid var(--rule)}
+  .stp:last-child .rail::after{display:none}
+  .stp .col{padding:6px 0 10px;min-width:0}
+  .stp .lab{font-size:11.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+  .sit{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--std);
+    padding:7px 10px;margin-top:6px}
+  .sit.a{border-left-color:var(--alt)}
+  .sit.b{border-left-color:var(--gold)}
+  .sit .hd{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+  .sit .nm{font-family:"Saira Condensed",sans-serif;font-size:17px;color:#fff;display:flex;align-items:center}
+  .sit .mc{font-size:12.5px;color:var(--dim);text-align:right;margin-left:auto}
+  .sit .mc b{font-family:"Saira Condensed",sans-serif;font-size:16px;color:var(--ink);font-weight:600}
+  .sit .rc{font-size:12.5px;color:var(--dim)}
+  .sit .rc i{font-style:normal;color:var(--std)}
+  .sit.a .rc i{color:var(--alt)}
+  .sit.b .rc i{color:var(--gold)}
+  .sit .fl{font-size:13px;margin-top:2px}
+  .sit .bp{font-size:12px;color:var(--dim);margin-top:2px}
+  .sit .bp em{font-style:normal;color:var(--gold)}
+  .rawl{display:flex;flex-wrap:wrap;gap:6px}
+  .rawl .chip{font-size:12.5px;color:var(--ink)}
   /* tiers */
   .tier{display:grid;grid-template-columns:54px 1fr;gap:12px;padding:10px 0;
     border-bottom:1px solid var(--rule);align-items:start}
@@ -295,7 +339,9 @@
     <p class="lede" style="margin-top:16px">Ici on ne compare plus des recettes isolées mais des usines
     entières : chaque item de l'arbre peut prendre n'importe laquelle de ses recettes, à condition qu'un
     même item garde la même recette partout. L'optimum est exact — le coût étant additif, une programmation
-    dynamique donne le minimum global sans rien énumérer.</p>
+    dynamique donne le minimum global sans rien énumérer. Chaque chaîne du podium se déroule en
+    <b>séquence de production</b> : de l'extraction à la cible, étape par étape, avec le nombre de
+    machines pour la cadence choisie.</p>
     <div class="secbar">
       <button id="expAllC">Tout développer</button>
       <button id="colAllC">Tout réduire</button>
@@ -648,6 +694,163 @@ function renderDuels(){
 document.getElementById('expAll').addEventListener('click',()=>{ buildGroups().forEach(g=>openGrp.add(g.p)); renderDuels(); });
 document.getElementById('colAll').addEventListener('click',()=>{ openGrp.clear(); renderDuels(); });
 
+/* ---------- séquence de production ----------
+   Reconstruit la chaîne exacte derrière un score du registre : même modèle de coût que le solveur
+   (puissance machine répartie sur toutes les sorties, ingrédients facturés en entier à la sortie
+   considérée), puis choix des recettes de base non nommées dans la liste qui retrouve le score. */
+const RAWE = {'Water':1/6, 'Crude Oil':1/3, 'Nitrogen Gas':0.5};
+['Iron Ore','Copper Ore','Limestone','Coal','Caterium Ore','Raw Quartz','Sulfur','Bauxite','Uranium','SAM']
+  .forEach(k=>RAWE[k]=0.125);
+const HAND = new Set(['Leaves','Wood','Mycelia','Hog Remains','Spitter Remains','Stinger Remains','Hatcher Remains','Power Shard']);
+const NONRAW = new Set(['Dissolved Silica']);
+const MAIN = {}, BYSRC = {};
+D.forEach(r=>{ (MAIN[r.p] = MAIN[r.p] || []).push(r);
+  r.by.forEach(b=>{ (BYSRC[b[0]] = BYSRC[b[0]] || []).push(r); }); });
+const isRaw = it => !MAIN[it] && !NONRAW.has(it);
+const rawCost = (it, m) => m==='mw' ? (it in RAWE ? RAWE[it] : (HAND.has(it) ? 0 : null))
+  : ((it==='Water' || HAND.has(it)) ? 0 : 1);
+const byOut = r => r.by.reduce((t,b)=>t+b[2], 0);
+const outRate = (ch, it) => ch.k==='m' ? ch.r.o : ch.r.by.find(b=>b[0]===it)[2];
+function candsOf(it, listed){
+  const forced = (MAIN[it]||[]).filter(r=>r.a && listed.has(r.n));
+  if(forced.length) return forced.map(r=>({k:'m', r}));
+  const c = (MAIN[it]||[]).filter(r=>!r.a).map(r=>({k:'m', r}));
+  if(c.length) return c;
+  return (BYSRC[it]||[]).filter(r=>!r.a || listed.has(r.n)).map(r=>({k:'b', r}));
+}
+function costWith(target, choice, m){
+  const memo = {};
+  const cost = (it, stack)=>{
+    if(it in memo) return memo[it];
+    if(isRaw(it)) return rawCost(it, m);
+    const ch = choice[it];
+    if(!ch || stack.has(it)) return null;
+    const den = outRate(ch, it), s2 = new Set(stack).add(it);
+    let t = m==='mw' ? ch.r.w / (ch.r.o + byOut(ch.r)) : 0;
+    for(const g of ch.r.ig){ const c = cost(g[0], s2); if(c == null) return null; t += g[2]/den*c; }
+    return memo[it] = t;
+  };
+  return cost(target, new Set());
+}
+function usedItems(target, choice){
+  const S = new Set(), st = [target];
+  while(st.length){ const it = st.pop();
+    if(S.has(it) || isRaw(it) || !choice[it]) continue;
+    S.add(it); choice[it].r.ig.forEach(g=>st.push(g[0])); }
+  return S;
+}
+const planCache = {};
+function reconstruct(target, alts, score, m){
+  const key = [m, target, score].concat(alts).join('|');
+  if(key in planCache) return planCache[key];
+  const listed = new Set(alts), reach = new Set(), st = [target];
+  while(st.length){ const it = st.pop();
+    if(reach.has(it)) continue; reach.add(it);
+    if(!isRaw(it)) candsOf(it, listed).forEach(c=>c.r.ig.forEach(g=>st.push(g[0]))); }
+  const items = [...reach].filter(it=>!isRaw(it) && candsOf(it, listed).length);
+  const opts = items.map(it=>candsOf(it, listed));
+  const total = Math.min(4096, opts.reduce((p,o)=>p*o.length, 1));
+  let best = null;
+  for(let n = 0; n < total; n++){
+    let x = n; const choice = {};
+    items.forEach((it,i)=>{ choice[it] = opts[i][x % opts[i].length]; x = Math.floor(x / opts[i].length); });
+    const c = costWith(target, choice, m);
+    if(!c) continue;
+    const got = 1/c, err = Math.abs(got - score)/score;
+    const names = new Set([...usedItems(target, choice)].map(it=>choice[it].r.n));
+    const miss = alts.some(a=>!names.has(a));
+    const k = [err > 1e-9 ? 1 : 0, miss ? 1 : 0, err];
+    const better = !best || k[0]!==best.k[0] ? (!best || k[0]<best.k[0])
+      : k[1]!==best.k[1] ? k[1]<best.k[1] : k[2]<best.k[2];
+    if(better) best = {k, choice, score:got, exact: !k[0] && !k[1]};
+  }
+  return planCache[key] = best;
+}
+function buildSeq(target, choice, rate){
+  const used = usedItems(target, choice), stage = {};
+  const depth = it=>{
+    if(isRaw(it)) return 0;
+    if(it in stage) return stage[it];
+    stage[it] = 0;
+    return stage[it] = 1 + Math.max(0, ...choice[it].r.ig.map(g=>depth(g[0])));
+  };
+  depth(target);
+  const need = {[target]: rate}, raw = {}, steps = [];
+  [...used].sort((a,b)=>stage[b]-stage[a]).forEach(it=>{
+    const ch = choice[it], runs = (need[it]||0) / outRate(ch, it);
+    ch.r.ig.forEach(g=>{ const q = runs*g[2];
+      if(isRaw(g[0])) raw[g[0]] = (raw[g[0]]||0) + q; else need[g[0]] = (need[g[0]]||0) + q; });
+    steps.push({it, ch, runs, st: stage[it]});
+  });
+  steps.forEach(x=>{ x.need = need[x.it]; });
+  return {steps, raw, need, nStages: stage[target]};
+}
+const fx = v => { if(v == null) return '—'; const a = Math.abs(v);
+  return String(+v.toFixed(a >= 100 ? 1 : a >= 1 ? 2 : a >= 0.01 ? 3 : 5)); };
+function machinesTxt(runs, r){
+  const n = Math.max(1, Math.ceil(runs - 1e-9)), clk = runs / n * 100;
+  const whole = Math.abs(clk - 100) < 1e-6;
+  return `<b>${fx(runs)}</b> ${r.m}<br>${whole ? `${n} à 100 %` : `${n} à ${fx(clk)} %`} · ${fx(runs*r.w)} MW`;
+}
+const seqPick = {}, seqRate = {};
+function seqHTML(c, pod){
+  const i = seqPick[c.cible] || 0, p = pod[i];
+  if(!p) return '';
+  const plan = reconstruct(c.cible, p[1], p[0], mode);
+  if(!plan) return `<div class="seq"><div class="sum warn">Chaîne introuvable dans les données : séquence indisponible.</div></div>`;
+  const fin = plan.choice[c.cible];
+  const rk = mode + '|' + c.cible;
+  const rate = seqRate[rk] || outRate(fin, c.cible);
+  const q = buildSeq(c.cible, plan.choice, rate);
+  const mw = q.steps.reduce((t,x)=>t + x.runs*x.ch.r.w, 0);
+  const ext = Object.entries(q.raw).reduce((t,[k,v])=>t + v*(RAWE[k]||0), 0);
+  const mat = Object.entries(q.raw).reduce((t,[k,v])=>t + v*rawCost(k,'mat'), 0);
+  const hasBy = q.steps.some(x=>x.ch.r.by.length || x.ch.k==='b');
+  const verdict = plan.exact
+    ? `${SYM()} recalculé = <b>${nf(plan.score)}</b>, identique au registre`
+    : `<span class="warn">${SYM()} recalculé = ${nf(plan.score)} au lieu de ${nf(p[0])} : séquence approchée</span>`;
+  const real = mode==='mw'
+    ? `Puissance appelée : <b>${fx(mw)} MW</b> de machines + <b>${fx(ext)} MW</b> d'extraction, soit ${fx(rate/(mw+ext))} ${IT_(c.cible).toLowerCase()}/min par MW.`
+      + (hasBy ? ` L'écart avec l'indice vient des coproduits : l'indice ne facture à chaque sortie qu'une part de la machine qui la produit, la puissance appelée compte la machine entière.` : '')
+    : `Ressources brutes : <b>${fx(mat)} u/min</b> hors eau, soit ${fx(rate/mat)} ${IT_(c.cible).toLowerCase()}/min par unité.`;
+  const rawRow = `<div class="stp raw"><div class="rail"><div class="sn">0</div></div><div class="col">
+    <div class="lab">Extraction</div><div class="rawl">${Object.entries(q.raw).sort((a,b)=>b[1]-a[1]).map(([k,v])=>
+      `<span class="chip">${fx(v)} ${ico(k,'sm')}${IT_(k)}${HAND.has(k) ? ' <span class="unit">&nbsp;ramassage</span>'
+        : (mode==='mat' && k==='Water') ? ' <span class="unit">&nbsp;gratuite</span>' : ''}</span>`).join('')}</div></div></div>`;
+  const byStage = {};
+  q.steps.forEach(x=>{ (byStage[x.st] = byStage[x.st] || []).push(x); });
+  const rows = Object.keys(byStage).map(Number).sort((a,b)=>a-b).map(stn=>{
+    const goal = stn === q.nStages;
+    const cards = byStage[stn].sort((a,b)=>IT_(a.it).localeCompare(IT_(b.it))).map(x=>{
+      const r = x.ch.r, isB = x.ch.k==='b';
+      const cls = isB ? 'b' : r.a ? 'a' : '';
+      const kind = isB ? 'coproduit de' : r.a ? 'alternative' : 'base';
+      const ins = r.ig.map(g=>`${fx(x.runs*g[2])} ${ico(g[0],'sm')}${IT_(g[0])}`).join(' + ') || 'rien';
+      const outs = [[r.p, r.o]].concat(r.by.map(b=>[b[0], b[2]]));
+      const main = outs.find(o=>o[0]===x.it), others = outs.filter(o=>o[0]!==x.it);
+      const bp = others.map(([k,v])=>{ const got = x.runs*v, use = q.need[k] || q.raw[k];
+        return `+ ${fx(got)} ${ico(k,'sm')}${IT_(k)}/min ` + (use
+          ? `<em>à réinjecter : la chaîne en consomme ${fx(use)}/min</em>`
+          : 'en surplus'); }).join('<br>');
+      return `<div class="sit ${cls}"><div class="hd">
+          <span class="nm">${ico(x.it,'lg')}${IT_(x.it)}</span>
+          <span class="mc">${machinesTxt(x.runs, r)}</span></div>
+        <div class="rc">${kind} <i>${RC_(r.n)}</i> · tier ${r.t} · ${SRC[r.s]}</div>
+        <div class="fl">${ins} → ${fx(x.runs*main[1])} ${ico(x.it,'sm')}${IT_(x.it)} <span class="unit">/min</span></div>
+        ${bp ? `<div class="bp">${bp}</div>` : ''}</div>`;
+    }).join('');
+    return `<div class="stp${goal?' goal':''}"><div class="rail"><div class="sn">${stn}</div></div><div class="col">
+      <div class="lab">${goal ? 'Cible' : 'Étape ' + stn}</div>${cards}</div></div>`;
+  }).join('');
+  return `<div class="seq">
+    <div class="sh"><b>Séquence ${i===0 ? 'de la meilleure chaîne' : 'de la chaîne n° ' + (i+1)}</b>
+      <label class="rate">Cadence visée <input type="number" min="0.01" step="any" value="${+rate.toFixed(4)}"
+        data-rate="${esc(c.cible)}"> ${ico(c.cible,'sm')}/min</label></div>
+    <div class="sum">${verdict}.<br>${real}</div>
+    ${rawRow}${rows}
+  </div>`;
+}
+
 /* ---------- combinaisons ---------- */
 let openCb = new Set();
 function renderCombi(){
@@ -674,9 +877,11 @@ function renderCombi(){
       <div class="chips">${alts.map(a=>`<span class="chip up lk" data-goduel="${esc(RI[a]||'')}" data-alt="${esc(a)}">${icoR(a)}${RC_(a)}</span>`).join('')
         || '<span class="chip">aucune : la chaîne de base est déjà optimale</span>'}</div>
       <div style="margin-top:9px">Podium des meilleures chaînes :</div>
-      <div class="podium">${pod.map(p=>`<div class="pr"><b>${SYM()}=${nf(p[0])}</b>
+      <div class="podium">${pod.map((p,k)=>`<div class="pr"><b>${SYM()}=${nf(p[0])}</b>
         <span class="cs">${p[1].length ? p[1].map(a=>`<span class="chip lk" data-goduel="${esc(RI[a]||'')}" data-alt="${esc(a)}">${icoR(a)}${RC_(a)}</span>`).join('')
-          : '<span class="chip">aucune alternative</span>'}</span></div>`).join('')}</div>
+          : '<span class="chip">aucune alternative</span>'}</span>
+        <button data-seq="${esc(c.cible)}" data-k="${k}" aria-pressed="${(seqPick[c.cible]||0)===k}">Séquence</button></div>`).join('')}</div>
+      ${seqHTML(c, pod)}
       <div class="foot" style="margin-top:6px">${det && det.exact
         ? 'Énumération exhaustive : les ' + fmtBig(c.nb_chaines) + ' chaînes ont toutes été évaluées.'
         : 'Au-delà de 200 000 chaînes, le podium est tronqué aux 300 meilleures. L\'optimum, lui, reste exact.'}</div>
@@ -693,6 +898,13 @@ function renderCombi(){
 
   document.querySelectorAll('#combi [data-goduel]').forEach(el=>el.addEventListener('click', e=>{
     e.stopPropagation(); goDuel(el.dataset.goduel, el.dataset.alt);
+  }));
+  document.querySelectorAll('#combi [data-seq]').forEach(el=>el.addEventListener('click', e=>{
+    e.stopPropagation(); seqPick[el.dataset.seq] = +el.dataset.k; renderCombi();
+  }));
+  document.querySelectorAll('#combi [data-rate]').forEach(el=>el.addEventListener('change', ()=>{
+    const v = parseFloat(String(el.value).replace(',', '.'));
+    if(v > 0){ seqRate[mode + '|' + el.dataset.rate] = v; renderCombi(); }
   }));
   document.querySelectorAll('#combi .cb .top').forEach(el=>{
     const go = ()=>{ const k = el.parentElement.dataset.t;

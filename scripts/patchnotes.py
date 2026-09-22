@@ -13,17 +13,19 @@ START, END = "<!-- PATCHNOTES:START -->", "<!-- PATCHNOTES:END -->"
 VISIBLES = 3  # entrées affichées avant le repli
 
 # Habillage par outil : polices et couleurs reprises des variables de chaque page.
-# ancre = (texte repère, "avant" | "apres") pour la première insertion.
+# ancre = (texte repère, "avant" | "apres_paragraphe") pour la première insertion.
+# langue = d'où lire la langue affichée : "html" (attribut lang de <html>, posé par la bascule FR/EN),
+#          un sélecteur de bouton (anglais si aria-pressed="true"), ou absent (page française uniquement).
 THEMES = {
   "satisfactory_infographie.html": dict(disp="'Saira Condensed',sans-serif", body="'Barlow',sans-serif",
       panel="var(--panel)", deep="var(--deep)", line="var(--rule)", ink="var(--ink)", dim="var(--dim)",
-      ancre=("<p class=\"foot\">Données et icônes", "apres_paragraphe")),
+      ancre=("<p class=\"foot\">Données et icônes", "apres_paragraphe"), langue="#langEN"),
   "ficsit_horloge.html": dict(disp="'Saira Condensed',sans-serif", body="'Rajdhani',sans-serif",
       panel="var(--panel)", deep="var(--slot)", line="var(--line)", ink="var(--text)", dim="var(--muted)",
-      ancre=("<footer", "avant")),
+      ancre=("<footer", "avant"), langue="html"),
   "broyeur-excedents.html": dict(disp="var(--disp)", body="var(--sans)",
       panel="var(--p1)", deep="var(--p3)", line="var(--ln)", ink="var(--ink)", dim="var(--ink2)",
-      ancre=("<footer", "avant")),
+      ancre=("<footer", "avant"), langue="html"),
   "memo-ficsit.html": dict(disp="var(--d)", body="var(--b)",
       panel="var(--panel)", deep="var(--slot)", line="var(--line)", ink="var(--tx)", dim="var(--tx2)",
       ancre=("<footer", "avant")),
@@ -65,11 +67,21 @@ CSS = """
 .pn-old summary:focus-visible{outline:2px solid var(--pn-or);outline-offset:2px}
 .pn-old .pn-list{padding:4px 0 6px}
 .pn-foot{height:10px}
+.pn [data-l="en"],.pn.pn-en [data-l="fr"]{display:none}
+.pn.pn-en [data-l="en"]{display:revert}
 @media (max-width:560px){.pn-head{padding:14px 14px 10px}.pn-list{padding-left:14px;padding-right:14px}.pn-old{margin:0 14px}}
 """
 
+MOIS_EN = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
+
 def fr(d):
     a, m, j = d.split("-"); return f"{j}/{m}/{a}"
+
+def en(d):
+    a, m, j = d.split("-"); return f"{int(j)} {MOIS_EN[int(m) - 1]} {a}"
+
+def bi(fr_txt, en_txt, tag="span"):
+    return f'<{tag} data-l="fr">{fr_txt}</{tag}><{tag} data-l="en" lang="en">{en_txt}</{tag}>'
 
 def icones():
     s = (ROOT / "index.html").read_text(encoding="utf-8")
@@ -80,26 +92,39 @@ def icones():
     return out
 
 def entree(e):
+    t = e["texte"]
     return (f'<li class="pn-e"><div class="pn-meta"><span class="pn-v">v{html.escape(e["version"])}</span>'
-            f'<time class="pn-d" datetime="{e["date"]}">{fr(e["date"])}</time></div>'
-            f'<p class="pn-t">{html.escape(e["texte"])}</p></li>')
+            f'<time class="pn-d" datetime="{e["date"]}">{bi(fr(e["date"]), en(e["date"]))}</time></div>'
+            f'<p class="pn-t">{bi(html.escape(t["fr"]), html.escape(t["en"]))}</p></li>')
+
+JS_LANGUE = """<script>(function(){var a=document.getElementById('journal'),S=%s;
+function lit(){if(S==='html')return (document.documentElement.lang||'').slice(0,2)==='en';
+var b=document.querySelector(S);return !!b&&b.getAttribute('aria-pressed')==='true'}
+function maj(){a.classList.toggle('pn-en',lit())}
+var c=S==='html'?document.documentElement:document.querySelector(S);
+if(c)new MutationObserver(maj).observe(c,{attributes:true,attributeFilter:['lang','aria-pressed']});
+maj();document.addEventListener('DOMContentLoaded',maj)})();</script>"""
 
 def bloc(fichier, outil, icone):
-    t = THEMES[fichier]; es = outil["entrees"]; der = es[0]
+    t = THEMES[fichier]; es = outil["entrees"]; der = es[0]; v = html.escape(der["version"])
     style = (f'--pn-disp:{t["disp"]};--pn-body:{t["body"]};--pn-panel:{t["panel"]};--pn-deep:{t["deep"]};'
              f'--pn-line:{t["line"]};--pn-ink:{t["ink"]};--pn-dim:{t["dim"]}')
     slot = f'<span class="pn-slot"><img src="{icone}" alt=""></span>' if icone else ""
     vis, old = es[:VISIBLES], es[VISIBLES:]
     h = [START, f'<style>{CSS.strip()}</style>',
          f'<aside class="pn" id="journal" aria-labelledby="pn-titre" style="{style}"><div class="pn-hz"></div>',
-         f'<div class="pn-head">{slot}<div><div class="pn-title" id="pn-titre" role="heading" aria-level="2">Journal des révisions</div>',
-         f'<p class="pn-sub">Version {html.escape(der["version"])}, mise à jour le {fr(der["date"])}</p></div></div>',
+         f'<div class="pn-head">{slot}<div><div class="pn-title" id="pn-titre" role="heading" aria-level="2">'
+         f'{bi("Journal des révisions", "Revision log")}</div>',
+         f'<p class="pn-sub">{bi(f"Version {v}, mise à jour le {fr(der["date"])}", f"Version {v}, updated {en(der["date"])}")}</p></div></div>',
          '<ol class="pn-list">' + "".join(entree(e) for e in vis) + "</ol>"]
     if old:
-        n = len(old)
-        h.append(f'<details class="pn-old"><summary>{n} révision{"s" if n > 1 else ""} antérieure{"s" if n > 1 else ""}</summary>'
+        n = len(old); s_ = "s" if n > 1 else ""
+        h.append(f'<details class="pn-old"><summary>{bi(f"{n} révision{s_} antérieure{s_}", f"{n} earlier revision{s_}")}</summary>'
                  '<ol class="pn-list">' + "".join(entree(e) for e in old) + "</ol></details>")
-    h += ['<div class="pn-foot"></div></aside>', END]
+    h.append('<div class="pn-foot"></div></aside>')
+    if t.get("langue"):
+        h.append(JS_LANGUE % json.dumps(t["langue"]))
+    h.append(END)
     return "\n".join(h)
 
 def injecter(fichier, contenu):
@@ -119,8 +144,9 @@ def injecter(fichier, contenu):
 def changelog_md(data):
     L = ["# Journal des révisions", "", "Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer à la main.", ""]
     for f, o in data["outils"].items():
-        L += [f"## {o['nom']} — `{f}`", ""]
-        L += [f"- **v{e['version']}** ({fr(e['date'])}) : {e['texte']}" for e in o["entrees"]]
+        L += [f"## {o['nom']['fr']} / {o['nom']['en']} — `{f}`", ""]
+        for e in o["entrees"]:
+            L += [f"- **v{e['version']}** ({fr(e['date'])}) : {e['texte']['fr']}", f"  *EN — {e['texte']['en']}*"]
         L.append("")
     (ROOT / "CHANGELOG.md").write_text("\n".join(L), encoding="utf-8")
 

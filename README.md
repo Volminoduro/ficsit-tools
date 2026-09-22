@@ -10,9 +10,9 @@ Outils générés pour la maîtrise des systèmes de *Satisfactory* (logistique,
 
 ## Journal des révisions
 
-- Source unique : `changelog.json` (entrées de la plus récente à la plus ancienne, version SemVer propre à chaque outil, date ISO, texte court).
+- Source unique : `changelog.json` (entrées de la plus récente à la plus ancienne, version SemVer propre à chaque outil, date ISO, texte court en français et en anglais).
 - Après chaque évolution d'un outil : ajouter l'entrée, puis lancer `python3 scripts/patchnotes.py`. Le script réécrit l'encart « Journal des révisions » en bas de chaque page (entre les marqueurs `PATCHNOTES:START/END`) et régénère `CHANGELOG.md`.
-- L'encart est embarqué dans le HTML : il reste lisible hors ligne, comme le reste de l'outil.
+- L'encart est embarqué dans le HTML : il reste lisible hors ligne, comme le reste de l'outil. Il suit la bascule FR/EN de chaque page ; le mémo, sans bascule, reste en français.
 
 ## Outils déjà produits (à réintégrer ici)
 

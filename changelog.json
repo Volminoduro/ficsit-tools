@@ -4,28 +4,71 @@
     "satisfactory_infographie.html": {
       "nom": "Registre des rendements",
       "entrees": [
-        {"version": "1.2", "date": "2026-09-21", "texte": "Filtre par palier atteint : recettes, alternatives et combinaisons se limitent à ce qui est réellement jouable au palier choisi. Correction de cinq optimums du mode Matière (famille du moteur)."},
-        {"version": "1.1", "date": "2026-09-15", "texte": "Combinaisons : chaque chaîne du podium se déroule étape par étape, de l'extraction à la cible, avec machines, horloges et coproduits. La séquence s'affiche au clic."},
-        {"version": "1.0", "date": "2026-09-05", "texte": "Première version : chaque recette notée en sortie par mégawatt (Énergie) et par matière brute (Matière), onglets Duels, Combinaisons et Catalogue, filtre multi-items et noms français."}
+        {
+          "version": "1.3",
+          "date": "2026-09-22",
+          "texte": "Vos réglages sont mémorisés d'une visite à l'autre (critère, langue, palier, items cochés, onglet, filtres, séquences et cadences), avec un bouton Réinitialiser. La note du sélecteur de palier suit la langue des noms."
+        },
+        {
+          "version": "1.2",
+          "date": "2026-09-21",
+          "texte": "Filtre par palier atteint : recettes, alternatives et combinaisons se limitent à ce qui est réellement jouable au palier choisi. Correction de cinq optimums du mode Matière (famille du moteur)."
+        },
+        {
+          "version": "1.1",
+          "date": "2026-09-15",
+          "texte": "Combinaisons : chaque chaîne du podium se déroule étape par étape, de l'extraction à la cible, avec machines, horloges et coproduits. La séquence s'affiche au clic."
+        },
+        {
+          "version": "1.0",
+          "date": "2026-09-05",
+          "texte": "Première version : chaque recette notée en sortie par mégawatt (Énergie) et par matière brute (Matière), onglets Duels, Combinaisons et Catalogue, filtre multi-items et noms français."
+        }
       ]
     },
     "ficsit_horloge.html": {
       "nom": "Module d'étalonnage",
       "entrees": [
-        {"version": "1.0", "date": "2026-09-14", "texte": "Première version : pour un besoin T en machines-équivalent, toutes les répartitions possibles avec horloge, shards, MW et écart à la répartition sans shard. Régime shards rares ou illimités, mode linéaire des générateurs, bascule FR/EN."}
+        {
+          "version": "1.1",
+          "date": "2026-09-22",
+          "texte": "Vos réglages sont mémorisés d'une visite à l'autre (bâtiment, T, puissance de base, régime de shards, langue), avec un bouton Réinitialiser."
+        },
+        {
+          "version": "1.0",
+          "date": "2026-09-14",
+          "texte": "Première version : pour un besoin T en machines-équivalent, toutes les répartitions possibles avec horloge, shards, MW et écart à la répartition sans shard. Régime shards rares ou illimités, mode linéaire des générateurs, bascule FR/EN."
+        }
       ]
     },
     "broyeur-excedents.html": {
       "nom": "Optimiseur de recyclage",
       "entrees": [
-        {"version": "1.1", "date": "2026-09-14", "texte": "Bascule FR/EN de l'interface et des noms d'items."},
-        {"version": "1.0", "date": "2026-09-02", "texte": "Première version : à partir des excédents saisis, classement des cibles du broyeur AWESOME par points gagnés par mégawatt investi, avec filtres de palier et de minerai supplémentaire."}
+        {
+          "version": "1.2",
+          "date": "2026-09-22",
+          "texte": "Excédents, débits, tri, filtres et langue sont mémorisés d'une visite à l'autre, avec un bouton Réinitialiser. Corrigé : la bascule FR/EN ne plante plus et le filtre de palier n'est plus remis à « tous » au changement de langue."
+        },
+        {
+          "version": "1.1",
+          "date": "2026-09-14",
+          "texte": "Bascule FR/EN de l'interface et des noms d'items."
+        },
+        {
+          "version": "1.0",
+          "date": "2026-09-02",
+          "texte": "Première version : à partir des excédents saisis, classement des cibles du broyeur AWESOME par points gagnés par mégawatt investi, avec filtres de palier et de minerai supplémentaire."
+        }
       ]
     },
     "memo-ficsit.html": {
       "nom": "Mémo de terrain",
       "entrees": [
-        {"version": "1.0", "date": "2026-08-31", "texte": "Première version : extraction par pureté de nœud et par horloge, cadences des convoyeurs, déblocages du HUB par palier et arborescence des pièces d'Ascenseur spatial."}
+        {
+          "version": "1.0",
+          "date": "2026-08-31",
+          "texte": "Première version : extraction par pureté de nœud et par horloge, cadences des convoyeurs, déblocages du HUB par palier et arborescence des pièces d'Ascenseur spatial."
+        }
       ]
     }
   }

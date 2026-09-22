@@ -8,6 +8,12 @@ Outils générés pour la maîtrise des systèmes de *Satisfactory* (logistique,
 - Icônes d'objets réels du jeu, encodées en base64 dans le HTML (jamais de substituts dessinés à la main quand l'intégration est possible).
 - Source de données : `greeny/SatisfactoryTools` (branche `dev`), `data/data.json` pour les items/recettes/bâtiments, `www/assets/images/items/{slug}_256.png` pour les icônes.
 
+## Journal des révisions
+
+- Source unique : `changelog.json` (entrées de la plus récente à la plus ancienne, version SemVer propre à chaque outil, date ISO, texte court).
+- Après chaque évolution d'un outil : ajouter l'entrée, puis lancer `python3 scripts/patchnotes.py`. Le script réécrit l'encart « Journal des révisions » en bas de chaque page (entre les marqueurs `PATCHNOTES:START/END`) et régénère `CHANGELOG.md`.
+- L'encart est embarqué dans le HTML : il reste lisible hors ligne, comme le reste de l'outil.
+
 ## Outils déjà produits (à réintégrer ici)
 
 Ces outils existent mais ont été générés dans des sessions de chat précédentes — je n'y ai plus accès directement depuis ce bac à sable. Il faudra soit que tu me les repartages, soit que je les régénère, pour qu'ils atterrissent physiquement dans ce dossier :

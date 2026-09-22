@@ -454,6 +454,49 @@ footer{margin-top:34px;font-family:var(--d);font-weight:500;font-size:12px;lette
 </section>
 
 <div class="hz" style="margin-top:30px"></div>
+<!-- PATCHNOTES:START -->
+<style>.pn{--pn-or:#FA9549;margin:34px 0 8px;background:var(--pn-panel);color:var(--pn-ink);font-family:var(--pn-body);
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
+  border-left:3px solid var(--pn-or);text-align:left}
+.pn *{box-sizing:border-box}
+.pn-hz{height:6px;background:repeating-linear-gradient(45deg,var(--pn-or) 0 10px,transparent 10px 20px);opacity:.7}
+.pn-head{display:flex;align-items:center;gap:14px;padding:16px 20px 12px;border-bottom:1px solid var(--pn-line)}
+.pn-slot{flex:none;width:46px;height:46px;display:grid;place-items:center;background:var(--pn-deep);
+  border:1px solid var(--pn-line);box-shadow:inset 0 0 0 2px rgba(0,0,0,.35)}
+.pn-slot img{width:34px;height:34px;object-fit:contain;display:block}
+.pn-title{margin:0;padding:0;border:0;background:none;font-family:var(--pn-disp);font-weight:700;font-size:1.25rem;
+  line-height:1.1;letter-spacing:.02em;color:var(--pn-or)}
+.pn-sub{margin:3px 0 0;padding:0;font-size:.9rem;line-height:1.3;color:var(--pn-dim);max-width:none}
+.pn-list{list-style:none;margin:0;padding:14px 20px 6px 20px;position:relative}
+.pn-e{position:relative;margin:0;padding:0 0 14px 22px}
+.pn-e::before{content:"";position:absolute;left:5px;top:14px;bottom:-2px;width:1px;background:var(--pn-line)}
+.pn-list > .pn-e:last-child::before{display:none}
+.pn-e::after{content:"";position:absolute;left:1px;top:6px;width:9px;height:9px;transform:rotate(45deg);
+  border:1.5px solid var(--pn-dim);background:var(--pn-panel)}
+.pn-list:first-of-type > .pn-e:first-child::after{background:var(--pn-or);border-color:var(--pn-or)}
+.pn-meta{display:flex;align-items:baseline;gap:10px;margin-bottom:3px}
+.pn-v{font-family:var(--pn-disp);font-weight:700;font-size:.85rem;padding:1px 8px 1px 7px;background:var(--pn-or);
+  color:#1b1206;clip-path:polygon(0 0,100% 0,100% 60%,calc(100% - 6px) 100%,0 100%)}
+.pn-e + .pn-e .pn-v,.pn-old .pn-v{background:var(--pn-deep);color:var(--pn-dim);box-shadow:inset 0 0 0 1px var(--pn-line)}
+.pn-d{font-family:var(--pn-disp);font-size:.9rem;color:var(--pn-dim);letter-spacing:.03em}
+.pn-t{margin:0;padding:0;font-size:.98rem;line-height:1.5;color:var(--pn-ink);max-width:72ch}
+.pn-old{border-top:1px dashed var(--pn-line);margin:0 20px}
+.pn-old summary{cursor:pointer;padding:10px 0;font-family:var(--pn-disp);font-weight:600;font-size:.92rem;color:var(--pn-dim);
+  list-style:none}
+.pn-old summary::-webkit-details-marker{display:none}
+.pn-old summary::before{content:"+";display:inline-block;width:1.1em;color:var(--pn-or);font-weight:700}
+.pn-old[open] summary::before{content:"\2212"}
+.pn-old summary:hover,.pn-old summary:focus-visible{color:var(--pn-ink)}
+.pn-old summary:focus-visible{outline:2px solid var(--pn-or);outline-offset:2px}
+.pn-old .pn-list{padding:4px 0 6px}
+.pn-foot{height:10px}
+@media (max-width:560px){.pn-head{padding:14px 14px 10px}.pn-list{padding-left:14px;padding-right:14px}.pn-old{margin:0 14px}}</style>
+<aside class="pn" id="journal" aria-labelledby="pn-titre" style="--pn-disp:var(--d);--pn-body:var(--b);--pn-panel:var(--panel);--pn-deep:var(--slot);--pn-line:var(--line);--pn-ink:var(--tx);--pn-dim:var(--tx2)"><div class="pn-hz"></div>
+<div class="pn-head"><span class="pn-slot"><img src="data:image/webp;base64,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" alt=""></span><div><div class="pn-title" id="pn-titre" role="heading" aria-level="2">Journal des révisions</div>
+<p class="pn-sub">Version 1.0, mise à jour le 31/08/2026</p></div></div>
+<ol class="pn-list"><li class="pn-e"><div class="pn-meta"><span class="pn-v">v1.0</span><time class="pn-d" datetime="2026-08-31">31/08/2026</time></div><p class="pn-t">Première version : extraction par pureté de nœud et par horloge, cadences des convoyeurs, déblocages du HUB par palier et arborescence des pièces d&#x27;Ascenseur spatial.</p></li></ol>
+<div class="pn-foot"></div></aside>
+<!-- PATCHNOTES:END -->
 <footer>FICSIT Inc. — établi d'après le wiki officiel Satisfactory 1.2</footer>
 
 </div>

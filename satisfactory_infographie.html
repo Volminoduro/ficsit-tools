@@ -296,6 +296,8 @@
     <button id="langFR" aria-pressed="false">Noms français</button>
     <button id="langEN" aria-pressed="true">English names</button>
     <span class="n" id="langNote"></span>
+    <button id="resetPrefs" type="button" style="margin-left:auto"
+      title="Oublier les réglages mémorisés (critère, palier, filtres, onglet…) et revenir aux valeurs par défaut">Réinitialiser</button>
   </div>
 
   <div class="meta" role="group" aria-label="Critère de comparaison">
@@ -413,6 +415,20 @@
 <script>
 const P = JSON.parse(document.getElementById('payload').textContent);
 const D = P.d, IC = P.ic, L = Math.log10;
+
+/* ---------- mémoire des réglages (localStorage, par navigateur) ---------- */
+const PREFS_KEY = 'ficsit-tools:infographie:v1';
+const PREFS = (()=>{ try{ return JSON.parse(localStorage.getItem(PREFS_KEY)) || {}; }catch(e){ return {}; } })();
+let prefsReady = false, curTab = 'tabD';
+function savePrefs(){
+  if(!prefsReady) return;
+  try{ localStorage.setItem(PREFS_KEY, JSON.stringify({
+    mode, lang, cap, picked, onlyBetter, tab: curTab, filt, sort,
+    tierSel: document.getElementById('tierSel').value,
+    q: document.getElementById('q').value,
+    openGrp: [...openGrp], openCb: [...openCb], openRows: [...openRows],
+    seqPick, seqRate })); }catch(e){}
+}
 
 /* ---------- mode de comparaison ---------- */
 let mode = 'mw';
@@ -748,6 +764,7 @@ function buildGroups(){
 }
 function visibleAlts(g){ return g.alts.filter(a=> !(onlyBetter && GAIN(a)!=null && GAIN(a)<=0) && keep(a)); }
 function renderDuels(){
+  savePrefs();
   const groups = buildGroups();
   const list = groups.filter(g=>{
     if(picked.length && !picked.some(it=>usesItem(g.best,it) || (g.base && usesItem(g.base,it)))) return false;
@@ -982,6 +999,7 @@ function seqHTML(c, pod){
 /* ---------- combinaisons ---------- */
 let openCb = new Set();
 function renderCombi(){
+  savePrefs();
   const rowsC = CBS(), chains = CHS();
   const list = rowsC.filter(c=>!picked.length || picked.includes(c.cible))
     .slice().sort((a,b)=>(b.gain_pct??-1e9)-(a.gain_pct??-1e9));
@@ -1073,13 +1091,15 @@ function renderTiers(){
     el.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } });
   });
   const sel = document.getElementById('tierSel');
-  if(!sel.innerHTML) sel.innerHTML = '<option value="">Tous les tiers</option>' +
+  if(!sel.innerHTML){ sel.innerHTML = '<option value="">Tous les tiers</option>' +
     Object.keys(byT).sort((a,b)=>a-b).map(t=>`<option value="${t}">Tier ${t}</option>`).join('');
+    if([...sel.options].some(o=>o.value===PREFS.tierSel)) sel.value = PREFS.tierSel; }
 }
 
 /* ---------- catalogue ---------- */
 let filt='all', sort='i', openRows = new Set();
 function renderRows(){
+  savePrefs();
   const q = document.getElementById('q').value.toLowerCase(), tf = document.getElementById('tierSel').value;
   let rows = D.filter(r => keep(r)
     && (filt==='all' || (filt==='alt')===!!r.a)
@@ -1121,10 +1141,12 @@ document.getElementById('q').addEventListener('input', renderRows);
 /* ---------- onglets ---------- */
 const TABS = [['tabD','paneD'],['tabC','paneC'],['tabL','paneL']];
 function selectTab(b){
+  curTab = b;
   TABS.forEach(([b2,p2])=>{
     document.getElementById(b2).setAttribute('aria-selected', b2===b);
     document.getElementById(p2).hidden = (b2!==b);
   });
+  savePrefs();
 }
 TABS.forEach(([b])=>document.getElementById(b).addEventListener('click',()=>selectTab(b)));
 
@@ -1150,7 +1172,38 @@ document.getElementById('langFR').addEventListener('click', ()=>setLang('fr'));
 document.getElementById('langEN').addEventListener('click', ()=>setLang('en'));
 
 function renderAll(){ renderSpectrum(); renderStats(); renderTiers(); renderDuels(); renderCombi(); renderRows(); }
-buildUsedIn(); renderTexts(); renderTierPick(); renderAll();
+document.getElementById('resetPrefs').addEventListener('click', ()=>{
+  try{ localStorage.removeItem(PREFS_KEY); }catch(e){} location.reload();
+});
+
+/* restauration des réglages mémorisés */
+{
+  const P_ = PREFS, arr = v => Array.isArray(v) ? v : [];
+  if(P_.mode==='mw' || P_.mode==='mat') mode = P_.mode;
+  document.getElementById('mMW').setAttribute('aria-pressed', mode==='mw');
+  document.getElementById('mMAT').setAttribute('aria-pressed', mode==='mat');
+  if(P_.lang==='fr' || P_.lang==='en') lang = P_.lang;
+  document.getElementById('langFR').setAttribute('aria-pressed', lang==='fr');
+  document.getElementById('langEN').setAttribute('aria-pressed', lang==='en');
+  document.getElementById('langNote').textContent = lang==='fr'
+    ? "noms d'items du jeu en français ; les alternatives gardent leur nom anglais, faute de source vérifiée" : '';
+  if(Number.isInteger(P_.cap) && P_.cap>=0 && P_.cap<=TMAX) cap = P_.cap;
+  picked = arr(P_.picked).filter(n=>allItems.includes(n));
+  if(typeof P_.onlyBetter==='boolean'){ onlyBetter = P_.onlyBetter; document.getElementById('onlyBetter').checked = onlyBetter; }
+  if(['all','alt','std'].includes(P_.filt)) filt = P_.filt;
+  document.querySelectorAll('.controls button').forEach(x=>x.setAttribute('aria-pressed', x.dataset.f===filt));
+  const ss = document.getElementById('sortSel');
+  if([...ss.options].some(o=>o.value===P_.sort)){ sort = P_.sort; ss.value = sort; }
+  if(typeof P_.q==='string') document.getElementById('q').value = P_.q;
+  arr(P_.openGrp).forEach(k=>openGrp.add(k));
+  arr(P_.openCb).forEach(k=>openCb.add(k));
+  arr(P_.openRows).forEach(k=>openRows.add(k));
+  if(P_.seqPick && typeof P_.seqPick==='object') for(const k in P_.seqPick) if(Number.isInteger(P_.seqPick[k])) seqPick[k] = P_.seqPick[k];
+  if(P_.seqRate && typeof P_.seqRate==='object') for(const k in P_.seqRate) if(+P_.seqRate[k]>0) seqRate[k] = +P_.seqRate[k];
+  selectTab(TABS.some(([b])=>b===P_.tab) ? P_.tab : 'tabD');
+}
+buildUsedIn(); renderTexts(); renderTierPick(); drawPicked(); renderAll();
+prefsReady = true; savePrefs();
 </script>
 </body>
 </html>

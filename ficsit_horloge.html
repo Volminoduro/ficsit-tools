@@ -136,6 +136,8 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 2px rgba(250,149,73,.25)
 }
 .seg button:hover{color:var(--text)}
 .seg button.on{background:var(--orange);color:#17212B}
+.resetbtn{background:transparent;border:1px solid var(--line);color:var(--text);opacity:.7;font:inherit;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;cursor:pointer;margin-left:8px;clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+.resetbtn:hover{opacity:1;border-color:var(--orange);color:var(--orange)}
 
 /* ---------- verdict ---------- */
 .verdict{
@@ -204,6 +206,7 @@ footer{color:var(--muted);font-size:.85rem;margin-top:30px;text-align:center}
         <button data-v="fr" class="on">FR</button>
         <button data-v="en">EN</button>
       </div>
+      <button id="resetPrefs" class="resetbtn" type="button">Réinitialiser</button>
     </div>
     <p id="introText">Tu ne calcules pas une horloge : tu choisis un <code>N</code>. Entre le besoin en
        machines-équivalent <code>T</code>, et l'outil déroule toutes les répartitions possibles
@@ -300,6 +303,14 @@ let regime = "rare";
 let lang = "fr";
 
 const $ = s => document.querySelector(s);
+
+/* ---------- mémoire des réglages (localStorage, par navigateur) ---------- */
+const PREFS_KEY = "ficsit-tools:horloge:v1";
+const PREFS = (()=>{ try{ return JSON.parse(localStorage.getItem(PREFS_KEY)) || {}; }catch(e){ return {}; } })();
+function savePrefs(){
+  try{ localStorage.setItem(PREFS_KEY, JSON.stringify({
+    sel: sel.key, regime, lang, T: $("#T").value, MW: $("#MW").value })); }catch(e){}
+}
 const fmt = (n,d=1) => n.toLocaleString(lang==='fr' ? 'fr-FR' : 'en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
 
 const STR = {
@@ -394,6 +405,10 @@ function applyStaticLang(){
   document.getElementById('notesUl').innerHTML = L.notes.map(n=>'<li>'+n+'</li>').join('');
   document.getElementById('footerText').innerHTML = L.footer;
   document.documentElement.lang = lang;
+  const rb = document.getElementById('resetPrefs');
+  rb.textContent = lang==='fr' ? 'Réinitialiser' : 'Reset';
+  rb.title = lang==='fr' ? 'Oublier les réglages mémorisés et revenir aux valeurs par défaut'
+                         : 'Forget saved settings and restore defaults';
 }
 
 function shardsFor(clock){            // clock en fraction (1 = 100 %)
@@ -430,6 +445,7 @@ function buildPicker(){
 }
 
 function render(){
+  savePrefs();
   const T  = Math.max(0.01, parseFloat($("#T").value) || 0.01);
   const MW = Math.max(0, parseFloat($("#MW").value) || 0);
   const linear = sel.group === "gen";
@@ -524,6 +540,18 @@ document.querySelectorAll("#langtoggle button").forEach(b=>{
 });
 $("#T").addEventListener("input", render);
 $("#MW").addEventListener("input", render);
+$("#resetPrefs").onclick = ()=>{ try{ localStorage.removeItem(PREFS_KEY); }catch(e){} location.reload(); };
+
+/* restauration des réglages mémorisés */
+{
+  const b = DATA.buildings.find(x=>x.key===PREFS.sel); if(b) sel = b;
+  if(PREFS.regime==="rare" || PREFS.regime==="free") regime = PREFS.regime;
+  if(PREFS.lang==="fr" || PREFS.lang==="en") lang = PREFS.lang;
+  if(PREFS.T  != null && PREFS.T  !== "" && isFinite(+PREFS.T))  $("#T").value  = PREFS.T;
+  if(PREFS.MW != null && PREFS.MW !== "" && isFinite(+PREFS.MW)) $("#MW").value = PREFS.MW;
+  document.querySelectorAll("#regime button").forEach(x=>x.classList.toggle("on", x.dataset.v===regime));
+  document.querySelectorAll("#langtoggle button").forEach(x=>x.classList.toggle("on", x.dataset.v===lang));
+}
 applyStaticLang();
 buildPicker();
 render();

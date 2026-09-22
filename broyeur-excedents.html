@@ -72,6 +72,8 @@ select{cursor:pointer}
 .seg button{background:var(--p2);border:none;border-right:1px solid var(--ln2);padding:7px 13px;cursor:pointer;
   font-family:var(--disp);font-weight:500;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
 .seg button:last-child{border-right:none}
+.resetbtn{background:transparent;border:1px solid var(--ln2);color:var(--ink);opacity:.65;font:inherit;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:7px 11px;cursor:pointer;clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+.resetbtn:hover{opacity:1;border-color:var(--or,#FA9549);color:var(--or,#FA9549)}
 .seg button:hover{color:var(--ink);background:#2b323a}
 .seg button[aria-pressed=true]{background:var(--or);color:var(--or-ink)}
 .base{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;background:var(--p1);border:1px solid var(--ln);
@@ -114,7 +116,7 @@ footer p{margin:0 0 8px}
 <header>
   <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">
     <p class="eyebrow" id="eyebrow">FICSIT Inc. — division valorisation des rebuts</p>
-    <span class="seg" id="langtoggle"><button data-v="fr" aria-pressed="true">FR</button><button data-v="en" aria-pressed="false">EN</button></span>
+    <span style="display:flex;gap:8px;align-items:center"><button id="resetPrefs" class="resetbtn" type="button">Réinitialiser</button><span class="seg" id="langtoggle"><button data-v="fr" aria-pressed="true">FR</button><button data-v="en" aria-pressed="false">EN</button></span></span>
   </div>
   <h1 id="h1"></h1>
   <p class="lede" id="lede"></p>
@@ -160,6 +162,18 @@ const IC=JSON.parse(document.getElementById('icons').textContent);
 const ico=(n,c)=>`<span class="slot ${c||''}">${IC[n]?`<img alt="" loading="lazy" src="data:image/webp;base64,${IC[n]}">`:''}</span>`;
 const sel=new Map();
 let lang='fr';
+
+/* ---------- mémoire des réglages (localStorage, par navigateur) ---------- */
+const PREFS_KEY='ficsit-tools:broyeur:v1';
+const PREFS=(()=>{ try{ return JSON.parse(localStorage.getItem(PREFS_KEY))||{}; }catch(e){ return {}; } })();
+function savePrefs(){
+  try{ localStorage.setItem(PREFS_KEY, JSON.stringify({
+    lang, sortMode,
+    surplus:[...sel].map(([i,r])=>[SRC[i].n,r]),
+    noRaw:document.getElementById('noRaw').checked,
+    rawSel:document.getElementById('rawSel').value,
+    tierSel:document.getElementById('tierSel').value })); }catch(e){}
+}
 
 const STR = {
   fr: {
@@ -245,11 +259,15 @@ function applyStaticLang(){
   document.getElementById('rawMaxLbl').textContent = L.rawMaxLbl;
   document.getElementById('rawOptAny').textContent = L.rawOptAny;
   document.getElementById('tierMaxLbl').textContent = L.tierMaxLbl;
-  document.getElementById('emptyOut').textContent = L.emptyOut;
+  const eo = document.getElementById('emptyOut'); if(eo) eo.textContent = L.emptyOut;
   document.getElementById('foot1').textContent = L.footer[0];
   document.getElementById('foot2').textContent = L.footer[1];
   document.getElementById('foot3').textContent = L.footer[2];
   document.documentElement.lang = lang;
+  const rb = document.getElementById('resetPrefs');
+  rb.textContent = lang==='fr' ? 'Réinitialiser' : 'Reset';
+  rb.title = lang==='fr' ? 'Oublier les réglages mémorisés et revenir aux valeurs par défaut'
+                         : 'Forget saved settings and restore defaults';
   const ts2 = document.getElementById('tierSel');
   if(ts2.options.length) ts2.options[0].textContent = L.tierAll;
 }
@@ -266,9 +284,10 @@ let sortMode='r';
 const maxT=Math.max(...TGT.map(t=>t.t));
 const ts=document.getElementById('tierSel');
 function buildTierSel(){
+  const prev=ts.value;
   ts.innerHTML='<option value="99">'+STR[lang].tierAll+'</option>'+Array.from({length:maxT},(_,i)=>i+1)
     .map(n=>`<option value="${n}">${n}</option>`).join('');
-  ts.value='99';
+  ts.value=[...ts.options].some(o=>o.value===prev)?prev:'99';
 }
 buildTierSel();
 
@@ -330,8 +349,9 @@ document.getElementById('rawSel').addEventListener('change',compute);
 ts.addEventListener('change',compute);
 
 function compute(){
+  savePrefs();
   const out=document.getElementById('out');
-  if(!sel.size){out.innerHTML='<div class="empty">Ajoutez un excédent pour voir les options.</div>';return;}
+  if(!sel.size){out.innerHTML='<div class="empty">'+STR[lang].emptyOut+'</div>';return;}
   let baseline=0;
   for(const [i,r] of sel) baseline+=SRC[i].sp*r;
 
@@ -404,6 +424,25 @@ document.getElementById('langtoggle').addEventListener('click',e=>{
   document.querySelectorAll('#langtoggle button').forEach(x=>x.setAttribute('aria-pressed', x===b));
   applyStaticLang(); buildTierSel(); rows(); compute();
 });
+document.getElementById('resetPrefs').addEventListener('click',()=>{
+  try{ localStorage.removeItem(PREFS_KEY); }catch(e){} location.reload();
+});
+
+/* restauration des réglages mémorisés */
+{
+  if(PREFS.lang==='fr'||PREFS.lang==='en') lang=PREFS.lang;
+  document.querySelectorAll('#langtoggle button').forEach(x=>x.setAttribute('aria-pressed', x.dataset.v===lang));
+  if(['r','p','c'].includes(PREFS.sortMode)) sortMode=PREFS.sortMode;
+  document.querySelectorAll('#sortSeg button').forEach(x=>x.setAttribute('aria-pressed', x.dataset.s===sortMode));
+  if(typeof PREFS.noRaw==='boolean') document.getElementById('noRaw').checked=PREFS.noRaw;
+  const rs=document.getElementById('rawSel');
+  if([...rs.options].some(o=>o.value===PREFS.rawSel)) rs.value=PREFS.rawSel;
+  if([...ts.options].some(o=>o.value===PREFS.tierSel)) ts.value=PREFS.tierSel;
+  if(Array.isArray(PREFS.surplus)) for(const [n,r] of PREFS.surplus){
+    const i=SRC.findIndex(x=>x.n===n);
+    if(i>=0) sel.set(i, Math.max(0,+r||0));
+  }
+}
 applyStaticLang();
 rows(); compute();
 </script>

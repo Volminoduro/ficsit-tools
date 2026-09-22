@@ -1144,7 +1144,7 @@ function setLang(l){
   document.getElementById('langNote').textContent = l==='fr'
     ? "noms d'items du jeu en français ; les alternatives gardent leur nom anglais, faute de source vérifiée"
     : '';
-  renderAll();
+  renderTierPick(); renderAll();
 }
 document.getElementById('langFR').addEventListener('click', ()=>setLang('fr'));
 document.getElementById('langEN').addEventListener('click', ()=>setLang('en'));

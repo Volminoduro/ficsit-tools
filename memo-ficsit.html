@@ -2,8 +2,112 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
+<!-- FICSIT-LANG:START -->
+<style>html:not([lang|=en]) [data-l=en],html[lang|=en] [data-l=fr]{display:none!important}
+.flang{position:fixed;top:10px;right:12px;z-index:9999;display:flex;gap:2px;padding:3px;
+  background:rgba(14,18,22,.94);border:1px solid #39434F;box-shadow:0 3px 12px rgba(0,0,0,.45);
+  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));
+  font:700 12px/1 'Saira Condensed','Rajdhani','Barlow Condensed',system-ui,sans-serif;letter-spacing:.1em}
+.flang::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;
+  background:repeating-linear-gradient(135deg,#FA9549 0 6px,transparent 6px 12px);opacity:.8}
+.flang button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:6px;
+  padding:6px 9px 5px;color:#93A2B1;transition:color .15s,background .15s}
+.flang button svg{width:21px;height:14px;display:block;flex:none;filter:grayscale(.55) brightness(.8);
+  box-shadow:0 0 0 1px rgba(0,0,0,.5);transition:filter .15s}
+.flang button:hover{color:#E4EAF0}
+.flang button:hover svg{filter:none}
+.flang button[aria-pressed=true]{color:#1B1206;background:#FA9549;cursor:default}
+.flang button[aria-pressed=true] svg{filter:none}
+.flang button:focus-visible{outline:2px solid #FA9549;outline-offset:1px}
+@media (max-width:560px){.flang{top:6px;right:6px}.flang button{padding:5px 6px 4px;gap:4px}.flang button svg{width:18px;height:12px}}
+@media print{.flang{display:none}}</style>
+<script>/* FICSIT — langue commune à tous les outils.
+   Source : commun/ficsit-lang.js (+ langue.json, glossaire.json, ficsit-lang.css), injectée dans chaque page
+   par scripts/langue.py. Ne pas éditer le bloc injecté dans les pages : il est réécrit à chaque passage.
+
+   API (window.FicsitLang) :
+     .lang                 langue active ('fr' | 'en')
+     .locale               locale de formatage des nombres ('fr-FR' | 'en-US')
+     .set(l)               change la langue (mémorisée pour tous les outils, synchronisée entre onglets)
+     .on(fn)               fn(lang) appelée à chaque changement
+     .t(cle)               texte commun (langue.json > communs)
+     .pick({fr, en})       choisit la variante de la langue active
+     .item(n) .recette(n) .batiment(n)   nom du jeu dans la langue active (glossaire.json, repli : anglais)
+     .num(v, opts)         v.toLocaleString(locale, opts)
+   HTML statique :
+     <x data-l="fr">…</x><x data-l="en">…</x>     seule la variante de la langue active est affichée
+     data-fr-<attr>="…" data-en-<attr>="…"       l'attribut <attr> (title, placeholder, aria-label…) suit la langue
+     <title data-fr="…" data-en="…">             idem pour le titre de l'onglet */
+(function(){
+  var CONF = {"cle":"ficsit-tools:lang","defaut":"fr","langues":{"fr":{"nom":"Français","court":"FR","locale":"fr-FR","titre":"Afficher en français"},"en":{"nom":"English","court":"EN","locale":"en-US","titre":"Show in English"}},"communs":{"reset":{"fr":"Réinitialiser","en":"Reset"},"resetTitle":{"fr":"Oublier les réglages mémorisés de cet outil et revenir aux valeurs par défaut (la langue est conservée)","en":"Forget this tool's saved settings and restore defaults (the language is kept)"},"groupe":{"fr":"Langue de l'interface","en":"Interface language"}}}, GLO = {"batiments":{"Smelter":"Haut fourneau","Foundry":"Fonderie","Constructor":"Constructeur","Assembler":"Assembleuse","Manufacturer":"Façonneuse","Refinery":"Raffinerie","Packager":"Conditionneur","Blender":"Mélangeur","Particle Accelerator":"Accélérateur de particules","Quantum Encoder":"Encodeur quantique","Converter":"Convertisseur","Miner Mk.1":"Foreuse Mk.1","Miner Mk.2":"Foreuse Mk.2","Miner Mk.3":"Foreuse Mk.3","Water Extractor":"Pompe à eau","Oil Extractor":"Pompe à pétrole","Resource Well Pressurizer":"Pressuriseur","Resource Well Extractor":"Extracteur de puits de ressources","Biomass Burner":"Brûleur de biomasse","Coal-Powered Generator":"Générateur à charbon","Fuel-Powered Generator":"Générateur à carburant","Geothermal Generator":"Générateur géothermique","Nuclear Power Plant":"Centrale nucléaire","Equipment Workshop":"Atelier d'équipement","Space Elevator":"Ascenseur orbital","AWESOME Sink":"Broyeur A.W.E.S.O.M.E.","The HUB":"Le H.U.B."},"items":{"AI Expansion Server":"Serveur d'expansion d'I.A.","AI Limiter":"Contrôleur d'I.A.","Adaptive Control Unit":"Unité de contrôle adaptative","Alclad Aluminum Sheet":"Tôle d'aluminium en alliage Alclad","Alien DNA Capsule":"Capsule ADN extraterrestre","Alien Power Matrix":"Matrice de charge extraterrestre","Alien Protein":"Protéine extraterrestre","Alumina Solution":"Solution d'alumine","Aluminum Casing":"Boîtiers en aluminium","Aluminum Ingot":"Lingot d'aluminium","Aluminum Scrap":"Rebuts d'aluminium","Assembly Director System":"Système de Directeur d'Assemblage","Automated Wiring":"Câblage automatisé","Ballistic Warp Drive":"Moteur à distorsion balistique","Battery":"Batterie","Bauxite":"Bauxite","Biochemical Sculptor":"Sculptrice biochimique","Biomass":"Biomasse","Black Powder":"Poudre noire","Cable":"Câble","Caterium Ingot":"Lingot de caterium","Caterium Ore":"Minerai de caterium","Circuit Board":"Circuit imprimé","Cluster Nobelisk":"Nobélisque à fragmentation","Coal":"Charbon","Compacted Coal":"Charbon compacté","Computer":"Ordinateur","Concrete":"Béton","Cooling System":"Système de refroidissement","Copper Ingot":"Lingot de cuivre","Copper Ore":"Minerai de cuivre","Copper Powder":"Poudre de cuivre","Copper Sheet":"Tôle de cuivre","Crude Oil":"Pétrole brut","Crystal Oscillator":"Oscillateur à cristal","Dark Matter Crystal":"Cristal de matière noire","Dark Matter Residue":"Résidus de matière noire","Diamonds":"Diamants","Dissolved Silica":"Silice dissoute","Electromagnetic Control Rod":"Tige de contrôle électromagnétique","Empty Canister":"Bidon vide","Empty Fluid Tank":"Réservoir vide","Encased Industrial Beam":"Poutre en béton armé","Encased Uranium Cell":"Cellule d'uranium compactée","Excited Photonic Matter":"Matière photonique agitée","Explosive Rebar":"Barre d'armature explosive","Fabric":"Tissu","Ficsite Ingot":"Lingot de ficsite","Ficsite Trigon":"Trigon en ficsite","Fuel":"Carburant","Fused Modular Frame":"Cadre modulaire fusionné","Gas Filter":"Filtre à gaz","Gas Nobelisk":"Nobélisque à gaz","Heat Sink":"Dissipateur de chaleur","Heavy Modular Frame":"Cadre modulaire lourd","Heavy Oil Residue":"Résidus de pétrole lourd","High-Speed Connector":"Connecteur haute vitesse","Homing Rifle Ammo":"Munitions de fusil à têtes chercheuses","Iodine-Infused Filter":"Filtre à infusion d'iode","Ionized Fuel":"Carburant ionisé","Iron Ingot":"Lingot de fer","Iron Ore":"Minerai de fer","Iron Plate":"Plaque de fer","Iron Rebar":"Barre d'armature en fer","Iron Rod":"Barre de fer","Leaves":"Feuilles","Limestone":"Calcaire","Liquid Biofuel":"Biocarburant liquide","Magnetic Field Generator":"Générateur de champ magnétique","Modular Engine":"Moteur modulaire","Modular Frame":"Cadre modulaire","Motor":"Moteur","Mycelia":"Mycélium","Neural-Quantum Processor":"Processeur neuro-quantique","Nitric Acid":"Acide nitrique","Nitrogen Gas":"Azote","Nobelisk":"Nobélisque","Nuclear Pasta":"Pâte nucléaire","Nuke Nobelisk":"Nobélisque nucléaire","Packaged Alumina Solution":"Solution d'aluminium conditionnée","Packaged Fuel":"Carburant conditionné","Packaged Heavy Oil Residue":"Résidus de pétrole lourd conditionnés","Packaged Ionized Fuel":"Carburant ionisé conditionné","Packaged Liquid Biofuel":"Biocarburant liquide conditionné","Packaged Nitric Acid":"Acide nitrique conditionné","Packaged Nitrogen Gas":"Azote gazeux conditionné","Packaged Oil":"Pétrole conditionné","Packaged Rocket Fuel":"Carburant de fusée conditionné","Packaged Sulfuric Acid":"Acide sulfurique conditionné","Packaged Turbofuel":"Turbocarburant conditionné","Packaged Water":"Eau conditionnée","Petroleum Coke":"Coke de pétrole","Plastic":"Plastique","Polymer Resin":"Résine polymère","Power Shard":"Éclat de charge","Pressure Conversion Cube":"Cube de conversion de pression","Pulse Nobelisk":"Nobélisque à impulsion","Quartz Crystal":"Cristal de quartz","Quickwire":"Filactif","Radio Control Unit":"Unité de contrôle radio","Raw Quartz":"Quartz brut","Reanimated SAM":"É.M.E. réanimée","Reinforced Iron Plate":"Plaque de fer renforcée","Rifle Ammo":"Munitions de fusil","Rocket Fuel":"Carburant de fusée","Rotor":"Rotor","Rubber":"Caoutchouc","SAM":"É.M.E.","SAM Fluctuator":"Fluctuateur d'É.M.E.","Screws":"Vis","Shatter Rebar":"Barre d'armature à fragmentation","Silica":"Silice","Singularity Cell":"Cellule de singularité","Smart Plating":"Placage intelligent","Smokeless Powder":"Poudre sans fumée","Solid Biofuel":"Biocarburant solide","Stator":"Stator","Steel Beam":"Poutre en acier","Steel Ingot":"Lingot d'acier","Steel Pipe":"Tuyau en acier","Stun Rebar":"Barre d'armature paralysante","Sulfur":"Soufre","Sulfuric Acid":"Acide sulfurique","Supercomputer":"Superordinateur","Superposition Oscillator":"Oscillateur de superposition","Thermal Propulsion Rocket":"Fusée à propulsion thermique","Time Crystal":"Cristal temporel","Turbo Motor":"Turbomoteur","Turbo Rifle Ammo":"Munitions de fusil turbo","Turbofuel":"Turbocarburant","Uranium":"Uranium","Uranium Fuel Rod":"Barre de combustible d'Uranium","Versatile Framework":"Structure polyvalente","Water":"Eau","Wire":"Fil électrique","Wood":"Bois"},"recettes":{"AI Expansion Server":"Serveur d'expansion d'I.A.","AI Limiter":"Contrôleur d'I.A.","Adaptive Control Unit":"Unité de contrôle adaptative","Alclad Aluminum Sheet":"Tôle d'aluminium en alliage Alclad","Alien DNA Capsule":"Capsule ADN extraterrestre","Alien Power Matrix":"Matrice de charge extraterrestre","Alumina Solution":"Solution d'alumine","Aluminum Casing":"Boîtiers en aluminium","Aluminum Ingot":"Lingot d'aluminium","Aluminum Scrap":"Rebuts d'aluminium","Assembly Director System":"Système de Directeur d'Assemblage","Automated Wiring":"Câblage automatisé","Ballistic Warp Drive":"Moteur à distorsion balistique","Battery":"Batterie","Biochemical Sculptor":"Sculptrice biochimique","Black Powder":"Poudre noire","Cable":"Câble","Caterium Ingot":"Lingot de caterium","Circuit Board":"Circuit imprimé","Cluster Nobelisk":"Nobélisque à fragmentation","Compacted Coal":"Charbon compacté","Computer":"Ordinateur","Concrete":"Béton","Cooling System":"Système de refroidissement","Copper Ingot":"Lingot de cuivre","Copper Powder":"Poudre de cuivre","Copper Sheet":"Tôle de cuivre","Crystal Oscillator":"Oscillateur à cristal","Dark Matter Crystal":"Cristal de matière noire","Dark Matter Residue":"Résidus de matière noire","Diamonds":"Diamants","Electromagnetic Control Rod":"Tige de contrôle électromagnétique","Empty Canister":"Bidon vide","Empty Fluid Tank":"Réservoir vide","Encased Industrial Beam":"Poutre en béton armé","Encased Uranium Cell":"Cellule d'uranium compactée","Excited Photonic Matter":"Matière photonique agitée","Explosive Rebar":"Barre d'armature explosive","Fabric":"Tissu","Ficsite Trigon":"Trigon en ficsite","Fuel":"Carburant","Fused Modular Frame":"Cadre modulaire fusionné","Gas Filter":"Filtre à gaz","Gas Nobelisk":"Nobélisque à gaz","Heat Sink":"Dissipateur de chaleur","Heavy Modular Frame":"Cadre modulaire lourd","Heavy Oil Residue":"Résidus de pétrole lourd","High-Speed Connector":"Connecteur haute vitesse","Homing Rifle Ammo":"Munitions de fusil à têtes chercheuses","Iodine-Infused Filter":"Filtre à infusion d'iode","Ionized Fuel":"Carburant ionisé","Iron Ingot":"Lingot de fer","Iron Plate":"Plaque de fer","Iron Rebar":"Barre d'armature en fer","Iron Rod":"Barre de fer","Liquid Biofuel":"Biocarburant liquide","Magnetic Field Generator":"Générateur de champ magnétique","Modular Engine":"Moteur modulaire","Modular Frame":"Cadre modulaire","Motor":"Moteur","Neural-Quantum Processor":"Processeur neuro-quantique","Nitric Acid":"Acide nitrique","Nobelisk":"Nobélisque","Nuclear Pasta":"Pâte nucléaire","Nuke Nobelisk":"Nobélisque nucléaire","Packaged Alumina Solution":"Solution d'aluminium conditionnée","Packaged Fuel":"Carburant conditionné","Packaged Heavy Oil Residue":"Résidus de pétrole lourd conditionnés","Packaged Ionized Fuel":"Carburant ionisé conditionné","Packaged Liquid Biofuel":"Biocarburant liquide conditionné","Packaged Nitric Acid":"Acide nitrique conditionné","Packaged Nitrogen Gas":"Azote gazeux conditionné","Packaged Oil":"Pétrole conditionné","Packaged Rocket Fuel":"Carburant de fusée conditionné","Packaged Sulfuric Acid":"Acide sulfurique conditionné","Packaged Turbofuel":"Turbocarburant conditionné","Packaged Water":"Eau conditionnée","Petroleum Coke":"Coke de pétrole","Plastic":"Plastique","Polymer Resin":"Résine polymère","Pressure Conversion Cube":"Cube de conversion de pression","Pulse Nobelisk":"Nobélisque à impulsion","Quartz Crystal":"Cristal de quartz","Quickwire":"Filactif","Radio Control Unit":"Unité de contrôle radio","Reanimated SAM":"É.M.E. réanimée","Reinforced Iron Plate":"Plaque de fer renforcée","Rifle Ammo":"Munitions de fusil","Rocket Fuel":"Carburant de fusée","Rotor":"Rotor","Rubber":"Caoutchouc","SAM Fluctuator":"Fluctuateur d'É.M.E.","Screws":"Vis","Shatter Rebar":"Barre d'armature à fragmentation","Silica":"Silice","Singularity Cell":"Cellule de singularité","Smart Plating":"Placage intelligent","Smokeless Powder":"Poudre sans fumée","Solid Biofuel":"Biocarburant solide","Stator":"Stator","Steel Beam":"Poutre en acier","Steel Ingot":"Lingot d'acier","Steel Pipe":"Tuyau en acier","Stun Rebar":"Barre d'armature paralysante","Sulfuric Acid":"Acide sulfurique","Supercomputer":"Superordinateur","Superposition Oscillator":"Oscillateur de superposition","Thermal Propulsion Rocket":"Fusée à propulsion thermique","Time Crystal":"Cristal temporel","Turbo Motor":"Turbomoteur","Turbo Rifle Ammo":"Munitions de fusil turbo","Turbofuel":"Turbocarburant","Uranium Fuel Rod":"Barre de combustible d'Uranium","Versatile Framework":"Structure polyvalente","Wire":"Fil électrique"}};
+  var CODES = Object.keys(CONF.langues), subs = [];
+  var DRAPEAUX = {
+    fr: '<svg viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#002654"/>'
+      + '<rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#CE1126"/></svg>',
+    en: '<svg viewBox="0 0 60 30" aria-hidden="true"><clipPath id="flang-uk"><path d="M30 15h30v15zv15H0zH0V0zV0h30z"/></clipPath>'
+      + '<path d="M0 0v30h60V0z" fill="#012169"/><path d="M0 0l60 30m0-30L0 30" stroke="#fff" stroke-width="6"/>'
+      + '<path d="M0 0l60 30m0-30L0 30" clip-path="url(#flang-uk)" stroke="#C8102E" stroke-width="4"/>'
+      + '<path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="#C8102E" stroke-width="6"/></svg>'
+  };
+  function valide(l){ return CODES.indexOf(l) >= 0; }
+  function lire(){ try{ var v = localStorage.getItem(CONF.cle); if(valide(v)) return v; }catch(e){} return CONF.defaut; }
+  var cur = lire();
+  document.documentElement.lang = cur;
+
+  function attrs(){
+    document.querySelectorAll('title[data-' + cur + ']').forEach(function(t){ document.title = t.getAttribute('data-' + cur); });
+    var pre = 'data-' + cur + '-';
+    document.querySelectorAll('*').forEach(function(el){
+      for(var i = 0; i < el.attributes.length; i++){
+        var a = el.attributes[i];
+        if(a.name.indexOf(pre) === 0) el.setAttribute(a.name.slice(pre.length), a.value);
+      }
+    });
+  }
+  function boutons(){
+    var w = document.getElementById('flang'); if(!w) return;
+    w.setAttribute('aria-label', FL.t('groupe'));
+    w.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.lang === cur); });
+  }
+  function appliquer(l, memoriser){
+    if(!valide(l)) return;
+    var change = l !== cur;
+    cur = l; document.documentElement.lang = l;
+    if(memoriser){ try{ localStorage.setItem(CONF.cle, l); }catch(e){} }
+    boutons(); attrs();
+    if(change) subs.forEach(function(fn){ try{ fn(l); }catch(e){ console.error(e); } });
+  }
+  function monter(){
+    if(document.getElementById('flang')) return;
+    var w = document.createElement('div');
+    w.id = 'flang'; w.className = 'flang'; w.setAttribute('role', 'group');
+    w.innerHTML = CODES.map(function(c){ var L = CONF.langues[c];
+      return '<button type="button" data-lang="' + c + '" lang="' + c + '" title="' + L.titre + '">'
+        + (DRAPEAUX[c] || '') + '<span>' + L.court + '</span></button>'; }).join('');
+    w.addEventListener('click', function(e){ var b = e.target.closest('button[data-lang]'); if(b) appliquer(b.dataset.lang, true); });
+    document.body.appendChild(w);
+    boutons(); attrs();
+  }
+
+  var FL = window.FicsitLang = {
+    conf: CONF,
+    get lang(){ return cur; },
+    get locale(){ return CONF.langues[cur].locale; },
+    set: function(l){ appliquer(l, true); },
+    on: function(fn){ subs.push(fn); },
+    t: function(k){ var x = CONF.communs[k]; return x ? (x[cur] != null ? x[cur] : x[CONF.defaut]) : k; },
+    pick: function(o){ return o == null ? '' : (o[cur] != null ? o[cur] : o[CONF.defaut]); },
+    item: function(n){ return cur === 'fr' && GLO.items[n] ? GLO.items[n] : n; },
+    recette: function(n){ return cur === 'fr' && GLO.recettes[n] ? GLO.recettes[n] : n; },
+    batiment: function(n){ return cur === 'fr' && GLO.batiments[n] ? GLO.batiments[n] : n; },
+    num: function(v, o){ return Number(v).toLocaleString(CONF.langues[cur].locale, o); }
+  };
+  window.addEventListener('storage', function(e){ if(e.key === CONF.cle && valide(e.newValue)) appliquer(e.newValue, false); });
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', monter); else monter();
+})();</script>
+<!-- FICSIT-LANG:END -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FICSIT Inc. — Mémo de terrain</title>
+<title data-fr="FICSIT Inc. — Mémo de terrain" data-en="FICSIT Inc. — Field memo">FICSIT Inc. — Mémo de terrain</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
@@ -239,34 +343,34 @@ footer{margin-top:34px;font-family:var(--d);font-weight:500;font-size:12px;lette
 <div class="hz"></div>
 <header class="mast">
   <div class="badge">FICSIT Inc.</div>
-  <div class="stamp">Doc. <b>PIO-4372</b><br>Rév. <b>1.2</b><br>Diffusion pionnier</div>
-  <h1>Mémo<br><em>de terrain</em></h1>
-  <div class="sub">Satisfactory · exploitation planétaire</div>
-  <p>Débits d'extraction et de transport, arbre technologique du HUB, lignage des pièces de Projet Assemblage. Recettes de base uniquement, hors recettes alternatives. Multiplicateur de coût d'ascenseur ×1.</p>
+  <div class="stamp">Doc. <b>PIO-4372</b><br><span data-l="fr">Rév.</span><span data-l="en" lang="en">Rev.</span> <b>1.2</b><br><span data-l="fr">Diffusion pionnier</span><span data-l="en" lang="en">Pioneer distribution</span></div>
+  <h1><span data-l="fr">Mémo<br><em>de terrain</em></span><span data-l="en" lang="en">Field<br><em>memo</em></span></h1>
+  <div class="sub"><span data-l="fr">Satisfactory · exploitation planétaire</span><span data-l="en" lang="en">Satisfactory · planetary exploitation</span></div>
+  <p><span data-l="fr">Débits d'extraction et de transport, arbre technologique du HUB, lignage des pièces de Projet Assemblage. Recettes de base uniquement, hors recettes alternatives. Multiplicateur de coût d'ascenseur ×1.</span><span data-l="en" lang="en">Extraction and transport rates, HUB tech tree, Project Assembly part lineage. Standard recipes only, no alternate recipes. Space Elevator cost multiplier ×1.</span></p>
 </header>
 
 <!-- ===================== 01 ===================== -->
 <section>
-  <div class="shead"><span class="n">01</span><h2>Extraction &amp; transport</h2><span class="r">items / min</span></div>
+  <div class="shead"><span class="n">01</span><h2><span data-l="fr">Extraction &amp; transport</span><span data-l="en" lang="en">Extraction &amp; transport</span></h2><span class="r">items / min</span></div>
   <div class="pane">
 
     <div class="slots">
-      <div class="slot" style="--bc:var(--b1)"><div class="n"><i class="it it-conveyor-belt-mk-1"></i>Convoyeur Mk.1</div><div class="v">60 <small>/min</small></div><div class="u">1,0 /s · palier 0</div></div>
-      <div class="slot" style="--bc:var(--b2)"><div class="n"><i class="it it-conveyor-belt-mk-2"></i>Convoyeur Mk.2</div><div class="v">120 <small>/min</small></div><div class="u">2,0 /s · palier 2</div></div>
-      <div class="slot" style="--bc:var(--b3)"><div class="n"><i class="it it-conveyor-belt-mk-3"></i>Convoyeur Mk.3</div><div class="v">270 <small>/min</small></div><div class="u">4,5 /s · palier 4</div></div>
-      <div class="slot" style="--bc:var(--b4)"><div class="n"><i class="it it-conveyor-belt-mk-4"></i>Convoyeur Mk.4</div><div class="v">480 <small>/min</small></div><div class="u">8,0 /s · palier 5</div></div>
-      <div class="slot" style="--bc:var(--b5)"><div class="n"><i class="it it-conveyor-belt-mk-5"></i>Convoyeur Mk.5</div><div class="v">780 <small>/min</small></div><div class="u">13,0 /s · palier 7</div></div>
-      <div class="slot" style="--bc:var(--b6)"><div class="n"><i class="it it-conveyor-belt-mk-6"></i>Convoyeur Mk.6</div><div class="v">1200 <small>/min</small></div><div class="u">20,0 /s · palier 9</div></div>
+      <div class="slot" style="--bc:var(--b1)"><div class="n"><i class="it it-conveyor-belt-mk-1"></i><span data-l="fr">Convoyeur Mk.1</span><span data-l="en" lang="en">Conveyor Belt Mk.1</span></div><div class="v">60 <small>/min</small></div><div class="u"><span data-l="fr">1,0 /s · palier 0</span><span data-l="en" lang="en">1.0 /s · tier 0</span></div></div>
+      <div class="slot" style="--bc:var(--b2)"><div class="n"><i class="it it-conveyor-belt-mk-2"></i><span data-l="fr">Convoyeur Mk.2</span><span data-l="en" lang="en">Conveyor Belt Mk.2</span></div><div class="v">120 <small>/min</small></div><div class="u"><span data-l="fr">2,0 /s · palier 2</span><span data-l="en" lang="en">2.0 /s · tier 2</span></div></div>
+      <div class="slot" style="--bc:var(--b3)"><div class="n"><i class="it it-conveyor-belt-mk-3"></i><span data-l="fr">Convoyeur Mk.3</span><span data-l="en" lang="en">Conveyor Belt Mk.3</span></div><div class="v">270 <small>/min</small></div><div class="u"><span data-l="fr">4,5 /s · palier 4</span><span data-l="en" lang="en">4.5 /s · tier 4</span></div></div>
+      <div class="slot" style="--bc:var(--b4)"><div class="n"><i class="it it-conveyor-belt-mk-4"></i><span data-l="fr">Convoyeur Mk.4</span><span data-l="en" lang="en">Conveyor Belt Mk.4</span></div><div class="v">480 <small>/min</small></div><div class="u"><span data-l="fr">8,0 /s · palier 5</span><span data-l="en" lang="en">8.0 /s · tier 5</span></div></div>
+      <div class="slot" style="--bc:var(--b5)"><div class="n"><i class="it it-conveyor-belt-mk-5"></i><span data-l="fr">Convoyeur Mk.5</span><span data-l="en" lang="en">Conveyor Belt Mk.5</span></div><div class="v">780 <small>/min</small></div><div class="u"><span data-l="fr">13,0 /s · palier 7</span><span data-l="en" lang="en">13.0 /s · tier 7</span></div></div>
+      <div class="slot" style="--bc:var(--b6)"><div class="n"><i class="it it-conveyor-belt-mk-6"></i><span data-l="fr">Convoyeur Mk.6</span><span data-l="en" lang="en">Conveyor Belt Mk.6</span></div><div class="v">1200 <small>/min</small></div><div class="u"><span data-l="fr">20,0 /s · palier 9</span><span data-l="en" lang="en">20.0 /s · tier 9</span></div></div>
     </div>
-    <div class="cue">Chaque case porte la couleur du convoyeur minimum capable d'évacuer ce débit</div>
+    <div class="cue"><span data-l="fr">Chaque case porte la couleur du convoyeur minimum capable d'évacuer ce débit</span><span data-l="en" lang="en">Each cell carries the colour of the slowest belt able to carry that rate</span></div>
 
-    <div class="readout">débit = <b>pureté</b> × (<i>overclock</i> ÷ 100) × <b>base</b> &nbsp;&nbsp;//&nbsp;&nbsp; impur <b>×0,5</b> · normal <b>×1</b> · pur <b>×2</b> &nbsp;&nbsp;//&nbsp;&nbsp; base Mk.1 <b>60</b> · Mk.2 <b>120</b> · Mk.3 <b>240</b></div>
+    <div class="readout"><span data-l="fr">débit = <b>pureté</b> × (<i>overclock</i> ÷ 100) × <b>base</b> &nbsp;&nbsp;//&nbsp;&nbsp; impur <b>×0,5</b> · normal <b>×1</b> · pur <b>×2</b> &nbsp;&nbsp;//&nbsp;&nbsp; base Mk.1 <b>60</b> · Mk.2 <b>120</b> · Mk.3 <b>240</b></span><span data-l="en" lang="en">rate = <b>purity</b> × (<i>overclock</i> ÷ 100) × <b>base</b> &nbsp;&nbsp;//&nbsp;&nbsp; impure <b>×0.5</b> · normal <b>×1</b> · pure <b>×2</b> &nbsp;&nbsp;//&nbsp;&nbsp; base Mk.1 <b>60</b> · Mk.2 <b>120</b> · Mk.3 <b>240</b></span></div>
 
     <table>
-      <tr><th class="l">Nœud</th><th>100 %</th><th>150 %</th><th>200 %</th><th>250 %</th></tr>
+      <tr><th class="l"><span data-l="fr">Nœud</span><span data-l="en" lang="en">Node</span></th><th>100 %</th><th>150 %</th><th>200 %</th><th>250 %</th></tr>
 
-      <tr class="grp"><td colspan="5"><i class="it it-miner-mk-1"></i>Foreuse Mk.1 <span>— 5 MW · palier 0</span></td></tr>
-      <tr><td class="l"><svg class="ic"><use href="#i-p1"/></svg>Impur</td>
+      <tr class="grp"><td colspan="5"><i class="it it-miner-mk-1"></i><span data-l="fr">Foreuse Mk.1 <span>— 5 MW · palier 0</span></span><span data-l="en" lang="en">Miner Mk.1 <span>— 5 MW · tier 0</span></span></td></tr>
+      <tr><td class="l"><svg class="ic"><use href="#i-p1"/></svg><span data-l="fr">Impur</span><span data-l="en" lang="en">Impure</span></td>
         <td class="cell" style="--bc:var(--b1)"><span class="box"><span class="q">30</span><span class="m">Mk.1</span></span></td>
         <td class="cell" style="--bc:var(--b1)"><span class="box"><span class="q">45</span><span class="m">Mk.1</span></span></td>
         <td class="cell" style="--bc:var(--b1)"><span class="box"><span class="q">60</span><span class="m">Mk.1</span></span></td>
@@ -276,14 +380,14 @@ footer{margin-top:34px;font-family:var(--d);font-weight:500;font-size:12px;lette
         <td class="cell" style="--bc:var(--b2)"><span class="box"><span class="q">90</span><span class="m">Mk.2</span></span></td>
         <td class="cell" style="--bc:var(--b2)"><span class="box"><span class="q">120</span><span class="m">Mk.2</span></span></td>
         <td class="cell" style="--bc:var(--b3)"><span class="box"><span class="q">150</span><span class="m">Mk.3</span></span></td></tr>
-      <tr><td class="l"><svg class="ic"><use href="#i-p3"/></svg>Pur</td>
+      <tr><td class="l"><svg class="ic"><use href="#i-p3"/></svg><span data-l="fr">Pur</span><span data-l="en" lang="en">Pure</span></td>
         <td class="cell" style="--bc:var(--b2)"><span class="box"><span class="q">120</span><span class="m">Mk.2</span></span></td>
         <td class="cell" style="--bc:var(--b3)"><span class="box"><span class="q">180</span><span class="m">Mk.3</span></span></td>
         <td class="cell" style="--bc:var(--b3)"><span class="box"><span class="q">240</span><span class="m">Mk.3</span></span></td>
         <td class="cell" style="--bc:var(--b4)"><span class="box"><span class="q">300</span><span class="m">Mk.4</span></span></td></tr>
 
-      <tr class="grp"><td colspan="5"><i class="it it-miner-mk-2"></i>Foreuse Mk.2 <span>— 12 MW · palier 4 · Advanced Steel Production</span></td></tr>
-      <tr><td class="l"><svg class="ic"><use href="#i-p1"/></svg>Impur</td>
+      <tr class="grp"><td colspan="5"><i class="it it-miner-mk-2"></i><span data-l="fr">Foreuse Mk.2 <span>— 12 MW · palier 4 · Advanced Steel Production</span></span><span data-l="en" lang="en">Miner Mk.2 <span>— 12 MW · tier 4 · Advanced Steel Production</span></span></td></tr>
+      <tr><td class="l"><svg class="ic"><use href="#i-p1"/></svg><span data-l="fr">Impur</span><span data-l="en" lang="en">Impure</span></td>
         <td class="cell" style="--bc:var(--b1)"><span class="box"><span class="q">60</span><span class="m">Mk.1</span></span></td>
         <td class="cell" style="--bc:var(--b2)"><span class="box"><span class="q">90</span><span class="m">Mk.2</span></span></td>
         <td class="cell" style="--bc:var(--b2)"><span class="box"><span class="q">120</span><span class="m">Mk.2</span></span></td>
@@ -293,14 +397,14 @@ footer{margin-top:34px;font-family:var(--d);font-weight:500;font-size:12px;lette
         <td class="cell" style="--bc:var(--b3)"><span class="box"><span class="q">180</span><span class="m">Mk.3</span></span></td>
         <td class="cell" style="--bc:var(--b3)"><span class="box"><span class="q">240</span><span class="m">Mk.3</span></span></td>
         <td class="cell" style="--bc:var(--b4)"><span class="box"><span class="q">300</span><span class="m">Mk.4</span></span></td></tr>
-      <tr><td class="l"><svg class="ic"><use href="#i-p3"/></svg>Pur</td>
+      <tr><td class="l"><svg class="ic"><use href="#i-p3"/></svg><span data-l="fr">Pur</span><span data-l="en" lang="en">Pure</span></td>
         <td class="cell" style="--bc:var(--b3)"><span class="box"><span class="q">240</span><span class="m">Mk.3</span></span></td>
         <td class="cell" style="--bc:var(--b4)"><span class="box"><span class="q">360</span><span class="m">Mk.4</span></span></td>
         <td class="cell" style="--bc:var(--b4)"><span class="box"><span class="q">480</span><span class="m">Mk.4</span></span></td>
         <td class="cell" style="--bc:var(--b5)"><span class="box"><span class="q">600</span><span class="m">Mk.5</span></span></td></tr>
 
-      <tr class="grp"><td colspan="5"><i class="it it-miner-mk-3"></i>Foreuse Mk.3 <span>— 30 MW · palier 8 · Leading-Edge Production</span></td></tr>
-      <tr><td class="l"><svg class="ic"><use href="#i-p1"/></svg>Impur</td>
+      <tr class="grp"><td colspan="5"><i class="it it-miner-mk-3"></i><span data-l="fr">Foreuse Mk.3 <span>— 30 MW · palier 8 · Leading-Edge Production</span></span><span data-l="en" lang="en">Miner Mk.3 <span>— 30 MW · tier 8 · Leading-Edge Production</span></span></td></tr>
+      <tr><td class="l"><svg class="ic"><use href="#i-p1"/></svg><span data-l="fr">Impur</span><span data-l="en" lang="en">Impure</span></td>
         <td class="cell" style="--bc:var(--b2)"><span class="box"><span class="q">120</span><span class="m">Mk.2</span></span></td>
         <td class="cell" style="--bc:var(--b3)"><span class="box"><span class="q">180</span><span class="m">Mk.3</span></span></td>
         <td class="cell" style="--bc:var(--b3)"><span class="box"><span class="q">240</span><span class="m">Mk.3</span></span></td>
@@ -310,145 +414,168 @@ footer{margin-top:34px;font-family:var(--d);font-weight:500;font-size:12px;lette
         <td class="cell" style="--bc:var(--b4)"><span class="box"><span class="q">360</span><span class="m">Mk.4</span></span></td>
         <td class="cell" style="--bc:var(--b4)"><span class="box"><span class="q">480</span><span class="m">Mk.4</span></span></td>
         <td class="cell" style="--bc:var(--b5)"><span class="box"><span class="q">600</span><span class="m">Mk.5</span></span></td></tr>
-      <tr><td class="l"><svg class="ic"><use href="#i-p3"/></svg>Pur</td>
+      <tr><td class="l"><svg class="ic"><use href="#i-p3"/></svg><span data-l="fr">Pur</span><span data-l="en" lang="en">Pure</span></td>
         <td class="cell" style="--bc:var(--b4)"><span class="box"><span class="q">480</span><span class="m">Mk.4</span></span></td>
         <td class="cell" style="--bc:var(--b5)"><span class="box"><span class="q">720</span><span class="m">Mk.5</span></span></td>
         <td class="cell" style="--bc:var(--b6)"><span class="box"><span class="q">960</span><span class="m">Mk.6</span></span></td>
         <td class="cell" style="--bc:var(--b6)"><span class="box"><span class="q">1200</span><span class="m">Mk.6</span></span></td></tr>
     </table>
 
-    <div class="note s"><b>Coût en énergie</b>conso = base × (overclock ÷ 100)<sup>1,321928</sup>. L'exposant vaut log₂(2,5), donc doubler la cadence multiplie la consommation par exactement 2,5. Foreuse Mk.3 : 30 MW à 100 %, 51 MW à 150 %, 75 MW à 200 %, 101 MW à 250 %. Trois power shards au maximum, +50 % chacun.</div>
+    <div class="note s"><span data-l="fr"><b>Coût en énergie</b>conso = base × (overclock ÷ 100)<sup>1,321928</sup>. L'exposant vaut log₂(2,5), donc doubler la cadence multiplie la consommation par exactement 2,5. Foreuse Mk.3 : 30 MW à 100 %, 51 MW à 150 %, 75 MW à 200 %, 101 MW à 250 %. Trois éclats de charge au maximum, +50 % chacun.</span><span data-l="en" lang="en"><b>Power cost</b>draw = base × (overclock ÷ 100)<sup>1.321928</sup>. The exponent is log₂(2.5), so doubling the clock multiplies consumption by exactly 2.5. Miner Mk.3: 30 MW at 100%, 51 MW at 150%, 75 MW at 200%, 101 MW at 250%. Three power shards at most, +50% each.</span></div>
 
-    <div class="note"><b>Plafond réel</b>Le nœud ne limite rien au-delà de 250 % — c'est le convoyeur qui coince. Une Mk.3 sur nœud pur à 250 % sort 1200/min, soit très exactement la capacité d'un Mk.6. En dessous du palier 9, plafonner à 162,5 % sur nœud pur pour rester sous les 780/min du Mk.5.</div>
+    <div class="note"><span data-l="fr"><b>Plafond réel</b>Le nœud ne limite rien au-delà de 250 % — c'est le convoyeur qui coince. Une Mk.3 sur nœud pur à 250 % sort 1200/min, soit très exactement la capacité d'un Mk.6. En dessous du palier 9, plafonner à 162,5 % sur nœud pur pour rester sous les 780/min du Mk.5.</span><span data-l="en" lang="en"><b>Real ceiling</b>The node limits nothing beyond 250% — the belt is the bottleneck. A Mk.3 on a pure node at 250% outputs 1200/min, exactly the capacity of a Mk.6. Below tier 9, cap at 162.5% on a pure node to stay under the Mk.5's 780/min.</span></div>
 
-    <div class="note s"><b>Sur les tapis</b>Les monte-charges ont exactement les mêmes débits que les convoyeurs du même Mk et se débloquent avec le même jalon Logistics. Le Mk.3 casse la progression ×2 : 270 et non 240 — trente items gratuits que la plupart des ratios ignorent. Un séparateur divise en trois voies égales seulement si les trois sorties absorbent le flux ; sinon il rééquilibre vers celles qui consomment.</div>
+    <div class="note s"><span data-l="fr"><b>Sur les tapis</b>Les convoyeurs verticaux ont exactement les mêmes débits que les convoyeurs du même Mk et se débloquent avec le même jalon Logistics. Le Mk.3 casse la progression ×2 : 270 et non 240 — trente items gratuits que la plupart des ratios ignorent. Un séparateur divise en trois voies égales seulement si les trois sorties absorbent le flux ; sinon il rééquilibre vers celles qui consomment.</span><span data-l="en" lang="en"><b>On the belts</b>Conveyor lifts have exactly the same rates as belts of the same Mk and unlock with the same Logistics milestone. The Mk.3 breaks the ×2 progression: 270, not 240 — thirty free items that most ratios overlook. A splitter divides into three equal lanes only if all three outputs absorb the flow; otherwise it rebalances toward those that consume.</span></div>
 
   </div>
 </section>
 
 <!-- ===================== 02 ===================== -->
 <section>
-  <div class="shead"><span class="n">02</span><h2>Paliers technologiques</h2><span class="r">10 paliers · 5 phases</span></div>
+  <div class="shead"><span class="n">02</span><h2><span data-l="fr">Paliers technologiques</span><span data-l="en" lang="en">Technology tiers</span></h2><span class="r"><span data-l="fr">10 paliers · 5 phases</span><span data-l="en" lang="en">10 tiers · 5 phases</span></span></div>
   <div class="pane">
 
-    <div class="gate"><span class="t">Départ — aucune condition</span><span class="ln"></span></div>
+    <div class="gate"><span class="t"><span data-l="fr">Départ — aucune condition</span><span data-l="en" lang="en">Start — no requirement</span></span><span class="ln"></span></div>
     <div class="tier"><div class="tag"><div class="n">0</div><div class="w">Onboarding</div></div><div class="c">
-      <div class="ms">HUB Upgrade 1 <em>→</em> 6 <em>·</em> séquentiel</div>
-      <div class="un">Atelier d'équipement, foreuse portable, fonderie, ligne et poteau électriques, constructeur, convoyeur Mk.1, foreuse Mk.1, conteneur de stockage, brûleur de biomasse, <span class="chip">ascenseur orbital</span><br>Recettes : lingot de cuivre, fil, câble, béton, vis, plaque de fer renforcée, biomasse.</div></div></div>
+      <div class="ms">HUB Upgrade 1 <em>→</em> 6 <em>·</em> <span data-l="fr">séquentiel</span><span data-l="en" lang="en">sequential</span></div>
+      <div class="un"><span data-l="fr">Atelier d'équipement, foreuse portable, haut fourneau, ligne et poteau électriques, constructeur, convoyeur Mk.1, foreuse Mk.1, conteneur de stockage, brûleur de biomasse, <span class="chip">ascenseur orbital</span><br>Recettes : lingot de cuivre, fil, câble, béton, vis, plaque de fer renforcée, biomasse.</span><span data-l="en" lang="en">Equipment Workshop, Portable Miner, Smelter, power line and pole, Constructor, Conveyor Belt Mk.1, Miner Mk.1, Storage Container, Biomass Burner, <span class="chip">Space Elevator</span><br>Recipes: copper ingot, wire, cable, concrete, screws, reinforced iron plate, biomass.</span></div></div></div>
 
-    <div class="gate"><span class="t">Débloqué par la fin du palier 0</span><span class="ln"></span></div>
-    <div class="tier"><div class="tag"><div class="n">1</div><div class="w">Palier</div></div><div class="c">
+    <div class="gate"><span class="t"><span data-l="fr">Débloqué par la fin du palier 0</span><span data-l="en" lang="en">Unlocked by completing tier 0</span></span><span class="ln"></span></div>
+    <div class="tier"><div class="tag"><div class="n">1</div><div class="w"><span data-l="fr">Palier</span><span data-l="en" lang="en">Tier</span></div></div><div class="c">
       <div class="ms">Base Building <em>·</em> Logistics <em>·</em> Field Research</div>
-      <div class="un">Fondations, murs, rampes, tour de guet · séparateur, fusionneur, monte-charge Mk.1 · MAM, scanner d'objets, carte du monde.</div></div></div>
-    <div class="tier"><div class="tag"><div class="n">2</div><div class="w">Palier</div></div><div class="c">
+      <div class="un"><span data-l="fr">Fondations, murs, rampes, tour d'observation · séparateur, fusionneur, convoyeur vertical Mk.1 · M.A.M., scanner d'objets, carte du monde.</span><span data-l="en" lang="en">Foundations, walls, ramps, lookout tower · splitter, merger, conveyor lift Mk.1 · MAM, object scanner, world map.</span></div></div></div>
+    <div class="tier"><div class="tag"><div class="n">2</div><div class="w"><span data-l="fr">Palier</span><span data-l="en" lang="en">Tier</span></div></div><div class="c">
       <div class="ms">Part Assembly <em>·</em> Obstacle Clearing <em>·</em> Jump Pads <em>·</em> Resource Sink <em>·</em> Logistics Mk.2</div>
-      <div class="un">Assembleur, tôle de cuivre, rotor, cadre modulaire, <span class="chip"><i class="it it-smart-plating"></i>Smart Plating</span> · tronçonneuse, biocarburant solide · tremplin · AWESOME Sink et Shop, personnalisateur · convoyeur Mk.2.</div></div></div>
+      <div class="un"><span data-l="fr">Assembleuse, tôle de cuivre, rotor, cadre modulaire, <span class="chip"><i class="it it-smart-plating"></i>Smart Plating</span> · tronçonneuse, biocarburant solide · tremplin · broyeur et boutique A.W.E.S.O.M.E., personnalisateur · convoyeur Mk.2.</span><span data-l="en" lang="en">Assembler, copper sheet, rotor, modular frame, <span class="chip"><i class="it it-smart-plating"></i>Smart Plating</span> · chainsaw, solid biofuel · jump pad · AWESOME Sink and Shop, customizer · Conveyor Belt Mk.2.</span></div></div></div>
 
-    <div class="gate"><span class="t">Débloqué par la phase 1</span><span class="ln"></span></div>
-    <div class="tier"><div class="tag"><div class="n">3</div><div class="w">Palier</div></div><div class="c">
+    <div class="gate"><span class="t"><span data-l="fr">Débloqué par la phase 1</span><span data-l="en" lang="en">Unlocked by phase 1</span></span><span class="ln"></span></div>
+    <div class="tier"><div class="tag"><div class="n">3</div><div class="w"><span data-l="fr">Palier</span><span data-l="en" lang="en">Tier</span></div></div><div class="c">
       <div class="ms">Coal Power <em>·</em> Basic Steel <em>·</em> Vehicular Transport <em>·</em> Enhanced Asset Security</div>
-      <div class="un">Générateur à charbon, extracteur d'eau, pipelines Mk.1, pompe, réservoir · fonderie d'acier, lingot, poutre, tuyau, <span class="chip"><i class="it it-versatile-framework"></i>Versatile Framework</span> · tracteur, station de camions · Xeno-Basher.</div></div></div>
-    <div class="tier"><div class="tag"><div class="n">4</div><div class="w">Palier</div></div><div class="c">
+      <div class="un"><span data-l="fr">Générateur à charbon, pompe à eau, pipelines Mk.1, pompe, réservoir · fonderie, lingot, poutre et tuyau en acier, <span class="chip"><i class="it it-versatile-framework"></i>Versatile Framework</span> · tracteur, station pour camions · Xeno-Basher.</span><span data-l="en" lang="en">Coal-Powered Generator, Water Extractor, Pipelines Mk.1, pump, fluid buffer · Foundry, steel ingot, beam, pipe, <span class="chip"><i class="it it-versatile-framework"></i>Versatile Framework</span> · tractor, truck station · Xeno-Basher.</span></div></div></div>
+    <div class="tier"><div class="tag"><div class="n">4</div><div class="w"><span data-l="fr">Palier</span><span data-l="en" lang="en">Tier</span></div></div><div class="c">
       <div class="ms">Advanced Steel <em>·</em> Logistics Mk.3 <em>·</em> FICSIT Blueprints <em>·</em> Expanded Power <em>·</em> Hypertubes</div>
-      <div class="un">Foreuse Mk.2, poutre industrielle blindée, stator, moteur, <span class="chip"><i class="it it-automated-wiring"></i>Automated Wiring</span> · convoyeur Mk.3, conteneur industriel · concepteur de plans Mk.1 · stockage d'énergie, pylône · hypertubes.</div></div></div>
+      <div class="un"><span data-l="fr">Foreuse Mk.2, poutre industrielle blindée, stator, moteur, <span class="chip"><i class="it it-automated-wiring"></i>Automated Wiring</span> · convoyeur Mk.3, conteneur industriel · modeleur de plan Mk.1 · accumulateur, pylône · hypertubes.</span><span data-l="en" lang="en">Miner Mk.2, encased industrial beam, stator, motor, <span class="chip"><i class="it it-automated-wiring"></i>Automated Wiring</span> · Conveyor Belt Mk.3, industrial storage container · Blueprint Designer Mk.1 · power storage, power tower · hypertubes.</span></div></div></div>
 
-    <div class="gate"><span class="t">Débloqué par la phase 2</span><span class="ln"></span></div>
-    <div class="tier"><div class="tag"><div class="n">5</div><div class="w">Palier</div></div><div class="c">
+    <div class="gate"><span class="t"><span data-l="fr">Débloqué par la phase 2</span><span data-l="en" lang="en">Unlocked by phase 2</span></span><span class="ln"></span></div>
+    <div class="tier"><div class="tag"><div class="n">5</div><div class="w"><span data-l="fr">Palier</span><span data-l="en" lang="en">Tier</span></div></div><div class="c">
       <div class="ms">Oil Processing <em>·</em> Petroleum Power <em>·</em> Fluid Packaging <em>·</em> Logistics Mk.4 <em>·</em> Jetpack</div>
-      <div class="un">Extracteur de pétrole, raffinerie, plastique, caoutchouc, carburant, coke, circuit imprimé · générateur à carburant · emballeuse et fluides conditionnés · convoyeur Mk.4, camion · jetpack.</div></div></div>
-    <div class="tier"><div class="tag"><div class="n">6</div><div class="w">Palier</div></div><div class="c">
+      <div class="un"><span data-l="fr">Pompe à pétrole, raffinerie, plastique, caoutchouc, carburant, coke, circuit imprimé · générateur à carburant · conditionneur et fluides conditionnés · convoyeur Mk.4, camion · jetpack.</span><span data-l="en" lang="en">Oil Extractor, Refinery, plastic, rubber, fuel, petroleum coke, circuit board · Fuel-Powered Generator · Packager and packaged fluids · Conveyor Belt Mk.4, truck · jetpack.</span></div></div></div>
+    <div class="tier"><div class="tag"><div class="n">6</div><div class="w"><span data-l="fr">Palier</span><span data-l="en" lang="en">Tier</span></div></div><div class="c">
       <div class="ms">Industrial Manufacturing <em>·</em> Monorail Train Tech <em>·</em> Railway Signalling <em>·</em> Pipeline Mk.2 <em>·</em> Blueprints Mk.2</div>
-      <div class="un">Manufacturier, cadre modulaire lourd, ordinateur, <span class="chip"><i class="it it-modular-engine"></i>Modular Engine</span> <span class="chip"><i class="it it-adaptive-control-unit"></i>Adaptive Control Unit</span> · rails, locomotive, wagon, gare · signaux de bloc et de chemin · pipeline et pompe Mk.2 · concepteur de plans Mk.2.</div></div></div>
+      <div class="un"><span data-l="fr">Façonneuse, cadre modulaire lourd, ordinateur, <span class="chip"><i class="it it-modular-engine"></i>Modular Engine</span> <span class="chip"><i class="it it-adaptive-control-unit"></i>Adaptive Control Unit</span> · rails, locomotive, wagon, gare · signaux de bloc et de chemin · pipeline et pompe Mk.2 · modeleur de plan Mk.2.</span><span data-l="en" lang="en">Manufacturer, heavy modular frame, computer, <span class="chip"><i class="it it-modular-engine"></i>Modular Engine</span> <span class="chip"><i class="it it-adaptive-control-unit"></i>Adaptive Control Unit</span> · railway, locomotive, freight car, train station · block and path signals · pipeline and pump Mk.2 · Blueprint Designer Mk.2.</span></div></div></div>
 
-    <div class="gate"><span class="t">Débloqué par la phase 3</span><span class="ln"></span></div>
-    <div class="tier"><div class="tag"><div class="n">7</div><div class="w">Palier</div></div><div class="c">
+    <div class="gate"><span class="t"><span data-l="fr">Débloqué par la phase 3</span><span data-l="en" lang="en">Unlocked by phase 3</span></span><span class="ln"></span></div>
+    <div class="tier"><div class="tag"><div class="n">7</div><div class="w"><span data-l="fr">Palier</span><span data-l="en" lang="en">Tier</span></div></div><div class="c">
       <div class="ms">Bauxite Refinement <em>·</em> Control System Development <em>·</em> Logistics Mk.5 <em>·</em> Hazmat Suit <em>·</em> Hoverpack</div>
-      <div class="un">Solution d'alumine, débris et lingot d'aluminium, tôle plaquée, boîtier, quartz brut · mixeur, acide sulfurique, batterie, superordinateur, unité de radiocommande, <span class="chip"><i class="it it-assembly-director-system"></i>Assembly Director System</span> · convoyeur Mk.5 · combinaison anti-radiations · hoverpack.</div></div></div>
-    <div class="tier"><div class="tag"><div class="n">8</div><div class="w">Palier</div></div><div class="c">
+      <div class="un"><span data-l="fr">Solution d'alumine, débris et lingot d'aluminium, tôle plaquée, boîtier, quartz brut · mélangeur, acide sulfurique, batterie, superordinateur, unité de radiocommande, <span class="chip"><i class="it it-assembly-director-system"></i>Assembly Director System</span> · convoyeur Mk.5 · combinaison anti-radiations · hoverpack.</span><span data-l="en" lang="en">Alumina solution, aluminum scrap and ingot, alclad sheet, casing, raw quartz · Blender, sulfuric acid, battery, supercomputer, radio control unit, <span class="chip"><i class="it it-assembly-director-system"></i>Assembly Director System</span> · Conveyor Belt Mk.5 · hazmat suit · hoverpack.</span></div></div></div>
+    <div class="tier"><div class="tag"><div class="n">8</div><div class="w"><span data-l="fr">Palier</span><span data-l="en" lang="en">Tier</span></div></div><div class="c">
       <div class="ms">Nuclear Power <em>·</em> Advanced Aluminum <em>·</em> Aeronautical Eng. <em>·</em> Leading-Edge <em>·</em> Particle Enrichment</div>
-      <div class="un">Centrale nucléaire, barre de combustible d'uranium, tige de contrôle électromagnétique · dissipateur thermique, système de refroidissement, cadre modulaire fusionné, puits d'azote · drones et ports de drones · foreuse Mk.3, turbomoteur · accélérateur de particules, plutonium <span class="chip"><i class="it it-magnetic-field-generator"></i>Magnetic Field Generator</span> <span class="chip"><i class="it it-thermal-propulsion-rocket"></i>Thermal Propulsion Rocket</span> <span class="chip"><i class="it it-nuclear-pasta"></i>Nuclear Pasta</span></div></div></div>
+      <div class="un"><span data-l="fr">Centrale nucléaire, barre de combustible d'uranium, tige de contrôle électromagnétique · dissipateur thermique, système de refroidissement, cadre modulaire fusionné, puits d'azote · drones et héliports · foreuse Mk.3, turbomoteur · accélérateur de particules, plutonium</span><span data-l="en" lang="en">Nuclear Power Plant, uranium fuel rod, electromagnetic control rod · heat sink, cooling system, fused modular frame, nitrogen wells · drones and drone ports · Miner Mk.3, turbo motor · Particle Accelerator, plutonium</span> <span class="chip"><i class="it it-magnetic-field-generator"></i>Magnetic Field Generator</span> <span class="chip"><i class="it it-thermal-propulsion-rocket"></i>Thermal Propulsion Rocket</span> <span class="chip"><i class="it it-nuclear-pasta"></i>Nuclear Pasta</span></div></div></div>
 
-    <div class="gate"><span class="t">Débloqué par la phase 4</span><span class="ln"></span></div>
+    <div class="gate"><span class="t"><span data-l="fr">Débloqué par la phase 4</span><span data-l="en" lang="en">Unlocked by phase 4</span></span><span class="ln"></span></div>
     <div class="tier"><div class="tag"><div class="n">9</div><div class="w">Final</div></div><div class="c">
       <div class="ms">Matter Conversion <em>·</em> Quantum Encoding <em>·</em> Spatial Energy Reg. <em>·</em> Peak Efficiency <em>·</em> Blueprints Mk.3</div>
-      <div class="un">Convertisseur, SAM réanimé, lingot et trigone de FICSite, diamants, cristal temporel · encodeur quantique, cristal de matière noire, oscillateur de superposition, processeur neuro-quantique · matrice et amplificateur d'énergie alien, portails · convoyeur Mk.6, cellule de singularité · concepteur de plans Mk.3 <span class="chip"><i class="it it-biochemical-sculptor"></i>Biochemical Sculptor</span> <span class="chip"><i class="it it-ai-expansion-server"></i>AI Expansion Server</span> <span class="chip"><i class="it it-ballistic-warp-drive"></i>Ballistic Warp Drive</span></div></div></div>
+      <div class="un"><span data-l="fr">Convertisseur, SAM réanimé, lingot et trigone de FICSite, diamants, cristal temporel · encodeur quantique, cristal de matière noire, oscillateur de superposition, processeur neuro-quantique · matrice et accélérateur d'énergie extraterrestre, portails · convoyeur Mk.6, cellule de singularité · modeleur de plan Mk.3</span><span data-l="en" lang="en">Converter, reanimated SAM, FICSite ingot and trigon, diamonds, time crystal · Quantum Encoder, dark matter crystal, superposition oscillator, neural-quantum processor · alien power matrix and augmenter, portals · Conveyor Belt Mk.6, singularity cell · Blueprint Designer Mk.3</span> <span class="chip"><i class="it it-biochemical-sculptor"></i>Biochemical Sculptor</span> <span class="chip"><i class="it it-ai-expansion-server"></i>AI Expansion Server</span> <span class="chip"><i class="it it-ballistic-warp-drive"></i>Ballistic Warp Drive</span></div></div></div>
 
   </div>
 </section>
 
 <!-- ===================== 03 ===================== -->
 <section>
-  <div class="shead"><span class="n">03</span><h2>Lignage des pièces de projet</h2><span class="r">ascenseur orbital</span></div>
+  <div class="shead"><span class="n">03</span><h2><span data-l="fr">Lignage des pièces de projet</span><span data-l="en" lang="en">Project part lineage</span></h2><span class="r"><span data-l="fr">ascenseur orbital</span><span data-l="en" lang="en">space elevator</span></span></div>
   <div class="pane">
 
     <div class="phase">
-      <div class="ph"><span class="p">Phase 1 — Plateforme de distribution</span><span class="d">50 × Smart Plating</span><span class="g">ouvre paliers 3 et 4</span></div>
-      <div class="rec"><div class="rn"><i class="it it-smart-plating"></i>Smart Plating<small>Assembleur · 30 s · 2/min</small></div>
-        <div class="tree">├─ 1 × <b><i class="it it-reinforced-iron-plate"></i>Plaque de fer renforcée</b> ← 6 plaques de fer + 12 vis
-└─ 1 × <b><i class="it it-rotor"></i>Rotor</b> ← 5 tiges de fer + 25 vis</div></div>
+      <div class="ph"><span class="p"><span data-l="fr">Phase 1 — Plateforme de distribution</span><span data-l="en" lang="en">Phase 1 — Distribution Platform</span></span><span class="d">50 × Smart Plating</span><span class="g"><span data-l="fr">ouvre paliers 3 et 4</span><span data-l="en" lang="en">unlocks tiers 3 and 4</span></span></div>
+      <div class="rec"><div class="rn"><i class="it it-smart-plating"></i>Smart Plating<small><span data-l="fr">Assembleuse · 30 s · 2/min</span><span data-l="en" lang="en">Assembler · 30 s · 2/min</span></small></div>
+        <div class="tree"><span data-l="fr">├─ 1 × <b><i class="it it-reinforced-iron-plate"></i>Plaque de fer renforcée</b> ← 6 plaques de fer + 12 vis
+└─ 1 × <b><i class="it it-rotor"></i>Rotor</b> ← 5 tiges de fer + 25 vis</span><span data-l="en" lang="en">├─ 1 × <b><i class="it it-reinforced-iron-plate"></i>Reinforced Iron Plate</b> ← 6 iron plates + 12 screws
+└─ 1 × <b><i class="it it-rotor"></i>Rotor</b> ← 5 iron rods + 25 screws</span></div></div>
     </div>
 
     <div class="phase">
-      <div class="ph"><span class="p">Phase 2 — Dock de construction</span><span class="d">1 000 SP · 1 000 VF · 100 AW</span><span class="g">ouvre paliers 5 et 6</span></div>
-      <div class="rec"><div class="rn"><i class="it it-versatile-framework"></i>Versatile Framework<small>Assembleur · 24 s · ×2 · 5/min</small></div>
-        <div class="tree">├─ 1 × <b><i class="it it-modular-frame"></i>Cadre modulaire</b> ← 3 plaques renforcées + 12 tiges de fer
-└─ 12 × <b><i class="it it-steel-beam"></i>Poutre en acier</b> ← 4 lingots d'acier chacune</div></div>
-      <div class="rec"><div class="rn"><i class="it it-automated-wiring"></i>Automated Wiring<small>Assembleur · 24 s · 2,5/min</small></div>
-        <div class="tree">├─ 1 × <b><i class="it it-stator"></i>Stator</b> ← 3 tuyaux en acier + 8 fils
-└─ 20 × <b><i class="it it-cable"></i>Câble</b> ← 2 fils chacun</div></div>
+      <div class="ph"><span class="p"><span data-l="fr">Phase 2 — Dock de construction</span><span data-l="en" lang="en">Phase 2 — Construction Dock</span></span><span class="d"><span data-l="fr">1 000 SP · 1 000 VF · 100 AW</span><span data-l="en" lang="en">1,000 SP · 1,000 VF · 100 AW</span></span><span class="g"><span data-l="fr">ouvre paliers 5 et 6</span><span data-l="en" lang="en">unlocks tiers 5 and 6</span></span></div>
+      <div class="rec"><div class="rn"><i class="it it-versatile-framework"></i>Versatile Framework<small><span data-l="fr">Assembleuse · 24 s · ×2 · 5/min</span><span data-l="en" lang="en">Assembler · 24 s · ×2 · 5/min</span></small></div>
+        <div class="tree"><span data-l="fr">├─ 1 × <b><i class="it it-modular-frame"></i>Cadre modulaire</b> ← 3 plaques renforcées + 12 tiges de fer
+└─ 12 × <b><i class="it it-steel-beam"></i>Poutre en acier</b> ← 4 lingots d'acier chacune</span><span data-l="en" lang="en">├─ 1 × <b><i class="it it-modular-frame"></i>Modular Frame</b> ← 3 reinforced plates + 12 iron rods
+└─ 12 × <b><i class="it it-steel-beam"></i>Steel Beam</b> ← 4 steel ingots each</span></div></div>
+      <div class="rec"><div class="rn"><i class="it it-automated-wiring"></i>Automated Wiring<small><span data-l="fr">Assembleuse · 24 s · 2,5/min</span><span data-l="en" lang="en">Assembler · 24 s · 2.5/min</span></small></div>
+        <div class="tree"><span data-l="fr">├─ 1 × <b><i class="it it-stator"></i>Stator</b> ← 3 tuyaux en acier + 8 fils
+└─ 20 × <b><i class="it it-cable"></i>Câble</b> ← 2 fils chacun</span><span data-l="en" lang="en">├─ 1 × <b><i class="it it-stator"></i>Stator</b> ← 3 steel pipes + 8 wires
+└─ 20 × <b><i class="it it-cable"></i>Cable</b> ← 2 wires each</span></div></div>
     </div>
 
     <div class="phase">
-      <div class="ph"><span class="p">Phase 3 — Corps principal</span><span class="d">2 500 VF · 500 ME · 100 ACU</span><span class="g">ouvre paliers 7 et 8</span></div>
-      <div class="rec"><div class="rn"><i class="it it-modular-engine"></i>Modular Engine<small>Manufacturier · 60 s · 1/min</small></div>
-        <div class="tree">├─ 2 × <b><i class="it it-motor"></i>Moteur</b> ← 2 rotors + 2 stators
+      <div class="ph"><span class="p"><span data-l="fr">Phase 3 — Corps principal</span><span data-l="en" lang="en">Phase 3 — Main Body</span></span><span class="d"><span data-l="fr">2 500 VF · 500 ME · 100 ACU</span><span data-l="en" lang="en">2,500 VF · 500 ME · 100 ACU</span></span><span class="g"><span data-l="fr">ouvre paliers 7 et 8</span><span data-l="en" lang="en">unlocks tiers 7 and 8</span></span></div>
+      <div class="rec"><div class="rn"><i class="it it-modular-engine"></i>Modular Engine<small><span data-l="fr">Façonneuse · 60 s · 1/min</span><span data-l="en" lang="en">Manufacturer · 60 s · 1/min</span></small></div>
+        <div class="tree"><span data-l="fr">├─ 2 × <b><i class="it it-motor"></i>Moteur</b> ← 2 rotors + 2 stators
 ├─ 15 × <b><i class="it it-rubber"></i>Caoutchouc</b> ← raffinerie, pétrole brut
-└─ 2 × <u><i class="it it-smart-plating"></i>Smart Plating</u> — réutilise la chaîne de phase 1</div></div>
-      <div class="rec"><div class="rn"><i class="it it-adaptive-control-unit"></i>Adaptive Control Unit<small>Manufacturier · 120 s · ×2 · 1/min</small></div>
-        <div class="tree">├─ 5 × <u><i class="it it-automated-wiring"></i>Automated Wiring</u> — réutilise la chaîne de phase 2
+└─ 2 × <u><i class="it it-smart-plating"></i>Smart Plating</u> — réutilise la chaîne de phase 1</span><span data-l="en" lang="en">├─ 2 × <b><i class="it it-motor"></i>Motor</b> ← 2 rotors + 2 stators
+├─ 15 × <b><i class="it it-rubber"></i>Rubber</b> ← Refinery, crude oil
+└─ 2 × <u><i class="it it-smart-plating"></i>Smart Plating</u> — reuses the phase 1 chain</span></div></div>
+      <div class="rec"><div class="rn"><i class="it it-adaptive-control-unit"></i>Adaptive Control Unit<small><span data-l="fr">Façonneuse · 120 s · ×2 · 1/min</span><span data-l="en" lang="en">Manufacturer · 120 s · ×2 · 1/min</span></small></div>
+        <div class="tree"><span data-l="fr">├─ 5 × <u><i class="it it-automated-wiring"></i>Automated Wiring</u> — réutilise la chaîne de phase 2
 ├─ 5 × <b><i class="it it-circuit-board"></i>Circuit imprimé</b> ← 2 tôles de cuivre + 4 plastique
 ├─ 1 × <b><i class="it it-heavy-modular-frame"></i>Cadre modulaire lourd</b> ← cadres modulaires + poutres blindées + tuyaux + béton
-└─ 2 × <b><i class="it it-computer"></i>Ordinateur</b> ← 4 circuits imprimés + 8 câbles + 16 plastique</div></div>
+└─ 2 × <b><i class="it it-computer"></i>Ordinateur</b> ← 4 circuits imprimés + 8 câbles + 16 plastique</span><span data-l="en" lang="en">├─ 5 × <u><i class="it it-automated-wiring"></i>Automated Wiring</u> — reuses the phase 2 chain
+├─ 5 × <b><i class="it it-circuit-board"></i>Circuit Board</b> ← 2 copper sheets + 4 plastic
+├─ 1 × <b><i class="it it-heavy-modular-frame"></i>Heavy Modular Frame</b> ← modular frames + encased beams + pipes + concrete
+└─ 2 × <b><i class="it it-computer"></i>Computer</b> ← 4 circuit boards + 8 cables + 16 plastic</span></div></div>
     </div>
 
     <div class="phase">
-      <div class="ph"><span class="p">Phase 4 — Propulsion</span><span class="d">500 ADS · 500 MFG · 250 TPR · 100 NP</span><span class="g">ouvre palier 9</span></div>
-      <div class="rec"><div class="rn"><i class="it it-assembly-director-system"></i>Assembly Director System<small>Assembleur · ×2</small></div>
-        <div class="tree">├─ 2 × <u><i class="it it-adaptive-control-unit"></i>Adaptive Control Unit</u>
-└─ 2 × <b><i class="it it-supercomputer"></i>Superordinateur</b> ← ordinateurs + unités IA + connecteurs haute vitesse + plastique</div></div>
-      <div class="rec"><div class="rn"><i class="it it-magnetic-field-generator"></i>Magnetic Field Generator<small>Manufacturier · ×2</small></div>
-        <div class="tree">├─ 5 × <u><i class="it it-versatile-framework"></i>Versatile Framework</u>
-├─ 2 × <b><i class="it it-electromagnetic-control-rod"></i>Tige de contrôle électromagnétique</b> ← stators + fil rapide
-└─ 10 × <b><i class="it it-battery"></i>Batterie</b> ← mixeur : eau + solution d'alumine + boîtier d'aluminium</div></div>
-      <div class="rec"><div class="rn"><i class="it it-thermal-propulsion-rocket"></i>Thermal Propulsion Rocket<small>Manufacturier · ×2</small></div>
-        <div class="tree">├─ 5 × <u><i class="it it-modular-engine"></i>Modular Engine</u>
-├─ 2 × <b><i class="it it-turbo-motor"></i>Turbomoteur</b> ← systèmes de refroidissement + moteurs + tuyaux en caoutchouc
+      <div class="ph"><span class="p"><span data-l="fr">Phase 4 — Propulsion</span><span data-l="en" lang="en">Phase 4 — Propulsion</span></span><span class="d">500 ADS · 500 MFG · 250 TPR · 100 NP</span><span class="g"><span data-l="fr">ouvre palier 9</span><span data-l="en" lang="en">unlocks tier 9</span></span></div>
+      <div class="rec"><div class="rn"><i class="it it-assembly-director-system"></i>Assembly Director System<small><span data-l="fr">Assembleuse · ×2</span><span data-l="en" lang="en">Assembler · ×2</span></small></div>
+        <div class="tree"><span data-l="fr">├─ 2 × <u><i class="it it-adaptive-control-unit"></i>Adaptive Control Unit</u>
+└─ 2 × <b><i class="it it-supercomputer"></i>Superordinateur</b> ← ordinateurs + unités IA + connecteurs haute vitesse + plastique</span><span data-l="en" lang="en">├─ 2 × <u><i class="it it-adaptive-control-unit"></i>Adaptive Control Unit</u>
+└─ 2 × <b><i class="it it-supercomputer"></i>Supercomputer</b> ← computers + AI limiters + high-speed connectors + plastic</span></div></div>
+      <div class="rec"><div class="rn"><i class="it it-magnetic-field-generator"></i>Magnetic Field Generator<small><span data-l="fr">Façonneuse · ×2</span><span data-l="en" lang="en">Manufacturer · ×2</span></small></div>
+        <div class="tree"><span data-l="fr">├─ 5 × <u><i class="it it-versatile-framework"></i>Versatile Framework</u>
+├─ 2 × <b><i class="it it-electromagnetic-control-rod"></i>Tige de contrôle électromagnétique</b> ← stators + limiteurs d'IA
+└─ 10 × <b><i class="it it-battery"></i>Batterie</b> ← mélangeur : acide sulfurique + solution d'alumine + boîtier d'aluminium</span><span data-l="en" lang="en">├─ 5 × <u><i class="it it-versatile-framework"></i>Versatile Framework</u>
+├─ 2 × <b><i class="it it-electromagnetic-control-rod"></i>Electromagnetic Control Rod</b> ← stators + AI limiters
+└─ 10 × <b><i class="it it-battery"></i>Battery</b> ← Blender: sulfuric acid + alumina solution + aluminum casing</span></div></div>
+      <div class="rec"><div class="rn"><i class="it it-thermal-propulsion-rocket"></i>Thermal Propulsion Rocket<small><span data-l="fr">Façonneuse · ×2</span><span data-l="en" lang="en">Manufacturer · ×2</span></small></div>
+        <div class="tree"><span data-l="fr">├─ 5 × <u><i class="it it-modular-engine"></i>Modular Engine</u>
+├─ 2 × <b><i class="it it-turbo-motor"></i>Turbomoteur</b> ← systèmes de refroidissement + unités de radiocommande + moteurs + caoutchouc
 ├─ 6 × <b><i class="it it-cooling-system"></i>Système de refroidissement</b> ← dissipateurs + caoutchouc + eau + azote
-└─ 2 × <b><i class="it it-fused-modular-frame"></i>Cadre modulaire fusionné</b> ← cadres lourds + azote + poudre d'aluminium</div></div>
-      <div class="rec"><div class="rn"><i class="it it-nuclear-pasta"></i>Nuclear Pasta<small>Accélérateur de particules · 120 s</small></div>
-        <div class="tree">├─ 200 × <b><i class="it it-copper-powder"></i>Poudre de cuivre</b> ← 30 lingots de cuivre → 5 poudre
-└─ 1 × <b><i class="it it-pressure-conversion-cube"></i>Cube de conversion de pression</b> ← lingots de FICSite + alliage d'acier trempé</div></div>
+└─ 2 × <b><i class="it it-fused-modular-frame"></i>Cadre modulaire fusionné</b> ← cadres lourds + azote + boîtiers d'aluminium</span><span data-l="en" lang="en">├─ 5 × <u><i class="it it-modular-engine"></i>Modular Engine</u>
+├─ 2 × <b><i class="it it-turbo-motor"></i>Turbo Motor</b> ← cooling systems + radio control units + motors + rubber
+├─ 6 × <b><i class="it it-cooling-system"></i>Cooling System</b> ← heat sinks + rubber + water + nitrogen
+└─ 2 × <b><i class="it it-fused-modular-frame"></i>Fused Modular Frame</b> ← heavy frames + nitrogen + aluminum casings</span></div></div>
+      <div class="rec"><div class="rn"><i class="it it-nuclear-pasta"></i>Nuclear Pasta<small><span data-l="fr">Accélérateur de particules · 120 s</span><span data-l="en" lang="en">Particle Accelerator · 120 s</span></small></div>
+        <div class="tree"><span data-l="fr">├─ 200 × <b><i class="it it-copper-powder"></i>Poudre de cuivre</b> ← 30 lingots de cuivre → 5 poudre
+└─ 1 × <b><i class="it it-pressure-conversion-cube"></i>Cube de conversion de pression</b> ← cadres modulaires fusionnés + unités de radiocommande</span><span data-l="en" lang="en">├─ 200 × <b><i class="it it-copper-powder"></i>Copper Powder</b> ← 30 copper ingots → 5 powder
+└─ 1 × <b><i class="it it-pressure-conversion-cube"></i>Pressure Conversion Cube</b> ← fused modular frames + radio control units</span></div></div>
     </div>
 
     <div class="phase">
-      <div class="ph"><span class="p">Phase 5 — Assemblage</span><span class="d">1 000 NP · 1 000 BS · 256 AIES · 200 BWD</span><span class="g">fin de partie</span></div>
-      <div class="rec"><div class="rn"><i class="it it-biochemical-sculptor"></i>Biochemical Sculptor<small>Mixeur · 120 s · ×2</small></div>
-        <div class="tree">├─ 0,5 × <u><i class="it it-assembly-director-system"></i>Assembly Director System</u> — 1 ADS donne 4 sculpteurs
+      <div class="ph"><span class="p"><span data-l="fr">Phase 5 — Assemblage</span><span data-l="en" lang="en">Phase 5 — Assembly</span></span><span class="d"><span data-l="fr">1 000 NP · 1 000 BS · 256 AIES · 200 BWD</span><span data-l="en" lang="en">1,000 NP · 1,000 BS · 256 AIES · 200 BWD</span></span><span class="g"><span data-l="fr">fin de partie</span><span data-l="en" lang="en">endgame</span></span></div>
+      <div class="rec"><div class="rn"><i class="it it-biochemical-sculptor"></i>Biochemical Sculptor<small><span data-l="fr">Mélangeur · 120 s · ×2</span><span data-l="en" lang="en">Blender · 120 s · ×2</span></small></div>
+        <div class="tree"><span data-l="fr">├─ 0,5 × <u><i class="it it-assembly-director-system"></i>Assembly Director System</u> — 1 ADS donne 4 sculpteurs
 ├─ 1 × <b><i class="it it-ficsite-trigon"></i>Trigone de FICSite</b> ← lingot de FICSite (minerai + SAM réanimé)
-└─ 20 × <b><i class="it it-water"></i>Eau</b></div></div>
-      <div class="rec"><div class="rn"><i class="it it-ai-expansion-server"></i>AI Expansion Server<small>Encodeur quantique</small></div>
-        <div class="tree">├─ 1 × <u><i class="it it-magnetic-field-generator"></i>Magnetic Field Generator</u>
-├─ 1 × <b><i class="it it-neural-quantum-processor"></i>Processeur neuro-quantique</b> ← cristal temporel + superordinateur + tôle plaquée + fil rapide
-├─ 1 × <b><i class="it it-superposition-oscillator"></i>Oscillateur de superposition</b> ← cristal de matière noire + verre + oscillateur à cristal
-└─ <b><i class="it it-excited-photonic-matter"></i>Matière photonique excitée</b> — rendue en résidu de matière noire</div></div>
-      <div class="rec"><div class="rn"><i class="it it-ballistic-warp-drive"></i>Ballistic Warp Drive<small>Manufacturier</small></div>
-        <div class="tree">├─ 1 × <u><i class="it it-thermal-propulsion-rocket"></i>Thermal Propulsion Rocket</u>
-├─ 5 × <b><i class="it it-singularity-cell"></i>Cellule de singularité</b> ← Nuclear Pasta + poudre de cuivre + acier + béton
+└─ 20 × <b><i class="it it-water"></i>Eau</b></span><span data-l="en" lang="en">├─ 0.5 × <u><i class="it it-assembly-director-system"></i>Assembly Director System</u> — 1 ADS yields 4 sculptors
+├─ 1 × <b><i class="it it-ficsite-trigon"></i>FICSite Trigon</b> ← FICSite ingot (ore + reanimated SAM)
+└─ 20 × <b><i class="it it-water"></i>Water</b></span></div></div>
+      <div class="rec"><div class="rn"><i class="it it-ai-expansion-server"></i>AI Expansion Server<small><span data-l="fr">Encodeur quantique</span><span data-l="en" lang="en">Quantum Encoder</span></small></div>
+        <div class="tree"><span data-l="fr">├─ 1 × <u><i class="it it-magnetic-field-generator"></i>Magnetic Field Generator</u>
+├─ 1 × <b><i class="it it-neural-quantum-processor"></i>Processeur neuro-quantique</b> ← cristal temporel + superordinateur + trigone de FICSite + matière photonique excitée
+├─ 1 × <b><i class="it it-superposition-oscillator"></i>Oscillateur de superposition</b> ← cristal de matière noire + oscillateur à cristal + tôle plaquée + matière photonique excitée
+└─ <b><i class="it it-excited-photonic-matter"></i>Matière photonique excitée</b> — rendue en résidu de matière noire</span><span data-l="en" lang="en">├─ 1 × <u><i class="it it-magnetic-field-generator"></i>Magnetic Field Generator</u>
+├─ 1 × <b><i class="it it-neural-quantum-processor"></i>Neural-Quantum Processor</b> ← time crystal + supercomputer + ficsite trigon + excited photonic matter
+├─ 1 × <b><i class="it it-superposition-oscillator"></i>Superposition Oscillator</b> ← dark matter crystal + crystal oscillator + alclad sheet + excited photonic matter
+└─ <b><i class="it it-excited-photonic-matter"></i>Excited Photonic Matter</b> — returned as dark matter residue</span></div></div>
+      <div class="rec"><div class="rn"><i class="it it-ballistic-warp-drive"></i>Ballistic Warp Drive<small><span data-l="fr">Façonneuse</span><span data-l="en" lang="en">Manufacturer</span></small></div>
+        <div class="tree"><span data-l="fr">├─ 1 × <u><i class="it it-thermal-propulsion-rocket"></i>Thermal Propulsion Rocket</u>
+├─ 5 × <b><i class="it it-singularity-cell"></i>Cellule de singularité</b> ← Nuclear Pasta + cristal de matière noire + plaques de fer + béton
 ├─ 2 × <u>Oscillateur de superposition</u>
-└─ 40 × <b><i class="it it-dark-matter-crystal"></i>Cristal de matière noire</b> ← diamants + résidu de matière noire</div></div>
+└─ 40 × <b><i class="it it-dark-matter-crystal"></i>Cristal de matière noire</b> ← diamants + résidu de matière noire</span><span data-l="en" lang="en">├─ 1 × <u><i class="it it-thermal-propulsion-rocket"></i>Thermal Propulsion Rocket</u>
+├─ 5 × <b><i class="it it-singularity-cell"></i>Singularity Cell</b> ← Nuclear Pasta + dark matter crystal + iron plates + concrete
+├─ 2 × <u>Superposition Oscillator</u>
+└─ 40 × <b><i class="it it-dark-matter-crystal"></i>Dark Matter Crystal</b> ← diamonds + dark matter residue</span></div></div>
     </div>
 
-    <div class="note"><b>Le piège</b>Les pièces des phases tardives consomment celles des phases précédentes. Il faut 4 300 Smart Plating et 5 390 Versatile Framework au total, contre 50 et 1 000 pour les livraisons elles-mêmes. Ne démonte jamais une ligne de production après une livraison. Un somersloop dans le manufacturier double la sortie : un Ballistic Warp Drive revient alors à 1,25 Smart Plating au lieu de 5.</div>
+    <div class="note"><span data-l="fr"><b>Le piège</b>Les pièces des phases tardives consomment celles des phases précédentes. Il faut 4 300 Smart Plating et 5 390 Versatile Framework au total, contre 50 et 1 000 pour les livraisons elles-mêmes. Ne démonte jamais une ligne de production après une livraison. Un somersloop dans la façonneuse double la sortie : un Ballistic Warp Drive revient alors à 1,25 Smart Plating au lieu de 5.</span><span data-l="en" lang="en"><b>The trap</b>Late-phase parts consume those of earlier phases. You need 4,300 Smart Plating and 5,390 Versatile Framework in total, versus 50 and 1,000 for the deliveries themselves. Never tear down a production line after a delivery. A Somersloop in the Manufacturer doubles the output: a Ballistic Warp Drive then costs 1.25 Smart Plating instead of 5.</span></div>
 
   </div>
 </section>
@@ -490,16 +617,15 @@ footer{margin-top:34px;font-family:var(--d);font-weight:500;font-size:12px;lette
 .pn-old summary:focus-visible{outline:2px solid var(--pn-or);outline-offset:2px}
 .pn-old .pn-list{padding:4px 0 6px}
 .pn-foot{height:10px}
-.pn [data-l="en"],.pn.pn-en [data-l="fr"]{display:none}
-.pn.pn-en [data-l="en"]{display:revert}
+html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none}
 @media (max-width:560px){.pn-head{padding:14px 14px 10px}.pn-list{padding-left:14px;padding-right:14px}.pn-old{margin:0 14px}}</style>
 <aside class="pn" id="journal" aria-labelledby="pn-titre" style="--pn-disp:var(--d);--pn-body:var(--b);--pn-panel:var(--panel);--pn-deep:var(--slot);--pn-line:var(--line);--pn-ink:var(--tx);--pn-dim:var(--tx2)"><div class="pn-hz"></div>
 <div class="pn-head"><span class="pn-slot"><img src="data:image/webp;base64,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" alt=""></span><div><div class="pn-title" id="pn-titre" role="heading" aria-level="2"><span data-l="fr">Journal des révisions</span><span data-l="en" lang="en">Revision log</span></div>
-<p class="pn-sub"><span data-l="fr">Version 1.0, mise à jour le 31/08/2026</span><span data-l="en" lang="en">Version 1.0, updated 31 Aug 2026</span></p></div></div>
-<ol class="pn-list"><li class="pn-e"><div class="pn-meta"><span class="pn-v">v1.0</span><time class="pn-d" datetime="2026-08-31"><span data-l="fr">31/08/2026</span><span data-l="en" lang="en">31 Aug 2026</span></time></div><p class="pn-t"><span data-l="fr">Première version : extraction par pureté de nœud et par horloge, cadences des convoyeurs, déblocages du HUB par palier et arborescence des pièces d&#x27;Ascenseur spatial.</span><span data-l="en" lang="en">First release: extraction by node purity and clock speed, conveyor belt rates, HUB unlocks by tier and the Space Elevator parts tree.</span></p></li></ol>
+<p class="pn-sub"><span data-l="fr">Version 1.1, mise à jour le 22/09/2026</span><span data-l="en" lang="en">Version 1.1, updated 22 Sep 2026</span></p></div></div>
+<ol class="pn-list"><li class="pn-e"><div class="pn-meta"><span class="pn-v">v1.1</span><time class="pn-d" datetime="2026-09-22"><span data-l="fr">22/09/2026</span><span data-l="en" lang="en">22 Sep 2026</span></time></div><p class="pn-t"><span data-l="fr">Version anglaise complète, via le drapeau FR/EN commun à tous les outils. Noms de bâtiments alignés sur la localisation française du jeu, et huit recettes corrigées dans l&#x27;arbre des pièces de projet (batterie, turbomoteur, cube de conversion de pression…).</span><span data-l="en" lang="en">Full English version, via the FR/EN flag shared by every tool. Building names aligned with the game&#x27;s French localization, and eight recipes fixed in the project parts tree (battery, turbo motor, pressure conversion cube…).</span></p></li><li class="pn-e"><div class="pn-meta"><span class="pn-v">v1.0</span><time class="pn-d" datetime="2026-08-31"><span data-l="fr">31/08/2026</span><span data-l="en" lang="en">31 Aug 2026</span></time></div><p class="pn-t"><span data-l="fr">Première version : extraction par pureté de nœud et par horloge, cadences des convoyeurs, déblocages du HUB par palier et arborescence des pièces d&#x27;Ascenseur spatial.</span><span data-l="en" lang="en">First release: extraction by node purity and clock speed, conveyor belt rates, HUB unlocks by tier and the Space Elevator parts tree.</span></p></li></ol>
 <div class="pn-foot"></div></aside>
 <!-- PATCHNOTES:END -->
-<footer>FICSIT Inc. — établi d'après le wiki officiel Satisfactory 1.2</footer>
+<footer><span data-l="fr">FICSIT Inc. — établi d'après le wiki officiel Satisfactory 1.2</span><span data-l="en" lang="en">FICSIT Inc. — compiled from the official Satisfactory 1.2 wiki</span></footer>
 
 </div>
 </body>

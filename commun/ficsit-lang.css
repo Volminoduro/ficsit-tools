@@ -1,0 +1,18 @@
+html:not([lang|=en]) [data-l=en],html[lang|=en] [data-l=fr]{display:none!important}
+.flang{position:fixed;top:10px;right:12px;z-index:9999;display:flex;gap:2px;padding:3px;
+  background:rgba(14,18,22,.94);border:1px solid #39434F;box-shadow:0 3px 12px rgba(0,0,0,.45);
+  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));
+  font:700 12px/1 'Saira Condensed','Rajdhani','Barlow Condensed',system-ui,sans-serif;letter-spacing:.1em}
+.flang::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;
+  background:repeating-linear-gradient(135deg,#FA9549 0 6px,transparent 6px 12px);opacity:.8}
+.flang button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:6px;
+  padding:6px 9px 5px;color:#93A2B1;transition:color .15s,background .15s}
+.flang button svg{width:21px;height:14px;display:block;flex:none;filter:grayscale(.55) brightness(.8);
+  box-shadow:0 0 0 1px rgba(0,0,0,.5);transition:filter .15s}
+.flang button:hover{color:#E4EAF0}
+.flang button:hover svg{filter:none}
+.flang button[aria-pressed=true]{color:#1B1206;background:#FA9549;cursor:default}
+.flang button[aria-pressed=true] svg{filter:none}
+.flang button:focus-visible{outline:2px solid #FA9549;outline-offset:1px}
+@media (max-width:560px){.flang{top:6px;right:6px}.flang button{padding:5px 6px 4px;gap:4px}.flang button svg{width:18px;height:12px}}
+@media print{.flang{display:none}}

@@ -14,18 +14,17 @@ VISIBLES = 3  # entrées affichées avant le repli
 
 # Habillage par outil : polices et couleurs reprises des variables de chaque page.
 # ancre = (texte repère, "avant" | "apres_paragraphe") pour la première insertion.
-# langue = d'où lire la langue affichée : "html" (attribut lang de <html>, posé par la bascule FR/EN),
-#          un sélecteur de bouton (anglais si aria-pressed="true"), ou absent (page française uniquement).
+# Langue : l'encart suit l'attribut lang de <html>, posé par le sélecteur commun (scripts/langue.py).
 THEMES = {
   "satisfactory_infographie.html": dict(disp="'Saira Condensed',sans-serif", body="'Barlow',sans-serif",
       panel="var(--panel)", deep="var(--deep)", line="var(--rule)", ink="var(--ink)", dim="var(--dim)",
-      ancre=("<p class=\"foot\">Données et icônes", "apres_paragraphe"), langue="#langEN"),
+      ancre=("<p class=\"foot\"><span data-l=\"fr\">Données et icônes", "apres_paragraphe")),
   "ficsit_horloge.html": dict(disp="'Saira Condensed',sans-serif", body="'Rajdhani',sans-serif",
       panel="var(--panel)", deep="var(--slot)", line="var(--line)", ink="var(--text)", dim="var(--muted)",
-      ancre=("<footer", "avant"), langue="html"),
+      ancre=("<footer", "avant")),
   "broyeur-excedents.html": dict(disp="var(--disp)", body="var(--sans)",
       panel="var(--p1)", deep="var(--p3)", line="var(--ln)", ink="var(--ink)", dim="var(--ink2)",
-      ancre=("<footer", "avant"), langue="html"),
+      ancre=("<footer", "avant")),
   "memo-ficsit.html": dict(disp="var(--d)", body="var(--b)",
       panel="var(--panel)", deep="var(--slot)", line="var(--line)", ink="var(--tx)", dim="var(--tx2)",
       ancre=("<footer", "avant")),
@@ -67,8 +66,7 @@ CSS = """
 .pn-old summary:focus-visible{outline:2px solid var(--pn-or);outline-offset:2px}
 .pn-old .pn-list{padding:4px 0 6px}
 .pn-foot{height:10px}
-.pn [data-l="en"],.pn.pn-en [data-l="fr"]{display:none}
-.pn.pn-en [data-l="en"]{display:revert}
+html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none}
 @media (max-width:560px){.pn-head{padding:14px 14px 10px}.pn-list{padding-left:14px;padding-right:14px}.pn-old{margin:0 14px}}
 """
 
@@ -97,14 +95,6 @@ def entree(e):
             f'<time class="pn-d" datetime="{e["date"]}">{bi(fr(e["date"]), en(e["date"]))}</time></div>'
             f'<p class="pn-t">{bi(html.escape(t["fr"]), html.escape(t["en"]))}</p></li>')
 
-JS_LANGUE = """<script>(function(){var a=document.getElementById('journal'),S=%s;
-function lit(){if(S==='html')return (document.documentElement.lang||'').slice(0,2)==='en';
-var b=document.querySelector(S);return !!b&&b.getAttribute('aria-pressed')==='true'}
-function maj(){a.classList.toggle('pn-en',lit())}
-var c=S==='html'?document.documentElement:document.querySelector(S);
-if(c)new MutationObserver(maj).observe(c,{attributes:true,attributeFilter:['lang','aria-pressed']});
-maj();document.addEventListener('DOMContentLoaded',maj)})();</script>"""
-
 def bloc(fichier, outil, icone):
     t = THEMES[fichier]; es = outil["entrees"]; der = es[0]; v = html.escape(der["version"])
     style = (f'--pn-disp:{t["disp"]};--pn-body:{t["body"]};--pn-panel:{t["panel"]};--pn-deep:{t["deep"]};'
@@ -122,8 +112,6 @@ def bloc(fichier, outil, icone):
         h.append(f'<details class="pn-old"><summary>{bi(f"{n} révision{s_} antérieure{s_}", f"{n} earlier revision{s_}")}</summary>'
                  '<ol class="pn-list">' + "".join(entree(e) for e in old) + "</ol></details>")
     h.append('<div class="pn-foot"></div></aside>')
-    if t.get("langue"):
-        h.append(JS_LANGUE % json.dumps(t["langue"]))
     h.append(END)
     return "\n".join(h)
 

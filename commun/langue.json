@@ -1,0 +1,15 @@
+{
+  "_doc": "Configuration commune de la langue, partagée par tous les outils. Après modification : python3 scripts/langue.py (réinjecte le bloc dans chaque page). La langue choisie est mémorisée sous 'cle' et vaut pour tous les outils à la fois.",
+  "cle": "ficsit-tools:lang",
+  "defaut": "fr",
+  "langues": {
+    "fr": { "nom": "Français", "court": "FR", "locale": "fr-FR", "titre": "Afficher en français" },
+    "en": { "nom": "English", "court": "EN", "locale": "en-US", "titre": "Show in English" }
+  },
+  "communs": {
+    "reset":      { "fr": "Réinitialiser", "en": "Reset" },
+    "resetTitle": { "fr": "Oublier les réglages mémorisés de cet outil et revenir aux valeurs par défaut (la langue est conservée)",
+                    "en": "Forget this tool's saved settings and restore defaults (the language is kept)" },
+    "groupe":     { "fr": "Langue de l'interface", "en": "Interface language" }
+  }
+}

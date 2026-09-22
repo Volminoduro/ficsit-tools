@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.4",
+          "date": "2026-09-22",
+          "texte": {
+            "fr": "Interface entièrement bilingue : textes, notes, séquences et journal suivent le drapeau FR/EN commun à tous les outils, en haut à droite. En français, items, recettes de base et bâtiments portent leur nom du jeu ; les recettes alternatives, et quelques recettes de base sans traduction vérifiée, gardent leur nom anglais.",
+            "en": "Fully bilingual interface: texts, notes, sequences and log follow the FR/EN flag shared by every tool, top right. In French, items, standard recipes and buildings use their in-game names; alternate recipes, and a few standard recipes with no verified translation, keep their English names."
+          }
+        },
+        {
           "version": "1.3",
           "date": "2026-09-22",
           "texte": {
@@ -48,6 +56,14 @@
       },
       "entrees": [
         {
+          "version": "1.2",
+          "date": "2026-09-22",
+          "texte": {
+            "fr": "La langue se choisit désormais avec le drapeau FR/EN commun à tous les outils, en haut à droite. Noms de bâtiments, formule et fourchettes de consommation traduits.",
+            "en": "Language is now set with the FR/EN flag shared by every tool, top right. Building names, formula and consumption ranges translated."
+          }
+        },
+        {
           "version": "1.1",
           "date": "2026-09-22",
           "texte": {
@@ -71,6 +87,14 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.3",
+          "date": "2026-09-22",
+          "texte": {
+            "fr": "La langue se choisit désormais avec le drapeau FR/EN commun à tous les outils, en haut à droite. Les noms d'items et de recettes de base passent en français, et les nombres suivent le format de la langue.",
+            "en": "Language is now set with the FR/EN flag shared by every tool, top right. Item and standard recipe names now switch to French, and numbers follow the language's format."
+          }
+        },
         {
           "version": "1.2",
           "date": "2026-09-22",
@@ -103,6 +127,14 @@
         "en": "Field memo"
       },
       "entrees": [
+        {
+          "version": "1.1",
+          "date": "2026-09-22",
+          "texte": {
+            "fr": "Version anglaise complète, via le drapeau FR/EN commun à tous les outils. Noms de bâtiments alignés sur la localisation française du jeu, et huit recettes corrigées dans l'arbre des pièces de projet (batterie, turbomoteur, cube de conversion de pression…).",
+            "en": "Full English version, via the FR/EN flag shared by every tool. Building names aligned with the game's French localization, and eight recipes fixed in the project parts tree (battery, turbo motor, pressure conversion cube…)."
+          }
+        },
         {
           "version": "1.0",
           "date": "2026-08-31",

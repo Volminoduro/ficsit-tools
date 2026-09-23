@@ -14,7 +14,8 @@ Outils générés pour la maîtrise des systèmes de *Satisfactory* (logistique,
 - `donnees/paliers-mam.json` : paliers des recettes du MAM, absents de la source (elle donne un tier interne au MAM). Relevés à la main, appliqués en plancher par le script.
 - Définition du palier, commune à tous les outils : premier palier où la recette est exécutable — machine débloquée, déblocage obtenu (jalon, chaîne de prérequis pour une alternative de disque dur, `paliers-mam.json`), et ingrédients produisibles par des recettes elles-mêmes exécutables. Point fixe.
 - `python3 scripts/verif_payloads.py` compare ce que chaque page embarque au référentiel. Sortie vide = tout est aligné.
-- **État actuel : les payloads des pages ne sont pas encore dérivés du référentiel** (étape 2). Items, points de broyage et puissances concordent déjà ; les paliers divergent — voir la sortie de `verif_payloads.py`.
+- `python3 scripts/payloads.py` réécrit dans les pages ce qui est dérivable du référentiel : icônes (une seule source, ré-échantillonnée à 44 px pour l'infographie et le broyeur, 48 px pour le mémo, 96 px pour l'horloge) et paliers de l'infographie. `--verifier` montre ce qui changerait sans écrire. Après un changement de palier : relancer `node scripts/paliers_combinaisons.js satisfactory_infographie.html` et recoller le résultat sous la clé `tc` du payload.
+- **Reste à traiter :** le `t` du broyeur porte sur toute la chaîne de production, pas sur la recette cible, et son optimiseur (choix des meilleures alternatives, coûts récursifs) n'est pas dans le dépôt : ses 31 paliers ne sont donc pas encore dérivables. Et le palier d'apparition d'une alternative dans le tirage de disques durs n'existe dans aucune source : pour celles dont la chaîne de prérequis est vide, le palier retenu est celui de leur machine et de leurs ingrédients, minoré au palier 1.
 
 ## Journal des révisions
 

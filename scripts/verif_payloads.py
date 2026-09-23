@@ -59,7 +59,9 @@ def broyeur():
         if ref and ref["palier"] != t["t"]:
             paliers.append((t["rec"], t["t"], ref["palier"]))
     ligne("broyeur", "points de broyage", f"{len(pts)} divergents : {pts[:5]}")
-    ligne("broyeur", "paliers divergents", f"{len(paliers)} : {paliers[:5]}")
+    # Le `t` du broyeur porte sur toute la chaîne de production, pas sur la recette cible : il ne
+    # sera comparable qu'une fois l'optimiseur du broyeur redérivé du référentiel (voir README).
+    ligne("broyeur", "paliers (à arbitrer)", f"{len(paliers)} : {paliers[:5]}")
 
 
 def horloge():

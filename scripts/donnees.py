@@ -35,6 +35,9 @@ GROUPES = {
     "generation": ["Desc_GeneratorBiomass_Automated_C", "Desc_GeneratorCoal_C", "Desc_GeneratorFuel_C",
                    "Desc_GeneratorNuclear_C", "Desc_GeneratorGeoThermal_C"],
     "atelier": ["Desc_Workshop_C", "Desc_WorkBench_C"],
+    # Convoyeurs : pas de recette associée, mais leurs icônes et paliers servent au mémo.
+    "logistique": ["Desc_ConveyorBeltMk1_C", "Desc_ConveyorBeltMk2_C", "Desc_ConveyorBeltMk3_C",
+                   "Desc_ConveyorBeltMk4_C", "Desc_ConveyorBeltMk5_C", "Desc_ConveyorBeltMk6_C"],
 }
 
 

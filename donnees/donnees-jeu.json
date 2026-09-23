@@ -1448,6 +1448,54 @@
    "mw": 0,
    "exposant": null,
    "palier": null
+  },
+  "Conveyor Belt Mk.1": {
+   "slug": "desc-conveyorbeltmk1-c",
+   "classe": "Desc_ConveyorBeltMk1_C",
+   "groupe": "logistique",
+   "mw": 0,
+   "exposant": null,
+   "palier": 0
+  },
+  "Conveyor Belt Mk.2": {
+   "slug": "desc-conveyorbeltmk2-c",
+   "classe": "Desc_ConveyorBeltMk2_C",
+   "groupe": "logistique",
+   "mw": 0,
+   "exposant": null,
+   "palier": 2
+  },
+  "Conveyor Belt Mk.3": {
+   "slug": "desc-conveyorbeltmk3-c",
+   "classe": "Desc_ConveyorBeltMk3_C",
+   "groupe": "logistique",
+   "mw": 0,
+   "exposant": null,
+   "palier": 4
+  },
+  "Conveyor Belt Mk.4": {
+   "slug": "desc-conveyorbeltmk4-c",
+   "classe": "Desc_ConveyorBeltMk4_C",
+   "groupe": "logistique",
+   "mw": 0,
+   "exposant": null,
+   "palier": 5
+  },
+  "Conveyor Belt Mk.5": {
+   "slug": "desc-conveyorbeltmk5-c",
+   "classe": "Desc_ConveyorBeltMk5_C",
+   "groupe": "logistique",
+   "mw": 0,
+   "exposant": null,
+   "palier": 7
+  },
+  "Conveyor Belt Mk.6": {
+   "slug": "desc-conveyorbeltmk6-c",
+   "classe": "Desc_ConveyorBeltMk6_C",
+   "groupe": "logistique",
+   "mw": 0,
+   "exposant": null,
+   "palier": 9
   }
  },
  "recettes": {

@@ -1,0 +1,9892 @@
+{
+ "_doc": "Référentiel unique des données de jeu. Généré par scripts/donnees.py — ne pas éditer à la main. Les payloads des outils en sont dérivés ; toute correction se fait ici ou dans le script.",
+ "source": {
+  "depot": "greeny/SatisfactoryTools",
+  "branche": "dev",
+  "fichier": "data/data.json",
+  "recupere_le": "2026-09-23"
+ },
+ "_paliers": "palier = premier palier où la recette est réellement exécutable : machine débloquée, déblocage obtenu (jalon, chaîne de prérequis d'une alternative, paliers-mam.json) et ingrédients produisibles par des recettes elles-mêmes exécutables. Point fixe. palierPlancher = la seule part de déblocage, sans les ingrédients.",
+ "items": {
+  "AI Expansion Server": {
+   "slug": "desc-spaceelevatorpart-12-c",
+   "points": 597652,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "AI Limiter": {
+   "slug": "desc-circuitboardhighspeed-c",
+   "points": 920,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Adaptive Control Unit": {
+   "slug": "desc-spaceelevatorpart-5-c",
+   "points": 76368,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Alclad Aluminum Sheet": {
+   "slug": "desc-aluminumplate-c",
+   "points": 266,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Alien DNA Capsule": {
+   "slug": "desc-aliendnacapsule-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Alien Power Matrix": {
+   "slug": "desc-alienpowerfuel-c",
+   "points": 210,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Alien Protein": {
+   "slug": "desc-alienprotein-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Alumina Solution": {
+   "slug": "desc-aluminasolution-c",
+   "points": 20000,
+   "liquide": true,
+   "pile": 50000,
+   "energie": 0
+  },
+  "Aluminum Casing": {
+   "slug": "desc-aluminumcasing-c",
+   "points": 393,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Aluminum Ingot": {
+   "slug": "desc-aluminumingot-c",
+   "points": 131,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Aluminum Scrap": {
+   "slug": "desc-aluminumscrap-c",
+   "points": 27,
+   "liquide": false,
+   "pile": 500,
+   "energie": 0
+  },
+  "Assembly Director System": {
+   "slug": "desc-spaceelevatorpart-7-c",
+   "points": 500176,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Automated Wiring": {
+   "slug": "desc-spaceelevatorpart-3-c",
+   "points": 1440,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Bacon Agaric": {
+   "slug": "desc-shroom-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Ballistic Warp Drive": {
+   "slug": "desc-spaceelevatorpart-11-c",
+   "points": 2895334,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Battery": {
+   "slug": "desc-battery-c",
+   "points": 465,
+   "liquide": false,
+   "pile": 200,
+   "energie": 6000.0
+  },
+  "Bauxite": {
+   "slug": "desc-orebauxite-c",
+   "points": 8,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Beryl Nut": {
+   "slug": "desc-nut-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Biochemical Sculptor": {
+   "slug": "desc-spaceelevatorpart-10-c",
+   "points": 301778,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Biomass": {
+   "slug": "desc-genericbiomass-c",
+   "points": 12,
+   "liquide": false,
+   "pile": 200,
+   "energie": 180.0
+  },
+  "Black Powder": {
+   "slug": "desc-gunpowder-c",
+   "points": 14,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Blade Runners": {
+   "slug": "bp-equipmentdescriptorjumpingstilts-c",
+   "points": 4088,
+   "liquide": false,
+   "pile": 1,
+   "energie": 0
+  },
+  "Blue Power Slug": {
+   "slug": "desc-crystal-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Cable": {
+   "slug": "desc-cable-c",
+   "points": 24,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Caterium Ingot": {
+   "slug": "desc-goldingot-c",
+   "points": 42,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Caterium Ore": {
+   "slug": "desc-oregold-c",
+   "points": 7,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Chainsaw": {
+   "slug": "desc-chainsaw-c",
+   "points": 2760,
+   "liquide": false,
+   "pile": 1,
+   "energie": 0
+  },
+  "Circuit Board": {
+   "slug": "desc-circuitboard-c",
+   "points": 696,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Cluster Nobelisk": {
+   "slug": "desc-nobeliskcluster-c",
+   "points": 1376,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Coal": {
+   "slug": "desc-coal-c",
+   "points": 3,
+   "liquide": false,
+   "pile": 100,
+   "energie": 300.0
+  },
+  "Compacted Coal": {
+   "slug": "desc-compactedcoal-c",
+   "points": 28,
+   "liquide": false,
+   "pile": 100,
+   "energie": 630.0
+  },
+  "Computer": {
+   "slug": "desc-computer-c",
+   "points": 8352,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Concrete": {
+   "slug": "desc-cement-c",
+   "points": 12,
+   "liquide": false,
+   "pile": 500,
+   "energie": 0
+  },
+  "Cooling System": {
+   "slug": "desc-coolingsystem-c",
+   "points": 12006,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Copper Ingot": {
+   "slug": "desc-copperingot-c",
+   "points": 6,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Copper Ore": {
+   "slug": "desc-orecopper-c",
+   "points": 3,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Copper Powder": {
+   "slug": "desc-copperdust-c",
+   "points": 72,
+   "liquide": false,
+   "pile": 500,
+   "energie": 0
+  },
+  "Copper Sheet": {
+   "slug": "desc-coppersheet-c",
+   "points": 24,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Crude Oil": {
+   "slug": "desc-liquidoil-c",
+   "points": 30000,
+   "liquide": true,
+   "pile": 50000,
+   "energie": 320.0
+  },
+  "Crystal Oscillator": {
+   "slug": "desc-crystaloscillator-c",
+   "points": 3072,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Dark Matter Crystal": {
+   "slug": "desc-darkmatter-c",
+   "points": 1780,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Dark Matter Residue": {
+   "slug": "desc-darkenergy-c",
+   "points": 130000,
+   "liquide": true,
+   "pile": 50000,
+   "energie": 0
+  },
+  "Diamonds": {
+   "slug": "desc-diamond-c",
+   "points": 240,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Dissolved Silica": {
+   "slug": "desc-dissolvedsilica-c",
+   "points": 0,
+   "liquide": true,
+   "pile": 50000,
+   "energie": 0
+  },
+  "Electromagnetic Control Rod": {
+   "slug": "desc-electromagneticcontrolrod-c",
+   "points": 2560,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Empty Canister": {
+   "slug": "desc-fluidcanister-c",
+   "points": 60,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Empty Fluid Tank": {
+   "slug": "desc-gastank-c",
+   "points": 170,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Encased Industrial Beam": {
+   "slug": "desc-steelplatereinforced-c",
+   "points": 528,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Encased Plutonium Cell": {
+   "slug": "desc-plutoniumcell-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Encased Uranium Cell": {
+   "slug": "desc-uraniumcell-c",
+   "points": 147,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Excited Photonic Matter": {
+   "slug": "desc-quantumenergy-c",
+   "points": 100000,
+   "liquide": true,
+   "pile": 50000,
+   "energie": 0
+  },
+  "Explosive Rebar": {
+   "slug": "desc-rebar-explosive-c",
+   "points": 360,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "FICSIT Coupon": {
+   "slug": "desc-resourcesinkcoupon-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 500,
+   "energie": 0
+  },
+  "Fabric": {
+   "slug": "desc-fabric-c",
+   "points": 140,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Factory Cart™": {
+   "slug": "desc-golfcart-c",
+   "points": 1552,
+   "liquide": false,
+   "pile": 1,
+   "energie": 0
+  },
+  "Ficsite Ingot": {
+   "slug": "desc-ficsiteingot-c",
+   "points": 1936,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Ficsite Trigon": {
+   "slug": "desc-ficsitemesh-c",
+   "points": 1291,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Ficsonium": {
+   "slug": "desc-ficsonium-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Ficsonium Fuel Rod": {
+   "slug": "desc-ficsoniumfuelrod-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 50,
+   "energie": 150000.0
+  },
+  "Fuel": {
+   "slug": "desc-liquidfuel-c",
+   "points": 75000,
+   "liquide": true,
+   "pile": 50000,
+   "energie": 750.0
+  },
+  "Fused Modular Frame": {
+   "slug": "desc-modularframefused-c",
+   "points": 62840,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Gas Filter": {
+   "slug": "desc-filter-c",
+   "points": 608,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Gas Mask": {
+   "slug": "bp-equipmentdescriptorgasmask-c",
+   "points": 14960,
+   "liquide": false,
+   "pile": 1,
+   "energie": 0
+  },
+  "Gas Nobelisk": {
+   "slug": "desc-nobeliskgas-c",
+   "points": 544,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Golden Factory Cart™": {
+   "slug": "desc-golfcartgold-c",
+   "points": 1852,
+   "liquide": false,
+   "pile": 1,
+   "energie": 0
+  },
+  "Hatcher Remains": {
+   "slug": "desc-hatcherparts-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Hazmat Suit": {
+   "slug": "bp-equipmentdescriptorhazmatsuit-c",
+   "points": 54100,
+   "liquide": false,
+   "pile": 1,
+   "energie": 0
+  },
+  "Heat Sink": {
+   "slug": "desc-aluminumplatereinforced-c",
+   "points": 2804,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Heavy Modular Frame": {
+   "slug": "desc-modularframeheavy-c",
+   "points": 10800,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Heavy Oil Residue": {
+   "slug": "desc-heavyoilresidue-c",
+   "points": 30000,
+   "liquide": true,
+   "pile": 50000,
+   "energie": 400.0
+  },
+  "High-Speed Connector": {
+   "slug": "desc-highspeedconnector-c",
+   "points": 3776,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Hog Remains": {
+   "slug": "desc-hogparts-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Homing Rifle Ammo": {
+   "slug": "desc-cartridgesmartprojectile-c",
+   "points": 855,
+   "liquide": false,
+   "pile": 500,
+   "energie": 0
+  },
+  "Hoverpack": {
+   "slug": "bp-equipmentdescriptorhoverpack-c",
+   "points": 265632,
+   "liquide": false,
+   "pile": 1,
+   "energie": 0
+  },
+  "Iodine-Infused Filter": {
+   "slug": "desc-hazmatfilter-c",
+   "points": 2274,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Ionized Fuel": {
+   "slug": "desc-ionizedfuel-c",
+   "points": 2398000,
+   "liquide": true,
+   "pile": 50000,
+   "energie": 5000.0
+  },
+  "Iron Ingot": {
+   "slug": "desc-ironingot-c",
+   "points": 2,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Iron Ore": {
+   "slug": "desc-oreiron-c",
+   "points": 1,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Iron Plate": {
+   "slug": "desc-ironplate-c",
+   "points": 6,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Iron Rebar": {
+   "slug": "desc-spikedrebar-c",
+   "points": 8,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Iron Rod": {
+   "slug": "desc-ironrod-c",
+   "points": 4,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Jetpack": {
+   "slug": "bp-equipmentdescriptorjetpack-c",
+   "points": 16580,
+   "liquide": false,
+   "pile": 1,
+   "energie": 0
+  },
+  "Leaves": {
+   "slug": "desc-leaves-c",
+   "points": 3,
+   "liquide": false,
+   "pile": 500,
+   "energie": 15.0
+  },
+  "Limestone": {
+   "slug": "desc-stone-c",
+   "points": 2,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Liquid Biofuel": {
+   "slug": "desc-liquidbiofuel-c",
+   "points": 261000,
+   "liquide": true,
+   "pile": 50000,
+   "energie": 750.0
+  },
+  "Magnetic Field Generator": {
+   "slug": "desc-spaceelevatorpart-6-c",
+   "points": 11000,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Medicinal Inhaler": {
+   "slug": "desc-medkit-c",
+   "points": 125,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Mercer Sphere": {
+   "slug": "desc-wat2-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Modular Engine": {
+   "slug": "desc-spaceelevatorpart-4-c",
+   "points": 9960,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Modular Frame": {
+   "slug": "desc-modularframe-c",
+   "points": 408,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Motor": {
+   "slug": "desc-motor-c",
+   "points": 1520,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Mycelia": {
+   "slug": "desc-mycelia-c",
+   "points": 10,
+   "liquide": false,
+   "pile": 200,
+   "energie": 20.0
+  },
+  "Neural-Quantum Processor": {
+   "slug": "desc-temporalprocessor-c",
+   "points": 248034,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Nitric Acid": {
+   "slug": "desc-nitricacid-c",
+   "points": 94000,
+   "liquide": true,
+   "pile": 50000,
+   "energie": 0
+  },
+  "Nitrogen Gas": {
+   "slug": "desc-nitrogengas-c",
+   "points": 10000,
+   "liquide": true,
+   "pile": 50000,
+   "energie": 0
+  },
+  "Nobelisk": {
+   "slug": "desc-nobeliskexplosive-c",
+   "points": 152,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Nobelisk Detonator": {
+   "slug": "bp-equipmentdescriptornobeliskdetonator-c",
+   "points": 6480,
+   "liquide": false,
+   "pile": 1,
+   "energie": 0
+  },
+  "Non-Fissile Uranium": {
+   "slug": "desc-nonfissibleuranium-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 500,
+   "energie": 0
+  },
+  "Nuclear Pasta": {
+   "slug": "desc-spaceelevatorpart-9-c",
+   "points": 538976,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Nuke Nobelisk": {
+   "slug": "desc-nobelisknuke-c",
+   "points": 19600,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Object Scanner": {
+   "slug": "bp-equipmentdescriptorobjectscanner-c",
+   "points": 1400,
+   "liquide": false,
+   "pile": 1,
+   "energie": 0
+  },
+  "Packaged Alumina Solution": {
+   "slug": "desc-packagedalumina-c",
+   "points": 160,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Packaged Fuel": {
+   "slug": "desc-fuel-c",
+   "points": 270,
+   "liquide": false,
+   "pile": 100,
+   "energie": 750.0
+  },
+  "Packaged Heavy Oil Residue": {
+   "slug": "desc-packagedoilresidue-c",
+   "points": 180,
+   "liquide": false,
+   "pile": 100,
+   "energie": 400.0
+  },
+  "Packaged Ionized Fuel": {
+   "slug": "desc-packagedionizedfuel-c",
+   "points": 5246,
+   "liquide": false,
+   "pile": 100,
+   "energie": 10000.0
+  },
+  "Packaged Liquid Biofuel": {
+   "slug": "desc-packagedbiofuel-c",
+   "points": 370,
+   "liquide": false,
+   "pile": 100,
+   "energie": 750.0
+  },
+  "Packaged Nitric Acid": {
+   "slug": "desc-packagednitricacid-c",
+   "points": 412,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Packaged Nitrogen Gas": {
+   "slug": "desc-packagednitrogengas-c",
+   "points": 312,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Packaged Oil": {
+   "slug": "desc-packagedoil-c",
+   "points": 180,
+   "liquide": false,
+   "pile": 100,
+   "energie": 320.0
+  },
+  "Packaged Rocket Fuel": {
+   "slug": "desc-packagedrocketfuel-c",
+   "points": 1028,
+   "liquide": false,
+   "pile": 100,
+   "energie": 7200.0
+  },
+  "Packaged Sulfuric Acid": {
+   "slug": "desc-packagedsulfuricacid-c",
+   "points": 152,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Packaged Turbofuel": {
+   "slug": "desc-turbofuel-c",
+   "points": 570,
+   "liquide": false,
+   "pile": 100,
+   "energie": 2000.0
+  },
+  "Packaged Water": {
+   "slug": "desc-packagedwater-c",
+   "points": 130,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Paleberry": {
+   "slug": "desc-berry-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Parachute": {
+   "slug": "desc-parachute-c",
+   "points": 6080,
+   "liquide": false,
+   "pile": 1,
+   "energie": 0
+  },
+  "Petroleum Coke": {
+   "slug": "desc-petroleumcoke-c",
+   "points": 20,
+   "liquide": false,
+   "pile": 200,
+   "energie": 180.0
+  },
+  "Plastic": {
+   "slug": "desc-plastic-c",
+   "points": 75,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Plutonium Fuel Rod": {
+   "slug": "desc-plutoniumfuelrod-c",
+   "points": 153184,
+   "liquide": false,
+   "pile": 50,
+   "energie": 1500000.0
+  },
+  "Plutonium Pellet": {
+   "slug": "desc-plutoniumpellet-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Plutonium Waste": {
+   "slug": "desc-plutoniumwaste-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 500,
+   "energie": 0
+  },
+  "Polymer Resin": {
+   "slug": "desc-polymerresin-c",
+   "points": 12,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Portable Miner": {
+   "slug": "bp-itemdescriptorportableminer-c",
+   "points": 56,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Power": {
+   "slug": "power",
+   "points": 0,
+   "liquide": false,
+   "pile": 1,
+   "energie": 0
+  },
+  "Power Shard": {
+   "slug": "desc-crystalshard-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Pressure Conversion Cube": {
+   "slug": "desc-pressureconversioncube-c",
+   "points": 255088,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Pulse Nobelisk": {
+   "slug": "desc-nobeliskshockwave-c",
+   "points": 1533,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Purple Power Slug": {
+   "slug": "desc-crystal-mk3-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Quartz Crystal": {
+   "slug": "desc-quartzcrystal-c",
+   "points": 50,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Quickwire": {
+   "slug": "desc-highspeedwire-c",
+   "points": 17,
+   "liquide": false,
+   "pile": 500,
+   "energie": 0
+  },
+  "Radio Control Unit": {
+   "slug": "desc-modularframelightweight-c",
+   "points": 32352,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Raw Quartz": {
+   "slug": "desc-rawquartz-c",
+   "points": 15,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Reanimated SAM": {
+   "slug": "desc-samingot-c",
+   "points": 160,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Rebar Gun": {
+   "slug": "desc-rebargunprojectile-c",
+   "points": 1968,
+   "liquide": false,
+   "pile": 1,
+   "energie": 0
+  },
+  "Reinforced Iron Plate": {
+   "slug": "desc-ironplatereinforced-c",
+   "points": 120,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Rifle": {
+   "slug": "bp-equipmentdescriptorrifle-c",
+   "points": 9480,
+   "liquide": false,
+   "pile": 1,
+   "energie": 0
+  },
+  "Rifle Ammo": {
+   "slug": "desc-cartridgestandard-c",
+   "points": 25,
+   "liquide": false,
+   "pile": 500,
+   "energie": 0
+  },
+  "Rocket Fuel": {
+   "slug": "desc-rocketfuel-c",
+   "points": 289000,
+   "liquide": true,
+   "pile": 50000,
+   "energie": 3600.0
+  },
+  "Rotor": {
+   "slug": "desc-rotor-c",
+   "points": 140,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Rubber": {
+   "slug": "desc-rubber-c",
+   "points": 60,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "SAM": {
+   "slug": "desc-sam-c",
+   "points": 20,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "SAM Fluctuator": {
+   "slug": "desc-samfluctuator-c",
+   "points": 1968,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Screws": {
+   "slug": "desc-ironscrew-c",
+   "points": 2,
+   "liquide": false,
+   "pile": 500,
+   "energie": 0
+  },
+  "Shatter Rebar": {
+   "slug": "desc-rebar-spreadshot-c",
+   "points": 332,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Silica": {
+   "slug": "desc-silica-c",
+   "points": 20,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Singularity Cell": {
+   "slug": "desc-singularitycell-c",
+   "points": 114675,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Sink point": {
+   "slug": "sink-point",
+   "points": 0,
+   "liquide": false,
+   "pile": 500,
+   "energie": 0
+  },
+  "Smart Plating": {
+   "slug": "desc-spaceelevatorpart-1-c",
+   "points": 520,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Smokeless Powder": {
+   "slug": "desc-gunpowdermk2-c",
+   "points": 58,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Solid Biofuel": {
+   "slug": "desc-biofuel-c",
+   "points": 48,
+   "liquide": false,
+   "pile": 200,
+   "energie": 450.0
+  },
+  "Somersloop": {
+   "slug": "desc-wat1-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Spitter Remains": {
+   "slug": "desc-spitterparts-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Stator": {
+   "slug": "desc-stator-c",
+   "points": 240,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Steel Beam": {
+   "slug": "desc-steelplate-c",
+   "points": 64,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Steel Ingot": {
+   "slug": "desc-steelingot-c",
+   "points": 8,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Steel Pipe": {
+   "slug": "desc-steelpipe-c",
+   "points": 24,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Stinger Remains": {
+   "slug": "desc-stingerparts-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Stun Rebar": {
+   "slug": "desc-rebar-stunshot-c",
+   "points": 186,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Sulfur": {
+   "slug": "desc-sulfur-c",
+   "points": 11,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Sulfuric Acid": {
+   "slug": "desc-sulfuricacid-c",
+   "points": 16000,
+   "liquide": true,
+   "pile": 50000,
+   "energie": 0
+  },
+  "Supercomputer": {
+   "slug": "desc-computersuper-c",
+   "points": 97352,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Superposition Oscillator": {
+   "slug": "desc-quantumoscillator-c",
+   "points": 37292,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Thermal Propulsion Rocket": {
+   "slug": "desc-spaceelevatorpart-8-c",
+   "points": 728508,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Time Crystal": {
+   "slug": "desc-timecrystal-c",
+   "points": 960,
+   "liquide": false,
+   "pile": 200,
+   "energie": 0
+  },
+  "Turbo Motor": {
+   "slug": "desc-motorlightweight-c",
+   "points": 240496,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Turbo Rifle Ammo": {
+   "slug": "desc-cartridgechaos-c",
+   "points": 120,
+   "liquide": false,
+   "pile": 500,
+   "energie": 0
+  },
+  "Turbofuel": {
+   "slug": "desc-liquidturbofuel-c",
+   "points": 225000,
+   "liquide": true,
+   "pile": 50000,
+   "energie": 2000.0
+  },
+  "Uranium": {
+   "slug": "desc-oreuranium-c",
+   "points": 35,
+   "liquide": false,
+   "pile": 100,
+   "energie": 0
+  },
+  "Uranium Fuel Rod": {
+   "slug": "desc-nuclearfuelrod-c",
+   "points": 43468,
+   "liquide": false,
+   "pile": 50,
+   "energie": 750000.0
+  },
+  "Uranium Waste": {
+   "slug": "desc-nuclearwaste-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 500,
+   "energie": 0
+  },
+  "Versatile Framework": {
+   "slug": "desc-spaceelevatorpart-2-c",
+   "points": 1176,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Water": {
+   "slug": "desc-water-c",
+   "points": 5000,
+   "liquide": true,
+   "pile": 50000,
+   "energie": 0
+  },
+  "Wire": {
+   "slug": "desc-wire-c",
+   "points": 6,
+   "liquide": false,
+   "pile": 500,
+   "energie": 0
+  },
+  "Wood": {
+   "slug": "desc-wood-c",
+   "points": 30,
+   "liquide": false,
+   "pile": 200,
+   "energie": 100.0
+  },
+  "Xeno-Basher": {
+   "slug": "bp-equipmentdescriptorstunspear-c",
+   "points": 17800,
+   "liquide": false,
+   "pile": 1,
+   "energie": 0
+  },
+  "Xeno-Zapper": {
+   "slug": "bp-equipmentdescriptorshockshank-c",
+   "points": 1880,
+   "liquide": false,
+   "pile": 1,
+   "energie": 0
+  },
+  "Yellow Power Slug": {
+   "slug": "desc-crystal-mk2-c",
+   "points": 0,
+   "liquide": false,
+   "pile": 50,
+   "energie": 0
+  },
+  "Zipline": {
+   "slug": "bp-eqdesczipline-c",
+   "points": 5284,
+   "liquide": false,
+   "pile": 1,
+   "energie": 0
+  }
+ },
+ "batiments": {
+  "Smelter": {
+   "slug": "desc-smeltermk1-c",
+   "classe": "Desc_SmelterMk1_C",
+   "groupe": "production",
+   "mw": 4,
+   "exposant": 1.321929,
+   "palier": 0
+  },
+  "Foundry": {
+   "slug": "desc-foundrymk1-c",
+   "classe": "Desc_FoundryMk1_C",
+   "groupe": "production",
+   "mw": 16,
+   "exposant": 1.321929,
+   "palier": 3
+  },
+  "Constructor": {
+   "slug": "desc-constructormk1-c",
+   "classe": "Desc_ConstructorMk1_C",
+   "groupe": "production",
+   "mw": 4,
+   "exposant": 1.321929,
+   "palier": 0
+  },
+  "Assembler": {
+   "slug": "desc-assemblermk1-c",
+   "classe": "Desc_AssemblerMk1_C",
+   "groupe": "production",
+   "mw": 15,
+   "exposant": 1.321929,
+   "palier": 2
+  },
+  "Manufacturer": {
+   "slug": "desc-manufacturermk1-c",
+   "classe": "Desc_ManufacturerMk1_C",
+   "groupe": "production",
+   "mw": 55,
+   "exposant": 1.321929,
+   "palier": 6
+  },
+  "Refinery": {
+   "slug": "desc-oilrefinery-c",
+   "classe": "Desc_OilRefinery_C",
+   "groupe": "production",
+   "mw": 30,
+   "exposant": 1.321929,
+   "palier": 5
+  },
+  "Packager": {
+   "slug": "desc-packager-c",
+   "classe": "Desc_Packager_C",
+   "groupe": "production",
+   "mw": 10,
+   "exposant": 1.321929,
+   "palier": 5
+  },
+  "Blender": {
+   "slug": "desc-blender-c",
+   "classe": "Desc_Blender_C",
+   "groupe": "production",
+   "mw": 75,
+   "exposant": 1.321929,
+   "palier": 7
+  },
+  "Particle Accelerator": {
+   "slug": "desc-hadroncollider-c",
+   "classe": "Desc_HadronCollider_C",
+   "groupe": "production",
+   "mw": 0,
+   "exposant": 1.321929,
+   "palier": 8
+  },
+  "Quantum Encoder": {
+   "slug": "desc-quantumencoder-c",
+   "classe": "Desc_QuantumEncoder_C",
+   "groupe": "production",
+   "mw": 0,
+   "exposant": 1.321929,
+   "palier": 9
+  },
+  "Converter": {
+   "slug": "desc-converter-c",
+   "classe": "Desc_Converter_C",
+   "groupe": "production",
+   "mw": 0,
+   "exposant": 1.321929,
+   "palier": 9
+  },
+  "Miner Mk.1": {
+   "slug": "desc-minermk1-c",
+   "classe": "Desc_MinerMk1_C",
+   "groupe": "extraction",
+   "mw": 5,
+   "exposant": 1.321929,
+   "palier": 0
+  },
+  "Miner Mk.2": {
+   "slug": "desc-minermk2-c",
+   "classe": "Desc_MinerMk2_C",
+   "groupe": "extraction",
+   "mw": 15,
+   "exposant": 1.321929,
+   "palier": 4
+  },
+  "Miner Mk.3": {
+   "slug": "desc-minermk3-c",
+   "classe": "Desc_MinerMk3_C",
+   "groupe": "extraction",
+   "mw": 45,
+   "exposant": 1.321929,
+   "palier": 8
+  },
+  "Water Extractor": {
+   "slug": "desc-waterpump-c",
+   "classe": "Desc_WaterPump_C",
+   "groupe": "extraction",
+   "mw": 20,
+   "exposant": 1.321929,
+   "palier": 3
+  },
+  "Oil Extractor": {
+   "slug": "desc-oilpump-c",
+   "classe": "Desc_OilPump_C",
+   "groupe": "extraction",
+   "mw": 40,
+   "exposant": 1.321929,
+   "palier": 5
+  },
+  "Resource Well Pressurizer": {
+   "slug": "desc-frackingsmasher-c",
+   "classe": "Desc_FrackingSmasher_C",
+   "groupe": "extraction",
+   "mw": 150,
+   "exposant": 1.321929,
+   "palier": 8
+  },
+  "Resource Well Extractor": {
+   "slug": "desc-frackingextractor-c",
+   "classe": "Desc_FrackingExtractor_C",
+   "groupe": "extraction",
+   "mw": 0,
+   "exposant": 1.321929,
+   "palier": 8
+  },
+  "Biomass Burner": {
+   "slug": "desc-generatorbiomass-automated-c",
+   "classe": "Desc_GeneratorBiomass_Automated_C",
+   "groupe": "generation",
+   "mw": 0,
+   "exposant": 1.6,
+   "palier": 0
+  },
+  "Coal-Powered Generator": {
+   "slug": "desc-generatorcoal-c",
+   "classe": "Desc_GeneratorCoal_C",
+   "groupe": "generation",
+   "mw": 0,
+   "exposant": 1.6,
+   "palier": 3
+  },
+  "Fuel-Powered Generator": {
+   "slug": "desc-generatorfuel-c",
+   "classe": "Desc_GeneratorFuel_C",
+   "groupe": "generation",
+   "mw": 0,
+   "exposant": 1.6,
+   "palier": 5
+  },
+  "Nuclear Power Plant": {
+   "slug": "desc-generatornuclear-c",
+   "classe": "Desc_GeneratorNuclear_C",
+   "groupe": "generation",
+   "mw": 0,
+   "exposant": 1.6,
+   "palier": 8
+  },
+  "Geothermal Generator": {
+   "slug": "desc-generatorgeothermal-c",
+   "classe": "Desc_GeneratorGeoThermal_C",
+   "groupe": "generation",
+   "mw": 0,
+   "exposant": 1.6,
+   "palier": null
+  },
+  "Equipment Workshop": {
+   "slug": "desc-workshop-c",
+   "classe": "Desc_Workshop_C",
+   "groupe": "atelier",
+   "mw": 0,
+   "exposant": null,
+   "palier": 0
+  },
+  "Crafting Bench": {
+   "slug": "desc-workbench-c",
+   "classe": "Desc_WorkBench_C",
+   "groupe": "atelier",
+   "mw": 0,
+   "exposant": null,
+   "palier": null
+  }
+ },
+ "recettes": {
+  "AI Expansion Server": {
+   "classe": "Recipe_SpaceElevatorPart_12_C",
+   "alternative": false,
+   "machine": "Quantum Encoder",
+   "temps": 15.0,
+   "origine": "jalon",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Magnetic Field Generator",
+     1.0
+    ],
+    [
+     "Neural-Quantum Processor",
+     1.0
+    ],
+    [
+     "Superposition Oscillator",
+     1.0
+    ],
+    [
+     "Excited Photonic Matter",
+     25.0
+    ]
+   ],
+   "produits": [
+    [
+     "AI Expansion Server",
+     1.0
+    ],
+    [
+     "Dark Matter Residue",
+     25.0
+    ]
+   ],
+   "mwMin": 0,
+   "mwMax": 2000,
+   "palier": 9
+  },
+  "AI Limiter": {
+   "classe": "Recipe_AILimiter_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 12.0,
+   "origine": "mam",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Copper Sheet",
+     5.0
+    ],
+    [
+     "Quickwire",
+     20.0
+    ]
+   ],
+   "produits": [
+    [
+     "AI Limiter",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Adaptive Control Unit": {
+   "classe": "Recipe_SpaceElevatorPart_5_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 60.0,
+   "origine": "jalon",
+   "palierPlancher": 6,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Automated Wiring",
+     5.0
+    ],
+    [
+     "Circuit Board",
+     5.0
+    ],
+    [
+     "Heavy Modular Frame",
+     1.0
+    ],
+    [
+     "Computer",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Adaptive Control Unit",
+     1.0
+    ]
+   ],
+   "palier": 6
+  },
+  "Alclad Aluminum Sheet": {
+   "classe": "Recipe_AluminumSheet_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 6.0,
+   "origine": "jalon",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Aluminum Ingot",
+     3.0
+    ],
+    [
+     "Copper Ingot",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Alclad Aluminum Sheet",
+     3.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Alien DNA Capsule": {
+   "classe": "Recipe_AlienDNACapsule_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 6.0,
+   "origine": "mam",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Alien Protein",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Alien DNA Capsule",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alien Power Matrix": {
+   "classe": "Recipe_AlienPowerFuel_C",
+   "alternative": false,
+   "machine": "Quantum Encoder",
+   "temps": 24.0,
+   "origine": "mam",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "SAM Fluctuator",
+     5.0
+    ],
+    [
+     "Power Shard",
+     3.0
+    ],
+    [
+     "Superposition Oscillator",
+     3.0
+    ],
+    [
+     "Excited Photonic Matter",
+     24.0
+    ]
+   ],
+   "produits": [
+    [
+     "Alien Power Matrix",
+     1.0
+    ],
+    [
+     "Dark Matter Residue",
+     24.0
+    ]
+   ],
+   "mwMin": 0,
+   "mwMax": 2000,
+   "palier": 9
+  },
+  "Alternate: Adhered Iron Plate": {
+   "classe": "Recipe_Alternate_AdheredIronPlate_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 16.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Plate",
+     3.0
+    ],
+    [
+     "Rubber",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Reinforced Iron Plate",
+     1.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Alclad Casing": {
+   "classe": "Recipe_Alternate_AlcladCasing_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 8.0,
+   "origine": "dd",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Aluminum Ingot",
+     20.0
+    ],
+    [
+     "Copper Ingot",
+     10.0
+    ]
+   ],
+   "produits": [
+    [
+     "Aluminum Casing",
+     15.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Alternate: Aluminum Beam": {
+   "classe": "Recipe_Alternate_SteelBeam_Aluminum_C",
+   "alternative": true,
+   "machine": "Constructor",
+   "temps": 8.0,
+   "origine": "dd",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Aluminum Ingot",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Steel Beam",
+     3.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Alternate: Aluminum Rod": {
+   "classe": "Recipe_Alternate_AluminumRod_C",
+   "alternative": true,
+   "machine": "Constructor",
+   "temps": 8.0,
+   "origine": "dd",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Aluminum Ingot",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Iron Rod",
+     7.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Alternate: Automated Miner": {
+   "classe": "Recipe_Alternate_AutomatedMiner_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 60.0,
+   "origine": "dd",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Steel Pipe",
+     4.0
+    ],
+    [
+     "Iron Plate",
+     4.0
+    ]
+   ],
+   "produits": [
+    [
+     "Portable Miner",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Automated Speed Wiring": {
+   "classe": "Recipe_Alternate_HighSpeedWiring_C",
+   "alternative": true,
+   "machine": "Manufacturer",
+   "temps": 32.0,
+   "origine": "dd",
+   "palierPlancher": 4,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Stator",
+     2.0
+    ],
+    [
+     "Wire",
+     40.0
+    ],
+    [
+     "High-Speed Connector",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Automated Wiring",
+     4.0
+    ]
+   ],
+   "palier": 6
+  },
+  "Alternate: Basic Iron Ingot": {
+   "classe": "Recipe_Alternate_IronIngot_Basic_C",
+   "alternative": true,
+   "machine": "Foundry",
+   "temps": 12.0,
+   "origine": "dd",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Ore",
+     5.0
+    ],
+    [
+     "Limestone",
+     8.0
+    ]
+   ],
+   "produits": [
+    [
+     "Iron Ingot",
+     10.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Biocoal": {
+   "classe": "Recipe_Alternate_Coal_2_C",
+   "alternative": true,
+   "machine": "Constructor",
+   "temps": 8.0,
+   "origine": "dd",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Biomass",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Coal",
+     6.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Bolted Frame": {
+   "classe": "Recipe_Alternate_BoltedFrame_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 24.0,
+   "origine": "dd",
+   "palierPlancher": 2,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reinforced Iron Plate",
+     3.0
+    ],
+    [
+     "Screws",
+     56.0
+    ]
+   ],
+   "produits": [
+    [
+     "Modular Frame",
+     2.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Alternate: Bolted Iron Plate": {
+   "classe": "Recipe_Alternate_ReinforcedIronPlate_1_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 12.0,
+   "origine": "dd",
+   "palierPlancher": 2,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Plate",
+     18.0
+    ],
+    [
+     "Screws",
+     50.0
+    ]
+   ],
+   "produits": [
+    [
+     "Reinforced Iron Plate",
+     3.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Alternate: Cast Screws": {
+   "classe": "Recipe_Alternate_Screw_C",
+   "alternative": true,
+   "machine": "Constructor",
+   "temps": 24.0,
+   "origine": "dd",
+   "palierPlancher": 1,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Ingot",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Screws",
+     20.0
+    ]
+   ],
+   "palier": 1
+  },
+  "Alternate: Caterium Circuit Board": {
+   "classe": "Recipe_Alternate_CircuitBoard_2_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 48.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Plastic",
+     10.0
+    ],
+    [
+     "Quickwire",
+     30.0
+    ]
+   ],
+   "produits": [
+    [
+     "Circuit Board",
+     7.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Caterium Computer": {
+   "classe": "Recipe_Alternate_Computer_1_C",
+   "alternative": true,
+   "machine": "Manufacturer",
+   "temps": 16.0,
+   "origine": "dd",
+   "palierPlancher": 6,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Circuit Board",
+     4.0
+    ],
+    [
+     "Quickwire",
+     14.0
+    ],
+    [
+     "Rubber",
+     6.0
+    ]
+   ],
+   "produits": [
+    [
+     "Computer",
+     1.0
+    ]
+   ],
+   "palier": 6
+  },
+  "Alternate: Caterium Wire": {
+   "classe": "Recipe_Alternate_Wire_2_C",
+   "alternative": true,
+   "machine": "Constructor",
+   "temps": 4.0,
+   "origine": "dd",
+   "palierPlancher": 1,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Caterium Ingot",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Wire",
+     8.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Charcoal": {
+   "classe": "Recipe_Alternate_Coal_1_C",
+   "alternative": true,
+   "machine": "Constructor",
+   "temps": 4.0,
+   "origine": "dd",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Wood",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Coal",
+     10.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Cheap Silica": {
+   "classe": "Recipe_Alternate_Silica_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 8.0,
+   "origine": "dd",
+   "palierPlancher": 1,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Raw Quartz",
+     3.0
+    ],
+    [
+     "Limestone",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Silica",
+     7.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Alternate: Classic Battery": {
+   "classe": "Recipe_Alternate_ClassicBattery_C",
+   "alternative": true,
+   "machine": "Manufacturer",
+   "temps": 8.0,
+   "origine": "dd",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Sulfur",
+     6.0
+    ],
+    [
+     "Alclad Aluminum Sheet",
+     7.0
+    ],
+    [
+     "Plastic",
+     8.0
+    ],
+    [
+     "Wire",
+     12.0
+    ]
+   ],
+   "produits": [
+    [
+     "Battery",
+     4.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Alternate: Cloudy Diamonds": {
+   "classe": "Recipe_Alternate_Diamond_Cloudy_C",
+   "alternative": true,
+   "machine": "Particle Accelerator",
+   "temps": 3.0,
+   "origine": "dd",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Coal",
+     12.0
+    ],
+    [
+     "Limestone",
+     24.0
+    ]
+   ],
+   "produits": [
+    [
+     "Diamonds",
+     1.0
+    ]
+   ],
+   "mwMin": 250,
+   "mwMax": 750,
+   "palier": 9
+  },
+  "Alternate: Coated Cable": {
+   "classe": "Recipe_Alternate_CoatedCable_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 8.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Wire",
+     5.0
+    ],
+    [
+     "Heavy Oil Residue",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Cable",
+     9.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Coated Iron Canister": {
+   "classe": "Recipe_Alternate_CoatedIronCanister_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 4.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Plate",
+     2.0
+    ],
+    [
+     "Copper Sheet",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Empty Canister",
+     4.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Coated Iron Plate": {
+   "classe": "Recipe_Alternate_CoatedIronPlate_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 8.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Ingot",
+     5.0
+    ],
+    [
+     "Plastic",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Iron Plate",
+     10.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Coke Steel Ingot": {
+   "classe": "Recipe_Alternate_CokeSteelIngot_C",
+   "alternative": true,
+   "machine": "Foundry",
+   "temps": 12.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Ore",
+     15.0
+    ],
+    [
+     "Petroleum Coke",
+     15.0
+    ]
+   ],
+   "produits": [
+    [
+     "Steel Ingot",
+     20.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Compacted Coal": {
+   "classe": "Recipe_Alternate_EnrichedCoal_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 12.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Coal",
+     5.0
+    ],
+    [
+     "Sulfur",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Compacted Coal",
+     5.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Alternate: Compacted Steel Ingot": {
+   "classe": "Recipe_Alternate_IngotSteel_2_C",
+   "alternative": true,
+   "machine": "Foundry",
+   "temps": 24.0,
+   "origine": "dd",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Ore",
+     2.0
+    ],
+    [
+     "Compacted Coal",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Steel Ingot",
+     4.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Cooling Device": {
+   "classe": "Recipe_Alternate_CoolingDevice_C",
+   "alternative": true,
+   "machine": "Blender",
+   "temps": 24.0,
+   "origine": "dd",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Heat Sink",
+     4.0
+    ],
+    [
+     "Motor",
+     1.0
+    ],
+    [
+     "Nitrogen Gas",
+     24.0
+    ]
+   ],
+   "produits": [
+    [
+     "Cooling System",
+     2.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Alternate: Copper Alloy Ingot": {
+   "classe": "Recipe_Alternate_CopperAlloyIngot_C",
+   "alternative": true,
+   "machine": "Foundry",
+   "temps": 6.0,
+   "origine": "dd",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Copper Ore",
+     5.0
+    ],
+    [
+     "Iron Ore",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Copper Ingot",
+     10.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Copper Rotor": {
+   "classe": "Recipe_Alternate_CopperRotor_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 16.0,
+   "origine": "dd",
+   "palierPlancher": 2,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Copper Sheet",
+     6.0
+    ],
+    [
+     "Screws",
+     52.0
+    ]
+   ],
+   "produits": [
+    [
+     "Rotor",
+     3.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Alternate: Crystal Computer": {
+   "classe": "Recipe_Alternate_Computer_2_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 36.0,
+   "origine": "dd",
+   "palierPlancher": 6,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Circuit Board",
+     3.0
+    ],
+    [
+     "Crystal Oscillator",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Computer",
+     2.0
+    ]
+   ],
+   "palier": 6
+  },
+  "Alternate: Dark Matter Crystallization": {
+   "classe": "Recipe_Alternate_DarkMatter_Crystallization_C",
+   "alternative": true,
+   "machine": "Particle Accelerator",
+   "temps": 3.0,
+   "origine": "dd",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Dark Matter Residue",
+     10.0
+    ]
+   ],
+   "produits": [
+    [
+     "Dark Matter Crystal",
+     1.0
+    ]
+   ],
+   "mwMin": 500,
+   "mwMax": 1500,
+   "palier": 9
+  },
+  "Alternate: Dark Matter Trap": {
+   "classe": "Recipe_Alternate_DarkMatter_Trap_C",
+   "alternative": true,
+   "machine": "Particle Accelerator",
+   "temps": 2.0,
+   "origine": "dd",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Time Crystal",
+     1.0
+    ],
+    [
+     "Dark Matter Residue",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Dark Matter Crystal",
+     2.0
+    ]
+   ],
+   "mwMin": 500,
+   "mwMax": 1500,
+   "palier": 9
+  },
+  "Alternate: Dark-Ion Fuel": {
+   "classe": "Recipe_Alternate_IonizedFuel_Dark_C",
+   "alternative": true,
+   "machine": "Converter",
+   "temps": 3.0,
+   "origine": "dd",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Packaged Rocket Fuel",
+     12.0
+    ],
+    [
+     "Dark Matter Crystal",
+     4.0
+    ]
+   ],
+   "produits": [
+    [
+     "Ionized Fuel",
+     10.0
+    ],
+    [
+     "Compacted Coal",
+     2.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Alternate: Diluted Fuel": {
+   "classe": "Recipe_Alternate_DilutedFuel_C",
+   "alternative": true,
+   "machine": "Blender",
+   "temps": 6.0,
+   "origine": "dd",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Heavy Oil Residue",
+     5.0
+    ],
+    [
+     "Water",
+     10.0
+    ]
+   ],
+   "produits": [
+    [
+     "Fuel",
+     10.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Alternate: Diluted Packaged Fuel": {
+   "classe": "Recipe_Alternate_DilutedPackagedFuel_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 2.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Heavy Oil Residue",
+     1.0
+    ],
+    [
+     "Packaged Water",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Packaged Fuel",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Distilled Silica": {
+   "classe": "Recipe_Alternate_Silica_Distilled_C",
+   "alternative": true,
+   "machine": "Blender",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Dissolved Silica",
+     12.0
+    ],
+    [
+     "Limestone",
+     5.0
+    ],
+    [
+     "Water",
+     10.0
+    ]
+   ],
+   "produits": [
+    [
+     "Silica",
+     27.0
+    ],
+    [
+     "Water",
+     8.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Alternate: Electric Motor": {
+   "classe": "Recipe_Alternate_ElectricMotor_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 16.0,
+   "origine": "dd",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Electromagnetic Control Rod",
+     1.0
+    ],
+    [
+     "Rotor",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Motor",
+     2.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Alternate: Electrode Aluminum Scrap": {
+   "classe": "Recipe_Alternate_ElectroAluminumScrap_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 4.0,
+   "origine": "dd",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Alumina Solution",
+     12.0
+    ],
+    [
+     "Petroleum Coke",
+     4.0
+    ]
+   ],
+   "produits": [
+    [
+     "Aluminum Scrap",
+     20.0
+    ],
+    [
+     "Water",
+     7.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Alternate: Electrode Circuit Board": {
+   "classe": "Recipe_Alternate_ElectrodeCircuitBoard_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 12.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Rubber",
+     4.0
+    ],
+    [
+     "Petroleum Coke",
+     8.0
+    ]
+   ],
+   "produits": [
+    [
+     "Circuit Board",
+     1.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Electromagnetic Connection Rod": {
+   "classe": "Recipe_Alternate_ElectromagneticControlRod_1_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 15.0,
+   "origine": "dd",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Stator",
+     2.0
+    ],
+    [
+     "High-Speed Connector",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Electromagnetic Control Rod",
+     2.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Alternate: Encased Industrial Pipe": {
+   "classe": "Recipe_Alternate_EncasedIndustrialBeam_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 15.0,
+   "origine": "dd",
+   "palierPlancher": 4,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Steel Pipe",
+     6.0
+    ],
+    [
+     "Concrete",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Encased Industrial Beam",
+     1.0
+    ]
+   ],
+   "palier": 4
+  },
+  "Alternate: Fertile Uranium": {
+   "classe": "Recipe_Alternate_FertileUranium_C",
+   "alternative": true,
+   "machine": "Blender",
+   "temps": 12.0,
+   "origine": "dd",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Uranium",
+     5.0
+    ],
+    [
+     "Uranium Waste",
+     5.0
+    ],
+    [
+     "Nitric Acid",
+     3.0
+    ],
+    [
+     "Sulfuric Acid",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Non-Fissile Uranium",
+     20.0
+    ],
+    [
+     "Water",
+     8.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Alternate: Fine Black Powder": {
+   "classe": "Recipe_Alternate_Gunpowder_1_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 8.0,
+   "origine": "dd",
+   "palierPlancher": 1,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Sulfur",
+     1.0
+    ],
+    [
+     "Compacted Coal",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Black Powder",
+     6.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Alternate: Fine Concrete": {
+   "classe": "Recipe_Alternate_Concrete_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 12.0,
+   "origine": "dd",
+   "palierPlancher": 1,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Silica",
+     3.0
+    ],
+    [
+     "Limestone",
+     12.0
+    ]
+   ],
+   "produits": [
+    [
+     "Concrete",
+     10.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Alternate: Flexible Framework": {
+   "classe": "Recipe_Alternate_FlexibleFramework_C",
+   "alternative": true,
+   "machine": "Manufacturer",
+   "temps": 16.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Modular Frame",
+     1.0
+    ],
+    [
+     "Steel Beam",
+     6.0
+    ],
+    [
+     "Rubber",
+     8.0
+    ]
+   ],
+   "produits": [
+    [
+     "Versatile Framework",
+     2.0
+    ]
+   ],
+   "palier": 6
+  },
+  "Alternate: Fused Quartz Crystal": {
+   "classe": "Recipe_Alternate_Quartz_Fused_C",
+   "alternative": true,
+   "machine": "Foundry",
+   "temps": 20.0,
+   "origine": "dd",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Raw Quartz",
+     25.0
+    ],
+    [
+     "Coal",
+     12.0
+    ]
+   ],
+   "produits": [
+    [
+     "Quartz Crystal",
+     18.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Fused Quickwire": {
+   "classe": "Recipe_Alternate_Quickwire_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 8.0,
+   "origine": "dd",
+   "palierPlancher": 1,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Caterium Ingot",
+     1.0
+    ],
+    [
+     "Copper Ingot",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Quickwire",
+     12.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Fused Wire": {
+   "classe": "Recipe_Alternate_FusedWire_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 20.0,
+   "origine": "dd",
+   "palierPlancher": 1,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Copper Ingot",
+     4.0
+    ],
+    [
+     "Caterium Ingot",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Wire",
+     30.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Heat Exchanger": {
+   "classe": "Recipe_Alternate_HeatSink_1_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 6.0,
+   "origine": "dd",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Aluminum Casing",
+     3.0
+    ],
+    [
+     "Rubber",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Heat Sink",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Alternate: Heat-Fused Frame": {
+   "classe": "Recipe_Alternate_HeatFusedFrame_C",
+   "alternative": true,
+   "machine": "Blender",
+   "temps": 20.0,
+   "origine": "dd",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Heavy Modular Frame",
+     1.0
+    ],
+    [
+     "Aluminum Ingot",
+     50.0
+    ],
+    [
+     "Nitric Acid",
+     8.0
+    ],
+    [
+     "Fuel",
+     10.0
+    ]
+   ],
+   "produits": [
+    [
+     "Fused Modular Frame",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Alternate: Heavy Encased Frame": {
+   "classe": "Recipe_Alternate_ModularFrameHeavy_C",
+   "alternative": true,
+   "machine": "Manufacturer",
+   "temps": 64.0,
+   "origine": "dd",
+   "palierPlancher": 6,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Modular Frame",
+     8.0
+    ],
+    [
+     "Encased Industrial Beam",
+     10.0
+    ],
+    [
+     "Steel Pipe",
+     36.0
+    ],
+    [
+     "Concrete",
+     22.0
+    ]
+   ],
+   "produits": [
+    [
+     "Heavy Modular Frame",
+     3.0
+    ]
+   ],
+   "palier": 6
+  },
+  "Alternate: Heavy Flexible Frame": {
+   "classe": "Recipe_Alternate_HeavyFlexibleFrame_C",
+   "alternative": true,
+   "machine": "Manufacturer",
+   "temps": 16.0,
+   "origine": "dd",
+   "palierPlancher": 6,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Modular Frame",
+     5.0
+    ],
+    [
+     "Encased Industrial Beam",
+     3.0
+    ],
+    [
+     "Rubber",
+     20.0
+    ],
+    [
+     "Screws",
+     104.0
+    ]
+   ],
+   "produits": [
+    [
+     "Heavy Modular Frame",
+     1.0
+    ]
+   ],
+   "palier": 6
+  },
+  "Alternate: Heavy Oil Residue": {
+   "classe": "Recipe_Alternate_HeavyOilResidue_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 6.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Crude Oil",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Heavy Oil Residue",
+     4.0
+    ],
+    [
+     "Polymer Resin",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Infused Uranium Cell": {
+   "classe": "Recipe_Alternate_UraniumCell_1_C",
+   "alternative": true,
+   "machine": "Manufacturer",
+   "temps": 12.0,
+   "origine": "dd",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Uranium",
+     5.0
+    ],
+    [
+     "Silica",
+     3.0
+    ],
+    [
+     "Sulfur",
+     5.0
+    ],
+    [
+     "Quickwire",
+     15.0
+    ]
+   ],
+   "produits": [
+    [
+     "Encased Uranium Cell",
+     4.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Alternate: Instant Plutonium Cell": {
+   "classe": "Recipe_Alternate_InstantPlutoniumCell_C",
+   "alternative": true,
+   "machine": "Particle Accelerator",
+   "temps": 120.0,
+   "origine": "dd",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Non-Fissile Uranium",
+     150.0
+    ],
+    [
+     "Aluminum Casing",
+     20.0
+    ]
+   ],
+   "produits": [
+    [
+     "Encased Plutonium Cell",
+     20.0
+    ]
+   ],
+   "mwMin": 250,
+   "mwMax": 750,
+   "palier": 8
+  },
+  "Alternate: Instant Scrap": {
+   "classe": "Recipe_Alternate_InstantScrap_C",
+   "alternative": true,
+   "machine": "Blender",
+   "temps": 6.0,
+   "origine": "dd",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Bauxite",
+     15.0
+    ],
+    [
+     "Coal",
+     10.0
+    ],
+    [
+     "Sulfuric Acid",
+     5.0
+    ],
+    [
+     "Water",
+     6.0
+    ]
+   ],
+   "produits": [
+    [
+     "Aluminum Scrap",
+     30.0
+    ],
+    [
+     "Water",
+     5.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Alternate: Insulated Cable": {
+   "classe": "Recipe_Alternate_Cable_1_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 12.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Wire",
+     9.0
+    ],
+    [
+     "Rubber",
+     6.0
+    ]
+   ],
+   "produits": [
+    [
+     "Cable",
+     20.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Insulated Crystal Oscillator": {
+   "classe": "Recipe_Alternate_CrystalOscillator_C",
+   "alternative": true,
+   "machine": "Manufacturer",
+   "temps": 32.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Quartz Crystal",
+     10.0
+    ],
+    [
+     "Rubber",
+     7.0
+    ],
+    [
+     "AI Limiter",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Crystal Oscillator",
+     1.0
+    ]
+   ],
+   "palier": 6
+  },
+  "Alternate: Iron Alloy Ingot": {
+   "classe": "Recipe_Alternate_IngotIron_C",
+   "alternative": true,
+   "machine": "Foundry",
+   "temps": 12.0,
+   "origine": "dd",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Ore",
+     8.0
+    ],
+    [
+     "Copper Ore",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Iron Ingot",
+     15.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Iron Pipe": {
+   "classe": "Recipe_Alternate_SteelPipe_Iron_C",
+   "alternative": true,
+   "machine": "Constructor",
+   "temps": 12.0,
+   "origine": "dd",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Ingot",
+     20.0
+    ]
+   ],
+   "produits": [
+    [
+     "Steel Pipe",
+     5.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Iron Wire": {
+   "classe": "Recipe_Alternate_Wire_1_C",
+   "alternative": true,
+   "machine": "Constructor",
+   "temps": 24.0,
+   "origine": "dd",
+   "palierPlancher": 1,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Ingot",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Wire",
+     9.0
+    ]
+   ],
+   "palier": 1
+  },
+  "Alternate: Leached Caterium Ingot": {
+   "classe": "Recipe_Alternate_CateriumIngot_Leached_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 10.0,
+   "origine": "dd",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Caterium Ore",
+     9.0
+    ],
+    [
+     "Sulfuric Acid",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Caterium Ingot",
+     6.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Alternate: Leached Copper Ingot": {
+   "classe": "Recipe_Alternate_CopperIngot_Leached_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 12.0,
+   "origine": "dd",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Copper Ore",
+     9.0
+    ],
+    [
+     "Sulfuric Acid",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Copper Ingot",
+     22.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Alternate: Leached Iron Ingot": {
+   "classe": "Recipe_Alternate_IronIngot_Leached_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 6.0,
+   "origine": "dd",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Ore",
+     5.0
+    ],
+    [
+     "Sulfuric Acid",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Iron Ingot",
+     10.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Alternate: Molded Beam": {
+   "classe": "Recipe_Alternate_SteelBeam_Molded_C",
+   "alternative": true,
+   "machine": "Foundry",
+   "temps": 12.0,
+   "origine": "dd",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Steel Ingot",
+     24.0
+    ],
+    [
+     "Concrete",
+     16.0
+    ]
+   ],
+   "produits": [
+    [
+     "Steel Beam",
+     9.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Molded Steel Pipe": {
+   "classe": "Recipe_Alternate_SteelPipe_Molded_C",
+   "alternative": true,
+   "machine": "Foundry",
+   "temps": 6.0,
+   "origine": "dd",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Steel Ingot",
+     5.0
+    ],
+    [
+     "Concrete",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Steel Pipe",
+     5.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Nitro Rocket Fuel": {
+   "classe": "Recipe_Alternate_RocketFuel_Nitro_C",
+   "alternative": true,
+   "machine": "Blender",
+   "temps": 2.4,
+   "origine": "dd",
+   "palierPlancher": 1,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Fuel",
+     4.0
+    ],
+    [
+     "Nitrogen Gas",
+     3.0
+    ],
+    [
+     "Sulfur",
+     4.0
+    ],
+    [
+     "Coal",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Rocket Fuel",
+     6.0
+    ],
+    [
+     "Compacted Coal",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Alternate: OC Supercomputer": {
+   "classe": "Recipe_Alternate_OCSupercomputer_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 20.0,
+   "origine": "dd",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Radio Control Unit",
+     2.0
+    ],
+    [
+     "Cooling System",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Supercomputer",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Alternate: Oil-Based Diamonds": {
+   "classe": "Recipe_Alternate_Diamond_OilBased_C",
+   "alternative": true,
+   "machine": "Particle Accelerator",
+   "temps": 3.0,
+   "origine": "dd",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Crude Oil",
+     10.0
+    ]
+   ],
+   "produits": [
+    [
+     "Diamonds",
+     2.0
+    ]
+   ],
+   "mwMin": 250,
+   "mwMax": 750,
+   "palier": 9
+  },
+  "Alternate: Petroleum Diamonds": {
+   "classe": "Recipe_Alternate_Diamond_Petroleum_C",
+   "alternative": true,
+   "machine": "Particle Accelerator",
+   "temps": 2.0,
+   "origine": "dd",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Petroleum Coke",
+     24.0
+    ]
+   ],
+   "produits": [
+    [
+     "Diamonds",
+     1.0
+    ]
+   ],
+   "mwMin": 250,
+   "mwMax": 750,
+   "palier": 9
+  },
+  "Alternate: Pink Diamonds": {
+   "classe": "Recipe_Alternate_Diamond_Pink_C",
+   "alternative": true,
+   "machine": "Converter",
+   "temps": 4.0,
+   "origine": "dd",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Coal",
+     8.0
+    ],
+    [
+     "Quartz Crystal",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Diamonds",
+     1.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Alternate: Plastic AI Limiter": {
+   "classe": "Recipe_Alternate_AILimiter_Plastic_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 15.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Quickwire",
+     30.0
+    ],
+    [
+     "Plastic",
+     7.0
+    ]
+   ],
+   "produits": [
+    [
+     "AI Limiter",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Plastic Smart Plating": {
+   "classe": "Recipe_Alternate_PlasticSmartPlating_C",
+   "alternative": true,
+   "machine": "Manufacturer",
+   "temps": 24.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reinforced Iron Plate",
+     1.0
+    ],
+    [
+     "Rotor",
+     1.0
+    ],
+    [
+     "Plastic",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Smart Plating",
+     2.0
+    ]
+   ],
+   "palier": 6
+  },
+  "Alternate: Plutonium Fuel Unit": {
+   "classe": "Recipe_Alternate_PlutoniumFuelUnit_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 120.0,
+   "origine": "dd",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Encased Plutonium Cell",
+     20.0
+    ],
+    [
+     "Pressure Conversion Cube",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Plutonium Fuel Rod",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Alternate: Polyester Fabric": {
+   "classe": "Recipe_Alternate_PolyesterFabric_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 2.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Polymer Resin",
+     1.0
+    ],
+    [
+     "Water",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Fabric",
+     1.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Polymer Resin": {
+   "classe": "Recipe_Alternate_PolymerResin_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 6.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Crude Oil",
+     6.0
+    ]
+   ],
+   "produits": [
+    [
+     "Polymer Resin",
+     13.0
+    ],
+    [
+     "Heavy Oil Residue",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Pure Aluminum Ingot": {
+   "classe": "Recipe_PureAluminumIngot_C",
+   "alternative": false,
+   "machine": "Smelter",
+   "temps": 2.0,
+   "origine": "dd",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Aluminum Scrap",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Aluminum Ingot",
+     1.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Alternate: Pure Caterium Ingot": {
+   "classe": "Recipe_Alternate_PureCateriumIngot_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 5.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Caterium Ore",
+     2.0
+    ],
+    [
+     "Water",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Caterium Ingot",
+     1.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Pure Copper Ingot": {
+   "classe": "Recipe_Alternate_PureCopperIngot_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 24.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Copper Ore",
+     6.0
+    ],
+    [
+     "Water",
+     4.0
+    ]
+   ],
+   "produits": [
+    [
+     "Copper Ingot",
+     15.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Pure Iron Ingot": {
+   "classe": "Recipe_Alternate_PureIronIngot_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 12.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Ore",
+     7.0
+    ],
+    [
+     "Water",
+     4.0
+    ]
+   ],
+   "produits": [
+    [
+     "Iron Ingot",
+     13.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Pure Quartz Crystal": {
+   "classe": "Recipe_Alternate_PureQuartzCrystal_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 8.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Raw Quartz",
+     9.0
+    ],
+    [
+     "Water",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Quartz Crystal",
+     7.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Quartz Purification": {
+   "classe": "Recipe_Alternate_Quartz_Purified_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 12.0,
+   "origine": "dd",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Raw Quartz",
+     24.0
+    ],
+    [
+     "Nitric Acid",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Quartz Crystal",
+     15.0
+    ],
+    [
+     "Dissolved Silica",
+     12.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Alternate: Quickwire Cable": {
+   "classe": "Recipe_Alternate_Cable_2_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 24.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Quickwire",
+     3.0
+    ],
+    [
+     "Rubber",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Cable",
+     11.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Quickwire Stator": {
+   "classe": "Recipe_Alternate_Stator_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 15.0,
+   "origine": "dd",
+   "palierPlancher": 4,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Steel Pipe",
+     4.0
+    ],
+    [
+     "Quickwire",
+     15.0
+    ]
+   ],
+   "produits": [
+    [
+     "Stator",
+     2.0
+    ]
+   ],
+   "palier": 4
+  },
+  "Alternate: Radio Connection Unit": {
+   "classe": "Recipe_Alternate_RadioControlUnit_1_C",
+   "alternative": true,
+   "machine": "Manufacturer",
+   "temps": 16.0,
+   "origine": "dd",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Heat Sink",
+     4.0
+    ],
+    [
+     "High-Speed Connector",
+     2.0
+    ],
+    [
+     "Quartz Crystal",
+     12.0
+    ]
+   ],
+   "produits": [
+    [
+     "Radio Control Unit",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Alternate: Radio Control System": {
+   "classe": "Recipe_Alternate_RadioControlSystem_C",
+   "alternative": true,
+   "machine": "Manufacturer",
+   "temps": 40.0,
+   "origine": "dd",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Crystal Oscillator",
+     1.0
+    ],
+    [
+     "Circuit Board",
+     10.0
+    ],
+    [
+     "Aluminum Casing",
+     60.0
+    ],
+    [
+     "Rubber",
+     30.0
+    ]
+   ],
+   "produits": [
+    [
+     "Radio Control Unit",
+     3.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Alternate: Recycled Plastic": {
+   "classe": "Recipe_Alternate_Plastic_1_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 12.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Rubber",
+     6.0
+    ],
+    [
+     "Fuel",
+     6.0
+    ]
+   ],
+   "produits": [
+    [
+     "Plastic",
+     12.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Recycled Rubber": {
+   "classe": "Recipe_Alternate_RecycledRubber_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 12.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Plastic",
+     6.0
+    ],
+    [
+     "Fuel",
+     6.0
+    ]
+   ],
+   "produits": [
+    [
+     "Rubber",
+     12.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Rigor Motor": {
+   "classe": "Recipe_Alternate_Motor_1_C",
+   "alternative": true,
+   "machine": "Manufacturer",
+   "temps": 48.0,
+   "origine": "dd",
+   "palierPlancher": 4,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Rotor",
+     3.0
+    ],
+    [
+     "Stator",
+     3.0
+    ],
+    [
+     "Crystal Oscillator",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Motor",
+     6.0
+    ]
+   ],
+   "palier": 6
+  },
+  "Alternate: Rubber Concrete": {
+   "classe": "Recipe_Alternate_RubberConcrete_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 6.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Limestone",
+     10.0
+    ],
+    [
+     "Rubber",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Concrete",
+     9.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Silicon Circuit Board": {
+   "classe": "Recipe_Alternate_CircuitBoard_1_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 24.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Copper Sheet",
+     11.0
+    ],
+    [
+     "Silica",
+     11.0
+    ]
+   ],
+   "produits": [
+    [
+     "Circuit Board",
+     5.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Silicon High-Speed Connector": {
+   "classe": "Recipe_Alternate_HighSpeedConnector_C",
+   "alternative": true,
+   "machine": "Manufacturer",
+   "temps": 40.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Quickwire",
+     60.0
+    ],
+    [
+     "Silica",
+     25.0
+    ],
+    [
+     "Circuit Board",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "High-Speed Connector",
+     2.0
+    ]
+   ],
+   "palier": 6
+  },
+  "Alternate: Sloppy Alumina": {
+   "classe": "Recipe_Alternate_SloppyAlumina_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 3.0,
+   "origine": "dd",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Bauxite",
+     10.0
+    ],
+    [
+     "Water",
+     10.0
+    ]
+   ],
+   "produits": [
+    [
+     "Alumina Solution",
+     12.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Alternate: Solid Steel Ingot": {
+   "classe": "Recipe_Alternate_IngotSteel_1_C",
+   "alternative": true,
+   "machine": "Foundry",
+   "temps": 3.0,
+   "origine": "dd",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Ingot",
+     2.0
+    ],
+    [
+     "Coal",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Steel Ingot",
+     3.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Steamed Copper Sheet": {
+   "classe": "Recipe_Alternate_SteamedCopperSheet_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 8.0,
+   "origine": "dd",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Copper Ingot",
+     3.0
+    ],
+    [
+     "Water",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Copper Sheet",
+     3.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Steel Canister": {
+   "classe": "Recipe_Alternate_SteelCanister_C",
+   "alternative": true,
+   "machine": "Constructor",
+   "temps": 6.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Steel Ingot",
+     4.0
+    ]
+   ],
+   "produits": [
+    [
+     "Empty Canister",
+     4.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Steel Cast Plate": {
+   "classe": "Recipe_Alternate_SteelCastedPlate_C",
+   "alternative": true,
+   "machine": "Foundry",
+   "temps": 4.0,
+   "origine": "dd",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Ingot",
+     1.0
+    ],
+    [
+     "Steel Ingot",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Iron Plate",
+     3.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Steel Rod": {
+   "classe": "Recipe_Alternate_SteelRod_C",
+   "alternative": true,
+   "machine": "Constructor",
+   "temps": 5.0,
+   "origine": "dd",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Steel Ingot",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Iron Rod",
+     4.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Steel Rotor": {
+   "classe": "Recipe_Alternate_Rotor_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 12.0,
+   "origine": "dd",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Steel Pipe",
+     2.0
+    ],
+    [
+     "Wire",
+     6.0
+    ]
+   ],
+   "produits": [
+    [
+     "Rotor",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Steel Screws": {
+   "classe": "Recipe_Alternate_Screw_2_C",
+   "alternative": true,
+   "machine": "Constructor",
+   "temps": 12.0,
+   "origine": "dd",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Steel Beam",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Screws",
+     52.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Steeled Frame": {
+   "classe": "Recipe_Alternate_ModularFrame_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 60.0,
+   "origine": "dd",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reinforced Iron Plate",
+     2.0
+    ],
+    [
+     "Steel Pipe",
+     10.0
+    ]
+   ],
+   "produits": [
+    [
+     "Modular Frame",
+     3.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Alternate: Stitched Iron Plate": {
+   "classe": "Recipe_Alternate_ReinforcedIronPlate_2_C",
+   "alternative": true,
+   "machine": "Assembler",
+   "temps": 32.0,
+   "origine": "dd",
+   "palierPlancher": 2,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Plate",
+     10.0
+    ],
+    [
+     "Wire",
+     20.0
+    ]
+   ],
+   "produits": [
+    [
+     "Reinforced Iron Plate",
+     3.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Alternate: Super-State Computer": {
+   "classe": "Recipe_Alternate_SuperStateComputer_C",
+   "alternative": true,
+   "machine": "Manufacturer",
+   "temps": 25.0,
+   "origine": "dd",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Computer",
+     3.0
+    ],
+    [
+     "Electromagnetic Control Rod",
+     1.0
+    ],
+    [
+     "Battery",
+     10.0
+    ],
+    [
+     "Wire",
+     25.0
+    ]
+   ],
+   "produits": [
+    [
+     "Supercomputer",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Alternate: Tempered Caterium Ingot": {
+   "classe": "Recipe_Alternate_CateriumIngot_Tempered_C",
+   "alternative": true,
+   "machine": "Foundry",
+   "temps": 8.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Caterium Ore",
+     6.0
+    ],
+    [
+     "Petroleum Coke",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Caterium Ingot",
+     3.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Tempered Copper Ingot": {
+   "classe": "Recipe_Alternate_CopperIngot_Tempered_C",
+   "alternative": true,
+   "machine": "Foundry",
+   "temps": 12.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Copper Ore",
+     5.0
+    ],
+    [
+     "Petroleum Coke",
+     8.0
+    ]
+   ],
+   "produits": [
+    [
+     "Copper Ingot",
+     12.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Turbo Blend Fuel": {
+   "classe": "Recipe_Alternate_TurboBlendFuel_C",
+   "alternative": true,
+   "machine": "Blender",
+   "temps": 8.0,
+   "origine": "dd",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Fuel",
+     2.0
+    ],
+    [
+     "Heavy Oil Residue",
+     4.0
+    ],
+    [
+     "Sulfur",
+     3.0
+    ],
+    [
+     "Petroleum Coke",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Turbofuel",
+     6.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Alternate: Turbo Diamonds": {
+   "classe": "Recipe_Alternate_Diamond_Turbo_C",
+   "alternative": true,
+   "machine": "Particle Accelerator",
+   "temps": 3.0,
+   "origine": "dd",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Coal",
+     30.0
+    ],
+    [
+     "Packaged Turbofuel",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Diamonds",
+     3.0
+    ]
+   ],
+   "mwMin": 250,
+   "mwMax": 750,
+   "palier": 9
+  },
+  "Alternate: Turbo Electric Motor": {
+   "classe": "Recipe_Alternate_TurboMotor_1_C",
+   "alternative": true,
+   "machine": "Manufacturer",
+   "temps": 64.0,
+   "origine": "dd",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Motor",
+     7.0
+    ],
+    [
+     "Radio Control Unit",
+     9.0
+    ],
+    [
+     "Electromagnetic Control Rod",
+     5.0
+    ],
+    [
+     "Rotor",
+     7.0
+    ]
+   ],
+   "produits": [
+    [
+     "Turbo Motor",
+     3.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Alternate: Turbo Heavy Fuel": {
+   "classe": "Recipe_Alternate_TurboHeavyFuel_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 8.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Heavy Oil Residue",
+     5.0
+    ],
+    [
+     "Compacted Coal",
+     4.0
+    ]
+   ],
+   "produits": [
+    [
+     "Turbofuel",
+     4.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alternate: Turbo Pressure Motor": {
+   "classe": "Recipe_Alternate_TurboPressureMotor_C",
+   "alternative": true,
+   "machine": "Manufacturer",
+   "temps": 32.0,
+   "origine": "dd",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Motor",
+     4.0
+    ],
+    [
+     "Pressure Conversion Cube",
+     1.0
+    ],
+    [
+     "Packaged Nitrogen Gas",
+     24.0
+    ],
+    [
+     "Stator",
+     8.0
+    ]
+   ],
+   "produits": [
+    [
+     "Turbo Motor",
+     2.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Alternate: Uranium Fuel Unit": {
+   "classe": "Recipe_Alternate_NuclearFuelRod_1_C",
+   "alternative": true,
+   "machine": "Manufacturer",
+   "temps": 300.0,
+   "origine": "dd",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Encased Uranium Cell",
+     100.0
+    ],
+    [
+     "Electromagnetic Control Rod",
+     10.0
+    ],
+    [
+     "Crystal Oscillator",
+     3.0
+    ],
+    [
+     "Rotor",
+     10.0
+    ]
+   ],
+   "produits": [
+    [
+     "Uranium Fuel Rod",
+     3.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Alternate: Wet Concrete": {
+   "classe": "Recipe_Alternate_WetConcrete_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 3.0,
+   "origine": "dd",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Limestone",
+     6.0
+    ],
+    [
+     "Water",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Concrete",
+     4.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Alumina Solution": {
+   "classe": "Recipe_AluminaSolution_C",
+   "alternative": false,
+   "machine": "Refinery",
+   "temps": 6.0,
+   "origine": "jalon",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Bauxite",
+     12.0
+    ],
+    [
+     "Water",
+     18.0
+    ]
+   ],
+   "produits": [
+    [
+     "Alumina Solution",
+     12.0
+    ],
+    [
+     "Silica",
+     5.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Aluminum Casing": {
+   "classe": "Recipe_AluminumCasing_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 2.0,
+   "origine": "jalon",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Aluminum Ingot",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Aluminum Casing",
+     2.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Aluminum Ingot": {
+   "classe": "Recipe_IngotAluminum_C",
+   "alternative": false,
+   "machine": "Foundry",
+   "temps": 4.0,
+   "origine": "jalon",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Aluminum Scrap",
+     6.0
+    ],
+    [
+     "Silica",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Aluminum Ingot",
+     4.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Aluminum Scrap": {
+   "classe": "Recipe_AluminumScrap_C",
+   "alternative": false,
+   "machine": "Refinery",
+   "temps": 1.0,
+   "origine": "jalon",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Alumina Solution",
+     4.0
+    ],
+    [
+     "Coal",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Aluminum Scrap",
+     6.0
+    ],
+    [
+     "Water",
+     2.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Assembly Director System": {
+   "classe": "Recipe_SpaceElevatorPart_7_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 80.0,
+   "origine": "jalon",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Adaptive Control Unit",
+     2.0
+    ],
+    [
+     "Supercomputer",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Assembly Director System",
+     1.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Automated Wiring": {
+   "classe": "Recipe_SpaceElevatorPart_3_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 24.0,
+   "origine": "jalon",
+   "palierPlancher": 4,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Stator",
+     1.0
+    ],
+    [
+     "Cable",
+     20.0
+    ]
+   ],
+   "produits": [
+    [
+     "Automated Wiring",
+     1.0
+    ]
+   ],
+   "palier": 4
+  },
+  "Ballistic Warp Drive": {
+   "classe": "Recipe_SpaceElevatorPart_11_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 60.0,
+   "origine": "jalon",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Thermal Propulsion Rocket",
+     1.0
+    ],
+    [
+     "Singularity Cell",
+     5.0
+    ],
+    [
+     "Superposition Oscillator",
+     2.0
+    ],
+    [
+     "Dark Matter Crystal",
+     40.0
+    ]
+   ],
+   "produits": [
+    [
+     "Ballistic Warp Drive",
+     1.0
+    ]
+   ],
+   "mwMin": 500,
+   "mwMax": 1500,
+   "palier": 9
+  },
+  "Battery": {
+   "classe": "Recipe_Battery_C",
+   "alternative": false,
+   "machine": "Blender",
+   "temps": 3.0,
+   "origine": "jalon",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Sulfuric Acid",
+     2.5
+    ],
+    [
+     "Alumina Solution",
+     2.0
+    ],
+    [
+     "Aluminum Casing",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Battery",
+     1.0
+    ],
+    [
+     "Water",
+     1.5
+    ]
+   ],
+   "palier": 7
+  },
+  "Bauxite (Caterium)": {
+   "classe": "Recipe_Bauxite_Caterium_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     1.0
+    ],
+    [
+     "Caterium Ore",
+     15.0
+    ]
+   ],
+   "produits": [
+    [
+     "Bauxite",
+     12.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Bauxite (Copper)": {
+   "classe": "Recipe_Bauxite_Copper_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     1.0
+    ],
+    [
+     "Copper Ore",
+     18.0
+    ]
+   ],
+   "produits": [
+    [
+     "Bauxite",
+     12.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Biochemical Sculptor": {
+   "classe": "Recipe_SpaceElevatorPart_10_C",
+   "alternative": false,
+   "machine": "Blender",
+   "temps": 120.0,
+   "origine": "jalon",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Assembly Director System",
+     1.0
+    ],
+    [
+     "Ficsite Trigon",
+     80.0
+    ],
+    [
+     "Water",
+     20.0
+    ]
+   ],
+   "produits": [
+    [
+     "Biochemical Sculptor",
+     4.0
+    ]
+   ],
+   "mwMin": 500,
+   "mwMax": 1500,
+   "palier": 9
+  },
+  "Biomass (Alien Protein)": {
+   "classe": "Recipe_Biomass_AlienProtein_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 4.0,
+   "origine": "mam",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Alien Protein",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Biomass",
+     100.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Biomass (Leaves)": {
+   "classe": "Recipe_Biomass_Leaves_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 5.0,
+   "origine": "jalon",
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Leaves",
+     10.0
+    ]
+   ],
+   "produits": [
+    [
+     "Biomass",
+     5.0
+    ]
+   ],
+   "palier": 0
+  },
+  "Biomass (Mycelia)": {
+   "classe": "Recipe_Biomass_Mycelia_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 4.0,
+   "origine": "mam",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Mycelia",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Biomass",
+     10.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Biomass (Wood)": {
+   "classe": "Recipe_Biomass_Wood_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 4.0,
+   "origine": "jalon",
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Wood",
+     4.0
+    ]
+   ],
+   "produits": [
+    [
+     "Biomass",
+     20.0
+    ]
+   ],
+   "palier": 0
+  },
+  "Black Powder": {
+   "classe": "Recipe_Gunpowder_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 4.0,
+   "origine": "mam",
+   "palierPlancher": 3,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Coal",
+     1.0
+    ],
+    [
+     "Sulfur",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Black Powder",
+     2.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Blade Runners": {
+   "classe": "Recipe_BladeRunners_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 60.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Silica",
+     20.0
+    ],
+    [
+     "Modular Frame",
+     3.0
+    ],
+    [
+     "Rotor",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Blade Runners",
+     1.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Cable": {
+   "classe": "Recipe_Cable_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 2.0,
+   "origine": "jalon",
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Wire",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Cable",
+     1.0
+    ]
+   ],
+   "palier": 0
+  },
+  "Caterium Ingot": {
+   "classe": "Recipe_IngotCaterium_C",
+   "alternative": false,
+   "machine": "Smelter",
+   "temps": 4.0,
+   "origine": "mam",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Caterium Ore",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Caterium Ingot",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Caterium Ore (Copper)": {
+   "classe": "Recipe_Caterium_Copper_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     1.0
+    ],
+    [
+     "Copper Ore",
+     15.0
+    ]
+   ],
+   "produits": [
+    [
+     "Caterium Ore",
+     12.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Caterium Ore (Quartz)": {
+   "classe": "Recipe_Caterium_Quartz_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     1.0
+    ],
+    [
+     "Raw Quartz",
+     12.0
+    ]
+   ],
+   "produits": [
+    [
+     "Caterium Ore",
+     12.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Chainsaw": {
+   "classe": "Recipe_Chainsaw_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 60.0,
+   "origine": "jalon",
+   "palierPlancher": 2,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Reinforced Iron Plate",
+     5.0
+    ],
+    [
+     "Iron Rod",
+     25.0
+    ],
+    [
+     "Screws",
+     160.0
+    ],
+    [
+     "Cable",
+     15.0
+    ]
+   ],
+   "produits": [
+    [
+     "Chainsaw",
+     1.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Circuit Board": {
+   "classe": "Recipe_CircuitBoard_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 8.0,
+   "origine": "jalon",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Copper Sheet",
+     2.0
+    ],
+    [
+     "Plastic",
+     4.0
+    ]
+   ],
+   "produits": [
+    [
+     "Circuit Board",
+     1.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Cluster Nobelisk": {
+   "classe": "Recipe_NobeliskCluster_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 24.0,
+   "origine": "mam",
+   "palierPlancher": 5,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Nobelisk",
+     3.0
+    ],
+    [
+     "Smokeless Powder",
+     4.0
+    ]
+   ],
+   "produits": [
+    [
+     "Cluster Nobelisk",
+     1.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Coal (Iron)": {
+   "classe": "Recipe_Coal_Iron_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     1.0
+    ],
+    [
+     "Iron Ore",
+     18.0
+    ]
+   ],
+   "produits": [
+    [
+     "Coal",
+     12.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Coal (Limestone)": {
+   "classe": "Recipe_Coal_Limestone_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     1.0
+    ],
+    [
+     "Limestone",
+     36.0
+    ]
+   ],
+   "produits": [
+    [
+     "Coal",
+     12.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Computer": {
+   "classe": "Recipe_Computer_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 24.0,
+   "origine": "jalon",
+   "palierPlancher": 6,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Circuit Board",
+     4.0
+    ],
+    [
+     "Cable",
+     8.0
+    ],
+    [
+     "Plastic",
+     16.0
+    ]
+   ],
+   "produits": [
+    [
+     "Computer",
+     1.0
+    ]
+   ],
+   "palier": 6
+  },
+  "Concrete": {
+   "classe": "Recipe_Concrete_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 4.0,
+   "origine": "jalon",
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Limestone",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Concrete",
+     1.0
+    ]
+   ],
+   "palier": 0
+  },
+  "Cooling System": {
+   "classe": "Recipe_CoolingSystem_C",
+   "alternative": false,
+   "machine": "Blender",
+   "temps": 10.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Heat Sink",
+     2.0
+    ],
+    [
+     "Rubber",
+     2.0
+    ],
+    [
+     "Water",
+     5.0
+    ],
+    [
+     "Nitrogen Gas",
+     25.0
+    ]
+   ],
+   "produits": [
+    [
+     "Cooling System",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Copper Ingot": {
+   "classe": "Recipe_IngotCopper_C",
+   "alternative": false,
+   "machine": "Smelter",
+   "temps": 2.0,
+   "origine": "jalon",
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Copper Ore",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Copper Ingot",
+     1.0
+    ]
+   ],
+   "palier": 0
+  },
+  "Copper Ore (Quartz)": {
+   "classe": "Recipe_Copper_Quartz_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     1.0
+    ],
+    [
+     "Raw Quartz",
+     10.0
+    ]
+   ],
+   "produits": [
+    [
+     "Copper Ore",
+     12.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Copper Ore (Sulfur)": {
+   "classe": "Recipe_Copper_Sulfur_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     1.0
+    ],
+    [
+     "Sulfur",
+     12.0
+    ]
+   ],
+   "produits": [
+    [
+     "Copper Ore",
+     12.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Copper Powder": {
+   "classe": "Recipe_CopperDust_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 6.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Copper Ingot",
+     30.0
+    ]
+   ],
+   "produits": [
+    [
+     "Copper Powder",
+     5.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Copper Sheet": {
+   "classe": "Recipe_CopperSheet_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 6.0,
+   "origine": "jalon",
+   "palierPlancher": 2,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Copper Ingot",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Copper Sheet",
+     1.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Crystal Oscillator": {
+   "classe": "Recipe_CrystalOscillator_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 120.0,
+   "origine": "mam",
+   "palierPlancher": 6,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Quartz Crystal",
+     36.0
+    ],
+    [
+     "Cable",
+     28.0
+    ],
+    [
+     "Reinforced Iron Plate",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Crystal Oscillator",
+     2.0
+    ]
+   ],
+   "palier": 6
+  },
+  "Dark Matter Crystal": {
+   "classe": "Recipe_DarkMatter_C",
+   "alternative": false,
+   "machine": "Particle Accelerator",
+   "temps": 2.0,
+   "origine": "jalon",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Diamonds",
+     1.0
+    ],
+    [
+     "Dark Matter Residue",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Dark Matter Crystal",
+     1.0
+    ]
+   ],
+   "mwMin": 500,
+   "mwMax": 1500,
+   "palier": 9
+  },
+  "Dark Matter Residue": {
+   "classe": "Recipe_DarkEnergy_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 6.0,
+   "origine": "jalon",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Dark Matter Residue",
+     10.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Diamonds": {
+   "classe": "Recipe_Diamond_C",
+   "alternative": false,
+   "machine": "Particle Accelerator",
+   "temps": 2.0,
+   "origine": "jalon",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Coal",
+     20.0
+    ]
+   ],
+   "produits": [
+    [
+     "Diamonds",
+     1.0
+    ]
+   ],
+   "mwMin": 250,
+   "mwMax": 750,
+   "palier": 9
+  },
+  "Electromagnetic Control Rod": {
+   "classe": "Recipe_ElectromagneticControlRod_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 30.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Stator",
+     3.0
+    ],
+    [
+     "AI Limiter",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Electromagnetic Control Rod",
+     2.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Empty Canister": {
+   "classe": "Recipe_FluidCanister_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 4.0,
+   "origine": "jalon",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Plastic",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Empty Canister",
+     4.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Empty Fluid Tank": {
+   "classe": "Recipe_GasTank_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 1.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Aluminum Ingot",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Empty Fluid Tank",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Encased Industrial Beam": {
+   "classe": "Recipe_EncasedIndustrialBeam_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 10.0,
+   "origine": "jalon",
+   "palierPlancher": 4,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Steel Beam",
+     3.0
+    ],
+    [
+     "Concrete",
+     6.0
+    ]
+   ],
+   "produits": [
+    [
+     "Encased Industrial Beam",
+     1.0
+    ]
+   ],
+   "palier": 4
+  },
+  "Encased Plutonium Cell": {
+   "classe": "Recipe_PlutoniumCell_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 12.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Plutonium Pellet",
+     2.0
+    ],
+    [
+     "Concrete",
+     4.0
+    ]
+   ],
+   "produits": [
+    [
+     "Encased Plutonium Cell",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Encased Uranium Cell": {
+   "classe": "Recipe_UraniumCell_C",
+   "alternative": false,
+   "machine": "Blender",
+   "temps": 12.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Uranium",
+     10.0
+    ],
+    [
+     "Concrete",
+     3.0
+    ],
+    [
+     "Sulfuric Acid",
+     8.0
+    ]
+   ],
+   "produits": [
+    [
+     "Encased Uranium Cell",
+     5.0
+    ],
+    [
+     "Sulfuric Acid",
+     2.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Excited Photonic Matter": {
+   "classe": "Recipe_QuantumEnergy_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 3.0,
+   "origine": "jalon",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [],
+   "produits": [
+    [
+     "Excited Photonic Matter",
+     10.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Explosive Rebar": {
+   "classe": "Recipe_Rebar_Explosive_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 12.0,
+   "origine": "mam",
+   "palierPlancher": 6,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Rebar",
+     2.0
+    ],
+    [
+     "Smokeless Powder",
+     2.0
+    ],
+    [
+     "Steel Pipe",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Explosive Rebar",
+     1.0
+    ]
+   ],
+   "palier": 6
+  },
+  "Fabric": {
+   "classe": "Recipe_Fabric_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 4.0,
+   "origine": "mam",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Mycelia",
+     1.0
+    ],
+    [
+     "Biomass",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Fabric",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Factory Cart™": {
+   "classe": "Recipe_FactoryCart_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 20.0,
+   "origine": "boutique",
+   "palierPlancher": 0,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Reinforced Iron Plate",
+     4.0
+    ],
+    [
+     "Iron Rod",
+     4.0
+    ],
+    [
+     "Rotor",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Factory Cart™",
+     1.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Ficsite Ingot (Aluminum)": {
+   "classe": "Recipe_FicsiteIngot_AL_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 2.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     2.0
+    ],
+    [
+     "Aluminum Ingot",
+     4.0
+    ]
+   ],
+   "produits": [
+    [
+     "Ficsite Ingot",
+     1.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Ficsite Ingot (Caterium)": {
+   "classe": "Recipe_FicsiteIngot_CAT_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 4.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     3.0
+    ],
+    [
+     "Caterium Ingot",
+     4.0
+    ]
+   ],
+   "produits": [
+    [
+     "Ficsite Ingot",
+     1.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Ficsite Ingot (Iron)": {
+   "classe": "Recipe_FicsiteIngot_Iron_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 6.0,
+   "origine": "jalon",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     4.0
+    ],
+    [
+     "Iron Ingot",
+     24.0
+    ]
+   ],
+   "produits": [
+    [
+     "Ficsite Ingot",
+     1.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Ficsite Trigon": {
+   "classe": "Recipe_FicsiteMesh_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 6.0,
+   "origine": "jalon",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Ficsite Ingot",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Ficsite Trigon",
+     3.0
+    ]
+   ],
+   "palier": 9
+  },
+  "Ficsonium": {
+   "classe": "Recipe_Ficsonium_C",
+   "alternative": false,
+   "machine": "Particle Accelerator",
+   "temps": 6.0,
+   "origine": "jalon",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Plutonium Waste",
+     1.0
+    ],
+    [
+     "Singularity Cell",
+     1.0
+    ],
+    [
+     "Dark Matter Residue",
+     20.0
+    ]
+   ],
+   "produits": [
+    [
+     "Ficsonium",
+     1.0
+    ]
+   ],
+   "mwMin": 500,
+   "mwMax": 1500,
+   "palier": 9
+  },
+  "Ficsonium Fuel Rod": {
+   "classe": "Recipe_FicsoniumFuelRod_C",
+   "alternative": false,
+   "machine": "Quantum Encoder",
+   "temps": 24.0,
+   "origine": "jalon",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Ficsonium",
+     2.0
+    ],
+    [
+     "Electromagnetic Control Rod",
+     2.0
+    ],
+    [
+     "Ficsite Trigon",
+     40.0
+    ],
+    [
+     "Excited Photonic Matter",
+     20.0
+    ]
+   ],
+   "produits": [
+    [
+     "Ficsonium Fuel Rod",
+     1.0
+    ],
+    [
+     "Dark Matter Residue",
+     20.0
+    ]
+   ],
+   "mwMin": 0,
+   "mwMax": 2000,
+   "palier": 9
+  },
+  "Fuel": {
+   "classe": "Recipe_LiquidFuel_C",
+   "alternative": false,
+   "machine": "Refinery",
+   "temps": 6.0,
+   "origine": "jalon",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Crude Oil",
+     6.0
+    ]
+   ],
+   "produits": [
+    [
+     "Fuel",
+     4.0
+    ],
+    [
+     "Polymer Resin",
+     3.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Fused Modular Frame": {
+   "classe": "Recipe_FusedModularFrame_C",
+   "alternative": false,
+   "machine": "Blender",
+   "temps": 40.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Heavy Modular Frame",
+     1.0
+    ],
+    [
+     "Aluminum Casing",
+     50.0
+    ],
+    [
+     "Nitrogen Gas",
+     25.0
+    ]
+   ],
+   "produits": [
+    [
+     "Fused Modular Frame",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Gas Filter": {
+   "classe": "Recipe_FilterGasMask_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 8.0,
+   "origine": "mam",
+   "palierPlancher": 6,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Fabric",
+     2.0
+    ],
+    [
+     "Coal",
+     4.0
+    ],
+    [
+     "Iron Plate",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Gas Filter",
+     1.0
+    ]
+   ],
+   "palier": 6
+  },
+  "Gas Mask": {
+   "classe": "Recipe_Gasmask_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 60.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Fabric",
+     50.0
+    ],
+    [
+     "Copper Sheet",
+     10.0
+    ],
+    [
+     "Steel Pipe",
+     10.0
+    ]
+   ],
+   "produits": [
+    [
+     "Gas Mask",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Gas Nobelisk": {
+   "classe": "Recipe_NobeliskGas_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 12.0,
+   "origine": "mam",
+   "palierPlancher": 3,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Nobelisk",
+     1.0
+    ],
+    [
+     "Biomass",
+     10.0
+    ]
+   ],
+   "produits": [
+    [
+     "Gas Nobelisk",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Golden Factory Cart™": {
+   "classe": "Recipe_GoldenCart_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 20.0,
+   "origine": "boutique",
+   "palierPlancher": 0,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Caterium Ingot",
+     15.0
+    ],
+    [
+     "Iron Rod",
+     4.0
+    ],
+    [
+     "Rotor",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Golden Factory Cart™",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Hatcher Protein": {
+   "classe": "Recipe_Protein_Crab_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 3.0,
+   "origine": "mam",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Hatcher Remains",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Alien Protein",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Hazmat Suit": {
+   "classe": "Recipe_HazmatSuit_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 120.0,
+   "origine": "jalon",
+   "palierPlancher": 7,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Rubber",
+     50.0
+    ],
+    [
+     "Plastic",
+     50.0
+    ],
+    [
+     "Alclad Aluminum Sheet",
+     50.0
+    ],
+    [
+     "Fabric",
+     50.0
+    ]
+   ],
+   "produits": [
+    [
+     "Hazmat Suit",
+     1.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Heat Sink": {
+   "classe": "Recipe_HeatSink_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 8.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Alclad Aluminum Sheet",
+     5.0
+    ],
+    [
+     "Copper Sheet",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Heat Sink",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Heavy Modular Frame": {
+   "classe": "Recipe_ModularFrameHeavy_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 30.0,
+   "origine": "jalon",
+   "palierPlancher": 6,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Modular Frame",
+     5.0
+    ],
+    [
+     "Steel Pipe",
+     20.0
+    ],
+    [
+     "Encased Industrial Beam",
+     5.0
+    ],
+    [
+     "Screws",
+     120.0
+    ]
+   ],
+   "produits": [
+    [
+     "Heavy Modular Frame",
+     1.0
+    ]
+   ],
+   "palier": 6
+  },
+  "High-Speed Connector": {
+   "classe": "Recipe_HighSpeedConnector_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 16.0,
+   "origine": "mam",
+   "palierPlancher": 6,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Quickwire",
+     56.0
+    ],
+    [
+     "Cable",
+     10.0
+    ],
+    [
+     "Circuit Board",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "High-Speed Connector",
+     1.0
+    ]
+   ],
+   "palier": 6
+  },
+  "Hog Protein": {
+   "classe": "Recipe_Protein_Hog_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 3.0,
+   "origine": "mam",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Hog Remains",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Alien Protein",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Homing Rifle Ammo": {
+   "classe": "Recipe_CartridgeSmart_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 24.0,
+   "origine": "mam",
+   "palierPlancher": 6,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Rifle Ammo",
+     20.0
+    ],
+    [
+     "High-Speed Connector",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Homing Rifle Ammo",
+     10.0
+    ]
+   ],
+   "palier": 6
+  },
+  "Hoverpack": {
+   "classe": "Recipe_Hoverpack_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 120.0,
+   "origine": "jalon",
+   "palierPlancher": 7,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Motor",
+     8.0
+    ],
+    [
+     "Heavy Modular Frame",
+     4.0
+    ],
+    [
+     "Computer",
+     8.0
+    ],
+    [
+     "Alclad Aluminum Sheet",
+     40.0
+    ]
+   ],
+   "produits": [
+    [
+     "Hoverpack",
+     1.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Iodine-Infused Filter": {
+   "classe": "Recipe_FilterHazmat_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 16.0,
+   "origine": "jalon",
+   "palierPlancher": 7,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Gas Filter",
+     1.0
+    ],
+    [
+     "Quickwire",
+     8.0
+    ],
+    [
+     "Aluminum Casing",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Iodine-Infused Filter",
+     1.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Ionized Fuel": {
+   "classe": "Recipe_IonizedFuel_C",
+   "alternative": false,
+   "machine": "Refinery",
+   "temps": 24.0,
+   "origine": "mam",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Rocket Fuel",
+     16.0
+    ],
+    [
+     "Power Shard",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Ionized Fuel",
+     16.0
+    ],
+    [
+     "Compacted Coal",
+     2.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Iron Ingot": {
+   "classe": "Recipe_IngotIron_C",
+   "alternative": false,
+   "machine": "Smelter",
+   "temps": 2.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Iron Ore",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Iron Ingot",
+     1.0
+    ]
+   ],
+   "palier": 0
+  },
+  "Iron Ore (Limestone)": {
+   "classe": "Recipe_Iron_Limestone_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     1.0
+    ],
+    [
+     "Limestone",
+     24.0
+    ]
+   ],
+   "produits": [
+    [
+     "Iron Ore",
+     12.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Iron Plate": {
+   "classe": "Recipe_IronPlate_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Iron Ingot",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Iron Plate",
+     2.0
+    ]
+   ],
+   "palier": 0
+  },
+  "Iron Rebar": {
+   "classe": "Recipe_SpikedRebar_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 4.0,
+   "origine": "mam",
+   "palierPlancher": 3,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Rod",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Iron Rebar",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Iron Rod": {
+   "classe": "Recipe_IronRod_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 4.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Iron Ingot",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Iron Rod",
+     1.0
+    ]
+   ],
+   "palier": 0
+  },
+  "Jetpack": {
+   "classe": "Recipe_JetPack_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 60.0,
+   "origine": "jalon",
+   "palierPlancher": 5,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Motor",
+     5.0
+    ],
+    [
+     "Steel Pipe",
+     10.0
+    ],
+    [
+     "Iron Plate",
+     25.0
+    ],
+    [
+     "Wire",
+     50.0
+    ]
+   ],
+   "produits": [
+    [
+     "Jetpack",
+     1.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Limestone (Sulfur)": {
+   "classe": "Recipe_Limestone_Sulfur_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     1.0
+    ],
+    [
+     "Sulfur",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Limestone",
+     12.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Liquid Biofuel": {
+   "classe": "Recipe_LiquidBiofuel_C",
+   "alternative": false,
+   "machine": "Refinery",
+   "temps": 4.0,
+   "origine": "jalon",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Solid Biofuel",
+     6.0
+    ],
+    [
+     "Water",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Liquid Biofuel",
+     4.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Magnetic Field Generator": {
+   "classe": "Recipe_SpaceElevatorPart_6_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 120.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Versatile Framework",
+     5.0
+    ],
+    [
+     "Electromagnetic Control Rod",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Magnetic Field Generator",
+     2.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Modular Engine": {
+   "classe": "Recipe_SpaceElevatorPart_4_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 60.0,
+   "origine": "jalon",
+   "palierPlancher": 6,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Motor",
+     2.0
+    ],
+    [
+     "Rubber",
+     15.0
+    ],
+    [
+     "Smart Plating",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Modular Engine",
+     1.0
+    ]
+   ],
+   "palier": 6
+  },
+  "Modular Frame": {
+   "classe": "Recipe_ModularFrame_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 60.0,
+   "origine": "jalon",
+   "palierPlancher": 2,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Reinforced Iron Plate",
+     3.0
+    ],
+    [
+     "Iron Rod",
+     12.0
+    ]
+   ],
+   "produits": [
+    [
+     "Modular Frame",
+     2.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Motor": {
+   "classe": "Recipe_Motor_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 12.0,
+   "origine": "jalon",
+   "palierPlancher": 4,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Rotor",
+     2.0
+    ],
+    [
+     "Stator",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Motor",
+     1.0
+    ]
+   ],
+   "palier": 4
+  },
+  "Neural-Quantum Processor": {
+   "classe": "Recipe_TemporalProcessor_C",
+   "alternative": false,
+   "machine": "Quantum Encoder",
+   "temps": 20.0,
+   "origine": "jalon",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Time Crystal",
+     5.0
+    ],
+    [
+     "Supercomputer",
+     1.0
+    ],
+    [
+     "Ficsite Trigon",
+     15.0
+    ],
+    [
+     "Excited Photonic Matter",
+     25.0
+    ]
+   ],
+   "produits": [
+    [
+     "Neural-Quantum Processor",
+     1.0
+    ],
+    [
+     "Dark Matter Residue",
+     25.0
+    ]
+   ],
+   "mwMin": 0,
+   "mwMax": 2000,
+   "palier": 9
+  },
+  "Nitric Acid": {
+   "classe": "Recipe_NitricAcid_C",
+   "alternative": false,
+   "machine": "Blender",
+   "temps": 6.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Nitrogen Gas",
+     12.0
+    ],
+    [
+     "Water",
+     3.0
+    ],
+    [
+     "Iron Plate",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Nitric Acid",
+     3.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Nitrogen Gas (Bauxite)": {
+   "classe": "Recipe_Nitrogen_Bauxite_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     1.0
+    ],
+    [
+     "Bauxite",
+     10.0
+    ]
+   ],
+   "produits": [
+    [
+     "Nitrogen Gas",
+     12.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Nitrogen Gas (Caterium)": {
+   "classe": "Recipe_Nitrogen_Caterium_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     1.0
+    ],
+    [
+     "Caterium Ore",
+     12.0
+    ]
+   ],
+   "produits": [
+    [
+     "Nitrogen Gas",
+     12.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Nobelisk": {
+   "classe": "Recipe_Nobelisk_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 6.0,
+   "origine": "mam",
+   "palierPlancher": 3,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Black Powder",
+     2.0
+    ],
+    [
+     "Steel Pipe",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Nobelisk",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Nobelisk Detonator": {
+   "classe": "Recipe_NobeliskDetonator_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 80.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Object Scanner",
+     1.0
+    ],
+    [
+     "Steel Beam",
+     10.0
+    ],
+    [
+     "Cable",
+     50.0
+    ]
+   ],
+   "produits": [
+    [
+     "Nobelisk Detonator",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Non-Fissile Uranium": {
+   "classe": "Recipe_NonFissileUranium_C",
+   "alternative": false,
+   "machine": "Blender",
+   "temps": 24.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Uranium Waste",
+     15.0
+    ],
+    [
+     "Silica",
+     10.0
+    ],
+    [
+     "Nitric Acid",
+     6.0
+    ],
+    [
+     "Sulfuric Acid",
+     6.0
+    ]
+   ],
+   "produits": [
+    [
+     "Non-Fissile Uranium",
+     20.0
+    ],
+    [
+     "Water",
+     6.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Nuclear Pasta": {
+   "classe": "Recipe_SpaceElevatorPart_9_C",
+   "alternative": false,
+   "machine": "Particle Accelerator",
+   "temps": 120.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Copper Powder",
+     200.0
+    ],
+    [
+     "Pressure Conversion Cube",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Nuclear Pasta",
+     1.0
+    ]
+   ],
+   "mwMin": 500,
+   "mwMax": 1500,
+   "palier": 8
+  },
+  "Nuke Nobelisk": {
+   "classe": "Recipe_NobeliskNuke_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 120.0,
+   "origine": "mam",
+   "palierPlancher": 8,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Nobelisk",
+     5.0
+    ],
+    [
+     "Encased Uranium Cell",
+     20.0
+    ],
+    [
+     "Smokeless Powder",
+     10.0
+    ],
+    [
+     "AI Limiter",
+     6.0
+    ]
+   ],
+   "produits": [
+    [
+     "Nuke Nobelisk",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Nutritional Inhaler": {
+   "classe": "Recipe_NutritionalInhaler_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 20.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Bacon Agaric",
+     1.0
+    ],
+    [
+     "Paleberry",
+     2.0
+    ],
+    [
+     "Beryl Nut",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Medicinal Inhaler",
+     1.0
+    ]
+   ],
+   "palier": 0
+  },
+  "Object Scanner": {
+   "classe": "Recipe_ObjectScanner_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 40.0,
+   "origine": "jalon",
+   "palierPlancher": 1,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Reinforced Iron Plate",
+     4.0
+    ],
+    [
+     "Wire",
+     20.0
+    ],
+    [
+     "Screws",
+     50.0
+    ]
+   ],
+   "produits": [
+    [
+     "Object Scanner",
+     1.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Packaged Alumina Solution": {
+   "classe": "Recipe_PackagedAlumina_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 1.0,
+   "origine": "jalon",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Alumina Solution",
+     2.0
+    ],
+    [
+     "Empty Canister",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Packaged Alumina Solution",
+     2.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Packaged Fuel": {
+   "classe": "Recipe_Fuel_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 3.0,
+   "origine": "jalon",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Fuel",
+     2.0
+    ],
+    [
+     "Empty Canister",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Packaged Fuel",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Packaged Heavy Oil Residue": {
+   "classe": "Recipe_PackagedOilResidue_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 4.0,
+   "origine": "jalon",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Heavy Oil Residue",
+     2.0
+    ],
+    [
+     "Empty Canister",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Packaged Heavy Oil Residue",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Packaged Ionized Fuel": {
+   "classe": "Recipe_PackagedIonizedFuel_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 3.0,
+   "origine": "mam",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Ionized Fuel",
+     4.0
+    ],
+    [
+     "Empty Fluid Tank",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Packaged Ionized Fuel",
+     2.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Packaged Liquid Biofuel": {
+   "classe": "Recipe_PackagedBiofuel_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 3.0,
+   "origine": "jalon",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Liquid Biofuel",
+     2.0
+    ],
+    [
+     "Empty Canister",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Packaged Liquid Biofuel",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Packaged Nitric Acid": {
+   "classe": "Recipe_PackagedNitricAcid_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 2.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Nitric Acid",
+     1.0
+    ],
+    [
+     "Empty Fluid Tank",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Packaged Nitric Acid",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Packaged Nitrogen Gas": {
+   "classe": "Recipe_PackagedNitrogen_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 1.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Nitrogen Gas",
+     4.0
+    ],
+    [
+     "Empty Fluid Tank",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Packaged Nitrogen Gas",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Packaged Oil": {
+   "classe": "Recipe_PackagedCrudeOil_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 4.0,
+   "origine": "jalon",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Crude Oil",
+     2.0
+    ],
+    [
+     "Empty Canister",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Packaged Oil",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Packaged Rocket Fuel": {
+   "classe": "Recipe_PackagedRocketFuel_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 1.0,
+   "origine": "mam",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Rocket Fuel",
+     2.0
+    ],
+    [
+     "Empty Fluid Tank",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Packaged Rocket Fuel",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Packaged Sulfuric Acid": {
+   "classe": "Recipe_PackagedSulfuricAcid_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 3.0,
+   "origine": "jalon",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Sulfuric Acid",
+     2.0
+    ],
+    [
+     "Empty Canister",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Packaged Sulfuric Acid",
+     2.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Packaged Turbofuel": {
+   "classe": "Recipe_PackagedTurboFuel_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 6.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Turbofuel",
+     2.0
+    ],
+    [
+     "Empty Canister",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Packaged Turbofuel",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Packaged Water": {
+   "classe": "Recipe_PackagedWater_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 2.0,
+   "origine": "jalon",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Water",
+     2.0
+    ],
+    [
+     "Empty Canister",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Packaged Water",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Parachute": {
+   "classe": "Recipe_Parachute_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 40.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Fabric",
+     20.0
+    ],
+    [
+     "Cable",
+     10.0
+    ]
+   ],
+   "produits": [
+    [
+     "Parachute",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Petroleum Coke": {
+   "classe": "Recipe_PetroleumCoke_C",
+   "alternative": false,
+   "machine": "Refinery",
+   "temps": 6.0,
+   "origine": "jalon",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Heavy Oil Residue",
+     4.0
+    ]
+   ],
+   "produits": [
+    [
+     "Petroleum Coke",
+     12.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Plastic": {
+   "classe": "Recipe_Plastic_C",
+   "alternative": false,
+   "machine": "Refinery",
+   "temps": 6.0,
+   "origine": "jalon",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Crude Oil",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Plastic",
+     2.0
+    ],
+    [
+     "Heavy Oil Residue",
+     1.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Plutonium Fuel Rod": {
+   "classe": "Recipe_PlutoniumFuelRod_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 240.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Encased Plutonium Cell",
+     30.0
+    ],
+    [
+     "Steel Beam",
+     18.0
+    ],
+    [
+     "Electromagnetic Control Rod",
+     6.0
+    ],
+    [
+     "Heat Sink",
+     10.0
+    ]
+   ],
+   "produits": [
+    [
+     "Plutonium Fuel Rod",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Plutonium Pellet": {
+   "classe": "Recipe_Plutonium_C",
+   "alternative": false,
+   "machine": "Particle Accelerator",
+   "temps": 60.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Non-Fissile Uranium",
+     100.0
+    ],
+    [
+     "Uranium Waste",
+     25.0
+    ]
+   ],
+   "produits": [
+    [
+     "Plutonium Pellet",
+     30.0
+    ]
+   ],
+   "mwMin": 250,
+   "mwMax": 750,
+   "palier": 8
+  },
+  "Portable Miner": {
+   "classe": "Recipe_PortableMiner_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 40.0,
+   "origine": "jalon",
+   "palierPlancher": 0,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Plate",
+     2.0
+    ],
+    [
+     "Iron Rod",
+     4.0
+    ]
+   ],
+   "produits": [
+    [
+     "Portable Miner",
+     1.0
+    ]
+   ],
+   "palier": 0
+  },
+  "Power Shard (1)": {
+   "classe": "Recipe_PowerCrystalShard_1_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 8.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Blue Power Slug",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Power Shard",
+     1.0
+    ]
+   ],
+   "palier": 0
+  },
+  "Power Shard (2)": {
+   "classe": "Recipe_PowerCrystalShard_2_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 12.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Yellow Power Slug",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Power Shard",
+     2.0
+    ]
+   ],
+   "palier": 0
+  },
+  "Power Shard (5)": {
+   "classe": "Recipe_PowerCrystalShard_3_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 24.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Purple Power Slug",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Power Shard",
+     5.0
+    ]
+   ],
+   "palier": 0
+  },
+  "Pressure Conversion Cube": {
+   "classe": "Recipe_PressureConversionCube_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 60.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Fused Modular Frame",
+     1.0
+    ],
+    [
+     "Radio Control Unit",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Pressure Conversion Cube",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Protein Inhaler": {
+   "classe": "Recipe_MedicinalInhalerAlienOrgans_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 20.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Alien Protein",
+     1.0
+    ],
+    [
+     "Beryl Nut",
+     10.0
+    ]
+   ],
+   "produits": [
+    [
+     "Medicinal Inhaler",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Pulse Nobelisk": {
+   "classe": "Recipe_NobeliskShockwave_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 60.0,
+   "origine": "mam",
+   "palierPlancher": 6,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Nobelisk",
+     5.0
+    ],
+    [
+     "Crystal Oscillator",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Pulse Nobelisk",
+     5.0
+    ]
+   ],
+   "palier": 6
+  },
+  "Quartz Crystal": {
+   "classe": "Recipe_QuartzCrystal_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 8.0,
+   "origine": "mam",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Raw Quartz",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Quartz Crystal",
+     3.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Quickwire": {
+   "classe": "Recipe_Quickwire_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 5.0,
+   "origine": "mam",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Caterium Ingot",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Quickwire",
+     5.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Radio Control Unit": {
+   "classe": "Recipe_RadioControlUnit_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 48.0,
+   "origine": "jalon",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Aluminum Casing",
+     32.0
+    ],
+    [
+     "Crystal Oscillator",
+     1.0
+    ],
+    [
+     "Computer",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Radio Control Unit",
+     2.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Raw Quartz (Bauxite)": {
+   "classe": "Recipe_Quartz_Bauxite_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     1.0
+    ],
+    [
+     "Bauxite",
+     10.0
+    ]
+   ],
+   "produits": [
+    [
+     "Raw Quartz",
+     12.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Raw Quartz (Coal)": {
+   "classe": "Recipe_Quartz_Coal_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     1.0
+    ],
+    [
+     "Coal",
+     24.0
+    ]
+   ],
+   "produits": [
+    [
+     "Raw Quartz",
+     12.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Reanimated SAM": {
+   "classe": "Recipe_IngotSAM_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 2.0,
+   "origine": "jalon",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "SAM",
+     4.0
+    ]
+   ],
+   "produits": [
+    [
+     "Reanimated SAM",
+     1.0
+    ]
+   ],
+   "palier": 9
+  },
+  "Rebar Gun": {
+   "classe": "Recipe_RebarGun_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 60.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Reinforced Iron Plate",
+     6.0
+    ],
+    [
+     "Iron Rod",
+     16.0
+    ],
+    [
+     "Screws",
+     100.0
+    ]
+   ],
+   "produits": [
+    [
+     "Rebar Gun",
+     1.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Reinforced Iron Plate": {
+   "classe": "Recipe_IronPlateReinforced_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 12.0,
+   "origine": "jalon",
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Iron Plate",
+     6.0
+    ],
+    [
+     "Screws",
+     12.0
+    ]
+   ],
+   "produits": [
+    [
+     "Reinforced Iron Plate",
+     1.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Residual Fuel": {
+   "classe": "Recipe_ResidualFuel_C",
+   "alternative": false,
+   "machine": "Refinery",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Heavy Oil Residue",
+     6.0
+    ]
+   ],
+   "produits": [
+    [
+     "Fuel",
+     4.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Residual Plastic": {
+   "classe": "Recipe_ResidualPlastic_C",
+   "alternative": false,
+   "machine": "Refinery",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Polymer Resin",
+     6.0
+    ],
+    [
+     "Water",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Plastic",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Residual Rubber": {
+   "classe": "Recipe_ResidualRubber_C",
+   "alternative": false,
+   "machine": "Refinery",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Polymer Resin",
+     4.0
+    ],
+    [
+     "Water",
+     4.0
+    ]
+   ],
+   "produits": [
+    [
+     "Rubber",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Rifle": {
+   "classe": "Recipe_SpaceRifleMk1_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 120.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Motor",
+     2.0
+    ],
+    [
+     "Rubber",
+     10.0
+    ],
+    [
+     "Steel Pipe",
+     25.0
+    ],
+    [
+     "Screws",
+     250.0
+    ]
+   ],
+   "produits": [
+    [
+     "Rifle",
+     1.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Rifle Ammo": {
+   "classe": "Recipe_Cartridge_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 12.0,
+   "origine": "mam",
+   "palierPlancher": 5,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Copper Sheet",
+     3.0
+    ],
+    [
+     "Smokeless Powder",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Rifle Ammo",
+     15.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Rocket Fuel": {
+   "classe": "Recipe_RocketFuel_C",
+   "alternative": false,
+   "machine": "Blender",
+   "temps": 6.0,
+   "origine": "mam",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Turbofuel",
+     6.0
+    ],
+    [
+     "Nitric Acid",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Rocket Fuel",
+     10.0
+    ],
+    [
+     "Compacted Coal",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Rotor": {
+   "classe": "Recipe_Rotor_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 15.0,
+   "origine": "jalon",
+   "palierPlancher": 2,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Iron Rod",
+     5.0
+    ],
+    [
+     "Screws",
+     25.0
+    ]
+   ],
+   "produits": [
+    [
+     "Rotor",
+     1.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Rubber": {
+   "classe": "Recipe_Rubber_C",
+   "alternative": false,
+   "machine": "Refinery",
+   "temps": 6.0,
+   "origine": "jalon",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Crude Oil",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Rubber",
+     2.0
+    ],
+    [
+     "Heavy Oil Residue",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "SAM Fluctuator": {
+   "classe": "Recipe_SAMFluctuator_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 6.0,
+   "origine": "jalon",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     6.0
+    ],
+    [
+     "Wire",
+     5.0
+    ],
+    [
+     "Steel Pipe",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "SAM Fluctuator",
+     1.0
+    ]
+   ],
+   "palier": 9
+  },
+  "Screws": {
+   "classe": "Recipe_Screw_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 6.0,
+   "origine": "jalon",
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Iron Rod",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Screws",
+     4.0
+    ]
+   ],
+   "palier": 0
+  },
+  "Shatter Rebar": {
+   "classe": "Recipe_Rebar_Spreadshot_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 12.0,
+   "origine": "mam",
+   "palierPlancher": 3,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Rebar",
+     2.0
+    ],
+    [
+     "Quartz Crystal",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Shatter Rebar",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Silica": {
+   "classe": "Recipe_Silica_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 8.0,
+   "origine": "mam",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Raw Quartz",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Silica",
+     5.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Singularity Cell": {
+   "classe": "Recipe_SingularityCell_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 60.0,
+   "origine": "jalon",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Nuclear Pasta",
+     1.0
+    ],
+    [
+     "Dark Matter Crystal",
+     20.0
+    ],
+    [
+     "Iron Plate",
+     100.0
+    ],
+    [
+     "Concrete",
+     200.0
+    ]
+   ],
+   "produits": [
+    [
+     "Singularity Cell",
+     10.0
+    ]
+   ],
+   "mwMin": 0,
+   "mwMax": 0,
+   "palier": 9
+  },
+  "Smart Plating": {
+   "classe": "Recipe_SpaceElevatorPart_1_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 30.0,
+   "origine": "jalon",
+   "palierPlancher": 2,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reinforced Iron Plate",
+     1.0
+    ],
+    [
+     "Rotor",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Smart Plating",
+     1.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Smokeless Powder": {
+   "classe": "Recipe_GunpowderMK2_C",
+   "alternative": false,
+   "machine": "Refinery",
+   "temps": 6.0,
+   "origine": "mam",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Black Powder",
+     2.0
+    ],
+    [
+     "Heavy Oil Residue",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Smokeless Powder",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Solid Biofuel": {
+   "classe": "Recipe_Biofuel_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 4.0,
+   "origine": "jalon",
+   "palierPlancher": 2,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Biomass",
+     8.0
+    ]
+   ],
+   "produits": [
+    [
+     "Solid Biofuel",
+     4.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Spitter Protein": {
+   "classe": "Recipe_Protein_Spitter_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 3.0,
+   "origine": "mam",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Spitter Remains",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Alien Protein",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Stator": {
+   "classe": "Recipe_Stator_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 12.0,
+   "origine": "jalon",
+   "palierPlancher": 4,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Steel Pipe",
+     3.0
+    ],
+    [
+     "Wire",
+     8.0
+    ]
+   ],
+   "produits": [
+    [
+     "Stator",
+     1.0
+    ]
+   ],
+   "palier": 4
+  },
+  "Steel Beam": {
+   "classe": "Recipe_SteelBeam_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 4.0,
+   "origine": "jalon",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Steel Ingot",
+     4.0
+    ]
+   ],
+   "produits": [
+    [
+     "Steel Beam",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Steel Ingot": {
+   "classe": "Recipe_IngotSteel_C",
+   "alternative": false,
+   "machine": "Foundry",
+   "temps": 4.0,
+   "origine": "jalon",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Iron Ore",
+     3.0
+    ],
+    [
+     "Coal",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Steel Ingot",
+     3.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Steel Pipe": {
+   "classe": "Recipe_SteelPipe_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 6.0,
+   "origine": "jalon",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Steel Ingot",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Steel Pipe",
+     2.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Stinger Protein": {
+   "classe": "Recipe_Protein_Stinger_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 3.0,
+   "origine": "mam",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Stinger Remains",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Alien Protein",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Stun Rebar": {
+   "classe": "Recipe_Rebar_Stunshot_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 6.0,
+   "origine": "mam",
+   "palierPlancher": 3,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Rebar",
+     1.0
+    ],
+    [
+     "Quickwire",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Stun Rebar",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Sulfur (Coal)": {
+   "classe": "Recipe_Sulfur_Coal_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     1.0
+    ],
+    [
+     "Coal",
+     20.0
+    ]
+   ],
+   "produits": [
+    [
+     "Sulfur",
+     12.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Sulfur (Iron)": {
+   "classe": "Recipe_Sulfur_Iron_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     1.0
+    ],
+    [
+     "Iron Ore",
+     30.0
+    ]
+   ],
+   "produits": [
+    [
+     "Sulfur",
+     12.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Sulfuric Acid": {
+   "classe": "Recipe_SulfuricAcid_C",
+   "alternative": false,
+   "machine": "Refinery",
+   "temps": 6.0,
+   "origine": "jalon",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Sulfur",
+     5.0
+    ],
+    [
+     "Water",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Sulfuric Acid",
+     5.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Supercomputer": {
+   "classe": "Recipe_ComputerSuper_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 32.0,
+   "origine": "jalon",
+   "palierPlancher": 7,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Computer",
+     4.0
+    ],
+    [
+     "AI Limiter",
+     2.0
+    ],
+    [
+     "High-Speed Connector",
+     3.0
+    ],
+    [
+     "Plastic",
+     28.0
+    ]
+   ],
+   "produits": [
+    [
+     "Supercomputer",
+     1.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Superposition Oscillator": {
+   "classe": "Recipe_SuperpositionOscillator_C",
+   "alternative": false,
+   "machine": "Quantum Encoder",
+   "temps": 12.0,
+   "origine": "jalon",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Dark Matter Crystal",
+     6.0
+    ],
+    [
+     "Crystal Oscillator",
+     1.0
+    ],
+    [
+     "Alclad Aluminum Sheet",
+     9.0
+    ],
+    [
+     "Excited Photonic Matter",
+     25.0
+    ]
+   ],
+   "produits": [
+    [
+     "Superposition Oscillator",
+     1.0
+    ],
+    [
+     "Dark Matter Residue",
+     25.0
+    ]
+   ],
+   "mwMin": 0,
+   "mwMax": 2000,
+   "palier": 9
+  },
+  "Synthetic Power Shard": {
+   "classe": "Recipe_SyntheticPowerShard_C",
+   "alternative": false,
+   "machine": "Quantum Encoder",
+   "temps": 12.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Time Crystal",
+     2.0
+    ],
+    [
+     "Dark Matter Crystal",
+     2.0
+    ],
+    [
+     "Quartz Crystal",
+     12.0
+    ],
+    [
+     "Excited Photonic Matter",
+     12.0
+    ]
+   ],
+   "produits": [
+    [
+     "Power Shard",
+     1.0
+    ],
+    [
+     "Dark Matter Residue",
+     12.0
+    ]
+   ],
+   "mwMin": 0,
+   "mwMax": 2000,
+   "palier": 9
+  },
+  "Therapeutic Inhaler": {
+   "classe": "Recipe_TherapeuticInhaler_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 20.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Mycelia",
+     15.0
+    ],
+    [
+     "Alien Protein",
+     1.0
+    ],
+    [
+     "Bacon Agaric",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Medicinal Inhaler",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Thermal Propulsion Rocket": {
+   "classe": "Recipe_SpaceElevatorPart_8_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 120.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Modular Engine",
+     5.0
+    ],
+    [
+     "Turbo Motor",
+     2.0
+    ],
+    [
+     "Cooling System",
+     6.0
+    ],
+    [
+     "Fused Modular Frame",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Thermal Propulsion Rocket",
+     2.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Time Crystal": {
+   "classe": "Recipe_TimeCrystal_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 10.0,
+   "origine": "jalon",
+   "palierPlancher": 9,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Diamonds",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Time Crystal",
+     1.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Turbo Motor": {
+   "classe": "Recipe_MotorTurbo_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 32.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Cooling System",
+     4.0
+    ],
+    [
+     "Radio Control Unit",
+     2.0
+    ],
+    [
+     "Motor",
+     4.0
+    ],
+    [
+     "Rubber",
+     24.0
+    ]
+   ],
+   "produits": [
+    [
+     "Turbo Motor",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Turbo Rifle Ammo": {
+   "classe": "Recipe_CartridgeChaos_Packaged_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 12.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Rifle Ammo",
+     25.0
+    ],
+    [
+     "Aluminum Casing",
+     3.0
+    ],
+    [
+     "Packaged Turbofuel",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Turbo Rifle Ammo",
+     50.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Turbo Rifle Ammo (Recipe_CartridgeChaos_C)": {
+   "classe": "Recipe_CartridgeChaos_C",
+   "alternative": false,
+   "machine": "Blender",
+   "temps": 12.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Rifle Ammo",
+     25.0
+    ],
+    [
+     "Aluminum Casing",
+     3.0
+    ],
+    [
+     "Turbofuel",
+     3.0
+    ]
+   ],
+   "produits": [
+    [
+     "Turbo Rifle Ammo",
+     50.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Turbofuel": {
+   "classe": "Recipe_Alternate_Turbofuel_C",
+   "alternative": true,
+   "machine": "Refinery",
+   "temps": 16.0,
+   "origine": "mam",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Fuel",
+     6.0
+    ],
+    [
+     "Compacted Coal",
+     4.0
+    ]
+   ],
+   "produits": [
+    [
+     "Turbofuel",
+     5.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Unpackage Alumina Solution": {
+   "classe": "Recipe_UnpackageAlumina_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 1.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Packaged Alumina Solution",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Alumina Solution",
+     2.0
+    ],
+    [
+     "Empty Canister",
+     2.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Unpackage Fuel": {
+   "classe": "Recipe_UnpackageFuel_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 2.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Packaged Fuel",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Fuel",
+     2.0
+    ],
+    [
+     "Empty Canister",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Unpackage Heavy Oil Residue": {
+   "classe": "Recipe_UnpackageOilResidue_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Packaged Heavy Oil Residue",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Heavy Oil Residue",
+     2.0
+    ],
+    [
+     "Empty Canister",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Unpackage Ionized Fuel": {
+   "classe": "Recipe_UnpackageIonizedFuel_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 3.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Packaged Ionized Fuel",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Ionized Fuel",
+     4.0
+    ],
+    [
+     "Empty Fluid Tank",
+     2.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Unpackage Liquid Biofuel": {
+   "classe": "Recipe_UnpackageBioFuel_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 2.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Packaged Liquid Biofuel",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Liquid Biofuel",
+     2.0
+    ],
+    [
+     "Empty Canister",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Unpackage Nitric Acid": {
+   "classe": "Recipe_UnpackageNitricAcid_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 3.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Packaged Nitric Acid",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Nitric Acid",
+     1.0
+    ],
+    [
+     "Empty Fluid Tank",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Unpackage Nitrogen Gas": {
+   "classe": "Recipe_UnpackageNitrogen_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 1.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Packaged Nitrogen Gas",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Nitrogen Gas",
+     4.0
+    ],
+    [
+     "Empty Fluid Tank",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Unpackage Oil": {
+   "classe": "Recipe_UnpackageOil_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 2.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Packaged Oil",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Crude Oil",
+     2.0
+    ],
+    [
+     "Empty Canister",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Unpackage Rocket Fuel": {
+   "classe": "Recipe_UnpackageRocketFuel_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 1.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Packaged Rocket Fuel",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Rocket Fuel",
+     2.0
+    ],
+    [
+     "Empty Fluid Tank",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Unpackage Sulfuric Acid": {
+   "classe": "Recipe_UnpackageSulfuricAcid_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 1.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Packaged Sulfuric Acid",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Sulfuric Acid",
+     1.0
+    ],
+    [
+     "Empty Canister",
+     1.0
+    ]
+   ],
+   "palier": 7
+  },
+  "Unpackage Turbofuel": {
+   "classe": "Recipe_UnpackageTurboFuel_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 6.0,
+   "origine": "dd",
+   "palierPlancher": 5,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Packaged Turbofuel",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Turbofuel",
+     2.0
+    ],
+    [
+     "Empty Canister",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Unpackage Water": {
+   "classe": "Recipe_UnpackageWater_C",
+   "alternative": false,
+   "machine": "Packager",
+   "temps": 1.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Packaged Water",
+     2.0
+    ]
+   ],
+   "produits": [
+    [
+     "Water",
+     2.0
+    ],
+    [
+     "Empty Canister",
+     2.0
+    ]
+   ],
+   "palier": 5
+  },
+  "Uranium Fuel Rod": {
+   "classe": "Recipe_NuclearFuelRod_C",
+   "alternative": false,
+   "machine": "Manufacturer",
+   "temps": 150.0,
+   "origine": "jalon",
+   "palierPlancher": 8,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Encased Uranium Cell",
+     50.0
+    ],
+    [
+     "Encased Industrial Beam",
+     3.0
+    ],
+    [
+     "Electromagnetic Control Rod",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Uranium Fuel Rod",
+     1.0
+    ]
+   ],
+   "palier": 8
+  },
+  "Uranium Ore (Bauxite)": {
+   "classe": "Recipe_Uranium_Bauxite_C",
+   "alternative": false,
+   "machine": "Converter",
+   "temps": 6.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Reanimated SAM",
+     1.0
+    ],
+    [
+     "Bauxite",
+     48.0
+    ]
+   ],
+   "produits": [
+    [
+     "Uranium",
+     12.0
+    ]
+   ],
+   "mwMin": 100,
+   "mwMax": 400,
+   "palier": 9
+  },
+  "Versatile Framework": {
+   "classe": "Recipe_SpaceElevatorPart_2_C",
+   "alternative": false,
+   "machine": "Assembler",
+   "temps": 24.0,
+   "origine": "jalon",
+   "palierPlancher": 3,
+   "atelier": false,
+   "main": false,
+   "ingredients": [
+    [
+     "Modular Frame",
+     1.0
+    ],
+    [
+     "Steel Beam",
+     12.0
+    ]
+   ],
+   "produits": [
+    [
+     "Versatile Framework",
+     2.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Vitamin Inhaler": {
+   "classe": "Recipe_MedicinalInhaler_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 20.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Mycelia",
+     10.0
+    ],
+    [
+     "Paleberry",
+     5.0
+    ]
+   ],
+   "produits": [
+    [
+     "Medicinal Inhaler",
+     1.0
+    ]
+   ],
+   "palier": 0
+  },
+  "Wire": {
+   "classe": "Recipe_Wire_C",
+   "alternative": false,
+   "machine": "Constructor",
+   "temps": 4.0,
+   "origine": "jalon",
+   "palierPlancher": 0,
+   "atelier": false,
+   "main": true,
+   "ingredients": [
+    [
+     "Copper Ingot",
+     1.0
+    ]
+   ],
+   "produits": [
+    [
+     "Wire",
+     2.0
+    ]
+   ],
+   "palier": 0
+  },
+  "Xeno-Basher": {
+   "classe": "Recipe_XenoBasher_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 80.0,
+   "origine": "jalon",
+   "palierPlancher": 3,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Xeno-Zapper",
+     2.0
+    ],
+    [
+     "Modular Frame",
+     5.0
+    ],
+    [
+     "Iron Rod",
+     25.0
+    ],
+    [
+     "Wire",
+     500.0
+    ]
+   ],
+   "produits": [
+    [
+     "Xeno-Basher",
+     1.0
+    ]
+   ],
+   "palier": 3
+  },
+  "Xeno-Zapper": {
+   "classe": "Recipe_XenoZapper_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 40.0,
+   "origine": null,
+   "palierPlancher": 0,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Iron Rod",
+     10.0
+    ],
+    [
+     "Reinforced Iron Plate",
+     2.0
+    ],
+    [
+     "Cable",
+     15.0
+    ],
+    [
+     "Wire",
+     50.0
+    ]
+   ],
+   "produits": [
+    [
+     "Xeno-Zapper",
+     1.0
+    ]
+   ],
+   "palier": 2
+  },
+  "Zipline": {
+   "classe": "Recipe_ZipLine_C",
+   "alternative": false,
+   "machine": null,
+   "temps": 40.0,
+   "origine": "mam",
+   "palierPlancher": 0,
+   "atelier": true,
+   "main": false,
+   "ingredients": [
+    [
+     "Xeno-Zapper",
+     1.0
+    ],
+    [
+     "Quickwire",
+     30.0
+    ],
+    [
+     "Iron Rod",
+     3.0
+    ],
+    [
+     "Cable",
+     10.0
+    ]
+   ],
+   "produits": [
+    [
+     "Zipline",
+     1.0
+    ]
+   ],
+   "palier": 3
+  }
+ },
+ "ressources": [
+  "Bauxite",
+  "Caterium Ore",
+  "Coal",
+  "Copper Ore",
+  "Crude Oil",
+  "Iron Ore",
+  "Limestone",
+  "Nitrogen Gas",
+  "Raw Quartz",
+  "SAM",
+  "Sulfur",
+  "Uranium",
+  "Water"
+ ]
+}

@@ -6,7 +6,15 @@ Outils générés pour la maîtrise des systèmes de *Satisfactory* (logistique,
 
 - Charte graphique FICSIT : orange `#FA9549` sur bleu-gris foncé, hachures diagonales, coins biseautés/coupés, typographie Saira Condensed / Rajdhani, cadres d'icônes façon slots d'inventaire.
 - Icônes d'objets réels du jeu, encodées en base64 dans le HTML (jamais de substituts dessinés à la main quand l'intégration est possible).
-- Source de données : `greeny/SatisfactoryTools` (branche `dev`), `data/data.json` pour les items/recettes/bâtiments, `www/assets/images/items/{slug}_256.png` pour les icônes.
+- Source de données : `greeny/SatisfactoryTools` (branche `dev`) — voir « Données de jeu » ci-dessous.
+
+## Données de jeu
+
+- Référentiel unique : `donnees/donnees-jeu.json` (items, bâtiments, recettes, paliers) et `donnees/icones/*.webp` (96 px, une seule copie par item). Régénéré par `python3 scripts/donnees.py` depuis `greeny/SatisfactoryTools` (branche `dev`). Ne jamais éditer à la main : corriger le script ou les fichiers curés.
+- `donnees/paliers-mam.json` : paliers des recettes du MAM, absents de la source (elle donne un tier interne au MAM). Relevés à la main, appliqués en plancher par le script.
+- Définition du palier, commune à tous les outils : premier palier où la recette est exécutable — machine débloquée, déblocage obtenu (jalon, chaîne de prérequis pour une alternative de disque dur, `paliers-mam.json`), et ingrédients produisibles par des recettes elles-mêmes exécutables. Point fixe.
+- `python3 scripts/verif_payloads.py` compare ce que chaque page embarque au référentiel. Sortie vide = tout est aligné.
+- **État actuel : les payloads des pages ne sont pas encore dérivés du référentiel** (étape 2). Items, points de broyage et puissances concordent déjà ; les paliers divergent — voir la sortie de `verif_payloads.py`.
 
 ## Journal des révisions
 

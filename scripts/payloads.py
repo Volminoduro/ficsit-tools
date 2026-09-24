@@ -2,7 +2,7 @@
 """Réécrit dans chaque page ce qui est dérivable du référentiel donnees/donnees-jeu.json.
 
 Aujourd'hui : les icônes (une seule source, donnees/icones/, ré-échantillonnée à la taille de chaque
-page) et les paliers de recettes de l'infographie. Les combinaisons de l'infographie (clés tc, combi,
+page), les paliers de recettes de l'infographie et tout le payload du broyeur (scripts/broyeur.py). Les combinaisons de l'infographie (clés tc, combi,
 chains, freq et variantes *M) sont calculées par scripts/paliers_combinaisons.js et ne sont pas touchées ici.
 
 Usage : python3 scripts/payloads.py [--verifier]   (depuis la racine du dépôt)
@@ -143,8 +143,24 @@ def paliers_infographie():
         print(f"    {n:34} {a} → {b}")
 
 
+def payload_broyeur():
+    """Le payload du broyeur est entièrement calculé par son optimiseur, scripts/broyeur.py."""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import broyeur
+    p = ROOT / "broyeur-excedents.html"
+    s = avant = p.read_text(encoding="utf-8")
+    m, P = bloc_json(s, "payload")
+    neuf = broyeur.calcul()
+    ancien = {t["n"]: t for t in P["tgt"]}
+    chg = sum(1 for t in neuf["tgt"] if ancien.get(t["n"]) != t)
+    s = s[:m.start(2)] + json.dumps(neuf, ensure_ascii=False, separators=(",", ":")) + s[m.end(2):]
+    ecrire(p, s, avant)
+    print(f"broyeur-excedents.html : {len(neuf['src'])} sources, {len(neuf['tgt'])} cibles, {chg} cibles modifiées")
+
+
 if __name__ == "__main__":
     paliers_infographie()
+    payload_broyeur()
     page_icones("satisfactory_infographie.html", "payload", 44, cle="ic")
     page_icones("broyeur-excedents.html", "icons", 44)
     horloge()

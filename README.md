@@ -19,7 +19,8 @@ Outils générés pour la maîtrise des systèmes de *Satisfactory* (logistique,
   - `tc` : pour chaque palier et chaque critère (énergie `mw`, matière `mat`), meilleure chaîne, chaîne tout en base et podium, par recherche exacte (séparation-évaluation).
   - `combi`, `chains`, `freq` (et `combiM`, `chainsM`, `freqM` pour le critère matière) : le même calcul sans plafond de palier, plus, par énumération complète, le nombre de chaînes distinctes (une recette par item, cohérente sur tout l'arbre, sans boucle) et l'indice de la pire, tant qu'il y en a au plus un million.
   - Sans `--ecrire`, le JSON part sur la sortie standard ; `tc` (défaut) ou `registre` limitent le calcul à une des deux parties.
-- **Reste à traiter :** le `t` du broyeur porte sur toute la chaîne de production, pas sur la recette cible, et son optimiseur (choix des meilleures alternatives, coûts récursifs) n'est pas dans le dépôt : ses 31 paliers ne sont donc pas encore dérivables. Et le palier d'apparition d'une alternative dans le tirage de disques durs n'existe dans aucune source : pour celles dont la chaîne de prérequis est vide, le palier retenu est celui de leur machine et de leurs ingrédients, minoré au palier 1.
+- Le payload du broyeur (`src`, `tgt`) est entièrement calculé par `scripts/broyeur.py` (appelé par `payloads.py`) : chaîne la moins gourmande en MW pour chaque item, byproducts non crédités, puis puissance, minerai neuf, machines, consommations `u` et palier `t` lus le long de cette chaîne (`t` = palier le plus haut de ses recettes). `python3 scripts/broyeur.py` seul montre les écarts avec la page sans rien écrire.
+- **Reste à traiter :** le palier d'apparition d'une alternative dans le tirage de disques durs n'existe dans aucune source : pour celles dont la chaîne de prérequis est vide, le palier retenu est celui de leur machine et de leurs ingrédients, minoré au palier 1.
 
 ## Journal des révisions
 

@@ -1,0 +1,27 @@
+# Les combinaisons précalculées de l'infographie dépendent de ses recettes et de ses paliers.
+# Calcul long (~7 min) : seulement quand l'un d'eux peut avoir changé.
+name: Combinaisons de l'infographie
+on:
+  pull_request:
+    paths:
+      - satisfactory_infographie.html
+      - scripts/paliers_combinaisons.js
+      - donnees/**
+permissions:
+  contents: read
+jobs:
+  combinaisons:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Recalcul et comparaison avec le payload commité
+        run: |
+          node scripts/paliers_combinaisons.js satisfactory_infographie.html tout --ecrire 2>/dev/null
+          if ! git diff --quiet satisfactory_infographie.html; then
+            echo "::error::Combinaisons pas à jour : node scripts/paliers_combinaisons.js satisfactory_infographie.html tout --ecrire, puis committer."
+            exit 1
+          fi

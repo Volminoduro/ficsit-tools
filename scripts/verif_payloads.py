@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Compare ce que chaque outil embarque avec le référentiel donnees/donnees-jeu.json.
 
-Tant que les payloads ne sont pas dérivés du référentiel (étape 2), ce script sert de filet :
-il liste ce qui diverge, outil par outil, sans rien modifier. Sortie vide = les outils sont alignés.
+Filet de sécurité : liste, outil par outil, ce qui diverge, sans rien modifier. Chaque ligne commence
+par un nombre d'écarts ; tous à 0 = les outils sont alignés. Code de sortie 1 dès qu'un écart existe
+(utilisé par la CI, .github/workflows/verif.yml).
 Usage : python3 scripts/verif_payloads.py   (depuis la racine du dépôt)
 """
 import json, re, pathlib, sys
@@ -25,8 +26,13 @@ def nom_recette(n, alternative):
     return n
 
 
+ECARTS = []
+
+
 def ligne(outil, sujet, detail):
     print(f"{outil:14} {sujet:22} {detail}")
+    if int(detail.split()[0]):
+        ECARTS.append(f"{outil} : {sujet}")
 
 
 def infographie():
@@ -82,3 +88,5 @@ if __name__ == "__main__":
     if not R:
         sys.exit("référentiel vide : lancer scripts/donnees.py")
     infographie(); broyeur(); horloge(); icones()
+    if ECARTS:
+        sys.exit(f"{len(ECARTS)} contrôle(s) en échec : {', '.join(ECARTS)}")

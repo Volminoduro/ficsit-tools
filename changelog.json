@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.9",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Noms français ajoutés : Foreuse portable, Restes de dardeuse, Restes de sanglier alien, Restes de cracheur.",
+            "en": "French names added: Foreuse portable, Restes de dardeuse, Restes de sanglier alien, Restes de cracheur."
+          }
+        },
+        {
           "version": "1.8",
           "date": "2026-09-24",
           "texte": {
@@ -127,6 +135,14 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.7",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Les recettes alternatives s'affichent sans le préfixe anglais « Alternate: », suivies de la mention « (alternative) ». Noms français ajoutés : Foreuse portable, Restes de dardeuse, Restes de sanglier alien, Restes de cracheur.",
+            "en": "Alternate recipes are shown without the \"Alternate:\" prefix, followed by \"(alternate)\". French names added: Foreuse portable, Restes de dardeuse, Restes de sanglier alien, Restes de cracheur."
+          }
+        },
         {
           "version": "1.6",
           "date": "2026-09-24",

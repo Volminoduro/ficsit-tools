@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.10",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Nouveau critère « Espace » : chaque recette et chaque combinaison notée en sortie par m² au sol, machines et extraction surcadencées à 250 % (éclats de charge, sans Somersloop). Emprises des bâtiments relevées à la main ; convoyeurs et allées non comptés.",
+            "en": "New \"Space\" criterion: every recipe and combination rated by output per floor m², machines and extraction overclocked to 250% (power shards, no Somersloop). Building footprints recorded by hand; belts and walkways not counted."
+          }
+        },
+        {
           "version": "1.9",
           "date": "2026-09-24",
           "texte": {

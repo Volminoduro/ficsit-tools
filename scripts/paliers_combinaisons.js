@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /* Précalcul des combinaisons de recettes de satisfactory_infographie.html.
-   Usage : node scripts/paliers_combinaisons.js satisfactory_infographie.html [tc|registre|tout] [mw|mat] [--ecrire]
+   Usage : node scripts/paliers_combinaisons.js satisfactory_infographie.html [tc|registre|tout] [mw|mat|esp] [--ecrire]
      tc       (défaut) combinaisons optimales pour chaque palier → clé "tc" du payload.
-     registre combinaisons sans plafond de palier → clés combi et combiM (critère matière).
+     registre combinaisons sans plafond de palier → clés combi (énergie), combiM (matière) et combiE (espace).
      tout     les deux.
-     mw|mat   restreint tc à un critère (mise au point).
+     mw|mat|esp restreint tc à un critère (mise au point).
      --ecrire écrit le résultat dans le payload de la page au lieu de la sortie standard.
-   tc : {"mw":{"0":[...],...,"9":[...]},"mat":{...}}. Chaque ligne : c = cible, d = indice de la chaîne tout en base,
+   tc : {"mw":{"0":[...],...,"9":[...]},"mat":{...},"esp":{...}}. Chaque ligne : c = cible, d = indice de la chaîne tout en base,
    o = indice optimal, n = combinaisons brutes, x = recherche prouvée exacte, top = 3 meilleures chaînes [indice, alternatives].
    registre : combi = une ligne par cible (mêmes indices que tc au dernier palier, plus la pire chaîne et le nombre de
    chaînes distinctes, obtenus par énumération complète tant qu'il y en a au plus PLAFOND). La page n'en lit que la pire
@@ -20,6 +20,8 @@ const P = JSON.parse(html.match(/<script id="payload" type="application\/json">(
 const js = html.match(/<script>\n([\s\S]*?)<\/script>/)[1];
 const helpers = js.slice(js.indexOf('const RAWE'), js.indexOf('function usedItems'));
 const ENGINE = String.raw`
+/* critères : énergie (mw), matière (mat), espace au sol (esp) ; clé du registre sans plafond pour chacun */
+const MODES = ['mw', 'mat', 'esp'], REGISTRE = {mw: 'combi', mat: 'combiM', esp: 'combiE'};
 /* ---------- paliers : disponibilité et recherche exacte des chaînes ---------- */
 const TMAX = Math.max(...D.map(r=>r.t));
 let cap = TMAX;
@@ -49,7 +51,7 @@ function optsOf(it, c){
 const rawVal = (it, m) => { const c = rawCost(it, m); return c == null ? Infinity : c; };
 function unitCost(o, it, m, val){
   const den = outRate(o, it);
-  let t = m==='mw' ? o.r.w / (o.r.o + byOut(o.r)) : 0;
+  let t = recCost(o.r, m);
   for(const g of o.r.ig){ t += g[2]/den*val(g[0]); if(t === Infinity) break; }
   return t;
 }
@@ -87,7 +89,7 @@ function boundCost(target, choice, LB, m){
     if(!ch) return it in LB ? LB[it] : Infinity;
     if(stack.has(it)) return Infinity;
     const den = outRate(ch, it), s2 = new Set(stack).add(it);
-    let t = m==='mw' ? ch.r.w / (ch.r.o + byOut(ch.r)) : 0;
+    let t = recCost(ch.r, m);
     for(const g of ch.r.ig){ t += g[2]/den*cost(g[0], s2); if(t === Infinity) return memo[it] = Infinity; }
     return memo[it] = t;
   };
@@ -138,18 +140,18 @@ function searchChains(target, m, c, K, maxNodes, LB, baseOnly){
   return {list, nodes, aborted};
 }
 /* Énumération complète des chaînes cohérentes d'une cible, pour le registre : nombre de chaînes et pire
-   indice par critère. S'arrête dès que les deux critères dépassent « plafond » chaînes. */
+   indice par critère. S'arrête dès que tous les critères dépassent « plafond » chaînes. */
 function enumChains(target, c, plafond){
-  const choice = {}, n = {mw: 0, mat: 0}, pire = {mw: 0, mat: 0};
+  const choice = {}, n = {mw: 0, mat: 0, esp: 0}, pire = {mw: 0, mat: 0, esp: 0};
   let stop = false;
   const rec = pending => {
     if(stop) return;
     let it = null;
     while(pending.length){ const x = pending.pop(); if(!isRaw(x) && !(x in choice)){ it = x; break; } }
     if(!it){
-      for(const m of ['mw', 'mat']){ const cst = costWith(target, choice, m);
+      for(const m of MODES){ const cst = costWith(target, choice, m);
         if(cst != null){ n[m]++; if(cst > pire[m]) pire[m] = cst; } }
-      stop = n.mw > plafond && n.mat > plafond;
+      stop = MODES.every(m => n[m] > plafond);
       return;
     }
     for(const o of optsOf(it, c)){
@@ -170,15 +172,15 @@ function brutes(target, c){
 `;
 const args = process.argv.slice(3);
 const quoi = args.find(a=>['tc', 'registre', 'tout'].includes(a)) || 'tc';
-const modes = args.filter(a=>a==='mw' || a==='mat');
+const modes = args.filter(a=>a==='mw' || a==='mat' || a==='esp');
 const run = new Function('P', 'quoi', 'modes', 'const D = P.d;\n' + helpers + ENGINE + `
 setBudget(100000);
 const out = {};
 if(quoi !== 'registre'){ out.tc = {};
-  for(const m of (modes.length ? modes : ['mw', 'mat'])){ out.tc[m] = {};
+  for(const m of (modes.length ? modes : MODES)){ out.tc[m] = {};
     for(let c = 0; c <= TMAX; c++){
       const rows = [];
-      for(const t of (m==='mw' ? P.combi : P.combiM)){
+      for(const t of P.combi){
         if(!availFor(c).items.has(t.cible)) continue;
         const r = searchChains(t.cible, m, c, 3, 3e6), d = searchChains(t.cible, m, c, 1, 3e6, null, true);
         rows.push({c: t.cible, d: d.list[0] ? d.list[0].score : null, o: r.list[0].score, n: brutes(t.cible, c),
@@ -191,7 +193,7 @@ if(quoi !== 'registre'){ out.tc = {};
 if(quoi !== 'tc'){
   const PLAFOND = 1000000, cibles = P.combi.map(t=>t.cible), en = {};
   cibles.forEach(t=>{ en[t] = enumChains(t, TMAX, PLAFOND); console.error('registre', t, en[t]('mw').nb); });
-  for(const m of ['mw', 'mat']){
+  for(const m of MODES){
     const combi = [];
     for(const t of cibles){
       const r = searchChains(t, m, TMAX, 1, 3e6), d = searchChains(t, m, TMAX, 1, 3e6, null, true);
@@ -200,7 +202,7 @@ if(quoi !== 'tc'){
         idx_pire: e.pire, nb_chaines: e.nb, combinaisons_brutes: brutes(t, TMAX),
         nb_alternatives_optimales: o.alts.length, alternatives_optimales: o.alts.join(' | ')});
     }
-    out[m==='mw' ? 'combi' : 'combiM'] = combi;
+    out[REGISTRE[m]] = combi;
   }
 }
 return out;`);

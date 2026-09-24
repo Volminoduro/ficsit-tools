@@ -146,11 +146,13 @@ def paliers_infographie():
 
 def emprises_infographie():
     """Mode « Espace » de l'infographie : emprises au sol (donnees/emprises.json) → payload.
-    em : m² par machine ; ex : m² par unité/min extraite, à 250 % ; oc : facteur de surcadençage."""
+    em : m² par machine ; ex : m² par unité/min extraite, à 250 % ; oc : facteur de surcadençage ;
+    xb : bâtiment d'extraction de chaque ressource, b (nom), d (débit à 250 %), a (emprise) — pour l'azote,
+    agrégé sur tous les puits du monde, b et n listent pressuriseurs et extracteurs."""
     E = json.loads((ROOT / "donnees" / "emprises.json").read_text(encoding="utf-8"))
     oc = E["surcadencage"]
     em = {n: round(b["l"] * b["L"], 2) for n, b in E["batiments"].items()}
-    ex = {}
+    ex, xb = {}, {}
     for res in REF["ressources"]:
         x = E["extraction"].get(res) or (None if REF["items"][res]["liquide"] else E["extraction"]["solide"])
         if not x:
@@ -158,13 +160,19 @@ def emprises_infographie():
             continue
         aire = x["aire"] if "aire" in x else x["l"] * x["L"]   # « aire » : emprise totale déjà agrégée (azote)
         ex[res] = round(aire / (x["debit"] * oc), 6)
+        ent = lambda v: int(v) if v == int(v) else v   # 600.0 → 600 : même écriture que JSON.stringify
+        if "aire" in x:
+            xb[res] = {"b": ["Resource Well Pressurizer", "Resource Well Extractor"],
+                       "n": [x["pressuriseurs"], x["extracteurs"]], "d": ent(x["debit"] * oc), "a": ent(aire)}
+        else:
+            xb[res] = {"b": x["batiment"], "d": ent(x["debit"] * oc), "a": ent(round(aire, 2))}
     p = ROOT / "satisfactory_infographie.html"
     s = avant = p.read_text(encoding="utf-8")
     m, P = bloc_json(s, "payload")
     manque = sorted({r["m"] for r in P["d"]} - set(em))
     if manque:
         print(f"  machines sans emprise : {manque}")
-    P["em"], P["ex"], P["oc"] = em, ex, oc
+    P["em"], P["ex"], P["oc"], P["xb"] = em, ex, oc, xb
     s = s[:m.start(2)] + json.dumps(P, ensure_ascii=False, separators=(",", ":")) + s[m.end(2):]
     ecrire(p, s, avant)
     print(f"satisfactory_infographie.html : emprises de {len(em)} machines, {len(ex)} ressources (×{oc})")

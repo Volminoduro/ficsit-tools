@@ -16,6 +16,10 @@ const PAGES = {
   'ficsit_horloge.html': null,
   'memo-ficsit.html': null,
   'satisfactory_infographie.html': p => p.evaluate(() => { document.getElementById('expAllC').click(); }),
+  // Espace : séquence d'une chaîne avec ses bâtiments (extraction, étapes, récapitulatif)
+  'satisfactory_infographie.html#esp': p => p.evaluate(() => {
+    document.getElementById('mESP').click(); document.getElementById('expAllC').click();
+    document.querySelector('#combi [data-seq]').click(); }),
   // Synthèse : curseurs, classement face à la base et combinaisons recalculées dans la page
   'satisfactory_infographie.html#syn': p => p.evaluate(() => {
     document.getElementById('mSYN').click(); document.getElementById('expAll').click(); document.getElementById('expAllC').click(); }),

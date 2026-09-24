@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.14",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Mode Espace : la séquence de production décrit les bâtiments employés — foreuses, pompes et part des puits d'azote à l'extraction, nombre de bâtiments et m² à chaque étape, et un récapitulatif par type de bâtiment. L'emprise d'extraction se compte désormais en bâtiments entiers, comme les machines.",
+            "en": "Space mode: the production sequence describes the buildings used — miners, extractors and share of the nitrogen wells at extraction, number of buildings and m² at each step, and a summary by building type. Extraction footprint is now counted in whole buildings, like the machines."
+          }
+        },
+        {
           "version": "1.13",
           "date": "2026-09-24",
           "texte": {

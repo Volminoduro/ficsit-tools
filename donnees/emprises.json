@@ -71,7 +71,9 @@
   "Nitrogen Gas": {
    "batiment": "Resource Well Pressurizer + Resource Well Extractor",
    "aire": 3120,
-   "debit": 4800.0
+   "debit": 4800.0,
+   "pressuriseurs": 6,
+   "extracteurs": 45
   }
  }
 }

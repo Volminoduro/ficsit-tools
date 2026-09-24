@@ -2,6 +2,8 @@
 
 Outils générés pour la maîtrise des systèmes de *Satisfactory* (logistique, énergie, optimisation de production).
 
+Tout le dépôt — code, calculs, textes — est généré par IA (Claude, d'Anthropic), à la demande d'un joueur qui l'oriente et le relit. Le site le dit : un encart sur l'accueil et un bandeau commun en bas de chaque page (`commun/ficsit-lang.js`, texte `communs.ia` de `commun/langue.json`).
+
 ## Convention pour ce dossier
 
 - Charte graphique FICSIT : orange `#FA9549` sur bleu-gris foncé, hachures diagonales, coins biseautés/coupés, typographie Saira Condensed / Rajdhani, cadres d'icônes façon slots d'inventaire.
@@ -10,12 +12,12 @@ Outils générés pour la maîtrise des systèmes de *Satisfactory* (logistique,
 
 ## Outils
 
-Pages autonomes, publiées sur GitHub Pages depuis `main` ; `index.html` les présente.
+Pages autonomes, publiées sur GitHub Pages depuis `main` ; `index.html` les présente en deux catégories, Production (mémo, registre, étalonnage) et Recyclage (optimiseur, complexité et valeur au broyeur).
 
 - `satisfactory_infographie.html` — **Registre des rendements** : chaque recette, standard ou alternative, notée en sortie par MW, par unité de matière première et par m² au sol (machines et extraction surcadencées à 250 %) ; duels entre recettes, meilleures combinaisons par produit, catalogue, filtre par palier atteint.
 - `broyeur-excedents.html` — **Optimiseur de recyclage (broyeur AWESOME)** : à partir de vos excédents, classe les cibles de broyage par points gagnés pour chaque MW ajouté.
 - `ficsit_horloge.html` — **Module d'étalonnage** : coût de chaque palier d'horloge (overclock) en éclats et en MW, et répartition optimale selon vos éclats.
-- `arbre-production.html` — **Arbre de production** : pour chaque item broyable, profondeur de l'arbre de production et nombre d'items intermédiaires face à sa valeur AWESOME, en recettes de base ou en chaîne optimisée (MW), filtrable par palier.
+- `arbre-production.html` — **Complexité et valeur au broyeur** : pour chaque item broyable, minerais bruts compris, profondeur de l'arbre de production et nombre d'items intermédiaires face à sa valeur AWESOME, en recettes de base ou en chaîne optimisée (MW), filtrable par palier.
 - `memo-ficsit.html` — **Mémo de terrain** : extraction selon la pureté des nœuds, cadence des convoyeurs, jalons et pièces de l'ascenseur spatial.
 - `scripts/lier-blueprints.ps1` — utilitaire Windows, hors site : regroupe les blueprints de toutes les parties dans une bibliothèque commune (`D:\Satisfactory\BP`) en remplaçant chaque dossier de blueprints par une jonction vers elle.
 

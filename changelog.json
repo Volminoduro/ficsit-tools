@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.11",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Noms français pour toutes les recettes, alternatives comprises (160 noms ajoutés d'après la localisation officielle du jeu), et pour les restes d'aliens. La mention sur les noms restés en anglais disparaît.",
+            "en": "French names for every recipe, alternates included (160 names added from the game's official localization), and for alien remains. The note about names left in English is gone."
+          }
+        },
+        {
           "version": "1.10",
           "date": "2026-09-24",
           "texte": {
@@ -144,6 +152,14 @@
       },
       "entrees": [
         {
+          "version": "1.8",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Noms français pour toutes les recettes, alternatives comprises (160 noms ajoutés d'après la localisation officielle du jeu), et pour les restes d'aliens. La mention sur les noms restés en anglais disparaît du pied de page.",
+            "en": "French names for every recipe, alternates included (160 names added from the game's official localization), and for alien remains. The note about names left in English is gone from the footer."
+          }
+        },
+        {
           "version": "1.7",
           "date": "2026-09-24",
           "texte": {
@@ -247,6 +263,14 @@
         "en": "Production tree"
       },
       "entrees": [
+        {
+          "version": "1.1",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Noms français pour toutes les recettes, alternatives comprises (160 noms ajoutés d'après la localisation officielle du jeu), et pour les restes d'aliens.",
+            "en": "French names for every recipe, alternates included (160 names added from the game's official localization), and for alien remains."
+          }
+        },
         {
           "version": "1.0",
           "date": "2026-09-24",

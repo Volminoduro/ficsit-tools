@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.7",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Paliers des alternatives de disque dur calculés depuis les recherches du MAM qu'elles exigent, au lieu d'un plancher au palier 1 : Cheap Silica, Fine Concrete, Fine Black Powder et Compacted Coal passent du palier 2 au palier 3. Combinaisons par palier recalculées.",
+            "en": "Tiers of hard drive alternates now computed from the MAM research they require, instead of a tier 1 floor: Cheap Silica, Fine Concrete, Fine Black Powder and Compacted Coal move from tier 2 to tier 3. Per-tier combinations recomputed."
+          }
+        },
+        {
           "version": "1.6",
           "date": "2026-09-24",
           "texte": {
@@ -103,6 +111,14 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.5",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Compacted Coal passe du tier 2 au tier 3 : sa recherche au MAM vient après celle de la poudre noire.",
+            "en": "Compacted Coal moves from tier 2 to tier 3: its MAM research comes after Black Powder's."
+          }
+        },
         {
           "version": "1.4",
           "date": "2026-09-24",

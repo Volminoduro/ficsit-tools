@@ -22,7 +22,8 @@ IMG = BASE + "/www/assets/images/items/{slug}_256.png"
 TAILLE = 96  # côté des icônes normalisées : la plus grande taille utilisée par un outil (horloge)
 
 # Type de schéma de déblocage → origine de la recette, telle que l'affichent les outils.
-PALIER_DD_MIN = 1  # palier du MAM : pas d'alternative de disque dur avant
+PALIER_MAM = 1     # jalon Field Research : le MAM, donc la recherche des disques durs
+PALIER_DD_MIN = PALIER_MAM  # pas d'alternative de disque dur avant le MAM
 ORIGINE = {"EST_Milestone": "jalon", "EST_Tutorial": "jalon", "EST_MAM": "mam",
            "EST_Alternate": "dd", "EST_ResourceSink": "boutique", "EST_Custom": "autre"}
 # Groupes de bâtiments utilisés par les outils (le reste est ignoré : logistique, décor, véhicules…).
@@ -50,21 +51,51 @@ def paliers(d):
     """Recette → (palier plancher de déblocage, origine).
 
     Le champ `tier` d'un schéma n'est exploitable que pour les jalons. Pour une alternative de disque
-    dur, le palier vient de ses `requiredSchematics` : on remonte la chaîne jusqu'aux jalons et on
-    retient le plus élevé. Pour le MAM, la source ne donne rien d'utilisable (tier interne au MAM) :
-    le plancher vient de donnees/paliers-mam.json. Plusieurs schémas pour une recette : le plus petit
+    dur, le palier vient de ses `requiredSchematics` — les dépendances que le jeu exige avant de
+    proposer l'alternative au tirage : on remonte la chaîne et on retient le plus élevé.
+    - Jalon : son palier.
+    - Recherche du MAM : le plus petit palier de paliers-mam.json parmi les recettes qu'elle débloque
+      (le nœud est franchi au plus tard quand la première l'est), et jamais avant le MAM lui-même
+      (PALIER_MAM) ; ses propres prérequis comptent aussi.
+    - Dépendance vers un schéma absent de la source (reliquat d'avant la 1.0, ex.
+      Schematic_Alternate_EnrichedCoal_C) : on la rattache au schéma qui débloque aujourd'hui la même
+      recette (Recipe_Alternate_EnrichedCoal_C → recherche Compacted Coal du MAM).
+    Pour le MAM, la source ne donne rien d'utilisable (tier interne au MAM) : le plancher de ses
+    recettes vient de donnees/paliers-mam.json. Plusieurs schémas pour une recette : le plus petit
     palier gagne, c'est le premier chemin de déblocage disponible."""
     S = d["schematics"]
+    mam = json.loads((OUT / "paliers-mam.json").read_text(encoding="utf-8"))["paliers"]
+    nom_recette = {r["className"]: r["name"] for r in d["recipes"].values()}
+    par_recette = {}
+    for sc in S.values():
+        for rc in sc.get("unlock", {}).get("recipes", []):
+            par_recette.setdefault(rc, sc["className"])
+
+    def resoudre(req):
+        if req in S:
+            return S[req]
+        if req.startswith("Schematic_") and req.endswith("_C"):
+            alias = par_recette.get("Recipe_" + req[len("Schematic_"):])
+            if alias:
+                return S[alias]
+        print(f"  prérequis introuvable dans la source : {req}", file=sys.stderr)
+        return None
 
     def fermeture(sc, vus=None):
         vus = vus or set()
         if sc["className"] in vus:
             return 0
         vus.add(sc["className"])
-        t = int(sc.get("tier") or 0) if sc["type"] in ("EST_Milestone", "EST_Tutorial") else 0
+        t = 0
+        if sc["type"] in ("EST_Milestone", "EST_Tutorial"):
+            t = int(sc.get("tier") or 0)
+        elif sc["type"] == "EST_MAM":
+            ts = [mam[nom_recette[rc]] for rc in sc["unlock"]["recipes"] if nom_recette.get(rc) in mam]
+            t = max(PALIER_MAM, min(ts)) if ts else PALIER_MAM
         for req in sc["requiredSchematics"]:
-            if req in S:
-                t = max(t, fermeture(S[req], vus))
+            r = resoudre(req)
+            if r:
+                t = max(t, fermeture(r, vus))
         return t
 
     out, mamseul = {}, {}

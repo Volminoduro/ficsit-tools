@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
+- **v1.7** (24/09/2026) : Paliers des alternatives de disque dur calculés depuis les recherches du MAM qu'elles exigent, au lieu d'un plancher au palier 1 : Cheap Silica, Fine Concrete, Fine Black Powder et Compacted Coal passent du palier 2 au palier 3. Combinaisons par palier recalculées.
+  *EN — Tiers of hard drive alternates now computed from the MAM research they require, instead of a tier 1 floor: Cheap Silica, Fine Concrete, Fine Black Powder and Compacted Coal move from tier 2 to tier 3. Per-tier combinations recomputed.*
 - **v1.6** (24/09/2026) : Registre des combinaisons sans plafond de palier désormais recalculé par script depuis les recettes de la page, comme les combinaisons par palier. Nombre de chaînes distinctes recompté par énumération complète (ex. Concrete 47 → 77, Rotor 19 688 → 32 528) et plafond relevé à un million : Modular Frame et High-Speed Connector gardent leur pire chaîne. Pire chaîne de Circuit Board corrigée (0,056 → 0,055).
   *EN — Combination registry without a tier cap now recomputed by script from the page's recipes, like the per-tier combinations. Number of distinct chains recounted by full enumeration (e.g. Concrete 47 → 77, Rotor 19,688 → 32,528) and cap raised to one million: Modular Frame and High-Speed Connector keep their worst chain. Circuit Board's worst chain corrected (0.056 → 0.055).*
 - **v1.5** (23/09/2026) : Paliers de déblocage recalculés depuis un référentiel unique : 29 recettes changent de palier, dont des alternatives affichées jusqu'ici comme jouables trop tôt (Sloppy Alumina 5 → 7, Steel Canister 3 → 5) et les recettes SAM, jusqu'ici au palier 0. Les combinaisons optimales par palier ont été recalculées en conséquence.
@@ -30,6 +32,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Optimiseur de recyclage / Recycling optimizer — `broyeur-excedents.html`
 
+- **v1.5** (24/09/2026) : Compacted Coal passe du tier 2 au tier 3 : sa recherche au MAM vient après celle de la poudre noire.
+  *EN — Compacted Coal moves from tier 2 to tier 3: its MAM research comes after Black Powder's.*
 - **v1.4** (24/09/2026) : Données recalculées par script depuis le référentiel commun. Les recettes retenues ne changent pas, mais minerai neuf et machines se lisent désormais sur la chaîne affichée (celle qui consomme le moins de MW) au lieu d'être minimisés chacun de leur côté : ils augmentent souvent (AI Limiter : 7,3 → 22 minerai/min par unité). Tiers alignés sur les autres outils, dont Circuit Board 3 → 5, Motor 7 → 8, Electromagnetic Control Rod 6 → 8.
   *EN — Data recomputed by script from the shared reference dataset. Selected recipes are unchanged, but new ore and machines are now read from the displayed chain (the one that draws the fewest MW) instead of each being minimized separately: they often go up (AI Limiter: 7.3 → 22 ore/min per unit). Tiers aligned with the other tools, including Circuit Board 3 → 5, Motor 7 → 8, Electromagnetic Control Rod 6 → 8.*
 - **v1.3** (22/09/2026) : La langue se choisit désormais avec le drapeau FR/EN commun à tous les outils, en haut à droite. Les noms d'items et de recettes de base passent en français, et les nombres suivent le format de la langue.

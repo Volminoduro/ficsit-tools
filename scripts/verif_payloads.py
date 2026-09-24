@@ -68,6 +68,17 @@ def broyeur():
     ligne("broyeur", "cibles non dérivées", f"{len(ecarts)} : {ecarts[:5]}")
 
 
+def arbre():
+    P = payload("arbre-production.html")
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import arbre as A
+    calc = {x["n"]: x for x in A.calcul()["items"]}
+    page = {x["n"]: x for x in P["items"]}
+    ecarts = sorted(n for n in set(calc) | set(page) if calc.get(n) != page.get(n))
+    # Tout le payload est dérivé par scripts/arbre.py : tout écart = page à régénérer (payloads.py).
+    ligne("arbre", "items non dérivés", f"{len(ecarts)} : {ecarts[:5]}")
+
+
 def horloge():
     s = (ROOT / "ficsit_horloge.html").read_text(encoding="utf-8")
     D = json.loads(re.search(r"const DATA = (\{.*?\});\n", s, re.S).group(1))
@@ -87,6 +98,6 @@ def icones():
 if __name__ == "__main__":
     if not R:
         sys.exit("référentiel vide : lancer scripts/donnees.py")
-    infographie(); broyeur(); horloge(); icones()
+    infographie(); broyeur(); arbre(); horloge(); icones()
     if ECARTS:
         sys.exit(f"{len(ECARTS)} contrôle(s) en échec : {', '.join(ECARTS)}")

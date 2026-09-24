@@ -15,6 +15,7 @@ Pages autonomes, publiées sur GitHub Pages depuis `main` ; `index.html` les pr�
 - `satisfactory_infographie.html` — **Registre des rendements** : chaque recette, standard ou alternative, notée en sortie par MW et par unité de matière première ; duels entre recettes, meilleures combinaisons par produit, catalogue, filtre par palier atteint.
 - `broyeur-excedents.html` — **Optimiseur de recyclage (broyeur AWESOME)** : à partir de vos excédents, classe les cibles de broyage par points gagnés pour chaque MW ajouté.
 - `ficsit_horloge.html` — **Module d'étalonnage** : coût de chaque palier d'horloge (overclock) en éclats et en MW, et répartition optimale selon vos éclats.
+- `arbre-production.html` — **Arbre de production** : pour chaque item broyable, profondeur de l'arbre de production et nombre d'items intermédiaires face à sa valeur AWESOME, en recettes de base ou en chaîne optimisée (MW), filtrable par palier.
 - `memo-ficsit.html` — **Mémo de terrain** : extraction selon la pureté des nœuds, cadence des convoyeurs, jalons et pièces de l'ascenseur spatial.
 - `scripts/lier-blueprints.ps1` — utilitaire Windows, hors site : regroupe les blueprints de toutes les parties dans une bibliothèque commune (`D:\Satisfactory\BP`) en remplaçant chaque dossier de blueprints par une jonction vers elle.
 
@@ -30,6 +31,7 @@ Pages autonomes, publiées sur GitHub Pages depuis `main` ; `index.html` les pr�
   - `combi` (et `combiM` pour le critère matière) : le même calcul sans plafond de palier, plus, par énumération complète, le nombre de chaînes distinctes (une recette par item, cohérente sur tout l'arbre, sans boucle) et l'indice de la pire, tant qu'il y en a au plus un million. Le podium et la fréquence des alternatives se recalculent dans la page depuis `tc`.
   - Sans `--ecrire`, le JSON part sur la sortie standard ; `tc` (défaut) ou `registre` limitent le calcul à une des deux parties.
 - Le payload du broyeur (`src`, `tgt`) est entièrement calculé par `scripts/broyeur.py` (appelé par `payloads.py`) : chaîne la moins gourmande en MW pour chaque item, byproducts non crédités, puis puissance, minerai neuf, machines, consommations `u` et palier `t` lus le long de cette chaîne (`t` = palier le plus haut de ses recettes). `python3 scripts/broyeur.py` seul montre les écarts avec la page sans rien écrire.
+- Le payload de l'arbre de production (`items`, `ic`) est calculé par `scripts/arbre.py` (appelé par `payloads.py`) : profondeur, entrées directes, items intermédiaires distincts, ressources brutes et palier, le long de deux chaînes — recettes de base, ou chaîne optimisée du broyeur. `python3 scripts/arbre.py` seul donne un résumé sans rien écrire.
 - Alternatives de disque dur : le jeu ne les propose au tirage qu'une fois leurs dépendances acquises (`requiredSchematics` de la source) — jalons, autres alternatives ou recherches du MAM. Une recherche du MAM compte pour le plus petit palier (`paliers-mam.json`) des recettes qu'elle débloque, jamais avant le MAM (palier 1) ; une dépendance vers un schéma disparu de la source est rattachée au schéma qui débloque aujourd'hui la même recette. **Limite :** la source ne donne pas l'arbre du MAM (quel nœud précède quel autre) : une recherche sans recette relevée dans `paliers-mam.json` (nœud racine comme Quartz ou Caterium) vaut le palier du MAM, un plancher. Seules Iron Wire et Cast Screws n'ont aucune dépendance : elles sortent dès le palier 1.
 
 ## Vérifications automatiques (CI)
@@ -57,7 +59,3 @@ Versions épinglées dans les workflows (Python 3.12, Pillow 12.3.0, Node 22, Pl
 - Dans une page : texte statique en paires `<span data-l="fr">…</span><span data-l="en">…</span>` ; attributs via `data-fr-<attr>` / `data-en-<attr>` ; titre via `<title data-fr data-en>` ; texte généré en JS via `FicsitLang.on(...)`, `FicsitLang.item/recette/batiment(nom)` et `FicsitLang.num(v)`.
 - Glossaire : un nom n'y entre que confirmé par la localisation officielle (relevée sur satisfactory-calculator.com) ; sinon le nom anglais est conservé. C'est le cas des recettes alternatives, affichées sans leur préfixe « Alternate: » (mention « alternative » dans la langue active quand l'outil le précise), et de quelques noms encore non confirmés (Hatcher Remains, recettes de biomasse et de protéines, Ficsite Ingot (…), Residual …, Distilled Silica, Polyester Fabric, Pure Aluminum Ingot).
 - Toute nouvelle page ou évolution doit fournir les deux langues, journal des révisions compris.
-
-## À venir
-
-- Infographie croisant profondeur d'arbre de production, nombre de branches d'ingrédients et valeur AWESOME Sink par item.

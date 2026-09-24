@@ -134,6 +134,8 @@
     linear-gradient(180deg, rgba(250,149,73,.05) 0, transparent 420px),
     repeating-linear-gradient(0deg, rgba(255,255,255,.012) 0 1px, transparent 1px 4px)}
   .wrap{max-width:840px;margin:0 auto;padding:26px 16px 90px}
+/* laisse la place au dock commun (journal + drapeaux) en haut à droite quand le titre passe dessous */
+@media (max-width:1000px){.wrap{padding-top:50px}}
   h1,h2,h3,.cond,.tabs button,.tbadge,.stat .v,.row .val b,.lrow .lv,.duel .gain,.grp .gain,.cb .gain,
   .cline .ttl,.altbox .hd b,.altbox .hd u,.grp .name,.cb .name,.podium .pr b{
     font-family:"Saira Condensed","Barlow Condensed",Arial Narrow,sans-serif}

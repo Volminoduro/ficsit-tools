@@ -163,6 +163,8 @@ header{
   border-bottom:2px solid var(--line);
   padding:26px 0 22px;
 }
+/* laisse la place au dock commun (journal + drapeaux) en haut à droite quand le titre passe dessous */
+@media (max-width:900px){header{padding-top:50px}}
 .brandline{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
 h1{
   font-family:'Saira Condensed',Impact,sans-serif;

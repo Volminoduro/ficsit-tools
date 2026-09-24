@@ -16,6 +16,9 @@ const PAGES = {
   'ficsit_horloge.html': null,
   'memo-ficsit.html': null,
   'satisfactory_infographie.html': p => p.evaluate(() => { document.getElementById('expAllC').click(); }),
+  // Synthèse : curseurs, classement face à la base et combinaisons recalculées dans la page
+  'satisfactory_infographie.html#syn': p => p.evaluate(() => {
+    document.getElementById('mSYN').click(); document.getElementById('expAll').click(); document.getElementById('expAllC').click(); }),
   'broyeur-excedents.html': null,
   'arbre-production.html': null,
 };

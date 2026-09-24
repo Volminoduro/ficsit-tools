@@ -229,6 +229,18 @@ html[lang|=en] .fia::before{content:"AI"}
     text-transform:uppercase;letter-spacing:.04em;font-weight:600}
   .meta button[aria-pressed="true"] b{color:var(--alt)}
   .meta i{font-style:normal;font-size:12px;color:var(--dim);display:block;margin-top:2px}
+  /* synthèse : poids des critères et classement face à la base */
+  .synw{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;margin:10px 0 0;padding:10px 14px;
+    background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--alt)}
+  .synw[hidden]{display:none}
+  .synw .hd{font-size:12.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.04em}
+  .synw label{display:flex;align-items:center;gap:8px;font-size:13.5px}
+  .synw input[type=range]{width:120px;padding:0;accent-color:var(--alt);background:none;border:0}
+  .synw output{font-family:"Saira Condensed",sans-serif;font-size:17px;color:var(--alt);min-width:3.2em;text-align:right}
+  .synw button{margin-left:auto}
+  .par{display:inline-block;font-size:11px;text-transform:uppercase;letter-spacing:.04em;padding:1px 6px;margin-left:6px;
+    border:1px solid var(--rule2);color:var(--dim);vertical-align:1px;white-space:nowrap}
+  .par.dom{border-color:var(--alt);color:var(--alt)} .par.sub{border-color:var(--bad);color:var(--bad)}
   /* onglets */
   .tabs{display:flex;margin:44px 0 0;border-bottom:2px solid var(--rule2);gap:2px}
   .tabs button{background:var(--panel);border:1px solid var(--rule);border-bottom:none;
@@ -423,6 +435,14 @@ html[lang|=en] .fia::before{content:"AI"}
     <button id="mMW" aria-pressed="true"><b><span data-l="fr">Énergie</span><span data-l="en" lang="en">Energy</span></b><i><span data-l="fr">sortie par minute ÷ MW consommés sur toute la chaîne</span><span data-l="en" lang="en">output per minute ÷ MW consumed across the whole chain</span></i></button>
     <button id="mMAT" aria-pressed="false"><b><span data-l="fr">Matière</span><span data-l="en" lang="en">Materials</span></b><i><span data-l="fr">sortie par minute ÷ ressources brutes consommées</span><span data-l="en" lang="en">output per minute ÷ raw resources consumed</span></i></button>
     <button id="mESP" aria-pressed="false"><b><span data-l="fr">Espace</span><span data-l="en" lang="en">Space</span></b><i><span data-l="fr">sortie par minute ÷ m² au sol, machines à 250 %</span><span data-l="en" lang="en">output per minute ÷ floor m², machines at 250%</span></i></button>
+    <button id="mSYN" aria-pressed="false"><b><span data-l="fr">Synthèse</span><span data-l="en" lang="en">Synthesis</span></b><i><span data-l="fr">les trois critères réunis, pondérés à votre goût</span><span data-l="en" lang="en">the three criteria combined, weighted to taste</span></i></button>
+  </div>
+  <div class="synw" id="synW" hidden role="group" aria-label="Poids des critères" data-fr-aria-label="Poids des critères" data-en-aria-label="Criteria weights">
+    <span class="hd"><span data-l="fr">Poids</span><span data-l="en" lang="en">Weights</span></span>
+    <label><span data-l="fr">Énergie</span><span data-l="en" lang="en">Energy</span> <input type="range" min="0" max="10" step="1" data-k="mw"><output></output></label>
+    <label><span data-l="fr">Matière</span><span data-l="en" lang="en">Materials</span> <input type="range" min="0" max="10" step="1" data-k="mat"><output></output></label>
+    <label><span data-l="fr">Espace</span><span data-l="en" lang="en">Space</span> <input type="range" min="0" max="10" step="1" data-k="esp"><output></output></label>
+    <button id="synEq" type="button"><span data-l="fr">Poids égaux</span><span data-l="en" lang="en">Equal weights</span></button>
   </div>
 
   <div class="spectrum">
@@ -504,6 +524,7 @@ html[lang|=en] .fia::before{content:"AI"}
       <button id="colAllC"><span data-l="fr">Tout réduire</span><span data-l="en" lang="en">Collapse all</span></button>
       <span class="n" id="combiCount"></span>
     </div>
+    <p class="foot" id="synNote" hidden></p>
     <div id="combi"></div>
     <h2><span data-l="fr">Les alternatives qui reviennent partout</span><span data-l="en" lang="en">The alternates that show up everywhere</span></h2>
     <p class="lede"><span data-l="fr">Nombre de cibles, sur les </span><span data-l="en" lang="en">Number of targets, out of the </span><span id="nTargets">43</span><span data-l="fr"> chaînes optimisées, où l'alternative fait partie de la meilleure combinaison.</span><span data-l="en" lang="en"> optimized chains, where the alternate is part of the best combination.</span></p>
@@ -650,7 +671,7 @@ let prefsReady = false, curTab = 'tabD';
 function savePrefs(){
   if(!prefsReady) return;
   try{ localStorage.setItem(PREFS_KEY, JSON.stringify({
-    mode, cap, picked, onlyBetter, tab: curTab, filt, sort,
+    mode, cap, picked, onlyBetter, tab: curTab, filt, sort, synW,
     tierSel: document.getElementById('tierSel').value,
     q: document.getElementById('q').value,
     openGrp: [...openGrp], openCb: [...openCb], openRows: [...openRows],
@@ -659,12 +680,12 @@ function savePrefs(){
 
 /* ---------- mode de comparaison ---------- */
 let mode = 'mw';
-const IDX  = r => mode==='mw' ? r.i  : mode==='mat' ? r.im : espIdx(r).ie;
-const GAIN = r => (r.a && !stdOf(r.p)) ? null : (mode==='mw' ? r.g  : mode==='mat' ? r.gm : espIdx(r).ge);
+const IDX  = r => mode==='mw' ? r.i  : mode==='mat' ? r.im : mode==='esp' ? espIdx(r).ie : synIdx(r).i;
+const GAIN = r => (r.a && !stdOf(r.p)) ? null : (mode==='mw' ? r.g  : mode==='mat' ? r.gm : mode==='esp' ? espIdx(r).ge : synIdx(r).g);
 const CBS  = () => combiSet().rows;
 const CHS  = () => combiSet().chains;
 const FRQ  = () => combiSet().freq;
-const SYM  = () => ({mw:'I', mat:'M', esp:'E'})[mode];
+const SYM  = () => ({mw:'I', mat:'M', esp:'E', syn:'S'})[mode];
 
 const TXT = () => ({
   fr: {
@@ -717,6 +738,24 @@ const TXT = () => ({
         "Les sous-produits partagent l'emprise de leur recette au prorata des quantités produites.",
         `Les mêmes exclusions qu'en énergie : alternatives nucléaires à base de déchets, recettes du ${BT('Converter')} produisant du minerai brut.`,
         "Avec un palier imposé, l'indice d'une recette isolée ne change pas ; seules les combinaisons sont recalculées avec les recettes jouables."
+      ]
+    },
+    syn: {
+      h1:'tout compris',
+      lede:'Les mêmes recettes, jugées sur les <b>trois critères à la fois</b> : énergie, matière et place au sol. '
+        +'Chacun est converti en MW-équivalents puis pondéré selon les curseurs ; l\'indice S est la sortie par MW-équivalent.',
+      formula:()=>{ const T = synTaux(), w = synPoids();
+        return '<b>Indice S = (sortie/min) ÷ coût composite</b><br>'
+        +`coût = ${pc(w.mw)} × MW + ${pc(w.mat)} × ${nf(T.mat)} × ressources brutes + ${pc(w.esp)} × ${nf(T.esp)} × m² &nbsp;→&nbsp; S = 1 ÷ coût.<br>`
+        +`Taux de change médians entre critères, sur les recettes : une unité de ressource brute par minute « vaut » ${nf(T.mat)} MW, un m² au sol ${nf(T.esp)} MW. `
+        +'Énergie à 100 %, matière sans l\'eau, espace à 250 % : chaque critère garde son propre modèle. '
+        +'Face à la base, chaque alternative est classée <b>gagnante</b> (meilleure ou égale sur les trois critères), <b>compromis</b> ou <b>perdante</b> (pire ou égale sur les trois).'; },
+      limits:[
+        "Les taux de change sont des médianes : ils rendent les trois critères comparables en moyenne, pas pour chaque recette. Poser un poids à 100 % redonne exactement le classement du critère seul.",
+        "Chaque critère garde son propre scénario (énergie à 100 %, espace surcadencé à 250 %) : la synthèse additionne des coûts, elle ne décrit pas une usine unique.",
+        "Le classement gagnante / compromis / perdante ne dépend pas des poids : il ne compare que les signes des trois gains.",
+        "Les combinaisons suivent les curseurs : la page les recalcule elle-même, par la même recherche exacte. Seuls la pire chaîne et le nombre de chaînes distinctes, qui demandent une énumération complète, ne sont donnés qu'à poids égaux.",
+        `Les mêmes exclusions qu'en énergie : alternatives nucléaires à base de déchets, recettes du ${BT('Converter')} produisant du minerai brut.`
       ]
     }
   },
@@ -771,6 +810,24 @@ const TXT = () => ({
         "The same exclusions as for energy: waste-based nuclear alternates, Converter recipes producing raw ore.",
         "With a tier cap, the index of an isolated recipe does not change; only combinations are recomputed with playable recipes."
       ]
+    },
+    syn: {
+      h1:'all in',
+      lede:'The same recipes, judged on <b>all three criteria at once</b>: energy, materials and floor space. '
+        +'Each is converted into MW-equivalents and weighted by the sliders; the S index is output per MW-equivalent.',
+      formula:()=>{ const T = synTaux(), w = synPoids();
+        return '<b>Index S = (output/min) ÷ composite cost</b><br>'
+        +`cost = ${pc(w.mw)} × MW + ${pc(w.mat)} × ${nf(T.mat)} × raw resources + ${pc(w.esp)} × ${nf(T.esp)} × m² &nbsp;→&nbsp; S = 1 ÷ cost.<br>`
+        +`Median exchange rates between criteria, over the recipes: one unit of raw resource per minute is "worth" ${nf(T.mat)} MW, one m² of floor ${nf(T.esp)} MW. `
+        +'Energy at 100%, materials without water, space at 250%: each criterion keeps its own model. '
+        +'Against the standard recipe, each alternate is rated <b>winning</b> (better or equal on all three criteria), <b>trade-off</b> or <b>losing</b> (worse or equal on all three).'; },
+      limits:[
+        "The exchange rates are medians: they make the three criteria comparable on average, not for every recipe. Setting one weight to 100% gives back exactly that criterion's ranking.",
+        "Each criterion keeps its own scenario (energy at 100%, space overclocked to 250%): the synthesis adds up costs, it does not describe a single factory.",
+        "The winning / trade-off / losing rating does not depend on the weights: it only compares the signs of the three gains.",
+        "Combinations follow the sliders: the page recomputes them itself, with the same exact search. Only the worst chain and the number of distinct chains, which need a full enumeration, are given at equal weights only.",
+        "The same exclusions as for energy: waste-based nuclear alternates, Converter recipes producing raw ore."
+      ]
     }
   }
 })[lang][mode];
@@ -783,6 +840,7 @@ const nf = v => { if(v == null) return '—';
   if(s.length <= 9 && !s.includes('e')) return dec(s);
   return dec(String(+v.toPrecision(6))); };
 const pct = v => dec(String(+v.toFixed(1)));
+const pc = v => dec(String(Math.round(v*100))) + ' %';
 const sp = n => FicsitLang.num(n);
 const fmtBig = n => typeof n === 'string' ? tr('plus de ', 'more than ') + sp(+n.replace(/[^0-9]/g,'')) : sp(n);
 const fmtHuge = n => { if(n < 1e9) return sp(n);
@@ -869,12 +927,24 @@ function setCap(c){ cap = c; buildUsedIn(); renderTierPick(); renderAll(); }
    scripts/paliers_combinaisons.js). Sans palier imposé, on garde du registre (P.combi, même script)
    la pire chaîne et le nombre de chaînes distinctes, obtenus par énumération complète. */
 const combiCache = {};
+/* Synthèse : combinaisons recalculées ici, aux poids des curseurs (recherche exacte, quelques dixièmes de seconde
+   pour toutes les cibles), mêmes champs que P.tc. */
+function synTc(c){
+  const rows = [];
+  for(const t of P.combi){
+    if(!availFor(c).items.has(t.cible)) continue;
+    const r = searchChains(t.cible, 'syn', c, 3, 3e6), d = searchChains(t.cible, 'syn', c, 1, 3e6, null, true);
+    rows.push({c: t.cible, d: d.list[0] ? d.list[0].score : null, o: r.list[0].score, n: brutes(t.cible, c),
+      x: !r.aborted && !d.aborted, top: r.list.map(x=>[x.score, x.alts])});
+  }
+  return rows;
+}
 function combiSet(){
-  const key = mode + '|' + cap;
+  const key = mode + '|' + cap + (mode==='syn' ? '|' + SYN_K.map(k=>SYN_WC[k]).join(',') : '');
   if(combiCache[key]) return combiCache[key];
-  const reg = ({mw: P.combi, mat: P.combiM, esp: P.combiE})[mode] || [];
+  const reg = mode==='syn' && !synDefaut() ? [] : ({mw: P.combi, mat: P.combiM, esp: P.combiE, syn: P.combiS})[mode] || [];
   const rows = [], chains = {}, cnt = {};
-  ((P.tc[mode] || {})[cap] || []).forEach(x=>{
+  (mode==='syn' ? synTc(cap) : (P.tc[mode] || {})[cap] || []).forEach(x=>{
     const r0 = !filtered() ? reg.find(c=>c.cible===x.c) : null, opt = x.top[0][1];
     rows.push({cible:x.c, idx_defaut:x.d, idx_optimal:x.o, gain_pct: x.d ? x.o/x.d*100-100 : null,
       idx_pire: r0 ? r0.idx_pire : null, nb_chaines: r0 ? r0.nb_chaines : null,
@@ -913,18 +983,25 @@ function renderStats(){
   const gs = buildGroups().map(g=>g.g).filter(v=>v!=null).sort((a,b)=>a-b);
   const vals = D.filter(isAvail).map(IDX).filter(v=>v>0);
   const med = gs.length ? Math.round(gs[Math.floor(gs.length/2)]) : null;
-  document.getElementById('stats').innerHTML = [
+  const pa = {dom: 0, mix: 0, sub: 0};
+  if(mode==='syn') D.filter(r=>r.a && isAvail(r)).forEach(r=>{ const k = pareto(r); if(k) pa[k]++; });
+  document.getElementById('stats').innerHTML = (mode==='syn' ? [
+    [med==null ? '—' : (med>=0?'+':'') + med + ' %', tr('gain médian sur la recette de base','median gain over the standard recipe')],
+    [pa.dom, tr('alternatives gagnantes sur les trois critères','alternates winning on all three criteria')],
+    [pa.mix, tr('compromis : meilleures ici, pires là','trade-offs: better here, worse there')],
+    [pa.sub, tr('alternatives perdantes sur les trois','alternates losing on all three')],
+  ] : [
     [D.filter(r=>r.a && isAvail(r) && IDX(r)>0).length, tr('alternatives évaluées','alternates scored')],
     [med==null ? '—' : (med>=0?'+':'') + med + ' %', tr('gain médian sur la recette de base','median gain over the standard recipe')],
     [gs.filter(v=>v<0).length, tr('produits où la base résiste','products where the standard holds out')],
     [vals.length>1 ? '×' + fmtHuge(Math.round(Math.max(...vals)/Math.min(...vals))) : '—', tr('écart entre la première et la dernière','gap between the first and the last')],
-  ].map(s=>`<div class="stat"><div class="v">${s[0]}</div><div class="k">${s[1]}</div></div>`).join('');
+  ]).map(s=>`<div class="stat"><div class="v">${s[0]}</div><div class="k">${s[1]}</div></div>`).join('');
 }
 function renderTexts(){
   const t = TXT();
   document.getElementById('h1b').textContent = t.h1;
   document.getElementById('lede').innerHTML = t.lede;
-  document.getElementById('formula').innerHTML = t.formula;
+  document.getElementById('formula').innerHTML = typeof t.formula === 'function' ? t.formula() : t.formula;
   document.getElementById('limits').innerHTML = t.limits.map(x=>`<li>${x}</li>`).join('');
 }
 
@@ -933,7 +1010,7 @@ function line(r, cls, noName){
   const ins = r.ig.map(g=>`${nf(g[2])} ${ico(g[0],'sm')}${IT_(g[0])}`).join(' + ') || tr('rien','nothing');
   const by = r.by.map(g=>` <s>+ ${nf(g[2])} ${ico(g[0],'sm')}${IT_(g[0])}</s>`).join('');
   const unit = r.ig.map(g=>`${nf(g[1])} ${IT_(g[0])}`).join(' + ');
-  const cout = mode==='esp' ? `${nf(P.em[r.m])} m²` : `${nf(r.w)} MW`;
+  const cout = mode==='esp' ? `${nf(P.em[r.m])} m²` : mode==='syn' ? `${nf(r.w)} MW · ${nf(P.em[r.m])} m²` : `${nf(r.w)} MW`;
   const head = noName
     ? `<span class="unit">${BT(r.m)} · ${cout} · tier ${r.t} · ${SRC[r.s]}</span>`
     : `<span class="ttl">${RC_(r.n)}</span> <span class="unit">· ${BT(r.m)} · ${cout} · tier ${r.t} · ${SRC[r.s]}</span>`;
@@ -1113,7 +1190,7 @@ function renderDuels(){
           <div class="hd"><b>${RC_(g.base.n)}</b><u class="flat"><span class="unit">${SYM()}=${nf(IDX(g.base))}</span></u></div>
           ${line(g.base,'s',true)}</div>` : noBase(g.p)}
       ${alts.map(a=>`<div class="altbox">
-          <div class="hd"><b>${RC_(a.n)}</b><u class="${GAIN(a)==null?'flat':GAIN(a)>0?'up':'down'}">${GAIN(a)==null?'':(GAIN(a)>0?'+':'')+pct(GAIN(a))+' %'} <span class="unit">${SYM()}=${nf(IDX(a))}</span></u></div>
+          <div class="hd"><b>${RC_(a.n)}${parBadge(a)}</b><u class="${GAIN(a)==null?'flat':GAIN(a)>0?'up':'down'}">${GAIN(a)==null?'':(GAIN(a)>0?'+':'')+pct(GAIN(a))+' %'} <span class="unit">${SYM()}=${nf(IDX(a))}</span></u></div>
           ${line(a,'a',true)}${g.base?chipsOf(a,g.base):''}
           ${(usedIn[a.n]||[]).length ? `<div class="usedin">${tr('Retenue dans la combinaison optimale de','Used in the optimal combination for')}
             <span class="chips">${usedIn[a.n].map(tg=>`<span class="chip lk" data-gocombi="${esc(tg)}">${ico(tg,'sm')}${IT_(tg)}</span>`).join('')}</span></div>` : ''}
@@ -1161,13 +1238,26 @@ D.forEach(r=>{ (MAIN[r.p] = MAIN[r.p] || []).push(r);
   r.by.forEach(b=>{ (BYSRC[b[0]] = BYSRC[b[0]] || []).push(r); }); });
 const isRaw = it => !MAIN[it] && !NONRAW.has(it);
 /* Espace : m² au sol par unité/min, machines et extraction surcadencées (P.oc, 250 %) ; ramassage = 0. */
-const rawCost = (it, m) => m==='mw' ? (it in RAWE ? RAWE[it] : (HAND.has(it) ? 0 : null))
+/* Synthèse (syn) des chaînes : coût composite en MW-équivalents = pI·MW + pM·τM·(ressources brutes) + pE·τE·m²,
+   aux poids SYN_WC : ceux des curseurs dans la page, SYN_W0 (un tiers chacun) pour le registre précalculé combiS.
+   τ : taux de change médians entre critères (synTaux). Le coût reste additif le long de la chaîne : même recherche
+   exacte que les autres critères. */
+const SYN_W0 = {mw: 1/3, mat: 1/3, esp: 1/3}, SYN_K = ['mw', 'mat', 'esp'];
+let SYN_WC = SYN_W0;
+const rawCost = (it, m) => m==='syn' ? synCost(k=>rawCost(it, k))
+  : m==='mw' ? (it in RAWE ? RAWE[it] : (HAND.has(it) ? 0 : null))
   : m==='esp' ? (it in P.ex ? P.ex[it] : (HAND.has(it) ? 0 : null))
   : ((it==='Water' || HAND.has(it)) ? 0 : 1);
 const byOut = r => r.by.reduce((t,b)=>t+b[2], 0);
 /* part de la machine facturée à chaque unité produite (coproduits au prorata) : MW, m² au sol, ou rien */
-const recCost = (r, m) => m==='mw' ? r.w / (r.o + byOut(r))
+const recCost = (r, m) => m==='syn' ? synCost(k=>recCost(r, k))
+  : m==='mw' ? r.w / (r.o + byOut(r))
   : m==='esp' ? (P.em[r.m] == null ? Infinity : P.em[r.m] / (P.oc * (r.o + byOut(r)))) : 0;
+function synCost(f){
+  const T = synTaux(); let t = 0;
+  for(const k of SYN_K){ if(!SYN_WC[k]) continue; const c = f(k); if(c == null) return null; t += SYN_WC[k]*T[k]*c; }
+  return t;
+}
 const outRate = (ch, it) => ch.k==='m' ? ch.r.o : ch.r.by.find(b=>b[0]===it)[2];
 function candsOf(it, listed){
   const av = availFor(cap).rec;
@@ -1191,6 +1281,155 @@ function costWith(target, choice, m){
   };
   return cost(target, new Set());
 }
+/* ---------- recherche exacte des chaînes (reprise par scripts/paliers_combinaisons.js) ----------
+   Une chaîne = une recette par item, la même partout dans l'arbre. optsOf : recettes jouables au palier c. */
+const isAltLike = r => !!r.a || r.n === 'Distilled Silica';
+function optsOf(it, c){
+  const av = availFor(c).rec;
+  const out = (MAIN[it]||[]).filter(r=>av.has(r)).map(r=>({k:'m', r}));
+  if(!MAIN[it]) (BYSRC[it]||[]).filter(r=>av.has(r)).forEach(r=>out.push({k:'b', r}));
+  return out;
+}
+const rawVal = (it, m) => { const c = rawCost(it, m); return c == null ? Infinity : c; };
+function unitCost(o, it, m, val){
+  const den = outRate(o, it);
+  let t = recCost(o.r, m);
+  for(const g of o.r.ig){ t += g[2]/den*val(g[0]); if(t === Infinity) break; }
+  return t;
+}
+/* Borne inférieure : coût minimal de chaque item sans exiger la cohérence (une recette par item).
+   Elle est exacte dès que les meilleurs choix ne forment pas de boucle ; sinon on la resserre
+   en remplaçant chaque valeur par l'optimum cohérent de l'item pris comme cible. */
+const lbCache = {};
+let LB_BUDGET = 100000;
+function lbFor(c, m){
+  const key = c + '|' + m + (m==='syn' ? '|' + SYN_K.map(k=>SYN_WC[k]).join(',') : '');
+  if(lbCache[key]) return lbCache[key];
+  const items = [...availFor(c).items].filter(it=>!isRaw(it));
+  const LB = {}; items.forEach(it=>LB[it] = Infinity);
+  const val = it => isRaw(it) ? rawVal(it, m) : (it in LB ? LB[it] : Infinity);
+  for(let k = 0, ch = true; ch && k < 100; k++){ ch = false;
+    for(const it of items) for(const o of optsOf(it, c)){
+      const t = unitCost(o, it, m, val);
+      if(t < LB[it] - 1e-15 * Math.max(1, LB[it] === Infinity ? 1 : LB[it])){ LB[it] = t; ch = true; } } }
+  const order = items.filter(it=>LB[it] < Infinity).sort((a,b)=>LB[a]-LB[b]);
+  for(let pass = 0; pass < 3; pass++){ let changed = false;
+    for(const it of order){
+      const r = searchChains(it, m, c, 1, LB_BUDGET, LB);
+      if(!r.aborted && r.list.length && r.list[0].cost > LB[it] * (1 + 1e-12)){ LB[it] = r.list[0].cost; changed = true; }
+    }
+    if(!changed) break;
+  }
+  return lbCache[key] = LB;
+}
+function boundCost(target, choice, LB, m){
+  const memo = {};
+  const cost = (it, stack)=>{
+    if(it in memo) return memo[it];
+    if(isRaw(it)) return rawVal(it, m);
+    const ch = choice[it];
+    if(!ch) return it in LB ? LB[it] : Infinity;
+    if(stack.has(it)) return Infinity;
+    const den = outRate(ch, it), s2 = new Set(stack).add(it);
+    let t = recCost(ch.r, m);
+    for(const g of ch.r.ig){ t += g[2]/den*cost(g[0], s2); if(t === Infinity) return memo[it] = Infinity; }
+    return memo[it] = t;
+  };
+  return cost(target, new Set());
+}
+const setBudget = n => { LB_BUDGET = n; };
+const altsOfChoice = choice => [...new Set(Object.values(choice).filter(x=>isAltLike(x.r)).map(x=>x.r.n))].sort();
+/* Les K meilleures chaînes distinctes (par jeu de recettes alternatives), recherche exacte par
+   séparation-évaluation. baseOnly : recettes de base partout où il en existe une de débloquée. */
+function searchChains(target, m, c, K, maxNodes, LB, baseOnly){
+  LB = LB || lbFor(c, m);
+  const best = new Map(), choice = {}, ranked = {};
+  let nodes = 0, T = Infinity, aborted = false;
+  const val = it => isRaw(it) ? rawVal(it, m) : (it in LB ? LB[it] : Infinity);
+  const optsFor = it => ranked[it] || (ranked[it] = (()=>{
+    let os = optsOf(it, c);
+    if(baseOnly){ const b = os.filter(o=>!isAltLike(o.r)); if(b.length) os = b;
+      const mains = os.filter(o=>o.k==='m' && !isAltLike(o.r));
+      if(mains.length) os = [mains.reduce((x,y)=>((y.r.i||0) > (x.r.i||0) ? y : x))]; }
+    return os.map(o=>({o, t: unitCost(o, it, m, val)})).sort((a,b)=>a.t-b.t).map(x=>x.o);
+  })());
+  const rec = pending => {
+    if(aborted) return;
+    if(++nodes > maxNodes){ aborted = true; return; }
+    let it = null;
+    while(pending.length){ const x = pending.pop(); if(!isRaw(x) && !(x in choice)){ it = x; break; } }
+    if(!it){
+      const cst = costWith(target, choice, m);
+      if(cst == null) return;
+      const alts = altsOfChoice(choice), key = alts.join('|');
+      if(!best.has(key) || best.get(key).cost > cst){
+        best.set(key, {cost: cst, alts, choice: Object.assign({}, choice)});
+        if(best.size >= K) T = [...best.values()].map(v=>v.cost).sort((a,b)=>a-b)[K-1];
+      }
+      return;
+    }
+    for(const o of optsFor(it)){
+      choice[it] = o;
+      if(boundCost(target, choice, LB, m) < T * (1 - 1e-12)){
+        const np = pending.slice(); o.r.ig.forEach(g=>np.push(g[0])); rec(np); }
+      delete choice[it];
+      if(aborted) return;
+    }
+  };
+  rec([target]);
+  const list = [...best.values()].sort((a,b)=>a.cost-b.cost).slice(0, K)
+    .map(v=>({score: 1/v.cost, cost: v.cost, alts: v.alts, choice: v.choice}));
+  return {list, nodes, aborted};
+}
+function brutes(target, c){
+  const reach = new Set(), st = [target];
+  while(st.length){ const it = st.pop(); if(reach.has(it) || isRaw(it)) continue; reach.add(it);
+    optsOf(it, c).forEach(o=>o.r.ig.forEach(g=>st.push(g[0]))); }
+  let n = 1n; reach.forEach(it=>{ n *= BigInt(Math.max(1, optsOf(it, c).length)); });
+  return Number(n);
+}
+/* Indice d'une recette isolée pour un critère calculé dans la page (E) : sortie/min par unité de coût,
+   recettes de base en amont (comme I et M, la moins chère quand il y en a plusieurs), calculé au palier maximal
+   avec le modèle de coût de la page (recCost / rawCost). g : gain en % sur la meilleure recette de base. */
+const idxCache = new Map();
+function idxOf(r, m){
+  let C = idxCache.get(m);
+  if(!C){
+    C = new Map(); idxCache.set(m, C);
+    const c0 = cap; cap = TMAX;
+    for(const x of D){
+      const listed = new Set([x.n]), memo = {};
+      const cost = (it, stack)=>{
+        if(isRaw(it)){ const v = rawCost(it, m); return v == null ? Infinity : v; }
+        if(it in memo) return memo[it];
+        if(stack.has(it)) return Infinity;
+        const opts = it === x.p ? [{k:'m', r:x}] : candsOf(it, listed), s2 = new Set(stack).add(it);
+        let best = Infinity;
+        for(const o of opts){ let t = recCost(o.r, m); const den = outRate(o, it);
+          for(const g of o.r.ig){ t += g[2]/den*cost(g[0], s2); if(t === Infinity) break; }
+          if(t < best) best = t; }
+        return memo[it] = best;
+      };
+      const c = cost(x.p, new Set());
+      C.set(x, {i: c > 0 && c < Infinity ? 1/c : null});
+    }
+    cap = c0;
+    for(const x of D){ const e = C.get(x);
+      const b = D.filter(y=>y.p===x.p && !y.a && C.get(y).i).map(y=>C.get(y).i);
+      e.g = e.i && b.length ? e.i/Math.max(...b)*100-100 : null; }
+  }
+  return C.get(r);
+}
+const espIdx = r => { const x = idxOf(r, 'esp'); return {ie: x.i, ge: x.g}; };
+/* Taux de change entre critères, en MW : médiane, sur les recettes notées sur les trois, de ce que coûte en MW
+   une unité de ressource brute (im/i) et un m² au sol (e/i). Arrondis à trois chiffres, ceux affichés. */
+let SYN_T = null;
+function synTaux(){
+  if(SYN_T) return SYN_T;
+  const med = a => { a.sort((x,y)=>x-y); const n = a.length; return n % 2 ? a[(n-1)/2] : (a[n/2-1] + a[n/2]) / 2; };
+  const ok = D.filter(r=>r.i > 0 && r.im > 0 && idxOf(r, 'esp').i > 0);
+  return SYN_T = {mw: 1, mat: +med(ok.map(r=>r.im/r.i)).toPrecision(3), esp: +med(ok.map(r=>idxOf(r, 'esp').i/r.i)).toPrecision(3)};
+}
 function usedItems(target, choice){
   const S = new Set(), st = [target];
   while(st.length){ const it = st.pop();
@@ -1198,35 +1437,40 @@ function usedItems(target, choice){
     S.add(it); choice[it].r.ig.forEach(g=>st.push(g[0])); }
   return S;
 }
-/* Indice E (espace) d'une recette isolée : sortie/min par m² au sol, recettes de base en amont (comme I et M),
-   calculé une fois au palier maximal avec le modèle de coût de la page (costWith / recCost). */
-const espCache = new Map();
-function espIdx(r){
-  if(!espCache.size){
-    const c0 = cap; cap = TMAX;
-    for(const x of D){
-      const listed = new Set([x.n]), memo = {};
-      const cost = (it, stack)=>{
-        if(isRaw(it)){ const v = rawCost(it, 'esp'); return v == null ? Infinity : v; }
-        if(it in memo) return memo[it];
-        if(stack.has(it)) return Infinity;
-        const opts = it === x.p ? [{k:'m', r:x}] : candsOf(it, listed), s2 = new Set(stack).add(it);
-        let best = Infinity;
-        for(const o of opts){ let t = recCost(o.r, 'esp'); const den = outRate(o, it);
-          for(const g of o.r.ig){ t += g[2]/den*cost(g[0], s2); if(t === Infinity) break; }
-          if(t < best) best = t; }
-        return memo[it] = best;
-      };
-      const c = cost(x.p, new Set());
-      espCache.set(x, {ie: c > 0 && c < Infinity ? 1/c : null});
-    }
-    cap = c0;
-    for(const x of D){ const e = espCache.get(x);
-      const b = D.filter(y=>y.p===x.p && !y.a && espCache.get(y).ie).map(y=>espCache.get(y).ie);
-      e.ge = e.ie && b.length ? e.ie/Math.max(...b)*100-100 : null; }
+/* Synthèse : poids choisis (curseurs 0–10), indice S et classement face à la base. */
+let synW = {mw: 5, mat: 5, esp: 5};
+const synPoids = () => { const t = SYN_K.reduce((a,k)=>a + synW[k], 0);
+  return t ? {mw: synW.mw/t, mat: synW.mat/t, esp: synW.esp/t} : SYN_W0; };
+const synDefaut = () => { const w = synPoids(); return SYN_K.every(k=>Math.abs(w[k] - SYN_W0[k]) < 1e-9); };
+/* Indice S d'une recette isolée : 1 ÷ (pI/I + pM·τM/M + pE·τE/E), soit le coût composite des trois indices publiés.
+   M absent (entrées toutes ramassées) : coût matière nul. I ou E absent : pas d'indice. g : gain sur la meilleure base. */
+let synCache = {key: null, C: null};
+function synIdx(r){
+  const w = synPoids(), key = SYN_K.map(k=>w[k]).join(',');
+  if(synCache.key !== key){
+    const T = synTaux(), C = new Map();
+    for(const x of D){ const e = espIdx(x).ie;
+      const c = x.i > 0 && e > 0 ? w.mw/x.i + (x.im > 0 ? w.mat*T.mat/x.im : 0) + w.esp*T.esp/e : null;
+      C.set(x, {i: c > 0 ? 1/c : null}); }
+    for(const x of D){ const e = C.get(x);
+      const b = D.filter(y=>y.p===x.p && !y.a && C.get(y).i).map(y=>C.get(y).i);
+      e.g = e.i && b.length ? e.i/Math.max(...b)*100-100 : null; }
+    synCache = {key, C};
   }
-  return espCache.get(r);
+  return synCache.C.get(r);
 }
+/* gagnante (dom) : aucun critère en recul, au moins un en progrès ; perdante (sub) : l'inverse ; sinon compromis (mix).
+   Écarts de moins de 0,5 % tenus pour nuls. */
+function pareto(r){
+  if(!r.a || !stdOf(r.p)) return null;
+  const gs = [r.g, r.gm, espIdx(r).ge].filter(v=>v != null);
+  if(!gs.length) return null;
+  const up = gs.some(v=>v > 0.5), down = gs.some(v=>v < -0.5);
+  return up && !down ? 'dom' : down && !up ? 'sub' : up ? 'mix' : null;
+}
+const PAR_LB = {dom:['gagnante','winning'], mix:['compromis','trade-off'], sub:['perdante','losing']};
+const parBadge = r => { const k = mode==='syn' && pareto(r);
+  return k ? `<span class="par ${k}" title="${esc(tr('Face à la base, sur énergie, matière et espace','Against the standard, on energy, materials and space'))}">${tr(...PAR_LB[k])}</span>` : ''; };
 const planCache = {};
 function reconstruct(target, alts, score, m){
   const key = [m, cap, target, score].concat(alts).join('|');
@@ -1321,7 +1565,10 @@ function seqHTML(c, pod){
   const nMach = q.steps.reduce((t,x)=>t + Math.max(1, Math.ceil(x.runs / P.oc - 1e-9)), 0);
   const aMach = q.steps.reduce((t,x)=>t + Math.max(1, Math.ceil(x.runs / P.oc - 1e-9)) * P.em[x.ch.r.m], 0);
   const aExt = Object.entries(q.raw).reduce((t,[k,v])=>t + v*(rawCost(k,'esp')||0), 0);
-  const real = mode==='esp'
+  const real = mode==='syn'
+    ? tr(`Puissance appelée : <b>${fx(mw)} MW</b> de machines + <b>${fx(ext)} MW</b> d'extraction · ressources brutes : <b>${fx(mat)} u/min</b> hors eau · emprise au sol, tout surcadencé à 250 % : <b>${fx(aMach + aExt)} m²</b>.`,
+         `Power drawn: <b>${fx(mw)} MW</b> of machines + <b>${fx(ext)} MW</b> of extraction · raw resources: <b>${fx(mat)} u/min</b> excluding water · floor footprint, all overclocked to 250%: <b>${fx(aMach + aExt)} m²</b>.`)
+    : mode==='esp'
     ? tr(`Emprise au sol : <b>${fx(aMach)} m²</b> pour ${nMach} machines surcadencées + <b>${fx(aExt)} m²</b> d'extraction, soit ${fx(rate/(aMach+aExt)*100)} ${IT_(c.cible).toLowerCase()}/min pour 100 m². L'indice facture chaque machine au prorata de son usage ; ici on compte des machines entières.`,
          `Floor footprint: <b>${fx(aMach)} m²</b> for ${nMach} overclocked machines + <b>${fx(aExt)} m²</b> of extraction, i.e. ${fx(rate/(aMach+aExt)*100)} ${IT_(c.cible).toLowerCase()}/min per 100 m². The index bills each machine in proportion to its use; here whole machines are counted.`)
     : mode==='mw'
@@ -1374,6 +1621,10 @@ let openCb = new Set();
 function renderCombi(){
   savePrefs();
   const rowsC = CBS(), chains = CHS();
+  const sn = document.getElementById('synNote');
+  sn.hidden = mode!=='syn';
+  if(mode==='syn') sn.innerHTML = tr(`<b>Synthèse :</b> combinaisons recalculées dans la page avec vos poids, indice S de la chaîne entière.${synDefaut() ? '' : ' La pire chaîne et le nombre de chaînes distinctes, obtenus par énumération complète, ne sont précalculés qu\'à poids égaux.'}`,
+    `<b>Synthesis:</b> combinations recomputed in the page with your weights, S index of the whole chain.${synDefaut() ? '' : ' The worst chain and the number of distinct chains, obtained by full enumeration, are only precomputed at equal weights.'}`);
   const list = rowsC.filter(c=>!picked.length || picked.includes(c.cible))
     .slice().sort((a,b)=>(b.gain_pct??-1e9)-(a.gain_pct??-1e9));
   document.getElementById('combiCount').textContent =
@@ -1491,7 +1742,7 @@ function renderRows(){
     const id = r.n+'|'+r.p;
     return `<div class="row ${r.a?'isalt':''}" data-k="${k}">
       <div class="t">${r.t}</div>
-      <div><div class="nm">${ico(r.p)}${RC_(r.n)}</div>
+      <div><div class="nm">${ico(r.p)}${RC_(r.n)}${parBadge(r)}</div>
         <div class="sub">${IT_(r.p)} · ${BT(r.m)} · ${nf(r.o)}/min · ${nf(r.w)} MW · ${SRC[r.s]}</div></div>
       <div class="val"><b>${nf(IDX(r))}</b>${g}</div>
       ${openRows.has(id) ? `<div class="detail">${
@@ -1529,11 +1780,23 @@ function setMode(m){
   document.getElementById('mMW').setAttribute('aria-pressed', m==='mw');
   document.getElementById('mMAT').setAttribute('aria-pressed', m==='mat');
   document.getElementById('mESP').setAttribute('aria-pressed', m==='esp');
+  document.getElementById('mSYN').setAttribute('aria-pressed', m==='syn');
+  document.getElementById('synW').hidden = m!=='syn';
   buildUsedIn(); renderTexts(); renderAll();
 }
 document.getElementById('mMW').addEventListener('click', ()=>setMode('mw'));
 document.getElementById('mMAT').addEventListener('click', ()=>setMode('mat'));
 document.getElementById('mESP').addEventListener('click', ()=>setMode('esp'));
+document.getElementById('mSYN').addEventListener('click', ()=>setMode('syn'));
+function drawSynW(){
+  const w = synPoids();
+  document.querySelectorAll('#synW input').forEach(el=>{ el.value = synW[el.dataset.k];
+    el.nextElementSibling.textContent = pc(w[el.dataset.k]); });
+}
+function setSynW(w){ synW = w; SYN_WC = synPoids(); drawSynW(); buildUsedIn(); renderTexts(); renderAll(); }
+document.querySelectorAll('#synW input').forEach(el=>el.addEventListener('input', ()=>{
+  setSynW(Object.assign({}, synW, {[el.dataset.k]: +el.value})); }));
+document.getElementById('synEq').addEventListener('click', ()=>setSynW({mw: 5, mat: 5, esp: 5}));
 
 /* textes posés par script : suivent le sélecteur de langue commun */
 const SORT_LB = {i:['Indice ↓','Index ↓'], g:['Gain vs base ↓','Gain vs standard ↓'], t:['Tier ↑','Tier ↑']};
@@ -1556,10 +1819,14 @@ document.getElementById('resetPrefs').addEventListener('click', ()=>{
 /* restauration des réglages mémorisés */
 {
   const P_ = PREFS, arr = v => Array.isArray(v) ? v : [];
-  if(['mw','mat','esp'].includes(P_.mode)) mode = P_.mode;
+  if(['mw','mat','esp','syn'].includes(P_.mode)) mode = P_.mode;
   document.getElementById('mMW').setAttribute('aria-pressed', mode==='mw');
   document.getElementById('mMAT').setAttribute('aria-pressed', mode==='mat');
   document.getElementById('mESP').setAttribute('aria-pressed', mode==='esp');
+  document.getElementById('mSYN').setAttribute('aria-pressed', mode==='syn');
+  document.getElementById('synW').hidden = mode!=='syn';
+  if(P_.synW && SYN_K.every(k=>Number.isInteger(P_.synW[k]) && P_.synW[k]>=0 && P_.synW[k]<=10)) synW = Object.assign({}, P_.synW);
+  SYN_WC = synPoids(); drawSynW();
   if(Number.isInteger(P_.cap) && P_.cap>=0 && P_.cap<=TMAX) cap = P_.cap;
   picked = arr(P_.picked).filter(n=>allItems.includes(n));
   if(typeof P_.onlyBetter==='boolean'){ onlyBetter = P_.onlyBetter; document.getElementById('onlyBetter').checked = onlyBetter; }

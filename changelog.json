@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.13",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Nouveau critère Synthèse : énergie, matière et espace réunis en un coût composite (taux de change médians entre critères), pondérés par trois curseurs. Chaque alternative y est classée gagnante, compromis ou perdante face à sa recette de base ; les combinaisons suivent les curseurs, recalculées dans la page par la même recherche exacte. Mention en bas de page : le site est généré par IA.",
+            "en": "New Synthesis criterion: energy, materials and space combined into a composite cost (median exchange rates between criteria), weighted by three sliders. Each alternate is rated winning, trade-off or losing against its standard recipe; combinations follow the sliders, recomputed in the page with the same exact search. Footer notice: the site is AI-generated."
+          }
+        },
+        {
           "version": "1.12",
           "date": "2026-09-24",
           "texte": {

@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.15",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Indices Énergie et Matière recalculés par la page, avec le même modèle de coût que l'Espace, la Synthèse et les combinaisons (ils étaient figés dans les données et suivaient une autre règle pour les coproduits) : une quarantaine de recettes à base de pétrole ou de coproduits changent de valeur. Les recettes de base n'affichent plus de gain « vs base ». Combinaisons recalculées.",
+            "en": "Energy and Materials indices recomputed by the page, with the same cost model as Space, Synthesis and the combinations (they were frozen in the data and followed another rule for co-products): about forty oil or co-product recipes change value. Standard recipes no longer show a \"vs standard\" gain. Combinations recomputed."
+          }
+        },
+        {
           "version": "1.14",
           "date": "2026-09-24",
           "texte": {

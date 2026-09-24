@@ -2,14 +2,15 @@
 """Réécrit dans chaque page ce qui est dérivable du référentiel donnees/donnees-jeu.json.
 
 Aujourd'hui : les icônes (une seule source, donnees/icones/, ré-échantillonnée à la taille de chaque
-page) et les paliers de recettes de l'infographie. Le reste des payloads (indices, combinaisons,
-chaînes optimales) est calculé ailleurs et n'est pas touché ici.
+page) et les paliers de recettes de l'infographie. Les combinaisons de l'infographie (clés tc, combi,
+chains, freq et variantes *M) sont calculées par scripts/paliers_combinaisons.js et ne sont pas touchées ici.
 
 Usage : python3 scripts/payloads.py [--verifier]   (depuis la racine du dépôt)
   --verifier : ne récrit rien, signale seulement ce qui changerait (utile en revue).
 Dépendances : Pillow.
-Après un passage qui modifie les paliers : relancer scripts/paliers_combinaisons.js (voir README),
-les combinaisons par palier en dépendent.
+Après un passage qui modifie les paliers : relancer
+  node scripts/paliers_combinaisons.js satisfactory_infographie.html tout --ecrire
+les combinaisons en dépendent.
 """
 import base64, io, json, pathlib, re, sys
 

@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.6",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Registre des combinaisons sans plafond de palier désormais recalculé par script depuis les recettes de la page, comme les combinaisons par palier. Nombre de chaînes distinctes recompté par énumération complète (ex. Concrete 47 → 77, Rotor 19 688 → 32 528) et plafond relevé à un million : Modular Frame et High-Speed Connector gardent leur pire chaîne. Pire chaîne de Circuit Board corrigée (0,056 → 0,055).",
+            "en": "Combination registry without a tier cap now recomputed by script from the page's recipes, like the per-tier combinations. Number of distinct chains recounted by full enumeration (e.g. Concrete 47 → 77, Rotor 19,688 → 32,528) and cap raised to one million: Modular Frame and High-Speed Connector keep their worst chain. Circuit Board's worst chain corrected (0.056 → 0.055)."
+          }
+        },
+        {
           "version": "1.5",
           "date": "2026-09-23",
           "texte": {

@@ -143,6 +143,32 @@ def paliers_infographie():
         print(f"    {n:34} {a} → {b}")
 
 
+def emprises_infographie():
+    """Mode « Espace » de l'infographie : emprises au sol (donnees/emprises.json) → payload.
+    em : m² par machine ; ex : m² par unité/min extraite, à 250 % ; oc : facteur de surcadençage."""
+    E = json.loads((ROOT / "donnees" / "emprises.json").read_text(encoding="utf-8"))
+    oc = E["surcadencage"]
+    em = {n: b["l"] * b["L"] for n, b in E["batiments"].items()}
+    ex = {}
+    for res in REF["ressources"]:
+        x = E["extraction"].get(res) or (None if REF["items"][res]["liquide"] else E["extraction"]["solide"])
+        if not x:
+            print(f"  ressource sans emprise d'extraction : {res}")
+            continue
+        aire = x["l"] * x["L"] + (x["partage"]["l"] * x["partage"]["L"] / x["partage"]["par"] if "partage" in x else 0)
+        ex[res] = round(aire / (x["debit"] * oc), 6)
+    p = ROOT / "satisfactory_infographie.html"
+    s = avant = p.read_text(encoding="utf-8")
+    m, P = bloc_json(s, "payload")
+    manque = sorted({r["m"] for r in P["d"]} - set(em))
+    if manque:
+        print(f"  machines sans emprise : {manque}")
+    P["em"], P["ex"], P["oc"] = em, ex, oc
+    s = s[:m.start(2)] + json.dumps(P, ensure_ascii=False, separators=(",", ":")) + s[m.end(2):]
+    ecrire(p, s, avant)
+    print(f"satisfactory_infographie.html : emprises de {len(em)} machines, {len(ex)} ressources (×{oc})")
+
+
 def payload_broyeur():
     """Le payload du broyeur est entièrement calculé par son optimiseur, scripts/broyeur.py."""
     sys.path.insert(0, str(ROOT / "scripts"))
@@ -160,6 +186,7 @@ def payload_broyeur():
 
 if __name__ == "__main__":
     paliers_infographie()
+    emprises_infographie()
     payload_broyeur()
     page_icones("satisfactory_infographie.html", "payload", 44, cle="ic")
     page_icones("broyeur-excedents.html", "icons", 44)

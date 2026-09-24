@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <!-- FICSIT-LANG:START -->
 <style>html:not([lang|=en]) [data-l=en],html[lang|=en] [data-l=fr]{display:none!important}
-.flang{position:fixed;top:10px;right:12px;z-index:9999;display:flex;gap:2px;padding:3px;
+.fdock{position:fixed;top:10px;right:12px;z-index:9999;display:flex;align-items:stretch;gap:6px}
+.flang{position:relative;display:flex;gap:2px;padding:3px;
   background:rgba(14,18,22,.94);border:1px solid #39434F;box-shadow:0 3px 12px rgba(0,0,0,.45);
   clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));
   font:700 12px/1 'Saira Condensed','Rajdhani','Barlow Condensed',system-ui,sans-serif;letter-spacing:.1em}
@@ -19,8 +20,8 @@
 .flang button[aria-pressed=true]{color:#1B1206;background:#FA9549;cursor:default}
 .flang button[aria-pressed=true] svg{filter:none}
 .flang button:focus-visible{outline:2px solid #FA9549;outline-offset:1px}
-@media (max-width:560px){.flang{top:6px;right:6px}.flang button{padding:5px 6px 4px;gap:4px}.flang button svg{width:18px;height:12px}}
-@media print{.flang{display:none}}</style>
+@media (max-width:560px){.fdock{top:6px;right:6px;gap:4px}.flang button{padding:5px 6px 4px;gap:4px}.flang button svg{width:18px;height:12px}}
+@media print{.fdock{display:none}}</style>
 <script>/* FICSIT — langue commune à tous les outils.
    Source : commun/ficsit-lang.js (+ langue.json, glossaire.json, ficsit-lang.css), injectée dans chaque page
    par scripts/langue.py. Ne pas éditer le bloc injecté dans les pages : il est réécrit à chaque passage.
@@ -34,6 +35,7 @@
      .pick({fr, en})       choisit la variante de la langue active
      .item(n) .recette(n) .batiment(n)   nom du jeu dans la langue active (glossaire.json, repli : anglais)
      .num(v, opts)         v.toLocaleString(locale, opts)
+   Dock : tout élément marqué data-fdock est déplacé dans le dock commun en haut à droite, avant les drapeaux.
    HTML statique :
      <x data-l="fr">…</x><x data-l="en">…</x>     seule la variante de la langue active est affichée
      data-fr-<attr>="…" data-en-<attr>="…"       l'attribut <attr> (title, placeholder, aria-label…) suit la langue
@@ -85,7 +87,12 @@
       return '<button type="button" data-lang="' + c + '" lang="' + c + '" title="' + L.titre + '">'
         + (DRAPEAUX[c] || '') + '<span>' + L.court + '</span></button>'; }).join('');
     w.addEventListener('click', function(e){ var b = e.target.closest('button[data-lang]'); if(b) appliquer(b.dataset.lang, true); });
-    document.body.appendChild(w);
+    // Dock commun en haut à droite : les éléments de la page marqués data-fdock (ex. le journal des
+    // révisions), puis le sélecteur de langue.
+    var d = document.getElementById('fdock');
+    if(!d){ d = document.createElement('div'); d.id = 'fdock'; d.className = 'fdock'; document.body.appendChild(d); }
+    document.querySelectorAll('[data-fdock]').forEach(function(el){ d.appendChild(el); });
+    d.appendChild(w);
     boutons(); attrs();
   }
 

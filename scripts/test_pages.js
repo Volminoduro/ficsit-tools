@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /* Test fumée des pages dans un vrai navigateur (Playwright + Chromium).
-   Pour chaque page et chaque langue : aucune erreur JS, et aucun texte visible de l'autre langue.
+   Pour chaque page et chaque langue : aucune erreur JS, et aucun texte visible de l'autre langue
+   (journal des révisions déroulé compris).
    La langue est posée au chargement (mémorisée) puis rebasculée par le sélecteur à drapeaux.
    Usage : node scripts/test_pages.js   (depuis la racine du dépôt ; Playwright requis :
    npm install --no-save playwright && npx playwright install chromium). Code de sortie 1 en cas d'échec. */
@@ -48,6 +49,7 @@ const INDICES = {
       await p.waitForTimeout(400);
       await p.click(`.flang button[data-lang="${lang}"]`);   // bascule en direct, depuis l'autre langue
       if (prep) await prep(p);
+      if (await p.$('.pn-btn')) await p.click('.pn-btn');   // journal des révisions déroulé : son texte est vérifié aussi
       await p.waitForTimeout(400);
       const texte = await p.evaluate(() => document.body.innerText);
       const lignes = texte.split('\n').filter(l => INDICES[lang].test(l));

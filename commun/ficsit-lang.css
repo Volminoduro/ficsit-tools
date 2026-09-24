@@ -1,5 +1,6 @@
 html:not([lang|=en]) [data-l=en],html[lang|=en] [data-l=fr]{display:none!important}
-.flang{position:fixed;top:10px;right:12px;z-index:9999;display:flex;gap:2px;padding:3px;
+.fdock{position:fixed;top:10px;right:12px;z-index:9999;display:flex;align-items:stretch;gap:6px}
+.flang{position:relative;display:flex;gap:2px;padding:3px;
   background:rgba(14,18,22,.94);border:1px solid #39434F;box-shadow:0 3px 12px rgba(0,0,0,.45);
   clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));
   font:700 12px/1 'Saira Condensed','Rajdhani','Barlow Condensed',system-ui,sans-serif;letter-spacing:.1em}
@@ -14,5 +15,5 @@ html:not([lang|=en]) [data-l=en],html[lang|=en] [data-l=fr]{display:none!importa
 .flang button[aria-pressed=true]{color:#1B1206;background:#FA9549;cursor:default}
 .flang button[aria-pressed=true] svg{filter:none}
 .flang button:focus-visible{outline:2px solid #FA9549;outline-offset:1px}
-@media (max-width:560px){.flang{top:6px;right:6px}.flang button{padding:5px 6px 4px;gap:4px}.flang button svg{width:18px;height:12px}}
-@media print{.flang{display:none}}
+@media (max-width:560px){.fdock{top:6px;right:6px;gap:4px}.flang button{padding:5px 6px 4px;gap:4px}.flang button svg{width:18px;height:12px}}
+@media print{.fdock{display:none}}

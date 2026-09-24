@@ -3,7 +3,8 @@
 <meta charset="utf-8">
 <!-- FICSIT-LANG:START -->
 <style>html:not([lang|=en]) [data-l=en],html[lang|=en] [data-l=fr]{display:none!important}
-.flang{position:fixed;top:10px;right:12px;z-index:9999;display:flex;gap:2px;padding:3px;
+.fdock{position:fixed;top:10px;right:12px;z-index:9999;display:flex;align-items:stretch;gap:6px}
+.flang{position:relative;display:flex;gap:2px;padding:3px;
   background:rgba(14,18,22,.94);border:1px solid #39434F;box-shadow:0 3px 12px rgba(0,0,0,.45);
   clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));
   font:700 12px/1 'Saira Condensed','Rajdhani','Barlow Condensed',system-ui,sans-serif;letter-spacing:.1em}
@@ -18,8 +19,8 @@
 .flang button[aria-pressed=true]{color:#1B1206;background:#FA9549;cursor:default}
 .flang button[aria-pressed=true] svg{filter:none}
 .flang button:focus-visible{outline:2px solid #FA9549;outline-offset:1px}
-@media (max-width:560px){.flang{top:6px;right:6px}.flang button{padding:5px 6px 4px;gap:4px}.flang button svg{width:18px;height:12px}}
-@media print{.flang{display:none}}</style>
+@media (max-width:560px){.fdock{top:6px;right:6px;gap:4px}.flang button{padding:5px 6px 4px;gap:4px}.flang button svg{width:18px;height:12px}}
+@media print{.fdock{display:none}}</style>
 <script>/* FICSIT — langue commune à tous les outils.
    Source : commun/ficsit-lang.js (+ langue.json, glossaire.json, ficsit-lang.css), injectée dans chaque page
    par scripts/langue.py. Ne pas éditer le bloc injecté dans les pages : il est réécrit à chaque passage.
@@ -33,6 +34,7 @@
      .pick({fr, en})       choisit la variante de la langue active
      .item(n) .recette(n) .batiment(n)   nom du jeu dans la langue active (glossaire.json, repli : anglais)
      .num(v, opts)         v.toLocaleString(locale, opts)
+   Dock : tout élément marqué data-fdock est déplacé dans le dock commun en haut à droite, avant les drapeaux.
    HTML statique :
      <x data-l="fr">…</x><x data-l="en">…</x>     seule la variante de la langue active est affichée
      data-fr-<attr>="…" data-en-<attr>="…"       l'attribut <attr> (title, placeholder, aria-label…) suit la langue
@@ -84,7 +86,12 @@
       return '<button type="button" data-lang="' + c + '" lang="' + c + '" title="' + L.titre + '">'
         + (DRAPEAUX[c] || '') + '<span>' + L.court + '</span></button>'; }).join('');
     w.addEventListener('click', function(e){ var b = e.target.closest('button[data-lang]'); if(b) appliquer(b.dataset.lang, true); });
-    document.body.appendChild(w);
+    // Dock commun en haut à droite : les éléments de la page marqués data-fdock (ex. le journal des
+    // révisions), puis le sélecteur de langue.
+    var d = document.getElementById('fdock');
+    if(!d){ d = document.createElement('div'); d.id = 'fdock'; d.className = 'fdock'; document.body.appendChild(d); }
+    document.querySelectorAll('[data-fdock]').forEach(function(el){ d.appendChild(el); });
+    d.appendChild(w);
     boutons(); attrs();
   }
 
@@ -251,33 +258,60 @@ footer p{margin:0 0 8px}
 <div id="out"><div class="empty" id="emptyOut"></div></div>
 
 <!-- PATCHNOTES:START -->
-<style>.pn{--pn-or:#FA9549;margin:34px 0 8px;background:var(--pn-panel);color:var(--pn-ink);font-family:var(--pn-body);
-  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
-  border-left:3px solid var(--pn-or);text-align:left}
+<style>.pn{--pn-or:#FA9549;display:flex;font-family:var(--pn-body);text-align:left}
 .pn *{box-sizing:border-box}
+.pn-btn{all:unset;box-sizing:border-box;position:relative;cursor:pointer;display:flex;align-items:center;gap:7px;
+  padding:6px 11px 5px 10px;background:rgba(14,18,22,.94);border:1px solid #39434F;box-shadow:0 3px 12px rgba(0,0,0,.45);
+  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));
+  font:700 12px/1 'Saira Condensed','Rajdhani','Barlow Condensed',system-ui,sans-serif;letter-spacing:.1em;color:#E4EAF0;
+  transition:color .15s,background .15s}
+.pn-btn::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;
+  background:repeating-linear-gradient(135deg,#FA9549 0 6px,transparent 6px 12px);opacity:.8}
+.pn-btn svg{width:13px;height:13px;flex:none;fill:none;stroke:#FA9549;stroke-width:1.6}
+.pn-btn:hover,.pn-btn[aria-expanded=true]{background:#FA9549;color:#1B1206}
+.pn-btn:hover svg,.pn-btn[aria-expanded=true] svg{stroke:#1B1206}
+.pn-btn:focus-visible{outline:2px solid #FA9549;outline-offset:1px}
+.pn-dot{display:none;position:absolute;left:3px;top:3px;width:8px;height:8px;border-radius:50%;background:#FA9549;
+  box-shadow:0 0 0 2px rgba(14,18,22,.94)}
+.pn-neuf .pn-dot{display:block;animation:pn-pulse 1.8s ease-in-out infinite}
+.pn-neuf .pn-btn:hover .pn-dot,.pn-neuf .pn-btn[aria-expanded=true] .pn-dot{background:#1B1206}
+@keyframes pn-pulse{50%{box-shadow:0 0 0 2px rgba(14,18,22,.94),0 0 0 5px rgba(250,149,73,.35)}}
+@media (prefers-reduced-motion:reduce){.pn-neuf .pn-dot{animation:none}}
+.pn-panel{position:absolute;top:calc(100% + 6px);right:0;width:min(440px,calc(100vw - 24px));max-height:min(72vh,640px);
+  overflow:auto;overscroll-behavior:contain;background:var(--pn-panel);color:var(--pn-ink);
+  border:1px solid var(--pn-line);border-left:3px solid var(--pn-or);box-shadow:0 10px 30px rgba(0,0,0,.55)}
+.pn-panel[hidden]{display:none}
 .pn-hz{height:6px;background:repeating-linear-gradient(45deg,var(--pn-or) 0 10px,transparent 10px 20px);opacity:.7}
-.pn-head{display:flex;align-items:center;gap:14px;padding:16px 20px 12px;border-bottom:1px solid var(--pn-line)}
-.pn-slot{flex:none;width:46px;height:46px;display:grid;place-items:center;background:var(--pn-deep);
+.pn-head{display:flex;align-items:center;gap:12px;padding:14px 16px 11px;border-bottom:1px solid var(--pn-line)}
+.pn-head > div{flex:1;min-width:0}
+.pn-slot{flex:none;width:42px;height:42px;display:grid;place-items:center;background:var(--pn-deep);
   border:1px solid var(--pn-line);box-shadow:inset 0 0 0 2px rgba(0,0,0,.35)}
-.pn-slot img{width:34px;height:34px;object-fit:contain;display:block}
-.pn-title{margin:0;padding:0;border:0;background:none;font-family:var(--pn-disp);font-weight:700;font-size:1.25rem;
+.pn-slot img{width:30px;height:30px;object-fit:contain;display:block}
+.pn-title{margin:0;padding:0;border:0;background:none;font-family:var(--pn-disp);font-weight:700;font-size:1.15rem;
   line-height:1.1;letter-spacing:.02em;color:var(--pn-or)}
-.pn-sub{margin:3px 0 0;padding:0;font-size:.9rem;line-height:1.3;color:var(--pn-dim);max-width:none}
-.pn-list{list-style:none;margin:0;padding:14px 20px 6px 20px;position:relative}
-.pn-e{position:relative;margin:0;padding:0 0 14px 22px}
+.pn-sub{margin:3px 0 0;padding:0;font-size:.86rem;line-height:1.3;color:var(--pn-dim);max-width:none}
+.pn-x{all:unset;flex:none;cursor:pointer;width:28px;height:28px;display:grid;place-items:center;color:var(--pn-dim);
+  font:400 22px/1 system-ui,sans-serif}
+.pn-x:hover,.pn-x:focus-visible{color:var(--pn-or)}
+.pn-x:focus-visible{outline:2px solid var(--pn-or)}
+.pn-list{list-style:none;margin:0;padding:14px 16px 4px 16px;position:relative}
+.pn-e{position:relative;margin:0;padding:0 0 13px 22px}
 .pn-e::before{content:"";position:absolute;left:5px;top:14px;bottom:-2px;width:1px;background:var(--pn-line)}
 .pn-list > .pn-e:last-child::before{display:none}
 .pn-e::after{content:"";position:absolute;left:1px;top:6px;width:9px;height:9px;transform:rotate(45deg);
   border:1.5px solid var(--pn-dim);background:var(--pn-panel)}
-.pn-list:first-of-type > .pn-e:first-child::after{background:var(--pn-or);border-color:var(--pn-or)}
-.pn-meta{display:flex;align-items:baseline;gap:10px;margin-bottom:3px}
+.pn-list:first-of-type > .pn-e:first-child::after,.pn-e.pn-new::after{background:var(--pn-or);border-color:var(--pn-or)}
+.pn-meta{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;margin-bottom:3px}
 .pn-v{font-family:var(--pn-disp);font-weight:700;font-size:.85rem;padding:1px 8px 1px 7px;background:var(--pn-or);
   color:#1b1206;clip-path:polygon(0 0,100% 0,100% 60%,calc(100% - 6px) 100%,0 100%)}
 .pn-e + .pn-e .pn-v,.pn-old .pn-v{background:var(--pn-deep);color:var(--pn-dim);box-shadow:inset 0 0 0 1px var(--pn-line)}
-.pn-d{font-family:var(--pn-disp);font-size:.9rem;color:var(--pn-dim);letter-spacing:.03em}
-.pn-t{margin:0;padding:0;font-size:.98rem;line-height:1.5;color:var(--pn-ink);max-width:72ch}
-.pn-old{border-top:1px dashed var(--pn-line);margin:0 20px}
-.pn-old summary{cursor:pointer;padding:10px 0;font-family:var(--pn-disp);font-weight:600;font-size:.92rem;color:var(--pn-dim);
+.pn-d{font-family:var(--pn-disp);font-size:.88rem;color:var(--pn-dim);letter-spacing:.03em}
+.pn-nv{display:none;font-family:var(--pn-disp);font-weight:700;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--pn-or)}
+.pn-new .pn-nv{display:inline}
+.pn-t{margin:0;padding:0;font-size:.94rem;line-height:1.5;color:var(--pn-ink);max-width:none}
+.pn-old{border-top:1px dashed var(--pn-line);margin:0 16px}
+.pn-old summary{cursor:pointer;padding:10px 0;font-family:var(--pn-disp);font-weight:600;font-size:.9rem;color:var(--pn-dim);
   list-style:none}
 .pn-old summary::-webkit-details-marker{display:none}
 .pn-old summary::before{content:"+";display:inline-block;width:1.1em;color:var(--pn-or);font-weight:700}
@@ -285,15 +319,37 @@ footer p{margin:0 0 8px}
 .pn-old summary:hover,.pn-old summary:focus-visible{color:var(--pn-ink)}
 .pn-old summary:focus-visible{outline:2px solid var(--pn-or);outline-offset:2px}
 .pn-old .pn-list{padding:4px 0 6px}
-.pn-foot{height:10px}
+.pn-foot{height:8px}
 html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none}
-@media (max-width:560px){.pn-head{padding:14px 14px 10px}.pn-list{padding-left:14px;padding-right:14px}.pn-old{margin:0 14px}}</style>
-<aside class="pn" id="journal" aria-labelledby="pn-titre" style="--pn-disp:var(--disp);--pn-body:var(--sans);--pn-panel:var(--p1);--pn-deep:var(--p3);--pn-line:var(--ln);--pn-ink:var(--ink);--pn-dim:var(--ink2)"><div class="pn-hz"></div>
+@media (max-width:560px){.pn-btn{padding:5px 8px 4px 9px;gap:5px}.pn-panel{position:fixed;top:44px;right:6px;width:calc(100vw - 12px)}}
+@media print{.pn{display:none}}</style>
+<div class="pn" id="journal" data-fdock data-outil="broyeur-excedents.html" data-v="1.6" style="--pn-disp:var(--disp);--pn-body:var(--sans);--pn-panel:var(--p1);--pn-deep:var(--p3);--pn-line:var(--ln);--pn-ink:var(--ink);--pn-dim:var(--ink2)">
+<button type="button" class="pn-btn" aria-expanded="false" aria-controls="pn-panel" data-fr-title="Journal des révisions : ce qui a changé" data-en-title="Revision log: what changed" title="Journal des révisions : ce qui a changé"><span class="pn-dot" aria-hidden="true"></span><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5h8v11H3z"/><path d="M5 4.5h4M5 7h4M5 9.5h2.5"/></svg><span>v1.6</span></button>
+<div class="pn-panel" id="pn-panel" role="region" aria-labelledby="pn-titre" hidden><div class="pn-hz"></div>
 <div class="pn-head"><span class="pn-slot"><img src="data:image/webp;base64,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" alt=""></span><div><div class="pn-title" id="pn-titre" role="heading" aria-level="2"><span data-l="fr">Journal des révisions</span><span data-l="en" lang="en">Revision log</span></div>
-<p class="pn-sub"><span data-l="fr">Version 1.5, mise à jour le 24/09/2026</span><span data-l="en" lang="en">Version 1.5, updated 24 Sep 2026</span></p></div></div>
-<ol class="pn-list"><li class="pn-e"><div class="pn-meta"><span class="pn-v">v1.5</span><time class="pn-d" datetime="2026-09-24"><span data-l="fr">24/09/2026</span><span data-l="en" lang="en">24 Sep 2026</span></time></div><p class="pn-t"><span data-l="fr">Compacted Coal passe du tier 2 au tier 3 : sa recherche au MAM vient après celle de la poudre noire.</span><span data-l="en" lang="en">Compacted Coal moves from tier 2 to tier 3: its MAM research comes after Black Powder&#x27;s.</span></p></li><li class="pn-e"><div class="pn-meta"><span class="pn-v">v1.4</span><time class="pn-d" datetime="2026-09-24"><span data-l="fr">24/09/2026</span><span data-l="en" lang="en">24 Sep 2026</span></time></div><p class="pn-t"><span data-l="fr">Données recalculées par script depuis le référentiel commun. Les recettes retenues ne changent pas, mais minerai neuf et machines se lisent désormais sur la chaîne affichée (celle qui consomme le moins de MW) au lieu d&#x27;être minimisés chacun de leur côté : ils augmentent souvent (AI Limiter : 7,3 → 22 minerai/min par unité). Tiers alignés sur les autres outils, dont Circuit Board 3 → 5, Motor 7 → 8, Electromagnetic Control Rod 6 → 8.</span><span data-l="en" lang="en">Data recomputed by script from the shared reference dataset. Selected recipes are unchanged, but new ore and machines are now read from the displayed chain (the one that draws the fewest MW) instead of each being minimized separately: they often go up (AI Limiter: 7.3 → 22 ore/min per unit). Tiers aligned with the other tools, including Circuit Board 3 → 5, Motor 7 → 8, Electromagnetic Control Rod 6 → 8.</span></p></li><li class="pn-e"><div class="pn-meta"><span class="pn-v">v1.3</span><time class="pn-d" datetime="2026-09-22"><span data-l="fr">22/09/2026</span><span data-l="en" lang="en">22 Sep 2026</span></time></div><p class="pn-t"><span data-l="fr">La langue se choisit désormais avec le drapeau FR/EN commun à tous les outils, en haut à droite. Les noms d&#x27;items et de recettes de base passent en français, et les nombres suivent le format de la langue.</span><span data-l="en" lang="en">Language is now set with the FR/EN flag shared by every tool, top right. Item and standard recipe names now switch to French, and numbers follow the language&#x27;s format.</span></p></li></ol>
-<details class="pn-old"><summary><span data-l="fr">3 révisions antérieures</span><span data-l="en" lang="en">3 earlier revisions</span></summary><ol class="pn-list"><li class="pn-e"><div class="pn-meta"><span class="pn-v">v1.2</span><time class="pn-d" datetime="2026-09-22"><span data-l="fr">22/09/2026</span><span data-l="en" lang="en">22 Sep 2026</span></time></div><p class="pn-t"><span data-l="fr">Excédents, débits, tri, filtres et langue sont mémorisés d&#x27;une visite à l&#x27;autre, avec un bouton Réinitialiser. Corrigé : la bascule FR/EN ne plante plus et le filtre de palier n&#x27;est plus remis à « tous » au changement de langue.</span><span data-l="en" lang="en">Surpluses, rates, sorting, filters and language are remembered between visits, with a Reset button. Fixed: the FR/EN toggle no longer crashes and the tier filter no longer resets to “all” when switching language.</span></p></li><li class="pn-e"><div class="pn-meta"><span class="pn-v">v1.1</span><time class="pn-d" datetime="2026-09-14"><span data-l="fr">14/09/2026</span><span data-l="en" lang="en">14 Sep 2026</span></time></div><p class="pn-t"><span data-l="fr">Bascule FR/EN de l&#x27;interface et des noms d&#x27;items.</span><span data-l="en" lang="en">FR/EN toggle for the interface and item names.</span></p></li><li class="pn-e"><div class="pn-meta"><span class="pn-v">v1.0</span><time class="pn-d" datetime="2026-09-02"><span data-l="fr">02/09/2026</span><span data-l="en" lang="en">2 Sep 2026</span></time></div><p class="pn-t"><span data-l="fr">Première version : à partir des excédents saisis, classement des cibles du broyeur AWESOME par points gagnés par mégawatt investi, avec filtres de palier et de minerai supplémentaire.</span><span data-l="en" lang="en">First release: from the surpluses you enter, AWESOME Sink targets ranked by points earned per megawatt invested, with tier and extra-ore filters.</span></p></li></ol></details>
-<div class="pn-foot"></div></aside>
+<p class="pn-sub"><span data-l="fr">Version 1.6, mise à jour le 24/09/2026</span><span data-l="en" lang="en">Version 1.6, updated 24 Sep 2026</span></p></div><button type="button" class="pn-x" data-fr-aria-label="Fermer" data-en-aria-label="Close" aria-label="Fermer">×</button></div>
+<ol class="pn-list"><li class="pn-e" data-v="1.6"><div class="pn-meta"><span class="pn-v">v1.6</span><time class="pn-d" datetime="2026-09-24"><span data-l="fr">24/09/2026</span><span data-l="en" lang="en">24 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d&#x27;un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal.</span><span data-l="en" lang="en">The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven&#x27;t seen yet, and new entries are marked in the log.</span></p></li><li class="pn-e" data-v="1.5"><div class="pn-meta"><span class="pn-v">v1.5</span><time class="pn-d" datetime="2026-09-24"><span data-l="fr">24/09/2026</span><span data-l="en" lang="en">24 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Compacted Coal passe du tier 2 au tier 3 : sa recherche au MAM vient après celle de la poudre noire.</span><span data-l="en" lang="en">Compacted Coal moves from tier 2 to tier 3: its MAM research comes after Black Powder&#x27;s.</span></p></li><li class="pn-e" data-v="1.4"><div class="pn-meta"><span class="pn-v">v1.4</span><time class="pn-d" datetime="2026-09-24"><span data-l="fr">24/09/2026</span><span data-l="en" lang="en">24 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Données recalculées par script depuis le référentiel commun. Les recettes retenues ne changent pas, mais minerai neuf et machines se lisent désormais sur la chaîne affichée (celle qui consomme le moins de MW) au lieu d&#x27;être minimisés chacun de leur côté : ils augmentent souvent (AI Limiter : 7,3 → 22 minerai/min par unité). Tiers alignés sur les autres outils, dont Circuit Board 3 → 5, Motor 7 → 8, Electromagnetic Control Rod 6 → 8.</span><span data-l="en" lang="en">Data recomputed by script from the shared reference dataset. Selected recipes are unchanged, but new ore and machines are now read from the displayed chain (the one that draws the fewest MW) instead of each being minimized separately: they often go up (AI Limiter: 7.3 → 22 ore/min per unit). Tiers aligned with the other tools, including Circuit Board 3 → 5, Motor 7 → 8, Electromagnetic Control Rod 6 → 8.</span></p></li></ol>
+<details class="pn-old"><summary><span data-l="fr">4 révisions antérieures</span><span data-l="en" lang="en">4 earlier revisions</span></summary><ol class="pn-list"><li class="pn-e" data-v="1.3"><div class="pn-meta"><span class="pn-v">v1.3</span><time class="pn-d" datetime="2026-09-22"><span data-l="fr">22/09/2026</span><span data-l="en" lang="en">22 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">La langue se choisit désormais avec le drapeau FR/EN commun à tous les outils, en haut à droite. Les noms d&#x27;items et de recettes de base passent en français, et les nombres suivent le format de la langue.</span><span data-l="en" lang="en">Language is now set with the FR/EN flag shared by every tool, top right. Item and standard recipe names now switch to French, and numbers follow the language&#x27;s format.</span></p></li><li class="pn-e" data-v="1.2"><div class="pn-meta"><span class="pn-v">v1.2</span><time class="pn-d" datetime="2026-09-22"><span data-l="fr">22/09/2026</span><span data-l="en" lang="en">22 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Excédents, débits, tri, filtres et langue sont mémorisés d&#x27;une visite à l&#x27;autre, avec un bouton Réinitialiser. Corrigé : la bascule FR/EN ne plante plus et le filtre de palier n&#x27;est plus remis à « tous » au changement de langue.</span><span data-l="en" lang="en">Surpluses, rates, sorting, filters and language are remembered between visits, with a Reset button. Fixed: the FR/EN toggle no longer crashes and the tier filter no longer resets to “all” when switching language.</span></p></li><li class="pn-e" data-v="1.1"><div class="pn-meta"><span class="pn-v">v1.1</span><time class="pn-d" datetime="2026-09-14"><span data-l="fr">14/09/2026</span><span data-l="en" lang="en">14 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Bascule FR/EN de l&#x27;interface et des noms d&#x27;items.</span><span data-l="en" lang="en">FR/EN toggle for the interface and item names.</span></p></li><li class="pn-e" data-v="1.0"><div class="pn-meta"><span class="pn-v">v1.0</span><time class="pn-d" datetime="2026-09-02"><span data-l="fr">02/09/2026</span><span data-l="en" lang="en">2 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Première version : à partir des excédents saisis, classement des cibles du broyeur AWESOME par points gagnés par mégawatt investi, avec filtres de palier et de minerai supplémentaire.</span><span data-l="en" lang="en">First release: from the surpluses you enter, AWESOME Sink targets ranked by points earned per megawatt invested, with tier and extra-ore filters.</span></p></li></ol></details>
+<div class="pn-foot"></div></div></div>
+<script>(function(){
+  var r = document.getElementById('journal'); if(!r) return;
+  var b = r.querySelector('.pn-btn'), p = r.querySelector('.pn-panel'), x = r.querySelector('.pn-x');
+  var K = 'ficsit-tools:vu:' + r.dataset.outil, V = r.dataset.v, vu = null;
+  try{ vu = localStorage.getItem(K); }catch(e){}
+  function cmp(a, c){ a = a.split('.').map(Number); c = c.split('.').map(Number);
+    for(var i = 0; i < Math.max(a.length, c.length); i++){ var d = (a[i] || 0) - (c[i] || 0); if(d) return d; } return 0; }
+  if(vu !== V) r.classList.add('pn-neuf');
+  if(vu) r.querySelectorAll('.pn-e[data-v]').forEach(function(e){
+    if(cmp(e.dataset.v, vu) > 0){ e.classList.add('pn-new'); var d = e.closest('details'); if(d) d.open = true; } });
+  function ouvrir(o){
+    p.hidden = !o; b.setAttribute('aria-expanded', o);
+    if(o){ r.classList.remove('pn-neuf'); try{ localStorage.setItem(K, V); }catch(e){} }
+  }
+  b.addEventListener('click', function(e){ e.stopPropagation(); ouvrir(p.hidden); });
+  x.addEventListener('click', function(){ ouvrir(false); b.focus(); });
+  document.addEventListener('click', function(e){ if(!p.hidden && !r.contains(e.target)) ouvrir(false); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !p.hidden){ ouvrir(false); b.focus(); } });
+})();</script>
 <!-- PATCHNOTES:END -->
 <footer>
   <p id="foot1"></p>

@@ -35,8 +35,9 @@ Versions épinglées dans les workflows (Python 3.12, Pillow 12.3.0, Node 22, Pl
 ## Journal des révisions
 
 - Source unique : `changelog.json` (entrées de la plus récente à la plus ancienne, version SemVer propre à chaque outil, date ISO, texte court en français et en anglais).
-- Après chaque évolution d'un outil : ajouter l'entrée, puis lancer `python3 scripts/patchnotes.py`. Le script réécrit l'encart « Journal des révisions » en bas de chaque page (entre les marqueurs `PATCHNOTES:START/END`) et régénère `CHANGELOG.md`.
-- L'encart est embarqué dans le HTML : il reste lisible hors ligne, comme le reste de l'outil. Il suit la langue commune (voir ci-dessous).
+- Après chaque évolution d'un outil : ajouter l'entrée, puis lancer `python3 scripts/patchnotes.py`. Le script réécrit le « Journal des révisions » de chaque page (entre les marqueurs `PATCHNOTES:START/END`) et régénère `CHANGELOG.md`.
+- Le journal s'ouvre depuis un badge de version (« v1.8 ») placé en haut à droite, dans le dock commun à côté des drapeaux. Chaque navigateur retient la dernière version vue de chaque outil (`ficsit-tools:vu:<fichier>`) : une pastille signale une version pas encore vue, et les entrées nouvelles sont marquées « nouveau » à l'ouverture. Il est embarqué dans le HTML (lisible hors ligne) et suit la langue commune (voir ci-dessous).
+- Dock commun : `commun/ficsit-lang.js` crée en haut à droite un conteneur `#fdock` et y déplace tout élément de la page marqué `data-fdock`, avant les drapeaux.
 
 ## Langue (FR / EN)
 

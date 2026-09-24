@@ -17,6 +17,7 @@ const PAGES = {
   'memo-ficsit.html': null,
   'satisfactory_infographie.html': p => p.evaluate(() => { document.getElementById('expAllC').click(); }),
   'broyeur-excedents.html': null,
+  'arbre-production.html': null,
 };
 /* Réglages pré-remplis pour que les pages rendent du contenu généré en JS. */
 const PREFS = {

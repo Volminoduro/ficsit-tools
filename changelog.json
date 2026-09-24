@@ -232,6 +232,22 @@
           }
         }
       ]
+    },
+    "arbre-production.html": {
+      "nom": {
+        "fr": "Arbre de production",
+        "en": "Production tree"
+      },
+      "entrees": [
+        {
+          "version": "1.0",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Première version : profondeur de l'arbre de production et nombre d'items intermédiaires de chaque item broyable, face à sa valeur AWESOME, en recettes de base ou en chaîne optimisée (MW), filtrable par palier.",
+            "en": "First release: production tree depth and number of intermediate items for every sinkable item, against its AWESOME value, with standard recipes or the optimized (MW) chain, filterable by tier."
+          }
+        }
+      ]
     }
   }
 }

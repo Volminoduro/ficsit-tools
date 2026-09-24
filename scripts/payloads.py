@@ -2,8 +2,8 @@
 """Réécrit dans chaque page ce qui est dérivable du référentiel donnees/donnees-jeu.json.
 
 Aujourd'hui : les icônes (une seule source, donnees/icones/, ré-échantillonnée à la taille de chaque
-page), les paliers de recettes de l'infographie et tout le payload du broyeur (scripts/broyeur.py). Les combinaisons de l'infographie (clés tc, combi,
-chains, freq et variantes *M) sont calculées par scripts/paliers_combinaisons.js et ne sont pas touchées ici.
+page), les paliers de recettes de l'infographie et tout le payload du broyeur (scripts/broyeur.py). Les combinaisons de l'infographie (clés tc, combi et
+combiM) sont calculées par scripts/paliers_combinaisons.js et ne sont pas touchées ici.
 
 Usage : python3 scripts/payloads.py [--verifier]   (depuis la racine du dépôt)
   --verifier : ne récrit rien, signale seulement ce qui changerait (utile en revue).

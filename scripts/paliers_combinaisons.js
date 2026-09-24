@@ -2,15 +2,15 @@
 /* Précalcul des combinaisons de recettes de satisfactory_infographie.html.
    Usage : node scripts/paliers_combinaisons.js satisfactory_infographie.html [tc|registre|tout] [mw|mat] [--ecrire]
      tc       (défaut) combinaisons optimales pour chaque palier → clé "tc" du payload.
-     registre combinaisons sans plafond de palier → clés combi, chains, freq et leurs variantes *M (critère matière).
+     registre combinaisons sans plafond de palier → clés combi et combiM (critère matière).
      tout     les deux.
      mw|mat   restreint tc à un critère (mise au point).
      --ecrire écrit le résultat dans le payload de la page au lieu de la sortie standard.
    tc : {"mw":{"0":[...],...,"9":[...]},"mat":{...}}. Chaque ligne : c = cible, d = indice de la chaîne tout en base,
    o = indice optimal, n = combinaisons brutes, x = recherche prouvée exacte, top = 3 meilleures chaînes [indice, alternatives].
    registre : combi = une ligne par cible (mêmes indices que tc au dernier palier, plus la pire chaîne et le nombre de
-   chaînes distinctes, obtenus par énumération complète tant qu'il y en a au plus PLAFOND), chains = 5 meilleures chaînes
-   par cible, freq = nombre de cibles dont la combinaison optimale retient chaque alternative.
+   chaînes distinctes, obtenus par énumération complète tant qu'il y en a au plus PLAFOND). La page n'en lit que la pire
+   chaîne et le nombre de chaînes : le reste (podium, fréquences) se recalcule depuis tc au dernier palier.
    Une chaîne distincte = une recette par item, cohérente sur tout l'arbre (un item produit deux fois l'est par la même
    recette), sans boucle et de coût fini. Les cibles sont celles du registre déjà présent dans la page.
    Le modèle de coût est celui de la page (fonctions RAWE…costWith reprises telles quelles du HTML). */
@@ -192,18 +192,15 @@ if(quoi !== 'tc'){
   const PLAFOND = 1000000, cibles = P.combi.map(t=>t.cible), en = {};
   cibles.forEach(t=>{ en[t] = enumChains(t, TMAX, PLAFOND); console.error('registre', t, en[t]('mw').nb); });
   for(const m of ['mw', 'mat']){
-    const sfx = m==='mw' ? '' : 'M', combi = [], chains = {}, cnt = {};
+    const combi = [];
     for(const t of cibles){
-      const r = searchChains(t, m, TMAX, 5, 3e6), d = searchChains(t, m, TMAX, 1, 3e6, null, true);
+      const r = searchChains(t, m, TMAX, 1, 3e6), d = searchChains(t, m, TMAX, 1, 3e6, null, true);
       const e = en[t](m), o = r.list[0], dd = d.list[0] ? d.list[0].score : null;
       combi.push({cible: t, idx_defaut: dd, idx_optimal: o.score, gain_pct: dd ? o.score/dd*100-100 : null,
         idx_pire: e.pire, nb_chaines: e.nb, combinaisons_brutes: brutes(t, TMAX),
         nb_alternatives_optimales: o.alts.length, alternatives_optimales: o.alts.join(' | ')});
-      chains[t] = {top: r.list.map(x=>[x.score, x.alts]), exact: !r.aborted && !d.aborted};
-      o.alts.forEach(a=>{ cnt[a] = (cnt[a]||0) + 1; });
     }
-    out['combi' + sfx] = combi; out['chains' + sfx] = chains;
-    out['freq' + sfx] = Object.entries(cnt).sort((a,b)=>b[1]-a[1] || a[0].localeCompare(b[0]));
+    out[m==='mw' ? 'combi' : 'combiM'] = combi;
   }
 }
 return out;`);

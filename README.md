@@ -8,6 +8,16 @@ Outils générés pour la maîtrise des systèmes de *Satisfactory* (logistique,
 - Icônes d'objets réels du jeu, encodées en base64 dans le HTML (jamais de substituts dessinés à la main quand l'intégration est possible).
 - Source de données : `greeny/SatisfactoryTools` (branche `dev`) — voir « Données de jeu » ci-dessous.
 
+## Outils
+
+Pages autonomes, publiées sur GitHub Pages depuis `main` ; `index.html` les présente.
+
+- `satisfactory_infographie.html` — **Registre des rendements** : chaque recette, standard ou alternative, notée en sortie par MW et par unité de matière première ; duels entre recettes, meilleures combinaisons par produit, catalogue, filtre par palier atteint.
+- `broyeur-excedents.html` — **Optimiseur de recyclage (broyeur AWESOME)** : à partir de vos excédents, classe les cibles de broyage par points gagnés pour chaque MW ajouté.
+- `ficsit_horloge.html` — **Module d'étalonnage** : coût de chaque palier d'horloge (overclock) en éclats et en MW, et répartition optimale selon vos éclats.
+- `memo-ficsit.html` — **Mémo de terrain** : extraction selon la pureté des nœuds, cadence des convoyeurs, jalons et pièces de l'ascenseur spatial.
+- `scripts/lier-blueprints.ps1` — utilitaire Windows, hors site : regroupe les blueprints de toutes les parties dans une bibliothèque commune (`D:\Satisfactory\BP`) en remplaçant chaque dossier de blueprints par une jonction vers elle.
+
 ## Données de jeu
 
 - Référentiel unique : `donnees/donnees-jeu.json` (items, bâtiments, recettes, paliers) et `donnees/icones/*.webp` (96 px, une seule copie par item). Régénéré par `python3 scripts/donnees.py` depuis `greeny/SatisfactoryTools` (branche `dev`). Ne jamais éditer à la main : corriger le script ou les fichiers curés.
@@ -45,16 +55,8 @@ Versions épinglées dans les workflows (Python 3.12, Pillow 12.3.0, Node 22, Pl
 - Configuration commune dans `commun/` : `langue.json` (langues, langue par défaut, locale des nombres, textes partagés comme « Réinitialiser »), `glossaire.json` (noms du jeu EN → FR : bâtiments, items, recettes de base, d'après la localisation officielle), `ficsit-lang.js` et `ficsit-lang.css` (moteur et sélecteur).
 - Après modification de `commun/` : `python3 scripts/langue.py`. Le bloc est injecté en tête de `<head>` de chaque page (marqueurs `FICSIT-LANG:START/END`) : les pages restent autonomes et hors ligne.
 - Dans une page : texte statique en paires `<span data-l="fr">…</span><span data-l="en">…</span>` ; attributs via `data-fr-<attr>` / `data-en-<attr>` ; titre via `<title data-fr data-en>` ; texte généré en JS via `FicsitLang.on(...)`, `FicsitLang.item/recette/batiment(nom)` et `FicsitLang.num(v)`.
+- Glossaire : un nom n'y entre que confirmé par la localisation officielle (relevée sur satisfactory-calculator.com) ; sinon le nom anglais est conservé. C'est le cas des recettes alternatives, affichées sans leur préfixe « Alternate: » (mention « alternative » dans la langue active quand l'outil le précise), et de quelques noms encore non confirmés (Hatcher Remains, recettes de biomasse et de protéines, Ficsite Ingot (…), Residual …, Distilled Silica, Polyester Fabric, Pure Aluminum Ingot).
 - Toute nouvelle page ou évolution doit fournir les deux langues, journal des révisions compris.
-
-## Outils déjà produits (à réintégrer ici)
-
-Ces outils existent mais ont été générés dans des sessions de chat précédentes — je n'y ai plus accès directement depuis ce bac à sable. Il faudra soit que tu me les repartages, soit que je les régénère, pour qu'ils atterrissent physiquement dans ce dossier :
-
-- `satisfactory_infographie.html` — infographie interactive Énergie/Matière (Duels, Combinaisons, Catalogue), FR/EN.
-- Optimiseur AWESOME Sink (~340 Ko) — solveur récursif de coût MW, workflow surplus d'inputs.
-- `ficsit_horloge.html` — calculateur d'horloge de production (répartitions, paliers de shards, MW/delta).
-- Script PowerShell de synchronisation de blueprints (solo ↔ solo, serveur dédié → solo).
 
 ## À venir
 

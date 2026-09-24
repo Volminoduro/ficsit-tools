@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
+- **v1.9** (24/09/2026) : Noms français ajoutés : Foreuse portable, Restes de dardeuse, Restes de sanglier alien, Restes de cracheur.
+  *EN — French names added: Foreuse portable, Restes de dardeuse, Restes de sanglier alien, Restes de cracheur.*
 - **v1.8** (24/09/2026) : Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d'un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal. Page allégée de 87 Ko (données précalculées inutilisées retirées).
   *EN — The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven't seen yet, and new entries are marked in the log. Page 87 KB lighter (unused precomputed data removed).*
 - **v1.7** (24/09/2026) : Paliers des alternatives de disque dur calculés depuis les recherches du MAM qu'elles exigent, au lieu d'un plancher au palier 1 : Cheap Silica, Fine Concrete, Fine Black Powder et Compacted Coal passent du palier 2 au palier 3. Combinaisons par palier recalculées.
@@ -36,6 +38,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Optimiseur de recyclage / Recycling optimizer — `broyeur-excedents.html`
 
+- **v1.7** (24/09/2026) : Les recettes alternatives s'affichent sans le préfixe anglais « Alternate: », suivies de la mention « (alternative) ». Noms français ajoutés : Foreuse portable, Restes de dardeuse, Restes de sanglier alien, Restes de cracheur.
+  *EN — Alternate recipes are shown without the "Alternate:" prefix, followed by "(alternate)". French names added: Foreuse portable, Restes de dardeuse, Restes de sanglier alien, Restes de cracheur.*
 - **v1.6** (24/09/2026) : Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d'un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal.
   *EN — The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven't seen yet, and new entries are marked in the log.*
 - **v1.5** (24/09/2026) : Compacted Coal passe du tier 2 au tier 3 : sa recherche au MAM vient après celle de la poudre noire.

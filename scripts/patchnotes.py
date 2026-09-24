@@ -101,11 +101,12 @@ def bloc(fichier, outil, icone):
              f'--pn-line:{t["line"]};--pn-ink:{t["ink"]};--pn-dim:{t["dim"]}')
     slot = f'<span class="pn-slot"><img src="{icone}" alt=""></span>' if icone else ""
     vis, old = es[:VISIBLES], es[VISIBLES:]
+    date = der["date"]
     h = [START, f'<style>{CSS.strip()}</style>',
          f'<aside class="pn" id="journal" aria-labelledby="pn-titre" style="{style}"><div class="pn-hz"></div>',
          f'<div class="pn-head">{slot}<div><div class="pn-title" id="pn-titre" role="heading" aria-level="2">'
          f'{bi("Journal des révisions", "Revision log")}</div>',
-         f'<p class="pn-sub">{bi(f"Version {v}, mise à jour le {fr(der["date"])}", f"Version {v}, updated {en(der["date"])}")}</p></div></div>',
+         f'<p class="pn-sub">{bi(f"Version {v}, mise à jour le {fr(date)}", f"Version {v}, updated {en(date)}")}</p></div></div>',
          '<ol class="pn-list">' + "".join(entree(e) for e in vis) + "</ol>"]
     if old:
         n = len(old); s_ = "s" if n > 1 else ""

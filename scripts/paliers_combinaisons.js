@@ -1,9 +1,18 @@
 #!/usr/bin/env node
-/* Précalcul des combinaisons optimales par palier pour satisfactory_infographie.html.
-   Usage : node scripts/paliers_combinaisons.js satisfactory_infographie.html [mw|mat] > tc.json
-   Sortie : {"mw":{"0":[...],...,"9":[...]},"mat":{...}} — à placer dans le payload sous la clé "tc".
-   Chaque ligne : c = cible, d = indice de la chaîne tout en base, o = indice optimal,
-   n = combinaisons brutes, x = recherche prouvée exacte, top = 3 meilleures chaînes [indice, alternatives].
+/* Précalcul des combinaisons de recettes de satisfactory_infographie.html.
+   Usage : node scripts/paliers_combinaisons.js satisfactory_infographie.html [tc|registre|tout] [mw|mat] [--ecrire]
+     tc       (défaut) combinaisons optimales pour chaque palier → clé "tc" du payload.
+     registre combinaisons sans plafond de palier → clés combi, chains, freq et leurs variantes *M (critère matière).
+     tout     les deux.
+     mw|mat   restreint tc à un critère (mise au point).
+     --ecrire écrit le résultat dans le payload de la page au lieu de la sortie standard.
+   tc : {"mw":{"0":[...],...,"9":[...]},"mat":{...}}. Chaque ligne : c = cible, d = indice de la chaîne tout en base,
+   o = indice optimal, n = combinaisons brutes, x = recherche prouvée exacte, top = 3 meilleures chaînes [indice, alternatives].
+   registre : combi = une ligne par cible (mêmes indices que tc au dernier palier, plus la pire chaîne et le nombre de
+   chaînes distinctes, obtenus par énumération complète tant qu'il y en a au plus PLAFOND), chains = 5 meilleures chaînes
+   par cible, freq = nombre de cibles dont la combinaison optimale retient chaque alternative.
+   Une chaîne distincte = une recette par item, cohérente sur tout l'arbre (un item produit deux fois l'est par la même
+   recette), sans boucle et de coût fini. Les cibles sont celles du registre déjà présent dans la page.
    Le modèle de coût est celui de la page (fonctions RAWE…costWith reprises telles quelles du HTML). */
 const fs = require('fs');
 const html = fs.readFileSync(process.argv[2], 'utf8');
@@ -128,26 +137,79 @@ function searchChains(target, m, c, K, maxNodes, LB, baseOnly){
     .map(v=>({score: 1/v.cost, cost: v.cost, alts: v.alts, choice: v.choice}));
   return {list, nodes, aborted};
 }
+/* Énumération complète des chaînes cohérentes d'une cible, pour le registre : nombre de chaînes et pire
+   indice par critère. S'arrête dès que les deux critères dépassent « plafond » chaînes. */
+function enumChains(target, c, plafond){
+  const choice = {}, n = {mw: 0, mat: 0}, pire = {mw: 0, mat: 0};
+  let stop = false;
+  const rec = pending => {
+    if(stop) return;
+    let it = null;
+    while(pending.length){ const x = pending.pop(); if(!isRaw(x) && !(x in choice)){ it = x; break; } }
+    if(!it){
+      for(const m of ['mw', 'mat']){ const cst = costWith(target, choice, m);
+        if(cst != null){ n[m]++; if(cst > pire[m]) pire[m] = cst; } }
+      stop = n.mw > plafond && n.mat > plafond;
+      return;
+    }
+    for(const o of optsOf(it, c)){
+      choice[it] = o; const np = pending.slice(); o.r.ig.forEach(g=>np.push(g[0])); rec(np); delete choice[it];
+      if(stop) return;
+    }
+  };
+  rec([target]);
+  return m => n[m] > plafond ? {nb: '>' + plafond, pire: null} : {nb: n[m], pire: n[m] ? 1/pire[m] : null};
+}
+function brutes(target, c){
+  const reach = new Set(), st = [target];
+  while(st.length){ const it = st.pop(); if(reach.has(it) || isRaw(it)) continue; reach.add(it);
+    optsOf(it, c).forEach(o=>o.r.ig.forEach(g=>st.push(g[0]))); }
+  let n = 1n; reach.forEach(it=>{ n *= BigInt(Math.max(1, optsOf(it, c).length)); });
+  return Number(n);
+}
 `;
-const modes = process.argv[3] ? [process.argv[3]] : ['mw', 'mat'];
-const run = new Function('P', 'modes', 'const D = P.d;\n' + helpers + ENGINE + `
+const args = process.argv.slice(3);
+const quoi = args.find(a=>['tc', 'registre', 'tout'].includes(a)) || 'tc';
+const modes = args.filter(a=>a==='mw' || a==='mat');
+const run = new Function('P', 'quoi', 'modes', 'const D = P.d;\n' + helpers + ENGINE + `
 setBudget(100000);
 const out = {};
-for(const m of modes){ out[m] = {};
-  for(let c = 0; c <= TMAX; c++){
-    const rows = [];
-    for(const t of (m==='mw' ? P.combi : P.combiM)){
-      if(!availFor(c).items.has(t.cible)) continue;
-      const r = searchChains(t.cible, m, c, 3, 3e6), d = searchChains(t.cible, m, c, 1, 3e6, null, true);
-      const reach = new Set(), st = [t.cible];
-      while(st.length){ const it = st.pop(); if(reach.has(it) || isRaw(it)) continue; reach.add(it);
-        optsOf(it, c).forEach(o=>o.r.ig.forEach(g=>st.push(g[0]))); }
-      let n = 1n; reach.forEach(it=>{ n *= BigInt(Math.max(1, optsOf(it, c).length)); });
-      rows.push({c: t.cible, d: d.list[0] ? d.list[0].score : null, o: r.list[0].score, n: Number(n),
-        x: !r.aborted && !d.aborted, top: r.list.map(x=>[x.score, x.alts])});
+if(quoi !== 'registre'){ out.tc = {};
+  for(const m of (modes.length ? modes : ['mw', 'mat'])){ out.tc[m] = {};
+    for(let c = 0; c <= TMAX; c++){
+      const rows = [];
+      for(const t of (m==='mw' ? P.combi : P.combiM)){
+        if(!availFor(c).items.has(t.cible)) continue;
+        const r = searchChains(t.cible, m, c, 3, 3e6), d = searchChains(t.cible, m, c, 1, 3e6, null, true);
+        rows.push({c: t.cible, d: d.list[0] ? d.list[0].score : null, o: r.list[0].score, n: brutes(t.cible, c),
+          x: !r.aborted && !d.aborted, top: r.list.map(x=>[x.score, x.alts])});
+      }
+      out.tc[m][c] = rows; console.error('tc', m, 'palier', c, rows.length, 'cibles');
     }
-    out[m][c] = rows; console.error(m, 'palier', c, rows.length, 'cibles');
+  }
+}
+if(quoi !== 'tc'){
+  const PLAFOND = 1000000, cibles = P.combi.map(t=>t.cible), en = {};
+  cibles.forEach(t=>{ en[t] = enumChains(t, TMAX, PLAFOND); console.error('registre', t, en[t]('mw').nb); });
+  for(const m of ['mw', 'mat']){
+    const sfx = m==='mw' ? '' : 'M', combi = [], chains = {}, cnt = {};
+    for(const t of cibles){
+      const r = searchChains(t, m, TMAX, 5, 3e6), d = searchChains(t, m, TMAX, 1, 3e6, null, true);
+      const e = en[t](m), o = r.list[0], dd = d.list[0] ? d.list[0].score : null;
+      combi.push({cible: t, idx_defaut: dd, idx_optimal: o.score, gain_pct: dd ? o.score/dd*100-100 : null,
+        idx_pire: e.pire, nb_chaines: e.nb, combinaisons_brutes: brutes(t, TMAX),
+        nb_alternatives_optimales: o.alts.length, alternatives_optimales: o.alts.join(' | ')});
+      chains[t] = {top: r.list.map(x=>[x.score, x.alts]), exact: !r.aborted && !d.aborted};
+      o.alts.forEach(a=>{ cnt[a] = (cnt[a]||0) + 1; });
+    }
+    out['combi' + sfx] = combi; out['chains' + sfx] = chains;
+    out['freq' + sfx] = Object.entries(cnt).sort((a,b)=>b[1]-a[1] || a[0].localeCompare(b[0]));
   }
 }
 return out;`);
-process.stdout.write(JSON.stringify(run(P, modes)));
+const out = run(P, quoi, modes);
+if(args.includes('--ecrire')){
+  const re = /(<script id="payload" type="application\/json">)([\s\S]*?)(<\/script>)/;
+  fs.writeFileSync(process.argv[2], html.replace(re, (_, a, b, z)=>a + JSON.stringify(Object.assign(P, out)) + z));
+  console.error('écrit dans', process.argv[2], ':', Object.keys(out).join(', '));
+} else process.stdout.write(JSON.stringify(quoi === 'tc' ? out.tc : out));

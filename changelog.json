@@ -8,6 +8,22 @@
       },
       "entrees": [
         {
+          "version": "1.7",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Paliers des alternatives de disque dur calculés depuis les recherches du MAM qu'elles exigent, au lieu d'un plancher au palier 1 : Cheap Silica, Fine Concrete, Fine Black Powder et Compacted Coal passent du palier 2 au palier 3. Combinaisons par palier recalculées.",
+            "en": "Tiers of hard drive alternates now computed from the MAM research they require, instead of a tier 1 floor: Cheap Silica, Fine Concrete, Fine Black Powder and Compacted Coal move from tier 2 to tier 3. Per-tier combinations recomputed."
+          }
+        },
+        {
+          "version": "1.6",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Registre des combinaisons sans plafond de palier désormais recalculé par script depuis les recettes de la page, comme les combinaisons par palier. Nombre de chaînes distinctes recompté par énumération complète (ex. Concrete 47 → 77, Rotor 19 688 → 32 528) et plafond relevé à un million : Modular Frame et High-Speed Connector gardent leur pire chaîne. Pire chaîne de Circuit Board corrigée (0,056 → 0,055).",
+            "en": "Combination registry without a tier cap now recomputed by script from the page's recipes, like the per-tier combinations. Number of distinct chains recounted by full enumeration (e.g. Concrete 47 → 77, Rotor 19,688 → 32,528) and cap raised to one million: Modular Frame and High-Speed Connector keep their worst chain. Circuit Board's worst chain corrected (0.056 → 0.055)."
+          }
+        },
+        {
           "version": "1.5",
           "date": "2026-09-23",
           "texte": {
@@ -95,6 +111,22 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.5",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Compacted Coal passe du tier 2 au tier 3 : sa recherche au MAM vient après celle de la poudre noire.",
+            "en": "Compacted Coal moves from tier 2 to tier 3: its MAM research comes after Black Powder's."
+          }
+        },
+        {
+          "version": "1.4",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Données recalculées par script depuis le référentiel commun. Les recettes retenues ne changent pas, mais minerai neuf et machines se lisent désormais sur la chaîne affichée (celle qui consomme le moins de MW) au lieu d'être minimisés chacun de leur côté : ils augmentent souvent (AI Limiter : 7,3 → 22 minerai/min par unité). Tiers alignés sur les autres outils, dont Circuit Board 3 → 5, Motor 7 → 8, Electromagnetic Control Rod 6 → 8.",
+            "en": "Data recomputed by script from the shared reference dataset. Selected recipes are unchanged, but new ore and machines are now read from the displayed chain (the one that draws the fewest MW) instead of each being minimized separately: they often go up (AI Limiter: 7.3 → 22 ore/min per unit). Tiers aligned with the other tools, including Circuit Board 3 → 5, Motor 7 → 8, Electromagnetic Control Rod 6 → 8."
+          }
+        },
         {
           "version": "1.3",
           "date": "2026-09-22",

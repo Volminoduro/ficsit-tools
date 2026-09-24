@@ -53,15 +53,13 @@ def broyeur():
     # Un fluide vaut 0 point pour le broyeur : il n'est broyable qu'une fois conditionné.
     pts = [(x["n"], x["sp"], ITEMS[x["n"]]["points"]) for x in P["src"]
            if x["n"] in ITEMS and not ITEMS[x["n"]]["liquide"] and ITEMS[x["n"]]["points"] != x["sp"]]
-    paliers = []
-    for t in P["tgt"]:
-        ref = R.get(nom_recette(t["rec"].replace("Alternate: ", ""), t["rec"].startswith("Alternate: ")))
-        if ref and ref["palier"] != t["t"]:
-            paliers.append((t["rec"], t["t"], ref["palier"]))
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import broyeur
+    calc = {t["n"]: t for t in broyeur.calcul()["tgt"]}
+    ecarts = [t["n"] for t in P["tgt"] if calc.get(t["n"]) != t] + [n for n in calc if n not in {t["n"] for t in P["tgt"]}]
     ligne("broyeur", "points de broyage", f"{len(pts)} divergents : {pts[:5]}")
-    # Le `t` du broyeur porte sur toute la chaîne de production, pas sur la recette cible : il ne
-    # sera comparable qu'une fois l'optimiseur du broyeur redérivé du référentiel (voir README).
-    ligne("broyeur", "paliers (à arbitrer)", f"{len(paliers)} : {paliers[:5]}")
+    # Le payload entier (paliers compris) est dérivé par scripts/broyeur.py : tout écart = page à régénérer.
+    ligne("broyeur", "cibles non dérivées", f"{len(ecarts)} : {ecarts[:5]}")
 
 
 def horloge():

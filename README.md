@@ -2,7 +2,7 @@
 
 Outils générés pour la maîtrise des systèmes de *Satisfactory* (logistique, énergie, optimisation de production).
 
-Tout le dépôt — code, calculs, textes — est généré par IA (Claude, d'Anthropic), à la demande d'un joueur qui l'oriente et le relit. Le site le dit : un encart sur l'accueil et un bandeau commun en bas de chaque page (`commun/ficsit-lang.js`, texte `communs.ia` de `commun/langue.json`).
+Tout le dépôt — code, calculs, textes — est généré par IA (Claude, d'Anthropic), à la demande d'un joueur qui l'oriente et le relit. Le site le dit par un bandeau commun en bas de chaque page (`commun/ficsit-lang.js`, texte `communs.ia` de `commun/langue.json`).
 
 ## Convention pour ce dossier
 
@@ -24,7 +24,7 @@ Pages autonomes, publiées sur GitHub Pages depuis `main` ; `index.html` les pr�
 ## Données de jeu
 
 - Référentiel unique : `donnees/donnees-jeu.json` (items, bâtiments, recettes, paliers) et `donnees/icones/*.webp` (96 px, une seule copie par item). Régénéré par `python3 scripts/donnees.py` depuis `greeny/SatisfactoryTools` (branche `dev`). Ne jamais éditer à la main : corriger le script ou les fichiers curés.
-- `donnees/emprises.json` : emprise au sol (largeur × longueur) des bâtiments de production et d'extraction, absente de la source, reprise de l'infobox de chaque bâtiment sur le wiki officiel, plus le facteur de surcadençage (2,5). Azote : emprise et débit de l'ensemble des puits du monde (6 pressuriseurs, 45 extracteurs, page Resource Well du wiki). Sert au mode « Espace » de l'infographie : `payloads.py` en tire `em` (m² par machine), `ex` (m² par unité/min extraite, à 250 %) et `oc`.
+- `donnees/emprises.json` : emprise au sol (largeur × longueur) des bâtiments de production et d'extraction, absente de la source, reprise de l'infobox de chaque bâtiment sur le wiki officiel, plus le facteur de surcadençage (2,5). Azote : emprise et débit de l'ensemble des puits du monde (6 pressuriseurs, 45 extracteurs, page Resource Well du wiki). Sert au mode « Espace » de l'infographie : `payloads.py` en tire `em` (m² par machine), `ex` (m² par unité/min extraite, à 250 %), `oc` et `xb` (bâtiment d'extraction de chaque ressource, débit à 250 % et emprise, pour décrire les bâtiments de chaque séquence).
 - `donnees/arbre-mam.json` : arbre de recherche du MAM (parents de chaque nœud), absent de la source, relevé à la main sur les images de la page MAM du wiki officiel. Palier d'un nœud = max(palier du MAM = 1, paliers de ses parents, palier où ses coûts — donnés par la source — sont obtenables), calculé dans le point fixe de `donnees.py` et exporté dans le référentiel (`recherchesMam`).
 - Définition du palier, commune à tous les outils : premier palier où la recette est exécutable — machine débloquée, déblocage obtenu (jalon, chaîne de prérequis pour une alternative de disque dur, recherche du MAM), et ingrédients produisibles par des recettes elles-mêmes exécutables. Point fixe.
 - `python3 scripts/verif_payloads.py` compare ce que chaque page embarque au référentiel. Tous les compteurs à 0 = tout est aligné ; code de sortie 1 sinon.

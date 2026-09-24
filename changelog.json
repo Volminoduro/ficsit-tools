@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.8",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d'un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal. Page allégée de 87 Ko (données précalculées inutilisées retirées).",
+            "en": "The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven't seen yet, and new entries are marked in the log. Page 87 KB lighter (unused precomputed data removed)."
+          }
+        },
+        {
           "version": "1.7",
           "date": "2026-09-24",
           "texte": {
@@ -80,6 +88,14 @@
       },
       "entrees": [
         {
+          "version": "1.3",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d'un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal.",
+            "en": "The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven't seen yet, and new entries are marked in the log."
+          }
+        },
+        {
           "version": "1.2",
           "date": "2026-09-22",
           "texte": {
@@ -111,6 +127,14 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.6",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d'un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal.",
+            "en": "The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven't seen yet, and new entries are marked in the log."
+          }
+        },
         {
           "version": "1.5",
           "date": "2026-09-24",
@@ -167,6 +191,14 @@
         "en": "Field memo"
       },
       "entrees": [
+        {
+          "version": "1.2",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d'un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal.",
+            "en": "The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven't seen yet, and new entries are marked in the log."
+          }
+        },
         {
           "version": "1.1",
           "date": "2026-09-22",

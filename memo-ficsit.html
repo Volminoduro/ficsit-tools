@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <!-- FICSIT-LANG:START -->
 <style>html:not([lang|=en]) [data-l=en],html[lang|=en] [data-l=fr]{display:none!important}
-.flang{position:fixed;top:10px;right:12px;z-index:9999;display:flex;gap:2px;padding:3px;
+.fdock{position:fixed;top:10px;right:12px;z-index:9999;display:flex;align-items:stretch;gap:6px}
+.flang{position:relative;display:flex;gap:2px;padding:3px;
   background:rgba(14,18,22,.94);border:1px solid #39434F;box-shadow:0 3px 12px rgba(0,0,0,.45);
   clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));
   font:700 12px/1 'Saira Condensed','Rajdhani','Barlow Condensed',system-ui,sans-serif;letter-spacing:.1em}
@@ -19,8 +20,8 @@
 .flang button[aria-pressed=true]{color:#1B1206;background:#FA9549;cursor:default}
 .flang button[aria-pressed=true] svg{filter:none}
 .flang button:focus-visible{outline:2px solid #FA9549;outline-offset:1px}
-@media (max-width:560px){.flang{top:6px;right:6px}.flang button{padding:5px 6px 4px;gap:4px}.flang button svg{width:18px;height:12px}}
-@media print{.flang{display:none}}</style>
+@media (max-width:560px){.fdock{top:6px;right:6px;gap:4px}.flang button{padding:5px 6px 4px;gap:4px}.flang button svg{width:18px;height:12px}}
+@media print{.fdock{display:none}}</style>
 <script>/* FICSIT — langue commune à tous les outils.
    Source : commun/ficsit-lang.js (+ langue.json, glossaire.json, ficsit-lang.css), injectée dans chaque page
    par scripts/langue.py. Ne pas éditer le bloc injecté dans les pages : il est réécrit à chaque passage.
@@ -34,6 +35,7 @@
      .pick({fr, en})       choisit la variante de la langue active
      .item(n) .recette(n) .batiment(n)   nom du jeu dans la langue active (glossaire.json, repli : anglais)
      .num(v, opts)         v.toLocaleString(locale, opts)
+   Dock : tout élément marqué data-fdock est déplacé dans le dock commun en haut à droite, avant les drapeaux.
    HTML statique :
      <x data-l="fr">…</x><x data-l="en">…</x>     seule la variante de la langue active est affichée
      data-fr-<attr>="…" data-en-<attr>="…"       l'attribut <attr> (title, placeholder, aria-label…) suit la langue
@@ -85,7 +87,12 @@
       return '<button type="button" data-lang="' + c + '" lang="' + c + '" title="' + L.titre + '">'
         + (DRAPEAUX[c] || '') + '<span>' + L.court + '</span></button>'; }).join('');
     w.addEventListener('click', function(e){ var b = e.target.closest('button[data-lang]'); if(b) appliquer(b.dataset.lang, true); });
-    document.body.appendChild(w);
+    // Dock commun en haut à droite : les éléments de la page marqués data-fdock (ex. le journal des
+    // révisions), puis le sélecteur de langue.
+    var d = document.getElementById('fdock');
+    if(!d){ d = document.createElement('div'); d.id = 'fdock'; d.className = 'fdock'; document.body.appendChild(d); }
+    document.querySelectorAll('[data-fdock]').forEach(function(el){ d.appendChild(el); });
+    d.appendChild(w);
     boutons(); attrs();
   }
 
@@ -582,33 +589,60 @@ footer{margin-top:34px;font-family:var(--d);font-weight:500;font-size:12px;lette
 
 <div class="hz" style="margin-top:30px"></div>
 <!-- PATCHNOTES:START -->
-<style>.pn{--pn-or:#FA9549;margin:34px 0 8px;background:var(--pn-panel);color:var(--pn-ink);font-family:var(--pn-body);
-  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
-  border-left:3px solid var(--pn-or);text-align:left}
+<style>.pn{--pn-or:#FA9549;display:flex;font-family:var(--pn-body);text-align:left}
 .pn *{box-sizing:border-box}
+.pn-btn{all:unset;box-sizing:border-box;position:relative;cursor:pointer;display:flex;align-items:center;gap:7px;
+  padding:6px 11px 5px 10px;background:rgba(14,18,22,.94);border:1px solid #39434F;box-shadow:0 3px 12px rgba(0,0,0,.45);
+  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));
+  font:700 12px/1 'Saira Condensed','Rajdhani','Barlow Condensed',system-ui,sans-serif;letter-spacing:.1em;color:#E4EAF0;
+  transition:color .15s,background .15s}
+.pn-btn::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;
+  background:repeating-linear-gradient(135deg,#FA9549 0 6px,transparent 6px 12px);opacity:.8}
+.pn-btn svg{width:13px;height:13px;flex:none;fill:none;stroke:#FA9549;stroke-width:1.6}
+.pn-btn:hover,.pn-btn[aria-expanded=true]{background:#FA9549;color:#1B1206}
+.pn-btn:hover svg,.pn-btn[aria-expanded=true] svg{stroke:#1B1206}
+.pn-btn:focus-visible{outline:2px solid #FA9549;outline-offset:1px}
+.pn-dot{display:none;position:absolute;left:3px;top:3px;width:8px;height:8px;border-radius:50%;background:#FA9549;
+  box-shadow:0 0 0 2px rgba(14,18,22,.94)}
+.pn-neuf .pn-dot{display:block;animation:pn-pulse 1.8s ease-in-out infinite}
+.pn-neuf .pn-btn:hover .pn-dot,.pn-neuf .pn-btn[aria-expanded=true] .pn-dot{background:#1B1206}
+@keyframes pn-pulse{50%{box-shadow:0 0 0 2px rgba(14,18,22,.94),0 0 0 5px rgba(250,149,73,.35)}}
+@media (prefers-reduced-motion:reduce){.pn-neuf .pn-dot{animation:none}}
+.pn-panel{position:absolute;top:calc(100% + 6px);right:0;width:min(440px,calc(100vw - 24px));max-height:min(72vh,640px);
+  overflow:auto;overscroll-behavior:contain;background:var(--pn-panel);color:var(--pn-ink);
+  border:1px solid var(--pn-line);border-left:3px solid var(--pn-or);box-shadow:0 10px 30px rgba(0,0,0,.55)}
+.pn-panel[hidden]{display:none}
 .pn-hz{height:6px;background:repeating-linear-gradient(45deg,var(--pn-or) 0 10px,transparent 10px 20px);opacity:.7}
-.pn-head{display:flex;align-items:center;gap:14px;padding:16px 20px 12px;border-bottom:1px solid var(--pn-line)}
-.pn-slot{flex:none;width:46px;height:46px;display:grid;place-items:center;background:var(--pn-deep);
+.pn-head{display:flex;align-items:center;gap:12px;padding:14px 16px 11px;border-bottom:1px solid var(--pn-line)}
+.pn-head > div{flex:1;min-width:0}
+.pn-slot{flex:none;width:42px;height:42px;display:grid;place-items:center;background:var(--pn-deep);
   border:1px solid var(--pn-line);box-shadow:inset 0 0 0 2px rgba(0,0,0,.35)}
-.pn-slot img{width:34px;height:34px;object-fit:contain;display:block}
-.pn-title{margin:0;padding:0;border:0;background:none;font-family:var(--pn-disp);font-weight:700;font-size:1.25rem;
+.pn-slot img{width:30px;height:30px;object-fit:contain;display:block}
+.pn-title{margin:0;padding:0;border:0;background:none;font-family:var(--pn-disp);font-weight:700;font-size:1.15rem;
   line-height:1.1;letter-spacing:.02em;color:var(--pn-or)}
-.pn-sub{margin:3px 0 0;padding:0;font-size:.9rem;line-height:1.3;color:var(--pn-dim);max-width:none}
-.pn-list{list-style:none;margin:0;padding:14px 20px 6px 20px;position:relative}
-.pn-e{position:relative;margin:0;padding:0 0 14px 22px}
+.pn-sub{margin:3px 0 0;padding:0;font-size:.86rem;line-height:1.3;color:var(--pn-dim);max-width:none}
+.pn-x{all:unset;flex:none;cursor:pointer;width:28px;height:28px;display:grid;place-items:center;color:var(--pn-dim);
+  font:400 22px/1 system-ui,sans-serif}
+.pn-x:hover,.pn-x:focus-visible{color:var(--pn-or)}
+.pn-x:focus-visible{outline:2px solid var(--pn-or)}
+.pn-list{list-style:none;margin:0;padding:14px 16px 4px 16px;position:relative}
+.pn-e{position:relative;margin:0;padding:0 0 13px 22px}
 .pn-e::before{content:"";position:absolute;left:5px;top:14px;bottom:-2px;width:1px;background:var(--pn-line)}
 .pn-list > .pn-e:last-child::before{display:none}
 .pn-e::after{content:"";position:absolute;left:1px;top:6px;width:9px;height:9px;transform:rotate(45deg);
   border:1.5px solid var(--pn-dim);background:var(--pn-panel)}
-.pn-list:first-of-type > .pn-e:first-child::after{background:var(--pn-or);border-color:var(--pn-or)}
-.pn-meta{display:flex;align-items:baseline;gap:10px;margin-bottom:3px}
+.pn-list:first-of-type > .pn-e:first-child::after,.pn-e.pn-new::after{background:var(--pn-or);border-color:var(--pn-or)}
+.pn-meta{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;margin-bottom:3px}
 .pn-v{font-family:var(--pn-disp);font-weight:700;font-size:.85rem;padding:1px 8px 1px 7px;background:var(--pn-or);
   color:#1b1206;clip-path:polygon(0 0,100% 0,100% 60%,calc(100% - 6px) 100%,0 100%)}
 .pn-e + .pn-e .pn-v,.pn-old .pn-v{background:var(--pn-deep);color:var(--pn-dim);box-shadow:inset 0 0 0 1px var(--pn-line)}
-.pn-d{font-family:var(--pn-disp);font-size:.9rem;color:var(--pn-dim);letter-spacing:.03em}
-.pn-t{margin:0;padding:0;font-size:.98rem;line-height:1.5;color:var(--pn-ink);max-width:72ch}
-.pn-old{border-top:1px dashed var(--pn-line);margin:0 20px}
-.pn-old summary{cursor:pointer;padding:10px 0;font-family:var(--pn-disp);font-weight:600;font-size:.92rem;color:var(--pn-dim);
+.pn-d{font-family:var(--pn-disp);font-size:.88rem;color:var(--pn-dim);letter-spacing:.03em}
+.pn-nv{display:none;font-family:var(--pn-disp);font-weight:700;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--pn-or)}
+.pn-new .pn-nv{display:inline}
+.pn-t{margin:0;padding:0;font-size:.94rem;line-height:1.5;color:var(--pn-ink);max-width:none}
+.pn-old{border-top:1px dashed var(--pn-line);margin:0 16px}
+.pn-old summary{cursor:pointer;padding:10px 0;font-family:var(--pn-disp);font-weight:600;font-size:.9rem;color:var(--pn-dim);
   list-style:none}
 .pn-old summary::-webkit-details-marker{display:none}
 .pn-old summary::before{content:"+";display:inline-block;width:1.1em;color:var(--pn-or);font-weight:700}
@@ -616,14 +650,36 @@ footer{margin-top:34px;font-family:var(--d);font-weight:500;font-size:12px;lette
 .pn-old summary:hover,.pn-old summary:focus-visible{color:var(--pn-ink)}
 .pn-old summary:focus-visible{outline:2px solid var(--pn-or);outline-offset:2px}
 .pn-old .pn-list{padding:4px 0 6px}
-.pn-foot{height:10px}
+.pn-foot{height:8px}
 html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none}
-@media (max-width:560px){.pn-head{padding:14px 14px 10px}.pn-list{padding-left:14px;padding-right:14px}.pn-old{margin:0 14px}}</style>
-<aside class="pn" id="journal" aria-labelledby="pn-titre" style="--pn-disp:var(--d);--pn-body:var(--b);--pn-panel:var(--panel);--pn-deep:var(--slot);--pn-line:var(--line);--pn-ink:var(--tx);--pn-dim:var(--tx2)"><div class="pn-hz"></div>
+@media (max-width:560px){.pn-btn{padding:5px 8px 4px 9px;gap:5px}.pn-panel{position:fixed;top:44px;right:6px;width:calc(100vw - 12px)}}
+@media print{.pn{display:none}}</style>
+<div class="pn" id="journal" data-fdock data-outil="memo-ficsit.html" data-v="1.2" style="--pn-disp:var(--d);--pn-body:var(--b);--pn-panel:var(--panel);--pn-deep:var(--slot);--pn-line:var(--line);--pn-ink:var(--tx);--pn-dim:var(--tx2)">
+<button type="button" class="pn-btn" aria-expanded="false" aria-controls="pn-panel" data-fr-title="Journal des révisions : ce qui a changé" data-en-title="Revision log: what changed" title="Journal des révisions : ce qui a changé"><span class="pn-dot" aria-hidden="true"></span><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5h8v11H3z"/><path d="M5 4.5h4M5 7h4M5 9.5h2.5"/></svg><span>v1.2</span></button>
+<div class="pn-panel" id="pn-panel" role="region" aria-labelledby="pn-titre" hidden><div class="pn-hz"></div>
 <div class="pn-head"><span class="pn-slot"><img src="data:image/webp;base64,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" alt=""></span><div><div class="pn-title" id="pn-titre" role="heading" aria-level="2"><span data-l="fr">Journal des révisions</span><span data-l="en" lang="en">Revision log</span></div>
-<p class="pn-sub"><span data-l="fr">Version 1.1, mise à jour le 22/09/2026</span><span data-l="en" lang="en">Version 1.1, updated 22 Sep 2026</span></p></div></div>
-<ol class="pn-list"><li class="pn-e"><div class="pn-meta"><span class="pn-v">v1.1</span><time class="pn-d" datetime="2026-09-22"><span data-l="fr">22/09/2026</span><span data-l="en" lang="en">22 Sep 2026</span></time></div><p class="pn-t"><span data-l="fr">Version anglaise complète, via le drapeau FR/EN commun à tous les outils. Noms de bâtiments alignés sur la localisation française du jeu, et huit recettes corrigées dans l&#x27;arbre des pièces de projet (batterie, turbomoteur, cube de conversion de pression…).</span><span data-l="en" lang="en">Full English version, via the FR/EN flag shared by every tool. Building names aligned with the game&#x27;s French localization, and eight recipes fixed in the project parts tree (battery, turbo motor, pressure conversion cube…).</span></p></li><li class="pn-e"><div class="pn-meta"><span class="pn-v">v1.0</span><time class="pn-d" datetime="2026-08-31"><span data-l="fr">31/08/2026</span><span data-l="en" lang="en">31 Aug 2026</span></time></div><p class="pn-t"><span data-l="fr">Première version : extraction par pureté de nœud et par horloge, cadences des convoyeurs, déblocages du HUB par palier et arborescence des pièces d&#x27;Ascenseur spatial.</span><span data-l="en" lang="en">First release: extraction by node purity and clock speed, conveyor belt rates, HUB unlocks by tier and the Space Elevator parts tree.</span></p></li></ol>
-<div class="pn-foot"></div></aside>
+<p class="pn-sub"><span data-l="fr">Version 1.2, mise à jour le 24/09/2026</span><span data-l="en" lang="en">Version 1.2, updated 24 Sep 2026</span></p></div><button type="button" class="pn-x" data-fr-aria-label="Fermer" data-en-aria-label="Close" aria-label="Fermer">×</button></div>
+<ol class="pn-list"><li class="pn-e" data-v="1.2"><div class="pn-meta"><span class="pn-v">v1.2</span><time class="pn-d" datetime="2026-09-24"><span data-l="fr">24/09/2026</span><span data-l="en" lang="en">24 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d&#x27;un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal.</span><span data-l="en" lang="en">The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven&#x27;t seen yet, and new entries are marked in the log.</span></p></li><li class="pn-e" data-v="1.1"><div class="pn-meta"><span class="pn-v">v1.1</span><time class="pn-d" datetime="2026-09-22"><span data-l="fr">22/09/2026</span><span data-l="en" lang="en">22 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Version anglaise complète, via le drapeau FR/EN commun à tous les outils. Noms de bâtiments alignés sur la localisation française du jeu, et huit recettes corrigées dans l&#x27;arbre des pièces de projet (batterie, turbomoteur, cube de conversion de pression…).</span><span data-l="en" lang="en">Full English version, via the FR/EN flag shared by every tool. Building names aligned with the game&#x27;s French localization, and eight recipes fixed in the project parts tree (battery, turbo motor, pressure conversion cube…).</span></p></li><li class="pn-e" data-v="1.0"><div class="pn-meta"><span class="pn-v">v1.0</span><time class="pn-d" datetime="2026-08-31"><span data-l="fr">31/08/2026</span><span data-l="en" lang="en">31 Aug 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Première version : extraction par pureté de nœud et par horloge, cadences des convoyeurs, déblocages du HUB par palier et arborescence des pièces d&#x27;Ascenseur spatial.</span><span data-l="en" lang="en">First release: extraction by node purity and clock speed, conveyor belt rates, HUB unlocks by tier and the Space Elevator parts tree.</span></p></li></ol>
+<div class="pn-foot"></div></div></div>
+<script>(function(){
+  var r = document.getElementById('journal'); if(!r) return;
+  var b = r.querySelector('.pn-btn'), p = r.querySelector('.pn-panel'), x = r.querySelector('.pn-x');
+  var K = 'ficsit-tools:vu:' + r.dataset.outil, V = r.dataset.v, vu = null;
+  try{ vu = localStorage.getItem(K); }catch(e){}
+  function cmp(a, c){ a = a.split('.').map(Number); c = c.split('.').map(Number);
+    for(var i = 0; i < Math.max(a.length, c.length); i++){ var d = (a[i] || 0) - (c[i] || 0); if(d) return d; } return 0; }
+  if(vu !== V) r.classList.add('pn-neuf');
+  if(vu) r.querySelectorAll('.pn-e[data-v]').forEach(function(e){
+    if(cmp(e.dataset.v, vu) > 0){ e.classList.add('pn-new'); var d = e.closest('details'); if(d) d.open = true; } });
+  function ouvrir(o){
+    p.hidden = !o; b.setAttribute('aria-expanded', o);
+    if(o){ r.classList.remove('pn-neuf'); try{ localStorage.setItem(K, V); }catch(e){} }
+  }
+  b.addEventListener('click', function(e){ e.stopPropagation(); ouvrir(p.hidden); });
+  x.addEventListener('click', function(){ ouvrir(false); b.focus(); });
+  document.addEventListener('click', function(e){ if(!p.hidden && !r.contains(e.target)) ouvrir(false); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !p.hidden){ ouvrir(false); b.focus(); } });
+})();</script>
 <!-- PATCHNOTES:END -->
 <footer><span data-l="fr">FICSIT Inc. — établi d'après le wiki officiel Satisfactory 1.2</span><span data-l="en" lang="en">FICSIT Inc. — compiled from the official Satisfactory 1.2 wiki</span></footer>
 

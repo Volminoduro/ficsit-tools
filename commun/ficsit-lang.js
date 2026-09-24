@@ -11,6 +11,7 @@
      .pick({fr, en})       choisit la variante de la langue active
      .item(n) .recette(n) .batiment(n)   nom du jeu dans la langue active (glossaire.json, repli : anglais)
      .num(v, opts)         v.toLocaleString(locale, opts)
+   Dock : tout élément marqué data-fdock est déplacé dans le dock commun en haut à droite, avant les drapeaux.
    HTML statique :
      <x data-l="fr">…</x><x data-l="en">…</x>     seule la variante de la langue active est affichée
      data-fr-<attr>="…" data-en-<attr>="…"       l'attribut <attr> (title, placeholder, aria-label…) suit la langue
@@ -62,7 +63,12 @@
       return '<button type="button" data-lang="' + c + '" lang="' + c + '" title="' + L.titre + '">'
         + (DRAPEAUX[c] || '') + '<span>' + L.court + '</span></button>'; }).join('');
     w.addEventListener('click', function(e){ var b = e.target.closest('button[data-lang]'); if(b) appliquer(b.dataset.lang, true); });
-    document.body.appendChild(w);
+    // Dock commun en haut à droite : les éléments de la page marqués data-fdock (ex. le journal des
+    // révisions), puis le sélecteur de langue.
+    var d = document.getElementById('fdock');
+    if(!d){ d = document.createElement('div'); d.id = 'fdock'; d.className = 'fdock'; document.body.appendChild(d); }
+    document.querySelectorAll('[data-fdock]').forEach(function(el){ d.appendChild(el); });
+    d.appendChild(w);
     boutons(); attrs();
   }
 

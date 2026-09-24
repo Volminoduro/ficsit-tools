@@ -48,6 +48,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Optimiseur de recyclage / Recycling optimizer — `broyeur-excedents.html`
 
+- **v1.11** (24/09/2026) : Style unifié avec les autres outils : mêmes polices (Saira Condensed et Barlow, au lieu d'Orbitron et Roboto embarquées), même palette, grand titre et bande hachurée. La page s'allège de 76 Ko.
+  *EN — Style unified with the other tools: same fonts (Saira Condensed and Barlow, instead of embedded Orbitron and Roboto), same palette, large title and hazard stripe. The page is 76 KB lighter.*
 - **v1.10** (24/09/2026) : Rangé avec « Complexité et valeur au broyeur » dans la catégorie Recyclage de l'accueil. Mention en bas de page : le site est généré par IA.
   *EN — Grouped with "Complexity vs sink value" under Recycling on the home page. Footer notice: the site is AI-generated.*
 - **v1.9** (24/09/2026) : Paliers des recettes du MAM recalculés depuis l'arbre de recherche du wiki officiel et le coût de chaque recherche : la plupart des recherches de départ (Caterium, Quartz, protéines, Quickwire) sortent dès le palier 1 ou 2 au lieu de 3, Compacted Coal passe au palier 2.

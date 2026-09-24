@@ -176,6 +176,14 @@
       },
       "entrees": [
         {
+          "version": "1.11",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Style unifié avec les autres outils : mêmes polices (Saira Condensed et Barlow, au lieu d'Orbitron et Roboto embarquées), même palette, grand titre et bande hachurée. La page s'allège de 76 Ko.",
+            "en": "Style unified with the other tools: same fonts (Saira Condensed and Barlow, instead of embedded Orbitron and Roboto), same palette, large title and hazard stripe. The page is 76 KB lighter."
+          }
+        },
+        {
           "version": "1.10",
           "date": "2026-09-24",
           "texte": {

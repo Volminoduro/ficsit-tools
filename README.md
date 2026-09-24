@@ -2,7 +2,7 @@
 
 Outils générés pour la maîtrise des systèmes de *Satisfactory* (logistique, énergie, optimisation de production).
 
-Tout le dépôt — code, calculs, textes — est généré par IA (Claude, d'Anthropic), à la demande d'un joueur qui l'oriente et le relit. Le site le dit : un encart sur l'accueil et un bandeau commun en bas de chaque page (`commun/ficsit-lang.js`, texte `communs.ia` de `commun/langue.json`).
+Tout le dépôt — code, calculs, textes — est généré par IA (Claude, d'Anthropic), à la demande d'un joueur qui l'oriente et le relit. Le site le dit par un bandeau commun en bas de chaque page (`commun/ficsit-lang.js`, texte `communs.ia` de `commun/langue.json`).
 
 ## Convention pour ce dossier
 

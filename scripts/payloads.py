@@ -2,7 +2,8 @@
 """Réécrit dans chaque page ce qui est dérivable du référentiel donnees/donnees-jeu.json.
 
 Aujourd'hui : les icônes (une seule source, donnees/icones/, ré-échantillonnée à la taille de chaque
-page), les paliers de recettes de l'infographie et tout le payload du broyeur (scripts/broyeur.py). Les combinaisons de l'infographie (clés tc, combi et
+page), les paliers de recettes de l'infographie, tout le payload du broyeur (scripts/broyeur.py) et
+celui de l'arbre de production (scripts/arbre.py). Les combinaisons de l'infographie (clés tc, combi et
 combiM) sont calculées par scripts/paliers_combinaisons.js et ne sont pas touchées ici.
 
 Usage : python3 scripts/payloads.py [--verifier]   (depuis la racine du dépôt)
@@ -184,10 +185,25 @@ def payload_broyeur():
     print(f"broyeur-excedents.html : {len(neuf['src'])} sources, {len(neuf['tgt'])} cibles, {chg} cibles modifiées")
 
 
+def payload_arbre():
+    """Le payload de l'arbre de production est calculé par scripts/arbre.py ; icônes à 44 px."""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import arbre
+    p = ROOT / "arbre-production.html"
+    s = avant = p.read_text(encoding="utf-8")
+    m, _ = bloc_json(s, "payload")
+    neuf = arbre.calcul()
+    neuf["ic"] = {x["n"]: icone(x["n"], 44) for x in neuf["items"] if x["n"] in SLUGS}
+    s = s[:m.start(2)] + json.dumps(neuf, ensure_ascii=False, separators=(",", ":")) + s[m.end(2):]
+    ecrire(p, s, avant)
+    print(f"arbre-production.html : {len(neuf['items'])} items, {len(neuf['ic'])} icônes à 44 px")
+
+
 if __name__ == "__main__":
     paliers_infographie()
     emprises_infographie()
     payload_broyeur()
+    payload_arbre()
     page_icones("satisfactory_infographie.html", "payload", 44, cle="ic")
     page_icones("broyeur-excedents.html", "icons", 44)
     horloge()

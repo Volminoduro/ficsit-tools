@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.12",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Paliers des recettes du MAM recalculés depuis l'arbre de recherche du wiki officiel et le coût de chaque recherche : la plupart des recherches de départ (Caterium, Quartz, protéines, Quickwire) sortent dès le palier 1 ou 2 au lieu de 3, Compacted Coal passe au palier 2. Mode Espace : emprises des bâtiments reprises du wiki (Assembler 9 × 16, Refinery 10 × 22, Smelter 5 × 10…) et azote compté sur l'ensemble des puits du monde. Combinaisons recalculées.",
+            "en": "MAM recipe tiers recomputed from the official wiki's research tree and each research's cost: most starting research (Caterium, Quartz, proteins, Quickwire) now comes at tier 1 or 2 instead of 3, Compacted Coal moves to tier 2. Space mode: building footprints taken from the wiki (Assembler 9 × 16, Refinery 10 × 22, Smelter 5 × 10…) and nitrogen counted over all the world's wells. Combinations recomputed."
+          }
+        },
+        {
           "version": "1.11",
           "date": "2026-09-24",
           "texte": {
@@ -152,6 +160,14 @@
       },
       "entrees": [
         {
+          "version": "1.9",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Paliers des recettes du MAM recalculés depuis l'arbre de recherche du wiki officiel et le coût de chaque recherche : la plupart des recherches de départ (Caterium, Quartz, protéines, Quickwire) sortent dès le palier 1 ou 2 au lieu de 3, Compacted Coal passe au palier 2.",
+            "en": "MAM recipe tiers recomputed from the official wiki's research tree and each research's cost: most starting research (Caterium, Quartz, proteins, Quickwire) now comes at tier 1 or 2 instead of 3, Compacted Coal moves to tier 2."
+          }
+        },
+        {
           "version": "1.8",
           "date": "2026-09-24",
           "texte": {
@@ -263,6 +279,14 @@
         "en": "Production tree"
       },
       "entrees": [
+        {
+          "version": "1.2",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Paliers des recettes du MAM recalculés depuis l'arbre de recherche du wiki officiel et le coût de chaque recherche : la plupart des recherches de départ (Caterium, Quartz, protéines, Quickwire) sortent dès le palier 1 ou 2 au lieu de 3, Compacted Coal passe au palier 2.",
+            "en": "MAM recipe tiers recomputed from the official wiki's research tree and each research's cost: most starting research (Caterium, Quartz, proteins, Quickwire) now comes at tier 1 or 2 instead of 3, Compacted Coal moves to tier 2."
+          }
+        },
         {
           "version": "1.1",
           "date": "2026-09-24",

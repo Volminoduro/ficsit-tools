@@ -1,24 +1,77 @@
 {
- "_doc": "Emprise au sol des bâtiments (largeur × longueur, en mètres), absente de la source (greeny/SatisfactoryTools ne relève la taille que des fondations). Sert au mode « Espace » de l'infographie. « verifie » : valeur recoupée par une recherche (wiki officiel, satisfactory-calculator.com ou guide Steam « Basic Building Dimensions ») ; sinon valeur du wiki officiel non revérifiée ici. Corriger ici, puis python3 scripts/payloads.py et le recalcul des combinaisons.",
+ "_doc": "Emprise au sol des bâtiments (largeur × longueur, en mètres), absente de la source (greeny/SatisfactoryTools ne relève la taille que des fondations). Valeurs de l'infobox de chaque bâtiment sur le wiki officiel (satisfactory.wiki.gg, champs size_width / size_length). Sert au mode « Espace » de l'infographie. Corriger ici, puis python3 scripts/payloads.py et le recalcul des combinaisons.",
+ "source": "https://satisfactory.wiki.gg (infobox de chaque bâtiment)",
  "surcadencage": 2.5,
  "batiments": {
-  "Smelter": {"l": 6, "L": 9, "verifie": false},
-  "Foundry": {"l": 10, "L": 9, "verifie": true},
-  "Constructor": {"l": 8, "L": 10, "verifie": true},
-  "Assembler": {"l": 10, "L": 15, "verifie": true},
-  "Manufacturer": {"l": 18, "L": 20, "verifie": false},
-  "Refinery": {"l": 10, "L": 20, "verifie": false},
-  "Packager": {"l": 8, "L": 8, "verifie": false},
-  "Blender": {"l": 18, "L": 16, "verifie": false},
-  "Particle Accelerator": {"l": 24, "L": 38, "verifie": false},
-  "Quantum Encoder": {"l": 22, "L": 48, "verifie": true},
-  "Converter": {"l": 16, "L": 16, "verifie": true}
+  "Smelter": {
+   "l": 5,
+   "L": 10
+  },
+  "Foundry": {
+   "l": 10,
+   "L": 10
+  },
+  "Constructor": {
+   "l": 7.9,
+   "L": 9.9
+  },
+  "Assembler": {
+   "l": 9,
+   "L": 16
+  },
+  "Manufacturer": {
+   "l": 18,
+   "L": 20
+  },
+  "Refinery": {
+   "l": 10,
+   "L": 22
+  },
+  "Packager": {
+   "l": 8,
+   "L": 8
+  },
+  "Blender": {
+   "l": 18,
+   "L": 16
+  },
+  "Particle Accelerator": {
+   "l": 24,
+   "L": 38
+  },
+  "Quantum Encoder": {
+   "l": 22,
+   "L": 50
+  },
+  "Converter": {
+   "l": 16,
+   "L": 16
+  }
  },
- "_extraction": "Extraction surcadencée à 250 % comme les machines, sur un nœud normal. m2_par_u = emprise ÷ débit à 250 %. Azote : un extracteur de puits (6 × 6 m, 60 m³/min sur satellite normal) plus un sixième de pressuriseur (10 × 10 m), le pressuriseur étant partagé entre les satellites d'un puits (6 en moyenne, hypothèse).",
+ "_extraction": "Extraction surcadencée à 250 % comme les machines. Solides, eau, pétrole : un bâtiment sur un nœud normal, m² par u/min = emprise ÷ (débit à 100 % × 2,5). Azote : seuls les puits en donnent ; on prend l'ensemble du monde — 6 puits (un pressuriseur de 20 × 20 m chacun, surcadençable) et 45 satellites (un extracteur de 4 × 4 m chacun), 12 000 m³/min à 250 % (wiki, page Resource Well) — soit une emprise totale rapportée au débit total.",
  "extraction": {
-  "solide": {"batiment": "Miner Mk.3", "l": 6, "L": 14, "debit": 240, "verifie": false},
-  "Water": {"batiment": "Water Extractor", "l": 20, "L": 20, "debit": 120, "verifie": false},
-  "Crude Oil": {"batiment": "Oil Extractor", "l": 8, "L": 14, "debit": 120, "verifie": false},
-  "Nitrogen Gas": {"batiment": "Resource Well Extractor", "l": 6, "L": 6, "debit": 60, "partage": {"l": 10, "L": 10, "par": 6}, "verifie": false}
+  "solide": {
+   "batiment": "Miner Mk.3",
+   "l": 6,
+   "L": 14,
+   "debit": 240
+  },
+  "Water": {
+   "batiment": "Water Extractor",
+   "l": 20,
+   "L": 19.5,
+   "debit": 120
+  },
+  "Crude Oil": {
+   "batiment": "Oil Extractor",
+   "l": 8,
+   "L": 14,
+   "debit": 120
+  },
+  "Nitrogen Gas": {
+   "batiment": "Resource Well Pressurizer + Resource Well Extractor",
+   "aire": 3120,
+   "debit": 4800.0
+  }
  }
 }

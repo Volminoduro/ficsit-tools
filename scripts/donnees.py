@@ -48,24 +48,18 @@ def charger():
 
 
 def paliers(d):
-    """Recette → (palier plancher de déblocage, origine).
-
-    Le champ `tier` d'un schéma n'est exploitable que pour les jalons. Pour une alternative de disque
-    dur, le palier vient de ses `requiredSchematics` — les dépendances que le jeu exige avant de
-    proposer l'alternative au tirage : on remonte la chaîne et on retient le plus élevé.
-    - Jalon : son palier.
-    - Recherche du MAM : le plus petit palier de paliers-mam.json parmi les recettes qu'elle débloque
-      (le nœud est franchi au plus tard quand la première l'est), et jamais avant le MAM lui-même
-      (PALIER_MAM) ; ses propres prérequis comptent aussi.
+    """Recette → (chemins de déblocage, origine). Un chemin = (palier fixe, nœuds du MAM requis) : la
+    recette est débloquée par ce chemin au palier max(palier fixe, paliers de ces nœuds). Plusieurs
+    chemins (plusieurs schémas débloquent la recette) : le plus précoce gagne. Les paliers des nœuds du
+    MAM ne sont connus qu'au calcul du point fixe (palier_utilisable), d'où cette forme symbolique.
+    - Jalon : son palier (le champ `tier` de la source n'est exploitable que pour eux).
+    - Recherche du MAM : le nœud lui-même (son palier vient de donnees/arbre-mam.json et de ses coûts).
+    - Alternative de disque dur : ses `requiredSchematics`, les dépendances que le jeu exige avant de
+      la proposer au tirage, remontées récursivement ; jamais avant le MAM (PALIER_DD_MIN).
     - Dépendance vers un schéma absent de la source (reliquat d'avant la 1.0, ex.
-      Schematic_Alternate_EnrichedCoal_C) : on la rattache au schéma qui débloque aujourd'hui la même
-      recette (Recipe_Alternate_EnrichedCoal_C → recherche Compacted Coal du MAM).
-    Pour le MAM, la source ne donne rien d'utilisable (tier interne au MAM) : le plancher de ses
-    recettes vient de donnees/paliers-mam.json. Plusieurs schémas pour une recette : le plus petit
-    palier gagne, c'est le premier chemin de déblocage disponible."""
+      Schematic_Alternate_EnrichedCoal_C) : rattachée au schéma qui débloque aujourd'hui la même
+      recette (Recipe_Alternate_EnrichedCoal_C → recherche Compacted Coal du MAM)."""
     S = d["schematics"]
-    mam = json.loads((OUT / "paliers-mam.json").read_text(encoding="utf-8"))["paliers"]
-    nom_recette = {r["className"]: r["name"] for r in d["recipes"].values()}
     par_recette = {}
     for sc in S.values():
         for rc in sc.get("unlock", {}).get("recipes", []):
@@ -84,37 +78,52 @@ def paliers(d):
     def fermeture(sc, vus=None):
         vus = vus or set()
         if sc["className"] in vus:
-            return 0
+            return 0, frozenset()
         vus.add(sc["className"])
-        t = 0
+        t, noeuds = 0, set()
         if sc["type"] in ("EST_Milestone", "EST_Tutorial"):
             t = int(sc.get("tier") or 0)
         elif sc["type"] == "EST_MAM":
-            ts = [mam[nom_recette[rc]] for rc in sc["unlock"]["recipes"] if nom_recette.get(rc) in mam]
-            t = max(PALIER_MAM, min(ts)) if ts else PALIER_MAM
+            noeuds.add(sc["className"])
         for req in sc["requiredSchematics"]:
             r = resoudre(req)
             if r:
-                t = max(t, fermeture(r, vus))
-        return t
+                t2, n2 = fermeture(r, vus)
+                t, noeuds = max(t, t2), noeuds | n2
+        return t, frozenset(noeuds)
 
-    out, mamseul = {}, {}
+    out = {}
     for sc in S.values():
         org = ORIGINE.get(sc["type"])
         if not org:
             continue
+        t, noeuds = fermeture(sc)
+        if org == "dd":
+            t = max(t, PALIER_DD_MIN)   # les disques durs ne tombent pas avant le MAM
         for rc in sc.get("unlock", {}).get("recipes", []):
-            if org == "mam":
-                # Palier inconnu de la source : il vient de paliers-mam.json, pas d'ici.
-                mamseul.setdefault(rc, True)
-                continue
-            t = fermeture(sc)
-            if org == "dd":
-                t = max(t, PALIER_DD_MIN)   # les disques durs ne tombent pas avant le MAM
-            if rc not in out or t < out[rc][0]:
-                out[rc] = (t, org)
-    for rc in mamseul:
-        out.setdefault(rc, (0, "mam"))
+            ch, orgs = out.setdefault(rc, ([], []))
+            ch.append((t, noeuds))
+            orgs.append((t, org))
+    # origine affichée : celle du chemin au plus petit palier fixe (jalon avant MAM avant disque dur)
+    rang = {"jalon": 0, "mam": 1, "dd": 2}
+    return {rc: (ch, min(orgs, key=lambda x: (x[0], rang.get(x[1], 9)))[1]) for rc, (ch, orgs) in out.items()}
+
+
+def recherches_mam(d):
+    """Nœuds du MAM : classe → (nom, parents, coûts). Parents relevés à la main (donnees/arbre-mam.json),
+    coûts donnés par la source."""
+    A = json.loads((OUT / "arbre-mam.json").read_text(encoding="utf-8"))["arbres"]
+    noms = {i["className"]: i["name"] for i in d["items"].values()}
+    out = {}
+    for arbre in A.values():
+        par_n = {x["n"]: x["classe"] for x in arbre["noeuds"]}
+        for x in arbre["noeuds"]:
+            if x["classe"]:
+                out[x["classe"]] = {"nom": x["nom"], "parents": [par_n[p] for p in x["parents"] if par_n.get(p)]}
+    for sc in d["schematics"].values():
+        if sc["type"] == "EST_MAM":
+            n = out.setdefault(sc["className"], {"nom": sc["name"], "parents": []})
+            n["couts"] = [noms.get(c["item"], c["item"]) for c in sc["cost"]]
     return out
 
 
@@ -140,12 +149,15 @@ PALIER_RESSOURCE = {"Water": 3, "Crude Oil": 5, "Nitrogen Gas": 8}
 PALIER_DECHET = {"Uranium Waste": 8, "Plutonium Waste": 8}
 
 
-def palier_utilisable(ref):
+def palier_utilisable(ref, chemins, mam):
     """Palier dérivé : premier palier où la recette est réellement exécutable — sa machine est
-    débloquée et chacun de ses ingrédients est produisible par une recette elle-même exécutable.
-    Point fixe, recalculé jusqu'à stabilité. C'est la définition commune aux outils : le `tier`
-    de la source n'est pas exploitable (0 pour la plupart des alternatives de disque dur, 3 pour
-    tout le MAM). Pour une alternative, c'est un minorant : il faut en plus avoir tiré le disque dur."""
+    débloquée, l'un de ses chemins de déblocage est ouvert et chacun de ses ingrédients est produisible
+    par une recette elle-même exécutable. Un nœud du MAM est franchissable au plus tôt au palier du MAM
+    (PALIER_MAM), après ses parents (donnees/arbre-mam.json : tous) et une fois ses coûts obtenables
+    (un coût qu'aucune recette ne produit — disque dur, somersloop… — vient du monde : palier 0).
+    Point fixe, recalculé jusqu'à stabilité : paliers des items et des nœuds se tiennent mutuellement.
+    Pour une alternative, c'est un minorant : il faut en plus avoir tiré le disque dur.
+    Renvoie (palier par recette, plancher de déblocage par recette, palier par nœud du MAM)."""
     prod = {}
     for nom, r in ref["recettes"].items():
         for it, _ in r["produits"]:
@@ -156,15 +168,42 @@ def palier_utilisable(ref):
         if it not in prod:
             brut.setdefault(it, PALIER_DECHET.get(it, 0))
     item = dict(brut)
-    rec = {}
-    for _ in range(40):
+    rec, plancher, noeud = {}, {}, {}
+
+    def palier_noeud(n, pile=frozenset()):
+        if n in noeud:
+            return noeud[n]
+        if n in pile or n not in mam:
+            return PALIER_MAM if n not in pile else None
+        t = PALIER_MAM
+        for p in mam[n]["parents"]:
+            tp = palier_noeud(p, pile | {n})
+            if tp is None:
+                return None
+            t = max(t, tp)
+        for c in mam[n].get("couts", []):
+            if c in ref["items"] and c not in item:
+                return None               # coût pas encore productible
+            t = max(t, item.get(c, 0))
+        noeud[n] = t
+        return t
+
+    for _ in range(60):
         chg = False
+        noeud.clear()
         for nom, r in ref["recettes"].items():
             m = r["machine"]
             t = ref["batiments"][m]["palier"] if m and ref["batiments"][m]["palier"] is not None else 0
-            # Un jalon donne un palier fiable : la recette n'est pas exécutable avant, même si tout existe.
-            if r["palierPlancher"]:
-                t = max(t, r["palierPlancher"])
+            # Déblocage : le chemin le plus précoce parmi ceux dont tous les nœuds du MAM sont franchissables.
+            ouverts = []
+            for tf, noeuds in chemins.get(nom, [(0, frozenset())]):
+                tn = [palier_noeud(n) for n in noeuds]
+                if all(x is not None for x in tn):
+                    ouverts.append(max([tf] + tn))
+            if not ouverts:
+                continue
+            pl = min(ouverts)
+            t = max(t, pl)
             for it, _ in r["ingredients"]:
                 if it not in item:
                     t = None
@@ -172,6 +211,7 @@ def palier_utilisable(ref):
                 t = max(t, item[it])
             if t is None:
                 continue
+            plancher[nom] = pl
             if rec.get(nom) != t and (nom not in rec or t < rec[nom]):
                 rec[nom] = t
                 chg = True
@@ -183,7 +223,9 @@ def palier_utilisable(ref):
                     chg = True
         if not chg:
             break
-    return rec
+    for n in mam:
+        palier_noeud(n)
+    return rec, plancher, noeud
 
 
 def referentiel(d):
@@ -191,7 +233,7 @@ def referentiel(d):
     bat_par_classe = {b["className"]: b for b in d["buildings"].values()}
     pal = paliers(d)
     pal_bat = paliers_machines(d)
-    mam = json.loads((OUT / "paliers-mam.json").read_text(encoding="utf-8"))["paliers"]
+    mam = recherches_mam(d)
 
     items = {}
     for i in sorted(d["items"].values(), key=lambda x: x["name"]):
@@ -212,19 +254,18 @@ def referentiel(d):
                                     "exposant": m.get("powerConsumptionExponent", 0) or None,
                                     "palier": pal_bat.get(c)}
 
-    recettes = {}
+    recettes, chemins = {}, {}
     for r in sorted(d["recipes"].values(), key=lambda x: x["name"]):
         prod = [c for c in r.get("producedIn", []) if c in classe_vers_nom]
         machine = classe_vers_nom[prod[0]] if prod else None
         if machine is None and not r.get("inWorkshop") and not r.get("inHand"):
             continue  # recettes de construction de bâtiments : hors périmètre des outils
-        t, org = pal.get(r["className"], (0, None))
-        if r["name"] in mam:
-            t = max(t or 0, mam[r["name"]])
+        ch, org = pal.get(r["className"], ([(0, frozenset())], None))
         nom = r["name"] if r["name"] not in recettes else f"{r['name']} ({r['className']})"
+        chemins[nom] = ch
         recettes[nom] = {
             "classe": r["className"], "alternative": bool(r["alternate"]), "machine": machine,
-            "temps": r["time"], "origine": org, "palierPlancher": t,
+            "temps": r["time"], "origine": org, "palierPlancher": None,
             "atelier": bool(r.get("inWorkshop")), "main": bool(r.get("inHand")),
             "ingredients": [[par_classe[g["item"]]["name"], g["amount"]] for g in r["ingredients"]
                             if g["item"] in par_classe],
@@ -236,10 +277,12 @@ def referentiel(d):
 
     ref = {"items": items, "batiments": batiments, "recettes": recettes,
            "ressources": sorted(par_classe[c]["name"] for c in d["resources"] if c in par_classe)}
-    for nom, t in palier_utilisable(ref).items():
-        recettes[nom]["palier"] = t
+    rec, plancher, noeud = palier_utilisable(ref, chemins, mam)
     for nom, r in recettes.items():
-        r.setdefault("palier", None)
+        r["palierPlancher"] = plancher.get(nom, min(tf for tf, _ in chemins[nom]))
+        r["palier"] = rec.get(nom)
+    ref["recherchesMam"] = {mam[n]["nom"] + ("" if [m["nom"] for m in mam.values()].count(mam[n]["nom"]) == 1 else f" ({n})"): t
+                            for n, t in sorted(noeud.items(), key=lambda x: mam[x[0]]["nom"]) if n in mam}
 
     return {
         "_doc": "Référentiel unique des données de jeu. Généré par scripts/donnees.py — ne pas éditer à la main. "
@@ -247,9 +290,11 @@ def referentiel(d):
         "source": {"depot": "greeny/SatisfactoryTools", "branche": "dev", "fichier": "data/data.json",
                    "recupere_le": datetime.date.today().isoformat()},
         "_paliers": "palier = premier palier où la recette est réellement exécutable : machine débloquée, "
-                    "déblocage obtenu (jalon, chaîne de prérequis d'une alternative, paliers-mam.json) et "
+                    "déblocage obtenu (jalon, chaîne de prérequis d'une alternative, recherche du MAM) et "
                     "ingrédients produisibles par des recettes elles-mêmes exécutables. Point fixe. "
-                    "palierPlancher = la seule part de déblocage, sans les ingrédients.",
+                    "palierPlancher = la seule part de déblocage, sans les ingrédients. "
+                    "recherchesMam = palier de chaque nœud du MAM : après le MAM (palier 1), ses parents "
+                    "(donnees/arbre-mam.json) et une fois ses coûts obtenables.",
         **ref,
     }
 

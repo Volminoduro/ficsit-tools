@@ -6,7 +6,7 @@
   "fichier": "data/data.json",
   "recupere_le": "2026-09-24"
  },
- "_paliers": "palier = premier palier où la recette est réellement exécutable : machine débloquée, déblocage obtenu (jalon, chaîne de prérequis d'une alternative, paliers-mam.json) et ingrédients produisibles par des recettes elles-mêmes exécutables. Point fixe. palierPlancher = la seule part de déblocage, sans les ingrédients.",
+ "_paliers": "palier = premier palier où la recette est réellement exécutable : machine débloquée, déblocage obtenu (jalon, chaîne de prérequis d'une alternative, recherche du MAM) et ingrédients produisibles par des recettes elles-mêmes exécutables. Point fixe. palierPlancher = la seule part de déblocage, sans les ingrédients. recherchesMam = palier de chaque nœud du MAM : après le MAM (palier 1), ses parents (donnees/arbre-mam.json) et une fois ses coûts obtenables.",
  "items": {
   "AI Expansion Server": {
    "slug": "desc-spaceelevatorpart-12-c",
@@ -1546,7 +1546,7 @@
    "machine": "Assembler",
    "temps": 12.0,
    "origine": "mam",
-   "palierPlancher": 3,
+   "palierPlancher": 2,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -1565,7 +1565,7 @@
      1.0
     ]
    ],
-   "palier": 3
+   "palier": 2
   },
   "Adaptive Control Unit": {
    "classe": "Recipe_SpaceElevatorPart_5_C",
@@ -1635,7 +1635,7 @@
    "machine": "Constructor",
    "temps": 6.0,
    "origine": "mam",
-   "palierPlancher": 3,
+   "palierPlancher": 1,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -1650,7 +1650,7 @@
      1.0
     ]
    ],
-   "palier": 3
+   "palier": 1
   },
   "Alien Power Matrix": {
    "classe": "Recipe_AlienPowerFuel_C",
@@ -2057,7 +2057,7 @@
      8.0
     ]
    ],
-   "palier": 3
+   "palier": 1
   },
   "Alternate: Charcoal": {
    "classe": "Recipe_Alternate_Coal_1_C",
@@ -2088,7 +2088,7 @@
    "machine": "Assembler",
    "temps": 8.0,
    "origine": "dd",
-   "palierPlancher": 3,
+   "palierPlancher": 1,
    "atelier": false,
    "main": false,
    "ingredients": [
@@ -2107,7 +2107,7 @@
      7.0
     ]
    ],
-   "palier": 3
+   "palier": 2
   },
   "Alternate: Classic Battery": {
    "classe": "Recipe_Alternate_ClassicBattery_C",
@@ -2287,7 +2287,7 @@
    "machine": "Assembler",
    "temps": 12.0,
    "origine": "mam",
-   "palierPlancher": 3,
+   "palierPlancher": 2,
    "atelier": false,
    "main": false,
    "ingredients": [
@@ -2306,7 +2306,7 @@
      5.0
     ]
    ],
-   "palier": 3
+   "palier": 2
   },
   "Alternate: Compacted Steel Ingot": {
    "classe": "Recipe_Alternate_IngotSteel_2_C",
@@ -2807,7 +2807,7 @@
    "machine": "Assembler",
    "temps": 8.0,
    "origine": "dd",
-   "palierPlancher": 3,
+   "palierPlancher": 2,
    "atelier": false,
    "main": false,
    "ingredients": [
@@ -2826,7 +2826,7 @@
      6.0
     ]
    ],
-   "palier": 3
+   "palier": 2
   },
   "Alternate: Fine Concrete": {
    "classe": "Recipe_Alternate_Concrete_C",
@@ -2853,7 +2853,7 @@
      10.0
     ]
    ],
-   "palier": 3
+   "palier": 2
   },
   "Alternate: Flexible Framework": {
    "classe": "Recipe_Alternate_FlexibleFramework_C",
@@ -2919,7 +2919,7 @@
    "machine": "Assembler",
    "temps": 8.0,
    "origine": "dd",
-   "palierPlancher": 3,
+   "palierPlancher": 1,
    "atelier": false,
    "main": false,
    "ingredients": [
@@ -2938,7 +2938,7 @@
      12.0
     ]
    ],
-   "palier": 3
+   "palier": 2
   },
   "Alternate: Fused Wire": {
    "classe": "Recipe_Alternate_FusedWire_C",
@@ -2965,7 +2965,7 @@
      30.0
     ]
    ],
-   "palier": 3
+   "palier": 2
   },
   "Alternate: Heat Exchanger": {
    "classe": "Recipe_Alternate_HeatSink_1_C",
@@ -3262,7 +3262,7 @@
    "machine": "Manufacturer",
    "temps": 32.0,
    "origine": "dd",
-   "palierPlancher": 6,
+   "palierPlancher": 5,
    "atelier": false,
    "main": false,
    "ingredients": [
@@ -3501,7 +3501,7 @@
    "machine": "Blender",
    "temps": 2.4,
    "origine": "dd",
-   "palierPlancher": 7,
+   "palierPlancher": 8,
    "atelier": false,
    "main": false,
    "ingredients": [
@@ -3731,7 +3731,7 @@
    "machine": "Refinery",
    "temps": 2.0,
    "origine": "mam",
-   "palierPlancher": 0,
+   "palierPlancher": 5,
    "atelier": false,
    "main": false,
    "ingredients": [
@@ -4206,7 +4206,7 @@
    "machine": "Manufacturer",
    "temps": 40.0,
    "origine": "dd",
-   "palierPlancher": 6,
+   "palierPlancher": 5,
    "atelier": false,
    "main": false,
    "ingredients": [
@@ -5136,7 +5136,7 @@
    "machine": "Constructor",
    "temps": 4.0,
    "origine": "mam",
-   "palierPlancher": 3,
+   "palierPlancher": 1,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -5151,7 +5151,7 @@
      100.0
     ]
    ],
-   "palier": 3
+   "palier": 1
   },
   "Biomass (Leaves)": {
    "classe": "Recipe_Biomass_Leaves_C",
@@ -5182,7 +5182,7 @@
    "machine": "Constructor",
    "temps": 4.0,
    "origine": "mam",
-   "palierPlancher": 3,
+   "palierPlancher": 1,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -5197,7 +5197,7 @@
      10.0
     ]
    ],
-   "palier": 3
+   "palier": 1
   },
   "Biomass (Wood)": {
    "classe": "Recipe_Biomass_Wood_C",
@@ -5228,7 +5228,7 @@
    "machine": "Assembler",
    "temps": 4.0,
    "origine": "mam",
-   "palierPlancher": 3,
+   "palierPlancher": 1,
    "atelier": true,
    "main": false,
    "ingredients": [
@@ -5247,7 +5247,7 @@
      2.0
     ]
    ],
-   "palier": 3
+   "palier": 2
   },
   "Blade Runners": {
    "classe": "Recipe_BladeRunners_C",
@@ -5255,7 +5255,7 @@
    "machine": null,
    "temps": 60.0,
    "origine": "mam",
-   "palierPlancher": 0,
+   "palierPlancher": 2,
    "atelier": true,
    "main": false,
    "ingredients": [
@@ -5278,7 +5278,7 @@
      1.0
     ]
    ],
-   "palier": 3
+   "palier": 2
   },
   "Cable": {
    "classe": "Recipe_Cable_C",
@@ -5309,7 +5309,7 @@
    "machine": "Smelter",
    "temps": 4.0,
    "origine": "mam",
-   "palierPlancher": 3,
+   "palierPlancher": 1,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -5324,7 +5324,7 @@
      1.0
     ]
    ],
-   "palier": 3
+   "palier": 1
   },
   "Caterium Ore (Copper)": {
    "classe": "Recipe_Caterium_Copper_C",
@@ -5753,7 +5753,7 @@
    "machine": "Manufacturer",
    "temps": 120.0,
    "origine": "mam",
-   "palierPlancher": 6,
+   "palierPlancher": 2,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -6045,7 +6045,7 @@
    "machine": "Manufacturer",
    "temps": 12.0,
    "origine": "mam",
-   "palierPlancher": 6,
+   "palierPlancher": 5,
    "atelier": true,
    "main": false,
    "ingredients": [
@@ -6076,7 +6076,7 @@
    "machine": "Assembler",
    "temps": 4.0,
    "origine": "mam",
-   "palierPlancher": 3,
+   "palierPlancher": 1,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -6095,7 +6095,7 @@
      1.0
     ]
    ],
-   "palier": 3
+   "palier": 2
   },
   "Factory Cart™": {
    "classe": "Recipe_FactoryCart_C",
@@ -6376,7 +6376,7 @@
    "machine": "Manufacturer",
    "temps": 8.0,
    "origine": "mam",
-   "palierPlancher": 6,
+   "palierPlancher": 3,
    "atelier": true,
    "main": false,
    "ingredients": [
@@ -6407,7 +6407,7 @@
    "machine": null,
    "temps": 60.0,
    "origine": "mam",
-   "palierPlancher": 0,
+   "palierPlancher": 3,
    "atelier": true,
    "main": false,
    "ingredients": [
@@ -6488,7 +6488,7 @@
      1.0
     ]
    ],
-   "palier": 3
+   "palier": 2
   },
   "Hatcher Protein": {
    "classe": "Recipe_Protein_Crab_C",
@@ -6496,7 +6496,7 @@
    "machine": "Constructor",
    "temps": 3.0,
    "origine": "mam",
-   "palierPlancher": 3,
+   "palierPlancher": 1,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -6511,7 +6511,7 @@
      1.0
     ]
    ],
-   "palier": 3
+   "palier": 1
   },
   "Hazmat Suit": {
    "classe": "Recipe_HazmatSuit_C",
@@ -6616,7 +6616,7 @@
    "machine": "Manufacturer",
    "temps": 16.0,
    "origine": "mam",
-   "palierPlancher": 6,
+   "palierPlancher": 5,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -6647,7 +6647,7 @@
    "machine": "Constructor",
    "temps": 3.0,
    "origine": "mam",
-   "palierPlancher": 3,
+   "palierPlancher": 1,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -6662,7 +6662,7 @@
      1.0
     ]
    ],
-   "palier": 3
+   "palier": 1
   },
   "Homing Rifle Ammo": {
    "classe": "Recipe_CartridgeSmart_C",
@@ -6763,7 +6763,7 @@
    "machine": "Refinery",
    "temps": 24.0,
    "origine": "mam",
-   "palierPlancher": 7,
+   "palierPlancher": 8,
    "atelier": false,
    "main": false,
    "ingredients": [
@@ -6869,7 +6869,7 @@
    "machine": "Constructor",
    "temps": 4.0,
    "origine": "mam",
-   "palierPlancher": 3,
+   "palierPlancher": 2,
    "atelier": true,
    "main": false,
    "ingredients": [
@@ -6884,7 +6884,7 @@
      1.0
     ]
    ],
-   "palier": 3
+   "palier": 2
   },
   "Iron Rod": {
    "classe": "Recipe_IronRod_C",
@@ -7275,7 +7275,7 @@
    "machine": null,
    "temps": 80.0,
    "origine": "mam",
-   "palierPlancher": 0,
+   "palierPlancher": 3,
    "atelier": true,
    "main": false,
    "ingredients": [
@@ -7409,7 +7409,7 @@
    "machine": null,
    "temps": 20.0,
    "origine": "mam",
-   "palierPlancher": 0,
+   "palierPlancher": 3,
    "atelier": true,
    "main": false,
    "ingredients": [
@@ -7432,7 +7432,7 @@
      1.0
     ]
    ],
-   "palier": 0
+   "palier": 3
   },
   "Object Scanner": {
    "classe": "Recipe_ObjectScanner_C",
@@ -7740,7 +7740,7 @@
    "alternative": false,
    "machine": "Packager",
    "temps": 6.0,
-   "origine": "dd",
+   "origine": "mam",
    "palierPlancher": 5,
    "atelier": false,
    "main": false,
@@ -7795,7 +7795,7 @@
    "machine": null,
    "temps": 40.0,
    "origine": "mam",
-   "palierPlancher": 0,
+   "palierPlancher": 2,
    "atelier": true,
    "main": false,
    "ingredients": [
@@ -7814,7 +7814,7 @@
      1.0
     ]
    ],
-   "palier": 3
+   "palier": 2
   },
   "Petroleum Coke": {
    "classe": "Recipe_PetroleumCoke_C",
@@ -7963,7 +7963,7 @@
    "machine": "Constructor",
    "temps": 8.0,
    "origine": "mam",
-   "palierPlancher": 0,
+   "palierPlancher": 1,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -7978,7 +7978,7 @@
      1.0
     ]
    ],
-   "palier": 0
+   "palier": 1
   },
   "Power Shard (2)": {
    "classe": "Recipe_PowerCrystalShard_2_C",
@@ -7986,7 +7986,7 @@
    "machine": "Constructor",
    "temps": 12.0,
    "origine": "mam",
-   "palierPlancher": 0,
+   "palierPlancher": 2,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -8001,7 +8001,7 @@
      2.0
     ]
    ],
-   "palier": 0
+   "palier": 2
   },
   "Power Shard (5)": {
    "classe": "Recipe_PowerCrystalShard_3_C",
@@ -8009,7 +8009,7 @@
    "machine": "Constructor",
    "temps": 24.0,
    "origine": "mam",
-   "palierPlancher": 0,
+   "palierPlancher": 2,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -8024,7 +8024,7 @@
      5.0
     ]
    ],
-   "palier": 0
+   "palier": 2
   },
   "Pressure Conversion Cube": {
    "classe": "Recipe_PressureConversionCube_C",
@@ -8059,7 +8059,7 @@
    "machine": null,
    "temps": 20.0,
    "origine": "mam",
-   "palierPlancher": 0,
+   "palierPlancher": 2,
    "atelier": true,
    "main": false,
    "ingredients": [
@@ -8078,7 +8078,7 @@
      1.0
     ]
    ],
-   "palier": 3
+   "palier": 2
   },
   "Pulse Nobelisk": {
    "classe": "Recipe_NobeliskShockwave_C",
@@ -8113,7 +8113,7 @@
    "machine": "Constructor",
    "temps": 8.0,
    "origine": "mam",
-   "palierPlancher": 3,
+   "palierPlancher": 1,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -8128,7 +8128,7 @@
      3.0
     ]
    ],
-   "palier": 3
+   "palier": 1
   },
   "Quickwire": {
    "classe": "Recipe_Quickwire_C",
@@ -8136,7 +8136,7 @@
    "machine": "Constructor",
    "temps": 5.0,
    "origine": "mam",
-   "palierPlancher": 3,
+   "palierPlancher": 1,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -8151,7 +8151,7 @@
      5.0
     ]
    ],
-   "palier": 3
+   "palier": 1
   },
   "Radio Control Unit": {
    "classe": "Recipe_RadioControlUnit_C",
@@ -8247,8 +8247,8 @@
    "alternative": false,
    "machine": "Constructor",
    "temps": 2.0,
-   "origine": "jalon",
-   "palierPlancher": 9,
+   "origine": "mam",
+   "palierPlancher": 1,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -8263,7 +8263,7 @@
      1.0
     ]
    ],
-   "palier": 9
+   "palier": 1
   },
   "Rebar Gun": {
    "classe": "Recipe_RebarGun_C",
@@ -8271,7 +8271,7 @@
    "machine": null,
    "temps": 60.0,
    "origine": "mam",
-   "palierPlancher": 0,
+   "palierPlancher": 2,
    "atelier": true,
    "main": false,
    "ingredients": [
@@ -8406,7 +8406,7 @@
    "machine": null,
    "temps": 120.0,
    "origine": "mam",
-   "palierPlancher": 0,
+   "palierPlancher": 5,
    "atelier": true,
    "main": false,
    "ingredients": [
@@ -8468,7 +8468,7 @@
    "machine": "Blender",
    "temps": 6.0,
    "origine": "mam",
-   "palierPlancher": 7,
+   "palierPlancher": 8,
    "atelier": false,
    "main": false,
    "ingredients": [
@@ -8552,8 +8552,8 @@
    "alternative": false,
    "machine": "Manufacturer",
    "temps": 6.0,
-   "origine": "jalon",
-   "palierPlancher": 9,
+   "origine": "mam",
+   "palierPlancher": 3,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -8576,7 +8576,7 @@
      1.0
     ]
    ],
-   "palier": 9
+   "palier": 6
   },
   "Screws": {
    "classe": "Recipe_Screw_C",
@@ -8607,7 +8607,7 @@
    "machine": "Assembler",
    "temps": 12.0,
    "origine": "mam",
-   "palierPlancher": 3,
+   "palierPlancher": 2,
    "atelier": true,
    "main": false,
    "ingredients": [
@@ -8626,7 +8626,7 @@
      1.0
     ]
    ],
-   "palier": 3
+   "palier": 2
   },
   "Silica": {
    "classe": "Recipe_Silica_C",
@@ -8634,7 +8634,7 @@
    "machine": "Constructor",
    "temps": 8.0,
    "origine": "mam",
-   "palierPlancher": 3,
+   "palierPlancher": 1,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -8649,7 +8649,7 @@
      5.0
     ]
    ],
-   "palier": 3
+   "palier": 1
   },
   "Singularity Cell": {
    "classe": "Recipe_SingularityCell_C",
@@ -8771,7 +8771,7 @@
    "machine": "Constructor",
    "temps": 3.0,
    "origine": "mam",
-   "palierPlancher": 3,
+   "palierPlancher": 1,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -8786,7 +8786,7 @@
      1.0
     ]
    ],
-   "palier": 3
+   "palier": 1
   },
   "Stator": {
    "classe": "Recipe_Stator_C",
@@ -8894,7 +8894,7 @@
    "machine": "Constructor",
    "temps": 3.0,
    "origine": "mam",
-   "palierPlancher": 3,
+   "palierPlancher": 1,
    "atelier": false,
    "main": true,
    "ingredients": [
@@ -8909,7 +8909,7 @@
      1.0
     ]
    ],
-   "palier": 3
+   "palier": 1
   },
   "Stun Rebar": {
    "classe": "Recipe_Rebar_Stunshot_C",
@@ -8917,7 +8917,7 @@
    "machine": "Assembler",
    "temps": 6.0,
    "origine": "mam",
-   "palierPlancher": 3,
+   "palierPlancher": 2,
    "atelier": true,
    "main": false,
    "ingredients": [
@@ -8936,7 +8936,7 @@
      1.0
     ]
    ],
-   "palier": 3
+   "palier": 2
   },
   "Sulfur (Coal)": {
    "classe": "Recipe_Sulfur_Coal_C",
@@ -9105,7 +9105,7 @@
    "machine": "Quantum Encoder",
    "temps": 12.0,
    "origine": "mam",
-   "palierPlancher": 0,
+   "palierPlancher": 9,
    "atelier": false,
    "main": false,
    "ingredients": [
@@ -9146,7 +9146,7 @@
    "machine": null,
    "temps": 20.0,
    "origine": "mam",
-   "palierPlancher": 0,
+   "palierPlancher": 4,
    "atelier": true,
    "main": false,
    "ingredients": [
@@ -9169,7 +9169,7 @@
      1.0
     ]
    ],
-   "palier": 3
+   "palier": 4
   },
   "Thermal Propulsion Rocket": {
    "classe": "Recipe_SpaceElevatorPart_8_C",
@@ -9303,7 +9303,7 @@
    "machine": "Blender",
    "temps": 12.0,
    "origine": "mam",
-   "palierPlancher": 0,
+   "palierPlancher": 7,
    "atelier": false,
    "main": false,
    "ingredients": [
@@ -9442,7 +9442,7 @@
    "machine": "Packager",
    "temps": 3.0,
    "origine": "mam",
-   "palierPlancher": 0,
+   "palierPlancher": 8,
    "atelier": false,
    "main": false,
    "ingredients": [
@@ -9577,7 +9577,7 @@
    "machine": "Packager",
    "temps": 1.0,
    "origine": "mam",
-   "palierPlancher": 0,
+   "palierPlancher": 8,
    "atelier": false,
    "main": false,
    "ingredients": [
@@ -9772,7 +9772,7 @@
    "machine": null,
    "temps": 20.0,
    "origine": "mam",
-   "palierPlancher": 0,
+   "palierPlancher": 4,
    "atelier": true,
    "main": false,
    "ingredients": [
@@ -9791,7 +9791,7 @@
      1.0
     ]
    ],
-   "palier": 0
+   "palier": 4
   },
   "Wire": {
    "classe": "Recipe_Wire_C",
@@ -9892,7 +9892,7 @@
    "machine": null,
    "temps": 40.0,
    "origine": "mam",
-   "palierPlancher": 0,
+   "palierPlancher": 1,
    "atelier": true,
    "main": false,
    "ingredients": [
@@ -9919,7 +9919,7 @@
      1.0
     ]
    ],
-   "palier": 3
+   "palier": 2
   }
  },
  "ressources": [
@@ -9936,5 +9936,104 @@
   "Sulfur",
   "Uranium",
   "Water"
- ]
+ ],
+ "recherchesMam": {
+  "AI Limiter": 2,
+  "Alien Energy Harvesting": 6,
+  "Alien Power Matrix": 9,
+  "Bacon Agaric": 1,
+  "Beryl Nut": 1,
+  "Bio-Organic Properties": 1,
+  "Black Powder": 1,
+  "Blade Runners": 2,
+  "Blue Power Slugs": 1,
+  "Bullet Guidance System": 6,
+  "Caterium": 1,
+  "Caterium Electronics": 1,
+  "Caterium Ingots": 1,
+  "Cluster Nobelisk": 5,
+  "Compacted Coal": 2,
+  "Crystal Oscillator": 2,
+  "Depot Expansion (200%)": 6,
+  "Depot Expansion (300%)": 6,
+  "Depot Expansion (400%)": 6,
+  "Depot Expansion (500%)": 6,
+  "Dimensional Depot": 6,
+  "Expanded Toolbelt (Research_ACarapace_3_C)": 3,
+  "Expanded Toolbelt (Research_Mycelia_7_C)": 2,
+  "Expanded Toolbelt (Research_Sulfur_5_C)": 4,
+  "Experimental Power Generation": 2,
+  "Explosive Rebar": 5,
+  "Explosive Resonance Application": 6,
+  "Fabric": 1,
+  "Gas Mask": 3,
+  "Geothermal Generator": 6,
+  "Hatcher Research": 1,
+  "High-Speed Connector": 5,
+  "Hog Research": 1,
+  "Hostile Organism Detection": 6,
+  "Inflated Pocket Dimension (Research_AOrgans_3_C)": 1,
+  "Inflated Pocket Dimension (Research_Caterium_3_1_C)": 1,
+  "Inflated Pocket Dimension (Research_Sulfur_6_C)": 8,
+  "Ionized Fuel": 8,
+  "Manual Depot Uploader": 6,
+  "Material Resonance Screening": 6,
+  "Medical Properties": 4,
+  "Mercer Sphere Analysis": 1,
+  "Mycelia": 1,
+  "Nuclear Deterrent Development": 8,
+  "Nutritional Inhaler": 3,
+  "Nutritional Processor": 3,
+  "Overclock Production": 1,
+  "Paleberry": 1,
+  "Parachute": 2,
+  "Power Augmenter": 6,
+  "Power Poles Mk.2": 1,
+  "Power Poles Mk.3": 6,
+  "Power Switch": 3,
+  "Priority Power Switch": 6,
+  "Production Amplifier": 6,
+  "Programmable Splitter": 6,
+  "Protein Inhaler": 2,
+  "Purple Power Shards": 2,
+  "Quartz": 1,
+  "Quartz Crystals": 1,
+  "Quickwire": 1,
+  "Radar Technology": 6,
+  "Radio Signal Scanning": 6,
+  "Rocket Fuel": 8,
+  "SAM Analysis": 1,
+  "SAM Fluctuator": 3,
+  "SAM Reanimation": 1,
+  "Shatter Rebar": 2,
+  "Signal Systems": 6,
+  "Silica": 1,
+  "Slug Scanning": 1,
+  "Smart Splitter": 2,
+  "Smokeless Powder": 5,
+  "Somersloop Analysis": 1,
+  "Spitter Research": 1,
+  "Stinger Research": 1,
+  "Structural Analysis": 1,
+  "Stun Rebar": 2,
+  "Sulfur": 1,
+  "Synthetic Polyester Fabric": 5,
+  "Synthetic Power Shards": 9,
+  "The Explorer": 6,
+  "The Nobelisk Detonator": 3,
+  "The Rebar Gun": 2,
+  "The Rifle": 5,
+  "Therapeutic Inhaler": 4,
+  "Toxic Cellular Modification": 3,
+  "Turbo Rifle Ammo": 7,
+  "Turbofuel": 5,
+  "Upload Upgrade: 120/min": 6,
+  "Upload Upgrade: 240/min": 6,
+  "Upload Upgrade: 30/min": 6,
+  "Upload Upgrade: 60/min": 6,
+  "Vitamin Inhaler": 4,
+  "Volatile Applications": 2,
+  "Yellow Power Shards": 2,
+  "Zipline": 1
+ }
 }

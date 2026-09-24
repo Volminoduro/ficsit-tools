@@ -149,14 +149,14 @@ def emprises_infographie():
     em : m² par machine ; ex : m² par unité/min extraite, à 250 % ; oc : facteur de surcadençage."""
     E = json.loads((ROOT / "donnees" / "emprises.json").read_text(encoding="utf-8"))
     oc = E["surcadencage"]
-    em = {n: b["l"] * b["L"] for n, b in E["batiments"].items()}
+    em = {n: round(b["l"] * b["L"], 2) for n, b in E["batiments"].items()}
     ex = {}
     for res in REF["ressources"]:
         x = E["extraction"].get(res) or (None if REF["items"][res]["liquide"] else E["extraction"]["solide"])
         if not x:
             print(f"  ressource sans emprise d'extraction : {res}")
             continue
-        aire = x["l"] * x["L"] + (x["partage"]["l"] * x["partage"]["L"] / x["partage"]["par"] if "partage" in x else 0)
+        aire = x["aire"] if "aire" in x else x["l"] * x["L"]   # « aire » : emprise totale déjà agrégée (azote)
         ex[res] = round(aire / (x["debit"] * oc), 6)
     p = ROOT / "satisfactory_infographie.html"
     s = avant = p.read_text(encoding="utf-8")

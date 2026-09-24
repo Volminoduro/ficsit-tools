@@ -54,7 +54,7 @@ def infographie():
     ligne("infographie", "puissances divergentes", f"{len(puissances)} : {puissances[:5]}")
     # Mode Espace : emprises au sol dérivées de donnees/emprises.json (réécrites par payloads.py).
     E = json.loads((ROOT / "donnees" / "emprises.json").read_text(encoding="utf-8"))
-    em = {n: b["l"] * b["L"] for n, b in E["batiments"].items()}
+    em = {n: round(b["l"] * b["L"], 2) for n, b in E["batiments"].items()}
     sans = sorted({r["m"] for r in P["d"]} - set(em))
     ecart = sorted(n for n in em if P.get("em", {}).get(n) != em[n]) + (["oc"] if P.get("oc") != E["surcadencage"] else [])
     ligne("infographie", "emprises (mode Espace)", f"{len(sans) + len(ecart)} : {(sans + ecart)[:5]}")

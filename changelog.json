@@ -8,6 +8,22 @@
       },
       "entrees": [
         {
+          "version": "1.13",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Nouveau critère Synthèse : énergie, matière et espace réunis en un coût composite (taux de change médians entre critères), pondérés par trois curseurs. Chaque alternative y est classée gagnante, compromis ou perdante face à sa recette de base ; les combinaisons suivent les curseurs, recalculées dans la page par la même recherche exacte. Mention en bas de page : le site est généré par IA.",
+            "en": "New Synthesis criterion: energy, materials and space combined into a composite cost (median exchange rates between criteria), weighted by three sliders. Each alternate is rated winning, trade-off or losing against its standard recipe; combinations follow the sliders, recomputed in the page with the same exact search. Footer notice: the site is AI-generated."
+          }
+        },
+        {
+          "version": "1.12",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Paliers des recettes du MAM recalculés depuis l'arbre de recherche du wiki officiel et le coût de chaque recherche : la plupart des recherches de départ (Caterium, Quartz, protéines, Quickwire) sortent dès le palier 1 ou 2 au lieu de 3, Compacted Coal passe au palier 2. Mode Espace : emprises des bâtiments reprises du wiki (Assembler 9 × 16, Refinery 10 × 22, Smelter 5 × 10…) et azote compté sur l'ensemble des puits du monde. Combinaisons recalculées.",
+            "en": "MAM recipe tiers recomputed from the official wiki's research tree and each research's cost: most starting research (Caterium, Quartz, proteins, Quickwire) now comes at tier 1 or 2 instead of 3, Compacted Coal moves to tier 2. Space mode: building footprints taken from the wiki (Assembler 9 × 16, Refinery 10 × 22, Smelter 5 × 10…) and nitrogen counted over all the world's wells. Combinations recomputed."
+          }
+        },
+        {
           "version": "1.11",
           "date": "2026-09-24",
           "texte": {
@@ -112,6 +128,14 @@
       },
       "entrees": [
         {
+          "version": "1.4",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Mention en bas de page : le site est généré par IA.",
+            "en": "Footer notice: the site is AI-generated."
+          }
+        },
+        {
           "version": "1.3",
           "date": "2026-09-24",
           "texte": {
@@ -151,6 +175,22 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.10",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Rangé avec « Complexité et valeur au broyeur » dans la catégorie Recyclage de l'accueil. Mention en bas de page : le site est généré par IA.",
+            "en": "Grouped with \"Complexity vs sink value\" under Recycling on the home page. Footer notice: the site is AI-generated."
+          }
+        },
+        {
+          "version": "1.9",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Paliers des recettes du MAM recalculés depuis l'arbre de recherche du wiki officiel et le coût de chaque recherche : la plupart des recherches de départ (Caterium, Quartz, protéines, Quickwire) sortent dès le palier 1 ou 2 au lieu de 3, Compacted Coal passe au palier 2.",
+            "en": "MAM recipe tiers recomputed from the official wiki's research tree and each research's cost: most starting research (Caterium, Quartz, proteins, Quickwire) now comes at tier 1 or 2 instead of 3, Compacted Coal moves to tier 2."
+          }
+        },
         {
           "version": "1.8",
           "date": "2026-09-24",
@@ -232,6 +272,14 @@
       },
       "entrees": [
         {
+          "version": "1.3",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Mention en bas de page : le site est généré par IA.",
+            "en": "Footer notice: the site is AI-generated."
+          }
+        },
+        {
           "version": "1.2",
           "date": "2026-09-24",
           "texte": {
@@ -259,10 +307,26 @@
     },
     "arbre-production.html": {
       "nom": {
-        "fr": "Arbre de production",
-        "en": "Production tree"
+        "fr": "Complexité et valeur au broyeur",
+        "en": "Complexity vs sink value"
       },
       "entrees": [
+        {
+          "version": "1.3",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Nouveau nom, « Complexité et valeur au broyeur », rangé avec l'optimiseur dans la catégorie Recyclage de l'accueil. Les minerais bruts solides (fer, cuivre, calcaire, charbon, caterium, quartz, soufre, bauxite, uranium, SAM) figurent désormais, à profondeur 0. Mention en bas de page : le site est généré par IA.",
+            "en": "New name, \"Complexity vs sink value\", grouped with the optimizer under Recycling on the home page. Solid raw ores (iron, copper, limestone, coal, caterium, quartz, sulfur, bauxite, uranium, SAM) are now listed, at depth 0. Footer notice: the site is AI-generated."
+          }
+        },
+        {
+          "version": "1.2",
+          "date": "2026-09-24",
+          "texte": {
+            "fr": "Paliers des recettes du MAM recalculés depuis l'arbre de recherche du wiki officiel et le coût de chaque recherche : la plupart des recherches de départ (Caterium, Quartz, protéines, Quickwire) sortent dès le palier 1 ou 2 au lieu de 3, Compacted Coal passe au palier 2.",
+            "en": "MAM recipe tiers recomputed from the official wiki's research tree and each research's cost: most starting research (Caterium, Quartz, proteins, Quickwire) now comes at tier 1 or 2 instead of 3, Compacted Coal moves to tier 2."
+          }
+        },
         {
           "version": "1.1",
           "date": "2026-09-24",

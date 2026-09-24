@@ -1,0 +1,804 @@
+{
+ "_doc": "Arbre de recherche du MAM : pour chaque nœud, ses parents (nœuds à rechercher avant lui). La source (greeny/SatisfactoryTools) donne le coût des recherches mais pas l'arbre ; il est relevé à la main sur les images de la page MAM du wiki officiel (satisfactory.wiki.gg/wiki/MAM), dont la numérotation suit l'ordre des tableaux de la page. « classe » = nœud correspondant dans la source (null : absent de la source, sans recette débloquée). Utilisé par scripts/donnees.py : palier d'un nœud = max(palier du MAM, paliers de ses parents, palier où ses coûts sont obtenables).",
+ "source": "https://satisfactory.wiki.gg/wiki/MAM",
+ "arbres": {
+  "Alien Megafauna": {
+   "image": "MAMResearchTree AlienOrganisms.png",
+   "noeuds": [
+    {
+     "n": 1,
+     "nom": "Hog Research",
+     "classe": "Research_ACarapace_0_C",
+     "parents": []
+    },
+    {
+     "n": 2,
+     "nom": "Hatcher Research",
+     "classe": "Research_AO_Hatcher_C",
+     "parents": []
+    },
+    {
+     "n": 3,
+     "nom": "Stinger Research",
+     "classe": "Research_AO_Stinger_C",
+     "parents": []
+    },
+    {
+     "n": 4,
+     "nom": "Spitter Research",
+     "classe": "Research_AOrgans_0_C",
+     "parents": []
+    },
+    {
+     "n": 5,
+     "nom": "Bio-Organic Properties",
+     "classe": "Research_AO_DNACapsule_C",
+     "parents": [
+      1,
+      2,
+      3,
+      4
+     ]
+    },
+    {
+     "n": 6,
+     "nom": "Protein Inhaler",
+     "classe": "Research_AOrgans_2_C",
+     "parents": [
+      5
+     ]
+    },
+    {
+     "n": 7,
+     "nom": "Structural Analysis",
+     "classe": "Research_AO_Pre_Rebar_C",
+     "parents": [
+      5
+     ]
+    },
+    {
+     "n": 8,
+     "nom": "The Rebar Gun",
+     "classe": "Research_ACarapace_2_C",
+     "parents": [
+      7
+     ]
+    },
+    {
+     "n": 9,
+     "nom": "Inflated Pocket Dimension",
+     "classe": "Research_AOrgans_3_C",
+     "parents": [
+      5
+     ]
+    },
+    {
+     "n": 10,
+     "nom": "Expanded Toolbelt",
+     "classe": "Research_ACarapace_3_C",
+     "parents": [
+      9
+     ]
+    },
+    {
+     "n": 11,
+     "nom": "Hostile Organism Detection",
+     "classe": "Research_AOrganisms_2_C",
+     "parents": [
+      5
+     ]
+    }
+   ]
+  },
+  "Alien Technology": {
+   "image": "MAMResearchTree AlienTechnology.png",
+   "noeuds": [
+    {
+     "n": 1,
+     "nom": "SAM Analysis",
+     "classe": "Research_Alien_SAM_C",
+     "parents": []
+    },
+    {
+     "n": 2,
+     "nom": "SAM Reanimation",
+     "classe": "Research_Alien_ActiveSAM_C",
+     "parents": [
+      1
+     ]
+    },
+    {
+     "n": 3,
+     "nom": "SAM Fluctuator",
+     "classe": "Research_Alien_SAMFluctuator_C",
+     "parents": [
+      2
+     ]
+    },
+    {
+     "n": 4,
+     "nom": "Mercer Sphere Analysis",
+     "classe": "Research_Alien_MercerSphere_C",
+     "parents": []
+    },
+    {
+     "n": 5,
+     "nom": "Somersloop Analysis",
+     "classe": "Research_Alien_Somersloop_C",
+     "parents": []
+    },
+    {
+     "n": 6,
+     "nom": "Dimensional Depot",
+     "classe": "Research_Alien_CentralStorage_C",
+     "parents": [
+      3,
+      4
+     ]
+    },
+    {
+     "n": 7,
+     "nom": "SPWN",
+     "classe": null,
+     "parents": [
+      3
+     ]
+    },
+    {
+     "n": 8,
+     "nom": "Alien Energy Harvesting",
+     "classe": "Research_Alien_BoosterBlocker_C",
+     "parents": [
+      3,
+      5
+     ]
+    },
+    {
+     "n": 9,
+     "nom": "Depot Expansion (200%)",
+     "classe": "Research_Alien_CentralStackExpansion_01_C",
+     "parents": [
+      6
+     ]
+    },
+    {
+     "n": 10,
+     "nom": "Upload Upgrade: 30/min",
+     "classe": "Research_Alien_CentralUploadBoost_01_C",
+     "parents": [
+      6
+     ]
+    },
+    {
+     "n": 11,
+     "nom": "Power Augmenter",
+     "classe": "Research_Alien_PowerBooster_C",
+     "parents": [
+      8
+     ]
+    },
+    {
+     "n": 12,
+     "nom": "Production Amplifier",
+     "classe": "Research_Alien_ProductionBooster_C",
+     "parents": [
+      8
+     ]
+    },
+    {
+     "n": 13,
+     "nom": "Manual Depot Uploader",
+     "classe": "Research_Alien_CentralInventory_C",
+     "parents": [
+      6
+     ]
+    },
+    {
+     "n": 14,
+     "nom": "Depot Expansion (300%)",
+     "classe": "Research_Alien_CentralStackExpansion_02_C",
+     "parents": [
+      9
+     ]
+    },
+    {
+     "n": 15,
+     "nom": "Upload Upgrade: 60/min",
+     "classe": "Research_Alien_CentralUploadBoost_02_C",
+     "parents": [
+      10
+     ]
+    },
+    {
+     "n": 16,
+     "nom": "Alien Power Matrix",
+     "classe": "Research_Alien_BoosterFuel_C",
+     "parents": [
+      11
+     ]
+    },
+    {
+     "n": 17,
+     "nom": "Depot Expansion (400%)",
+     "classe": "Research_Alien_CentralStackExpansion_03_C",
+     "parents": [
+      14
+     ]
+    },
+    {
+     "n": 18,
+     "nom": "Upload Upgrade: 120/min",
+     "classe": "Research_Alien_CentralUploadBoost_03_C",
+     "parents": [
+      15
+     ]
+    },
+    {
+     "n": 19,
+     "nom": "Depot Expansion (500%)",
+     "classe": "Research_Alien_CentralStackExpansion_04_C",
+     "parents": [
+      17
+     ]
+    },
+    {
+     "n": 20,
+     "nom": "Upload Upgrade: 240/min",
+     "classe": "Research_Alien_CentralUploadBoost_04_C",
+     "parents": [
+      18
+     ]
+    }
+   ]
+  },
+  "Caterium": {
+   "image": "MAMResearchTree_Caterium.png",
+   "noeuds": [
+    {
+     "n": 1,
+     "nom": "Caterium",
+     "classe": "Research_Caterium_0_C",
+     "parents": []
+    },
+    {
+     "n": 2,
+     "nom": "Caterium Ingots",
+     "classe": "Research_Caterium_1_C",
+     "parents": [
+      1
+     ]
+    },
+    {
+     "n": 3,
+     "nom": "Quickwire",
+     "classe": "Research_Caterium_2_C",
+     "parents": [
+      2
+     ]
+    },
+    {
+     "n": 4,
+     "nom": "Zipline",
+     "classe": "Research_Caterium_2_1_C",
+     "parents": [
+      3
+     ]
+    },
+    {
+     "n": 5,
+     "nom": "Caterium Electronics",
+     "classe": "Research_Caterium_3_C",
+     "parents": [
+      3
+     ]
+    },
+    {
+     "n": 6,
+     "nom": "Stun Rebar",
+     "classe": "Research_Caterium_3_2_C",
+     "parents": [
+      3
+     ]
+    },
+    {
+     "n": 7,
+     "nom": "AI Limiter",
+     "classe": "Research_Caterium_4_1_C",
+     "parents": [
+      5
+     ]
+    },
+    {
+     "n": 8,
+     "nom": "Power Poles Mk.2",
+     "classe": "Research_Caterium_4_2_C",
+     "parents": [
+      5
+     ]
+    },
+    {
+     "n": 9,
+     "nom": "High-Speed Connector",
+     "classe": "Research_Caterium_5_C",
+     "parents": [
+      5
+     ]
+    },
+    {
+     "n": 10,
+     "nom": "Power Poles Mk.3",
+     "classe": "Research_Caterium_6_2_C",
+     "parents": [
+      8
+     ]
+    },
+    {
+     "n": 11,
+     "nom": "Upgraded Power Connectors",
+     "classe": null,
+     "parents": [
+      10
+     ]
+    },
+    {
+     "n": 12,
+     "nom": "Smart Splitter",
+     "classe": "Research_Caterium_4_1_1_C",
+     "parents": [
+      7
+     ]
+    },
+    {
+     "n": 13,
+     "nom": "Power Switch",
+     "classe": "Research_Caterium_4_1_2_C",
+     "parents": [
+      7
+     ]
+    },
+    {
+     "n": 14,
+     "nom": "Priority Power Switch",
+     "classe": "Research_Caterium_5_1_C",
+     "parents": [
+      9
+     ]
+    },
+    {
+     "n": 15,
+     "nom": "Bullet Guidance System",
+     "classe": "Research_Caterium_6_3_C",
+     "parents": [
+      9
+     ]
+    },
+    {
+     "n": 16,
+     "nom": "Programmable Splitter",
+     "classe": "Research_Caterium_7_1_C",
+     "parents": [
+      7,
+      9
+     ]
+    },
+    {
+     "n": 17,
+     "nom": "Geothermal Generator",
+     "classe": "Research_Caterium_7_2_C",
+     "parents": [
+      7,
+      9
+     ]
+    }
+   ]
+  },
+  "Mycelia": {
+   "image": "MAMResearchTree_Mycelia.png",
+   "noeuds": [
+    {
+     "n": 1,
+     "nom": "Mycelia",
+     "classe": "Research_Mycelia_1_C",
+     "parents": []
+    },
+    {
+     "n": 2,
+     "nom": "Fabric",
+     "classe": "Research_Mycelia_2_C",
+     "parents": [
+      1
+     ]
+    },
+    {
+     "n": 3,
+     "nom": "Toxic Cellular Modification",
+     "classe": "Research_Mycelia_8_C",
+     "parents": [
+      1
+     ]
+    },
+    {
+     "n": 4,
+     "nom": "Medical Properties",
+     "classe": "Research_Mycelia_4_C",
+     "parents": [
+      1
+     ]
+    },
+    {
+     "n": 5,
+     "nom": "Parachute",
+     "classe": "Research_Mycelia_3_C",
+     "parents": [
+      2
+     ]
+    },
+    {
+     "n": 6,
+     "nom": "Expanded Toolbelt",
+     "classe": "Research_Mycelia_7_C",
+     "parents": [
+      2
+     ]
+    },
+    {
+     "n": 7,
+     "nom": "Synthetic Polyester Fabric",
+     "classe": "Research_Mycelia_2_1_C",
+     "parents": [
+      2
+     ]
+    },
+    {
+     "n": 8,
+     "nom": "Gas Mask",
+     "classe": "Research_Mycelia_GasMask_C",
+     "parents": [
+      2
+     ]
+    },
+    {
+     "n": 9,
+     "nom": "Vitamin Inhaler",
+     "classe": "Research_Mycelia_5_C",
+     "parents": [
+      4
+     ]
+    },
+    {
+     "n": 10,
+     "nom": "Therapeutic Inhaler",
+     "classe": "Research_Mycelia_6_C",
+     "parents": [
+      4
+     ]
+    }
+   ]
+  },
+  "Nutrients": {
+   "image": "MAMResearchTree_Nutrients.png",
+   "noeuds": [
+    {
+     "n": 1,
+     "nom": "Beryl Nut",
+     "classe": "Research_Nutrients_1_C",
+     "parents": []
+    },
+    {
+     "n": 2,
+     "nom": "Paleberry",
+     "classe": "Research_Nutrients_0_C",
+     "parents": []
+    },
+    {
+     "n": 3,
+     "nom": "Bacon Agaric",
+     "classe": "Research_Nutrients_2_C",
+     "parents": []
+    },
+    {
+     "n": 4,
+     "nom": "Nutritional Processor",
+     "classe": "Research_Nutrients_3_C",
+     "parents": [
+      1,
+      2,
+      3
+     ]
+    },
+    {
+     "n": 5,
+     "nom": "Nutritional Inhaler",
+     "classe": "Research_Nutrients_4_C",
+     "parents": [
+      4
+     ]
+    }
+   ]
+  },
+  "Power Slugs": {
+   "image": "MAMResearchTree PowerSlug.png",
+   "noeuds": [
+    {
+     "n": 1,
+     "nom": "Blue Power Slugs",
+     "classe": "Research_PowerSlugs_1_C",
+     "parents": []
+    },
+    {
+     "n": 2,
+     "nom": "Slug Scanning",
+     "classe": "Research_PowerSlugs_3_C",
+     "parents": [
+      1
+     ]
+    },
+    {
+     "n": 3,
+     "nom": "Yellow Power Shards",
+     "classe": "Research_PowerSlugs_4_C",
+     "parents": [
+      1
+     ]
+    },
+    {
+     "n": 4,
+     "nom": "Overclock Production",
+     "classe": "Research_PowerSlugs_2_C",
+     "parents": [
+      1
+     ]
+    },
+    {
+     "n": 5,
+     "nom": "Purple Power Shards",
+     "classe": "Research_PowerSlugs_5_C",
+     "parents": [
+      3
+     ]
+    },
+    {
+     "n": 6,
+     "nom": "Synthetic Power Shards",
+     "classe": "Research_PowerSlugs_6_C",
+     "parents": [
+      5
+     ]
+    }
+   ]
+  },
+  "Quartz": {
+   "image": "MAMResearchTree_Quartz.png",
+   "noeuds": [
+    {
+     "n": 1,
+     "nom": "Quartz",
+     "classe": "Research_Quartz_0_C",
+     "parents": []
+    },
+    {
+     "n": 2,
+     "nom": "Quartz Crystals",
+     "classe": "Research_Quartz_1_1_C",
+     "parents": [
+      1
+     ]
+    },
+    {
+     "n": 3,
+     "nom": "Silica",
+     "classe": "Research_Quartz_1_2_C",
+     "parents": [
+      1
+     ]
+    },
+    {
+     "n": 4,
+     "nom": "Shatter Rebar",
+     "classe": "Research_Quartz_2_1_C",
+     "parents": [
+      2
+     ]
+    },
+    {
+     "n": 5,
+     "nom": "Crystal Oscillator",
+     "classe": "Research_Quartz_2_C",
+     "parents": [
+      2
+     ]
+    },
+    {
+     "n": 6,
+     "nom": "Blade Runners",
+     "classe": "Research_Caterium_4_3_C",
+     "parents": [
+      3
+     ]
+    },
+    {
+     "n": 7,
+     "nom": "Inflated Pocket Dimension",
+     "classe": "Research_Caterium_3_1_C",
+     "parents": [
+      3
+     ]
+    },
+    {
+     "n": 8,
+     "nom": "The Explorer",
+     "classe": "Research_Quartz_3_1_C",
+     "parents": [
+      5
+     ]
+    },
+    {
+     "n": 9,
+     "nom": "Explosive Resonance Application",
+     "classe": "Research_Quartz_3_4_C",
+     "parents": [
+      5
+     ]
+    },
+    {
+     "n": 10,
+     "nom": "Radio Signal Scanning",
+     "classe": "Research_Quartz_4_1_C",
+     "parents": [
+      5
+     ]
+    },
+    {
+     "n": 11,
+     "nom": "Radar Technology",
+     "classe": "Research_Quartz_4_C",
+     "parents": [
+      5
+     ]
+    },
+    {
+     "n": 12,
+     "nom": "Material Resonance Screening",
+     "classe": "Research_Quartz_PriorityMerger_C",
+     "parents": [
+      5
+     ]
+    }
+   ]
+  },
+  "Sulfur": {
+   "image": "MAMResearchTree_Sulfur.png",
+   "noeuds": [
+    {
+     "n": 1,
+     "nom": "Sulfur",
+     "classe": "Research_Sulfur_0_C",
+     "parents": []
+    },
+    {
+     "n": 2,
+     "nom": "Black Powder",
+     "classe": "Research_Sulfur_1_C",
+     "parents": [
+      1
+     ]
+    },
+    {
+     "n": 3,
+     "nom": "Experimental Power Generation",
+     "classe": "Research_Sulfur_ExperimentalPower_C",
+     "parents": [
+      1
+     ]
+    },
+    {
+     "n": 4,
+     "nom": "Compacted Coal",
+     "classe": "Research_Sulfur_CompactedCoal_C",
+     "parents": [
+      3
+     ]
+    },
+    {
+     "n": 5,
+     "nom": "Turbofuel",
+     "classe": "Research_Sulfur_TurboFuel_C",
+     "parents": [
+      3
+     ]
+    },
+    {
+     "n": 6,
+     "nom": "Expanded Toolbelt",
+     "classe": "Research_Sulfur_5_C",
+     "parents": [
+      2
+     ]
+    },
+    {
+     "n": 7,
+     "nom": "The Nobelisk Detonator",
+     "classe": "Research_Sulfur_3_1_C",
+     "parents": [
+      2
+     ]
+    },
+    {
+     "n": 8,
+     "nom": "Smokeless Powder",
+     "classe": "Research_Sulfur_3_C",
+     "parents": [
+      2
+     ]
+    },
+    {
+     "n": 9,
+     "nom": "Rocket Fuel",
+     "classe": "Research_Sulfur_RocketFuel_C",
+     "parents": [
+      5
+     ]
+    },
+    {
+     "n": 10,
+     "nom": "Ionized Fuel",
+     "classe": "Research_Sulfur_IonizedFuel_C",
+     "parents": [
+      5
+     ]
+    },
+    {
+     "n": 11,
+     "nom": "Cluster Nobelisk",
+     "classe": "Research_Sulfur_4_C",
+     "parents": [
+      8
+     ]
+    },
+    {
+     "n": 12,
+     "nom": "Explosive Rebar",
+     "classe": "Research_Sulfur_4_2_C",
+     "parents": [
+      8
+     ]
+    },
+    {
+     "n": 13,
+     "nom": "The Rifle",
+     "classe": "Research_Sulfur_4_1_C",
+     "parents": [
+      8
+     ]
+    },
+    {
+     "n": 14,
+     "nom": "Nuclear Deterrent Development",
+     "classe": "Research_Sulfur_5_1_C",
+     "parents": [
+      11
+     ]
+    },
+    {
+     "n": 15,
+     "nom": "Turbo Rifle Ammo",
+     "classe": "Research_Sulfur_5_2_C",
+     "parents": [
+      13
+     ]
+    },
+    {
+     "n": 16,
+     "nom": "Inflated Pocket Dimension",
+     "classe": "Research_Sulfur_6_C",
+     "parents": [
+      11,
+      13,
+      14,
+      15
+     ]
+    }
+   ]
+  }
+ }
+}

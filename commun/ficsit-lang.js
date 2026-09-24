@@ -11,6 +11,7 @@
      .pick({fr, en})       choisit la variante de la langue active
      .item(n) .recette(n) .batiment(n)   nom du jeu dans la langue active (glossaire.json, repli : anglais)
      .num(v, opts)         v.toLocaleString(locale, opts)
+   Mention IA : un bandeau commun (texte langue.json > communs.ia) est ajouté en bas de chaque page.
    Dock : tout élément marqué data-fdock est déplacé dans le dock commun en haut à droite, avant les drapeaux.
    HTML statique :
      <x data-l="fr">…</x><x data-l="en">…</x>     seule la variante de la langue active est affichée
@@ -46,6 +47,7 @@
     var w = document.getElementById('flang'); if(!w) return;
     w.setAttribute('aria-label', FL.t('groupe'));
     w.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.lang === cur); });
+    var ia = document.getElementById('fia'); if(ia) ia.textContent = FL.t('ia');
   }
   function appliquer(l, memoriser){
     if(!valide(l)) return;
@@ -69,6 +71,8 @@
     if(!d){ d = document.createElement('div'); d.id = 'fdock'; d.className = 'fdock'; document.body.appendChild(d); }
     document.querySelectorAll('[data-fdock]').forEach(function(el){ d.appendChild(el); });
     d.appendChild(w);
+    // Mention IA, en bas de chaque page.
+    var ia = document.createElement('p'); ia.id = 'fia'; ia.className = 'fia'; document.body.appendChild(ia);
     boutons(); attrs();
   }
 

@@ -16,4 +16,10 @@ html:not([lang|=en]) [data-l=en],html[lang|=en] [data-l=fr]{display:none!importa
 .flang button[aria-pressed=true] svg{filter:none}
 .flang button:focus-visible{outline:2px solid #FA9549;outline-offset:1px}
 @media (max-width:560px){.fdock{top:6px;right:6px;gap:4px}.flang button{padding:5px 6px 4px;gap:4px}.flang button svg{width:18px;height:12px}}
+.fia{max-width:980px;margin:18px auto 22px;padding:8px 14px 8px 38px;position:relative;
+  font:13px/1.45 'Barlow','Rajdhani',system-ui,sans-serif;color:#93A2B1;
+  background:rgba(14,18,22,.6);border:1px dashed #4C5A69}
+.fia::before{content:"IA";position:absolute;left:9px;top:8px;padding:1px 4px;
+  font:700 10px/1.3 'Saira Condensed',system-ui,sans-serif;letter-spacing:.08em;color:#1B1206;background:#FA9549}
+html[lang|=en] .fia::before{content:"AI"}
 @media print{.fdock{display:none}}

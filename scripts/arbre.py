@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Arbre de production (arbre-production.html) : calcule son payload depuis le référentiel.
+"""Complexité et valeur au broyeur (arbre-production.html) : calcule son payload depuis le référentiel.
 
-Pour chaque item broyable (solide, qui rapporte des points AWESOME et qu'une chaîne sait produire),
+Pour chaque item broyable (solide, qui rapporte des points AWESOME et qu'une chaîne sait produire,
+ou ressource brute solide),
 et pour deux chaînes de recettes :
 - « base » : pour chaque item, sa recette standard (non alternative), de préférence celle dont il est
   le produit principal, puis le palier le plus bas, puis l'ordre alphabétique ; les recettes
@@ -15,6 +16,7 @@ Mesures, le long de la chaîne (une recette par item) :
 - r : ressources brutes distinctes (eau comprise) ;
 - t : palier de la chaîne, le plus haut de ses recettes (au sens du référentiel) ;
 - rec : recette de l'item.
+Ressource brute : d = e = i = 0, r = 1, rec = son nom, t = premier palier d'une recette qui l'emploie.
 Une boucle éventuelle (recette qui consomme un item déjà sur le chemin) est coupée : l'arête qui
 reboucle compte pour une profondeur nulle.
 
@@ -89,6 +91,14 @@ def calcul():
         if ITEMS.get(n, {}).get("points", 0) <= 0 or ITEMS[n]["liquide"]:
             continue
         items.append({"n": n, "sp": ITEMS[n]["points"], "b": mesures(n, base), "o": mesures(n, opt)})
+    for n in sorted(RES):
+        if ITEMS.get(n, {}).get("points", 0) <= 0 or ITEMS[n]["liquide"]:
+            continue
+        t = min((r["palier"] for r in R.values() if r["palier"] is not None and r["machine"] in B
+                 and B[r["machine"]]["groupe"] == "production" and any(g == n for g, _ in r["ingredients"])), default=0)
+        m = {"d": 0, "e": 0, "i": 0, "r": 1, "t": t, "rec": n}
+        items.append({"n": n, "sp": ITEMS[n]["points"], "b": m, "o": dict(m)})
+    items.sort(key=lambda x: x["n"])
     return {"items": items}
 
 

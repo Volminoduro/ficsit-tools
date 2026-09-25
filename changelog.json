@@ -208,6 +208,14 @@
       },
       "entrees": [
         {
+          "version": "1.14",
+          "date": "2026-09-25",
+          "texte": {
+            "fr": "Grille de paliers plus lisible : un palier non cliquable est hachuré et bordé de pointillés, un palier cliquable hors sélection reste un bouton plein.",
+            "en": "Clearer tier grid: a tier that cannot be clicked is hatched with a dashed border, a clickable tier outside the selection stays a solid button."
+          }
+        },
+        {
           "version": "1.13",
           "date": "2026-09-25",
           "texte": {

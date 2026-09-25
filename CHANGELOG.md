@@ -56,6 +56,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Optimiseur de recyclage / Recycling optimizer — `broyeur-excedents.html`
 
+- **v1.14** (25/09/2026) : Grille de paliers plus lisible : un palier non cliquable est hachuré et bordé de pointillés, un palier cliquable hors sélection reste un bouton plein.
+  *EN — Clearer tier grid: a tier that cannot be clicked is hatched with a dashed border, a clickable tier outside the selection stays a solid button.*
 - **v1.13** (25/09/2026) : Grille de paliers : par défaut, toutes les cibles sont affichées, jusqu'au dernier palier qui en apporte. Seuls les paliers qui font apparaître au moins une nouvelle cible sont cliquables ; les autres, sous le minimum de vos excédents ou sans rien de neuf, sont grisés. « Tout afficher » revient au défaut.
   *EN — Tier grid: by default, all targets are shown, up to the last tier that adds any. Only tiers that bring at least one new target can be clicked; the others, below your surplus minimum or with nothing new, are greyed out. "Show all" goes back to the default.*
 - **v1.12** (25/09/2026) : Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils. Le palier se choisit dans une grille à icônes, comme dans le registre des rendements ; il part du palier minimum qu'impliquent vos excédents (les paliers inférieurs sont grisés). Le filtre « minerai neuf », qui ne correspondait pas aux données observées, est retiré. « Chaîne déjà payée » devient « avancement de la chaîne », expliqué en bas de page.

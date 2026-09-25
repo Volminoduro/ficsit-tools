@@ -10,9 +10,12 @@ Modèle (celui que la page décrit dans son pied de page) :
 - Extraction facturée par unité : Foreuse Mk.2 sur nœud normal pour les solides (15 MW / 120 par min),
   Water Extractor (20 / 120), Oil Extractor (40 / 120), puits de gaz pour l'azote (0,5 MW par unité).
 - Minimum par point fixe (Bellman-Ford) : les MW sont positifs, la chaîne retenue n'a pas de boucle.
-- Une fois la chaîne de chaque item fixée, tout se lit le long de cette même chaîne : mw, minerai
-  neuf (raw : ressources hors eau), machines (mach), consommation récursive de chaque item (u) et
-  palier (t = palier le plus haut parmi les recettes de la chaîne, au sens du référentiel).
+- Une fois la chaîne de chaque item fixée, tout se lit le long de cette même chaîne : mw, machines
+  (mach), consommation récursive de chaque item (u) et palier (t = palier le plus haut parmi les
+  recettes de la chaîne, au sens du référentiel).
+- Palier d'une source (t) : premier palier où l'on peut en avoir un excédent, c.-à-d. où une recette
+  de production la fabrique (produit ou coproduit) ; pour une ressource brute, premier palier où une
+  recette l'emploie. La page en tire le palier minimum de son sélecteur.
 
 src = ingrédients d'au moins une recette de production dont le coût est calculable (triés par nom).
 tgt = items solides qui rapportent des points et qu'une chaîne sait produire (triés par points/MW).
@@ -64,14 +67,13 @@ def chaines():
 
 
 def deroule(item, choix):
-    """Déroule la chaîne d'un item pour 1 unité/min : mw, minerai neuf, machines, u, palier."""
-    acc = {"mw": 0.0, "raw": 0.0, "mach": 0.0, "t": 0, "u": {}}
+    """Déroule la chaîne d'un item pour 1 unité/min : mw, machines, u, palier."""
+    acc = {"mw": 0.0, "mach": 0.0, "t": 0, "u": {}}
 
     def go(it, k, pile):
         acc["u"][it] = acc["u"].get(it, 0) + k
         if it in RES:
             acc["mw"] += k * EXTRACTION.get(it, FOREUSE)
-            acc["raw"] += 0 if it == "Water" else k
             return
         if it in pile:
             raise RuntimeError(f"boucle dans la chaîne de {item} : {it}")
@@ -88,6 +90,17 @@ def deroule(item, choix):
     return acc
 
 
+def palier_source(n):
+    """Premier palier où l'on peut avoir un excédent de n (voir l'en-tête)."""
+    if n in RES:
+        ts = [r["palier"] for r in R.values() if r["palier"] is not None and r["machine"] in B
+              and B[r["machine"]]["groupe"] == "production" and any(g == n for g, _ in r["ingredients"])]
+    else:
+        ts = [r["palier"] for r in R.values() if r["palier"] is not None and r["machine"] in B
+              and B[r["machine"]]["groupe"] == "production" and any(p == n for p, _ in r["produits"])]
+    return min(ts, default=0)
+
+
 def calcul():
     choix = chaines()
     calc = set(choix) | RES
@@ -97,13 +110,13 @@ def calcul():
     idx = {n: i for i, n in enumerate(noms_src)}
     ch = {n: deroule(n, choix) for n in calc}
     src = [{"n": n, "sp": ITEMS[n]["points"], "liq": ITEMS[n]["liquide"], "mw": round(ch[n]["mw"], 5),
-            "raw": round(ch[n]["raw"], 5), "mach": round(ch[n]["mach"], 5)} for n in noms_src]
+            "mach": round(ch[n]["mach"], 5), "t": palier_source(n)} for n in noms_src]
     tgt = []
     for n in choix:
         if ITEMS.get(n, {}).get("points", 0) <= 0 or ITEMS[n]["liquide"]:
             continue
         c = ch[n]
-        tgt.append({"n": n, "sp": ITEMS[n]["points"], "mw": round(c["mw"], 5), "raw": round(c["raw"], 5),
+        tgt.append({"n": n, "sp": ITEMS[n]["points"], "mw": round(c["mw"], 5),
                     "mach": round(c["mach"], 5), "t": c["t"], "rec": choix[n][0],
                     "u": {str(idx[k]): round(v, 6) for k, v in sorted(c["u"].items(), key=lambda x: idx.get(x[0], -1))
                           if k in idx}})
@@ -125,7 +138,7 @@ if __name__ == "__main__":
         if not a:
             print(f"  nouvelle cible : {t['n']}")
             continue
-        diff = [k for k in ("rec", "t", "mw", "raw", "mach") if a.get(k) != t[k]]
+        diff = [k for k in ("rec", "t", "mw", "mach") if a.get(k) != t[k]]
         if a["u"] != t["u"]:
             diff.append("u")
         if diff:

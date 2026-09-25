@@ -11,6 +11,7 @@
      .pick({fr, en})       choisit la variante de la langue active
      .item(n) .recette(n) .batiment(n)   nom du jeu dans la langue active (glossaire.json, repli : anglais)
      .num(v, opts)         v.toLocaleString(locale, opts)
+   Accueil : un lien vers index.html ouvre le dock sur chaque outil (pas sur l'accueil lui-même).
    Mention IA : un bandeau commun (texte langue.json > communs.ia) est ajouté en bas de chaque page.
    Dock : tout élément marqué data-fdock est déplacé dans le dock commun en haut à droite, avant les drapeaux.
    HTML statique :
@@ -48,6 +49,8 @@
     w.setAttribute('aria-label', FL.t('groupe'));
     w.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.lang === cur); });
     var ia = document.getElementById('fia'); if(ia) ia.textContent = FL.t('ia');
+    var h = document.getElementById('fhome');
+    if(h){ h.querySelector('span').textContent = FL.t('accueil'); h.title = FL.t('accueilTitle'); }
   }
   function appliquer(l, memoriser){
     if(!valide(l)) return;
@@ -69,6 +72,12 @@
     // révisions), puis le sélecteur de langue.
     var d = document.getElementById('fdock');
     if(!d){ d = document.createElement('div'); d.id = 'fdock'; d.className = 'fdock'; document.body.appendChild(d); }
+    // Retour à l'accueil (lien relatif : valable en local comme sur GitHub Pages), sauf sur l'accueil.
+    if(!/(^|\/)(index\.html)?$/.test(location.pathname) && !document.getElementById('fhome')){
+      var h = document.createElement('a'); h.id = 'fhome'; h.className = 'fhome'; h.href = 'index.html';
+      h.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 1 7.6l1 1.1L3 7.8V14h4v-4h2v4h4V7.8l1 .9 1-1.1z"/></svg><span></span>';
+      d.appendChild(h);
+    }
     document.querySelectorAll('[data-fdock]').forEach(function(el){ d.appendChild(el); });
     d.appendChild(w);
     // Mention IA, en bas de chaque page.

@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
+- **v1.16** (25/09/2026) : Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.
+  *EN — "Home" button in the top-right dock, to go back to the list of tools.*
 - **v1.15** (24/09/2026) : Indices Énergie et Matière recalculés par la page, avec le même modèle de coût que l'Espace, la Synthèse et les combinaisons (ils étaient figés dans les données et suivaient une autre règle pour les coproduits) : une quarantaine de recettes à base de pétrole ou de coproduits changent de valeur. Les recettes de base n'affichent plus de gain « vs base ». Combinaisons recalculées.
   *EN — Energy and Materials indices recomputed by the page, with the same cost model as Space, Synthesis and the combinations (they were frozen in the data and followed another rule for co-products): about forty oil or co-product recipes change value. Standard recipes no longer show a "vs standard" gain. Combinations recomputed.*
 - **v1.14** (24/09/2026) : Mode Espace : la séquence de production décrit les bâtiments employés — foreuses, pompes et part des puits d'azote à l'extraction, nombre de bâtiments et m² à chaque étape, et un récapitulatif par type de bâtiment. L'emprise d'extraction se compte désormais en bâtiments entiers, comme les machines.
@@ -39,6 +41,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Module d'étalonnage / Calibration module — `ficsit_horloge.html`
 
+- **v1.5** (25/09/2026) : Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.
+  *EN — "Home" button in the top-right dock, to go back to the list of tools.*
 - **v1.4** (24/09/2026) : Mention en bas de page : le site est généré par IA.
   *EN — Footer notice: the site is AI-generated.*
 - **v1.3** (24/09/2026) : Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d'un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal.
@@ -52,6 +56,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Optimiseur de recyclage / Recycling optimizer — `broyeur-excedents.html`
 
+- **v1.12** (25/09/2026) : Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils. Le palier se choisit dans une grille à icônes, comme dans le registre des rendements ; il part du palier minimum qu'impliquent vos excédents (les paliers inférieurs sont grisés). Le filtre « minerai neuf », qui ne correspondait pas aux données observées, est retiré. « Chaîne déjà payée » devient « avancement de la chaîne », expliqué en bas de page.
+  *EN — "Home" button in the top-right dock, to go back to the list of tools. The tier is picked from an icon grid, as in the yield registry; it starts at the minimum tier your surplus implies (lower tiers are greyed out). The "new ore" filter, which did not match observed data, is removed. "Chain already covered" becomes "chain progress", explained at the bottom of the page.*
 - **v1.11** (24/09/2026) : Style unifié avec les autres outils : mêmes polices (Saira Condensed et Barlow, au lieu d'Orbitron et Roboto embarquées), même palette, grand titre et bande hachurée. La page s'allège de 76 Ko.
   *EN — Style unified with the other tools: same fonts (Saira Condensed and Barlow, instead of embedded Orbitron and Roboto), same palette, large title and hazard stripe. The page is 76 KB lighter.*
 - **v1.10** (24/09/2026) : Rangé avec « Complexité et valeur au broyeur » dans la catégorie Recyclage de l'accueil. Mention en bas de page : le site est généré par IA.
@@ -79,6 +85,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Mémo de terrain / Field memo — `memo-ficsit.html`
 
+- **v1.4** (25/09/2026) : Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.
+  *EN — "Home" button in the top-right dock, to go back to the list of tools.*
 - **v1.3** (24/09/2026) : Mention en bas de page : le site est généré par IA.
   *EN — Footer notice: the site is AI-generated.*
 - **v1.2** (24/09/2026) : Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d'un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal.
@@ -90,6 +98,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Complexité et valeur au broyeur / Complexity vs sink value — `arbre-production.html`
 
+- **v1.4** (25/09/2026) : Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.
+  *EN — "Home" button in the top-right dock, to go back to the list of tools.*
 - **v1.3** (24/09/2026) : Nouveau nom, « Complexité et valeur au broyeur », rangé avec l'optimiseur dans la catégorie Recyclage de l'accueil. Les minerais bruts solides (fer, cuivre, calcaire, charbon, caterium, quartz, soufre, bauxite, uranium, SAM) figurent désormais, à profondeur 0. Mention en bas de page : le site est généré par IA.
   *EN — New name, "Complexity vs sink value", grouped with the optimizer under Recycling on the home page. Solid raw ores (iron, copper, limestone, coal, caterium, quartz, sulfur, bauxite, uranium, SAM) are now listed, at depth 0. Footer notice: the site is AI-generated.*
 - **v1.2** (24/09/2026) : Paliers des recettes du MAM recalculés depuis l'arbre de recherche du wiki officiel et le coût de chaque recherche : la plupart des recherches de départ (Caterium, Quartz, protéines, Quickwire) sortent dès le palier 1 ou 2 au lieu de 3, Compacted Coal passe au palier 2.

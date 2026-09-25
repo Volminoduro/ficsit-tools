@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.16",
+          "date": "2026-09-25",
+          "texte": {
+            "fr": "Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.",
+            "en": "\"Home\" button in the top-right dock, to go back to the list of tools."
+          }
+        },
+        {
           "version": "1.15",
           "date": "2026-09-24",
           "texte": {
@@ -144,6 +152,14 @@
       },
       "entrees": [
         {
+          "version": "1.5",
+          "date": "2026-09-25",
+          "texte": {
+            "fr": "Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.",
+            "en": "\"Home\" button in the top-right dock, to go back to the list of tools."
+          }
+        },
+        {
           "version": "1.4",
           "date": "2026-09-24",
           "texte": {
@@ -191,6 +207,14 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.12",
+          "date": "2026-09-25",
+          "texte": {
+            "fr": "Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils. Le palier se choisit dans une grille à icônes, comme dans le registre des rendements ; il part du palier minimum qu'impliquent vos excédents (les paliers inférieurs sont grisés). Le filtre « minerai neuf », qui ne correspondait pas aux données observées, est retiré. « Chaîne déjà payée » devient « avancement de la chaîne », expliqué en bas de page.",
+            "en": "\"Home\" button in the top-right dock, to go back to the list of tools. The tier is picked from an icon grid, as in the yield registry; it starts at the minimum tier your surplus implies (lower tiers are greyed out). The \"new ore\" filter, which did not match observed data, is removed. \"Chain already covered\" becomes \"chain progress\", explained at the bottom of the page."
+          }
+        },
         {
           "version": "1.11",
           "date": "2026-09-24",
@@ -296,6 +320,14 @@
       },
       "entrees": [
         {
+          "version": "1.4",
+          "date": "2026-09-25",
+          "texte": {
+            "fr": "Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.",
+            "en": "\"Home\" button in the top-right dock, to go back to the list of tools."
+          }
+        },
+        {
           "version": "1.3",
           "date": "2026-09-24",
           "texte": {
@@ -335,6 +367,14 @@
         "en": "Complexity vs sink value"
       },
       "entrees": [
+        {
+          "version": "1.4",
+          "date": "2026-09-25",
+          "texte": {
+            "fr": "Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.",
+            "en": "\"Home\" button in the top-right dock, to go back to the list of tools."
+          }
+        },
         {
           "version": "1.3",
           "date": "2026-09-24",

@@ -28,8 +28,7 @@ const PAGES = {
 };
 /* Réglages pré-remplis pour que les pages rendent du contenu généré en JS. */
 const PREFS = {
-  'ficsit-tools:broyeur:v1': { sortMode: 'r', surplus: [['Iron Plate', 60], ['Screws', 240], ['Wire', 120]],
-    noRaw: false, rawSel: '0', tierSel: '99' },
+  'ficsit-tools:broyeur:v1': { sortMode: 'r', surplus: [['Iron Plate', 60], ['Screws', 240], ['Wire', 120]], tierCap: 9 },
 };
 /* Indices de l'autre langue dans le texte visible. Les noms du jeu restent en anglais en mode FR
    quand le glossaire ne les traduit pas (alternatives, quelques items) : on ne cherche donc que des

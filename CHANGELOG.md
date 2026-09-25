@@ -56,6 +56,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Optimiseur de recyclage / Recycling optimizer — `broyeur-excedents.html`
 
+- **v1.13** (25/09/2026) : Grille de paliers : par défaut, toutes les cibles sont affichées, du palier minimum qu'impliquent vos excédents jusqu'au dernier ; touchez un palier pour masquer ce qui se débloque après, « tout afficher » pour revenir.
+  *EN — Tier grid: by default, all targets are shown, from the minimum tier your surplus implies up to the last one; tap a tier to hide what unlocks later, "show all" to go back.*
 - **v1.12** (25/09/2026) : Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils. Le palier se choisit dans une grille à icônes, comme dans le registre des rendements ; il part du palier minimum qu'impliquent vos excédents (les paliers inférieurs sont grisés). Le filtre « minerai neuf », qui ne correspondait pas aux données observées, est retiré. « Chaîne déjà payée » devient « avancement de la chaîne », expliqué en bas de page.
   *EN — "Home" button in the top-right dock, to go back to the list of tools. The tier is picked from an icon grid, as in the yield registry; it starts at the minimum tier your surplus implies (lower tiers are greyed out). The "new ore" filter, which did not match observed data, is removed. "Chain already covered" becomes "chain progress", explained at the bottom of the page.*
 - **v1.11** (24/09/2026) : Style unifié avec les autres outils : mêmes polices (Saira Condensed et Barlow, au lieu d'Orbitron et Roboto embarquées), même palette, grand titre et bande hachurée. La page s'allège de 76 Ko.

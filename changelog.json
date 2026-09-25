@@ -211,8 +211,8 @@
           "version": "1.13",
           "date": "2026-09-25",
           "texte": {
-            "fr": "Grille de paliers : par défaut, toutes les cibles sont affichées, du palier minimum qu'impliquent vos excédents jusqu'au dernier ; touchez un palier pour masquer ce qui se débloque après, « tout afficher » pour revenir.",
-            "en": "Tier grid: by default, all targets are shown, from the minimum tier your surplus implies up to the last one; tap a tier to hide what unlocks later, \"show all\" to go back."
+            "fr": "Grille de paliers : par défaut, toutes les cibles sont affichées, jusqu'au dernier palier qui en apporte. Seuls les paliers qui font apparaître au moins une nouvelle cible sont cliquables ; les autres, sous le minimum de vos excédents ou sans rien de neuf, sont grisés. « Tout afficher » revient au défaut.",
+            "en": "Tier grid: by default, all targets are shown, up to the last tier that adds any. Only tiers that bring at least one new target can be clicked; the others, below your surplus minimum or with nothing new, are greyed out. \"Show all\" goes back to the default."
           }
         },
         {

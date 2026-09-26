@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.17",
+          "date": "2026-09-26",
+          "texte": {
+            "fr": "Page allégée de 190 Ko : les combinaisons Énergie et Espace sont calculées dans la page, pour le palier affiché (moins d'un dixième de seconde), au lieu d'être embarquées pour chaque palier. La Matière reste précalculée : ses chaînes à égalité la rendraient trop lente en direct.",
+            "en": "Page 190 KB lighter: Energy and Space combinations are computed in the page, for the tier shown (under a tenth of a second), instead of being embedded for every tier. Materials stay precomputed: their tied chains would make them too slow live."
+          }
+        },
+        {
           "version": "1.16",
           "date": "2026-09-25",
           "texte": {

@@ -10,7 +10,7 @@ Usage : python3 scripts/payloads.py [--verifier]   (depuis la racine du dépôt)
   --verifier : ne récrit rien, signale seulement ce qui changerait (utile en revue).
 Dépendances : Pillow.
 Après un passage qui modifie les paliers : relancer
-  node scripts/paliers_combinaisons.js satisfactory_infographie.html tout --ecrire
+  node scripts/paliers_combinaisons.js satisfactory_infographie.html --ecrire
 les combinaisons en dépendent.
 """
 import base64, io, json, pathlib, re, sys

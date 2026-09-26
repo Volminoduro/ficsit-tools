@@ -20,20 +20,9 @@ jobs:
         with:
           node-version: "22"
       - run: pip install pillow==12.3.0
-      - name: Pages régénérées depuis commun/, changelog.json et donnees/
-        run: |
-          python3 scripts/langue.py
-          python3 scripts/patchnotes.py
-          python3 scripts/payloads.py
-          if ! git diff --quiet; then
-            git diff --stat
-            echo "::error::Pages pas à jour : relancer langue.py, patchnotes.py et payloads.py, puis committer (voir README)."
-            exit 1
-          fi
-      - name: Payloads alignés sur le référentiel
-        run: python3 scripts/verif_payloads.py
-      - name: Pages dans un navigateur (erreurs JS, texte de l'autre langue)
-        run: |
+      - run: |
           npm install --no-save playwright@1.56.1
           npx playwright install --with-deps chromium
-          node scripts/test_pages.js
+      # Régénération (échec si une page n'est pas à jour), payloads alignés sur le référentiel,
+      # pages dans un navigateur (erreurs JS, texte de l'autre langue, résultats attendus).
+      - run: bash scripts/tout.sh --ci

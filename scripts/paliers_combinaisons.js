@@ -14,15 +14,18 @@
    chaîne et le nombre de chaînes : le reste (podium, fréquences) se recalcule depuis tc au dernier palier.
    Une chaîne distincte = une recette par item, cohérente sur tout l'arbre (un item produit deux fois l'est par la même
    recette), sans boucle et de coût fini. Les cibles sont celles du registre déjà présent dans la page.
-   Le modèle de coût et la recherche exacte sont ceux de la page (de RAWE à searchChains et brutes, repris tels quels
-   du HTML), synthèse comprise : coût composite aux poids par défaut de la page (SYN_W0) et taux de change qu'elle
+   Le modèle de coût et la recherche exacte sont ceux de la page (entre les marqueurs MOTEUR:START et MOTEUR:END, repris tels
+   quels du HTML), synthèse comprise : coût composite aux poids par défaut de la page (SYN_W0) et taux de change qu'elle
    calcule (synTaux). La page recalcule elle-même les combinaisons de la synthèse (tc.syn n'est pas précalculé) ;
    seul le registre combiS, à poids égaux, l'est. */
 const fs = require('fs');
 const html = fs.readFileSync(process.argv[2], 'utf8');
 const P = JSON.parse(html.match(/<script id="payload" type="application\/json">([\s\S]*?)<\/script>/)[1]);
 const js = html.match(/<script>\n([\s\S]*?)<\/script>/)[1];
-const helpers = js.slice(js.indexOf('const RAWE'), js.indexOf('function usedItems'));
+// Code partagé : entre les marqueurs MOTEUR:START et MOTEUR:END de la page (échec explicite s'ils manquent).
+const i0 = js.indexOf('/* MOTEUR:START'), i1 = js.indexOf('/* MOTEUR:END */');
+if(i0 < 0 || i1 < i0){ console.error('marqueurs MOTEUR:START / MOTEUR:END introuvables dans', process.argv[2]); process.exit(1); }
+const helpers = js.slice(i0, i1);
 const ENGINE = String.raw`
 /* critères : énergie (mw), matière (mat), espace au sol (esp), synthèse (syn) ; clé du registre sans plafond pour chacun */
 const MODES = ['mw', 'mat', 'esp', 'syn'], REGISTRE = {mw: 'combi', mat: 'combiM', esp: 'combiE', syn: 'combiS'};

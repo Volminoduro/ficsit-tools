@@ -1,0 +1,55 @@
+/* Fichier généré par scripts/langue.py depuis commun/ : ne pas éditer. */
+html:not([lang|=en]) [data-l=en],html[lang|=en] [data-l=fr]{display:none!important}
+.fdock{position:fixed;top:10px;right:12px;z-index:9999;display:flex;align-items:stretch;gap:6px}
+.flang{position:relative;display:flex;gap:2px;padding:3px;
+  background:rgba(14,18,22,.94);border:1px solid #39434F;box-shadow:0 3px 12px rgba(0,0,0,.45);
+  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));
+  font:700 12px/1 'Saira Condensed','Rajdhani','Barlow Condensed',system-ui,sans-serif;letter-spacing:.1em}
+.flang::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;
+  background:repeating-linear-gradient(135deg,#FA9549 0 6px,transparent 6px 12px);opacity:.8}
+.flang button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:6px;
+  padding:6px 9px 5px;color:#93A2B1;transition:color .15s,background .15s}
+.flang button svg{width:21px;height:14px;display:block;flex:none;filter:grayscale(.55) brightness(.8);
+  box-shadow:0 0 0 1px rgba(0,0,0,.5);transition:filter .15s}
+.flang button:hover{color:#E4EAF0}
+.flang button:hover svg{filter:none}
+.flang button[aria-pressed=true]{color:#1B1206;background:#FA9549;cursor:default}
+.flang button[aria-pressed=true] svg{filter:none}
+.flang button:focus-visible{outline:2px solid #FA9549;outline-offset:1px}
+.fhome{display:flex;align-items:center;gap:6px;padding:0 10px;text-decoration:none;color:#93A2B1;
+  background:rgba(14,18,22,.94);border:1px solid #39434F;box-shadow:0 3px 12px rgba(0,0,0,.45);
+  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));
+  font:700 12px/1 'Saira Condensed','Rajdhani','Barlow Condensed',system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;
+  transition:color .15s,border-color .15s}
+.fhome svg{width:15px;height:15px;fill:currentColor;flex:none}
+.fhome:hover{color:#FA9549;border-color:#FA9549}
+.fhome:focus-visible{outline:2px solid #FA9549;outline-offset:1px}
+@media (max-width:560px){.fhome{padding:0 8px}.fhome span{display:none}}
+@media (max-width:560px){.fdock{top:6px;right:6px;gap:4px}.flang button{padding:5px 6px 4px;gap:4px}.flang button svg{width:18px;height:12px}}
+.fia{max-width:980px;margin:18px auto 22px;padding:8px 14px 8px 38px;position:relative;
+  font:13px/1.45 'Barlow','Rajdhani',system-ui,sans-serif;color:#93A2B1;
+  background:rgba(14,18,22,.6);border:1px dashed #4C5A69}
+.fia::before{content:"IA";position:absolute;left:9px;top:8px;padding:1px 4px;
+  font:700 10px/1.3 'Saira Condensed',system-ui,sans-serif;letter-spacing:.08em;color:#1B1206;background:#FA9549}
+html[lang|=en] .fia::before{content:"AI"}
+@media print{.fdock{display:none}}
+.fpal{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:6px}
+.fpal button{all:unset;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px 7px;
+  background:#0E1216;border:1px solid #39434F;color:#93A2B1;cursor:pointer;text-align:center;
+  font:500 12px/1.2 'Barlow',system-ui,sans-serif;clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
+.fpal .fpal-ic{width:36px;height:36px;display:flex;align-items:center;justify-content:center}
+.fpal .fpal-ic img{width:34px;height:34px;object-fit:contain;display:block;margin:0;padding:0;border:0;background:none}
+.fpal .fpal-ic .slot{width:36px;height:36px;border:0;background:none;box-shadow:none}
+.fpal .tn{font:700 19px/1 'Saira Condensed','Barlow Condensed',sans-serif;color:#fff}
+.fpal .tl{font-size:10.5px;line-height:1.15;text-transform:uppercase;letter-spacing:.03em}
+.fpal button.in{background:#252D37;border-color:#4C5A69}
+.fpal button.in .tn{color:#FA9549}
+.fpal button.out .tn{color:#93A2B1}
+.fpal button.out img{filter:grayscale(.5)}
+.fpal button:disabled{cursor:not-allowed;opacity:.45;border-style:dashed;color:#6F7E8D;
+  background:repeating-linear-gradient(-45deg,transparent 0 6px,rgba(255,255,255,.035) 6px 12px)}
+.fpal button:disabled .tn{color:#6F7E8D}
+.fpal button:disabled img{filter:grayscale(1) brightness(.6)}
+.fpal button[aria-pressed=true]{border-color:#FA9549;background:#3A2A1C;box-shadow:inset 0 -3px 0 #FA9549}
+.fpal button:not(:disabled):hover{border-color:#FA9549}
+.fpal button:focus-visible{outline:2px solid #FFB673;outline-offset:2px}

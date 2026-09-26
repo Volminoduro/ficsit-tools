@@ -28,8 +28,9 @@ python3 scripts/langue.py > /dev/null
 python3 scripts/patchnotes.py > /dev/null
 python3 scripts/payloads.py > /dev/null
 
-if [ "$ci" = 1 ] && ! git diff --quiet; then
-  git diff --stat
+# --ci : tout écart avec le commit, fichiers nouveaux compris (icônes partagées, bloc commun)
+if [ "$ci" = 1 ] && [ -n "$(git status --porcelain)" ]; then
+  git status --short
   echo "::error::Pages pas à jour : lancer bash scripts/tout.sh, puis committer (voir README)."
   exit 1
 fi

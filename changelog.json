@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.19",
+          "date": "2026-09-26",
+          "texte": {
+            "fr": "Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois. Les icônes aussi, partagées avec les autres outils. (873 → 413 Ko)",
+            "en": "Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once. Icons too, shared with the other tools. (873 → 413 KB)"
+          }
+        },
+        {
           "version": "1.18",
           "date": "2026-09-26",
           "texte": {
@@ -168,6 +176,14 @@
       },
       "entrees": [
         {
+          "version": "1.7",
+          "date": "2026-09-26",
+          "texte": {
+            "fr": "Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois.",
+            "en": "Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once."
+          }
+        },
+        {
           "version": "1.6",
           "date": "2026-09-26",
           "texte": {
@@ -231,6 +247,14 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.16",
+          "date": "2026-09-26",
+          "texte": {
+            "fr": "Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois. Les icônes aussi, partagées avec les autres outils. (343 → 97 Ko)",
+            "en": "Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once. Icons too, shared with the other tools. (343 → 97 KB)"
+          }
+        },
         {
           "version": "1.15",
           "date": "2026-09-26",
@@ -368,6 +392,14 @@
       },
       "entrees": [
         {
+          "version": "1.5",
+          "date": "2026-09-26",
+          "texte": {
+            "fr": "Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois.",
+            "en": "Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once."
+          }
+        },
+        {
           "version": "1.4",
           "date": "2026-09-25",
           "texte": {
@@ -415,6 +447,14 @@
         "en": "Complexity vs sink value"
       },
       "entrees": [
+        {
+          "version": "1.6",
+          "date": "2026-09-26",
+          "texte": {
+            "fr": "Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois. Les icônes aussi, partagées avec les autres outils. (283 → 65 Ko)",
+            "en": "Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once. Icons too, shared with the other tools. (283 → 65 KB)"
+          }
+        },
         {
           "version": "1.5",
           "date": "2026-09-26",

@@ -40,6 +40,37 @@ def icone(nom, taille):
     return _cache.setdefault(cle, base64.b64encode(buf.getvalue()).decode())
 
 
+ICO44 = ROOT / "commun" / "icones-44"
+_ico44 = set()
+
+
+def icone_fichier(nom):
+    """Icône 44 px partagée par l'infographie, le broyeur et l'arbre : un fichier commun/icones-44/<slug>.webp
+    (mis en cache une fois pour les trois outils) ; renvoie le slug, que la page référence."""
+    slug = SLUGS[nom]
+    f = ICO44 / f"{slug}.webp"
+    data = base64.b64decode(icone(nom, 44))
+    if not VERIF and (not f.exists() or f.read_bytes() != data):
+        ICO44.mkdir(exist_ok=True)
+        f.write_bytes(data)
+    _ico44.add(f.name)
+    return slug
+
+
+def page_icones_partagees(fichier, ident, cle=None):
+    """Remplace un dictionnaire d'icônes nom → base64 ou slug par nom → slug (fichiers partagés, icone_fichier)."""
+    p = ROOT / fichier
+    s = avant = p.read_text(encoding="utf-8")
+    m, tout = bloc_json(s, ident)
+    d = tout[cle] if cle else tout
+    neuf = {nom: icone_fichier(nom) for nom in d if nom in SLUGS}
+    if cle:
+        tout[cle] = neuf
+    s = s[:m.start(2)] + json.dumps(tout if cle else neuf, ensure_ascii=False, separators=(",", ":")) + s[m.end(2):]
+    ecrire(p, s, avant)
+    print(f"{fichier} : {len(neuf)} icônes partagées (commun/icones-44/)")
+
+
 def bloc_json(s, ident):
     m = re.search(r'(<script id="%s" type="application/json">)(.*?)(</script>)' % ident, s, re.S)
     return m, json.loads(m.group(2))
@@ -235,10 +266,10 @@ def payload_arbre():
     s = avant = p.read_text(encoding="utf-8")
     m, _ = bloc_json(s, "payload")
     neuf = arbre.calcul()
-    neuf["ic"] = {x["n"]: icone(x["n"], 44) for x in neuf["items"] if x["n"] in SLUGS}
+    neuf["ic"] = {x["n"]: icone_fichier(x["n"]) for x in neuf["items"] if x["n"] in SLUGS}
     s = s[:m.start(2)] + json.dumps(neuf, ensure_ascii=False, separators=(",", ":")) + s[m.end(2):]
     ecrire(p, s, avant)
-    print(f"arbre-production.html : {len(neuf['items'])} items, {len(neuf['ic'])} icônes à 44 px")
+    print(f"arbre-production.html : {len(neuf['items'])} items, {len(neuf['ic'])} icônes partagées")
 
 
 if __name__ == "__main__":
@@ -246,7 +277,12 @@ if __name__ == "__main__":
     emprises_infographie()
     payload_broyeur()
     payload_arbre()
-    page_icones("satisfactory_infographie.html", "payload", 44, cle="ic")
-    page_icones("broyeur-excedents.html", "icons", 44)
+    page_icones_partagees("satisfactory_infographie.html", "payload", cle="ic")
+    page_icones_partagees("broyeur-excedents.html", "icons")
     horloge()
     memo()
+    # icônes partagées que plus aucune page n'utilise
+    if not VERIF and ICO44.exists():
+        for f in ICO44.glob("*.webp"):
+            if f.name not in _ico44:
+                f.unlink()

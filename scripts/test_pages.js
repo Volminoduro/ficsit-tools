@@ -114,6 +114,18 @@ const INDICES = {
     await p.waitForTimeout(400);
     let pb;
     try { pb = await p.evaluate(check); } catch (e) { pb = ['exception : ' + e.message]; }
+    // bloc commun chargé, et toutes les icônes partagées référencées par la page se chargent (IC : nom → slug)
+    pb = pb.concat(await p.evaluate(async () => {
+      const out = [];
+      if (!window.FicsitLang || !window.FicsitPaliers) out.push('bloc commun (commun/ficsit-commun.js) non chargé');
+      const ic = typeof IC === 'object' && IC ? Object.values(IC).filter(v => typeof v === 'string' && v.length < 80) : [];
+      const ko = [];
+      await Promise.all(ic.map(slug => new Promise(res => {
+        const im = new Image(); im.onload = () => res(); im.onerror = () => { ko.push(slug); res(); };
+        im.src = `commun/icones-44/${slug}.webp`; })));
+      if (ko.length) out.push(`${ko.length} icônes introuvables : ${ko.slice(0, 3).join(', ')}`);
+      return out;
+    }));
     pb.forEach(x => echecs.push(`${page} : ${x}`));
     console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} ${page} [vérifications]`);
     await p.close();

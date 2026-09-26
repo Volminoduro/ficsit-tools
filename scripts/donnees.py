@@ -253,6 +253,8 @@ def referentiel(d):
                                     "mw": m.get("powerConsumption", 0),
                                     "exposant": m.get("powerConsumptionExponent", 0) or None,
                                     "palier": pal_bat.get(c)}
+            if c in d.get("generators", {}):   # générateurs : puissance produite à 100 %
+                batiments[b["name"]]["production"] = d["generators"][c]["powerProduction"]
 
     recettes, chemins = {}, {}
     for r in sorted(d["recipes"].values(), key=lambda x: x["name"]):

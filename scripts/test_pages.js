@@ -43,8 +43,11 @@ const CHECKS = {
     return n === m ? [] : [`${n} lignes dans le tableau pour ${m} items`];
   },
   'ficsit_horloge.html': () => {
-    const n = document.querySelectorAll('#tbl tbody tr').length;
-    return n ? [] : ['aucune répartition calculée'];
+    const n = document.querySelectorAll('#tbl tbody tr').length, out = n ? [] : ['aucune répartition calculée'];
+    const bad = [...document.querySelectorAll('#picker .slot')].map(e => e.title).filter(t => /function|undefined|null/.test(t));
+    if (bad.length) out.push('infobulle anormale : ' + bad[0]);
+    if (DATA.buildings.length < 20) out.push(`${DATA.buildings.length} bâtiments seulement`);
+    return out;
   },
   'satisfactory_infographie.html': () => {
     const out = [], rel = (a, b) => a == null || b == null ? (a == b ? 0 : 1) : Math.abs(a - b) / Math.abs(b);
@@ -111,6 +114,18 @@ const INDICES = {
     await p.waitForTimeout(400);
     let pb;
     try { pb = await p.evaluate(check); } catch (e) { pb = ['exception : ' + e.message]; }
+    // bloc commun chargé, et toutes les icônes partagées référencées par la page se chargent (IC : nom → slug)
+    pb = pb.concat(await p.evaluate(async () => {
+      const out = [];
+      if (!window.FicsitLang || !window.FicsitPaliers) out.push('bloc commun (commun/ficsit-commun.js) non chargé');
+      const ic = typeof IC === 'object' && IC ? Object.values(IC).filter(v => typeof v === 'string' && v.length < 80) : [];
+      const ko = [];
+      await Promise.all(ic.map(slug => new Promise(res => {
+        const im = new Image(); im.onload = () => res(); im.onerror = () => { ko.push(slug); res(); };
+        im.src = `commun/icones-44/${slug}.webp`; })));
+      if (ko.length) out.push(`${ko.length} icônes introuvables : ${ko.slice(0, 3).join(', ')}`);
+      return out;
+    }));
     pb.forEach(x => echecs.push(`${page} : ${x}`));
     console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} ${page} [vérifications]`);
     await p.close();

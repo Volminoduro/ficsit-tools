@@ -4,7 +4,7 @@
   "depot": "greeny/SatisfactoryTools",
   "branche": "dev",
   "fichier": "data/data.json",
-  "recupere_le": "2026-09-24"
+  "recupere_le": "2026-09-26"
  },
  "_paliers": "palier = premier palier où la recette est réellement exécutable : machine débloquée, déblocage obtenu (jalon, chaîne de prérequis d'une alternative, recherche du MAM) et ingrédients produisibles par des recettes elles-mêmes exécutables. Point fixe. palierPlancher = la seule part de déblocage, sans les ingrédients. recherchesMam = palier de chaque nœud du MAM : après le MAM (palier 1), ses parents (donnees/arbre-mam.json) et une fois ses coûts obtenables.",
  "items": {
@@ -1399,7 +1399,8 @@
    "groupe": "generation",
    "mw": 0,
    "exposant": 1.6,
-   "palier": 0
+   "palier": 0,
+   "production": 30
   },
   "Coal-Powered Generator": {
    "slug": "desc-generatorcoal-c",
@@ -1407,7 +1408,8 @@
    "groupe": "generation",
    "mw": 0,
    "exposant": 1.6,
-   "palier": 3
+   "palier": 3,
+   "production": 75
   },
   "Fuel-Powered Generator": {
    "slug": "desc-generatorfuel-c",
@@ -1415,7 +1417,8 @@
    "groupe": "generation",
    "mw": 0,
    "exposant": 1.6,
-   "palier": 5
+   "palier": 5,
+   "production": 250
   },
   "Nuclear Power Plant": {
    "slug": "desc-generatornuclear-c",
@@ -1423,7 +1426,8 @@
    "groupe": "generation",
    "mw": 0,
    "exposant": 1.6,
-   "palier": 8
+   "palier": 8,
+   "production": 2500
   },
   "Geothermal Generator": {
    "slug": "desc-generatorgeothermal-c",

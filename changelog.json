@@ -8,6 +8,22 @@
       },
       "entrees": [
         {
+          "version": "1.19",
+          "date": "2026-09-26",
+          "texte": {
+            "fr": "Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois. Les icônes aussi, partagées avec les autres outils. (873 → 413 Ko)",
+            "en": "Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once. Icons too, shared with the other tools. (873 → 413 KB)"
+          }
+        },
+        {
+          "version": "1.18",
+          "date": "2026-09-26",
+          "texte": {
+            "fr": "La grille de paliers est désormais commune aux outils (même apparence que dans l'optimiseur et l'arbre).",
+            "en": "The tier grid is now shared across tools (same look as in the optimizer and the tree)."
+          }
+        },
+        {
           "version": "1.17",
           "date": "2026-09-26",
           "texte": {
@@ -160,6 +176,22 @@
       },
       "entrees": [
         {
+          "version": "1.7",
+          "date": "2026-09-26",
+          "texte": {
+            "fr": "Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois.",
+            "en": "Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once."
+          }
+        },
+        {
+          "version": "1.6",
+          "date": "2026-09-26",
+          "texte": {
+            "fr": "Liste des bâtiments tirée du référentiel du jeu (puissances, production des générateurs, plages des machines à puissance variable) au lieu d'être saisie à la main. La plage de l'accélérateur de particules est corrigée : 250 – 1 500 MW. L'infobulle du constructeur n'affiche plus de code parasite.",
+            "en": "Building list taken from the game dataset (power, generator output, ranges of variable-power machines) instead of being typed by hand. The Particle Accelerator range is corrected: 250 – 1,500 MW. The Constructor tooltip no longer shows stray code."
+          }
+        },
+        {
           "version": "1.5",
           "date": "2026-09-25",
           "texte": {
@@ -215,6 +247,22 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.16",
+          "date": "2026-09-26",
+          "texte": {
+            "fr": "Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois. Les icônes aussi, partagées avec les autres outils. (343 → 97 Ko)",
+            "en": "Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once. Icons too, shared with the other tools. (343 → 97 KB)"
+          }
+        },
+        {
+          "version": "1.15",
+          "date": "2026-09-26",
+          "texte": {
+            "fr": "La grille de paliers est désormais commune aux outils (même apparence que dans le registre et l'arbre).",
+            "en": "The tier grid is now shared across tools (same look as in the registry and the tree)."
+          }
+        },
         {
           "version": "1.14",
           "date": "2026-09-25",
@@ -344,6 +392,14 @@
       },
       "entrees": [
         {
+          "version": "1.5",
+          "date": "2026-09-26",
+          "texte": {
+            "fr": "Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois.",
+            "en": "Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once."
+          }
+        },
+        {
           "version": "1.4",
           "date": "2026-09-25",
           "texte": {
@@ -391,6 +447,22 @@
         "en": "Complexity vs sink value"
       },
       "entrees": [
+        {
+          "version": "1.6",
+          "date": "2026-09-26",
+          "texte": {
+            "fr": "Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois. Les icônes aussi, partagées avec les autres outils. (283 → 65 Ko)",
+            "en": "Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once. Icons too, shared with the other tools. (283 → 65 KB)"
+          }
+        },
+        {
+          "version": "1.5",
+          "date": "2026-09-26",
+          "texte": {
+            "fr": "Le palier se choisit dans la même grille à icônes que les autres outils, au lieu d'un menu : seuls les paliers qui font apparaître au moins un item sont cliquables ; retoucher le palier choisi affiche tout.",
+            "en": "The tier is picked from the same icon grid as the other tools, instead of a menu: only tiers that bring at least one item can be clicked; tapping the chosen tier again shows everything."
+          }
+        },
         {
           "version": "1.4",
           "date": "2026-09-25",

@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
-"""Injecte le bloc de langue commun dans chaque page HTML du dépôt.
+"""Construit le bloc commun (langue, glossaire, grille de paliers) et le relie à chaque page HTML du dépôt.
 
 Sources : commun/langue.json (configuration), commun/glossaire.json (noms du jeu EN → FR),
-commun/ficsit-lang.js (moteur + sélecteur à drapeaux), commun/ficsit-lang.css.
-Le bloc est embarqué dans chaque page (elles restent autonomes et lisibles hors ligne) et placé en tête
-de <head>, juste après <meta charset>, pour que la langue soit posée avant le premier rendu.
+commun/ficsit-lang.js (moteur + sélecteur à drapeaux), commun/ficsit-lang.css,
+commun/ficsit-paliers.js et .css (grille de paliers commune).
+Produit commun/ficsit-commun.js et commun/ficsit-commun.css (fichiers générés : ne pas les éditer), une seule
+copie servie à tous les outils et mise en cache par le navigateur. Chaque page reçoit, en tête de <head> juste après
+<meta charset> (la langue est posée avant le premier rendu), un <link> et un <script> vers ces fichiers, suffixés
+d'une empreinte de leur contenu (?v=…) pour qu'une mise à jour ne reste pas bloquée dans le cache.
 Idempotent : remplacé entre <!-- FICSIT-LANG:START --> et <!-- FICSIT-LANG:END -->.
 Usage : python3 scripts/langue.py   (depuis la racine du dépôt)
 """
-import json, re, pathlib, sys
+import hashlib, json, re, pathlib, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 C = ROOT / "commun"
@@ -26,10 +29,18 @@ def bloc():
     glo = json.loads((C / "glossaire.json").read_text(encoding="utf-8"))
     if conf["defaut"] not in conf["langues"]:
         sys.exit("langue.json : 'defaut' absent de 'langues'")
+    tete = "/* Fichier généré par scripts/langue.py depuis commun/ : ne pas éditer. */\n"
     js = (C / "ficsit-lang.js").read_text(encoding="utf-8")
     js = js.replace("__CONF__", compact(conf)).replace("__GLOSSAIRE__", compact(glo))
-    css = (C / "ficsit-lang.css").read_text(encoding="utf-8").strip()
-    return f"{START}\n<style>{css}</style>\n<script>{js.strip()}</script>\n{END}"
+    js = tete + js.strip() + "\n" + (C / "ficsit-paliers.js").read_text(encoding="utf-8").strip() + "\n"
+    css = tete + "\n".join((C / f).read_text(encoding="utf-8").strip() for f in ("ficsit-lang.css", "ficsit-paliers.css")) + "\n"
+    for nom, contenu in (("ficsit-commun.js", js), ("ficsit-commun.css", css)):
+        f = C / nom
+        if not f.exists() or f.read_text(encoding="utf-8") != contenu:
+            f.write_text(contenu, encoding="utf-8")
+    v = lambda t: hashlib.sha1(t.encode("utf-8")).hexdigest()[:10]
+    return (f'{START}\n<link rel="stylesheet" href="commun/ficsit-commun.css?v={v(css)}">\n'
+            f'<script src="commun/ficsit-commun.js?v={v(js)}"></script>\n{END}')
 
 
 def injecter(p, contenu):

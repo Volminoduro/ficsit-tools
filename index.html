@@ -129,8 +129,6 @@
     font:inherit;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
   .partie button:hover,.partie button.ok{color:var(--orange);border-color:var(--orange)}
   .partie button.ok::after{content:' ✓'}
-  .dossier{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:.85rem;color:var(--muted)}
-  .dossier b{color:var(--text);font-weight:600}
   .partie-info button{margin-top:6px;background:transparent;border:1px solid var(--steel);color:var(--muted);padding:5px 10px;
     font:inherit;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
   .partie-info button:hover{color:var(--orange);border-color:var(--orange)}
@@ -251,7 +249,6 @@
     <div class="chemin"><code id="chemin">%LOCALAPPDATA%\FactoryGame\Saved\SaveGames</code>
       <button type="button" id="copier"><span data-l="fr">Copier le chemin</span><span data-l="en" lang="en">Copy the path</span></button>
       <span><span data-l="fr">à coller dans la barre d'adresse de la fenêtre d'ouverture.</span><span data-l="en" lang="en">to paste into the address bar of the open dialog.</span></span></div>
-    <div class="dossier" id="dossier" hidden></div>
     </div>
     <div class="partie-info" id="partieInfo" aria-live="polite"></div>
   </div>
@@ -355,7 +352,6 @@
     ancienne: ['Sauvegarde antérieure à la version 1.0 : ses recettes ne correspondent plus au jeu actuel.', 'Save older than version 1.0: its recipes no longer match the current game.'],
     format: ["Ce fichier n'a pas le format d'une sauvegarde Satisfactory.", 'This file is not in the Satisfactory save format.'],
     recettes: ['Liste des recettes introuvable dans cette sauvegarde.', 'Recipe list not found in this save.'],
-    vide: ['Aucun fichier .sav dans le dossier mémorisé.', 'No .sav file in the saved folder.'],
   };
   function rendu(){
     const p = FicsitPartie.charger();
@@ -379,91 +375,18 @@
     etat = {lecture: true}; rendu();
     try{
       const p = await FicsitPartie.lire(f);
-      p.fichier = f.name; p.modifie = f.lastModified;
+      p.fichier = f.name;
       if(!FicsitPartie.enregistrer(p)) throw new Error('stockage');
       etat = null;
     }catch(e){ etat = {erreur: e.message || 'format'}; }
     rendu();
   }
-  const ignore = e => { if(e && e.name !== 'AbortError') throw e; };   // fenêtre d'ouverture refermée
-
-  /* Chrome, Edge : la fenêtre d'ouverture repart du dernier dossier utilisé (id), ou du dossier mémorisé. */
-  async function ouvrir(){
-    const o = {id: 'ficsit-sav', types: [{description: 'Satisfactory', accept: {'application/octet-stream': ['.sav']}}]};
-    if(dossierH) o.startIn = dossierH;
-    try{ const [h] = await showOpenFilePicker(o); importer(await h.getFile()); }catch(e){ ignore(e); }
-  }
-
-  /* Dossier des sauvegardes mémorisé (Chrome, Edge) : poignée gardée dans IndexedDB ; « Recharger » relit la
-     sauvegarde la plus récente du dossier et de ses sous-dossiers (un par compte). */
-  const DIR = 'showDirectoryPicker' in window;
-  let dossierH = null;
-  function base(){ return new Promise((ok, ko) => { const r = indexedDB.open('ficsit-tools', 1);
-    r.onupgradeneeded = () => r.result.createObjectStore('poignees'); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); }); }
-  async function poignee(v){   // lecture (sans argument), écriture ou effacement (null)
-    const db = await base();
-    return new Promise((ok, ko) => {
-      const st = db.transaction('poignees', v === undefined ? 'readonly' : 'readwrite').objectStore('poignees');
-      const q = v === undefined ? st.get('saves') : v === null ? st.delete('saves') : st.put(v, 'saves');
-      q.onsuccess = () => ok(q.result); q.onerror = () => ko(q.error);
-    });
-  }
-  async function plusRecente(d, prof){
-    let m = null;
-    for await (const h of d.values()){
-      const f = h.kind === 'file' ? (/\.sav$/i.test(h.name) ? await h.getFile() : null)
-        : prof < 2 ? await plusRecente(h, prof + 1) : null;
-      if(f && (!m || f.lastModified > m.lastModified)) m = f;
-    }
-    return m;
-  }
-  async function recharger(demander){
-    if(!dossierH) return;
-    const opt = {mode: 'read'};
-    let perm = await dossierH.queryPermission(opt);
-    if(perm !== 'granted' && demander) perm = await dossierH.requestPermission(opt);
-    if(perm !== 'granted') return;
-    const f = await plusRecente(dossierH, 0);
-    if(!f){ etat = {erreur: 'vide'}; rendu(); return; }
-    const p = FicsitPartie.charger();
-    if(demander || !p || p.fichier !== f.name || p.modifie !== f.lastModified) await importer(f);
-  }
-  async function memoriser(h){
-    dossierH = h;
-    try{ await poignee(h); }catch(e){}
-    renduDossier(); await recharger(true);
-  }
-  function renduDossier(){
-    const el = document.getElementById('dossier');
-    el.hidden = !DIR;
-    if(!DIR) return;
-    el.innerHTML = dossierH
-      ? `<span>${tr('Dossier mémorisé :', 'Saved folder:')} <b>${esc(dossierH.name)}</b></span>
-         <button type="button" id="recharger">${tr('Recharger la dernière sauvegarde', 'Reload the latest save')}</button>
-         <button type="button" id="oublierDossier">${tr('Oublier le dossier', 'Forget the folder')}</button>`
-      : `<button type="button" id="choisirDossier">${tr('Mémoriser le dossier des sauvegardes', 'Remember the saves folder')}</button>
-         <span>${tr('(ou déposez-le ci-dessus) : un clic suffira ensuite pour recharger la plus récente.', '(or drop it above): one click will then reload the latest one.')}</span>`;
-    const b = id => document.getElementById(id);
-    if(dossierH){
-      b('recharger').addEventListener('click', () => recharger(true).catch(e => { etat = {erreur: e.message}; rendu(); }));
-      b('oublierDossier').addEventListener('click', () => { dossierH = null; poignee(null).catch(() => {}); renduDossier(); });
-    } else b('choisirDossier').addEventListener('click', async () => {
-      try{ await memoriser(await showDirectoryPicker({id: 'ficsit-saves', mode: 'read'})); }catch(e){ ignore(e); }
-    });
-  }
-
+  /* Sélecteur de fichier classique, volontairement : l'API File System Access de Chrome et Edge refuse le dossier
+     des sauvegardes (%LOCALAPPDATA%, « fichiers du système »). La fenêtre de Windows se souvient du dernier dossier. */
   inp.addEventListener('change', () => { importer(inp.files[0]); inp.value = ''; });
-  if(window.showOpenFilePicker) inp.addEventListener('click', e => { e.preventDefault(); ouvrir(); });
   ['dragenter', 'dragover'].forEach(t => depot.addEventListener(t, e => { e.preventDefault(); depot.classList.add('survol'); }));
   ['dragleave', 'drop'].forEach(t => depot.addEventListener(t, () => depot.classList.remove('survol')));
-  depot.addEventListener('drop', e => {
-    e.preventDefault();
-    const it = e.dataTransfer.items && e.dataTransfer.items[0], f = e.dataTransfer.files[0];
-    // un dossier déposé (Chrome, Edge) est mémorisé comme dossier des sauvegardes
-    const h = DIR && it && it.getAsFileSystemHandle ? it.getAsFileSystemHandle() : null;
-    if(h) h.then(x => x && x.kind === 'directory' ? memoriser(x) : importer(f)).catch(() => importer(f));
-    else importer(f);
-  });
+  depot.addEventListener('drop', e => { e.preventDefault(); importer(e.dataTransfer.files[0]); });
   document.getElementById('copier').addEventListener('click', async e => {
     const btn = e.currentTarget, txt = document.getElementById('chemin').textContent;
     try{ await navigator.clipboard.writeText(txt); }
@@ -471,9 +394,6 @@
       const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); document.execCommand('copy'); }
     btn.classList.add('ok'); setTimeout(() => btn.classList.remove('ok'), 2000);
   });
-  if(DIR) poignee().then(h => { if(h){ dossierH = h; renduDossier(); recharger(false).catch(() => {}); } }).catch(() => {});
-  FicsitLang.on(renduDossier);
-  renduDossier();
   FicsitLang.on(rendu);
   rendu();
 })();

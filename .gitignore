@@ -1,1 +1,3 @@
 __pycache__/
+# installé par npm pour les tests (CI : npm install --no-save playwright)
+node_modules/

@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /* Test fumée des pages dans un vrai navigateur (Playwright + Chromium).
    Pour chaque page et chaque langue : aucune erreur JS, et aucun texte visible de l'autre langue
-   (journal des révisions déroulé compris).
+   (journal des révisions déroulé compris). Puis, une fois par page, des vérifications fonctionnelles
+   (CHECKS) : des résultats attendus, pas seulement l'absence d'erreur.
    La langue est posée au chargement (mémorisée) puis rebasculée par le sélecteur à drapeaux.
    Usage : node scripts/test_pages.js   (depuis la racine du dépôt ; Playwright requis :
    npm install --no-save playwright && npx playwright install chromium). Code de sortie 1 en cas d'échec. */
@@ -29,6 +30,39 @@ const PAGES = {
 /* Réglages pré-remplis pour que les pages rendent du contenu généré en JS. */
 const PREFS = {
   'ficsit-tools:broyeur:v1': { sortMode: 'r', surplus: [['Iron Plate', 60], ['Screws', 240], ['Wire', 120]], tierCap: 9 },
+};
+/* Vérifications fonctionnelles, évaluées dans la page (accès à ses variables globales). Chacune renvoie
+   la liste des anomalies, vide si tout va bien. */
+const CHECKS = {
+  'broyeur-excedents.html': () => {
+    const n = document.querySelectorAll('#out .card').length;
+    return n ? [] : ['aucune cible pour plaques, vis et fil'];
+  },
+  'arbre-production.html': () => {
+    const n = document.querySelectorAll('#rows tr').length, m = P.items.length;
+    return n === m ? [] : [`${n} lignes dans le tableau pour ${m} items`];
+  },
+  'ficsit_horloge.html': () => {
+    const n = document.querySelectorAll('#tbl tbody tr').length;
+    return n ? [] : ['aucune répartition calculée'];
+  },
+  'satisfactory_infographie.html': () => {
+    const out = [], rel = (a, b) => a == null || b == null ? (a == b ? 0 : 1) : Math.abs(a - b) / Math.abs(b);
+    // chaque critère : des recettes notées et des combinaisons, avec une meilleure chaîne au moins égale à la base
+    for (const m of ['mw', 'mat', 'esp', 'syn']) {
+      setMode(m);
+      if (!D.some(r => IDX(r) > 0)) out.push(`${m} : aucune recette notée`);
+      const rows = CBS();
+      if (!rows.length) out.push(`${m} : aucune combinaison`);
+      rows.forEach(c => { if (c.idx_defaut && c.idx_optimal < c.idx_defaut * (1 - 1e-9)) out.push(`${m} : ${c.cible} optimum < base`); });
+    }
+    // synthèse à 100 % d'énergie = indice I
+    setSynW({mw: 10, mat: 0, esp: 0});
+    const e = D.filter(r => rel(synIdx(r).i, idxOf(r, 'mw').i) > 1e-9);
+    if (e.length) out.push(`synthèse 100 % énergie ≠ I : ${e.slice(0, 3).map(r => r.n).join(', ')}`);
+    setSynW({mw: 5, mat: 5, esp: 5}); setMode('mw');
+    return out;
+  },
 };
 /* Indices de l'autre langue dans le texte visible. Les noms du jeu restent en anglais en mode FR
    quand le glossaire ne les traduit pas (alternatives, quelques items) : on ne cherche donc que des
@@ -67,6 +101,19 @@ const INDICES = {
       console.log(`${errs.length || fuite.length ? 'ÉCHEC' : 'ok   '} ${nom}`);
       await p.close();
     }
+  }
+  for (const [page, check] of Object.entries(CHECKS)) {
+    const p = await b.newPage();
+    await p.addInitScript(prefs => {
+      try { for (const k in prefs) localStorage.setItem(k, JSON.stringify(prefs[k])); } catch (e) {}
+    }, PREFS);
+    await p.goto('file://' + path.join(ROOT, page));
+    await p.waitForTimeout(400);
+    let pb;
+    try { pb = await p.evaluate(check); } catch (e) { pb = ['exception : ' + e.message]; }
+    pb.forEach(x => echecs.push(`${page} : ${x}`));
+    console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} ${page} [vérifications]`);
+    await p.close();
   }
   await b.close();
   if (echecs.length) { console.error('\n' + echecs.join('\n')); process.exit(1); }

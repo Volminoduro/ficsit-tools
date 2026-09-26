@@ -1257,6 +1257,7 @@ document.getElementById('colAll').addEventListener('click',()=>{ openGrp.clear()
    Reconstruit la chaîne exacte derrière un score du registre : même modèle de coût que le solveur
    (puissance machine répartie sur toutes les sorties, ingrédients facturés en entier à la sortie
    considérée), puis choix des recettes de base non nommées dans la liste qui retrouve le score. */
+/* MOTEUR:START — modèle de coût et recherche exacte, repris tels quels par scripts/paliers_combinaisons.js */
 const RAWE = {'Water':1/6, 'Crude Oil':1/3, 'Nitrogen Gas':0.5};
 ['Iron Ore','Copper Ore','Limestone','Coal','Caterium Ore','Raw Quartz','Sulfur','Bauxite','Uranium','SAM']
   .forEach(k=>RAWE[k]=0.125);
@@ -1463,6 +1464,7 @@ function synTaux(){
   const ok = D.filter(r=>idxI(r) > 0 && idxM(r) > 0 && idxOf(r, 'esp').i > 0);
   return SYN_T = {mw: 1, mat: +med(ok.map(r=>idxM(r)/idxI(r))).toPrecision(3), esp: +med(ok.map(r=>idxOf(r, 'esp').i/idxI(r))).toPrecision(3)};
 }
+/* MOTEUR:END */
 function usedItems(target, choice){
   const S = new Set(), st = [target];
   while(st.length){ const it = st.pop();

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <!-- FICSIT-LANG:START -->
 <link rel="stylesheet" href="commun/ficsit-commun.css?v=dbaa416940">
-<script src="commun/ficsit-commun.js?v=e6b8e9b6c5"></script>
+<script src="commun/ficsit-commun.js?v=ab4623f8db"></script>
 <!-- FICSIT-LANG:END -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-fr="FICSIT Inc. — Terminal Pionnier" data-en="FICSIT Inc. — Pioneer Terminal">FICSIT Inc. — Terminal Pionnier</title>
@@ -106,6 +106,27 @@
     color:var(--orange);
   }
   .cat p{margin:0; font-size:.85rem; color:var(--muted);}
+  /* Ma partie : import d'une sauvegarde */
+  .partie{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:14px;margin-bottom:8px}
+  @media (max-width:720px){.partie{grid-template-columns:1fr}}
+  .depot{display:flex;flex-direction:column;justify-content:center;gap:6px;min-height:118px;padding:16px 18px;cursor:pointer;
+    background:var(--panel);border:1px dashed var(--steel);color:var(--muted);font-size:.9rem;line-height:1.45;
+    clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%);transition:border-color .15s,background .15s}
+  .depot b{color:var(--text);font-weight:600;font-size:1rem}
+  .depot:hover,.depot.survol{border-color:var(--orange);background:var(--panel-2)}
+  .depot:focus-within{outline:2px solid var(--orange);outline-offset:2px}
+  .depot code{font-size:.78rem;color:var(--muted);word-break:break-all}
+  .depot input{position:absolute;opacity:0;width:1px;height:1px}
+  .partie-info{padding:14px 18px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--orange);
+    font-size:.92rem;line-height:1.55;color:var(--muted)}
+  .partie-info .nom{font-family:"Saira Condensed",sans-serif;font-size:1.25rem;font-weight:600;color:var(--text)}
+  .partie-info .chiffres{display:flex;flex-wrap:wrap;gap:6px 18px;margin:6px 0}
+  .partie-info .chiffres b{font-family:"Saira Condensed",sans-serif;font-size:1.3rem;color:var(--orange);margin-right:4px}
+  .partie-info button{margin-top:6px;background:transparent;border:1px solid var(--steel);color:var(--muted);padding:5px 10px;
+    font:inherit;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+  .partie-info button:hover{color:var(--orange);border-color:var(--orange)}
+  .partie-info.erreur{border-left-color:#E0645A}
+  .partie-info a{color:var(--orange)}
 
   .grid{
     display:grid;
@@ -205,12 +226,20 @@
   <div class="tag"><span data-l="fr">ADA — assistante de navigation</span><span data-l="en" lang="en">ADA — navigation assistant</span></div>
   <span data-l="fr"><b>Bienvenue de retour, Pionnier.</b> Votre terminal contient les dossiers compilés au fil des relevés
   de terrain — extraction, cadences, rendements et gestion des excédents. Sélectionnez un dossier pour
-  l'ouvrir en plein écran ; chacun fonctionne hors ligne, sans connexion à FICSIT Central.</span><span data-l="en" lang="en"><b>Welcome back, Pioneer.</b> Your terminal holds the files compiled from field surveys —
+  l'ouvrir en plein écran ; tout se calcule dans votre navigateur, sans connexion à FICSIT Central.</span><span data-l="en" lang="en"><b>Welcome back, Pioneer.</b> Your terminal holds the files compiled from field surveys —
   extraction, rates, yields and surplus management. Select a file to open it full screen; each one
-  works offline, with no connection to FICSIT Central. The language you pick here applies to every tool.</span>
+  everything is computed in your browser, with no connection to FICSIT Central. The language you pick here applies to every tool.</span>
 </div>
 
 <div class="wrap">
+  <div class="cat" id="partie"><h3><span data-l="fr">Ma partie</span><span data-l="en" lang="en">My game</span></h3><p><span data-l="fr">Importez votre sauvegarde : les outils en déduisent les recettes que vous avez débloquées.</span><span data-l="en" lang="en">Import your save: the tools work out the recipes you have unlocked.</span></p></div>
+  <div class="partie">
+    <label class="depot" id="depot"><input type="file" id="savIn" accept=".sav">
+      <b><span data-l="fr">Déposer ou choisir un fichier .sav</span><span data-l="en" lang="en">Drop or pick a .sav file</span></b>
+      <span><span data-l="fr">Lu dans votre navigateur : le fichier n'est envoyé nulle part. Parties 1.0 et suivantes.</span><span data-l="en" lang="en">Read in your browser: the file is not sent anywhere. Games from 1.0 onwards.</span></span>
+      <code>%LOCALAPPDATA%\FactoryGame\Saved\SaveGames\…\*.sav</code></label>
+    <div class="partie-info" id="partieInfo" aria-live="polite"></div>
+  </div>
   <div class="cat"><h3><span data-l="fr">Production</span><span data-l="en" lang="en">Production</span></h3><p><span data-l="fr">Extraction, recettes et cadences.</span><span data-l="en" lang="en">Extraction, recipes and rates.</span></p></div>
   <div class="grid">
 
@@ -300,5 +329,52 @@
   no official link with Coffee Stain Studios.</span>
 </footer>
 
+<script>
+/* Ma partie : lecture de la sauvegarde (commun/ficsit-partie.js), mémorisée pour tous les outils. */
+(function(){
+  const tr = (fr, en) => FicsitLang.lang === 'fr' ? fr : en;
+  const info = document.getElementById('partieInfo'), depot = document.getElementById('depot'), inp = document.getElementById('savIn');
+  let etat = null;   // null, {lecture:true}, {erreur:msg}
+  const ERR = {
+    ancienne: ['Sauvegarde antérieure à la version 1.0 : ses recettes ne correspondent plus au jeu actuel.', 'Save older than version 1.0: its recipes no longer match the current game.'],
+    format: ["Ce fichier n'a pas le format d'une sauvegarde Satisfactory.", 'This file is not in the Satisfactory save format.'],
+    recettes: ['Liste des recettes introuvable dans cette sauvegarde.', 'Recipe list not found in this save.'],
+  };
+  function rendu(){
+    const p = FicsitPartie.charger();
+    info.classList.toggle('erreur', !!(etat && etat.erreur));
+    if(etat && etat.lecture){ info.textContent = tr('Lecture de la sauvegarde…', 'Reading the save…'); return; }
+    if(etat && etat.erreur){ info.textContent = tr(...(ERR[etat.erreur] || [`Lecture impossible (${etat.erreur}).`, `Could not read the save (${etat.erreur}).`])); return; }
+    if(!p){ info.innerHTML = tr('Aucune partie importée. Une fois importée, le <b>registre des rendements</b> peut se limiter aux recettes débloquées dans votre partie.',
+      'No game imported yet. Once imported, the <b>yield registry</b> can be limited to the recipes unlocked in your game.'); return; }
+    const d = new Date(p.date), h = Math.floor(p.duree / 3600);
+    const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    info.innerHTML = `<div class="nom">${esc(p.nom || tr('Partie sans nom', 'Unnamed game'))}</div>
+      <div>${tr('Sauvegardée le', 'Saved on')} ${d.toLocaleString(FicsitLang.locale, {dateStyle: 'long', timeStyle: 'short'})} · ${FicsitLang.num(h)} h ${tr('de jeu', 'played')}</div>
+      <div class="chiffres"><span><b>${FicsitPartie.palier(p)}</b>${tr('palier atteint', 'tier reached')}</span>
+        <span><b>${FicsitLang.num(FicsitPartie.alternatives(p))}</b>${tr('recettes alternatives débloquées', 'alternate recipes unlocked')}</span></div>
+      <div>${tr('Le <a href="satisfactory_infographie.html">registre des rendements</a> propose maintenant de se limiter à ces recettes.',
+        'The <a href="satisfactory_infographie.html">yield registry</a> can now be limited to these recipes.')}</div>
+      <button type="button" id="oublier">${tr('Oublier cette partie', 'Forget this game')}</button>`;
+    document.getElementById('oublier').addEventListener('click', () => { FicsitPartie.oublier(); etat = null; rendu(); });
+  }
+  async function importer(f){
+    if(!f) return;
+    etat = {lecture: true}; rendu();
+    try{
+      const p = await FicsitPartie.lire(f);
+      if(!FicsitPartie.enregistrer(p)) throw new Error('stockage');
+      etat = null;
+    }catch(e){ etat = {erreur: e.message || 'format'}; }
+    rendu();
+  }
+  inp.addEventListener('change', () => { importer(inp.files[0]); inp.value = ''; });
+  ['dragenter', 'dragover'].forEach(t => depot.addEventListener(t, e => { e.preventDefault(); depot.classList.add('survol'); }));
+  ['dragleave', 'drop'].forEach(t => depot.addEventListener(t, () => depot.classList.remove('survol')));
+  depot.addEventListener('drop', e => { e.preventDefault(); importer(e.dataTransfer.files[0]); });
+  FicsitLang.on(rendu);
+  rendu();
+})();
+</script>
 </body>
 </html>

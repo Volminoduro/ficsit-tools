@@ -202,6 +202,7 @@ def paliers_infographie():
             r["t"] = ref["palier"]
         if ref["origine"] and ref["origine"] != r["s"]:
             r["s"] = ref["origine"]
+        r["k"] = ref["classe"]   # classe du jeu : retrouve la recette dans une sauvegarde (« ma partie »)
     s = s[:m.start(2)] + json.dumps(P, ensure_ascii=False, separators=(",", ":")) + s[m.end(2):]
     ecrire(p, s, avant)
     print(f"satisfactory_infographie.html : {len(chg)} paliers alignés sur le référentiel")

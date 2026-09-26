@@ -63,7 +63,17 @@ const CHECKS = {
     setSynW({mw: 10, mat: 0, esp: 0});
     const e = D.filter(r => rel(synIdx(r).i, idxOf(r, 'mw').i) > 1e-9);
     if (e.length) out.push(`synthèse 100 % énergie ≠ I : ${e.slice(0, 3).map(r => r.n).join(', ')}`);
-    setSynW({mw: 5, mat: 5, esp: 5}); setMode('mw');
+    setSynW({mw: 5, mat: 5, esp: 5});
+    // « ma partie » : avec les recettes de base et cinq alternatives seulement, aucune autre alternative dans les chaînes
+    const alts = D.filter(r => r.a), ok = new Set(alts.slice(0, 5).map(r => r.n));
+    if (D.some(r => !r.k)) out.push('recette sans classe du jeu (k)');
+    FILTRE = new Set(D.filter(r => !r.a || ok.has(r.n)).map(r => r.k));
+    for (const m of ['mw', 'esp']) {
+      setMode(m);
+      const hors = Object.values(CHS()).flatMap(c => c.top.flatMap(t => t[1])).filter(a => !ok.has(a));
+      if (hors.length) out.push(`${m} filtré : alternative non débloquée ${hors[0]}`);
+    }
+    FILTRE = null; setMode('mw');
     return out;
   },
 };

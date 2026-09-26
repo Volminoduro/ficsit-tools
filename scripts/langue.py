@@ -2,7 +2,8 @@
 """Injecte le bloc de langue commun dans chaque page HTML du dépôt.
 
 Sources : commun/langue.json (configuration), commun/glossaire.json (noms du jeu EN → FR),
-commun/ficsit-lang.js (moteur + sélecteur à drapeaux), commun/ficsit-lang.css.
+commun/ficsit-lang.js (moteur + sélecteur à drapeaux), commun/ficsit-lang.css,
+commun/ficsit-paliers.js et .css (grille de paliers commune).
 Le bloc est embarqué dans chaque page (elles restent autonomes et lisibles hors ligne) et placé en tête
 de <head>, juste après <meta charset>, pour que la langue soit posée avant le premier rendu.
 Idempotent : remplacé entre <!-- FICSIT-LANG:START --> et <!-- FICSIT-LANG:END -->.
@@ -28,7 +29,8 @@ def bloc():
         sys.exit("langue.json : 'defaut' absent de 'langues'")
     js = (C / "ficsit-lang.js").read_text(encoding="utf-8")
     js = js.replace("__CONF__", compact(conf)).replace("__GLOSSAIRE__", compact(glo))
-    css = (C / "ficsit-lang.css").read_text(encoding="utf-8").strip()
+    js += "\n" + (C / "ficsit-paliers.js").read_text(encoding="utf-8")
+    css = "\n".join((C / f).read_text(encoding="utf-8").strip() for f in ("ficsit-lang.css", "ficsit-paliers.css"))
     return f"{START}\n<style>{css}</style>\n<script>{js.strip()}</script>\n{END}"
 
 

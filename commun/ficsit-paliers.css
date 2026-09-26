@@ -1,0 +1,20 @@
+.fpal{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:6px}
+.fpal button{all:unset;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px 7px;
+  background:#0E1216;border:1px solid #39434F;color:#93A2B1;cursor:pointer;text-align:center;
+  font:500 12px/1.2 'Barlow',system-ui,sans-serif;clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
+.fpal .fpal-ic{width:36px;height:36px;display:flex;align-items:center;justify-content:center}
+.fpal .fpal-ic img{width:34px;height:34px;object-fit:contain;display:block;margin:0;padding:0;border:0;background:none}
+.fpal .fpal-ic .slot{width:36px;height:36px;border:0;background:none;box-shadow:none}
+.fpal .tn{font:700 19px/1 'Saira Condensed','Barlow Condensed',sans-serif;color:#fff}
+.fpal .tl{font-size:10.5px;line-height:1.15;text-transform:uppercase;letter-spacing:.03em}
+.fpal button.in{background:#252D37;border-color:#4C5A69}
+.fpal button.in .tn{color:#FA9549}
+.fpal button.out .tn{color:#93A2B1}
+.fpal button.out img{filter:grayscale(.5)}
+.fpal button:disabled{cursor:not-allowed;opacity:.45;border-style:dashed;color:#6F7E8D;
+  background:repeating-linear-gradient(-45deg,transparent 0 6px,rgba(255,255,255,.035) 6px 12px)}
+.fpal button:disabled .tn{color:#6F7E8D}
+.fpal button:disabled img{filter:grayscale(1) brightness(.6)}
+.fpal button[aria-pressed=true]{border-color:#FA9549;background:#3A2A1C;box-shadow:inset 0 -3px 0 #FA9549}
+.fpal button:not(:disabled):hover{border-color:#FA9549}
+.fpal button:focus-visible{outline:2px solid #FFB673;outline-offset:2px}

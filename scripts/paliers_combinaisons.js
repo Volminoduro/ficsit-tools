@@ -1,23 +1,20 @@
 #!/usr/bin/env node
-/* Précalcul des combinaisons de recettes de satisfactory_infographie.html.
-   Usage : node scripts/paliers_combinaisons.js satisfactory_infographie.html [tc|registre|tout] [mw|mat|esp|syn] [--ecrire]
-     tc       (défaut) combinaisons optimales pour chaque palier → clé "tc" du payload.
-     registre combinaisons sans plafond de palier → clés combi (énergie), combiM (matière), combiE (espace)
-              et combiS (synthèse des trois, à poids égaux).
-     tout     les deux.
-     mw|mat|esp|syn restreint tc à un critère (mise au point).
-     --ecrire écrit le résultat dans le payload de la page au lieu de la sortie standard.
-   tc : {"mw":{"0":[...],...,"9":[...]},"mat":{...},"esp":{...}} (syn : seulement sur demande, la page le calcule). Chaque ligne : c = cible, d = indice de la chaîne tout en base,
-   o = indice optimal, n = combinaisons brutes, x = recherche prouvée exacte, top = 3 meilleures chaînes [indice, alternatives].
-   registre : combi = une ligne par cible (mêmes indices que tc au dernier palier, plus la pire chaîne et le nombre de
-   chaînes distinctes, obtenus par énumération complète tant qu'il y en a au plus PLAFOND). La page n'en lit que la pire
-   chaîne et le nombre de chaînes : le reste (podium, fréquences) se recalcule depuis tc au dernier palier.
+/* Précalcul des combinaisons de satisfactory_infographie.html. La page calcule elle-même les combinaisons de
+   chaque palier (tcRows), sauf pour les critères de PRECALC, trop longs en direct (matière : jusqu'à 30 s par palier,
+   à cause des chaînes à égalité) : ceux-là sont précalculés ici dans la clé « tc ».
+   Usage : node scripts/paliers_combinaisons.js satisfactory_infographie.html [registre|tc] [mw|mat|esp|syn] [--ecrire]
+     registre (défaut) combinaisons sans plafond de palier → clés combi (énergie), combiM (matière), combiE (espace)
+              et combiS (synthèse, à poids égaux). Une ligne par cible : indices de la chaîne tout en base et de
+              l'optimum, plus la pire chaîne et le nombre de chaînes distinctes, obtenus par énumération complète tant
+              qu'il y en a au plus PLAFOND. La page n'en lit que la pire chaîne et le nombre de chaînes.
+     tc       mise au point : ce que la page calcule (tcRows) pour chaque palier, sur la sortie standard ;
+              mw|mat|esp|syn restreint à un critère.
+     --ecrire écrit le registre et tc (critères de PRECALC seulement) dans le payload de la page.
    Une chaîne distincte = une recette par item, cohérente sur tout l'arbre (un item produit deux fois l'est par la même
    recette), sans boucle et de coût fini. Les cibles sont celles du registre déjà présent dans la page.
-   Le modèle de coût et la recherche exacte sont ceux de la page (entre les marqueurs MOTEUR:START et MOTEUR:END, repris tels
-   quels du HTML), synthèse comprise : coût composite aux poids par défaut de la page (SYN_W0) et taux de change qu'elle
-   calcule (synTaux). La page recalcule elle-même les combinaisons de la synthèse (tc.syn n'est pas précalculé) ;
-   seul le registre combiS, à poids égaux, l'est. */
+   Le modèle de coût et la recherche exacte sont ceux de la page, entre les marqueurs MOTEUR:START et MOTEUR:END,
+   repris tels quels du HTML : synthèse comprise, aux poids par défaut (SYN_W0) et aux taux de change que la page
+   calcule (synTaux). */
 const fs = require('fs');
 const html = fs.readFileSync(process.argv[2], 'utf8');
 const P = JSON.parse(html.match(/<script id="payload" type="application\/json">([\s\S]*?)<\/script>/)[1]);
@@ -74,26 +71,21 @@ function enumChains(target, c, plafond){
 }
 `;
 const args = process.argv.slice(3);
-const quoi = args.find(a=>['tc', 'registre', 'tout'].includes(a)) || 'tc';
+const quoi = args.includes('tc') ? 'tc' : 'registre';
+const PRECALC = ['mat'];   // critères dont les combinaisons par palier sont précalculées (trop longs dans la page)
 const modes = args.filter(a=>['mw', 'mat', 'esp', 'syn'].includes(a));
-const run = new Function('P', 'quoi', 'modes', 'const D = P.d;\n' + helpers + ENGINE + `
+const run = new Function('P', 'quoi', 'modes', 'PRECALC', 'const D = P.d;\n' + helpers + ENGINE + `
 setBudget(100000);
 const out = {};
-if(quoi !== 'registre'){ out.tc = {};
-  for(const m of (modes.length ? modes : MODES.filter(m=>m!=='syn'))){ out.tc[m] = {};
-    for(let c = 0; c <= TMAX; c++){
-      const rows = [];
-      for(const t of P.combi){
-        if(!availFor(c).items.has(t.cible)) continue;
-        const r = searchChains(t.cible, m, c, 3, 3e6), d = searchChains(t.cible, m, c, 1, 3e6, null, true);
-        rows.push({c: t.cible, d: d.list[0] ? d.list[0].score : null, o: r.list[0].score, n: brutes(t.cible, c),
-          x: !r.aborted && !d.aborted, top: r.list.map(x=>[x.score, x.alts])});
-      }
-      out.tc[m][c] = rows; console.error('tc', m, 'palier', c, rows.length, 'cibles');
-    }
+if(quoi === 'tc'){ out.tc = {};
+  for(const m of (modes.length ? modes : MODES)){ out.tc[m] = {};
+    for(let c = 0; c <= TMAX; c++){ out.tc[m][c] = tcRows(m, c); console.error('tc', m, 'palier', c); }
   }
 }
 if(quoi !== 'tc'){
+  out.tc = {};
+  for(const m of PRECALC){ out.tc[m] = {};
+    for(let c = 0; c <= TMAX; c++){ out.tc[m][c] = tcRows(m, c); console.error('tc', m, 'palier', c); } }
   const PLAFOND = 1000000, cibles = P.combi.map(t=>t.cible), en = {};
   cibles.forEach(t=>{ en[t] = enumChains(t, TMAX, PLAFOND); console.error('registre', t, en[t]('mw').nb); });
   for(const m of MODES){
@@ -109,9 +101,10 @@ if(quoi !== 'tc'){
   }
 }
 return out;`);
-const out = run(P, quoi, modes);
+const out = run(P, quoi, modes, PRECALC);
 if(args.includes('--ecrire')){
   const re = /(<script id="payload" type="application\/json">)([\s\S]*?)(<\/script>)/;
+  if(quoi === 'tc'){ console.error('--ecrire : seul le registre s\'écrit dans la page'); process.exit(2); }
   fs.writeFileSync(process.argv[2], html.replace(re, (_, a, b, z)=>a + JSON.stringify(Object.assign(P, out)) + z));
   console.error('écrit dans', process.argv[2], ':', Object.keys(out).join(', '));
 } else process.stdout.write(JSON.stringify(quoi === 'tc' ? out.tc : out));

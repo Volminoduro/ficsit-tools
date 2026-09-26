@@ -20,7 +20,7 @@ done
 
 if [ "$combi" = 1 ]; then
   echo "== combinaisons de l'infographie"
-  node scripts/paliers_combinaisons.js satisfactory_infographie.html tout --ecrire
+  node scripts/paliers_combinaisons.js satisfactory_infographie.html --ecrire
 fi
 
 echo "== régénération"

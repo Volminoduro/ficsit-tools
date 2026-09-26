@@ -20,8 +20,8 @@ jobs:
           node-version: "22"
       - name: Recalcul et comparaison avec le payload commité
         run: |
-          node scripts/paliers_combinaisons.js satisfactory_infographie.html tout --ecrire 2>/dev/null
+          node scripts/paliers_combinaisons.js satisfactory_infographie.html --ecrire 2>/dev/null
           if ! git diff --quiet satisfactory_infographie.html; then
-            echo "::error::Combinaisons pas à jour : node scripts/paliers_combinaisons.js satisfactory_infographie.html tout --ecrire, puis committer."
+            echo "::error::Combinaisons pas à jour : node scripts/paliers_combinaisons.js satisfactory_infographie.html --ecrire, puis committer."
             exit 1
           fi

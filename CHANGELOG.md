@@ -45,6 +45,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Module d'étalonnage / Calibration module — `ficsit_horloge.html`
 
+- **v1.6** (26/09/2026) : Liste des bâtiments tirée du référentiel du jeu (puissances, production des générateurs, plages des machines à puissance variable) au lieu d'être saisie à la main. La plage de l'accélérateur de particules est corrigée : 250 – 1 500 MW. L'infobulle du constructeur n'affiche plus de code parasite.
+  *EN — Building list taken from the game dataset (power, generator output, ranges of variable-power machines) instead of being typed by hand. The Particle Accelerator range is corrected: 250 – 1,500 MW. The Constructor tooltip no longer shows stray code.*
 - **v1.5** (25/09/2026) : Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.
   *EN — "Home" button in the top-right dock, to go back to the list of tools.*
 - **v1.4** (24/09/2026) : Mention en bas de page : le site est généré par IA.

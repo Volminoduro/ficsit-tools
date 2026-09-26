@@ -81,18 +81,52 @@ def page_icones(fichier, ident, taille, cle=None):
           f"({sum(len(v) for v in d.values())//1024} → {poids//1024} Ko)")
 
 
+# Horloge : bâtiments proposés, dans l'ordre d'affichage (clé de la page, nom dans le référentiel).
+HORLOGE = [("smelter", "Smelter"), ("constructor", "Constructor"), ("packager", "Packager"),
+           ("assembler", "Assembler"), ("foundry", "Foundry"), ("refinery", "Refinery"),
+           ("manufacturer", "Manufacturer"), ("blender", "Blender"), ("converter", "Converter"),
+           ("accelerator", "Particle Accelerator"), ("encoder", "Quantum Encoder"),
+           ("miner1", "Miner Mk.1"), ("miner2", "Miner Mk.2"), ("miner3", "Miner Mk.3"),
+           ("water", "Water Extractor"), ("oil", "Oil Extractor"), ("well", "Resource Well Pressurizer"),
+           ("biomass", "Biomass Burner"), ("coalgen", "Coal-Powered Generator"),
+           ("fuelgen", "Fuel-Powered Generator"), ("nuclear", "Nuclear Power Plant")]
+GROUPE_HORLOGE = {"production": "prod", "extraction": "extr", "generation": "gen"}
+
+
+def donnees_horloge():
+    """Bâtiments de l'horloge, sans icônes, tout depuis le référentiel : puissance à 100 % (consommée, ou produite
+    pour un générateur) ; machine à puissance variable : médiane des puissances moyennes de ses recettes, avec la
+    plage min – max de ses recettes."""
+    B, R = REF["batiments"], REF["recettes"]
+    ent = lambda v: int(v) if v == int(v) else v
+    out = []
+    for key, nom in HORLOGE:
+        b = B[nom]
+        x = {"key": key, "name": nom, "group": GROUPE_HORLOGE[b["groupe"]]}
+        if b["groupe"] == "generation":
+            x["mw"] = ent(b["production"])
+        elif b["mw"]:
+            x["mw"] = ent(b["mw"])
+        else:
+            rs = [r for r in R.values() if r["machine"] == nom and r.get("mwMin") is not None]
+            moy = sorted((r["mwMin"] + r["mwMax"]) / 2 for r in rs)
+            n = len(moy)
+            x["mw"] = ent(moy[n // 2] if n % 2 else (moy[n // 2 - 1] + moy[n // 2]) / 2)
+            x["min"], x["max"] = ent(min(r["mwMin"] for r in rs)), ent(max(r["mwMax"] for r in rs))
+        out.append(x)
+    return out
+
+
 def horloge():
+    """Données de l'horloge (const DATA) : bâtiments dérivés du référentiel (donnees_horloge) et icônes à 96 px."""
     p = ROOT / "ficsit_horloge.html"
     s = avant = p.read_text(encoding="utf-8")
     m = re.search(r"(const DATA = )(\{.*?\})(;\n)", s, re.S)
     D = json.loads(m.group(2))
-    av = sum(len(b["icon"]) for b in D["buildings"])
-    for b in D["buildings"]:
-        b["icon"] = icone(b["name"], 96)
+    D["buildings"] = [dict(b, icon=icone(b["name"], 96)) for b in donnees_horloge()]
     s = s[:m.start(2)] + json.dumps(D, ensure_ascii=False, separators=(",", ":")) + s[m.end(2):]
     ecrire(p, s, avant)
-    print(f"ficsit_horloge.html : {len(D['buildings'])} icônes à 96 px "
-          f"({av//1024} → {sum(len(b['icon']) for b in D['buildings'])//1024} Ko)")
+    print(f"ficsit_horloge.html : {len(D['buildings'])} bâtiments dérivés du référentiel, icônes à 96 px")
 
 
 def memo():

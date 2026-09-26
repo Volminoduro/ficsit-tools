@@ -43,8 +43,11 @@ const CHECKS = {
     return n === m ? [] : [`${n} lignes dans le tableau pour ${m} items`];
   },
   'ficsit_horloge.html': () => {
-    const n = document.querySelectorAll('#tbl tbody tr').length;
-    return n ? [] : ['aucune répartition calculée'];
+    const n = document.querySelectorAll('#tbl tbody tr').length, out = n ? [] : ['aucune répartition calculée'];
+    const bad = [...document.querySelectorAll('#picker .slot')].map(e => e.title).filter(t => /function|undefined|null/.test(t));
+    if (bad.length) out.push('infobulle anormale : ' + bad[0]);
+    if (DATA.buildings.length < 20) out.push(`${DATA.buildings.length} bâtiments seulement`);
+    return out;
   },
   'satisfactory_infographie.html': () => {
     const out = [], rel = (a, b) => a == null || b == null ? (a == b ? 0 : 1) : Math.abs(a - b) / Math.abs(b);

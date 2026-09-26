@@ -168,6 +168,14 @@
       },
       "entrees": [
         {
+          "version": "1.6",
+          "date": "2026-09-26",
+          "texte": {
+            "fr": "Liste des bâtiments tirée du référentiel du jeu (puissances, production des générateurs, plages des machines à puissance variable) au lieu d'être saisie à la main. La plage de l'accélérateur de particules est corrigée : 250 – 1 500 MW. L'infobulle du constructeur n'affiche plus de code parasite.",
+            "en": "Building list taken from the game dataset (power, generator output, ranges of variable-power machines) instead of being typed by hand. The Particle Accelerator range is corrected: 250 – 1,500 MW. The Constructor tooltip no longer shows stray code."
+          }
+        },
+        {
           "version": "1.5",
           "date": "2026-09-25",
           "texte": {

@@ -88,11 +88,13 @@ def arbre():
 def horloge():
     s = (ROOT / "ficsit_horloge.html").read_text(encoding="utf-8")
     D = json.loads(re.search(r"const DATA = (\{.*?\});\n", s, re.S).group(1))
-    ec = [(b["name"], b["mw"], BAT[b["name"]]["mw"]) for b in D["buildings"]
-          if b["name"] in BAT and BAT[b["name"]]["mw"] not in (0, b["mw"])]
-    abs_ = [b["name"] for b in D["buildings"] if b["name"] not in BAT]
-    ligne("horloge", "puissances divergentes", f"{len(ec)} : {ec[:5]}")
-    ligne("horloge", "bâtiments inconnus", f"{len(abs_)} : {abs_}")
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import payloads
+    page = [{k: v for k, v in b.items() if k != "icon"} for b in D["buildings"]]
+    calc = payloads.donnees_horloge()
+    ec = [b["key"] for b in calc if b not in page] + [b["key"] for b in page if b not in calc]
+    # Toute la liste des bâtiments est dérivée du référentiel (payloads.py) : tout écart = page à régénérer.
+    ligne("horloge", "bâtiments non dérivés", f"{len(ec)} : {ec[:5]}")
 
 
 def icones():

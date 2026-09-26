@@ -15,6 +15,12 @@
   background:repeating-linear-gradient(-45deg,transparent 0 6px,rgba(255,255,255,.035) 6px 12px)}
 .fpal button:disabled .tn{color:#6F7E8D}
 .fpal button:disabled img{filter:grayscale(1) brightness(.6)}
-.fpal button[aria-pressed=true]{border-color:#FA9549;background:#3A2A1C;box-shadow:inset 0 -3px 0 #FA9549}
-.fpal button:not(:disabled):hover{border-color:#FA9549}
+/* sélectionné : texte orange (les pages ne doivent pas l'écraser, d'où les règles appuyées) */
+.fpal button[aria-pressed=true],.fpal button[aria-pressed=true]:hover{border-color:#FA9549;background:#3A2A1C;color:#FA9549;
+  box-shadow:inset 0 -3px 0 #FA9549}
+.fpal button[aria-pressed=true] .tn{color:#FA9549}
+/* survol : fond éclairci et texte blanc, sans orange (réservé à la sélection) */
+.fpal button:not(:disabled):not([aria-pressed=true]):hover{border-color:#8FA0B2;background:#2C353F;color:#E8EEF3}
+.fpal button:not(:disabled):not([aria-pressed=true]):hover .tn{color:#fff}
+.fpal button:not(:disabled):not([aria-pressed=true]):hover img{filter:none}
 .fpal button:focus-visible{outline:2px solid #FFB673;outline-offset:2px}

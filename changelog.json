@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.20",
+          "date": "2026-09-26",
+          "texte": {
+            "fr": "Option « Ma partie » : après import de votre sauvegarde depuis l'accueil, ne garder que les recettes débloquées dans votre partie (énergie, espace et synthèse instantanés ; matière en quelques secondes au pire, podium signalé s'il n'est pas prouvé optimal).",
+            "en": "\"My game\" option: after importing your save from the home page, keep only the recipes unlocked in your game (energy, space and synthesis instantly; material within a few seconds at worst, podium flagged when not proven optimal)."
+          }
+        },
+        {
           "version": "1.19",
           "date": "2026-09-26",
           "texte": {

@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
+- **v1.20** (26/09/2026) : Option « Ma partie » : après import de votre sauvegarde depuis l'accueil, ne garder que les recettes débloquées dans votre partie (énergie, espace et synthèse instantanés ; matière en quelques secondes au pire, podium signalé s'il n'est pas prouvé optimal).
+  *EN — "My game" option: after importing your save from the home page, keep only the recipes unlocked in your game (energy, space and synthesis instantly; material within a few seconds at worst, podium flagged when not proven optimal).*
 - **v1.19** (26/09/2026) : Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois. Les icônes aussi, partagées avec les autres outils. (873 → 413 Ko)
   *EN — Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once. Icons too, shared with the other tools. (873 → 413 KB)*
 - **v1.18** (26/09/2026) : La grille de paliers est désormais commune aux outils (même apparence que dans l'optimiseur et l'arbre).

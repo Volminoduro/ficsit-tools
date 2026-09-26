@@ -3,7 +3,7 @@
 
 Sources : commun/langue.json (configuration), commun/glossaire.json (noms du jeu EN → FR),
 commun/ficsit-lang.js (moteur + sélecteur à drapeaux), commun/ficsit-lang.css,
-commun/ficsit-paliers.js et .css (grille de paliers commune).
+commun/ficsit-paliers.js et .css (grille de paliers commune), commun/ficsit-partie.js (lecture d'une sauvegarde).
 Produit commun/ficsit-commun.js et commun/ficsit-commun.css (fichiers générés : ne pas les éditer), une seule
 copie servie à tous les outils et mise en cache par le navigateur. Chaque page reçoit, en tête de <head> juste après
 <meta charset> (la langue est posée avant le premier rendu), un <link> et un <script> vers ces fichiers, suffixés
@@ -33,6 +33,7 @@ def bloc():
     js = (C / "ficsit-lang.js").read_text(encoding="utf-8")
     js = js.replace("__CONF__", compact(conf)).replace("__GLOSSAIRE__", compact(glo))
     js = tete + js.strip() + "\n" + (C / "ficsit-paliers.js").read_text(encoding="utf-8").strip() + "\n"
+    js += (C / "ficsit-partie.js").read_text(encoding="utf-8").strip() + "\n"
     css = tete + "\n".join((C / f).read_text(encoding="utf-8").strip() for f in ("ficsit-lang.css", "ficsit-paliers.css")) + "\n"
     for nom, contenu in (("ficsit-commun.js", js), ("ficsit-commun.css", css)):
         f = C / nom

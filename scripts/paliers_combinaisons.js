@@ -29,19 +29,24 @@ const MODES = ['mw', 'mat', 'esp', 'syn'], REGISTRE = {mw: 'combi', mat: 'combiM
 /* ---------- paliers : disponibilité et recherche exacte des chaînes ---------- */
 const TMAX = Math.max(...D.map(r=>r.t));
 let cap = TMAX;
+/* FILTRE : recettes permises (« ma partie ») — null = toutes, sinon l'ensemble des classes débloquées dans la
+   sauvegarde (commun/ficsit-partie.js). availKey distingue les caches filtrés. */
+let FILTRE = null;
+const availKey = c => c + (FILTRE ? 'p' : '');
 const availCache = {};
 function availFor(c){
-  if(c in availCache) return availCache[c];
+  const key = availKey(c);
+  if(key in availCache) return availCache[key];
   const items = new Set(), rec = new Set();
   let ch = true;
   while(ch){ ch = false;
     for(const r of D){
-      if(rec.has(r) || r.t > c) continue;
+      if(rec.has(r) || r.t > c || (FILTRE && !FILTRE.has(r.k))) continue;
       if(r.ig.every(g=>isRaw(g[0]) || items.has(g[0]))){
         rec.add(r); ch = true; items.add(r.p); r.by.forEach(b=>items.add(b[0])); }
     }
   }
-  return availCache[c] = {rec, items};
+  return availCache[key] = {rec, items};
 }
 const isAvail = r => availFor(cap).rec.has(r);
 const filtered = () => cap < TMAX;

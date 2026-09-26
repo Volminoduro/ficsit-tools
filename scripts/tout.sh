@@ -37,6 +37,7 @@ fi
 
 echo "== payloads"
 python3 scripts/verif_payloads.py
+node scripts/test_partie.js
 
 if [ "$tests" = 1 ]; then
   echo "== pages dans un navigateur"

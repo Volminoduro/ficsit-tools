@@ -57,6 +57,16 @@ def icone_fichier(nom):
     return slug
 
 
+def icones_alternatives():
+    """« Ma partie » (accueil, infographie) : icône partagée de l'item produit par chaque alternative du référentiel,
+    que liste commun/ficsit-partie.js (FicsitAlternatives, par slug)."""
+    d = json.loads((ROOT / "donnees" / "donnees-jeu.json").read_text(encoding="utf-8"))
+    items = {r["produits"][0][0] for r in d["recettes"].values() if r["alternative"] and r["produits"]}
+    for nom in sorted(items):
+        icone_fichier(nom)
+    print(f"Ma partie : {len(items)} icônes d'alternatives (commun/icones-44/)")
+
+
 def page_icones_partagees(fichier, ident, cle=None):
     """Remplace un dictionnaire d'icônes nom → base64 ou slug par nom → slug (fichiers partagés, icone_fichier)."""
     p = ROOT / fichier
@@ -282,6 +292,7 @@ if __name__ == "__main__":
     page_icones_partagees("broyeur-excedents.html", "icons")
     horloge()
     memo()
+    icones_alternatives()
     # icônes partagées que plus aucune page n'utilise
     if not VERIF and ICO44.exists():
         for f in ICO44.glob("*.webp"):

@@ -283,6 +283,14 @@ def referentiel(d):
     for nom, r in recettes.items():
         r["palierPlancher"] = plancher.get(nom, min(tf for tf, _ in chemins[nom]))
         r["palier"] = rec.get(nom)
+    # Disques durs : schéma d'alternative (ce que le MAM propose au choix, cf. mUnclaimedHardDriveData d'une
+    # sauvegarde) → recettes du référentiel qu'il débloque (aucune pour un bonus d'inventaire ou de soute).
+    nom_par_classe = {r["classe"]: n for n, r in recettes.items()}
+    ref["disquesDurs"] = {sc["className"]: {"nom": sc["name"],
+                                            "recettes": [nom_par_classe[c] for c in sc.get("unlock", {}).get("recipes", [])
+                                                         if c in nom_par_classe]}
+                          for sc in sorted(d["schematics"].values(), key=lambda x: x["className"])
+                          if sc["type"] == "EST_Alternate"}
     ref["recherchesMam"] = {mam[n]["nom"] + ("" if [m["nom"] for m in mam.values()].count(mam[n]["nom"]) == 1 else f" ({n})"): t
                             for n, t in sorted(noeud.items(), key=lambda x: mam[x[0]]["nom"]) if n in mam}
 
@@ -296,7 +304,8 @@ def referentiel(d):
                     "ingrédients produisibles par des recettes elles-mêmes exécutables. Point fixe. "
                     "palierPlancher = la seule part de déblocage, sans les ingrédients. "
                     "recherchesMam = palier de chaque nœud du MAM : après le MAM (palier 1), ses parents "
-                    "(donnees/arbre-mam.json) et une fois ses coûts obtenables.",
+                    "(donnees/arbre-mam.json) et une fois ses coûts obtenables. "
+                    "disquesDurs = schémas proposés par l'analyse d'un disque dur → recettes qu'ils débloquent.",
         **ref,
     }
 

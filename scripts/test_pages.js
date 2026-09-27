@@ -34,6 +34,21 @@ const PREFS = {
 /* Vérifications fonctionnelles, évaluées dans la page (accès à ses variables globales). Chacune renvoie
    la liste des anomalies, vide si tout va bien. */
 const CHECKS = {
+  'index.html': () => {
+    // « Ma partie » : un import (tel que le worker le rend) s'affiche, disques durs en attente compris, puis se vide
+    const out = [];
+    FicsitPartie.enregistrer({nom: 'Test', date: '2026-01-31T03:06:00.000Z', duree: 3600, version: 58, recettes:
+      ['Recipe_Alternate_PureIronIngot_C'], schemas: ['Schematic_3-1_C'], attente: [{id: 8, relances: 0,
+      schemas: ['Schematic_Alternate_Motor1_C', 'Schematic_Alternate_InventorySlots2_C']}]});
+    const b = FicsitPartie.bilan(FicsitPartie.charger());
+    if (b.debloquees.length !== 1) out.push(`${b.debloquees.length} alternative(s) débloquée(s) au lieu d'une`);
+    if (!b.attente[0] || b.attente[0].choix[0].recettes.length !== 1) out.push('disque dur en attente non rattaché à sa recette');
+    if (document.querySelectorAll('#partieBilan .disque .alt').length !== 2) out.push('disque dur en attente absent de l\'accueil');
+    if (!document.getElementById('vider')) out.push('bouton « Vider l\'import » absent');
+    else document.getElementById('vider').click();
+    if (FicsitPartie.charger() || document.querySelector('#partieBilan details')) out.push('import non vidé');
+    return out;
+  },
   'broyeur-excedents.html': () => {
     const n = document.querySelectorAll('#out .card').length;
     return n ? [] : ['aucune cible pour plaques, vis et fil'];

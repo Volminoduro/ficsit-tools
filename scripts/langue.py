@@ -3,7 +3,8 @@
 
 Sources : commun/langue.json (configuration), commun/glossaire.json (noms du jeu EN → FR),
 commun/ficsit-lang.js (moteur + sélecteur à drapeaux), commun/ficsit-lang.css,
-commun/ficsit-paliers.js et .css (grille de paliers commune), commun/ficsit-partie.js (lecture d'une sauvegarde).
+commun/ficsit-paliers.js et .css (grille de paliers commune), commun/ficsit-partie.js (import d'une sauvegarde)
+et le référentiel des alternatives qu'il utilise, tiré de donnees/donnees-jeu.json.
 Produit commun/ficsit-commun.js et commun/ficsit-commun.css (fichiers générés : ne pas les éditer), une seule
 copie servie à tous les outils et mise en cache par le navigateur. Chaque page reçoit, en tête de <head> juste après
 <meta charset> (la langue est posée avant le premier rendu), un <link> et un <script> vers ces fichiers, suffixés
@@ -24,6 +25,21 @@ def compact(obj):
     return json.dumps(obj, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 
 
+def alternatives():
+    """Référentiel des alternatives pour « Ma partie » (commun/ficsit-partie.js), tiré de donnees/donnees-jeu.json :
+    recettes[classe] = [nom sans « Alternate: », item produit, slug d'icône (commun/icones-44/), palier] ;
+    disques[schéma de disque dur] = [nom du schéma, classes des recettes qu'il débloque]."""
+    d = json.loads((ROOT / "donnees" / "donnees-jeu.json").read_text(encoding="utf-8"))
+    rec = {}
+    for nom, r in sorted(d["recettes"].items(), key=lambda x: x[1]["classe"]):
+        if r["alternative"] and r["produits"]:
+            item = r["produits"][0][0]
+            rec[r["classe"]] = [nom.replace("Alternate: ", ""), item, d["items"][item]["slug"], r.get("palier")]
+    classes = {n: r["classe"] for n, r in d["recettes"].items()}
+    dd = {s: [x["nom"], [classes[n] for n in x["recettes"]]] for s, x in d["disquesDurs"].items()}
+    return compact({"recettes": rec, "disques": dd})
+
+
 def bloc():
     conf = json.loads((C / "langue.json").read_text(encoding="utf-8"))
     glo = json.loads((C / "glossaire.json").read_text(encoding="utf-8"))
@@ -33,6 +49,7 @@ def bloc():
     js = (C / "ficsit-lang.js").read_text(encoding="utf-8")
     js = js.replace("__CONF__", compact(conf)).replace("__GLOSSAIRE__", compact(glo))
     js = tete + js.strip() + "\n" + (C / "ficsit-paliers.js").read_text(encoding="utf-8").strip() + "\n"
+    js += "window.FicsitAlternatives=" + alternatives() + ";\n"
     js += (C / "ficsit-partie.js").read_text(encoding="utf-8").strip() + "\n"
     css = tete + "\n".join((C / f).read_text(encoding="utf-8").strip() for f in ("ficsit-lang.css", "ficsit-paliers.css")) + "\n"
     for nom, contenu in (("ficsit-commun.js", js), ("ficsit-commun.css", css)):

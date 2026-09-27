@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.22",
+          "date": "2026-09-27",
+          "texte": {
+            "fr": "« Ma partie » passe dans un panneau latéral, ouvert par l'onglet sur le bord droit : import de la sauvegarde (il quitte l'accueil), filtre, disques durs en attente de choix et alternatives débloquées ou manquantes. Chaque alternative y est notée sur le critère affiché (énergie, matière, espace ou synthèse), avec son gain face à la base et son verdict ; l'onglet indique le nombre de disques en attente.",
+            "en": "\"My game\" moves to a side panel, opened from the tab on the right edge: save import (it leaves the home page), filter, hard drives awaiting a choice and unlocked or missing alternates. Each alternate is rated there on the criterion shown (energy, materials, space or synthesis), with its gain over the standard and its verdict; the tab shows the number of pending drives."
+          }
+        },
+        {
           "version": "1.21",
           "date": "2026-09-27",
           "texte": {

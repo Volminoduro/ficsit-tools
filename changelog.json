@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.21",
+          "date": "2026-09-27",
+          "texte": {
+            "fr": "« Ma partie » : les disques durs analysés dans le MAM mais pas encore réclamés s'affichent avec, pour chaque alternative proposée, son score Synthèse (vos poids actuels), son gain face à la recette de base et son verdict gagnante / compromis / perdante, meilleur choix signalé, pour trancher avant de valider en jeu. La sauvegarde est désormais lue par le parseur communautaire satisfactory-file-parser, hors de la page, avec une barre de progression.",
+            "en": "\"My game\": hard drives analysed in the MAM but not yet claimed are listed with, for each offered alternate, its Synthesis score (your current weights), its gain over the standard recipe and its winning / trade-off / losing verdict, best pick flagged, to decide before confirming in game. The save is now read by the community satisfactory-file-parser, off the page, with a progress bar."
+          }
+        },
+        {
           "version": "1.20",
           "date": "2026-09-26",
           "texte": {

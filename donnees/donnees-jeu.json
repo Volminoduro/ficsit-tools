@@ -4,9 +4,9 @@
   "depot": "greeny/SatisfactoryTools",
   "branche": "dev",
   "fichier": "data/data.json",
-  "recupere_le": "2026-09-26"
+  "recupere_le": "2026-09-27"
  },
- "_paliers": "palier = premier palier où la recette est réellement exécutable : machine débloquée, déblocage obtenu (jalon, chaîne de prérequis d'une alternative, recherche du MAM) et ingrédients produisibles par des recettes elles-mêmes exécutables. Point fixe. palierPlancher = la seule part de déblocage, sans les ingrédients. recherchesMam = palier de chaque nœud du MAM : après le MAM (palier 1), ses parents (donnees/arbre-mam.json) et une fois ses coûts obtenables.",
+ "_paliers": "palier = premier palier où la recette est réellement exécutable : machine débloquée, déblocage obtenu (jalon, chaîne de prérequis d'une alternative, recherche du MAM) et ingrédients produisibles par des recettes elles-mêmes exécutables. Point fixe. palierPlancher = la seule part de déblocage, sans les ingrédients. recherchesMam = palier de chaque nœud du MAM : après le MAM (palier 1), ses parents (donnees/arbre-mam.json) et une fois ses coûts obtenables. disquesDurs = schémas proposés par l'analyse d'un disque dur → recettes qu'ils débloquent.",
  "items": {
   "AI Expansion Server": {
    "slug": "desc-spaceelevatorpart-12-c",
@@ -9941,6 +9941,662 @@
   "Uranium",
   "Water"
  ],
+ "disquesDurs": {
+  "Schematic_Alternate_AILimiter_Plastic_C": {
+   "nom": "Alternate: Plastic AI Limiter",
+   "recettes": [
+    "Alternate: Plastic AI Limiter"
+   ]
+  },
+  "Schematic_Alternate_AdheredIronPlate_C": {
+   "nom": "Alternate: Adhered Iron Plate",
+   "recettes": [
+    "Alternate: Adhered Iron Plate"
+   ]
+  },
+  "Schematic_Alternate_AlcladCasing_C": {
+   "nom": "Alternate: Alclad Casing",
+   "recettes": [
+    "Alternate: Alclad Casing"
+   ]
+  },
+  "Schematic_Alternate_AluminumRod_C": {
+   "nom": "Alternate: Aluminum Rod",
+   "recettes": [
+    "Alternate: Aluminum Rod"
+   ]
+  },
+  "Schematic_Alternate_AutomatedMiner_C": {
+   "nom": "Alternate: Automated Miner",
+   "recettes": [
+    "Alternate: Automated Miner"
+   ]
+  },
+  "Schematic_Alternate_BoltedFrame_C": {
+   "nom": "Alternate: Bolted Frame",
+   "recettes": [
+    "Alternate: Bolted Frame"
+   ]
+  },
+  "Schematic_Alternate_Cable1_C": {
+   "nom": "Alternate: Insulated Cable",
+   "recettes": [
+    "Alternate: Insulated Cable"
+   ]
+  },
+  "Schematic_Alternate_Cable2_C": {
+   "nom": "Alternate: Quickwire Cable",
+   "recettes": [
+    "Alternate: Quickwire Cable"
+   ]
+  },
+  "Schematic_Alternate_CateriumIngot_Leached_C": {
+   "nom": "Alternate: Leached Caterium Ingot",
+   "recettes": [
+    "Alternate: Leached Caterium Ingot"
+   ]
+  },
+  "Schematic_Alternate_CateriumIngot_Tempered_C": {
+   "nom": "Alternate: Tempered Caterium Ingot",
+   "recettes": [
+    "Alternate: Tempered Caterium Ingot"
+   ]
+  },
+  "Schematic_Alternate_CircuitBoard1_C": {
+   "nom": "Alternate: Silicon Circuit Board",
+   "recettes": [
+    "Alternate: Silicon Circuit Board"
+   ]
+  },
+  "Schematic_Alternate_CircuitBoard2_C": {
+   "nom": "Alternate: Caterium Circuit Board",
+   "recettes": [
+    "Alternate: Caterium Circuit Board"
+   ]
+  },
+  "Schematic_Alternate_ClassicBattery_C": {
+   "nom": "Alternate: Classic Battery",
+   "recettes": [
+    "Alternate: Classic Battery"
+   ]
+  },
+  "Schematic_Alternate_Coal1_C": {
+   "nom": "Alternate: Charcoal",
+   "recettes": [
+    "Alternate: Charcoal"
+   ]
+  },
+  "Schematic_Alternate_Coal2_C": {
+   "nom": "Alternate: Biocoal",
+   "recettes": [
+    "Alternate: Biocoal"
+   ]
+  },
+  "Schematic_Alternate_CoatedCable_C": {
+   "nom": "Alternate: Coated Cable",
+   "recettes": [
+    "Alternate: Coated Cable"
+   ]
+  },
+  "Schematic_Alternate_CoatedIronCanister_C": {
+   "nom": "Alternate: Coated Iron Canister",
+   "recettes": [
+    "Alternate: Coated Iron Canister"
+   ]
+  },
+  "Schematic_Alternate_CoatedIronPlate_C": {
+   "nom": "Alternate: Coated Iron Plate",
+   "recettes": [
+    "Alternate: Coated Iron Plate"
+   ]
+  },
+  "Schematic_Alternate_CokeSteelIngot_C": {
+   "nom": "Alternate: Coke Steel Ingot",
+   "recettes": [
+    "Alternate: Coke Steel Ingot"
+   ]
+  },
+  "Schematic_Alternate_Computer1_C": {
+   "nom": "Alternate: Caterium Computer",
+   "recettes": [
+    "Alternate: Caterium Computer"
+   ]
+  },
+  "Schematic_Alternate_Computer2_C": {
+   "nom": "Alternate: Crystal Computer",
+   "recettes": [
+    "Alternate: Crystal Computer"
+   ]
+  },
+  "Schematic_Alternate_Concrete_C": {
+   "nom": "Alternate: Fine Concrete",
+   "recettes": [
+    "Alternate: Fine Concrete"
+   ]
+  },
+  "Schematic_Alternate_CoolingDevice_C": {
+   "nom": "Alternate: Cooling Device",
+   "recettes": [
+    "Alternate: Cooling Device"
+   ]
+  },
+  "Schematic_Alternate_CopperAlloyIngot_C": {
+   "nom": "Alternate: Copper Alloy Ingot",
+   "recettes": [
+    "Alternate: Copper Alloy Ingot"
+   ]
+  },
+  "Schematic_Alternate_CopperIngot_Leached_C": {
+   "nom": "Alternate: Leached Copper Ingot",
+   "recettes": [
+    "Alternate: Leached Copper Ingot"
+   ]
+  },
+  "Schematic_Alternate_CopperIngot_Tempered_C": {
+   "nom": "Alternate: Tempered Copper Ingot",
+   "recettes": [
+    "Alternate: Tempered Copper Ingot"
+   ]
+  },
+  "Schematic_Alternate_CopperRotor_C": {
+   "nom": "Alternate: Copper Rotor",
+   "recettes": [
+    "Alternate: Copper Rotor"
+   ]
+  },
+  "Schematic_Alternate_CrystalOscillator_C": {
+   "nom": "Alternate: Insulated Crystal Oscillator",
+   "recettes": [
+    "Alternate: Insulated Crystal Oscillator"
+   ]
+  },
+  "Schematic_Alternate_DarkMatter_Crystallization_C": {
+   "nom": "Alternate: Dark Matter Crystallization",
+   "recettes": [
+    "Alternate: Dark Matter Crystallization"
+   ]
+  },
+  "Schematic_Alternate_DarkMatter_Trap_C": {
+   "nom": "Alternate: Dark Matter Trap",
+   "recettes": [
+    "Alternate: Dark Matter Trap"
+   ]
+  },
+  "Schematic_Alternate_Diamond_Cloudy_C": {
+   "nom": "Alternate: Cloudy Diamonds",
+   "recettes": [
+    "Alternate: Cloudy Diamonds"
+   ]
+  },
+  "Schematic_Alternate_Diamond_OilBased_C": {
+   "nom": "Alternate: Oil-Based Diamonds",
+   "recettes": [
+    "Alternate: Oil-Based Diamonds"
+   ]
+  },
+  "Schematic_Alternate_Diamond_Petroleum_C": {
+   "nom": "Alternate: Petroleum Diamonds",
+   "recettes": [
+    "Alternate: Petroleum Diamonds"
+   ]
+  },
+  "Schematic_Alternate_Diamond_Pink_C": {
+   "nom": "Alternate: Pink Diamonds",
+   "recettes": [
+    "Alternate: Pink Diamonds"
+   ]
+  },
+  "Schematic_Alternate_Diamond_Turbo_C": {
+   "nom": "Alternate: Turbo Diamonds",
+   "recettes": [
+    "Alternate: Turbo Diamonds"
+   ]
+  },
+  "Schematic_Alternate_DilutedFuel_C": {
+   "nom": "Alternate: Diluted Fuel",
+   "recettes": [
+    "Alternate: Diluted Fuel"
+   ]
+  },
+  "Schematic_Alternate_DilutedPackagedFuel_C": {
+   "nom": "Alternate: Diluted Packaged Fuel",
+   "recettes": [
+    "Alternate: Diluted Packaged Fuel"
+   ]
+  },
+  "Schematic_Alternate_ElectricMotor_C": {
+   "nom": "Alternate: Electric Motor",
+   "recettes": [
+    "Alternate: Electric Motor"
+   ]
+  },
+  "Schematic_Alternate_ElectroAluminumScrap_C": {
+   "nom": "Alternate: Electrode Aluminum Scrap",
+   "recettes": [
+    "Alternate: Electrode Aluminum Scrap"
+   ]
+  },
+  "Schematic_Alternate_ElectrodeCircuitBoard_C": {
+   "nom": "Alternate: Electrode Circuit Board",
+   "recettes": [
+    "Alternate: Electrode Circuit Board"
+   ]
+  },
+  "Schematic_Alternate_ElectromagneticControlRod1_C": {
+   "nom": "Alternate: Electromagnetic Connection Rod",
+   "recettes": [
+    "Alternate: Electromagnetic Connection Rod"
+   ]
+  },
+  "Schematic_Alternate_FertileUranium_C": {
+   "nom": "Alternate: Fertile Uranium",
+   "recettes": [
+    "Alternate: Fertile Uranium"
+   ]
+  },
+  "Schematic_Alternate_FlexibleFramework_C": {
+   "nom": "Alternate: Flexible Framework",
+   "recettes": [
+    "Alternate: Flexible Framework"
+   ]
+  },
+  "Schematic_Alternate_FusedWire_C": {
+   "nom": "Alternate: Fused Wire",
+   "recettes": [
+    "Alternate: Fused Wire"
+   ]
+  },
+  "Schematic_Alternate_Gunpowder1_C": {
+   "nom": "Alternate: Fine Black Powder",
+   "recettes": [
+    "Alternate: Fine Black Powder"
+   ]
+  },
+  "Schematic_Alternate_HeatFusedFrame_C": {
+   "nom": "Alternate: Heat-Fused Frame",
+   "recettes": [
+    "Alternate: Heat-Fused Frame"
+   ]
+  },
+  "Schematic_Alternate_HeatSink1_C": {
+   "nom": "Alternate: Heat Exchanger",
+   "recettes": [
+    "Alternate: Heat Exchanger"
+   ]
+  },
+  "Schematic_Alternate_HeavyFlexibleFrame_C": {
+   "nom": "Alternate: Heavy Flexible Frame",
+   "recettes": [
+    "Alternate: Heavy Flexible Frame"
+   ]
+  },
+  "Schematic_Alternate_HeavyModularFrame_C": {
+   "nom": "Alternate: Heavy Encased Frame",
+   "recettes": [
+    "Alternate: Heavy Encased Frame"
+   ]
+  },
+  "Schematic_Alternate_HeavyOilResidue_C": {
+   "nom": "Alternate: Heavy Oil Residue",
+   "recettes": [
+    "Alternate: Heavy Oil Residue"
+   ]
+  },
+  "Schematic_Alternate_HighSpeedConnector_C": {
+   "nom": "Alternate: Silicon High-Speed Connector",
+   "recettes": [
+    "Alternate: Silicon High-Speed Connector"
+   ]
+  },
+  "Schematic_Alternate_HighSpeedWiring_C": {
+   "nom": "Alternate: Automated Speed Wiring",
+   "recettes": [
+    "Alternate: Automated Speed Wiring"
+   ]
+  },
+  "Schematic_Alternate_IngotIron_C": {
+   "nom": "Alternate: Iron Alloy Ingot",
+   "recettes": [
+    "Alternate: Iron Alloy Ingot"
+   ]
+  },
+  "Schematic_Alternate_IngotSteel1_C": {
+   "nom": "Alternate: Solid Steel Ingot",
+   "recettes": [
+    "Alternate: Solid Steel Ingot"
+   ]
+  },
+  "Schematic_Alternate_IngotSteel2_C": {
+   "nom": "Alternate: Compacted Steel Ingot",
+   "recettes": [
+    "Alternate: Compacted Steel Ingot"
+   ]
+  },
+  "Schematic_Alternate_InstantPlutoniumCell_C": {
+   "nom": "Alternate: Instant Plutonium Cell",
+   "recettes": [
+    "Alternate: Instant Plutonium Cell"
+   ]
+  },
+  "Schematic_Alternate_InstantScrap_C": {
+   "nom": "Alternate: Instant Scrap",
+   "recettes": [
+    "Alternate: Instant Scrap"
+   ]
+  },
+  "Schematic_Alternate_InventorySlots1_C": {
+   "nom": "Inflated Pocket Dimension",
+   "recettes": []
+  },
+  "Schematic_Alternate_InventorySlots2_C": {
+   "nom": "Inflated Pocket Dimension",
+   "recettes": []
+  },
+  "Schematic_Alternate_IonizedFuel_Dark_C": {
+   "nom": "Alternate: Dark-Ion Fuel",
+   "recettes": [
+    "Alternate: Dark-Ion Fuel"
+   ]
+  },
+  "Schematic_Alternate_IronIngot_Basic_C": {
+   "nom": "Alternate: Basic Iron Ingot",
+   "recettes": [
+    "Alternate: Basic Iron Ingot"
+   ]
+  },
+  "Schematic_Alternate_IronIngot_Leached_C": {
+   "nom": "Alternate: Leached Iron Ingot",
+   "recettes": [
+    "Alternate: Leached Iron Ingot"
+   ]
+  },
+  "Schematic_Alternate_ModularFrame_C": {
+   "nom": "Alternate: Steeled Frame",
+   "recettes": [
+    "Alternate: Steeled Frame"
+   ]
+  },
+  "Schematic_Alternate_Motor1_C": {
+   "nom": "Alternate: Rigor Motor",
+   "recettes": [
+    "Alternate: Rigor Motor"
+   ]
+  },
+  "Schematic_Alternate_NuclearFuelRod1_C": {
+   "nom": "Alternate: Uranium Fuel Unit",
+   "recettes": [
+    "Alternate: Uranium Fuel Unit"
+   ]
+  },
+  "Schematic_Alternate_OCSupercomputer_C": {
+   "nom": "Alternate: OC Supercomputer",
+   "recettes": [
+    "Alternate: OC Supercomputer"
+   ]
+  },
+  "Schematic_Alternate_Plastic1_C": {
+   "nom": "Alternate: Recycled Plastic",
+   "recettes": [
+    "Alternate: Recycled Plastic"
+   ]
+  },
+  "Schematic_Alternate_PlasticSmartPlating_C": {
+   "nom": "Alternate: Plastic Smart Plating",
+   "recettes": [
+    "Alternate: Plastic Smart Plating"
+   ]
+  },
+  "Schematic_Alternate_PlutoniumFuelUnit_C": {
+   "nom": "Alternate: Plutonium Fuel Unit",
+   "recettes": [
+    "Alternate: Plutonium Fuel Unit"
+   ]
+  },
+  "Schematic_Alternate_PolymerResin_C": {
+   "nom": "Alternate: Polymer Resin",
+   "recettes": [
+    "Alternate: Polymer Resin"
+   ]
+  },
+  "Schematic_Alternate_PureAluminumIngot_C": {
+   "nom": "Alternate: Pure Aluminum Ingot",
+   "recettes": [
+    "Alternate: Pure Aluminum Ingot"
+   ]
+  },
+  "Schematic_Alternate_PureCateriumIngot_C": {
+   "nom": "Alternate: Pure Caterium Ingot",
+   "recettes": [
+    "Alternate: Pure Caterium Ingot"
+   ]
+  },
+  "Schematic_Alternate_PureCopperIngot_C": {
+   "nom": "Alternate: Pure Copper Ingot",
+   "recettes": [
+    "Alternate: Pure Copper Ingot"
+   ]
+  },
+  "Schematic_Alternate_PureIronIngot_C": {
+   "nom": "Alternate: Pure Iron Ingot",
+   "recettes": [
+    "Alternate: Pure Iron Ingot"
+   ]
+  },
+  "Schematic_Alternate_PureQuartzCrystal_C": {
+   "nom": "Alternate: Pure Quartz Crystal",
+   "recettes": [
+    "Alternate: Pure Quartz Crystal"
+   ]
+  },
+  "Schematic_Alternate_Quartz_Fused_C": {
+   "nom": "Alternate: Fused Quartz Crystal",
+   "recettes": [
+    "Alternate: Fused Quartz Crystal"
+   ]
+  },
+  "Schematic_Alternate_Quartz_Purified_C": {
+   "nom": "Alternate: Quartz Purification",
+   "recettes": [
+    "Alternate: Quartz Purification"
+   ]
+  },
+  "Schematic_Alternate_Quickwire_C": {
+   "nom": "Alternate: Fused Quickwire",
+   "recettes": [
+    "Alternate: Fused Quickwire"
+   ]
+  },
+  "Schematic_Alternate_RadioControlSystem_C": {
+   "nom": "Alternate: Radio Control System",
+   "recettes": [
+    "Alternate: Radio Control System"
+   ]
+  },
+  "Schematic_Alternate_RadioControlUnit1_C": {
+   "nom": "Alternate: Radio Connection Unit",
+   "recettes": [
+    "Alternate: Radio Connection Unit"
+   ]
+  },
+  "Schematic_Alternate_RecycledRubber_C": {
+   "nom": "Alternate: Recycled Rubber",
+   "recettes": [
+    "Alternate: Recycled Rubber"
+   ]
+  },
+  "Schematic_Alternate_ReinforcedIronPlate1_C": {
+   "nom": "Alternate: Bolted Iron Plate",
+   "recettes": [
+    "Alternate: Bolted Iron Plate"
+   ]
+  },
+  "Schematic_Alternate_ReinforcedIronPlate2_C": {
+   "nom": "Alternate: Stitched Iron Plate",
+   "recettes": [
+    "Alternate: Stitched Iron Plate"
+   ]
+  },
+  "Schematic_Alternate_ReinforcedSteelPlate_C": {
+   "nom": "Alternate: Encased Industrial Pipe",
+   "recettes": [
+    "Alternate: Encased Industrial Pipe"
+   ]
+  },
+  "Schematic_Alternate_RocketFuel_Nitro_C": {
+   "nom": "Alternate: Nitro Rocket Fuel",
+   "recettes": [
+    "Alternate: Nitro Rocket Fuel"
+   ]
+  },
+  "Schematic_Alternate_Rotor_C": {
+   "nom": "Alternate: Steel Rotor",
+   "recettes": [
+    "Alternate: Steel Rotor"
+   ]
+  },
+  "Schematic_Alternate_RubberConcrete_C": {
+   "nom": "Alternate: Rubber Concrete",
+   "recettes": [
+    "Alternate: Rubber Concrete"
+   ]
+  },
+  "Schematic_Alternate_Screw2_C": {
+   "nom": "Alternate: Steel Screws",
+   "recettes": [
+    "Alternate: Steel Screws"
+   ]
+  },
+  "Schematic_Alternate_Screw_C": {
+   "nom": "Alternate: Cast Screws",
+   "recettes": [
+    "Alternate: Cast Screws"
+   ]
+  },
+  "Schematic_Alternate_Silica_C": {
+   "nom": "Alternate: Cheap Silica",
+   "recettes": [
+    "Alternate: Cheap Silica"
+   ]
+  },
+  "Schematic_Alternate_SloppyAlumina_C": {
+   "nom": "Alternate: Sloppy Alumina",
+   "recettes": [
+    "Alternate: Sloppy Alumina"
+   ]
+  },
+  "Schematic_Alternate_Stator_C": {
+   "nom": "Alternate: Quickwire Stator",
+   "recettes": [
+    "Alternate: Quickwire Stator"
+   ]
+  },
+  "Schematic_Alternate_SteamedCopperSheet_C": {
+   "nom": "Alternate: Steamed Copper Sheet",
+   "recettes": [
+    "Alternate: Steamed Copper Sheet"
+   ]
+  },
+  "Schematic_Alternate_SteelBeam_Aluminum_C": {
+   "nom": "Alternate: Aluminum Beam",
+   "recettes": [
+    "Alternate: Aluminum Beam"
+   ]
+  },
+  "Schematic_Alternate_SteelBeam_Molded_C": {
+   "nom": "Alternate: Molded Beam",
+   "recettes": [
+    "Alternate: Molded Beam"
+   ]
+  },
+  "Schematic_Alternate_SteelCanister_C": {
+   "nom": "Alternate: Steel Canister",
+   "recettes": [
+    "Alternate: Steel Canister"
+   ]
+  },
+  "Schematic_Alternate_SteelCastedPlate_C": {
+   "nom": "Alternate: Steel Cast Plate",
+   "recettes": [
+    "Alternate: Steel Cast Plate"
+   ]
+  },
+  "Schematic_Alternate_SteelPipe_Iron_C": {
+   "nom": "Alternate: Iron Pipe",
+   "recettes": [
+    "Alternate: Iron Pipe"
+   ]
+  },
+  "Schematic_Alternate_SteelPipe_Molded_C": {
+   "nom": "Alternate: Molded Steel Pipe",
+   "recettes": [
+    "Alternate: Molded Steel Pipe"
+   ]
+  },
+  "Schematic_Alternate_SteelRod_C": {
+   "nom": "Alternate: Steel Rod",
+   "recettes": [
+    "Alternate: Steel Rod"
+   ]
+  },
+  "Schematic_Alternate_SuperStateComputer_C": {
+   "nom": "Alternate: Super-State Computer",
+   "recettes": [
+    "Alternate: Super-State Computer"
+   ]
+  },
+  "Schematic_Alternate_TurboBlendFuel_C": {
+   "nom": "Alternate: Turbo Blend Fuel",
+   "recettes": [
+    "Alternate: Turbo Blend Fuel",
+    "Packaged Turbofuel",
+    "Unpackage Turbofuel"
+   ]
+  },
+  "Schematic_Alternate_TurboHeavyFuel_C": {
+   "nom": "Alternate: Turbo Heavy Fuel",
+   "recettes": [
+    "Alternate: Turbo Heavy Fuel",
+    "Packaged Turbofuel",
+    "Unpackage Turbofuel"
+   ]
+  },
+  "Schematic_Alternate_TurboMotor1_C": {
+   "nom": "Alternate: Turbo Electric Motor",
+   "recettes": [
+    "Alternate: Turbo Electric Motor"
+   ]
+  },
+  "Schematic_Alternate_TurboPressureMotor_C": {
+   "nom": "Alternate: Turbo Pressure Motor",
+   "recettes": [
+    "Alternate: Turbo Pressure Motor"
+   ]
+  },
+  "Schematic_Alternate_UraniumCell1_C": {
+   "nom": "Alternate: Infused Uranium Cell",
+   "recettes": [
+    "Alternate: Infused Uranium Cell"
+   ]
+  },
+  "Schematic_Alternate_WetConcrete_C": {
+   "nom": "Alternate: Wet Concrete",
+   "recettes": [
+    "Alternate: Wet Concrete"
+   ]
+  },
+  "Schematic_Alternate_Wire1_C": {
+   "nom": "Alternate: Iron Wire",
+   "recettes": [
+    "Alternate: Iron Wire"
+   ]
+  },
+  "Schematic_Alternate_Wire2_C": {
+   "nom": "Alternate: Caterium Wire",
+   "recettes": [
+    "Alternate: Caterium Wire"
+   ]
+  }
+ },
  "recherchesMam": {
   "AI Limiter": 2,
   "Alien Energy Harvesting": 6,

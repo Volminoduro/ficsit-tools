@@ -1,52 +1,70 @@
 #!/usr/bin/env node
-/* Test du lecteur de sauvegardes (commun/ficsit-partie.js), sans vraie partie dans le dépôt : fabrique de petites
-   sauvegardes synthétiques au format du jeu — en-tête, blocs zlib signés, listes mAvailableRecipes et
-   mPurchasedSchematics — dans les deux formats d'en-tête de propriété (1.0-1.1 et 1.2), et vérifie la lecture.
+/* Test de l'import de sauvegarde (commun/ficsit-partie-worker.js, parseur de commun/vendor/), sans vraie partie
+   dans le dépôt :
+   - extraction : un objet de sauvegarde tel que le parseur le rend, à la structure relevée sur des sauvegardes
+     réelles (gestionnaires de recettes, de schémas et de recherche, disques durs en attente de choix) ;
+   - refus : fichier trop court, en-tête incohérent (format), version antérieure à la 1.0 (ancienne) ;
+   - référentiel : chaque schéma proposé par un disque dur est connu, avec ses recettes (FicsitAlternatives).
+   Avec FICSIT_SAVES=<dossier>, lit en plus chaque .sav de ce dossier avec le vrai parseur et en résume l'import.
    Usage : node scripts/test_partie.js   (code de sortie 1 en cas d'échec). */
-const fs = require('fs'), path = require('path'), zlib = require('zlib');
-global.window = global;
-eval(fs.readFileSync(path.join(__dirname, '..', 'commun', 'ficsit-partie.js'), 'utf8'));
+const fs = require('fs'), path = require('path');
+const C = path.join(__dirname, '..', 'commun');
+global.self = global;
+eval(fs.readFileSync(path.join(C, 'vendor', 'satisfactory-file-parser.js'), 'utf8'));
+global.SatisfactoryFileParser = SatisfactoryFileParser;
+eval(fs.readFileSync(path.join(C, 'ficsit-partie-worker.js'), 'utf8'));
+const L = global.FicsitPartieLecteur, echecs = [];
+const ok = (c, msg) => { if(c) console.log('ok    ' + msg); else echecs.push(msg); };
 
-const i32 = n => { const b = Buffer.alloc(4); b.writeInt32LE(n); return b; };
-const i64 = n => { const b = Buffer.alloc(8); b.writeBigInt64LE(BigInt(n)); return b; };
-const fstr = s => s === '' ? i32(0) : Buffer.concat([i32(s.length + 1), Buffer.from(s + '\0', 'latin1')]);
-const ref = c => Buffer.concat([fstr(''), fstr(`/Game/FactoryGame/Recipes/X/${c.slice(0, -2)}.${c}`)]);
-function tableau(nom, classes, v12){
-  const entrees = Buffer.concat([i32(classes.length), ...classes.map(ref)]);
-  const tete = v12   // 1.2 : nouvel en-tête de propriété ; 1.0-1.1 : taille, index, type interne, garde
-    ? Buffer.concat([fstr(nom), fstr('ArrayProperty'), i32(1), fstr('ObjectProperty'), i32(0), Buffer.from([0]), i32(entrees.length), i32(0)])
-    : Buffer.concat([fstr(nom), fstr('ArrayProperty'), i64(entrees.length), fstr('ObjectProperty'), Buffer.from([0])]);
-  return Buffer.concat([tete, entrees]);
-}
-function sauvegarde({entete, version, nom, recettes, schemas, v12}){
-  const corps = Buffer.concat([Buffer.alloc(64, 7), tableau('mAvailableRecipes', recettes, v12), Buffer.alloc(32, 3),
-    tableau('mPurchasedSchematics', schemas, v12), Buffer.alloc(16)]);
-  const tete = [i32(entete), i32(version), i32(123)];
-  if(entete >= 14) tete.push(fstr('fichier'));
-  tete.push(fstr('Persistent_Level'), fstr('?opts'), fstr(nom), i32(7200), i64(638000000000000000n), Buffer.alloc(40));
-  const blocs = [];
-  for(let o = 0; o < corps.length; o += 100){            // plusieurs blocs, comme le jeu
-    const brut = corps.subarray(o, o + 100), z = zlib.deflateSync(brut);
-    blocs.push(Buffer.from([0xC1, 0x83, 0x2A, 0x9E]), i32(0x22222222), Buffer.from([0]), i32(131072), i32(0x03000000),
-      i64(z.length), i64(brut.length), i64(z.length), i64(brut.length), z);
-  }
-  return Buffer.concat([...tete, ...blocs]);
-}
-const blob = b => ({arrayBuffer: async () => b.buffer.slice(b.byteOffset, b.byteOffset + b.length)});
+const ref = c => ({levelName: '', pathName: `/Game/FactoryGame/X/${c.slice(0, -2)}.${c}`});
+const tab = (nom, classes) => ({[nom]: {type: 'ArrayProperty', name: nom, values: classes.map(ref)}});
+const dd = (id, schemas, relances) => ({type: 'HardDriveData', properties: {
+  HardDriveID: {type: 'IntProperty', value: id},
+  PendingRewards: {type: 'ArrayProperty', values: schemas.map(ref)},
+  PendingRewardsRerollsExecuted: {type: 'IntProperty', value: relances}}});
+const save = {header: {sessionName: 'Essai', saveDateTime: '1769828760000', playDurationSeconds: 7200, saveVersion: 58},
+  levels: {a: {objects: [{typePath: '/Script/Autre.Truc', properties: {}}]},
+    Persistent_Level: {objects: [
+      {typePath: '/Script/FactoryGame.FGRecipeManager', properties: tab('mAvailableRecipes',
+        ['Recipe_IngotIron_C', 'Recipe_Alternate_PureIronIngot_C', 'Recipe_Alternate_PureIronIngot_C'])},
+      {typePath: '/Game/FactoryGame/Schematics/Progression/BP_SchematicManager.BP_SchematicManager_C',
+        properties: tab('mPurchasedSchematics', ['Schematic_3-2_C', 'Schematic_Alternate_PureIronIngot_C'])},
+      {typePath: '/Game/FactoryGame/Recipes/Research/BP_ResearchManager.BP_ResearchManager_C', properties: {
+        mUnclaimedHardDriveData: {type: 'ArrayProperty', values: [
+          dd(8, ['Schematic_Alternate_CopperIngot_Tempered_C', 'Schematic_Alternate_Coal1_C'], 0),
+          dd(9, ['Schematic_Alternate_InventorySlots2_C', 'Schematic_Alternate_Motor1_C'], 1)]}}}]}}};
+const p = L.extraire(save);
+ok(p.nom === 'Essai' && p.duree === 7200 && p.version === 58 && p.date === '2026-01-31T03:06:00.000Z', 'en-tête : nom, durée, version, date');
+ok(JSON.stringify(p.recettes) === '["Recipe_IngotIron_C","Recipe_Alternate_PureIronIngot_C"]', 'recettes débloquées, sans doublon');
+ok(p.schemas.length === 2, 'schémas obtenus');
+ok(p.attente.length === 2 && p.attente[0].id === 8 && p.attente[1].relances === 1
+  && p.attente[0].schemas.join() === 'Schematic_Alternate_CopperIngot_Tempered_C,Schematic_Alternate_Coal1_C', 'disques durs en attente de choix');
+let e = null; try{ L.extraire({header: {}, levels: {}}); }catch(x){ e = x.message; }
+ok(e === 'recettes', 'sauvegarde sans gestionnaire de recettes refusée');
 
-(async () => {
-  const echecs = [], R = ['Recipe_IngotIron_C', 'Recipe_Alternate_PureIronIngot_C', 'Recipe_Alternate_SteelScrew_C', 'Recipe_IngotIron_C'];
-  const S = ['Schematic_1-1_C', 'Schematic_3-2_C', 'Schematic_Tutorial1_C'];
-  for(const [cas, o] of [['1.0', {entete: 13, version: 46, v12: false}], ['1.1', {entete: 14, version: 52, v12: false}], ['1.2', {entete: 14, version: 58, v12: true}]]){
+const tampon = (entete, version, n = 200) => { const b = new ArrayBuffer(n), v = new DataView(b); v.setInt32(0, entete, true); v.setInt32(4, version, true); return b; };
+for(const [b, att, msg] of [[new ArrayBuffer(10), 'format', 'fichier trop court'], [tampon(7777, 58), 'format', 'en-tête incohérent'],
+  [tampon(13, 42), 'ancienne', 'sauvegarde antérieure à 1.0'], [tampon(14, 58), 'format', 'corps illisible']]){
+  let m = null; try{ L.analyser(b); }catch(x){ m = x.message; }
+  ok(m === att, `${msg} → ${att}`);
+}
+
+// référentiel partagé : schémas de disques durs et recettes, tels que langue.py les assemble
+const js = fs.readFileSync(path.join(C, 'ficsit-commun.js'), 'utf8');
+const A = JSON.parse(js.match(/window\.FicsitAlternatives=(\{.*?\});\n/)[1]);
+const inconnus = ['Schematic_Alternate_CopperIngot_Tempered_C', 'Schematic_Alternate_Coal1_C', 'Schematic_Alternate_Motor1_C']
+  .filter(s => !A.disques[s] || !A.disques[s][1].some(c => A.recettes[c]));
+ok(!inconnus.length, 'schémas de disques durs rattachés à leurs recettes' + (inconnus.length ? ' : ' + inconnus : ''));
+ok(Object.keys(A.recettes).length > 90, `${Object.keys(A.recettes).length} alternatives dans le référentiel partagé`);
+
+if(process.env.FICSIT_SAVES){
+  const D = process.env.FICSIT_SAVES;
+  for(const f of fs.readdirSync(D).filter(f => f.endsWith('.sav'))){
+    const b = fs.readFileSync(path.join(D, f)), t0 = Date.now();
     try{
-      const p = await FicsitPartie.lire(blob(sauvegarde(Object.assign({nom: 'Partie ' + cas, recettes: R, schemas: S}, o))));
-      const att = {nom: 'Partie ' + cas, recettes: 3, alt: 2, palier: 3, duree: 7200};
-      const eu = {nom: p.nom, recettes: p.recettes.length, alt: FicsitPartie.alternatives(p), palier: FicsitPartie.palier(p), duree: p.duree};
-      if(JSON.stringify(att) !== JSON.stringify(eu)) echecs.push(`${cas} : attendu ${JSON.stringify(att)}, lu ${JSON.stringify(eu)}`);
-      console.log(`ok    sauvegarde ${cas} : ${JSON.stringify(eu)}`);
-    }catch(e){ echecs.push(`${cas} : ${e.message}`); }
+      const q = L.analyser(b.buffer.slice(b.byteOffset, b.byteOffset + b.length));
+      console.log(`      ${f} : v${q.version}, ${q.recettes.length} recettes, ${q.attente.length} disque(s) en attente, ${Date.now() - t0} ms`);
+    }catch(x){ console.log(`      ${f} : ${x.message}`); }
   }
-  try{ await FicsitPartie.lire(blob(sauvegarde({entete: 13, version: 42, nom: 'vieille', recettes: R, schemas: S}))); echecs.push('sauvegarde antérieure à 1.0 acceptée'); }
-  catch(e){ if(e.message !== 'ancienne') echecs.push('ancienne : message ' + e.message); else console.log('ok    sauvegarde antérieure à 1.0 refusée'); }
-  if(echecs.length){ console.error(echecs.join('\n')); process.exit(1); }
-})();
+}
+if(echecs.length){ console.error(echecs.map(m => 'ÉCHEC ' + m).join('\n')); process.exit(1); }

@@ -27,7 +27,7 @@ def compact(obj):
 
 def alternatives():
     """Référentiel des alternatives pour « Ma partie » (commun/ficsit-partie.js), tiré de donnees/donnees-jeu.json :
-    recettes[classe] = [nom sans « Alternate: », item produit, slug d'icône (commun/icones-44/), palier] ;
+    recettes[classe] = [nom sans « Alternate: », item produit, slug d'icône de l'item, palier] ;
     disques[schéma de disque dur] = [nom du schéma, classes des recettes qu'il débloque]."""
     d = json.loads((ROOT / "donnees" / "donnees-jeu.json").read_text(encoding="utf-8"))
     rec = {}

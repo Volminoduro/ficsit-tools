@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.25",
+          "date": "2026-09-28",
+          "texte": {
+            "fr": "Import de la sauvegarde environ cinq fois plus rapide (1 s au lieu de 5 pour une partie de 5 Mo) et beaucoup plus économe en mémoire : les trois listes utiles sont lues directement, le parseur complet ne sert plus qu'en secours (et n'est téléchargé que dans ce cas).",
+            "en": "Save import about five times faster (1 s instead of 5 for a 5 MB game) and far lighter on memory: the three useful lists are read directly, the full parser is only a fallback (and only downloaded then)."
+          }
+        },
+        {
           "version": "1.24",
           "date": "2026-09-28",
           "texte": {

@@ -1,7 +1,7 @@
 /* FICSIT — « Ma partie » : import d'une sauvegarde Satisfactory (.sav, version 1.0 et plus), dans le navigateur.
    Source : commun/ficsit-partie.js, assemblée dans commun/ficsit-commun.js par scripts/langue.py.
-   L'analyse elle-même (parseur @etothepii/satisfactory-file-parser) tourne dans un Web Worker,
-   commun/ficsit-partie-worker.js : une sauvegarde de plusieurs dizaines de Mo ne fige pas la page. Le fichier ne
+   L'analyse tourne dans un Web Worker, commun/ficsit-partie-worker.js : lecteur rapide des trois listes utiles, et
+   parseur complet @etothepii/satisfactory-file-parser en secours seulement (chargé à ce moment-là). Le fichier ne
    quitte pas le navigateur.
    On garde, sous la clé 'ficsit-tools:partie' (stockage local, partagé par tous les outils) : nom de la session,
    date, durée de jeu, recettes débloquées, schémas obtenus et disques durs analysés en attente de choix.
@@ -25,15 +25,15 @@
       s.onerror = function(){ ko(new Error('format')); }; document.head.appendChild(s);
     });
   }
-  // repli sans worker (page ouverte en file://) : même code, dans le fil principal
+  // repli sans worker (page ouverte en file://) : même code, dans le fil principal ; parseur complet chargé seulement
+  // si le lecteur rapide échoue
   function sansWorker(buf, progres){
-    var p = window.FicsitPartieLecteur ? Promise.resolve()
-      : chargerScript(BASE + 'vendor/satisfactory-file-parser.js').then(function(){ return chargerScript(BASE + 'ficsit-partie-worker.js'); });
+    var p = window.FicsitPartieLecteur ? Promise.resolve() : chargerScript(BASE + 'ficsit-partie-worker.js');
     return p.then(function(){
-      return new Promise(function(ok, ko){
-        setTimeout(function(){   // laisse s'afficher « analyse… » avant de bloquer la page
-          try{ ok(window.FicsitPartieLecteur.analyser(buf, function(f){ progres('analyse', f); })); }catch(e){ ko(e); }
-        }, 30);
+      return new Promise(function(r){ setTimeout(r, 30); });   // laisse s'afficher « analyse… »
+    }).then(function(){
+      return window.FicsitPartieLecteur.lire(buf, function(f){ progres('analyse', f); }, function(){
+        return window.SatisfactoryFileParser ? null : chargerScript(BASE + 'vendor/satisfactory-file-parser.js');
       });
     });
   }

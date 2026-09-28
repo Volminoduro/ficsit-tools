@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
+- **v1.24** (28/09/2026) : « Ma partie » : le palier se règle sur celui de votre partie à chaque import ; un bandeau au-dessus des onglets rappelle le filtre et la simulation en cours ; dans les combinaisons, les alternatives débloquées seulement par la simulation sont marquées « simulée ». La simulation est désormais partagée avec l'arbre de production et l'optimiseur de recyclage.
+  *EN — "My game": the tier is set to your game's on each import; a banner above the tabs recalls the active filter and simulation; in combinations, alternates unlocked only by the simulation are marked "simulated". The simulation is now shared with the production tree and the recycling optimizer.*
 - **v1.23** (28/09/2026) : Simulation des choix de disques durs : dans le panneau « Ma partie », cochez l'alternative à retenir pour chaque disque en attente (par défaut la meilleure en Synthèse) et l'option « Simuler mes choix » : duels, combinaisons, catalogue et paliers font comme si elle était débloquée. Sur téléphone, les onglets, les noms longs et les chiffres clés ne débordent plus de l'écran, et l'onglet « Ma partie » passe en bas à droite.
   *EN — Hard drive pick simulation: in the "My game" panel, tick the alternate to keep for each pending drive (by default the best in Synthesis) and the "Simulate my picks" option: duels, combinations, catalogue and tiers act as if it were unlocked. On phones, tabs, long names and key figures no longer overflow the screen, and the "My game" tab moves to the bottom right.*
 - **v1.22** (27/09/2026) : « Ma partie » passe dans un panneau latéral, ouvert par l'onglet sur le bord droit : import de la sauvegarde (il quitte l'accueil), filtre, disques durs en attente de choix et alternatives débloquées ou manquantes. Chaque alternative y est notée sur le critère affiché (énergie, matière, espace ou synthèse), avec son gain face à la base et son verdict ; l'onglet indique le nombre de disques en attente.
@@ -74,6 +76,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Optimiseur de recyclage / Recycling optimizer — `broyeur-excedents.html`
 
+- **v1.17** (28/09/2026) : Avec une sauvegarde importée dans le registre des rendements : option (cochée par défaut) pour ne garder que les cibles que vos recettes débloquées, ou simulées, savent fabriquer ; le palier se règle sur celui de votre partie.
+  *EN — With a save imported in the yield registry: option (ticked by default) to keep only the targets your unlocked, or simulated, recipes can make; the tier is set to your game's.*
 - **v1.16** (26/09/2026) : Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois. Les icônes aussi, partagées avec les autres outils. (343 → 97 Ko)
   *EN — Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once. Icons too, shared with the other tools. (343 → 97 KB)*
 - **v1.15** (26/09/2026) : La grille de paliers est désormais commune aux outils (même apparence que dans le registre et l'arbre).
@@ -126,6 +130,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Complexité et valeur au broyeur / Complexity vs sink value — `arbre-production.html`
 
+- **v1.7** (28/09/2026) : Troisième chaîne « Ma partie », dès qu'une sauvegarde est importée dans le registre des rendements : pour chaque item, l'alternative de la chaîne optimisée si vous l'avez débloquée (ou simulée), sinon la recette de base. Le palier se règle sur celui de votre partie.
+  *EN — Third chain "My game", once a save is imported in the yield registry: for each item, the optimized chain's alternate if you have unlocked (or simulated) it, otherwise the standard recipe. The tier is set to your game's.*
 - **v1.6** (26/09/2026) : Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois. Les icônes aussi, partagées avec les autres outils. (283 → 65 Ko)
   *EN — Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once. Icons too, shared with the other tools. (283 → 65 KB)*
 - **v1.5** (26/09/2026) : Le palier se choisit dans la même grille à icônes que les autres outils, au lieu d'un menu : seuls les paliers qui font apparaître au moins un item sont cliquables ; retoucher le palier choisi affiche tout.

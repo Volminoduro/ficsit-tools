@@ -77,7 +77,7 @@ const CHECKS = {
     // « Ma partie » : un import (tel que le worker le rend) s'affiche dans le panneau latéral, disque dur en attente
     // noté sur le critère affiché, puis se vide
     FicsitPartie.enregistrer({nom: 'Test', date: '2026-01-31T03:06:00.000Z', duree: 3600, version: 58, recettes:
-      ['Recipe_Alternate_PureIronIngot_C'], schemas: ['Schematic_3-1_C'], attente: [{id: 8, relances: 0,
+      [...D.filter(r => !r.a).map(r => r.k), 'Recipe_Alternate_PureIronIngot_C'], schemas: ['Schematic_3-1_C'], attente: [{id: 8, relances: 0,
       schemas: ['Schematic_Alternate_Motor1_C', 'Schematic_Alternate_InventorySlots2_C']}]});
     ouvrirPanneau(true, false);
     const lignes = () => [...document.querySelectorAll('#partieAttente tbody tr')];
@@ -87,6 +87,16 @@ const CHECKS = {
     if (!n1 || n1 === '—' || note() === n1) out.push(`panneau : score du disque en attente absent ou insensible au critère (${n1} → ${note()})`);
     setMode('mw');
     if (!document.getElementById('partieTab').textContent.includes('1')) out.push('onglet : nombre de disques en attente absent');
+    // simulation : l'alternative cochée du disque (Moteur rigide par défaut) devient permise, l'autre choix aussi une fois coché
+    const moteur = 'Recipe_Alternate_Motor_1_C';
+    setPartie(true);
+    if (FILTRE.has(moteur)) out.push('filtre : alternative en attente permise sans simulation');
+    SIMU.on = true; setPartie(true);
+    if (!FILTRE.has(moteur) || !D.some(r => r.k === moteur && isAvail(r))) out.push('simulation : choix par défaut non permis');
+    SIMU.choix[8] = 'Schematic_Alternate_InventorySlots2_C'; setPartie(true);
+    if (FILTRE.has(moteur)) out.push('simulation : changement de choix ignoré');
+    delete SIMU.choix[8]; setPartie(false);
+    if (SIMU.on || FILTRE) out.push('simulation : reste active sans filtre');
     document.getElementById('vider').click();
     if (PARTIE || lignes().length) out.push('panneau : import non vidé');
     ouvrirPanneau(false, false);

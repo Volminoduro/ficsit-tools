@@ -97,6 +97,14 @@
     "partieValeurs": { "fr": "Scores et gains sur le critère affiché : {c}. Changez d'onglet (Énergie, Matière, Espace, Synthèse) pour les voir sur un autre.",
                      "en": "Scores and gains on the criterion shown: {c}. Switch tab (Energy, Materials, Space, Synthesis) to see them on another." },
     "partieTri": { "fr": "triées par gain sur le critère affiché",
-                 "en": "sorted by gain on the criterion shown" }
+                 "en": "sorted by gain on the criterion shown" },
+    "partieSimuler": { "fr": "Simuler mes choix de disques durs : faire comme si l'alternative cochée de chaque disque en attente était débloquée (duels, combinaisons, catalogue et paliers en tiennent compte).",
+                     "en": "Simulate my hard drive picks: treat the ticked alternate of each pending drive as unlocked (duels, combinations, catalogue and tiers take it into account)." },
+    "partieSimulees": { "fr": "{n} alternative(s) ajoutée(s) par la simulation.",
+                      "en": "{n} alternate(s) added by the simulation." },
+    "partieChoisir": { "fr": "Choix simulé pour ce disque",
+                     "en": "Simulated pick for this drive" },
+    "partieChoixAide": { "fr": "Cochez le choix à simuler (par défaut, le meilleur en Synthèse).",
+                       "en": "Tick the pick to simulate (by default, the best in Synthesis)." }
   }
 }

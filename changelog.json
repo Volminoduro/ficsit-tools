@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.23",
+          "date": "2026-09-28",
+          "texte": {
+            "fr": "Simulation des choix de disques durs : dans le panneau « Ma partie », cochez l'alternative à retenir pour chaque disque en attente (par défaut la meilleure en Synthèse) et l'option « Simuler mes choix » : duels, combinaisons, catalogue et paliers font comme si elle était débloquée. Sur téléphone, les onglets, les noms longs et les chiffres clés ne débordent plus de l'écran, et l'onglet « Ma partie » passe en bas à droite.",
+            "en": "Hard drive pick simulation: in the \"My game\" panel, tick the alternate to keep for each pending drive (by default the best in Synthesis) and the \"Simulate my picks\" option: duels, combinations, catalogue and tiers act as if it were unlocked. On phones, tabs, long names and key figures no longer overflow the screen, and the \"My game\" tab moves to the bottom right."
+          }
+        },
+        {
           "version": "1.22",
           "date": "2026-09-27",
           "texte": {

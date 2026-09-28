@@ -23,3 +23,42 @@ Rappel : chaque évolution d'un outil passe par une entrée de `changelog.json` 
   Libellé peu parlant (`sortC`, `chainCovered`, `mChainCovered`). Trouver un nom clair en FR et en EN, le reporter dans le tri, la colonne, la fiche détail et l'aide. Le plus coûteux est de trancher la formulation avec le joueur ; le remplacement lui-même est mécanique.
 
 Entrée de journal à prévoir pour le broyeur (une seule version regroupant les trois points, `patchnotes.py`, `verif_payloads.py` et `test_pages.js` compris) : ~8 000 tokens en plus. Total des trois chantiers du broyeur : ~90 000 tokens ; avec le bouton Accueil : ~110 000.
+
+## Nouvel outil — débit vers le Dimensional Depot
+
+- [ ] **Estimer, depuis une sauvegarde, le débit envoyé au Dimensional Depot** — **L** (≫ 60 000 tokens, à découper en plusieurs PR ; H2 Opus)
+  Objectif : un outil qui estime, à partir d'une sauvegarde Satisfactory (.sav), le débit par minute et par item envoyé au Dimensional Depot via les Dimensional Depot Uploaders.
+  1. **Lecture de la save**
+     - Parser la save dans le navigateur (par ex. avec @etothepii/satisfactory-file-parser, déjà embarqué dans `commun/vendor/`), sans envoi serveur : la save ne quitte pas la machine de l'utilisateur.
+     - Extraire : bâtiments (type, recette, overclock, sloops), convoyeurs et tuyaux (tier), séparateurs (filtres des intelligents et programmables), extracteurs (pureté du nœud, tier du mineur), centrales, Uploaders, et le raccordement de chaque connecteur.
+     - Reconstruire le graphe complet de production, des nœuds de ressources jusqu'aux Uploaders.
+  2. **Calcul du débit**
+     - Calcul stationnaire par propagation de flot, itéré jusqu'à convergence (point fixe).
+     - Prendre en compte :
+       - la capacité machine (recette × horloge × sloop) ;
+       - le manque d'entrée : une machine tourne à min(capacité, entrées disponibles / besoin) ;
+       - le plafond des convoyeurs et des tuyaux ;
+       - la répartition équitable aux séparateurs, filtres compris ;
+       - l'apport réel des extracteurs ;
+       - le déficit du réseau électrique.
+     - Gérer les boucles et rétroactions sans divergence, et signaler quand la solution n'est pas unique.
+     - Prendre en compte les limites de stockage du Depot par item, lues dans la save : surplus détruit ou amont bloqué.
+  3. **Validation**
+     - Recouper le modèle avec le remplissage réel des convoyeurs dans la save (plein et immobile = saturation, presque vide = manque d'entrée) et signaler les écarts.
+     - Option : comparer deux saves (delta de stock du Depot / delta de temps de jeu) pour obtenir un débit net réel, en avertissant que la consommation depuis le Depot fausse ce chiffre.
+  4. **Sortie** : tableau par item du débit vers le Depot en items/min (théorique et déduit), avec les goulots mis en évidence (machine, convoyeur ou ressource limitante).
+  5. **Contraintes du projet**
+     - Icônes des items du jeu pour faciliter la lecture, charte graphique du jeu autant que possible.
+     - Traduction complète FR/EN de tous les textes (`commun/langue.json`).
+     - Entrée correspondante dans le journal de l'outil (`changelog.json`, `patchnotes.py`).
+     - Fichiers poussés sur le dépôt habituel.
+     - Conventions existantes réutilisées : référentiel `donnees/donnees-jeu.json`, slugs et icônes partagées (`commun/icones-44/`), pipeline `scripts/tout.sh`, tests `test_pages.js`.
+
+  Notes préalables (relevées pendant le chantier « Ma partie », à vérifier) :
+  - Le lecteur rapide de « Ma partie » ne suffira pas. Il faut le parseur complet (bâtiments, connexions, inventaires des convoyeurs), qui construit tout l'arbre d'objets : environ 12 s et beaucoup de mémoire en Node pour 5,5 Mo, donc Web Worker indispensable et risque réel sur les très grosses saves.
+  - Structures à identifier sur une vraie save avant de coder (comme pour `mUnclaimedHardDriveData`) : Uploaders et leur item, stock et plafond du Depot (sous-système de stockage central), connexions des convoyeurs (`mConnectedComponent`), contenu des convoyeurs, circuits électriques. Il faut au moins une sauvegarde avec des Uploaders actifs, idéalement deux prises à quelques minutes d'écart pour la validation par delta.
+  - Découpage conseillé en PR successives :
+    1. lecture et graphe, affichés sans calcul ;
+    2. débits théoriques ;
+    3. convoyeurs, séparateurs et électricité ;
+    4. validation et comparaison de deux saves.

@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.24",
+          "date": "2026-09-28",
+          "texte": {
+            "fr": "« Ma partie » : le palier se règle sur celui de votre partie à chaque import ; un bandeau au-dessus des onglets rappelle le filtre et la simulation en cours ; dans les combinaisons, les alternatives débloquées seulement par la simulation sont marquées « simulée ». La simulation est désormais partagée avec l'arbre de production et l'optimiseur de recyclage.",
+            "en": "\"My game\": the tier is set to your game's on each import; a banner above the tabs recalls the active filter and simulation; in combinations, alternates unlocked only by the simulation are marked \"simulated\". The simulation is now shared with the production tree and the recycling optimizer."
+          }
+        },
+        {
           "version": "1.23",
           "date": "2026-09-28",
           "texte": {
@@ -280,6 +288,14 @@
       },
       "entrees": [
         {
+          "version": "1.17",
+          "date": "2026-09-28",
+          "texte": {
+            "fr": "Avec une sauvegarde importée dans le registre des rendements : option (cochée par défaut) pour ne garder que les cibles que vos recettes débloquées, ou simulées, savent fabriquer ; le palier se règle sur celui de votre partie.",
+            "en": "With a save imported in the yield registry: option (ticked by default) to keep only the targets your unlocked, or simulated, recipes can make; the tier is set to your game's."
+          }
+        },
+        {
           "version": "1.16",
           "date": "2026-09-26",
           "texte": {
@@ -479,6 +495,14 @@
         "en": "Complexity vs sink value"
       },
       "entrees": [
+        {
+          "version": "1.7",
+          "date": "2026-09-28",
+          "texte": {
+            "fr": "Troisième chaîne « Ma partie », dès qu'une sauvegarde est importée dans le registre des rendements : pour chaque item, l'alternative de la chaîne optimisée si vous l'avez débloquée (ou simulée), sinon la recette de base. Le palier se règle sur celui de votre partie.",
+            "en": "Third chain \"My game\", once a save is imported in the yield registry: for each item, the optimized chain's alternate if you have unlocked (or simulated) it, otherwise the standard recipe. The tier is set to your game's."
+          }
+        },
         {
           "version": "1.6",
           "date": "2026-09-26",

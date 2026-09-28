@@ -20,6 +20,9 @@ Ressource brute : d = e = i = 0, r = 1, rec = son nom, t = premier palier d'une 
 Une boucle éventuelle (recette qui consomme un item déjà sur le chemin) est coupée : l'arête qui
 reboucle compte pour une profondeur nulle.
 
+Pour « Ma partie », la page reçoit aussi ch (item → [recette de base, recette optimisée]) et res (ressources brutes) :
+elle en tire une troisième chaîne, la recette optimisée si elle est débloquée (ou simulée), sinon celle de base.
+
 Usage : python3 scripts/arbre.py   → résumé, sans rien écrire. L'écriture passe par scripts/payloads.py.
 """
 import json, pathlib, re, sys
@@ -99,7 +102,10 @@ def calcul():
         m = {"d": 0, "e": 0, "i": 0, "r": 1, "t": t, "rec": n}
         items.append({"n": n, "sp": ITEMS[n]["points"], "b": m, "o": dict(m)})
     items.sort(key=lambda x: x["n"])
-    return {"items": items}
+    # « Ma partie » (la page recalcule une chaîne avec vos recettes) : recette de base et recette optimisée de chaque
+    # item produit, ressources brutes. Les recettes elles-mêmes viennent de FicsitRecettes (bloc commun).
+    ch = {p: [base[p][0] if p in base else None, opt[p][0] if p in opt else None] for p in sorted(set(base) | set(opt))}
+    return {"items": items, "ch": ch, "res": sorted(RES)}
 
 
 def payload_page():

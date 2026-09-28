@@ -15,7 +15,7 @@
    FicsitPartie.bilan(p) → {debloquees, manquantes, attente} (alternatives du référentiel)
    FicsitPartie.alternatives(p) → nombre de recettes alternatives débloquées ; .palier(p) → palier atteint */
 (function(){
-  var CLE = 'ficsit-tools:partie', abonnes = [];
+  var CLE = 'ficsit-tools:partie', CLE_SIMU = 'ficsit-tools:simulation', abonnes = [];
   // dossier de ce script (commun/), pour y trouver le worker et le parseur quelle que soit la page
   var BASE = ((document.currentScript && document.currentScript.src) || 'commun/').replace(/[^/]*$/, '');
 
@@ -70,7 +70,7 @@
 
   function charger(){ try{ var p = JSON.parse(localStorage.getItem(CLE)); return p && p.recettes ? p : null; }catch(e){ return null; } }
   function prevenir(){ abonnes.forEach(function(f){ try{ f(); }catch(e){} }); }
-  window.addEventListener('storage', function(e){ if(e.key === CLE || e.key === null) prevenir(); });
+  window.addEventListener('storage', function(e){ if(e.key === CLE || e.key === CLE_SIMU || e.key === null) prevenir(); });
 
   /* Référentiel des alternatives (FicsitAlternatives) : recettes[classe] = [nom, item produit, slug d'icône, palier],
      disques[schéma] = [nom du schéma, [classes de recettes]]. */
@@ -94,7 +94,41 @@
     };
   }
 
+  /* Simulation des choix de disques durs, partagée par les outils : {on, choix: {id du disque: schéma retenu}}.
+     L'infographie la règle (choix par défaut : le meilleur en Synthèse) ; les autres outils la lisent. */
+  function simulation(){
+    try{ var s = JSON.parse(localStorage.getItem(CLE_SIMU)); if(s && typeof s === 'object') return {on: s.on === true, choix: s.choix || {}}; }catch(e){}
+    return {on: false, choix: {}};
+  }
+  function simuler(s){ try{ localStorage.setItem(CLE_SIMU, JSON.stringify({on: !!s.on, choix: s.choix || {}})); }catch(e){} }
+  // recettes permises : celles de la sauvegarde, plus le choix simulé de chaque disque en attente si la simulation est active
+  function permises(p, sim){
+    var ok = new Set(p.recettes || []);
+    sim = sim || simulation();
+    if(sim.on) bilan(p).attente.forEach(function(a){
+      var s = sim.choix[a.id], c = a.choix.filter(function(c){ return c.schema === s; })[0] || a.choix.filter(function(c){ return c.recettes.length; })[0];
+      if(c) c.recettes.forEach(function(f){ ok.add(f.classe); });
+    });
+    return ok;
+  }
+  /* Graphe des recettes de production (FicsitRecettes, généré par langue.py) : items fabricables avec un ensemble de
+     recettes permises, à partir des items qu'aucune recette ne produit (ressources, cueillette). */
+  function fabricables(ok, deja){   // deja : noms d'items disponibles d'office (excédents déclarés, par exemple)
+    var G = window.FicsitRecettes, produit = new Set(), dispo = new Set(), change = true, en = new Set(deja || []);
+    G.r.forEach(function(r){ r[5].forEach(function(i){ produit.add(i); }); });
+    G.items.forEach(function(n, i){ if(!produit.has(i) || en.has(n)) dispo.add(i); });
+    var rs = G.r.filter(function(r){ return ok.has(r[0]); });
+    while(change){
+      change = false;
+      rs.forEach(function(r){
+        if(r[4].every(function(i){ return dispo.has(i); })) r[5].forEach(function(i){ if(!dispo.has(i)){ dispo.add(i); change = true; } });
+      });
+    }
+    return new Set(Array.from(dispo).map(function(i){ return G.items[i]; }));
+  }
+
   window.FicsitPartie = {
+    simulation: simulation, simuler: simuler, permises: permises, fabricables: fabricables,
     cle: CLE, lire: lire, charger: charger, bilan: bilan,
     enregistrer: function(p){ try{ localStorage.setItem(CLE, JSON.stringify(p)); prevenir(); return true; }catch(e){ return false; } },
     oublier: function(){ try{ localStorage.removeItem(CLE); }catch(e){} prevenir(); },

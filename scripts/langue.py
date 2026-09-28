@@ -40,6 +40,20 @@ def alternatives():
     return compact({"recettes": rec, "disques": dd})
 
 
+def recettes():
+    """Graphe des recettes de production pour « Ma partie » (items fabricables, chaîne de l'arbre avec vos recettes) :
+    items (noms triés) et r = [classe, nom, alternative 0/1, palier, [indices des ingrédients], [indices des produits]]."""
+    d = json.loads((ROOT / "donnees" / "donnees-jeu.json").read_text(encoding="utf-8"))
+    B = d["batiments"]
+    rec = sorted((n, r) for n, r in d["recettes"].items()
+                 if r["machine"] and B.get(r["machine"], {}).get("groupe") == "production")
+    items = sorted({x[0] for _, r in rec for x in r["ingredients"] + r["produits"]})
+    ix = {n: i for i, n in enumerate(items)}
+    return compact({"items": items, "r": [[r["classe"], n, int(r["alternative"]), r["palier"],
+                                          [ix[x[0]] for x in r["ingredients"]], [ix[x[0]] for x in r["produits"]]]
+                                         for n, r in rec]})
+
+
 def bloc():
     conf = json.loads((C / "langue.json").read_text(encoding="utf-8"))
     glo = json.loads((C / "glossaire.json").read_text(encoding="utf-8"))
@@ -50,6 +64,7 @@ def bloc():
     js = js.replace("__CONF__", compact(conf)).replace("__GLOSSAIRE__", compact(glo))
     js = tete + js.strip() + "\n" + (C / "ficsit-paliers.js").read_text(encoding="utf-8").strip() + "\n"
     js += "window.FicsitAlternatives=" + alternatives() + ";\n"
+    js += "window.FicsitRecettes=" + recettes() + ";\n"
     js += (C / "ficsit-partie.js").read_text(encoding="utf-8").strip() + "\n"
     css = tete + "\n".join((C / f).read_text(encoding="utf-8").strip() for f in ("ficsit-lang.css", "ficsit-paliers.css")) + "\n"
     for nom, contenu in (("ficsit-commun.js", js), ("ficsit-commun.css", css)):

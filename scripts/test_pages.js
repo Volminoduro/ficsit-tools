@@ -35,12 +35,40 @@ const PREFS = {
    la liste des anomalies, vide si tout va bien. */
 const CHECKS = {
   'broyeur-excedents.html': () => {
-    const n = document.querySelectorAll('#out .card').length;
-    return n ? [] : ['aucune cible pour plaques, vis et fil'];
+    const n = document.querySelectorAll('#out .card').length, out = n ? [] : ['aucune cible pour plaques, vis et fil'];
+    // « Ma partie » : avec les seules recettes de départ (palier 0), les cibles se réduisent à ce qu'elles fabriquent
+    const G = FicsitRecettes, depart = G.r.filter(r => r[3] === 0).map(r => r[0]);
+    FicsitPartie.enregistrer({nom: 'Test', date: '2026-01-31T03:06:00.000Z', duree: 3600, version: 58, lu: 'test-broyeur',
+      recettes: depart, schemas: ['Schematic_1-1_C'], attente: []});
+    const m = document.querySelectorAll('#out .card').length, fab = FicsitPartie.fabricables(new Set(depart), [...sel].map(([i]) => SRC[i].n));
+    if (document.getElementById('partieBox').hidden) out.push('case « Ma partie » absente après import');
+    if (tierCap !== 1) out.push(`palier non réglé sur la partie (${tierCap})`);
+    const hors = [...document.querySelectorAll('#out .card')].length && TGT.filter(t => !fab.has(t.n)).length === 0 ? ['aucune cible exclue'] : [];
+    if (m >= n || hors.length) out.push(`cibles non filtrées par la partie (${n} → ${m})`);
+    document.getElementById('filtrePartie').click(); tierCap = null; compute();
+    if (document.querySelectorAll('#out .card').length !== n) out.push('décocher « Ma partie » ne rend pas toutes les cibles');
+    FicsitPartie.oublier(); tierCap = null; compute();
+    return out;
   },
   'arbre-production.html': () => {
     const n = document.querySelectorAll('#rows tr').length, m = P.items.length;
-    return n === m ? [] : [`${n} lignes dans le tableau pour ${m} items`];
+    const out = n === m ? [] : [`${n} lignes dans le tableau pour ${m} items`];
+    // « Ma partie » : le calcul de la page (mesuresJS) redonne les chaînes de base et optimisée de scripts/arbre.py
+    for (const c of ['b', 'o']) {
+      const ch = Object.fromEntries(Object.entries(P.ch).map(([it, r]) => [it, r[c === 'b' ? 0 : 1] || r[0] || r[1]]));
+      const ec = P.items.filter(x => !RES.has(x.n) && JSON.stringify(mesuresJS(x.n, ch)) !== JSON.stringify(x[c]));
+      if (ec.length) out.push(`chaîne ${c} recalculée ≠ payload : ${ec.slice(0, 3).map(x => x.n + ' ' + JSON.stringify(mesuresJS(x.n, ch)) + ' ≠ ' + JSON.stringify(x[c])).join(' ; ')}`);
+    }
+    // import (toutes les recettes de base + une alternative) : bouton « Ma partie », chaîne p, palier réglé
+    FicsitPartie.enregistrer({nom: 'Test', date: '2026-01-31T03:06:00.000Z', duree: 3600, version: 58, lu: 'test-arbre',
+      recettes: G.r.filter(r => !r[2]).map(r => r[0]).concat('Recipe_Alternate_PureIronIngot_C'), schemas: ['Schematic_4-1_C'], attente: []});
+    if (document.getElementById('chainP').hidden || !P.items.every(x => x.p)) out.push('chaîne « Ma partie » absente après import');
+    if (st.tier !== 4) out.push(`palier non réglé sur la partie (${st.tier})`);
+    const fer = P.items.find(x => x.n === 'Iron Ingot');
+    if (fer && fer.p.rec !== 'Alternate: Pure Iron Ingot' && fer.o.rec === 'Alternate: Pure Iron Ingot') out.push('chaîne p : alternative débloquée non retenue');
+    FicsitPartie.oublier();
+    if (!document.getElementById('chainP').hidden) out.push('chaîne « Ma partie » restée après vidage');
+    return out;
   },
   'ficsit_horloge.html': () => {
     const n = document.querySelectorAll('#tbl tbody tr').length, out = n ? [] : ['aucune répartition calculée'];
@@ -79,6 +107,8 @@ const CHECKS = {
     FicsitPartie.enregistrer({nom: 'Test', date: '2026-01-31T03:06:00.000Z', duree: 3600, version: 58, recettes:
       [...D.filter(r => !r.a).map(r => r.k), 'Recipe_Alternate_PureIronIngot_C'], schemas: ['Schematic_3-1_C'], attente: [{id: 8, relances: 0,
       schemas: ['Schematic_Alternate_Motor1_C', 'Schematic_Alternate_InventorySlots2_C']}]});
+    if (cap !== 3) out.push(`palier non réglé sur la partie (${cap})`);
+    cap = TMAX;
     ouvrirPanneau(true, false);
     const lignes = () => [...document.querySelectorAll('#partieAttente tbody tr')];
     if (lignes().length !== 2) out.push(`panneau : ${lignes().length} ligne(s) pour le disque en attente au lieu de 2`);

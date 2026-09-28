@@ -76,6 +76,15 @@ def bloc():
             f'<script src="commun/ficsit-commun.js?v={v(js)}"></script>\n{END}')
 
 
+def empreintes(s):
+    """Scripts locaux propres à une page (<script src="x.js?v=…">, hors commun/) : empreinte de leur contenu."""
+    def rempl(m):
+        f = ROOT / m.group(1)
+        return m.group(0) if not f.exists() else \
+            f'src="{m.group(1)}?v={hashlib.sha1(f.read_bytes()).hexdigest()[:10]}"'
+    return re.sub(r'src="([\w\-]+\.js)(?:\?v=[0-9a-f]+)?"', rempl, s)
+
+
 def injecter(p, contenu):
     s = p.read_text(encoding="utf-8")
     if START in s:
@@ -85,6 +94,7 @@ def injecter(p, contenu):
         if not m:
             sys.exit(f"{p.name} : ni <meta charset> ni <head> trouvés")
         s = s[:m.end()] + "\n" + contenu + s[m.end():]
+    s = empreintes(s)
     p.write_text(s, encoding="utf-8")
 
 

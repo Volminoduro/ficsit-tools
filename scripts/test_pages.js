@@ -2,7 +2,8 @@
 /* Test fumée des pages dans un vrai navigateur (Playwright + Chromium).
    Pour chaque page et chaque langue : aucune erreur JS, et aucun texte visible de l'autre langue
    (journal des révisions déroulé compris). Puis, une fois par page, des vérifications fonctionnelles
-   (CHECKS) : des résultats attendus, pas seulement l'absence d'erreur.
+   (CHECKS) : des résultats attendus, pas seulement l'absence d'erreur. Enfin, chaque page à 320 et 390 px de large :
+   pas de débordement horizontal.
    La langue est posée au chargement (mémorisée) puis rebasculée par le sélecteur à drapeaux.
    Usage : node scripts/test_pages.js   (depuis la racine du dépôt ; Playwright requis :
    npm install --no-save playwright && npx playwright install chromium). Code de sortie 1 en cas d'échec. */
@@ -127,6 +128,8 @@ const CHECKS = {
     if (FILTRE.has(moteur)) out.push('simulation : changement de choix ignoré');
     delete SIMU.choix[8]; setPartie(false);
     if (SIMU.on || FILTRE) out.push('simulation : reste active sans filtre');
+    const restes = [availCache, combiCache, lbCache, planCache].reduce((n, c) => n + Object.keys(c).filter(k => /\dp\d/.test(k)).length, 0);
+    if (restes) out.push(`caches filtrés non purgés : ${restes}`);
     document.getElementById('vider').click();
     if (PARTIE || lignes().length) out.push('panneau : import non vidé');
     ouvrirPanneau(false, false);
@@ -195,6 +198,24 @@ const INDICES = {
     pb.forEach(x => echecs.push(`${page} : ${x}`));
     console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} ${page} [vérifications]`);
     await p.close();
+  }
+  // téléphone : aucune page ne déborde horizontalement (320 et 390 px, chaque onglet de l'infographie ouvert)
+  for (const page of [...new Set(Object.keys(PAGES).map(x => x.split('#')[0]))]) {
+    for (const w of [320, 390]) {
+      const p = await b.newPage({viewport: {width: w, height: 800}});
+      await p.goto('file://' + path.join(ROOT, page));
+      await p.waitForTimeout(400);
+      const vues = await p.$('#tabC') ? ['#tabD', '#tabC', '#tabL'] : [null];
+      const trop = [];
+      for (const v of vues) {
+        if (v) { await p.click(v); await p.waitForTimeout(150); }
+        const sw = await p.evaluate(() => document.documentElement.scrollWidth);
+        if (sw > w) trop.push(`${v || 'page'} : ${sw} px`);
+      }
+      if (trop.length) echecs.push(`${page} [${w} px] : débordement horizontal (${trop.join(', ')})`);
+      console.log(`${trop.length ? 'ÉCHEC' : 'ok   '} ${page} [${w} px]`);
+      await p.close();
+    }
   }
   await b.close();
   if (echecs.length) { console.error('\n' + echecs.join('\n')); process.exit(1); }

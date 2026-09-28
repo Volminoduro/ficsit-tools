@@ -13,7 +13,7 @@
    Une chaîne distincte = une recette par item, cohérente sur tout l'arbre (un item produit deux fois l'est par la même
    recette), sans boucle et de coût fini. Les cibles sont celles du registre déjà présent dans la page.
    Le modèle de coût et la recherche exacte sont ceux de la page, entre les marqueurs MOTEUR:START et MOTEUR:END,
-   repris tels quels du HTML : synthèse comprise, aux poids par défaut (SYN_W0) et aux taux de change que la page
+   et la disponibilité par palier entre PALIERS:START et PALIERS:END, repris tels quels du HTML : synthèse comprise, aux poids par défaut (SYN_W0) et aux taux de change que la page
    calcule (synTaux). */
 const fs = require('fs');
 const html = fs.readFileSync(process.argv[2], 'utf8');
@@ -23,33 +23,14 @@ const js = html.match(/<script>\n([\s\S]*?)<\/script>/)[1];
 const i0 = js.indexOf('/* MOTEUR:START'), i1 = js.indexOf('/* MOTEUR:END */');
 if(i0 < 0 || i1 < i0){ console.error('marqueurs MOTEUR:START / MOTEUR:END introuvables dans', process.argv[2]); process.exit(1); }
 const helpers = js.slice(i0, i1);
+// Disponibilité par palier : entre les marqueurs PALIERS:START et PALIERS:END de la page, reprise telle quelle
+// (FILTRE « ma partie » y reste null ici).
+const j0 = js.indexOf('/* PALIERS:START'), j1 = js.indexOf('/* PALIERS:END */');
+if(j0 < 0 || j1 < j0){ console.error('marqueurs PALIERS:START / PALIERS:END introuvables dans', process.argv[2]); process.exit(1); }
+const paliers = js.slice(j0, j1);
 const ENGINE = String.raw`
 /* critères : énergie (mw), matière (mat), espace au sol (esp), synthèse (syn) ; clé du registre sans plafond pour chacun */
 const MODES = ['mw', 'mat', 'esp', 'syn'], REGISTRE = {mw: 'combi', mat: 'combiM', esp: 'combiE', syn: 'combiS'};
-/* ---------- paliers : disponibilité et recherche exacte des chaînes ---------- */
-const TMAX = Math.max(...D.map(r=>r.t));
-let cap = TMAX;
-/* FILTRE : recettes permises (« ma partie ») — null = toutes, sinon l'ensemble des classes débloquées dans la
-   sauvegarde (commun/ficsit-partie.js). availKey distingue les caches filtrés. */
-let FILTRE = null;
-const availKey = c => c + (FILTRE ? 'p' : '');
-const availCache = {};
-function availFor(c){
-  const key = availKey(c);
-  if(key in availCache) return availCache[key];
-  const items = new Set(), rec = new Set();
-  let ch = true;
-  while(ch){ ch = false;
-    for(const r of D){
-      if(rec.has(r) || r.t > c || (FILTRE && !FILTRE.has(r.k))) continue;
-      if(r.ig.every(g=>isRaw(g[0]) || items.has(g[0]))){
-        rec.add(r); ch = true; items.add(r.p); r.by.forEach(b=>items.add(b[0])); }
-    }
-  }
-  return availCache[key] = {rec, items};
-}
-const isAvail = r => availFor(cap).rec.has(r);
-const filtered = () => cap < TMAX;
 /* Énumération complète des chaînes cohérentes d'une cible, pour le registre : nombre de chaînes et pire
    indice par critère. S'arrête dès que tous les critères dépassent « plafond » chaînes. */
 function enumChains(target, c, plafond){
@@ -79,7 +60,7 @@ const args = process.argv.slice(3);
 const quoi = args.includes('tc') ? 'tc' : 'registre';
 const PRECALC = ['mat'];   // critères dont les combinaisons par palier sont précalculées (trop longs dans la page)
 const modes = args.filter(a=>['mw', 'mat', 'esp', 'syn'].includes(a));
-const run = new Function('P', 'quoi', 'modes', 'PRECALC', 'const D = P.d;\n' + helpers + ENGINE + `
+const run = new Function('P', 'quoi', 'modes', 'PRECALC', 'const D = P.d;\n' + paliers + helpers + ENGINE + `
 setBudget(100000);
 const out = {};
 if(quoi === 'tc'){ out.tc = {};

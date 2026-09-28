@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
+- **v1.26** (28/09/2026) : Bouton « Copier le lien » : un lien vers la vue affichée (critère, palier, items filtrés, onglet, tri, poids de la synthèse), sans votre partie. Panneau « Ma partie » : le focus clavier y reste tant qu'il est ouvert, et chaque recalcul est annoncé aux lecteurs d'écran. Correction : les séquences de production pouvaient reprendre une chaîne calculée avant un changement de filtre « Ma partie ».
+  *EN — "Copy the link" button: a link to the view shown (criterion, tier, filtered items, tab, sort, synthesis weights), without your game. "My game" panel: keyboard focus stays in it while open, and each recomputation is announced to screen readers. Fix: production sequences could reuse a chain computed before a "My game" filter change.*
 - **v1.25** (28/09/2026) : Import de la sauvegarde environ cinq fois plus rapide (1 s au lieu de 5 pour une partie de 5 Mo) et beaucoup plus économe en mémoire : les trois listes utiles sont lues directement, le parseur complet ne sert plus qu'en secours (et n'est téléchargé que dans ce cas).
   *EN — Save import about five times faster (1 s instead of 5 for a 5 MB game) and far lighter on memory: the three useful lists are read directly, the full parser is only a fallback (and only downloaded then).*
 - **v1.24** (28/09/2026) : « Ma partie » : le palier se règle sur celui de votre partie à chaque import ; un bandeau au-dessus des onglets rappelle le filtre et la simulation en cours ; dans les combinaisons, les alternatives débloquées seulement par la simulation sont marquées « simulée ». La simulation est désormais partagée avec l'arbre de production et l'optimiseur de recyclage.
@@ -59,6 +61,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Module d'étalonnage / Calibration module — `ficsit_horloge.html`
 
+- **v1.8** (28/09/2026) : Sur téléphone, la page ne déborde plus horizontalement : la colonne de résultats se resserre (son tableau défile dans son cadre) et le titre s'adapte à la largeur.
+  *EN — On phones, the page no longer overflows horizontally: the results column narrows (its table scrolls within its frame) and the title fits the width.*
 - **v1.7** (26/09/2026) : Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois.
   *EN — Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once.*
 - **v1.6** (26/09/2026) : Liste des bâtiments tirée du référentiel du jeu (puissances, production des générateurs, plages des machines à puissance variable) au lieu d'être saisie à la main. La plage de l'accélérateur de particules est corrigée : 250 – 1 500 MW. L'infobulle du constructeur n'affiche plus de code parasite.
@@ -117,6 +121,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Mémo de terrain / Field memo — `memo-ficsit.html`
 
+- **v1.6** (28/09/2026) : Sur très petit écran (320 px), les bandeaux de palier et les noms longs se replient au lieu de déborder.
+  *EN — On very small screens (320 px), tier banners and long names wrap instead of overflowing.*
 - **v1.5** (26/09/2026) : Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois.
   *EN — Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once.*
 - **v1.4** (25/09/2026) : Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.

@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.26",
+          "date": "2026-09-28",
+          "texte": {
+            "fr": "Bouton « Copier le lien » : un lien vers la vue affichée (critère, palier, items filtrés, onglet, tri, poids de la synthèse), sans votre partie. Panneau « Ma partie » : le focus clavier y reste tant qu'il est ouvert, et chaque recalcul est annoncé aux lecteurs d'écran. Correction : les séquences de production pouvaient reprendre une chaîne calculée avant un changement de filtre « Ma partie ».",
+            "en": "\"Copy the link\" button: a link to the view shown (criterion, tier, filtered items, tab, sort, synthesis weights), without your game. \"My game\" panel: keyboard focus stays in it while open, and each recomputation is announced to screen readers. Fix: production sequences could reuse a chain computed before a \"My game\" filter change."
+          }
+        },
+        {
           "version": "1.25",
           "date": "2026-09-28",
           "texte": {
@@ -223,6 +231,14 @@
         "en": "Calibration module"
       },
       "entrees": [
+        {
+          "version": "1.8",
+          "date": "2026-09-28",
+          "texte": {
+            "fr": "Sur téléphone, la page ne déborde plus horizontalement : la colonne de résultats se resserre (son tableau défile dans son cadre) et le titre s'adapte à la largeur.",
+            "en": "On phones, the page no longer overflows horizontally: the results column narrows (its table scrolls within its frame) and the title fits the width."
+          }
+        },
         {
           "version": "1.7",
           "date": "2026-09-26",
@@ -447,6 +463,14 @@
         "en": "Field memo"
       },
       "entrees": [
+        {
+          "version": "1.6",
+          "date": "2026-09-28",
+          "texte": {
+            "fr": "Sur très petit écran (320 px), les bandeaux de palier et les noms longs se replient au lieu de déborder.",
+            "en": "On very small screens (320 px), tier banners and long names wrap instead of overflowing."
+          }
+        },
         {
           "version": "1.5",
           "date": "2026-09-26",

@@ -127,6 +127,14 @@
     "partieSimulee": { "fr": "simulée",
                      "en": "simulated" },
     "partieSimuleeTitre": { "fr": "Débloquée seulement par la simulation de vos choix de disques durs",
-                          "en": "Unlocked only by the simulation of your hard drive picks" }
+                          "en": "Unlocked only by the simulation of your hard drive picks" },
+    "lien": { "fr": "Copier le lien",
+            "en": "Copy the link" },
+    "lienTitre": { "fr": "Copier un lien vers cette vue (critère, palier, items filtrés, onglet, tri, poids de la synthèse) à partager ; votre partie n'y figure pas",
+                 "en": "Copy a link to this view (criterion, tier, filtered items, tab, sort, synthesis weights) to share; your game is not included" },
+    "lienCopie": { "fr": "Lien copié",
+                 "en": "Link copied" },
+    "partieRecalcule": { "fr": "Recalculé : {n} alternatives jouables, {c} cibles dans les combinaisons.",
+                       "en": "Recomputed: {n} playable alternates, {c} targets in combinations." }
   }
 }

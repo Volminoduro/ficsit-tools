@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.5",
+          "date": "2026-09-29",
+          "texte": {
+            "fr": "Outil signalé « en chantier » dans son titre et sur l'accueil. Partie importée avant le bouton commun (fichier non gardé) : l'outil l'explique et propose un bouton « Réimporter ma sauvegarde ». Si le navigateur ne peut pas garder le fichier (navigation privée), il reste utilisable pendant la visite et le panneau le signale.",
+            "en": "Tool marked \"work in progress\" in its title and on the home page. Game imported before the shared button (file not kept): the tool explains it and offers a \"Re-import my save\" button. If the browser cannot keep the file (private browsing), it stays usable during the visit and the panel says so."
+          }
+        },
+        {
           "version": "1.4",
           "date": "2026-09-29",
           "texte": {

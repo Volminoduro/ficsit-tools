@@ -77,6 +77,28 @@ const PREFS = {
 /* Vérifications fonctionnelles, évaluées dans la page (accès à ses variables globales). Chacune renvoie
    la liste des anomalies, vide si tout va bien. */
 const CHECKS = {
+  // bouton « Ma partie » commun (commun/ficsit-partie-ui.js) : dock, résumé de l'accueil, panneau, cache IndexedDB
+  'index.html': async () => {
+    const out = [], btn = document.getElementById('fpartie'), pn = document.getElementById('fpartiePn');
+    const res = document.querySelector('[data-partie-resume]');
+    if (!btn || !pn || !btn.closest('#fdock')) return ['bouton « Ma partie » absent du dock'];
+    if (!res.querySelector('[data-partie-ouvrir]')) out.push('accueil : pas de bouton d\'import sans partie');
+    FicsitPartie.enregistrer({nom: 'Test commun', date: '2026-01-31T03:06:00.000Z', duree: 7200, version: 58, lu: 'test-commun',
+      recettes: ['Recipe_Alternate_PureIronIngot_C'], schemas: ['Schematic_3-1_C'], attente: []});
+    if (!/Test commun/.test(res.innerText) || !btn.classList.contains('charge')) out.push('résumé de la partie absent après import : ' + res.innerText);
+    res.querySelector('[data-partie-ouvrir]').click();
+    if (pn.hidden || !/Test commun/.test(pn.innerText) || btn.getAttribute('aria-expanded') !== 'true') out.push('panneau commun non ouvert ou sans la partie');
+    document.dispatchEvent(new KeyboardEvent('keydown', {key: 'Escape'}));
+    if (!pn.hidden) out.push('Échap ne ferme pas le panneau');
+    // cache lié à l'import (IndexedDB) : relu tant que la partie est la même, perdu à l'oubli
+    await FicsitPartie.garder('essai', {a: 1});
+    const c = await FicsitPartie.cache('essai');
+    if (!c || c.a !== 1) out.push('cache IndexedDB non relu : ' + JSON.stringify(c));
+    FicsitPartie.oublier();
+    await new Promise(r => setTimeout(r, 50));
+    if (await FicsitPartie.cache('essai') || /Test commun/.test(res.innerText)) out.push('oublier la partie ne vide pas le cache ou le résumé');
+    return out;
+  },
   'broyeur-excedents.html': () => {
     const n = document.querySelectorAll('#out .card').length, out = n ? [] : ['aucune cible pour plaques, vis et fil'];
     // « Ma partie » : avec les seules recettes de départ (palier 0), les cibles se réduisent à ce qu'elles fabriquent

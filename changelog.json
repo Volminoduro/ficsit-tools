@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.4",
+          "date": "2026-09-29",
+          "texte": {
+            "fr": "Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée. L'outil n'a plus son propre import : il relit le fichier gardé par le bouton commun, et garde l'usine et les débits calculés dans ce navigateur (une nouvelle visite s'affiche aussitôt).",
+            "en": "Shared \"My game\" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game. The tool no longer has its own import: it rereads the file kept by the shared button, and keeps the computed factory and rates in this browser (a new visit shows at once)."
+          }
+        },
+        {
           "version": "1.3",
           "date": "2026-09-29",
           "texte": {
@@ -47,6 +55,14 @@
         "en": "Yield registry"
       },
       "entrees": [
+        {
+          "version": "1.28",
+          "date": "2026-09-29",
+          "texte": {
+            "fr": "Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée. Le panneau « Ma partie » du registre garde l'analyse (filtre, simulation, alternatives et disques notés) et renvoie au bouton commun pour l'import.",
+            "en": "Shared \"My game\" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game. The registry's \"My game\" panel keeps the analysis (filter, simulation, rated alternates and hard drives) and points to the shared button for importing."
+          }
+        },
         {
           "version": "1.27",
           "date": "2026-09-29",
@@ -280,6 +296,14 @@
       },
       "entrees": [
         {
+          "version": "1.10",
+          "date": "2026-09-29",
+          "texte": {
+            "fr": "Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.",
+            "en": "Shared \"My game\" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game."
+          }
+        },
+        {
           "version": "1.9",
           "date": "2026-09-29",
           "texte": {
@@ -367,6 +391,14 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.19",
+          "date": "2026-09-29",
+          "texte": {
+            "fr": "Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.",
+            "en": "Shared \"My game\" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game."
+          }
+        },
         {
           "version": "1.18",
           "date": "2026-09-29",
@@ -528,6 +560,14 @@
       },
       "entrees": [
         {
+          "version": "1.8",
+          "date": "2026-09-29",
+          "texte": {
+            "fr": "Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.",
+            "en": "Shared \"My game\" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game."
+          }
+        },
+        {
           "version": "1.7",
           "date": "2026-09-29",
           "texte": {
@@ -599,6 +639,14 @@
         "en": "Complexity vs sink value"
       },
       "entrees": [
+        {
+          "version": "1.8",
+          "date": "2026-09-29",
+          "texte": {
+            "fr": "Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.",
+            "en": "Shared \"My game\" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game."
+          }
+        },
         {
           "version": "1.7",
           "date": "2026-09-28",

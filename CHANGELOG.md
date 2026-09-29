@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Débit vers le Dimensional Depot / Dimensional Depot throughput — `depot-dimensionnel.html`
 
+- **v1.4** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée. L'outil n'a plus son propre import : il relit le fichier gardé par le bouton commun, et garde l'usine et les débits calculés dans ce navigateur (une nouvelle visite s'affiche aussitôt).
+  *EN — Shared "My game" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game. The tool no longer has its own import: it rereads the file kept by the shared button, and keeps the computed factory and rates in this browser (a new visit shows at once).*
 - **v1.3** (29/09/2026) : Les trois plafonds de chaque Uploader sont affichés séparément, le plus bas en évidence : vitesse d'envoi (recherches du MAM), raccord (le convoyeur ou l'ascenseur qui arrive dans l'Uploader, avec son Mk) et ce que la chaîne en amont peut fournir. Le débit vers le Depot est le plus petit des trois, 0 si le Depot est plein pour l'item. Un conteneur juste avant l'Uploader compte comme un tronçon de convoyeur : l'Uploader est servi d'abord.
   *EN — Each Uploader's three caps are shown separately, the lowest highlighted: upload speed (MAM research), feed (the belt or lift coming into the Uploader, with its Mk) and what the upstream chain can supply. The rate into the Depot is the smallest of the three, 0 if the Depot is full for that item. A container right before the Uploader counts as a belt section: the Uploader is served first.*
 - **v1.2** (29/09/2026) : Étape 3 : régime actuel de l'usine. Un conteneur qui a encore de la place (contenu lu dans la sauvegarde) sert l'aval d'abord puis garde le surplus, avec le temps avant qu'il soit plein : le montage « production → conteneur industriel → Uploader » est compté comme en jeu. Gares, quais de camion et ports de drones : un réservoir commun par famille, ce qui est chargé ressort par ceux qui déchargent. Générateurs à combustible solide : consommation réelle (60 × MW × cadence / énergie du combustible). Bilan électrique estimé (production, consommation à la marche calculée) et fusibles grillés lus dans la sauvegarde.
@@ -15,6 +17,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
+- **v1.28** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée. Le panneau « Ma partie » du registre garde l'analyse (filtre, simulation, alternatives et disques notés) et renvoie au bouton commun pour l'import.
+  *EN — Shared "My game" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game. The registry's "My game" panel keeps the analysis (filter, simulation, rated alternates and hard drives) and points to the shared button for importing.*
 - **v1.27** (29/09/2026) : Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.
   *EN — The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged.*
 - **v1.26** (28/09/2026) : Bouton « Copier le lien » : un lien vers la vue affichée (critère, palier, items filtrés, onglet, tri, poids de la synthèse), sans votre partie. Panneau « Ma partie » : le focus clavier y reste tant qu'il est ouvert, et chaque recalcul est annoncé aux lecteurs d'écran. Correction : les séquences de production pouvaient reprendre une chaîne calculée avant un changement de filtre « Ma partie ».
@@ -74,6 +78,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Module d'étalonnage / Calibration module — `ficsit_horloge.html`
 
+- **v1.10** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.
+  *EN — Shared "My game" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game.*
 - **v1.9** (29/09/2026) : Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.
   *EN — The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged.*
 - **v1.8** (28/09/2026) : Sur téléphone, la page ne déborde plus horizontalement : la colonne de résultats se resserre (son tableau défile dans son cadre) et le titre s'adapte à la largeur.
@@ -97,6 +103,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Optimiseur de recyclage / Recycling optimizer — `broyeur-excedents.html`
 
+- **v1.19** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.
+  *EN — Shared "My game" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game.*
 - **v1.18** (29/09/2026) : Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.
   *EN — The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged.*
 - **v1.17** (28/09/2026) : Avec une sauvegarde importée dans le registre des rendements : option (cochée par défaut) pour ne garder que les cibles que vos recettes débloquées, ou simulées, savent fabriquer ; le palier se règle sur celui de votre partie.
@@ -138,6 +146,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Mémo de terrain / Field memo — `memo-ficsit.html`
 
+- **v1.8** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.
+  *EN — Shared "My game" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game.*
 - **v1.7** (29/09/2026) : Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.
   *EN — The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged.*
 - **v1.6** (28/09/2026) : Sur très petit écran (320 px), les bandeaux de palier et les noms longs se replient au lieu de déborder.
@@ -157,6 +167,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Complexité et valeur au broyeur / Complexity vs sink value — `arbre-production.html`
 
+- **v1.8** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.
+  *EN — Shared "My game" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game.*
 - **v1.7** (28/09/2026) : Troisième chaîne « Ma partie », dès qu'une sauvegarde est importée dans le registre des rendements : pour chaque item, l'alternative de la chaîne optimisée si vous l'avez débloquée (ou simulée), sinon la recette de base. Le palier se règle sur celui de votre partie.
   *EN — Third chain "My game", once a save is imported in the yield registry: for each item, the optimized chain's alternate if you have unlocked (or simulated) it, otherwise the standard recipe. The tier is set to your game's.*
 - **v1.6** (26/09/2026) : Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois. Les icônes aussi, partagées avec les autres outils. (283 → 65 Ko)

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <!-- FICSIT-LANG:START -->
-<link rel="stylesheet" href="commun/ficsit-commun.css?v=3deea75d09">
-<script src="commun/ficsit-commun.js?v=da0fb3e2c4"></script>
+<link rel="stylesheet" href="commun/ficsit-commun.css?v=8a124abd64">
+<script src="commun/ficsit-commun.js?v=b2bf05cfd6"></script>
 <!-- FICSIT-LANG:END -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-fr="FICSIT Inc. — Terminal Pionnier" data-en="FICSIT Inc. — Pioneer Terminal">FICSIT Inc. — Terminal Pionnier</title>
@@ -92,6 +92,14 @@
   }
 
   .wrap{max-width:980px; margin:0 auto; padding:30px 24px 60px;}
+  .partie-resume{max-width:980px;margin:0 auto 6px;padding:10px 14px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;
+    background:var(--panel);border:1px solid #39434F;border-left:3px solid var(--orange);font-size:.9rem;color:#C9D3DD;box-sizing:border-box}
+  .partie-resume:empty{display:none}
+  .partie-resume b{color:#fff;font-weight:600}
+  .partie-resume button{margin-left:auto;background:transparent;border:1px solid #4C5A69;color:#C9D3DD;font:inherit;font-size:.75rem;
+    letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;cursor:pointer}
+  .partie-resume button:hover,.partie-resume button:focus-visible{color:var(--orange);border-color:var(--orange);outline:none}
+  @media (max-width:1012px){.partie-resume{margin:0 16px 6px}}
   .cat{
     display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
     margin:34px 0 12px; padding-bottom:6px;
@@ -209,6 +217,9 @@
   everything is computed in your browser, with no connection to FICSIT Central. The language you pick here applies to every tool.</span>
 </div>
 
+<!-- résumé de « Ma partie », rempli par commun/ficsit-partie-ui.js -->
+<div class="partie-resume" data-partie-resume></div>
+
 <div class="wrap">
   <div class="cat"><h3><span data-l="fr">Production</span><span data-l="en" lang="en">Production</span></h3><p><span data-l="fr">Extraction, recettes et cadences.</span><span data-l="en" lang="en">Extraction, recipes and rates.</span></p></div>
   <div class="grid">
@@ -263,9 +274,9 @@
           <div class="status"><span data-l="fr">SAUVEGARDE · UPLOADERS</span><span data-l="en" lang="en">SAVE FILE · UPLOADERS</span></div>
         </div>
       </div>
-      <p><span data-l="fr">Importez votre sauvegarde : l'usine est reconstruite et chaque Uploader est relié aux machines
-      et extracteurs qui l'alimentent, avec le stock actuel du Depot. Les débits par minute arrivent à l'étape suivante.</span><span data-l="en" lang="en">Import your save: the factory is rebuilt and each Uploader is traced back to the machines
-      and extractors feeding it, next to the Depot's current stock. Per-minute rates come in the next step.</span></p>
+      <p><span data-l="fr">À partir de votre sauvegarde, le débit envoyé au Depot par chaque Uploader, en items/min :
+      vitesse d'envoi, raccord et chaîne en amont, jusqu'aux foreuses, avec le temps avant que le Depot soit plein.</span><span data-l="en" lang="en">From your save, the rate each Uploader sends to the Depot, in items/min: upload speed,
+      feed and upstream chain, all the way to the miners, with the time until the Depot is full.</span></p>
       <div class="open"><span data-l="fr">Ouvrir le dossier →</span><span data-l="en" lang="en">Open file →</span></div>
     </a>
 

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<!-- FICSIT-LANG:START -->
+<link rel="stylesheet" href="commun/ficsit-commun.css?v=3deea75d09">
+<script src="commun/ficsit-commun.js?v=5697cc798e"></script>
+<!-- FICSIT-LANG:END -->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title data-fr="Débit vers le Dimensional Depot — ce que vos Uploaders reçoivent" data-en="Dimensional Depot throughput — what your Uploaders receive">Débit vers le Dimensional Depot — ce que vos Uploaders reçoivent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Palette FICSIT : acier sombre, orange signalétique */
+  :root{
+    --bg:#14181D; --panel:#1D232B; --panel2:#252D37; --deep:#0E1216;
+    --rule:#39434F; --rule2:#4C5A69; --grid:#2A323C;
+    --ink:#E4EAF0; --dim:#93A2B1; --mute:#6F7E8D;
+    --or:#FA9549; --or2:#E5761F; --bad:#C8624F;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:"Barlow",system-ui,-apple-system,Segoe UI,sans-serif;font-size:15px;line-height:1.55;
+    -webkit-text-size-adjust:100%}
+  body{background-image:linear-gradient(180deg,rgba(250,149,73,.05) 0,transparent 420px),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0 1px,transparent 1px 4px)}
+  .wrap{max-width:1080px;margin:0 auto;padding:26px 16px 90px}
+  @media (max-width:1240px){.wrap{padding-top:50px}}
+  h1,h2,.tile .v,th,.upl .hd{font-family:"Saira Condensed","Barlow Condensed",Arial Narrow,sans-serif}
+  h1{font-size:clamp(30px,7vw,54px);line-height:.98;margin:0 0 4px;font-weight:700;text-transform:uppercase;color:#fff;overflow-wrap:anywhere}
+  h1 em{font-style:normal;color:var(--or)}
+  .eyebrow{font-family:"Saira Condensed",sans-serif;color:var(--or);letter-spacing:.18em;text-transform:uppercase;font-size:13px;margin:0 0 6px}
+  .stripe{height:9px;margin:12px 0 16px;background:repeating-linear-gradient(-45deg,var(--or2) 0 11px,var(--deep) 11px 22px);
+    border-top:1px solid #6b3d17;border-bottom:1px solid #6b3d17}
+  h2{font-size:clamp(20px,4.5vw,26px);margin:40px 0 6px;color:#fff;text-transform:uppercase;letter-spacing:.03em;
+    font-weight:600;border-left:4px solid var(--or);padding-left:10px}
+  p{margin:.5em 0}
+  .lede{color:var(--dim);max-width:72ch}
+  .etape{margin:14px 0 0;padding:9px 12px;background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--or);
+    font-size:13.5px;color:var(--dim);max-width:90ch}
+  /* import */
+  .import{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:14px;margin-top:22px}
+  @media (max-width:720px){.import{grid-template-columns:minmax(0,1fr)}}
+  .depot{display:block;padding:14px 16px;border:1px dashed var(--rule2);background:var(--panel);cursor:pointer;font-size:13.5px;color:var(--dim);
+    clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%)}
+  .depot b{display:block;color:#fff;font-size:15.5px;margin-bottom:2px}
+  .depot:hover,.depot.survol{border-color:var(--or);background:var(--panel2)}
+  .depot:focus-within{outline:2px solid var(--or);outline-offset:2px}
+  .depot input{position:absolute;opacity:0;width:1px;height:1px}
+  .chemin{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin:8px 0 0;font-size:12.5px;color:var(--dim)}
+  .chemin code{font-size:12px;word-break:break-all}
+  button{background:transparent;border:1px solid var(--rule2);color:var(--dim);font:inherit;font-size:11.5px;letter-spacing:.06em;
+    text-transform:uppercase;padding:4px 9px;cursor:pointer}
+  button:hover,button.ok{color:var(--or);border-color:var(--or)}
+  button.ok::after{content:' ✓'}
+  button:focus-visible{outline:2px solid var(--or);outline-offset:2px}
+  .etat{padding:12px 14px;background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--or);font-size:14px;color:var(--dim)}
+  .etat.erreur{border-left-color:var(--bad);color:var(--ink)}
+  .etat .nom{font-family:"Saira Condensed",sans-serif;font-size:21px;color:#fff}
+  .jauge{height:8px;margin:8px 0 6px;background:var(--deep);border:1px solid var(--rule);overflow:hidden}
+  .jauge i{display:block;height:100%;width:0;background:var(--or);transition:width .2s}
+  .jauge.lecture i{opacity:.35;animation:jauge 1.2s ease-in-out infinite alternate}
+  @keyframes jauge{from{opacity:.15}to{opacity:.5}}
+  /* tuiles */
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--rule);
+    border:1px solid var(--rule);margin:18px 0 0}
+  .tile{background:var(--panel);padding:12px 14px;border-top:2px solid var(--or2)}
+  .tile .v{font-size:30px;font-weight:700;color:var(--or);line-height:1}
+  .tile .k{font-size:12px;color:var(--dim);margin-top:5px;text-transform:uppercase;letter-spacing:.03em}
+  img.ic{width:24px;height:24px;vertical-align:-7px;margin-right:7px;background:var(--deep);border:1px solid var(--rule);padding:1px}
+  /* stock */
+  .tablewrap{overflow-x:auto;margin-top:10px;border:1px solid var(--rule)}
+  table{border-collapse:collapse;width:100%;font-size:14px;background:var(--panel)}
+  th,td{padding:7px 10px;text-align:right;border-bottom:1px solid var(--grid)}
+  th:first-child,td:first-child{text-align:left}
+  th{background:var(--panel2);font-weight:600;font-size:14px;letter-spacing:.03em;text-transform:uppercase;color:var(--dim)}
+  td{font-variant-numeric:tabular-nums}
+  .note{font-size:13px;color:var(--mute);margin-top:8px}
+  /* uploaders */
+  .upl{margin:12px 0 0;background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--or);padding:10px 12px}
+  .upl .hd{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;font-size:20px;color:#fff;text-transform:uppercase;letter-spacing:.02em}
+  .upl .hd small{font-family:"Barlow",sans-serif;font-size:13px;color:var(--dim);text-transform:none;letter-spacing:0}
+  .upl .sous{font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em;margin:8px 0 2px}
+  .upl ul{margin:0;padding:0;list-style:none}
+  .upl li{padding:5px 0;border-top:1px solid var(--grid);font-size:14px;overflow-wrap:anywhere}
+  .upl li small{display:block;color:var(--mute);font-size:12.5px}
+  .upl .alerte{color:var(--mute);font-size:13px;font-style:italic;margin-top:6px}
+  footer{margin-top:30px;font-size:12.5px;color:var(--mute)}
+  footer a{color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow"><span data-l="fr">Dossier logistique · Dimensional Depot</span><span data-l="en" lang="en">Logistics file · Dimensional Depot</span></p>
+  <h1><span data-l="fr">Débit vers le <em>Dimensional Depot</em></span><span data-l="en" lang="en"><em>Dimensional Depot</em> throughput</span></h1>
+  <div class="stripe"></div>
+  <p class="lede"><span data-l="fr">Importez une sauvegarde : l'outil reconstruit l'usine (machines, extracteurs, convoyeurs,
+    séparateurs) et remonte, pour chaque Dimensional Depot Uploader, les chaînes qui l'alimentent. Le fichier est lu
+    dans votre navigateur et n'est envoyé nulle part.</span><span data-l="en" lang="en">Import a save: the tool rebuilds the factory
+    (machines, extractors, belts, splitters) and traces, for each Dimensional Depot Uploader, the chains that feed it.
+    The file is read in your browser and is not sent anywhere.</span></p>
+  <p class="etape" id="etape"></p>
+
+  <div class="import">
+    <div>
+      <label class="depot" id="depot"><input type="file" id="savIn" accept=".sav">
+        <b><span data-l="fr">Déposer ou choisir un fichier .sav</span><span data-l="en" lang="en">Drop or pick a .sav file</span></b>
+        <span><span data-l="fr">Parties 1.0 et suivantes. Une grosse sauvegarde peut demander une à deux minutes.</span><span data-l="en" lang="en">Games from 1.0 onwards. A large save can take a minute or two.</span></span></label>
+      <div class="chemin"><code id="chemin">%LOCALAPPDATA%\FactoryGame\Saved\SaveGames</code>
+        <button type="button" id="copier"><span data-l="fr">Copier le chemin</span><span data-l="en" lang="en">Copy the path</span></button></div>
+    </div>
+    <div class="etat" id="etat" aria-live="polite"></div>
+  </div>
+
+  <div id="resultat" hidden>
+    <div class="tiles" id="tiles"></div>
+    <h2><span data-l="fr">Uploaders et chaînes en amont</span><span data-l="en" lang="en">Uploaders and upstream chains</span></h2>
+    <div id="uploaders"></div>
+    <h2><span data-l="fr">Stock du Depot</span><span data-l="en" lang="en">Depot stock</span></h2>
+    <p class="note" id="extension"></p>
+    <div class="tablewrap"><table><thead><tr><th id="thItem"></th><th id="thStock"></th></tr></thead><tbody id="stock"></tbody></table></div>
+  </div>
+
+<!-- PATCHNOTES:START -->
+<style>.pn{--pn-or:#FA9549;display:flex;font-family:var(--pn-body);text-align:left}
+.pn *{box-sizing:border-box}
+.pn-btn{all:unset;box-sizing:border-box;position:relative;cursor:pointer;display:flex;align-items:center;gap:7px;
+  padding:6px 11px 5px 10px;background:rgba(14,18,22,.94);border:1px solid #39434F;box-shadow:0 3px 12px rgba(0,0,0,.45);
+  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));
+  font:700 12px/1 'Saira Condensed','Rajdhani','Barlow Condensed',system-ui,sans-serif;letter-spacing:.1em;color:#E4EAF0;
+  transition:color .15s,background .15s}
+.pn-btn::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;
+  background:repeating-linear-gradient(135deg,#FA9549 0 6px,transparent 6px 12px);opacity:.8}
+.pn-btn svg{width:13px;height:13px;flex:none;fill:none;stroke:#FA9549;stroke-width:1.6}
+.pn-btn:hover,.pn-btn[aria-expanded=true]{background:#FA9549;color:#1B1206}
+.pn-btn:hover svg,.pn-btn[aria-expanded=true] svg{stroke:#1B1206}
+.pn-btn:focus-visible{outline:2px solid #FA9549;outline-offset:1px}
+.pn-dot{display:none;position:absolute;left:3px;top:3px;width:8px;height:8px;border-radius:50%;background:#FA9549;
+  box-shadow:0 0 0 2px rgba(14,18,22,.94)}
+.pn-neuf .pn-dot{display:block;animation:pn-pulse 1.8s ease-in-out infinite}
+.pn-neuf .pn-btn:hover .pn-dot,.pn-neuf .pn-btn[aria-expanded=true] .pn-dot{background:#1B1206}
+@keyframes pn-pulse{50%{box-shadow:0 0 0 2px rgba(14,18,22,.94),0 0 0 5px rgba(250,149,73,.35)}}
+@media (prefers-reduced-motion:reduce){.pn-neuf .pn-dot{animation:none}}
+.pn-panel{position:absolute;top:calc(100% + 6px);right:0;width:min(440px,calc(100vw - 24px));max-height:min(72vh,640px);
+  overflow:auto;overscroll-behavior:contain;background:var(--pn-panel);color:var(--pn-ink);
+  border:1px solid var(--pn-line);border-left:3px solid var(--pn-or);box-shadow:0 10px 30px rgba(0,0,0,.55)}
+.pn-panel[hidden]{display:none}
+.pn-hz{height:6px;background:repeating-linear-gradient(45deg,var(--pn-or) 0 10px,transparent 10px 20px);opacity:.7}
+.pn-head{display:flex;align-items:center;gap:12px;padding:14px 16px 11px;border-bottom:1px solid var(--pn-line)}
+.pn-head > div{flex:1;min-width:0}
+.pn-slot{flex:none;width:42px;height:42px;display:grid;place-items:center;background:var(--pn-deep);
+  border:1px solid var(--pn-line);box-shadow:inset 0 0 0 2px rgba(0,0,0,.35)}
+.pn-slot img{width:30px;height:30px;object-fit:contain;display:block}
+.pn-title{margin:0;padding:0;border:0;background:none;font-family:var(--pn-disp);font-weight:700;font-size:1.15rem;
+  line-height:1.1;letter-spacing:.02em;color:var(--pn-or)}
+.pn-sub{margin:3px 0 0;padding:0;font-size:.86rem;line-height:1.3;color:var(--pn-dim);max-width:none}
+.pn-x{all:unset;flex:none;cursor:pointer;width:28px;height:28px;display:grid;place-items:center;color:var(--pn-dim);
+  font:400 22px/1 system-ui,sans-serif}
+.pn-x:hover,.pn-x:focus-visible{color:var(--pn-or)}
+.pn-x:focus-visible{outline:2px solid var(--pn-or)}
+.pn-list{list-style:none;margin:0;padding:14px 16px 4px 16px;position:relative}
+.pn-e{position:relative;margin:0;padding:0 0 13px 22px}
+.pn-e::before{content:"";position:absolute;left:5px;top:14px;bottom:-2px;width:1px;background:var(--pn-line)}
+.pn-list > .pn-e:last-child::before{display:none}
+.pn-e::after{content:"";position:absolute;left:1px;top:6px;width:9px;height:9px;transform:rotate(45deg);
+  border:1.5px solid var(--pn-dim);background:var(--pn-panel)}
+.pn-list:first-of-type > .pn-e:first-child::after,.pn-e.pn-new::after{background:var(--pn-or);border-color:var(--pn-or)}
+.pn-meta{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;margin-bottom:3px}
+.pn-v{font-family:var(--pn-disp);font-weight:700;font-size:.85rem;padding:1px 8px 1px 7px;background:var(--pn-or);
+  color:#1b1206;clip-path:polygon(0 0,100% 0,100% 60%,calc(100% - 6px) 100%,0 100%)}
+.pn-e + .pn-e .pn-v,.pn-old .pn-v{background:var(--pn-deep);color:var(--pn-dim);box-shadow:inset 0 0 0 1px var(--pn-line)}
+.pn-d{font-family:var(--pn-disp);font-size:.88rem;color:var(--pn-dim);letter-spacing:.03em}
+.pn-nv{display:none;font-family:var(--pn-disp);font-weight:700;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--pn-or)}
+.pn-new .pn-nv{display:inline}
+.pn-t{margin:0;padding:0;font-size:.94rem;line-height:1.5;color:var(--pn-ink);max-width:none}
+.pn-old{border-top:1px dashed var(--pn-line);margin:0 16px}
+.pn-old summary{cursor:pointer;padding:10px 0;font-family:var(--pn-disp);font-weight:600;font-size:.9rem;color:var(--pn-dim);
+  list-style:none}
+.pn-old summary::-webkit-details-marker{display:none}
+.pn-old summary::before{content:"+";display:inline-block;width:1.1em;color:var(--pn-or);font-weight:700}
+.pn-old[open] summary::before{content:"\2212"}
+.pn-old summary:hover,.pn-old summary:focus-visible{color:var(--pn-ink)}
+.pn-old summary:focus-visible{outline:2px solid var(--pn-or);outline-offset:2px}
+.pn-old .pn-list{padding:4px 0 6px}
+.pn-foot{height:8px}
+html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none}
+@media (max-width:560px){.pn-btn{padding:5px 8px 4px 9px;gap:5px}.pn-panel{position:fixed;top:44px;right:6px;width:calc(100vw - 12px)}}
+@media print{.pn{display:none}}</style>
+<div class="pn" id="journal" data-fdock data-outil="depot-dimensionnel.html" data-v="1.0" style="--pn-disp:'Saira Condensed',sans-serif;--pn-body:'Barlow',sans-serif;--pn-panel:var(--panel);--pn-deep:var(--deep);--pn-line:var(--rule);--pn-ink:var(--ink);--pn-dim:var(--dim)">
+<button type="button" class="pn-btn" aria-expanded="false" aria-controls="pn-panel" data-fr-title="Journal des révisions : ce qui a changé" data-en-title="Revision log: what changed" title="Journal des révisions : ce qui a changé"><span class="pn-dot" aria-hidden="true"></span><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5h8v11H3z"/><path d="M5 4.5h4M5 7h4M5 9.5h2.5"/></svg><span>v1.0</span></button>
+<div class="pn-panel" id="pn-panel" role="region" aria-labelledby="pn-titre" hidden><div class="pn-hz"></div>
+<div class="pn-head"><span class="pn-slot"><img src="data:image/webp;base64,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" alt=""></span><div><div class="pn-title" id="pn-titre" role="heading" aria-level="2"><span data-l="fr">Journal des révisions</span><span data-l="en" lang="en">Revision log</span></div>
+<p class="pn-sub"><span data-l="fr">Version 1.0, mise à jour le 29/09/2026</span><span data-l="en" lang="en">Version 1.0, updated 29 Sep 2026</span></p></div><button type="button" class="pn-x" data-fr-aria-label="Fermer" data-en-aria-label="Close" aria-label="Fermer">×</button></div>
+<ol class="pn-list"><li class="pn-e" data-v="1.0"><div class="pn-meta"><span class="pn-v">v1.0</span><time class="pn-d" datetime="2026-09-29"><span data-l="fr">29/09/2026</span><span data-l="en" lang="en">29 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Nouvel outil, étape 1 : importez une sauvegarde (.sav, lue dans le navigateur, hors du fil principal) ; l&#x27;usine est reconstruite (machines, extracteurs, convoyeurs, séparateurs et leurs liaisons) et chaque Uploader, regroupé par item, est relié aux machines et extracteurs qui l&#x27;alimentent (recette, horloge, éclats, Somersloops, productivité mesurée), avec le stock actuel du Depot et l&#x27;extension achetée. Les débits par minute viendront ensuite.</span><span data-l="en" lang="en">New tool, step 1: import a save (.sav, read in the browser, off the main thread); the factory is rebuilt (machines, extractors, belts, splitters and their links) and each Uploader, grouped by item, is traced back to the machines and extractors feeding it (recipe, clock, shards, Somersloops, measured productivity), next to the Depot&#x27;s current stock and the purchased expansion. Per-minute rates come next.</span></p></li></ol>
+<div class="pn-foot"></div></div></div>
+<script>(function(){
+  var r = document.getElementById('journal'); if(!r) return;
+  var b = r.querySelector('.pn-btn'), p = r.querySelector('.pn-panel'), x = r.querySelector('.pn-x');
+  var K = 'ficsit-tools:vu:' + r.dataset.outil, V = r.dataset.v, vu = null;
+  try{ vu = localStorage.getItem(K); }catch(e){}
+  function cmp(a, c){ a = a.split('.').map(Number); c = c.split('.').map(Number);
+    for(var i = 0; i < Math.max(a.length, c.length); i++){ var d = (a[i] || 0) - (c[i] || 0); if(d) return d; } return 0; }
+  if(vu !== V) r.classList.add('pn-neuf');
+  if(vu) r.querySelectorAll('.pn-e[data-v]').forEach(function(e){
+    if(cmp(e.dataset.v, vu) > 0){ e.classList.add('pn-new'); var d = e.closest('details'); if(d) d.open = true; } });
+  function ouvrir(o){
+    p.hidden = !o; b.setAttribute('aria-expanded', o);
+    if(o){ r.classList.remove('pn-neuf'); try{ localStorage.setItem(K, V); }catch(e){} }
+  }
+  b.addEventListener('click', function(e){ e.stopPropagation(); ouvrir(p.hidden); });
+  x.addEventListener('click', function(){ ouvrir(false); b.focus(); });
+  document.addEventListener('click', function(e){ if(!p.hidden && !r.contains(e.target)) ouvrir(false); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !p.hidden){ ouvrir(false); b.focus(); } });
+})();</script>
+<!-- PATCHNOTES:END -->
+<footer><span data-l="fr">Lecture de la sauvegarde :</span><span data-l="en" lang="en">Save reading:</span>
+  <a href="https://github.com/etothepii4/satisfactory-file-parser" target="_blank" rel="noopener">@etothepii/satisfactory-file-parser</a>
+  <span data-l="fr">(MIT) ; noms et icônes : référentiel commun du dépôt, d'après</span><span data-l="en" lang="en">(MIT); names and icons: the repository's shared dataset, from</span>
+  <a href="https://github.com/greeny/SatisfactoryTools" target="_blank" rel="noopener">greeny/SatisfactoryTools</a>.</footer>
+</div>
+
+<script id="payload" type="application/json">{"items":{"desc-spaceelevatorpart-12-c":"AI Expansion Server","desc-circuitboardhighspeed-c":"AI Limiter","desc-spaceelevatorpart-5-c":"Adaptive Control Unit","desc-aluminumplate-c":"Alclad Aluminum Sheet","desc-aliendnacapsule-c":"Alien DNA Capsule","desc-alienpowerfuel-c":"Alien Power Matrix","desc-alienprotein-c":"Alien Protein","desc-aluminasolution-c":"Alumina Solution","desc-aluminumcasing-c":"Aluminum Casing","desc-aluminumingot-c":"Aluminum Ingot","desc-aluminumscrap-c":"Aluminum Scrap","desc-spaceelevatorpart-7-c":"Assembly Director System","desc-spaceelevatorpart-3-c":"Automated Wiring","desc-shroom-c":"Bacon Agaric","desc-spaceelevatorpart-11-c":"Ballistic Warp Drive","desc-battery-c":"Battery","desc-orebauxite-c":"Bauxite","desc-nut-c":"Beryl Nut","desc-spaceelevatorpart-10-c":"Biochemical Sculptor","desc-genericbiomass-c":"Biomass","desc-gunpowder-c":"Black Powder","bp-equipmentdescriptorjumpingstilts-c":"Blade Runners","desc-crystal-c":"Blue Power Slug","desc-cable-c":"Cable","desc-goldingot-c":"Caterium Ingot","desc-oregold-c":"Caterium Ore","desc-chainsaw-c":"Chainsaw","desc-circuitboard-c":"Circuit Board","desc-nobeliskcluster-c":"Cluster Nobelisk","desc-coal-c":"Coal","desc-compactedcoal-c":"Compacted Coal","desc-computer-c":"Computer","desc-cement-c":"Concrete","desc-coolingsystem-c":"Cooling System","desc-copperingot-c":"Copper Ingot","desc-orecopper-c":"Copper Ore","desc-copperdust-c":"Copper Powder","desc-coppersheet-c":"Copper Sheet","desc-liquidoil-c":"Crude Oil","desc-crystaloscillator-c":"Crystal Oscillator","desc-darkmatter-c":"Dark Matter Crystal","desc-darkenergy-c":"Dark Matter Residue","desc-diamond-c":"Diamonds","desc-dissolvedsilica-c":"Dissolved Silica","desc-electromagneticcontrolrod-c":"Electromagnetic Control Rod","desc-fluidcanister-c":"Empty Canister","desc-gastank-c":"Empty Fluid Tank","desc-steelplatereinforced-c":"Encased Industrial Beam","desc-plutoniumcell-c":"Encased Plutonium Cell","desc-uraniumcell-c":"Encased Uranium Cell","desc-quantumenergy-c":"Excited Photonic Matter","desc-rebar-explosive-c":"Explosive Rebar","desc-resourcesinkcoupon-c":"FICSIT Coupon","desc-fabric-c":"Fabric","desc-golfcart-c":"Factory Cart™","desc-ficsiteingot-c":"Ficsite Ingot","desc-ficsitemesh-c":"Ficsite Trigon","desc-ficsonium-c":"Ficsonium","desc-ficsoniumfuelrod-c":"Ficsonium Fuel Rod","desc-liquidfuel-c":"Fuel","desc-modularframefused-c":"Fused Modular Frame","desc-filter-c":"Gas Filter","bp-equipmentdescriptorgasmask-c":"Gas Mask","desc-nobeliskgas-c":"Gas Nobelisk","desc-golfcartgold-c":"Golden Factory Cart™","desc-hatcherparts-c":"Hatcher Remains","bp-equipmentdescriptorhazmatsuit-c":"Hazmat Suit","desc-aluminumplatereinforced-c":"Heat Sink","desc-modularframeheavy-c":"Heavy Modular Frame","desc-heavyoilresidue-c":"Heavy Oil Residue","desc-highspeedconnector-c":"High-Speed Connector","desc-hogparts-c":"Hog Remains","desc-cartridgesmartprojectile-c":"Homing Rifle Ammo","bp-equipmentdescriptorhoverpack-c":"Hoverpack","desc-hazmatfilter-c":"Iodine-Infused Filter","desc-ionizedfuel-c":"Ionized Fuel","desc-ironingot-c":"Iron Ingot","desc-oreiron-c":"Iron Ore","desc-ironplate-c":"Iron Plate","desc-spikedrebar-c":"Iron Rebar","desc-ironrod-c":"Iron Rod","bp-equipmentdescriptorjetpack-c":"Jetpack","desc-leaves-c":"Leaves","desc-stone-c":"Limestone","desc-liquidbiofuel-c":"Liquid Biofuel","desc-spaceelevatorpart-6-c":"Magnetic Field Generator","desc-medkit-c":"Medicinal Inhaler","desc-wat2-c":"Mercer Sphere","desc-spaceelevatorpart-4-c":"Modular Engine","desc-modularframe-c":"Modular Frame","desc-motor-c":"Motor","desc-mycelia-c":"Mycelia","desc-temporalprocessor-c":"Neural-Quantum Processor","desc-nitricacid-c":"Nitric Acid","desc-nitrogengas-c":"Nitrogen Gas","desc-nobeliskexplosive-c":"Nobelisk","bp-equipmentdescriptornobeliskdetonator-c":"Nobelisk Detonator","desc-nonfissibleuranium-c":"Non-Fissile Uranium","desc-spaceelevatorpart-9-c":"Nuclear Pasta","desc-nobelisknuke-c":"Nuke Nobelisk","bp-equipmentdescriptorobjectscanner-c":"Object Scanner","desc-packagedalumina-c":"Packaged Alumina Solution","desc-fuel-c":"Packaged Fuel","desc-packagedoilresidue-c":"Packaged Heavy Oil Residue","desc-packagedionizedfuel-c":"Packaged Ionized Fuel","desc-packagedbiofuel-c":"Packaged Liquid Biofuel","desc-packagednitricacid-c":"Packaged Nitric Acid","desc-packagednitrogengas-c":"Packaged Nitrogen Gas","desc-packagedoil-c":"Packaged Oil","desc-packagedrocketfuel-c":"Packaged Rocket Fuel","desc-packagedsulfuricacid-c":"Packaged Sulfuric Acid","desc-turbofuel-c":"Packaged Turbofuel","desc-packagedwater-c":"Packaged Water","desc-berry-c":"Paleberry","desc-parachute-c":"Parachute","desc-petroleumcoke-c":"Petroleum Coke","desc-plastic-c":"Plastic","desc-plutoniumfuelrod-c":"Plutonium Fuel Rod","desc-plutoniumpellet-c":"Plutonium Pellet","desc-plutoniumwaste-c":"Plutonium Waste","desc-polymerresin-c":"Polymer Resin","bp-itemdescriptorportableminer-c":"Portable Miner","power":"Power","desc-crystalshard-c":"Power Shard","desc-pressureconversioncube-c":"Pressure Conversion Cube","desc-nobeliskshockwave-c":"Pulse Nobelisk","desc-crystal-mk3-c":"Purple Power Slug","desc-quartzcrystal-c":"Quartz Crystal","desc-highspeedwire-c":"Quickwire","desc-modularframelightweight-c":"Radio Control Unit","desc-rawquartz-c":"Raw Quartz","desc-samingot-c":"Reanimated SAM","desc-rebargunprojectile-c":"Rebar Gun","desc-ironplatereinforced-c":"Reinforced Iron Plate","bp-equipmentdescriptorrifle-c":"Rifle","desc-cartridgestandard-c":"Rifle Ammo","desc-rocketfuel-c":"Rocket Fuel","desc-rotor-c":"Rotor","desc-rubber-c":"Rubber","desc-sam-c":"SAM","desc-samfluctuator-c":"SAM Fluctuator","desc-ironscrew-c":"Screws","desc-rebar-spreadshot-c":"Shatter Rebar","desc-silica-c":"Silica","desc-singularitycell-c":"Singularity Cell","sink-point":"Sink point","desc-spaceelevatorpart-1-c":"Smart Plating","desc-gunpowdermk2-c":"Smokeless Powder","desc-biofuel-c":"Solid Biofuel","desc-wat1-c":"Somersloop","desc-spitterparts-c":"Spitter Remains","desc-stator-c":"Stator","desc-steelplate-c":"Steel Beam","desc-steelingot-c":"Steel Ingot","desc-steelpipe-c":"Steel Pipe","desc-stingerparts-c":"Stinger Remains","desc-rebar-stunshot-c":"Stun Rebar","desc-sulfur-c":"Sulfur","desc-sulfuricacid-c":"Sulfuric Acid","desc-computersuper-c":"Supercomputer","desc-quantumoscillator-c":"Superposition Oscillator","desc-spaceelevatorpart-8-c":"Thermal Propulsion Rocket","desc-timecrystal-c":"Time Crystal","desc-motorlightweight-c":"Turbo Motor","desc-cartridgechaos-c":"Turbo Rifle Ammo","desc-liquidturbofuel-c":"Turbofuel","desc-oreuranium-c":"Uranium","desc-nuclearfuelrod-c":"Uranium Fuel Rod","desc-nuclearwaste-c":"Uranium Waste","desc-spaceelevatorpart-2-c":"Versatile Framework","desc-water-c":"Water","desc-wire-c":"Wire","desc-wood-c":"Wood","bp-equipmentdescriptorstunspear-c":"Xeno-Basher","bp-equipmentdescriptorshockshank-c":"Xeno-Zapper","desc-crystal-mk2-c":"Yellow Power Slug","bp-eqdesczipline-c":"Zipline"},"ic":["desc-spaceelevatorpart-12-c","desc-circuitboardhighspeed-c","desc-spaceelevatorpart-5-c","desc-aluminumplate-c","desc-aliendnacapsule-c","desc-alienpowerfuel-c","desc-alienprotein-c","desc-aluminasolution-c","desc-aluminumcasing-c","desc-aluminumingot-c","desc-aluminumscrap-c","desc-spaceelevatorpart-7-c","desc-spaceelevatorpart-3-c","desc-shroom-c","desc-spaceelevatorpart-11-c","desc-battery-c","desc-orebauxite-c","desc-nut-c","desc-spaceelevatorpart-10-c","desc-genericbiomass-c","desc-gunpowder-c","bp-equipmentdescriptorjumpingstilts-c","desc-crystal-c","desc-cable-c","desc-goldingot-c","desc-oregold-c","desc-chainsaw-c","desc-circuitboard-c","desc-nobeliskcluster-c","desc-coal-c","desc-compactedcoal-c","desc-computer-c","desc-cement-c","desc-coolingsystem-c","desc-copperingot-c","desc-orecopper-c","desc-copperdust-c","desc-coppersheet-c","desc-liquidoil-c","desc-crystaloscillator-c","desc-darkmatter-c","desc-darkenergy-c","desc-diamond-c","desc-dissolvedsilica-c","desc-electromagneticcontrolrod-c","desc-fluidcanister-c","desc-gastank-c","desc-steelplatereinforced-c","desc-plutoniumcell-c","desc-uraniumcell-c","desc-quantumenergy-c","desc-rebar-explosive-c","desc-resourcesinkcoupon-c","desc-fabric-c","desc-golfcart-c","desc-ficsiteingot-c","desc-ficsitemesh-c","desc-ficsonium-c","desc-ficsoniumfuelrod-c","desc-liquidfuel-c","desc-modularframefused-c","desc-filter-c","bp-equipmentdescriptorgasmask-c","desc-nobeliskgas-c","desc-golfcartgold-c","desc-hatcherparts-c","bp-equipmentdescriptorhazmatsuit-c","desc-aluminumplatereinforced-c","desc-modularframeheavy-c","desc-heavyoilresidue-c","desc-highspeedconnector-c","desc-hogparts-c","desc-cartridgesmartprojectile-c","bp-equipmentdescriptorhoverpack-c","desc-hazmatfilter-c","desc-ionizedfuel-c","desc-ironingot-c","desc-oreiron-c","desc-ironplate-c","desc-spikedrebar-c","desc-ironrod-c","bp-equipmentdescriptorjetpack-c","desc-leaves-c","desc-stone-c","desc-liquidbiofuel-c","desc-spaceelevatorpart-6-c","desc-medkit-c","desc-wat2-c","desc-spaceelevatorpart-4-c","desc-modularframe-c","desc-motor-c","desc-mycelia-c","desc-temporalprocessor-c","desc-nitricacid-c","desc-nitrogengas-c","desc-nobeliskexplosive-c","bp-equipmentdescriptornobeliskdetonator-c","desc-nonfissibleuranium-c","desc-spaceelevatorpart-9-c","desc-nobelisknuke-c","bp-equipmentdescriptorobjectscanner-c","desc-packagedalumina-c","desc-fuel-c","desc-packagedoilresidue-c","desc-packagedionizedfuel-c","desc-packagedbiofuel-c","desc-packagednitricacid-c","desc-packagednitrogengas-c","desc-packagedoil-c","desc-packagedrocketfuel-c","desc-packagedsulfuricacid-c","desc-turbofuel-c","desc-packagedwater-c","desc-berry-c","desc-parachute-c","desc-petroleumcoke-c","desc-plastic-c","desc-plutoniumfuelrod-c","desc-plutoniumpellet-c","desc-plutoniumwaste-c","desc-polymerresin-c","bp-itemdescriptorportableminer-c","desc-crystalshard-c","desc-pressureconversioncube-c","desc-nobeliskshockwave-c","desc-crystal-mk3-c","desc-quartzcrystal-c","desc-highspeedwire-c","desc-modularframelightweight-c","desc-rawquartz-c","desc-samingot-c","desc-rebargunprojectile-c","desc-ironplatereinforced-c","bp-equipmentdescriptorrifle-c","desc-cartridgestandard-c","desc-rocketfuel-c","desc-rotor-c","desc-rubber-c","desc-sam-c","desc-samfluctuator-c","desc-ironscrew-c","desc-rebar-spreadshot-c","desc-silica-c","desc-singularitycell-c","sink-point","desc-spaceelevatorpart-1-c","desc-gunpowdermk2-c","desc-biofuel-c","desc-wat1-c","desc-spitterparts-c","desc-stator-c","desc-steelplate-c","desc-steelingot-c","desc-steelpipe-c","desc-stingerparts-c","desc-rebar-stunshot-c","desc-sulfur-c","desc-sulfuricacid-c","desc-computersuper-c","desc-quantumoscillator-c","desc-spaceelevatorpart-8-c","desc-timecrystal-c","desc-motorlightweight-c","desc-cartridgechaos-c","desc-liquidturbofuel-c","desc-oreuranium-c","desc-nuclearfuelrod-c","desc-nuclearwaste-c","desc-spaceelevatorpart-2-c","desc-water-c","desc-wire-c","desc-wood-c","bp-equipmentdescriptorstunspear-c","bp-equipmentdescriptorshockshank-c","desc-crystal-mk2-c","bp-eqdesczipline-c"],"rec":{"Recipe_SpaceElevatorPart_12_C":"AI Expansion Server","Recipe_AILimiter_C":"AI Limiter","Recipe_SpaceElevatorPart_5_C":"Adaptive Control Unit","Recipe_AluminumSheet_C":"Alclad Aluminum Sheet","Recipe_AlienDNACapsule_C":"Alien DNA Capsule","Recipe_AlienPowerFuel_C":"Alien Power Matrix","Recipe_Alternate_AdheredIronPlate_C":"Alternate: Adhered Iron Plate","Recipe_Alternate_AlcladCasing_C":"Alternate: Alclad Casing","Recipe_Alternate_SteelBeam_Aluminum_C":"Alternate: Aluminum Beam","Recipe_Alternate_AluminumRod_C":"Alternate: Aluminum Rod","Recipe_Alternate_AutomatedMiner_C":"Alternate: Automated Miner","Recipe_Alternate_HighSpeedWiring_C":"Alternate: Automated Speed Wiring","Recipe_Alternate_IronIngot_Basic_C":"Alternate: Basic Iron Ingot","Recipe_Alternate_Coal_2_C":"Alternate: Biocoal","Recipe_Alternate_BoltedFrame_C":"Alternate: Bolted Frame","Recipe_Alternate_ReinforcedIronPlate_1_C":"Alternate: Bolted Iron Plate","Recipe_Alternate_Screw_C":"Alternate: Cast Screws","Recipe_Alternate_CircuitBoard_2_C":"Alternate: Caterium Circuit Board","Recipe_Alternate_Computer_1_C":"Alternate: Caterium Computer","Recipe_Alternate_Wire_2_C":"Alternate: Caterium Wire","Recipe_Alternate_Coal_1_C":"Alternate: Charcoal","Recipe_Alternate_Silica_C":"Alternate: Cheap Silica","Recipe_Alternate_ClassicBattery_C":"Alternate: Classic Battery","Recipe_Alternate_Diamond_Cloudy_C":"Alternate: Cloudy Diamonds","Recipe_Alternate_CoatedCable_C":"Alternate: Coated Cable","Recipe_Alternate_CoatedIronCanister_C":"Alternate: Coated Iron Canister","Recipe_Alternate_CoatedIronPlate_C":"Alternate: Coated Iron Plate","Recipe_Alternate_CokeSteelIngot_C":"Alternate: Coke Steel Ingot","Recipe_Alternate_EnrichedCoal_C":"Alternate: Compacted Coal","Recipe_Alternate_IngotSteel_2_C":"Alternate: Compacted Steel Ingot","Recipe_Alternate_CoolingDevice_C":"Alternate: Cooling Device","Recipe_Alternate_CopperAlloyIngot_C":"Alternate: Copper Alloy Ingot","Recipe_Alternate_CopperRotor_C":"Alternate: Copper Rotor","Recipe_Alternate_Computer_2_C":"Alternate: Crystal Computer","Recipe_Alternate_DarkMatter_Crystallization_C":"Alternate: Dark Matter Crystallization","Recipe_Alternate_DarkMatter_Trap_C":"Alternate: Dark Matter Trap","Recipe_Alternate_IonizedFuel_Dark_C":"Alternate: Dark-Ion Fuel","Recipe_Alternate_DilutedFuel_C":"Alternate: Diluted Fuel","Recipe_Alternate_DilutedPackagedFuel_C":"Alternate: Diluted Packaged Fuel","Recipe_Alternate_Silica_Distilled_C":"Alternate: Distilled Silica","Recipe_Alternate_ElectricMotor_C":"Alternate: Electric Motor","Recipe_Alternate_ElectroAluminumScrap_C":"Alternate: Electrode Aluminum Scrap","Recipe_Alternate_ElectrodeCircuitBoard_C":"Alternate: Electrode Circuit Board","Recipe_Alternate_ElectromagneticControlRod_1_C":"Alternate: Electromagnetic Connection Rod","Recipe_Alternate_EncasedIndustrialBeam_C":"Alternate: Encased Industrial Pipe","Recipe_Alternate_FertileUranium_C":"Alternate: Fertile Uranium","Recipe_Alternate_Gunpowder_1_C":"Alternate: Fine Black Powder","Recipe_Alternate_Concrete_C":"Alternate: Fine Concrete","Recipe_Alternate_FlexibleFramework_C":"Alternate: Flexible Framework","Recipe_Alternate_Quartz_Fused_C":"Alternate: Fused Quartz Crystal","Recipe_Alternate_Quickwire_C":"Alternate: Fused Quickwire","Recipe_Alternate_FusedWire_C":"Alternate: Fused Wire","Recipe_Alternate_HeatSink_1_C":"Alternate: Heat Exchanger","Recipe_Alternate_HeatFusedFrame_C":"Alternate: Heat-Fused Frame","Recipe_Alternate_ModularFrameHeavy_C":"Alternate: Heavy Encased Frame","Recipe_Alternate_HeavyFlexibleFrame_C":"Alternate: Heavy Flexible Frame","Recipe_Alternate_HeavyOilResidue_C":"Alternate: Heavy Oil Residue","Recipe_Alternate_UraniumCell_1_C":"Alternate: Infused Uranium Cell","Recipe_Alternate_InstantPlutoniumCell_C":"Alternate: Instant Plutonium Cell","Recipe_Alternate_InstantScrap_C":"Alternate: Instant Scrap","Recipe_Alternate_Cable_1_C":"Alternate: Insulated Cable","Recipe_Alternate_CrystalOscillator_C":"Alternate: Insulated Crystal Oscillator","Recipe_Alternate_IngotIron_C":"Alternate: Iron Alloy Ingot","Recipe_Alternate_SteelPipe_Iron_C":"Alternate: Iron Pipe","Recipe_Alternate_Wire_1_C":"Alternate: Iron Wire","Recipe_Alternate_CateriumIngot_Leached_C":"Alternate: Leached Caterium Ingot","Recipe_Alternate_CopperIngot_Leached_C":"Alternate: Leached Copper Ingot","Recipe_Alternate_IronIngot_Leached_C":"Alternate: Leached Iron Ingot","Recipe_Alternate_SteelBeam_Molded_C":"Alternate: Molded Beam","Recipe_Alternate_SteelPipe_Molded_C":"Alternate: Molded Steel Pipe","Recipe_Alternate_RocketFuel_Nitro_C":"Alternate: Nitro Rocket Fuel","Recipe_Alternate_OCSupercomputer_C":"Alternate: OC Supercomputer","Recipe_Alternate_Diamond_OilBased_C":"Alternate: Oil-Based Diamonds","Recipe_Alternate_Diamond_Petroleum_C":"Alternate: Petroleum Diamonds","Recipe_Alternate_Diamond_Pink_C":"Alternate: Pink Diamonds","Recipe_Alternate_AILimiter_Plastic_C":"Alternate: Plastic AI Limiter","Recipe_Alternate_PlasticSmartPlating_C":"Alternate: Plastic Smart Plating","Recipe_Alternate_PlutoniumFuelUnit_C":"Alternate: Plutonium Fuel Unit","Recipe_Alternate_PolyesterFabric_C":"Alternate: Polyester Fabric","Recipe_Alternate_PolymerResin_C":"Alternate: Polymer Resin","Recipe_PureAluminumIngot_C":"Alternate: Pure Aluminum Ingot","Recipe_Alternate_PureCateriumIngot_C":"Alternate: Pure Caterium Ingot","Recipe_Alternate_PureCopperIngot_C":"Alternate: Pure Copper Ingot","Recipe_Alternate_PureIronIngot_C":"Alternate: Pure Iron Ingot","Recipe_Alternate_PureQuartzCrystal_C":"Alternate: Pure Quartz Crystal","Recipe_Alternate_Quartz_Purified_C":"Alternate: Quartz Purification","Recipe_Alternate_Cable_2_C":"Alternate: Quickwire Cable","Recipe_Alternate_Stator_C":"Alternate: Quickwire Stator","Recipe_Alternate_RadioControlUnit_1_C":"Alternate: Radio Connection Unit","Recipe_Alternate_RadioControlSystem_C":"Alternate: Radio Control System","Recipe_Alternate_Plastic_1_C":"Alternate: Recycled Plastic","Recipe_Alternate_RecycledRubber_C":"Alternate: Recycled Rubber","Recipe_Alternate_Motor_1_C":"Alternate: Rigor Motor","Recipe_Alternate_RubberConcrete_C":"Alternate: Rubber Concrete","Recipe_Alternate_CircuitBoard_1_C":"Alternate: Silicon Circuit Board","Recipe_Alternate_HighSpeedConnector_C":"Alternate: Silicon High-Speed Connector","Recipe_Alternate_SloppyAlumina_C":"Alternate: Sloppy Alumina","Recipe_Alternate_IngotSteel_1_C":"Alternate: Solid Steel Ingot","Recipe_Alternate_SteamedCopperSheet_C":"Alternate: Steamed Copper Sheet","Recipe_Alternate_SteelCanister_C":"Alternate: Steel Canister","Recipe_Alternate_SteelCastedPlate_C":"Alternate: Steel Cast Plate","Recipe_Alternate_SteelRod_C":"Alternate: Steel Rod","Recipe_Alternate_Rotor_C":"Alternate: Steel Rotor","Recipe_Alternate_Screw_2_C":"Alternate: Steel Screws","Recipe_Alternate_ModularFrame_C":"Alternate: Steeled Frame","Recipe_Alternate_ReinforcedIronPlate_2_C":"Alternate: Stitched Iron Plate","Recipe_Alternate_SuperStateComputer_C":"Alternate: Super-State Computer","Recipe_Alternate_CateriumIngot_Tempered_C":"Alternate: Tempered Caterium Ingot","Recipe_Alternate_CopperIngot_Tempered_C":"Alternate: Tempered Copper Ingot","Recipe_Alternate_TurboBlendFuel_C":"Alternate: Turbo Blend Fuel","Recipe_Alternate_Diamond_Turbo_C":"Alternate: Turbo Diamonds","Recipe_Alternate_TurboMotor_1_C":"Alternate: Turbo Electric Motor","Recipe_Alternate_TurboHeavyFuel_C":"Alternate: Turbo Heavy Fuel","Recipe_Alternate_TurboPressureMotor_C":"Alternate: Turbo Pressure Motor","Recipe_Alternate_NuclearFuelRod_1_C":"Alternate: Uranium Fuel Unit","Recipe_Alternate_WetConcrete_C":"Alternate: Wet Concrete","Recipe_AluminaSolution_C":"Alumina Solution","Recipe_AluminumCasing_C":"Aluminum Casing","Recipe_IngotAluminum_C":"Aluminum Ingot","Recipe_AluminumScrap_C":"Aluminum Scrap","Recipe_SpaceElevatorPart_7_C":"Assembly Director System","Recipe_SpaceElevatorPart_3_C":"Automated Wiring","Recipe_SpaceElevatorPart_11_C":"Ballistic Warp Drive","Recipe_Battery_C":"Battery","Recipe_Bauxite_Caterium_C":"Bauxite (Caterium)","Recipe_Bauxite_Copper_C":"Bauxite (Copper)","Recipe_SpaceElevatorPart_10_C":"Biochemical Sculptor","Recipe_Biomass_AlienProtein_C":"Biomass (Alien Protein)","Recipe_Biomass_Leaves_C":"Biomass (Leaves)","Recipe_Biomass_Mycelia_C":"Biomass (Mycelia)","Recipe_Biomass_Wood_C":"Biomass (Wood)","Recipe_Gunpowder_C":"Black Powder","Recipe_BladeRunners_C":"Blade Runners","Recipe_Cable_C":"Cable","Recipe_IngotCaterium_C":"Caterium Ingot","Recipe_Caterium_Copper_C":"Caterium Ore (Copper)","Recipe_Caterium_Quartz_C":"Caterium Ore (Quartz)","Recipe_Chainsaw_C":"Chainsaw","Recipe_CircuitBoard_C":"Circuit Board","Recipe_NobeliskCluster_C":"Cluster Nobelisk","Recipe_Coal_Iron_C":"Coal (Iron)","Recipe_Coal_Limestone_C":"Coal (Limestone)","Recipe_Computer_C":"Computer","Recipe_Concrete_C":"Concrete","Recipe_CoolingSystem_C":"Cooling System","Recipe_IngotCopper_C":"Copper Ingot","Recipe_Copper_Quartz_C":"Copper Ore (Quartz)","Recipe_Copper_Sulfur_C":"Copper Ore (Sulfur)","Recipe_CopperDust_C":"Copper Powder","Recipe_CopperSheet_C":"Copper Sheet","Recipe_CrystalOscillator_C":"Crystal Oscillator","Recipe_DarkMatter_C":"Dark Matter Crystal","Recipe_DarkEnergy_C":"Dark Matter Residue","Recipe_Diamond_C":"Diamonds","Recipe_ElectromagneticControlRod_C":"Electromagnetic Control Rod","Recipe_FluidCanister_C":"Empty Canister","Recipe_GasTank_C":"Empty Fluid Tank","Recipe_EncasedIndustrialBeam_C":"Encased Industrial Beam","Recipe_PlutoniumCell_C":"Encased Plutonium Cell","Recipe_UraniumCell_C":"Encased Uranium Cell","Recipe_QuantumEnergy_C":"Excited Photonic Matter","Recipe_Rebar_Explosive_C":"Explosive Rebar","Recipe_Fabric_C":"Fabric","Recipe_FactoryCart_C":"Factory Cart™","Recipe_FicsiteIngot_AL_C":"Ficsite Ingot (Aluminum)","Recipe_FicsiteIngot_CAT_C":"Ficsite Ingot (Caterium)","Recipe_FicsiteIngot_Iron_C":"Ficsite Ingot (Iron)","Recipe_FicsiteMesh_C":"Ficsite Trigon","Recipe_Ficsonium_C":"Ficsonium","Recipe_FicsoniumFuelRod_C":"Ficsonium Fuel Rod","Recipe_LiquidFuel_C":"Fuel","Recipe_FusedModularFrame_C":"Fused Modular Frame","Recipe_FilterGasMask_C":"Gas Filter","Recipe_Gasmask_C":"Gas Mask","Recipe_NobeliskGas_C":"Gas Nobelisk","Recipe_GoldenCart_C":"Golden Factory Cart™","Recipe_Protein_Crab_C":"Hatcher Protein","Recipe_HazmatSuit_C":"Hazmat Suit","Recipe_HeatSink_C":"Heat Sink","Recipe_ModularFrameHeavy_C":"Heavy Modular Frame","Recipe_HighSpeedConnector_C":"High-Speed Connector","Recipe_Protein_Hog_C":"Hog Protein","Recipe_CartridgeSmart_C":"Homing Rifle Ammo","Recipe_Hoverpack_C":"Hoverpack","Recipe_FilterHazmat_C":"Iodine-Infused Filter","Recipe_IonizedFuel_C":"Ionized Fuel","Recipe_IngotIron_C":"Iron Ingot","Recipe_Iron_Limestone_C":"Iron Ore (Limestone)","Recipe_IronPlate_C":"Iron Plate","Recipe_SpikedRebar_C":"Iron Rebar","Recipe_IronRod_C":"Iron Rod","Recipe_JetPack_C":"Jetpack","Recipe_Limestone_Sulfur_C":"Limestone (Sulfur)","Recipe_LiquidBiofuel_C":"Liquid Biofuel","Recipe_SpaceElevatorPart_6_C":"Magnetic Field Generator","Recipe_SpaceElevatorPart_4_C":"Modular Engine","Recipe_ModularFrame_C":"Modular Frame","Recipe_Motor_C":"Motor","Recipe_TemporalProcessor_C":"Neural-Quantum Processor","Recipe_NitricAcid_C":"Nitric Acid","Recipe_Nitrogen_Bauxite_C":"Nitrogen Gas (Bauxite)","Recipe_Nitrogen_Caterium_C":"Nitrogen Gas (Caterium)","Recipe_Nobelisk_C":"Nobelisk","Recipe_NobeliskDetonator_C":"Nobelisk Detonator","Recipe_NonFissileUranium_C":"Non-Fissile Uranium","Recipe_SpaceElevatorPart_9_C":"Nuclear Pasta","Recipe_NobeliskNuke_C":"Nuke Nobelisk","Recipe_NutritionalInhaler_C":"Nutritional Inhaler","Recipe_ObjectScanner_C":"Object Scanner","Recipe_PackagedAlumina_C":"Packaged Alumina Solution","Recipe_Fuel_C":"Packaged Fuel","Recipe_PackagedOilResidue_C":"Packaged Heavy Oil Residue","Recipe_PackagedIonizedFuel_C":"Packaged Ionized Fuel","Recipe_PackagedBiofuel_C":"Packaged Liquid Biofuel","Recipe_PackagedNitricAcid_C":"Packaged Nitric Acid","Recipe_PackagedNitrogen_C":"Packaged Nitrogen Gas","Recipe_PackagedCrudeOil_C":"Packaged Oil","Recipe_PackagedRocketFuel_C":"Packaged Rocket Fuel","Recipe_PackagedSulfuricAcid_C":"Packaged Sulfuric Acid","Recipe_PackagedTurboFuel_C":"Packaged Turbofuel","Recipe_PackagedWater_C":"Packaged Water","Recipe_Parachute_C":"Parachute","Recipe_PetroleumCoke_C":"Petroleum Coke","Recipe_Plastic_C":"Plastic","Recipe_PlutoniumFuelRod_C":"Plutonium Fuel Rod","Recipe_Plutonium_C":"Plutonium Pellet","Recipe_PortableMiner_C":"Portable Miner","Recipe_PowerCrystalShard_1_C":"Power Shard (1)","Recipe_PowerCrystalShard_2_C":"Power Shard (2)","Recipe_PowerCrystalShard_3_C":"Power Shard (5)","Recipe_PressureConversionCube_C":"Pressure Conversion Cube","Recipe_MedicinalInhalerAlienOrgans_C":"Protein Inhaler","Recipe_NobeliskShockwave_C":"Pulse Nobelisk","Recipe_QuartzCrystal_C":"Quartz Crystal","Recipe_Quickwire_C":"Quickwire","Recipe_RadioControlUnit_C":"Radio Control Unit","Recipe_Quartz_Bauxite_C":"Raw Quartz (Bauxite)","Recipe_Quartz_Coal_C":"Raw Quartz (Coal)","Recipe_IngotSAM_C":"Reanimated SAM","Recipe_RebarGun_C":"Rebar Gun","Recipe_IronPlateReinforced_C":"Reinforced Iron Plate","Recipe_ResidualFuel_C":"Residual Fuel","Recipe_ResidualPlastic_C":"Residual Plastic","Recipe_ResidualRubber_C":"Residual Rubber","Recipe_SpaceRifleMk1_C":"Rifle","Recipe_Cartridge_C":"Rifle Ammo","Recipe_RocketFuel_C":"Rocket Fuel","Recipe_Rotor_C":"Rotor","Recipe_Rubber_C":"Rubber","Recipe_SAMFluctuator_C":"SAM Fluctuator","Recipe_Screw_C":"Screws","Recipe_Rebar_Spreadshot_C":"Shatter Rebar","Recipe_Silica_C":"Silica","Recipe_SingularityCell_C":"Singularity Cell","Recipe_SpaceElevatorPart_1_C":"Smart Plating","Recipe_GunpowderMK2_C":"Smokeless Powder","Recipe_Biofuel_C":"Solid Biofuel","Recipe_Protein_Spitter_C":"Spitter Protein","Recipe_Stator_C":"Stator","Recipe_SteelBeam_C":"Steel Beam","Recipe_IngotSteel_C":"Steel Ingot","Recipe_SteelPipe_C":"Steel Pipe","Recipe_Protein_Stinger_C":"Stinger Protein","Recipe_Rebar_Stunshot_C":"Stun Rebar","Recipe_Sulfur_Coal_C":"Sulfur (Coal)","Recipe_Sulfur_Iron_C":"Sulfur (Iron)","Recipe_SulfuricAcid_C":"Sulfuric Acid","Recipe_ComputerSuper_C":"Supercomputer","Recipe_SuperpositionOscillator_C":"Superposition Oscillator","Recipe_SyntheticPowerShard_C":"Synthetic Power Shard","Recipe_TherapeuticInhaler_C":"Therapeutic Inhaler","Recipe_SpaceElevatorPart_8_C":"Thermal Propulsion Rocket","Recipe_TimeCrystal_C":"Time Crystal","Recipe_MotorTurbo_C":"Turbo Motor","Recipe_CartridgeChaos_Packaged_C":"Turbo Rifle Ammo","Recipe_CartridgeChaos_C":"Turbo Rifle Ammo (Recipe_CartridgeChaos_C)","Recipe_Alternate_Turbofuel_C":"Turbofuel","Recipe_UnpackageAlumina_C":"Unpackage Alumina Solution","Recipe_UnpackageFuel_C":"Unpackage Fuel","Recipe_UnpackageOilResidue_C":"Unpackage Heavy Oil Residue","Recipe_UnpackageIonizedFuel_C":"Unpackage Ionized Fuel","Recipe_UnpackageBioFuel_C":"Unpackage Liquid Biofuel","Recipe_UnpackageNitricAcid_C":"Unpackage Nitric Acid","Recipe_UnpackageNitrogen_C":"Unpackage Nitrogen Gas","Recipe_UnpackageOil_C":"Unpackage Oil","Recipe_UnpackageRocketFuel_C":"Unpackage Rocket Fuel","Recipe_UnpackageSulfuricAcid_C":"Unpackage Sulfuric Acid","Recipe_UnpackageTurboFuel_C":"Unpackage Turbofuel","Recipe_UnpackageWater_C":"Unpackage Water","Recipe_NuclearFuelRod_C":"Uranium Fuel Rod","Recipe_Uranium_Bauxite_C":"Uranium Ore (Bauxite)","Recipe_SpaceElevatorPart_2_C":"Versatile Framework","Recipe_MedicinalInhaler_C":"Vitamin Inhaler","Recipe_Wire_C":"Wire","Recipe_XenoBasher_C":"Xeno-Basher","Recipe_XenoZapper_C":"Xeno-Zapper","Recipe_ZipLine_C":"Zipline"},"bat":{"Build_AssemblerMk1_C":"Assembler","Build_GeneratorBiomass_Automated_C":"Biomass Burner","Build_Blender_C":"Blender","Build_GeneratorCoal_C":"Coal-Powered Generator","Build_ConstructorMk1_C":"Constructor","Build_Converter_C":"Converter","Build_ConveyorBeltMk1_C":"Conveyor Belt Mk.1","Build_ConveyorBeltMk2_C":"Conveyor Belt Mk.2","Build_ConveyorBeltMk3_C":"Conveyor Belt Mk.3","Build_ConveyorBeltMk4_C":"Conveyor Belt Mk.4","Build_ConveyorBeltMk5_C":"Conveyor Belt Mk.5","Build_ConveyorBeltMk6_C":"Conveyor Belt Mk.6","Build_WorkBench_C":"Crafting Bench","Build_Workshop_C":"Equipment Workshop","Build_FoundryMk1_C":"Foundry","Build_GeneratorFuel_C":"Fuel-Powered Generator","Build_GeneratorGeoThermal_C":"Geothermal Generator","Build_ManufacturerMk1_C":"Manufacturer","Build_MinerMk1_C":"Miner Mk.1","Build_MinerMk2_C":"Miner Mk.2","Build_MinerMk3_C":"Miner Mk.3","Build_GeneratorNuclear_C":"Nuclear Power Plant","Build_OilPump_C":"Oil Extractor","Build_Packager_C":"Packager","Build_HadronCollider_C":"Particle Accelerator","Build_QuantumEncoder_C":"Quantum Encoder","Build_OilRefinery_C":"Refinery","Build_FrackingExtractor_C":"Resource Well Extractor","Build_FrackingSmasher_C":"Resource Well Pressurizer","Build_SmelterMk1_C":"Smelter","Build_WaterPump_C":"Water Extractor"}}</script>
+<script>
+const P = JSON.parse(document.getElementById('payload').textContent);
+const T = k => FicsitLang.t(k), TX = (k, v) => FicsitPartie.texte(k, v);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const num = (v, d) => FicsitLang.num(v, {maximumFractionDigits: d || 0});
+/* noms et icônes : classe du jeu (Desc_IronPlate_C) → slug du référentiel (desc-ironplate-c) → nom, icône partagée */
+const slug = c => String(c).toLowerCase().replace(/_/g, '-');
+const nomItem = c => P.items[slug(c)] ? FicsitLang.item(P.items[slug(c)]) : String(c).replace(/^Desc_|_C$/g, '');
+const IC = new Set(P.ic || []);
+const ico = c => IC.has(slug(c)) ? `<img class="ic" alt="" loading="lazy" src="commun/icones-44/${slug(c)}.webp">` : '';
+const nomRec = c => { const n = P.rec[c]; return n ? (n.startsWith('Alternate: ') ? FicsitLang.recette(n.slice(11)) : FicsitLang.recette(n)) : String(c).replace(/^Recipe_|_C$/g, ''); };
+const nomBat = c => P.bat[c] ? FicsitLang.batiment(P.bat[c]) : String(c).replace(/^Build_|_C$/g, '');
+let USINE = null, etat = null;
+
+/* ---------- lecture : worker commun/ficsit-usine-worker.js (repli dans la page en file://) ---------- */
+const BASE = 'commun/';
+function charger(src){ return new Promise((ok, ko) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = () => ko(new Error('format')); document.head.appendChild(s); }); }
+function avecWorker(buf, progres){
+  return new Promise((ok, ko) => {
+    let w, parti = false;
+    try{ w = new Worker(BASE + 'ficsit-usine-worker.js'); }catch(e){ ko(new Error('worker')); return; }
+    w.onmessage = e => { const m = e.data;
+      if(m.progres != null){ parti = true; progres(m.progres); }
+      else { w.terminate(); m.usine ? ok(m.usine) : ko(new Error(m.erreur || 'format')); } };
+    w.onerror = e => { e.preventDefault(); w.terminate();
+      ko(new Error(!parti ? 'worker' : /memory|allocation/i.test(e.message || '') ? 'memoire' : 'format')); };
+    w.postMessage(buf, [buf]);
+  });
+}
+async function sansWorker(buf, progres){
+  if(!window.SatisfactoryFileParser) await charger(BASE + 'vendor/satisfactory-file-parser.js');
+  if(!window.FicsitUsine) await charger(BASE + 'ficsit-usine-worker.js');
+  await new Promise(r => setTimeout(r, 30));
+  return FicsitUsine.lire(buf, progres);
+}
+async function importer(f){
+  if(!f) return;
+  etat = {etape: 'lecture', f: 0}; rendu();
+  let dernier = 0;
+  const progres = fr => { const t = performance.now(); if(fr >= 1 || t - dernier > 120){ dernier = t; etat = {etape: 'analyse', f: fr}; rendu(); } };
+  try{
+    const buf = await f.arrayBuffer(), copie = buf.slice(0);
+    etat = {etape: 'analyse', f: 0}; rendu();
+    USINE = await avecWorker(buf, progres).catch(e => { if(e.message === 'worker') return sansWorker(copie, progres); throw e; });
+    USINE.fichier = f.name; etat = null;
+  }catch(e){ etat = {erreur: e.message || 'format'}; }
+  rendu();
+}
+
+/* ---------- graphe : remontée des chaînes depuis chaque Uploader ----------
+   Ports : convoyeurs et ascenseurs entrent par ConveyorAny0 et sortent par ConveyorAny1 ; séparateurs, fusionneurs,
+   machines et Uploaders entrent par Input…, sortent par Output… (mInput… / mOutput… pour certains mods). Les ports
+   sans sens propre (TopConnection / BottomConnection du séparateur d'ascenseur) sont des entrées quand l'autre bout
+   est une sortie. On remonte d'entrée en entrée à travers convoyeurs, fusionneurs et séparateurs (ceux des mods
+   compris) et les conteneurs de stockage (simples tampons, signalés) ; toute autre machine (production, extraction)
+   ou une gare est une source. */
+const TRANSIT = c => /^Build_(ConveyorBelt|ConveyorLift|ConveyorAttachment)|Splitter|Merger/.test(c);
+const CONTENEUR = c => /Storage(Container|Integrated)|^Build_Container/.test(c);
+const REPART = c => /^Build_ConveyorAttachment|Splitter|Merger/.test(c);
+const ENTREE = /^(Input|ConveyorAny0|mInput)/, SORTIE = /^(Output|ConveyorAny1|mOutput)/;
+function graphe(u){
+  const adj = new Map(), ports = u.batis.map(() => new Set());
+  u.liens.forEach(([a, pa, b, pb]) => { adj.set(a + ':' + pa, [b, pb]); adj.set(b + ':' + pb, [a, pa]); ports[a].add(pa); ports[b].add(pb); });
+  const entrees = i => [...ports[i]].filter(p => ENTREE.test(p) || !SORTIE.test(p) && SORTIE.test(adj.get(i + ':' + p)[1]));
+  return {adj, entrees};
+}
+function remonter(u, G, i0){
+  const vus = new Set([i0]), pile = [i0], sources = new Map();
+  let separateurs = 0, conteneurs = 0;
+  while(pile.length){
+    const i = pile.pop();
+    for(const p of G.entrees(i)){
+      const v = G.adj.get(i + ':' + p); if(!v) continue;
+      const j = v[0], b = u.batis[j];
+      if(vus.has(j)) continue; vus.add(j);
+      if(TRANSIT(b.c)){ if(/Splitter/.test(b.c)) separateurs++; pile.push(j); continue; }
+      if(CONTENEUR(b.c)){ conteneurs++; pile.push(j); continue; }
+      if(b.c === 'Build_CentralStorage_C') continue;
+      const cle = [b.c, b.rec || '', b.res || '', b.clk || 1].join('|');
+      const s = sources.get(cle) || {b, n: 0, shards: 0, sloops: 0, prod: 0, np: 0};
+      s.n++; s.shards += b.shards || 0; s.sloops += b.sloops || 0;
+      if(b.prod != null){ s.prod += b.prod; s.np++; }
+      sources.set(cle, s);
+    }
+  }
+  return {sources: [...sources.values()].sort((a, b) => b.n - a.n), separateurs, conteneurs};
+}
+
+/* ---------- rendu ---------- */
+const ERR = {ancienne: 'partieErrAncienne', format: 'partieErrFormat', memoire: 'partieErrMemoire'};
+function rendu(){
+  document.getElementById('etape').textContent = T('depotEtape');
+  document.getElementById('thItem').textContent = T('depotItem');
+  document.getElementById('thStock').textContent = T('depotEnStock');
+  const el = document.getElementById('etat'), res = document.getElementById('resultat');
+  el.classList.toggle('erreur', !!(etat && etat.erreur));
+  if(etat && etat.etape){
+    const pc = Math.round((etat.f || 0) * 100), lec = etat.etape === 'lecture';
+    el.innerHTML = `<div>${lec ? T('partieLecture') : TX('partieAnalyse', {p: num(pc)})}</div>
+      <div class="jauge${lec ? ' lecture' : ''}" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pc}"><i style="width:${lec ? 100 : pc}%"></i></div>`;
+    return;
+  }
+  if(etat && etat.erreur){ el.textContent = ERR[etat.erreur] ? T(ERR[etat.erreur]) : T('partieErrFormat'); }
+  else if(!USINE) el.textContent = T('depotAttente');
+  res.hidden = !USINE;
+  if(!USINE) return;
+  const u = USINE;
+  if(!(etat && etat.erreur)){
+    const date = new Date(u.date).toLocaleString(FicsitLang.locale, {dateStyle: 'long', timeStyle: 'short'});
+    el.innerHTML = `<div class="nom">${esc(u.nom || T('partieSansNom'))}</div>${esc(TX('depotResume', {date, h: num(Math.floor(u.duree / 3600))}))}${u.fichier ? ' · ' + esc(u.fichier) : ''}`;
+  }
+  const compte = re => u.batis.filter(b => re.test(b.c)).length;
+  const machines = u.batis.filter(b => b.rec).length, extr = u.batis.filter(b => b.res).length;
+  document.getElementById('tiles').innerHTML = [[machines, 'depotMachines'], [extr, 'depotExtracteurs'],
+    [compte(/^Build_(ConveyorBelt|ConveyorLift)/), 'depotConvoyeurs'], [u.batis.filter(b => REPART(b.c)).length, 'depotRepartiteurs'],
+    [compte(/^Build_CentralStorage_C$/), 'depotUploaders']]
+    .map(([v, k]) => `<div class="tile"><div class="v">${num(v)}</div><div class="k">${esc(T(k))}</div></div>`).join('');
+  // Uploaders regroupés par item reçu
+  const G = graphe(u), groupes = new Map();
+  u.batis.forEach((b, i) => { if(b.c !== 'Build_CentralStorage_C') return;
+    const it = Object.keys(b.stock || {})[0] || '';
+    (groupes.get(it) || groupes.set(it, []).get(it)).push(i); });
+  const ligne = s => { const b = s.b, det = [];
+    if(b.clk != null && Math.abs(b.clk - 1) > 1e-6) det.push(TX('depotHorloge', {c: num(b.clk * 100, 1)}));
+    if(s.shards) det.push(TX('depotEclats', {n: s.shards}));
+    if(s.sloops) det.push(TX('depotSloops', {n: s.sloops}));
+    if(s.np) det.push(TX('depotProd', {p: num(s.prod / s.np * 100)}));
+    const quoi = b.rec ? `<b>${esc(nomRec(b.rec))}</b> — ${esc(nomBat(b.c))}` : `<b>${esc(nomBat(b.c))}</b>${b.res ? ' ' + esc(TX('depotNoeud', {n: b.res.replace(/^BP_/, '')})) : ''}`;
+    return `<li>${s.n} × ${quoi}${det.length ? `<small>${esc(det.join(' · '))}</small>` : ''}</li>`; };
+  document.getElementById('uploaders').innerHTML = !groupes.size ? `<p class="note">${esc(T('depotAucunUploader'))}</p>`
+    : [...groupes.entries()].map(([it, idx]) => {
+      const r = idx.map(i => remonter(u, G, i)), fus = new Map();
+      r.forEach(x => x.sources.forEach(s => { const k = [s.b.c, s.b.rec || '', s.b.res || '', s.b.clk || 1].join('|'), f = fus.get(k);
+        if(f){ f.n += s.n; f.shards += s.shards; f.sloops += s.sloops; f.prod += s.prod; f.np += s.np; } else fus.set(k, Object.assign({}, s)); }));
+      const sep = r.reduce((n, x) => n + x.separateurs, 0), cont = r.reduce((n, x) => n + x.conteneurs, 0), src = [...fus.values()].sort((a, b) => b.n - a.n);
+      return `<div class="upl"><div class="hd">${it ? ico(it) + esc(nomItem(it)) : esc(T('depotVide'))}<small>${esc(TX('depotNUploaders', {n: idx.length}))}</small></div>
+        <div class="sous">${esc(T('depotSources'))}</div>
+        ${src.length ? `<ul>${src.map(ligne).join('')}</ul>` : `<p class="alerte">${esc(T('depotSansSource'))}</p>`}
+        ${sep ? `<p class="alerte">${esc(TX('depotViaSep', {n: sep}))}</p>` : ''}
+        ${cont ? `<p class="alerte">${esc(TX('depotViaConteneur', {n: cont}))}</p>` : ''}</div>`;
+    }).join('');
+  // stock du Depot
+  const st = Object.entries(u.depot).sort((a, b) => b[1] - a[1]);
+  document.getElementById('stock').innerHTML = st.length ? st.map(([c, n]) => `<tr><td>${ico(c)}${esc(nomItem(c))}</td><td>${num(n)}</td></tr>`).join('')
+    : `<tr><td colspan="2">${esc(T('depotStockVide'))}</td></tr>`;
+  const ext = u.extensions.map(x => ({'01': '200 %', '02': '300 %', '03': '400 %', '04': '500 %'})[(x.match(/_(\d\d)_C$/) || [])[1]]).filter(Boolean).sort();
+  document.getElementById('extension').textContent = ext.length ? TX('depotExtension', {x: ext[ext.length - 1]}) : T('depotSansExtension');
+}
+
+const inp = document.getElementById('savIn'), depot = document.getElementById('depot');
+inp.addEventListener('change', () => { importer(inp.files[0]); inp.value = ''; });
+['dragenter', 'dragover'].forEach(t => depot.addEventListener(t, e => { e.preventDefault(); depot.classList.add('survol'); }));
+['dragleave', 'drop'].forEach(t => depot.addEventListener(t, () => depot.classList.remove('survol')));
+depot.addEventListener('drop', e => { e.preventDefault(); importer(e.dataTransfer.files[0]); });
+document.getElementById('copier').addEventListener('click', async e => {
+  const b = e.currentTarget, c = document.getElementById('chemin');
+  try{ await navigator.clipboard.writeText(c.textContent); }
+  catch(_){ const r = document.createRange(); r.selectNodeContents(c); getSelection().removeAllRanges(); getSelection().addRange(r); document.execCommand('copy'); }
+  b.classList.add('ok'); setTimeout(() => b.classList.remove('ok'), 2000);
+});
+FicsitLang.on(rendu);
+rendu();
+</script>
+</body>
+</html>

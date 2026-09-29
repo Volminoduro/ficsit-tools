@@ -27,7 +27,40 @@ const PAGES = {
     document.getElementById('mSYN').click(); document.getElementById('expAll').click(); document.getElementById('expAllC').click(); }),
   'broyeur-excedents.html': null,
   'arbre-production.html': null,
+  // usine synthétique passée par l'extraction de commun/ficsit-usine-worker.js, puis rendue
+  'depot-dimensionnel.html': p => p.evaluate(usineTest),
 };
+/* Dimensional Depot : sauvegarde synthétique (objets tels que le parseur les rend) — foreuse → convoyeur →
+   constructeur (plaques, 150 %, 2 éclats) → convoyeur → séparateur → convoyeur → Uploader ; un second Uploader
+   débranché ; le stock du Depot et l'extension 01. Charge le module d'extraction, l'applique et affiche le résultat. */
+async function usineTest() {
+  if (!window.FicsitUsine) await charger(BASE + 'ficsit-usine-worker.js');
+  const ref = (n) => ({pathName: n}), o = (t, nom, props, type) => ({type: type || 'SaveEntity',
+    typePath: '/Game/X/' + t + '.' + t, instanceName: nom, properties: props || {}});
+  const pr = v => ({value: v}), lien = (a, b) => o('FGFactoryConnectionComponent', a, {mConnectedComponent: pr(ref(b))}, 'SaveComponent');
+  const stack = (it, n) => ({properties: {Item: pr({itemReference: ref('/Game/X/' + it + '.' + it)}), NumItems: pr(n)}});
+  const objs = [
+    o('Build_MinerMk1_C', 'L.Mine', {mExtractableResource: pr(ref('L.BP_ResourceNode12'))}),
+    o('Build_ConveyorBeltMk1_C', 'L.B1'), o('Build_ConveyorBeltMk1_C', 'L.B2'), o('Build_ConveyorBeltMk1_C', 'L.B3'),
+    o('Build_ConstructorMk1_C', 'L.Cons', {mCurrentRecipe: pr(ref('/Game/X/Recipe_IronPlate.Recipe_IronPlate_C')),
+      mCurrentPotential: pr(1.5), mInventoryPotential: pr(ref('L.Cons.Pot')),
+      mLastProductivityMeasurementProduceDuration: pr(45), mLastProductivityMeasurementDuration: pr(60)}),
+    o('FGInventoryComponent', 'L.Cons.Pot', {mInventoryStacks: {values: [stack('Desc_CrystalShard_C', 2)]}}, 'SaveComponent'),
+    o('Build_ConveyorAttachmentSplitter_C', 'L.Sep'),
+    o('Build_CentralStorage_C', 'L.Up1', {mStorageInventory: pr(ref('L.Up1.Inv'))}),
+    o('FGInventoryComponent', 'L.Up1.Inv', {mInventoryStacks: {values: [stack('Desc_IronPlate_C', 80)]}}, 'SaveComponent'),
+    o('Build_CentralStorage_C', 'L.Up2'),
+    lien('L.Mine.Output0', 'L.B1.ConveyorAny0'), lien('L.B1.ConveyorAny1', 'L.Cons.Input0'),
+    lien('L.Cons.Output0', 'L.B2.ConveyorAny0'), lien('L.B2.ConveyorAny1', 'L.Sep.Input1'),
+    lien('L.Sep.Output1', 'L.B3.ConveyorAny0'), lien('L.B3.ConveyorAny1', 'L.Up1.Input0'),
+    lien('L.B3.ConveyorAny0', 'L.Sep.Output1'),   // chaque liaison apparaît des deux côtés dans une vraie sauvegarde
+    o('FGCentralStorageSubsystem', 'P.CS', {mStoredItems: {values: [{properties: {ItemClass: pr(ref('/Game/X/Desc_IronPlate_C.Desc_IronPlate_C')), amount: pr(1234)}}]}}),
+    o('FGSchematicManager', 'P.SM', {mPurchasedSchematics: {values: [ref('/Game/X/Research_Alien_CentralStackExpansion_01_C.Research_Alien_CentralStackExpansion_01_C')]}}),
+  ];
+  USINE = FicsitUsine.extraire({header: {sessionName: 'Test', saveDateTime: '1769828760000', playDurationSeconds: 7200, saveVersion: 58},
+    levels: {L: {objects: objs}}});
+  etat = null; rendu();
+}
 /* Réglages pré-remplis pour que les pages rendent du contenu généré en JS. */
 const PREFS = {
   'ficsit-tools:broyeur:v1': { sortMode: 'r', surplus: [['Iron Plate', 60], ['Screws', 240], ['Wire', 120]], tierCap: 9 },
@@ -69,6 +102,23 @@ const CHECKS = {
     if (fer && fer.p.rec !== 'Alternate: Pure Iron Ingot' && fer.o.rec === 'Alternate: Pure Iron Ingot') out.push('chaîne p : alternative débloquée non retenue');
     FicsitPartie.oublier();
     if (!document.getElementById('chainP').hidden) out.push('chaîne « Ma partie » restée après vidage');
+    return out;
+  },
+  'depot-dimensionnel.html': async () => {
+    await usineTest();
+    const u = USINE, out = [], txt = id => document.getElementById(id).innerText;
+    if (u.batis.length !== 8 || u.liens.length !== 6) out.push(`extraction : ${u.batis.length} bâtiments, ${u.liens.length} liaisons (8 et 6 attendus)`);
+    const c = u.batis.find(b => b.rec);
+    if (!c || c.clk !== 1.5 || c.shards !== 2 || c.prod !== 0.75) out.push('constructeur mal lu : ' + JSON.stringify(c));
+    if (u.depot.Desc_IronPlate_C !== 1234 || u.extensions.length !== 1) out.push('stock ou extension du Depot mal lus');
+    const upl = [...document.querySelectorAll('#uploaders .upl')];
+    if (upl.length !== 2) out.push(`${upl.length} groupes d'Uploaders (2 attendus)`);
+    const plaques = upl.find(x => x.querySelector('img.ic'));
+    if (!plaques || plaques.querySelectorAll('li').length !== 1 || !/150/.test(plaques.innerText) || !/2/.test(plaques.innerText))
+      out.push('source du groupe « plaques » : ' + (plaques ? plaques.innerText.replace(/\s+/g, ' ') : 'absent'));
+    if (plaques && !plaques.querySelector('.alerte')) out.push('séparateur en amont non signalé');
+    if (!/1[\s\u202f.,]?234/.test(txt('stock'))) out.push('stock du Depot absent du tableau');
+    if (!/200/.test(txt('extension'))) out.push('extension 200 % non affichée');
     return out;
   },
   'ficsit_horloge.html': () => {
@@ -176,6 +226,7 @@ const INDICES = {
   }
   for (const [page, check] of Object.entries(CHECKS)) {
     const p = await b.newPage();
+    await p.addInitScript(`window.usineTest = ${usineTest}`);   // les vérifications sont sérialisées : l'aide doit être dans la page
     await p.addInitScript(prefs => {
       try { for (const k in prefs) localStorage.setItem(k, JSON.stringify(prefs[k])); } catch (e) {}
     }, PREFS);

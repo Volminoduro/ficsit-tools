@@ -2,6 +2,11 @@
 
 Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer à la main.
 
+## Débit vers le Dimensional Depot / Dimensional Depot throughput — `depot-dimensionnel.html`
+
+- **v1.0** (29/09/2026) : Nouvel outil, étape 1 : importez une sauvegarde (.sav, lue dans le navigateur, hors du fil principal) ; l'usine est reconstruite (machines, extracteurs, convoyeurs, séparateurs et leurs liaisons) et chaque Uploader, regroupé par item, est relié aux machines et extracteurs qui l'alimentent (recette, horloge, éclats, Somersloops, productivité mesurée), avec le stock actuel du Depot et l'extension achetée. Les débits par minute viendront ensuite.
+  *EN — New tool, step 1: import a save (.sav, read in the browser, off the main thread); the factory is rebuilt (machines, extractors, belts, splitters and their links) and each Uploader, grouped by item, is traced back to the machines and extractors feeding it (recipe, clock, shards, Somersloops, measured productivity), next to the Depot's current stock and the purchased expansion. Per-minute rates come next.*
+
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
 - **v1.26** (28/09/2026) : Bouton « Copier le lien » : un lien vers la vue affichée (critère, palier, items filtrés, onglet, tri, poids de la synthèse), sans votre partie. Panneau « Ma partie » : le focus clavier y reste tant qu'il est ouvert, et chaque recalcul est annoncé aux lecteurs d'écran. Correction : les séquences de production pouvaient reprendre une chaîne calculée avant un changement de filtre « Ma partie ».

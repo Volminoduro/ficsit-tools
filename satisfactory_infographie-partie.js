@@ -9,7 +9,7 @@
    alternatives du registre notées sur le critère affiché : disques durs en attente de choix, débloquées, manquantes.
    Case cochée : FILTRE = classes des recettes débloquées dans la sauvegarde ; tout (spectre, onglets, combinaisons)
    ne retient plus que celles-là. Les indices des recettes isolées, eux, restent calculés sans filtre. */
-let PARTIE = window.FicsitPartie ? FicsitPartie.charger() : null, panneauOuvert = false, etatImport = null, partieLu = null;
+let PARTIE = window.FicsitPartie ? FicsitPartie.charger() : null, panneauOuvert = false, partieLu = null;
 /* Simulation des choix de disques durs : pour chaque disque en attente, l'alternative cochée (par défaut la
    meilleure en Synthèse) compte comme débloquée ; FILTRE = recettes de la partie + celles-là. Partagée par les outils
    (FicsitPartie.simulation / simuler, clé 'ficsit-tools:simulation') : on y écrit le choix effectif de chaque disque. */
@@ -38,7 +38,6 @@ function simulees(){   // classes des recettes ajoutées par la simulation
 const permises = () => new Set([...PARTIE.recettes, ...simulees()]);
 const escH = x => String(x).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const PT = k => FicsitLang.t(k), PTX = (k, v) => FicsitPartie.texte(k, v);
-const PERR = {ancienne: 'partieErrAncienne', format: 'partieErrFormat', recettes: 'partieErrRecettes', memoire: 'partieErrMemoire', stockage: 'partieErrStockage'};
 /* Caches calculés sous un filtre « ma partie » (clés en « <palier>p<n> », voir availKey) : jetés à chaque changement
    de filtre ou de simulation, sinon ils s'accumuleraient à chaque bascule. */
 function purgerFiltres(){
@@ -84,44 +83,23 @@ function renderPartie(){
   const pn = document.getElementById('partiePanneau');
   if(pn.hidden) return;
   if(!pn.firstChild){   // squelette, une fois : l'état et les listes se redessinent seuls
+    // l'import se fait dans le panneau commun « Ma partie » (commun/ficsit-partie-ui.js, bouton du dock) ; ce
+    // panneau-ci garde l'analyse propre au registre : filtre, simulation, alternatives et disques notés
     pn.innerHTML = `<div class="phd"><h2 id="pnTitre"></h2><button type="button" id="partieFermer">×</button></div>
-      <label class="depot" id="depot"><input type="file" id="savIn" accept=".sav"><b id="pnDepot"></b><span id="pnDepotAide"></span></label>
-      <div class="chemin"><code id="chemin">%LOCALAPPDATA%\\FactoryGame\\Saved\\SaveGames</code><button type="button" id="copier"></button><span id="pnCopierAide"></span></div>
+      <button type="button" class="pn-import" id="pnImport" data-partie-ouvrir></button>
       <div class="etat" id="partieEtat" aria-live="polite"></div><div id="partieListes"></div>`;
     pn.setAttribute('aria-labelledby', 'pnTitre'); pn.setAttribute('aria-modal', 'false');
-    const inp = document.getElementById('savIn'), depot = document.getElementById('depot');
     document.getElementById('partieFermer').addEventListener('click', () => ouvrirPanneau(false));
-    inp.addEventListener('change', () => { importer(inp.files[0]); inp.value = ''; });
-    ['dragenter', 'dragover'].forEach(t => depot.addEventListener(t, e => { e.preventDefault(); depot.classList.add('survol'); }));
-    ['dragleave', 'drop'].forEach(t => depot.addEventListener(t, () => depot.classList.remove('survol')));
-    depot.addEventListener('drop', e => { e.preventDefault(); importer(e.dataTransfer.files[0]); });
-    document.getElementById('copier').addEventListener('click', async e => {
-      const btn = e.currentTarget, c = document.getElementById('chemin');
-      try{ await navigator.clipboard.writeText(c.textContent); }
-      catch(_){ const r = document.createRange(); r.selectNodeContents(c); getSelection().removeAllRanges(); getSelection().addRange(r); document.execCommand('copy'); }
-      btn.classList.add('ok'); setTimeout(() => btn.classList.remove('ok'), 2000);
-    });
   }
   document.getElementById('pnTitre').textContent = PT('partieOnglet');
   document.getElementById('partieFermer').title = document.getElementById('partieFermer').ariaLabel = PT('partieFermer');
-  document.getElementById('pnDepot').textContent = PT('partieDepot');
-  document.getElementById('pnDepotAide').textContent = PT('partieDepotAide');
-  document.getElementById('copier').textContent = PT('partieCopier');
-  document.getElementById('pnCopierAide').textContent = PT('partieCopierAide');
-  const el = document.getElementById('partieEtat'), e = etatImport;
-  el.classList.toggle('erreur', !!(e && e.erreur));
-  if(e && e.etape){
-    const pc = Math.round((e.f || 0) * 100), lec = e.etape === 'lecture';
-    el.innerHTML = `<div>${lec ? PT('partieLecture') : PTX('partieAnalyse', {p: FicsitLang.num(pc)})}</div>
-      <div class="jauge${lec ? ' lecture' : ''}" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pc}"><i style="width:${lec ? 100 : pc}%"></i></div>
-      <div>${PT('partieAnalyseAide')}</div>`;
-    return;
-  }
-  const err = e && e.erreur ? `<div>${escH(PERR[e.erreur] ? PT(PERR[e.erreur]) : PT('partieErrFormat') + ' (' + e.erreur + ')')}</div>` : '';
-  if(!PARTIE){ el.innerHTML = err || escH(PT('partieAucune')); return; }
+  document.getElementById('pnImport').textContent = PT(PARTIE ? 'partieChanger' : 'partieImporter');
+  const el = document.getElementById('partieEtat');
+  el.classList.remove('erreur');
+  if(!PARTIE){ el.innerHTML = escH(PT('partieAucune')); return; }
   const ok = new Set(PARTIE.recettes), alt = D.filter(r=>r.a), nAlt = alt.filter(r=>ok.has(r.k)).length;
   const date = new Date(PARTIE.date).toLocaleString(FicsitLang.locale, {dateStyle: 'long', timeStyle: 'short'});
-  el.innerHTML = err + `<div class="nom">${escH(PARTIE.nom || PT('partieSansNom'))}</div>
+  el.innerHTML = `<div class="nom">${escH(PARTIE.nom || PT('partieSansNom'))}</div>
     <div>${escH(PTX('partieSauvee', {date, h: FicsitLang.num(Math.floor(PARTIE.duree / 3600))}))}${PARTIE.fichier ? ' · ' + escH(PARTIE.fichier) : ''}</div>
     <div class="chiffres"><span><b>${FicsitPartie.palier(PARTIE)}</b>${PT('partiePalier')}</span>
       <span><b>${nAlt}</b>${PT('partieDebloquees').toLowerCase()}</span>
@@ -133,7 +111,7 @@ function renderPartie(){
   document.getElementById('filtrePartie').addEventListener('change', ev => recalculer(() => setPartie(ev.target.checked)));
   const simu = document.getElementById('simuPartie');
   if(simu) simu.addEventListener('change', ev => recalculer(() => { SIMU.on = ev.target.checked; simuEcrire(); setPartie(true); }));
-  document.getElementById('vider').addEventListener('click', () => { etatImport = null; FicsitPartie.oublier(); });
+  document.getElementById('vider').addEventListener('click', () => FicsitPartie.oublier());
 }
 function recalculer(f){   // le calcul des combinaisons peut prendre quelques secondes : curseur d'attente, puis annonce
   document.body.classList.add('calcul');
@@ -143,20 +121,6 @@ function recalculer(f){   // le calcul des combinaisons peut prendre quelques se
 function annoncer(){
   const el = document.getElementById('annonce');
   el.textContent = PTX('partieRecalcule', {n: D.filter(r => r.a && isAvail(r)).length, c: CBS().length});
-}
-async function importer(f){
-  if(!f) return;
-  etatImport = {etape: 'lecture', f: 0}; renderPartie();
-  let dernier = 0;
-  try{
-    const p = await FicsitPartie.lire(f, (etape, fr) => {
-      const t = performance.now();
-      if(etape !== etatImport.etape || fr >= 1 || t - dernier > 100){ dernier = t; etatImport = {etape, f: fr}; renderPartie(); }
-    });
-    p.fichier = f.name;
-    etatImport = null;
-    if(!FicsitPartie.enregistrer(p)) etatImport = {erreur: 'stockage'};   // enregistrer prévient les abonnés : nouvellePartie
-  }catch(e){ etatImport = {erreur: e.message || 'format'}; renderPartie(); }
 }
 /* Alternatives du registre notées sur le critère affiché (IDX, GAIN : énergie, matière, espace ou synthèse), verdict
    gagnante / compromis / perdante sur les trois critères (pareto). Disques durs en attente (mUnclaimedHardDriveData) :

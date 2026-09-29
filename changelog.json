@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.2",
+          "date": "2026-09-29",
+          "texte": {
+            "fr": "Étape 3 : régime actuel de l'usine. Un conteneur qui a encore de la place (contenu lu dans la sauvegarde) sert l'aval d'abord puis garde le surplus, avec le temps avant qu'il soit plein : le montage « production → conteneur industriel → Uploader » est compté comme en jeu. Gares, quais de camion et ports de drones : un réservoir commun par famille, ce qui est chargé ressort par ceux qui déchargent. Générateurs à combustible solide : consommation réelle (60 × MW × cadence / énergie du combustible). Bilan électrique estimé (production, consommation à la marche calculée) et fusibles grillés lus dans la sauvegarde.",
+            "en": "Step 3: the factory's current regime. A container with room left (contents read from the save) serves downstream first and keeps the surplus, with the time until it is full: the \"production → industrial container → Uploader\" setup is counted as in game. Train stations, truck stations and drone ports: one shared pool per family, what is loaded comes out of those that unload. Solid-fuel generators: actual consumption (60 × MW × clock speed / fuel energy). Estimated power balance (production, consumption at the computed run rates) and blown fuses read from the save."
+          }
+        },
+        {
           "version": "1.1",
           "date": "2026-09-29",
           "texte": {

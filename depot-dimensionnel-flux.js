@@ -1,4 +1,4 @@
-/* FICSIT — débits théoriques vers le Dimensional Depot (depot-dimensionnel.html, étape 2).
+/* FICSIT — débits théoriques vers le Dimensional Depot (depot-dimensionnel.html, étapes 2 et 3).
    Régime permanent de l'usine tirée de la sauvegarde (commun/ficsit-usine-worker.js), calculé par relaxation :
    chaque bâtiment combine ce qui lui arrive (flux, items/min par item) et ce que l'aval peut prendre (acceptation),
    jusqu'à ce que plus rien ne bouge. Ce qui est pris en compte :
@@ -10,10 +10,17 @@
      séparateurs intelligents et programmables : règles lues dans la save (Tout, Aucun, Tout le reste, Excédent : ne
      reçoit que ce que les autres sorties refusent) ;
    - fusionneurs et conteneurs : ce qui entre ressort ; en cas de bouchon, chaque entrée garde au moins sa part ;
+     un conteneur qui a encore de la place (contenu lu dans la save) prend tout ce qui arrive : l'aval est servi
+     d'abord, le reste s'accumule — c'est le régime actuel, jusqu'à ce qu'il soit plein ;
    - Uploaders : vitesse d'envoi (15 par min, doublée à chaque recherche, jusqu'à 240) ; rien n'entre plus pour un
      item dont le Depot a atteint sa limite (pile × niveau d'extension).
-   Pas encore pris en compte (étape 3) : fluides (supposés disponibles), réseau électrique. Tout autre bâtiment (broyeur, gare, générateur…) prend tout ce qui lui
-   arrive et ne fournit rien. */
+   - gares, quais de camion, ports de drones : un réservoir commun par famille (ce qui est chargé ressort par les
+     gares qui déchargent ; les trajets ne sont pas lus) ;
+   - générateurs à combustible solide : consommation 60 × MW × cadence / énergie de l'item ;
+   - bilan électrique estimé (consommation à la marche calculée, production des générateurs).
+   Pas encore pris en compte : fluides (supposés disponibles), répartition des bâtiments entre circuits électriques
+   (seul le bilan global et les fusibles grillés lus dans la save sont donnés). Tout autre bâtiment (broyeur,
+   ascenseur spatial…) prend tout ce qui lui arrive et ne fournit rien. */
 (function(g){
   var SORTIE = /^(Output|ConveyorAny1|mOutput)/, ENTREE = /^(Input|ConveyorAny0|mInput)/;
   var CONVOYEUR = {1: 60, 2: 120, 3: 270, 4: 480, 5: 780, 6: 1200};
@@ -24,6 +31,9 @@
     Build_OilRefinery_C: 2, Build_Converter_C: 2, Build_ManufacturerMk1_C: 4, Build_Blender_C: 4,
     Build_HadronCollider_C: 4, Build_QuantumEncoder_C: 4};
   var TOUT = 'desc-wildcard-c', AUCUN = 'desc-none-c', EXCEDENT = 'desc-overflow-c', AUTRE = 'desc-anyundefined-c';
+  var FAMILLE = {Build_TrainDockingStation_C: 'train', Build_TruckStation_C: 'camion', Build_DroneStation_C: 'drone'};
+  // géothermie : puissance moyenne selon la pureté du geyser (elle oscille autour de cette valeur)
+  var GEYSER = {impure: 100, normal: 200, pure: 400};
   var EPS = 1e-6;
   var slug = function(c){ return String(c || '').toLowerCase().replace(/_/g, '-'); };
 
@@ -34,6 +44,8 @@
     if(/Merger|^Build_ConveyorAttachment/.test(b.c)) return 'fus';
     if(b.rec && P.rec[b.rec]) return 'mach';
     if(b.res && /^Build_MinerMk\d/.test(b.c)) return 'extr';
+    // générateurs à combustible solide (le générateur à carburant brûle un fluide : supposé alimenté)
+    if(P.pw && P.pw[b.c] && P.pw[b.c][2] > 0 && b.c !== 'Build_GeneratorFuel_C') return 'gen';
     if(/Storage(Container|Integrated)|^Build_Container/.test(b.c)) return 'fus';   // tampon : ce qui entre ressort
     return 'autre';
   }
@@ -61,13 +73,22 @@
     // opts.sansLimite : débit potentiel, comme si le Depot n'était jamais plein
     var limite = function(i){ return !opts.sansLimite && P.pile[i] != null ? P.pile[i] * mult : Infinity; };
     var N = u.batis.map(function(b, i){ return {i: i, b: b, g: genre(b, P), ins: [], outs: []}; });
+    // gares, quais de camion, ports de drones : un réservoir commun par famille (les trajets ne sont pas lus) — ce
+    // que les gares chargent en ressort par les gares qui déchargent, réparti selon ce que leur aval accepte
+    var reservoir = {}, vers = function(i){ return reservoir[i] != null ? reservoir[i] : i; }, familles = {};
+    N.slice().forEach(function(n){
+      var f = FAMILLE[n.b.c]; if(!f) return;
+      if(familles[f] == null){ familles[f] = N.length; N.push({i: N.length, b: {c: 'reservoir:' + f}, g: 'fus', ins: [], outs: [], famille: f, gares: 0}); }
+      reservoir[n.i] = familles[f]; N[familles[f]].gares++; n.g = 'gare';
+    });
     var E = [];
     u.liens.forEach(function(l){
       var a = l[0], pa = l[1], b = l[2], pb = l[3], sens;
       if(SORTIE.test(pa) || ENTREE.test(pb)) sens = [a, pa, b, pb];
       else if(SORTIE.test(pb) || ENTREE.test(pa)) sens = [b, pb, a, pa];
       else return;
-      var e = {de: sens[0], pd: sens[1], vers: sens[2], pv: sens[3], f: {}, a: {d: Infinity, m: {}}};
+      var e = {de: vers(sens[0]), pd: sens[1], vers: vers(sens[2]), pv: sens[3], f: {}, a: {d: Infinity, m: {}}};
+      if(e.de === e.vers) return;
       E.push(e); N[e.de].outs.push(e); N[e.vers].ins.push(e);
     });
     var alertes = {purete: 0, recette: 0};
@@ -104,6 +125,17 @@
         };
       }
       if(n.g === 'upl'){ n.recu = {}; }
+      if(n.g === 'fus' && b.cases){   // conteneur : place restante par item (cases libres × pile)
+        var cont = {}; Object.keys(b.stock || {}).forEach(function(c){ cont[slug(c)] = b.stock[c]; });
+        var pile = function(i){ return P.pile[i] || 100; };
+        var cases = function(sauf){ var k = 0; for(var j in cont) if(j !== sauf) k += Math.ceil(cont[j] / pile(j)); return b.cases - k; };
+        n.libre = function(i){ return i === '*' ? cases(null) * 100 : cases(i) * pile(i) - (cont[i] || 0); };
+      }
+      if(n.g === 'gen'){   // combustible solide : 60 × MW × cadence / énergie de l'item (MJ) par minute
+        n.mw = P.pw[b.c][2] * (b.clk == null ? 1 : b.clk);
+        n.besoin = {}; Object.keys(P.nrj || {}).forEach(function(i){ n.besoin[i] = 60 * n.mw / P.nrj[i]; });
+        n.x = 0;
+      }
     });
     // parcours : sources d'abord (profondeur depuis les extracteurs), puis le reste
     var ordre = [], vu = new Uint8Array(N.length), file = N.filter(function(n){ return n.g === 'extr' || !n.ins.length; }).map(function(n){ return n.i; });
@@ -161,10 +193,12 @@
       var Ad = Math.min(n.outs.reduce(function(s, e){ return s + e.a.d; }, 0), cap);
       if(permis) Ad = Math.min(cap, n.outs.reduce(function(s, e){ return s + (permis(e, '*') ? e.a.d : 0); }, 0));
       var tot = 0; for(var i in T) tot += T[i];
+      // conteneur qui a encore de la place : il prend tout ce qui arrive (l'aval sert d'abord, le reste s'accumule)
+      var place = n.libre ? function(i){ return n.libre(i) > EPS; } : function(){ return false; };
       n.ins.forEach(function(e){
         var m = {}, propre = 0; for(var j in e.f) propre += e.f[j];
-        cles.forEach(function(i){ m[i] = partEntree(A(i), T[i] || 0, e.f[i] || 0, nIn); });
-        poserA(e, {d: nIn ? partEntree(Ad, tot, propre, nIn) : Ad, m: m});
+        cles.forEach(function(i){ m[i] = place(i) ? Infinity : partEntree(A(i), T[i] || 0, e.f[i] || 0, nIn); });
+        poserA(e, {d: place('*') ? Infinity : nIn ? partEntree(Ad, tot, propre, nIn) : Ad, m: m});
       });
     }
     function pas(n, phase){
@@ -209,6 +243,17 @@
         n.recu = recu;
         var m2 = {}; Object.keys(stock).concat(Object.keys(T)).forEach(function(i){ m2[i] = stock[i] >= limite(i) ? 0 : U; });
         n.ins.forEach(function(e){ poserA(e, {d: U, m: m2}); });
+      } else if(n.g === 'gen'){
+        // générateur : brûle ce qui lui arrive jusqu'à sa puissance (les combustibles se partagent la part qui reste)
+        var part = 0; for(var i5 in T) if(n.besoin[i5]) part += T[i5] / n.besoin[i5];
+        n.x = Math.min(1, part);
+        var nG = n.ins.length;
+        n.ins.forEach(function(e){
+          var m3 = {}, propre = 0; for(var j5 in e.f) if(n.besoin[j5]) propre += e.f[j5] / n.besoin[j5];
+          for(var i6 in n.besoin) m3[i6] = n.besoin[i6] * partEntree(1, part, propre, nG);
+          poserA(e, {d: 0, m: m3});
+        });
+        n.outs.forEach(function(e){ poser(e, {}); });
       } else {
         n.ins.forEach(function(e){ poserA(e, {d: Infinity, m: {}}); });
         n.outs.forEach(function(e){ poser(e, {}); });
@@ -231,14 +276,39 @@
       var plein = Object.keys(n.recu).concat(Object.keys(n.b.stock || {}).map(slug)).some(function(i){ return stock[i] >= limite(i); });
       return {i: n.i, recu: n.recu, total: tot, frein: tot >= U - 1e-3 ? 'envoi' : plein ? 'plein' : 'amont'};
     });
+    // bilan électrique estimé : chaque consommateur à la marche calculée (MW × cadence^exposant × Somersloops²),
+    // générateurs selon le combustible reçu, générateur à carburant plein, géothermie selon la pureté du geyser
+    var conso = 0, prodMW = 0, somme = function(l){ return l.reduce(function(s, e){ for(var i in e.f) s += e.f[i]; return s; }, 0); };
+    N.forEach(function(n){
+      var b = n.b, pw = P.pw && P.pw[b.c], clk = b.clk == null ? 1 : b.clk;
+      if(b.c === 'Build_GeneratorGeoThermal_C'){ prodMW += GEYSER[b.pur || (P.noeuds[b.res] || [])[1]] || GEYSER.normal; return; }
+      if(!pw) return;
+      if(n.g === 'gen'){ prodMW += n.mw * n.x; return; }
+      if(pw[2] > 0){ prodMW += pw[2] * clk; return; }
+      if(!(pw[0] > 0) && !(n.g === 'mach' && P.rec[b.rec][4])) return;
+      var base = n.g === 'mach' && P.rec[b.rec][4] || pw[0], amp = SLOOPS[b.c] ? Math.pow(1 + (b.sloops || 0) / SLOOPS[b.c], 2) : 1;
+      var marche = n.g === 'mach' ? n.x : n.g === 'extr' ? (n.taux > 0 ? Math.min(1, somme(n.outs) / n.taux) : 0) : 1;
+      conso += base * Math.pow(clk, pw[1] || 1) * amp * marche;
+    });
+    // conteneurs qui se remplissent : ce qu'ils absorbent (entrée − sortie) et le temps avant d'être pleins
+    var tampons = [];
+    N.forEach(function(n){
+      if(!n.libre) return;
+      var t = {}; n.ins.forEach(function(e){ for(var i in e.f) t[i] = (t[i] || 0) + e.f[i]; });
+      n.outs.forEach(function(e){ for(var i in e.f) t[i] = (t[i] || 0) - e.f[i]; });
+      var abs = 0, fin = Infinity; for(var i in t) if(t[i] > 1e-3){ abs += t[i]; fin = Math.min(fin, n.libre(i) / t[i]); }
+      if(abs > 1e-3) tampons.push({i: n.i, absorbe: abs, plein: fin});
+    });
+    var reservoirs = N.filter(function(n){ return n.famille; }).map(function(n){ return {famille: n.famille, gares: n.gares, debit: somme(n.ins)}; });
     var parItem = {}, lim = {};
     ups.forEach(function(x){ for(var i in x.recu) parItem[i] = (parItem[i] || 0) + x.recu[i]; });
     Object.keys(stock).concat(Object.keys(parItem)).forEach(function(i){ lim[i] = limite(i); });
     // résultat compact (transmis par le worker) : par bâtiment, part de marche des machines, débit des extracteurs
     var batis = N.map(function(n){
-      return n.g === 'mach' ? {x: n.x} : n.g === 'extr' ? {taux: n.taux, pur: n.pur, item: n.item, inc: n.pureteInconnue || undefined} : 0;
+      return n.g === 'mach' || n.g === 'gen' ? {x: n.x} : n.g === 'extr' ? {taux: n.taux, pur: n.pur, item: n.item, inc: n.pureteInconnue || undefined} : 0;
     });
     return {U: U, mult: mult, limite: lim, stock: stock, uploaders: ups, parItem: parItem, batis: batis,
+      energie: {prod: prodMW, conso: conso, circuits: u.circuits || 0, fusibles: u.fusibles || 0}, reservoirs: reservoirs, tampons: tampons,
       tours: tours, stable: stable, alertes: alertes, noeuds: opts.noeuds ? N : undefined};
   }
   // débit réel (Depot plein compris) et potentiel (Depot jamais plein) ; le second n'est recalculé que si un item

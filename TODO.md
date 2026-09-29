@@ -72,8 +72,10 @@ Entrée de journal à prévoir pour le broyeur (une seule version regroupant les
     - pureté des nœuds : absente de la save pour un nœud d'origine ; table `donnees/noeuds-ressources.json` (626 nœuds, d'après rockfactory/satisfactory-logistics, MIT), 83/83 foreuses de Dunarr-076 retrouvées. Si la save porte une pureté (`mPurity` / `mNodePurity` : génération aléatoire, nœuds de mods comme FicsitFarming), elle prime ;
     - Uploader : 15 /min, doublé par recherche `Research_Alien_CentralUploadBoost_01..04_C` (240 max) ; Depot : une pile par item, +1 par `CentralStackExpansion_0N` (5 max).
     Vérifications : conservation exacte des flux sur 7 saves ; sur Dunarr-076, 75 % des machines à 10 points de la productivité mesurée par le jeu (les 3 Uploaders sont à 0 : Depot plein pour béton, cadres et silice ; potentiel 15 /min chacun, bridé par la vitesse d'envoi). ~4 s de calcul pour 8 700 bâtiments.
-  - [ ] Étape 3 — ce qui manque au modèle :
-    - gares, quais de camions et ports de drones : pris comme débouchés illimités et sources nulles ; sur la save 265 (usine à trains et drones), 95 % des machines sont comptées à l'arrêt contre 47 % mesurés. Piste : un réseau de gares transfère la somme de ce qui est chargé vers les gares qui déchargent ;
-    - fluides (tuyaux non lus, supposés suffisants) et réseau électrique (déficit non pris en compte) ;
-    - générateurs : consommation de combustible (pris comme débouché illimité).
+  - [x] **Étape 3** (fait le 2026-09-29) :
+    - conteneurs : contenu et nombre de cases lus dans la save ; un conteneur qui a de la place sert l'aval d'abord et garde le surplus (montage « production → conteneur → Uploader »), avec le temps avant plein. Gain de recoupement : save 269 de 28 % à 72 % des machines à 10 points de la productivité mesurée, Dunarr-019 91 %, Dunarr-076 74 % ;
+    - gares, quais de camion, ports de drones : un réservoir commun par famille (les trajets ne sont pas lus) ;
+    - générateurs à combustible solide : 60 × MW × cadence / énergie du combustible ; générateur à carburant supposé alimenté ; géothermie selon la pureté du geyser ;
+    - bilan électrique global estimé et fusibles grillés (`FGPowerCircuit.mIsFuseTriggered`).
+    Limites restantes : fluides (tuyaux non lus), répartition des bâtiments entre circuits (câbles non lus), trajets des trains et drones. Save 265 (même usine que 269 prise en marche) : 30 % seulement, régime transitoire (objets encore sur les convoyeurs).
   - [ ] Étape 4 — validation : remplissage réel des convoyeurs, comparaison de deux saves (delta de stock / delta de temps).

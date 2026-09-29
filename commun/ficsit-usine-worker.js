@@ -16,7 +16,9 @@
    - le stock du Depot (FGCentralStorageSubsystem.mStoredItems) et les recherches achetées (extension du Depot,
      vitesse d'envoi des Uploaders) ;
    - pour les extracteurs : le nœud, sa pureté et sa ressource s'ils sont dans la save, l'item en stock en sortie.
-   Pas encore lus : tuyaux (fluides), réseau électrique, contenu des convoyeurs. La pureté des nœuds de ressources
+   - conteneurs : contenu et nombre de cases (pour savoir s'ils peuvent encore absorber un surplus) ;
+   - réseau électrique : nombre de circuits et de fusibles grillés (FGPowerCircuit.mIsFuseTriggered).
+   Pas encore lus : tuyaux (fluides), câbles (quel bâtiment est sur quel circuit), contenu des convoyeurs. La pureté des nœuds de ressources
    n'est pas dans la sauvegarde (donnée de la carte). */
 (function(g){
   var classe = function(p){ p = p || ''; return p.slice(p.lastIndexOf('.') + 1); };
@@ -44,9 +46,10 @@
       var v = /FGFactoryConnectionComponent/.test(o.typePath) && prop(o, 'mConnectedComponent');
       if(v && v.pathName) branches.add(parent(o.instanceName));
     });
-    var batis = [], ids = new Map(), sub = null, schemas = [];
+    var batis = [], ids = new Map(), sub = null, schemas = [], circuits = 0, fusibles = 0;
     objs.forEach(function(o){
       var c = classe(o.typePath);
+      if(/FGPowerCircuit/.test(o.typePath)){ circuits++; if(prop(o, 'mIsFuseTriggered')) fusibles++; }   // fusibles grillés
       if(/CentralStorageSubsystem/.test(o.typePath)) sub = o;
       if(/SchematicManager/.test(o.typePath)) schemas = (prop(o, 'mPurchasedSchematics') || []).map(function(r){ return classe(r.pathName); });
       if(o.type !== 'SaveEntity' || !/^Build_/.test(c)) return;
@@ -74,6 +77,10 @@
         var inv = prop(o, 'mStorageInventory'), st = inv && inv.pathName ? stacks(inv.pathName) : {};
         b.stock = st;
       }
+      if(/Storage(Container|Integrated)|^Build_Container/.test(c)){   // conteneur : contenu et nombre de cases
+        var ci = prop(o, 'mStorageInventory'), cinv = ci && ci.pathName && parNom.get(ci.pathName);
+        if(cinv){ b.stock = stacks(ci.pathName); b.cases = (prop(cinv, 'mInventoryStacks') || []).length; }
+      }
       if(/Smart|Programmable/.test(c)) b.regles = (prop(o, 'mSortRules') || []).map(function(r){
         var p = r.properties || {}, it = p.ItemClass && p.ItemClass.value, oi = p.OutputIndex && p.OutputIndex.value;
         return [classe(it && it.pathName), oi];
@@ -99,7 +106,7 @@
     });
     var d = new Date(Number(h.saveDateTime));
     return {nom: h.sessionName || '', date: isNaN(d) ? null : d.toISOString(), duree: h.playDurationSeconds || 0,
-      version: h.saveVersion, batis: batis, liens: liens, depot: depot,
+      version: h.saveVersion, batis: batis, liens: liens, depot: depot, circuits: circuits, fusibles: fusibles,
       extensions: schemas.filter(function(s){ return /Central(StackExpansion|UploadBoost)/.test(s); })};
   }
 

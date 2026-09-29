@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.1",
+          "date": "2026-09-29",
+          "texte": {
+            "fr": "Étape 2 : débits théoriques en items/min. Chaque Uploader affiche son débit vers le Depot et ce qui le limite (vitesse d'envoi, Depot plein, production en amont), plus le débit potentiel si le Depot était plein. Calcul du régime permanent de toute l'usine, dans un Web Worker : pureté des nœuds (table de la carte, ou la sauvegarde si elle l'indique), cadence et Somersloops, machines limitées par leurs ingrédients et par la place en aval, plafonds des convoyeurs, séparateurs à parts égales avec les règles des séparateurs intelligents (excédent compris), vitesse d'envoi des Uploaders et limite du Depot par item. Le tableau du stock donne la limite, le débit et le temps avant plein ; un recoupement compare la marche calculée à la productivité mesurée par le jeu. Vocabulaire du jeu : « cadence » et « éclats de charge ».",
+            "en": "Step 2: theoretical rates in items/min. Each Uploader shows its rate into the Depot and what limits it (upload speed, Depot full, upstream production), plus the potential rate if the Depot were not full. Steady state of the whole factory, computed in a Web Worker: node purity (map table, or the save when it holds it), clock speed and Somersloops, machines limited by their ingredients and by room downstream, belt caps, even splits with smart splitter rules (overflow included), Uploader upload speed and the Depot's per-item limit. The stock table gives the limit, the rate and the time until full; a cross-check compares the computed run rate with the productivity measured by the game."
+          }
+        },
+        {
           "version": "1.0",
           "date": "2026-09-29",
           "texte": {

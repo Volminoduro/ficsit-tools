@@ -30,9 +30,11 @@ const PAGES = {
   // usine synthétique passée par l'extraction de commun/ficsit-usine-worker.js, puis rendue
   'depot-dimensionnel.html': p => p.evaluate(usineTest),
 };
-/* Dimensional Depot : sauvegarde synthétique (objets tels que le parseur les rend) — foreuse → convoyeur →
-   constructeur (plaques, 150 %, 2 éclats) → convoyeur → séparateur → convoyeur → Uploader ; un second Uploader
-   débranché ; le stock du Depot et l'extension 01. Charge le module d'extraction, l'applique et affiche le résultat. */
+/* Dimensional Depot : sauvegarde synthétique (objets tels que le parseur les rend) — foreuse Mk1 sur un nœud de fer
+   normal (60 /min) → fonderie (30 lingots /min) → constructeur (plaques, cadence 150 %, 2 éclats : il lui faudrait
+   45 lingots, il tourne aux deux tiers, 20 plaques /min) → séparateur → Uploader ; un second Uploader débranché ;
+   Depot : 1 234 plaques, extension 01 (limite 400 : plein) et vitesse d'envoi 01 (30 /min). Débit réel 0 (plein),
+   potentiel 20 /min limité par l'amont. Charge le module d'extraction, l'applique, calcule les débits, affiche. */
 async function usineTest() {
   if (!window.FicsitUsine) await charger(BASE + 'ficsit-usine-worker.js');
   const ref = (n) => ({pathName: n}), o = (t, nom, props, type) => ({type: type || 'SaveEntity',
@@ -40,8 +42,9 @@ async function usineTest() {
   const pr = v => ({value: v}), lien = (a, b) => o('FGFactoryConnectionComponent', a, {mConnectedComponent: pr(ref(b))}, 'SaveComponent');
   const stack = (it, n) => ({properties: {Item: pr({itemReference: ref('/Game/X/' + it + '.' + it)}), NumItems: pr(n)}});
   const objs = [
-    o('Build_MinerMk1_C', 'L.Mine', {mExtractableResource: pr(ref('L.BP_ResourceNode12'))}),
-    o('Build_ConveyorBeltMk1_C', 'L.B1'), o('Build_ConveyorBeltMk1_C', 'L.B2'), o('Build_ConveyorBeltMk1_C', 'L.B3'),
+    o('Build_MinerMk1_C', 'L.Mine', {mExtractableResource: pr(ref('L.BP_ResourceNode106'))}),
+    o('Build_SmelterMk1_C', 'L.Fond', {mCurrentRecipe: pr(ref('/Game/X/Recipe_IngotIron.Recipe_IngotIron_C'))}),
+    o('Build_ConveyorBeltMk1_C', 'L.B0'), o('Build_ConveyorBeltMk1_C', 'L.B1'), o('Build_ConveyorBeltMk1_C', 'L.B2'), o('Build_ConveyorBeltMk1_C', 'L.B3'),
     o('Build_ConstructorMk1_C', 'L.Cons', {mCurrentRecipe: pr(ref('/Game/X/Recipe_IronPlate.Recipe_IronPlate_C')),
       mCurrentPotential: pr(1.5), mInventoryPotential: pr(ref('L.Cons.Pot')),
       mLastProductivityMeasurementProduceDuration: pr(45), mLastProductivityMeasurementDuration: pr(60)}),
@@ -50,16 +53,17 @@ async function usineTest() {
     o('Build_CentralStorage_C', 'L.Up1', {mStorageInventory: pr(ref('L.Up1.Inv'))}),
     o('FGInventoryComponent', 'L.Up1.Inv', {mInventoryStacks: {values: [stack('Desc_IronPlate_C', 80)]}}, 'SaveComponent'),
     o('Build_CentralStorage_C', 'L.Up2'),
-    lien('L.Mine.Output0', 'L.B1.ConveyorAny0'), lien('L.B1.ConveyorAny1', 'L.Cons.Input0'),
+    lien('L.Mine.Output0', 'L.B0.ConveyorAny0'), lien('L.B0.ConveyorAny1', 'L.Fond.Input0'), lien('L.Fond.Output0', 'L.B1.ConveyorAny0'), lien('L.B1.ConveyorAny1', 'L.Cons.Input0'),
     lien('L.Cons.Output0', 'L.B2.ConveyorAny0'), lien('L.B2.ConveyorAny1', 'L.Sep.Input1'),
     lien('L.Sep.Output1', 'L.B3.ConveyorAny0'), lien('L.B3.ConveyorAny1', 'L.Up1.Input0'),
     lien('L.B3.ConveyorAny0', 'L.Sep.Output1'),   // chaque liaison apparaît des deux côtés dans une vraie sauvegarde
     o('FGCentralStorageSubsystem', 'P.CS', {mStoredItems: {values: [{properties: {ItemClass: pr(ref('/Game/X/Desc_IronPlate_C.Desc_IronPlate_C')), amount: pr(1234)}}]}}),
-    o('FGSchematicManager', 'P.SM', {mPurchasedSchematics: {values: [ref('/Game/X/Research_Alien_CentralStackExpansion_01_C.Research_Alien_CentralStackExpansion_01_C')]}}),
+    o('FGSchematicManager', 'P.SM', {mPurchasedSchematics: {values: [ref('/Game/X/Research_Alien_CentralStackExpansion_01_C.Research_Alien_CentralStackExpansion_01_C'),
+      ref('/Game/X/Research_Alien_CentralUploadBoost_01_C.Research_Alien_CentralUploadBoost_01_C')]}}),
   ];
   USINE = FicsitUsine.extraire({header: {sessionName: 'Test', saveDateTime: '1769828760000', playDurationSeconds: 7200, saveVersion: 58},
     levels: {L: {objects: objs}}});
-  etat = null; rendu();
+  await calculerFlux();
 }
 /* Réglages pré-remplis pour que les pages rendent du contenu généré en JS. */
 const PREFS = {
@@ -107,16 +111,28 @@ const CHECKS = {
   'depot-dimensionnel.html': async () => {
     await usineTest();
     const u = USINE, out = [], txt = id => document.getElementById(id).innerText;
-    if (u.batis.length !== 8 || u.liens.length !== 6) out.push(`extraction : ${u.batis.length} bâtiments, ${u.liens.length} liaisons (8 et 6 attendus)`);
-    const c = u.batis.find(b => b.rec);
+    if (u.batis.length !== 10 || u.liens.length !== 8) out.push(`extraction : ${u.batis.length} bâtiments, ${u.liens.length} liaisons (10 et 8 attendus)`);
+    const c = u.batis.find(b => b.c === 'Build_ConstructorMk1_C');
     if (!c || c.clk !== 1.5 || c.shards !== 2 || c.prod !== 0.75) out.push('constructeur mal lu : ' + JSON.stringify(c));
-    if (u.depot.Desc_IronPlate_C !== 1234 || u.extensions.length !== 1) out.push('stock ou extension du Depot mal lus');
+    if (u.depot.Desc_IronPlate_C !== 1234 || u.extensions.length !== 2) out.push('stock ou recherches du Depot mal lus');
+    // débits : réel 0 (Depot plein), potentiel 20 /min limité par l'amont, fonderie à fond, constructeur aux deux tiers
+    const F = FLUX, up = F && F.reel.uploaders.find(x => u.batis[x.i].stock && u.batis[x.i].stock.Desc_IronPlate_C);
+    const pt = F && F.potentiel.uploaders.find(x => x.i === (up && up.i)), ic = u.batis.indexOf(c);
+    if (!F || F.reel.U !== 30 || F.reel.mult !== 2) out.push('vitesse d\'envoi ou extension mal comptées : ' + JSON.stringify(F && [F.reel.U, F.reel.mult]));
+    else {
+      if (!up || up.total > 1e-6 || up.frein !== 'plein') out.push('débit réel attendu 0, Depot plein : ' + JSON.stringify(up));
+      if (!pt || Math.abs(pt.total - 20) > 0.05 || pt.frein !== 'amont') out.push('débit potentiel attendu 20 /min, limité par l\'amont : ' + JSON.stringify(pt));
+      if (Math.abs(F.potentiel.batis[ic].x - 2 / 3) > 0.01) out.push('constructeur : marche ' + F.potentiel.batis[ic].x);
+      if (!F.reel.stable) out.push('calcul non convergé');
+    }
     const upl = [...document.querySelectorAll('#uploaders .upl')];
     if (upl.length !== 2) out.push(`${upl.length} groupes d'Uploaders (2 attendus)`);
     const plaques = upl.find(x => x.querySelector('img.ic'));
     if (!plaques || plaques.querySelectorAll('li').length !== 1 || !/150/.test(plaques.innerText) || !/2/.test(plaques.innerText))
       out.push('source du groupe « plaques » : ' + (plaques ? plaques.innerText.replace(/\s+/g, ' ') : 'absent'));
     if (plaques && !plaques.querySelector('.alerte')) out.push('séparateur en amont non signalé');
+    if (plaques && !(/20/.test(plaques.querySelector('.debit').innerText) && /\b0\b/.test(plaques.querySelector('.debit b').innerText)))
+      out.push('bilan de débit du groupe « plaques » : ' + (plaques.querySelector('.debit') || {}).innerText);
     if (!/1[\s\u202f.,]?234/.test(txt('stock'))) out.push('stock du Depot absent du tableau');
     if (!/200/.test(txt('extension'))) out.push('extension 200 % non affichée');
     return out;

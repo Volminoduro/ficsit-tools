@@ -19,7 +19,9 @@
   var T = function(k){ return FicsitLang.t(k); }, TX = FP.texte;
   var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]; }); };
   var ERR = {ancienne: 'partieErrAncienne', format: 'partieErrFormat', recettes: 'partieErrRecettes', memoire: 'partieErrMemoire', stockage: 'partieErrStockage'};
-  var etat = null;   // import en cours : {etape, f} ; échec : {erreur}
+  var etat = null;   // import en cours : {etape, f} ; échec : {erreur} ; fichier non gardé : {note}
+  // dernier fichier importé dans cette page : repli si IndexedDB est indisponible (navigation privée, stockage bloqué)
+  var memoire = null;
 
   /* ---------- IndexedDB : le fichier .sav et les calculs qui en dépendent ---------- */
   var base = null;
@@ -49,7 +51,7 @@
   FP.fichier = function(){
     var p = FP.charger();
     if(!p) return Promise.resolve(null);
-    return lireCle('sav').then(function(x){ return x && x.lu === p.lu ? x : null; });
+    return lireCle('sav').then(function(x){ return x && x.lu === p.lu ? x : memoire && memoire.lu === p.lu ? memoire : null; });
   };
   FP.cache = function(cle){
     var p = FP.charger();
@@ -74,8 +76,11 @@
       p.fichier = f.name;
       // le fichier d'abord (l'outil Depot le relit dès qu'il apprend le changement), la partie ensuite
       return viderCles().then(function(){ return f.arrayBuffer(); })
-        .then(function(buf){ return ecrireCle('sav', {lu: p.lu, nom: f.name, buf: buf}); })
-        .then(function(){ etat = FP.enregistrer(p) ? null : {erreur: 'stockage'}; rendu(); return p; });
+        .then(function(buf){ memoire = {lu: p.lu, nom: f.name, buf: buf}; return ecrireCle('sav', memoire); })
+        .then(function(garde){
+          etat = !FP.enregistrer(p) ? {erreur: 'stockage'} : garde === false ? {note: 'partieFichierNonGarde'} : null;
+          rendu(); return p;
+        });
     }).catch(function(e){ etat = {erreur: e.message || 'format'}; rendu(); throw e; });
   };
 
@@ -150,7 +155,8 @@
         + '<div class="fpartie-jauge' + (lec ? ' lecture' : '') + '" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pc + '"><i style="width:' + (lec ? 100 : pc) + '%"></i></div>'
         + '<div>' + esc(T('partieAnalyseAide')) + '</div>';
     } else {
-      var err = e && e.erreur ? '<div class="fpartie-err">' + esc(ERR[e.erreur] ? T(ERR[e.erreur]) : T('partieErrFormat')) + '</div>' : '';
+      var err = e && e.erreur ? '<div class="fpartie-err">' + esc(ERR[e.erreur] ? T(ERR[e.erreur]) : T('partieErrFormat')) + '</div>'
+        : e && e.note ? '<div class="fpartie-err">' + esc(T(e.note)) + '</div>' : '';
       if(!p) el.innerHTML = err + '<div>' + esc(T('partieAucuneCommun')) + '</div>';
       else {
         var date = new Date(p.date).toLocaleString(FicsitLang.locale, {dateStyle: 'long', timeStyle: 'short'});

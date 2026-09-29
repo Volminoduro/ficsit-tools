@@ -12,8 +12,11 @@
    - fusionneurs et conteneurs : ce qui entre ressort ; en cas de bouchon, chaque entrée garde au moins sa part ;
      un conteneur qui a encore de la place (contenu lu dans la save) prend tout ce qui arrive : l'aval est servi
      d'abord, le reste s'accumule — c'est le régime actuel, jusqu'à ce qu'il soit plein ;
-   - Uploaders : vitesse d'envoi (15 par min, doublée à chaque recherche, jusqu'à 240) ; rien n'entre plus pour un
-     item dont le Depot a atteint sa limite (pile × niveau d'extension).
+   - Uploaders : trois plafonds — vitesse d'envoi (15 par min, doublée à chaque recherche du MAM, jusqu'à 240),
+     raccord (les convoyeurs et ascenseurs qui y mènent sans embranchement, depuis le conteneur ou le séparateur) et
+     chaîne en amont (second calcul sans les deux autres) ; rien n'entre plus pour un item dont le Depot a atteint sa
+     limite (pile × niveau d'extension). Un conteneur juste avant l'Uploader se comporte comme un tronçon : l'Uploader
+     est servi d'abord, le conteneur ne garde que ce qu'il ne peut pas prendre.
    - gares, quais de camion, ports de drones : un réservoir commun par famille (ce qui est chargé ressort par les
      gares qui déchargent ; les trajets ne sont pas lus) ;
    - générateurs à combustible solide : consommation 60 × MW × cadence / énergie de l'item ;
@@ -70,8 +73,10 @@
     var ext = u.extensions || [], niv = function(re){ return ext.reduce(function(n, s){ var m = s.match(re); return m ? Math.max(n, +m[1]) : n; }, 0); };
     var U = 15 * Math.pow(2, niv(/CentralUploadBoost_0(\d)_C$/)), mult = 1 + niv(/CentralStackExpansion_0(\d)_C$/);
     var stock = {}; Object.keys(u.depot || {}).forEach(function(c){ stock[slug(c)] = u.depot[c]; });
-    // opts.sansLimite : débit potentiel, comme si le Depot n'était jamais plein
-    var limite = function(i){ return !opts.sansLimite && P.pile[i] != null ? P.pile[i] * mult : Infinity; };
+    // opts.libre : ce que la chaîne peut fournir à chaque Uploader, sans ses deux autres plafonds (Depot jamais plein,
+    // vitesse d'envoi et raccord illimités)
+    var limite = function(i){ return !opts.libre && P.pile[i] != null ? P.pile[i] * mult : Infinity; };
+    var Ueff = opts.libre ? Infinity : U;
     var N = u.batis.map(function(b, i){ return {i: i, b: b, g: genre(b, P), ins: [], outs: []}; });
     // gares, quais de camion, ports de drones : un réservoir commun par famille (les trajets ne sont pas lus) — ce
     // que les gares chargent en ressort par les gares qui déchargent, réparti selon ce que leur aval accepte
@@ -136,6 +141,24 @@
         n.besoin = {}; Object.keys(P.nrj || {}).forEach(function(i){ n.besoin[i] = 60 * n.mw / P.nrj[i]; });
         n.x = 0;
       }
+    });
+    // raccord de chaque Uploader : les convoyeurs et ascenseurs qui y mènent sans embranchement, depuis le dernier
+    // bâtiment (conteneur, séparateur, machine…) ; son plafond est celui du plus faible (somme si plusieurs entrées)
+    N.forEach(function(n){
+      if(n.g !== 'upl') return;
+      n.raccord = {cap: 0, mk: null};
+      n.ins.forEach(function(e){
+        var cap = Infinity, mk = null, cur = N[e.de], vus = {};
+        while(cur && cur.g === 'conv' && !vus[cur.i]){
+          vus[cur.i] = 1;
+          if(cur.cap < cap){ cap = cur.cap; mk = cur.b.c; }
+          if(opts.libre) cur.cap = Infinity;
+          cur = cur.ins.length === 1 && cur.outs.length === 1 ? N[cur.ins[0].de] : null;
+        }
+        n.raccord.cap += cap;
+        if(mk && (!n.raccord.mk || CONVOYEUR[(mk.match(/Mk(\d)/) || [])[1]] < CONVOYEUR[(n.raccord.mk.match(/Mk(\d)/) || [])[1]])) n.raccord.mk = mk;
+      });
+      if(!n.ins.length) n.raccord.cap = 0;
     });
     // parcours : sources d'abord (profondeur depuis les extracteurs), puis le reste
     var ordre = [], vu = new Uint8Array(N.length), file = N.filter(function(n){ return n.g === 'extr' || !n.ins.length; }).map(function(n){ return n.i; });
@@ -238,11 +261,11 @@
       } else if(n.g === 'upl'){
         var tot2 = 0, recu = {};
         for(var i2 in T) tot2 += T[i2];
-        var k2 = tot2 > U ? U / tot2 : 1;
+        var k2 = tot2 > Ueff ? Ueff / tot2 : 1;
         for(var i3 in T) recu[i3] = T[i3] * k2;
         n.recu = recu;
-        var m2 = {}; Object.keys(stock).concat(Object.keys(T)).forEach(function(i){ m2[i] = stock[i] >= limite(i) ? 0 : U; });
-        n.ins.forEach(function(e){ poserA(e, {d: U, m: m2}); });
+        var m2 = {}; Object.keys(stock).concat(Object.keys(T)).forEach(function(i){ m2[i] = stock[i] >= limite(i) ? 0 : Ueff; });
+        n.ins.forEach(function(e){ poserA(e, {d: Ueff, m: m2}); });
       } else if(n.g === 'gen'){
         // générateur : brûle ce qui lui arrive jusqu'à sa puissance (les combustibles se partagent la part qui reste)
         var part = 0; for(var i5 in T) if(n.besoin[i5]) part += T[i5] / n.besoin[i5];
@@ -274,7 +297,7 @@
     var ups = N.filter(function(n){ return n.g === 'upl'; }).map(function(n){
       var tot = 0; for(var i in n.recu) tot += n.recu[i];
       var plein = Object.keys(n.recu).concat(Object.keys(n.b.stock || {}).map(slug)).some(function(i){ return stock[i] >= limite(i); });
-      return {i: n.i, recu: n.recu, total: tot, frein: tot >= U - 1e-3 ? 'envoi' : plein ? 'plein' : 'amont'};
+      return {i: n.i, recu: n.recu, total: tot, plein: plein, raccord: n.raccord};
     });
     // bilan électrique estimé : chaque consommateur à la marche calculée (MW × cadence^exposant × Somersloops²),
     // générateurs selon le combustible reçu, générateur à carburant plein, géothermie selon la pureté du geyser
@@ -311,11 +334,21 @@
       energie: {prod: prodMW, conso: conso, circuits: u.circuits || 0, fusibles: u.fusibles || 0}, reservoirs: reservoirs, tampons: tampons,
       tours: tours, stable: stable, alertes: alertes, noeuds: opts.noeuds ? N : undefined};
   }
-  // débit réel (Depot plein compris) et potentiel (Depot jamais plein) ; le second n'est recalculé que si un item
-  // est plein, sinon c'est le même
+  // les trois plafonds de chaque Uploader : vitesse d'envoi (recherches du MAM), raccord (convoyeur qui y arrive),
+  // chaîne en amont (calcul « libre », sans les deux autres ni la limite du Depot). Débit réel : le plus petit des
+  // trois, 0 si le Depot est plein pour l'item ; « potentiel » : ce même minimum, Depot plein ou non.
   function deux(u, P){
-    var reel = calculer(u, P), plein = reel.uploaders.some(function(x){ return x.frein === 'plein'; });
-    return {reel: reel, potentiel: plein ? calculer(u, P, {sansLimite: true}) : reel};
+    var reel = calculer(u, P), libre = calculer(u, P, {libre: true});
+    reel.uploaders.forEach(function(x){
+      var l = libre.uploaders.find(function(y){ return y.i === x.i; });
+      x.amont = l ? l.total : 0;
+      x.U = reel.U;
+      var f = [['envoi', reel.U], ['raccord', x.raccord.cap], ['amont', x.amont]].sort(function(a, b){ return a[1] - b[1]; })[0];
+      x.potentiel = f[1];
+      x.facteur = f[0];
+      x.frein = x.plein && x.total < 1e-3 ? 'plein' : f[0];
+    });
+    return {reel: reel, libre: libre};
   }
   g.FicsitFlux = {calculer: calculer, deux: deux, repartir: repartir, slug: slug};
 

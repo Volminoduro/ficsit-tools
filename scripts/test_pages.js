@@ -124,12 +124,14 @@ const CHECKS = {
     if (u.depot.Desc_IronPlate_C !== 1234 || u.extensions.length !== 2) out.push('stock ou recherches du Depot mal lus');
     // débits : réel 0 (Depot plein), potentiel 20 /min limité par l'amont, fonderie à fond, constructeur aux deux tiers
     const F = FLUX, up = F && F.reel.uploaders.find(x => u.batis[x.i].stock && u.batis[x.i].stock.Desc_IronPlate_C);
-    const pt = F && F.potentiel.uploaders.find(x => x.i === (up && up.i)), ic = u.batis.indexOf(c);
+    const ic = u.batis.indexOf(c);
     if (!F || F.reel.U !== 30 || F.reel.mult !== 2) out.push('vitesse d\'envoi ou extension mal comptées : ' + JSON.stringify(F && [F.reel.U, F.reel.mult]));
     else {
       if (!up || up.total > 1e-6 || up.frein !== 'plein') out.push('débit réel attendu 0, Depot plein : ' + JSON.stringify(up));
-      if (!pt || Math.abs(pt.total - 20) > 0.05 || pt.frein !== 'amont') out.push('débit potentiel attendu 20 /min, limité par l\'amont : ' + JSON.stringify(pt));
-      if (Math.abs(F.potentiel.batis[ic].x - 2 / 3) > 0.01) out.push('constructeur : marche ' + F.potentiel.batis[ic].x);
+      // trois plafonds : envoi 30 /min, raccord convoyeur Mk.1 60 /min, chaîne en amont 20 /min → potentiel 20, amont
+      if (!up || up.U !== 30 || up.raccord.cap !== 60 || !/Mk1/.test(up.raccord.mk) || Math.abs(up.amont - 20) > 0.05
+        || Math.abs(up.potentiel - 20) > 0.05 || up.facteur !== 'amont') out.push('plafonds de l\'Uploader : ' + JSON.stringify(up));
+      if (Math.abs(F.libre.batis[ic].x - 2 / 3) > 0.01) out.push('constructeur : marche ' + F.libre.batis[ic].x);
       // Depot plein : le conteneur garde le surplus, le constructeur continue ; il sera plein dans (24 cases × 200 − 100) / 20 = 235 min
       const tp = F.reel.tampons;
       if (Math.abs(F.reel.batis[ic].x - 2 / 3) > 0.01) out.push('Depot plein : le constructeur devrait continuer (conteneur) : ' + F.reel.batis[ic].x);
@@ -140,9 +142,11 @@ const CHECKS = {
     const upl = [...document.querySelectorAll('#uploaders .upl')];
     if (upl.length !== 2) out.push(`${upl.length} groupes d'Uploaders (2 attendus)`);
     const plaques = upl.find(x => x.querySelector('img.ic'));
-    if (!plaques || plaques.querySelectorAll('li').length !== 1 || !/150/.test(plaques.innerText) || !/2/.test(plaques.innerText))
+    if (!plaques || plaques.querySelectorAll(':scope > ul:not(.facteurs) > li').length !== 1 || !/150/.test(plaques.innerText) || !/2/.test(plaques.innerText))
       out.push('source du groupe « plaques » : ' + (plaques ? plaques.innerText.replace(/\s+/g, ' ') : 'absent'));
     if (plaques && !plaques.querySelector('.alerte')) out.push('séparateur en amont non signalé');
+    if (plaques && (plaques.querySelectorAll('.facteurs li').length !== 3 || !/amont|upstream/.test(plaques.querySelector('.facteurs li.min').innerText)))
+      out.push('les trois plafonds ne sont pas affichés : ' + (plaques.querySelector('.debit') || {}).innerText);
     if (plaques && !(/20/.test(plaques.querySelector('.debit').innerText) && /\b0\b/.test(plaques.querySelector('.debit b').innerText)))
       out.push('bilan de débit du groupe « plaques » : ' + (plaques.querySelector('.debit') || {}).innerText);
     if (!/1[\s\u202f.,]?234/.test(txt('stock'))) out.push('stock du Depot absent du tableau');

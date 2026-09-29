@@ -32,6 +32,14 @@
       },
       "entrees": [
         {
+          "version": "1.27",
+          "date": "2026-09-29",
+          "texte": {
+            "fr": "Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.",
+            "en": "The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged."
+          }
+        },
+        {
           "version": "1.26",
           "date": "2026-09-28",
           "texte": {
@@ -256,6 +264,14 @@
       },
       "entrees": [
         {
+          "version": "1.9",
+          "date": "2026-09-29",
+          "texte": {
+            "fr": "Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.",
+            "en": "The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged."
+          }
+        },
+        {
           "version": "1.8",
           "date": "2026-09-28",
           "texte": {
@@ -335,6 +351,14 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.18",
+          "date": "2026-09-29",
+          "texte": {
+            "fr": "Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.",
+            "en": "The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged."
+          }
+        },
         {
           "version": "1.17",
           "date": "2026-09-28",
@@ -487,6 +511,14 @@
         "en": "Field memo"
       },
       "entrees": [
+        {
+          "version": "1.7",
+          "date": "2026-09-29",
+          "texte": {
+            "fr": "Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.",
+            "en": "The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged."
+          }
+        },
         {
           "version": "1.6",
           "date": "2026-09-28",

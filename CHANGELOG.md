@@ -11,6 +11,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
+- **v1.27** (29/09/2026) : Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.
+  *EN — The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged.*
 - **v1.26** (28/09/2026) : Bouton « Copier le lien » : un lien vers la vue affichée (critère, palier, items filtrés, onglet, tri, poids de la synthèse), sans votre partie. Panneau « Ma partie » : le focus clavier y reste tant qu'il est ouvert, et chaque recalcul est annoncé aux lecteurs d'écran. Correction : les séquences de production pouvaient reprendre une chaîne calculée avant un changement de filtre « Ma partie ».
   *EN — "Copy the link" button: a link to the view shown (criterion, tier, filtered items, tab, sort, synthesis weights), without your game. "My game" panel: keyboard focus stays in it while open, and each recomputation is announced to screen readers. Fix: production sequences could reuse a chain computed before a "My game" filter change.*
 - **v1.25** (28/09/2026) : Import de la sauvegarde environ cinq fois plus rapide (1 s au lieu de 5 pour une partie de 5 Mo) et beaucoup plus économe en mémoire : les trois listes utiles sont lues directement, le parseur complet ne sert plus qu'en secours (et n'est téléchargé que dans ce cas).
@@ -68,6 +70,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Module d'étalonnage / Calibration module — `ficsit_horloge.html`
 
+- **v1.9** (29/09/2026) : Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.
+  *EN — The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged.*
 - **v1.8** (28/09/2026) : Sur téléphone, la page ne déborde plus horizontalement : la colonne de résultats se resserre (son tableau défile dans son cadre) et le titre s'adapte à la largeur.
   *EN — On phones, the page no longer overflows horizontally: the results column narrows (its table scrolls within its frame) and the title fits the width.*
 - **v1.7** (26/09/2026) : Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois.
@@ -89,6 +93,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Optimiseur de recyclage / Recycling optimizer — `broyeur-excedents.html`
 
+- **v1.18** (29/09/2026) : Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.
+  *EN — The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged.*
 - **v1.17** (28/09/2026) : Avec une sauvegarde importée dans le registre des rendements : option (cochée par défaut) pour ne garder que les cibles que vos recettes débloquées, ou simulées, savent fabriquer ; le palier se règle sur celui de votre partie.
   *EN — With a save imported in the yield registry: option (ticked by default) to keep only the targets your unlocked, or simulated, recipes can make; the tier is set to your game's.*
 - **v1.16** (26/09/2026) : Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois. Les icônes aussi, partagées avec les autres outils. (343 → 97 Ko)
@@ -128,6 +134,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Mémo de terrain / Field memo — `memo-ficsit.html`
 
+- **v1.7** (29/09/2026) : Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.
+  *EN — The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged.*
 - **v1.6** (28/09/2026) : Sur très petit écran (320 px), les bandeaux de palier et les noms longs se replient au lieu de déborder.
   *EN — On very small screens (320 px), tier banners and long names wrap instead of overflowing.*
 - **v1.5** (26/09/2026) : Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois.

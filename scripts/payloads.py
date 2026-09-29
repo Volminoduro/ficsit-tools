@@ -57,6 +57,26 @@ def icone_fichier(nom):
     return slug
 
 
+def payload_depot():
+    """Débit vers le Dimensional Depot (depot-dimensionnel.html) : noms du jeu pour lire le graphe tiré d'une
+    sauvegarde — items (slug → nom, et slugs dotés d'une icône), recettes (classe → nom), bâtiments (classe Build_… → nom) — et
+    icône partagée de chaque item (commun/icones-44/)."""
+    p = ROOT / "depot-dimensionnel.html"
+    s = avant = p.read_text(encoding="utf-8")
+    m, _ = bloc_json(s, "payload")
+    items, ic = {}, []
+    for nom, it in sorted(REF["items"].items()):
+        items[it["slug"]] = nom
+        if (ICO / f"{it['slug']}.webp").exists():   # quelques items du référentiel n'ont pas d'icône source
+            ic.append(icone_fichier(nom))
+    neuf = {"items": items, "ic": ic,
+            "rec": {r["classe"]: n for n, r in sorted(REF["recettes"].items())},
+            "bat": {"Build_" + b["classe"][5:]: n for n, b in sorted(REF["batiments"].items()) if b["classe"].startswith("Desc_")}}
+    s = s[:m.start(2)] + json.dumps(neuf, ensure_ascii=False, separators=(",", ":")) + s[m.end(2):]
+    ecrire(p, s, avant)
+    print(f"depot-dimensionnel.html : {len(items)} items ({len(ic)} icônes partagées), {len(neuf['rec'])} recettes, {len(neuf['bat'])} bâtiments")
+
+
 def page_icones_partagees(fichier, ident, cle=None):
     """Remplace un dictionnaire d'icônes nom → base64 ou slug par nom → slug (fichiers partagés, icone_fichier)."""
     p = ROOT / fichier
@@ -282,6 +302,7 @@ if __name__ == "__main__":
     page_icones_partagees("broyeur-excedents.html", "icons")
     horloge()
     memo()
+    payload_depot()
     # icônes partagées que plus aucune page n'utilise
     if not VERIF and ICO44.exists():
         for f in ICO44.glob("*.webp"):

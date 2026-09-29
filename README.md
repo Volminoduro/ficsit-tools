@@ -12,12 +12,13 @@ Tout le dépôt — code, calculs, textes — est généré par IA (Claude, d'An
 
 ## Outils
 
-Pages statiques, publiées sur GitHub Pages depuis `main` ; chacune charge le bloc commun `commun/ficsit-commun.js` et `.css` et, pour trois d'entre elles, les icônes de `commun/icones-44/` : à ouvrir depuis le dépôt ou le site, pas enregistrées seules ; `index.html` les présente en deux catégories, Production (mémo, registre, étalonnage) et Recyclage (optimiseur, complexité et valeur au broyeur).
+Pages statiques, publiées sur GitHub Pages depuis `main` ; chacune charge le bloc commun `commun/ficsit-commun.js` et `.css` et, pour quatre d'entre elles, les icônes de `commun/icones-44/` : à ouvrir depuis le dépôt ou le site, pas enregistrées seules ; `index.html` les présente en deux catégories, Production (mémo, registre, étalonnage, débit vers le Dimensional Depot) et Recyclage (optimiseur, complexité et valeur au broyeur).
 
 - `satisfactory_infographie.html` — **Registre des rendements** : chaque recette, standard ou alternative, notée en sortie par MW, par unité de matière première et par m² au sol (machines et extraction surcadencées à 250 %), plus une synthèse des trois pondérée par curseurs ; duels entre recettes, meilleures combinaisons par produit, catalogue, filtre par palier atteint.
 - `broyeur-excedents.html` — **Optimiseur de recyclage (broyeur AWESOME)** : à partir de vos excédents, classe les cibles de broyage par points gagnés pour chaque MW ajouté.
 - `ficsit_horloge.html` — **Module d'étalonnage** : coût de chaque palier d'horloge (overclock) en éclats et en MW, et répartition optimale selon vos éclats.
 - `arbre-production.html` — **Complexité et valeur au broyeur** : pour chaque item broyable, minerais bruts compris, profondeur de l'arbre de production et nombre d'items intermédiaires face à sa valeur AWESOME, en recettes de base ou en chaîne optimisée (MW), filtrable par palier.
+- `depot-dimensionnel.html` — **Débit vers le Dimensional Depot** (étape 1 sur 4) : importe une sauvegarde (parseur complet dans un Web Worker, `commun/ficsit-usine-worker.js`), reconstruit l'usine et ses liaisons de convoyeurs, et relie chaque Uploader aux machines et extracteurs qui l'alimentent, à travers convoyeurs, séparateurs, fusionneurs et conteneurs ; stock actuel du Depot et extension achetée. Les débits par minute viendront ensuite (voir `TODO.md`).
 - `memo-ficsit.html` — **Mémo de terrain** : extraction selon la pureté des nœuds, cadence des convoyeurs, jalons et pièces de l'ascenseur spatial.
 - `scripts/lier-blueprints.ps1` — utilitaire Windows, hors site : regroupe les blueprints de toutes les parties dans une bibliothèque commune (`D:\Satisfactory\BP`) en remplaçant chaque dossier de blueprints par une jonction vers elle.
 

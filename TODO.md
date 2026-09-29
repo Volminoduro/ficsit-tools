@@ -62,3 +62,10 @@ Entrée de journal à prévoir pour le broyeur (une seule version regroupant les
     2. débits théoriques ;
     3. convoyeurs, séparateurs et électricité ;
     4. validation et comparaison de deux saves.
+
+  Avancement :
+  - [x] **Étape 1 — lecture et graphe** (fait le 2026-09-29, `depot-dimensionnel.html`, `commun/ficsit-usine-worker.js`). Vérifié sur Dunarr-076 (8 717 bâtiments gardés, 9 383 liaisons, ~5 s dans Chrome, ~15 s en Node). Relevés sur la save réelle :
+    - on garde tout bâtiment dont un port de convoyeur est branché, plutôt qu'une liste de classes : la save contient des conteneurs `Build_ContainerScreen_Mk1_C` / `Mk2_C` et des bâtiments de mods (`Build_RatioSplitter_C`, `Build_RatioMerger_C`, `Build_FF_…` avec des ports `mInputFactoryConnection` / `mOutputFactoryConnection`) ;
+    - le séparateur d'ascenseur (`Build_ConveyorAttachmentSplitterLift_C`) a des ports `TopConnection` / `BottomConnection` sans sens propre : on les tient pour des entrées quand l'autre bout est une sortie ;
+    - les conteneurs de stockage sont traversés (tampons) et signalés, puisque le débit peut venir d'un stock accumulé.
+  - [ ] Étape 2 — débits théoriques. Manque : la pureté des nœuds (absente de la save, `mExtractableResource` ne donne que l'acteur `BP_ResourceNode…` : il faut une table nœud → pureté tirée des données de la carte) et la limite de stockage du Depot par item (pile de base × extension, à confirmer).

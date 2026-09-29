@@ -1,6 +1,22 @@
 {
   "_doc": "Source unique des journaux de révision. Après modification : python3 scripts/patchnotes.py (met à jour l'encart de chaque outil et CHANGELOG.md). Entrées de la plus récente à la plus ancienne ; version en SemVer propre à chaque outil ; texte obligatoire en fr et en.",
   "outils": {
+    "depot-dimensionnel.html": {
+      "nom": {
+        "fr": "Débit vers le Dimensional Depot",
+        "en": "Dimensional Depot throughput"
+      },
+      "entrees": [
+        {
+          "version": "1.0",
+          "date": "2026-09-29",
+          "texte": {
+            "fr": "Nouvel outil, étape 1 : importez une sauvegarde (.sav, lue dans le navigateur, hors du fil principal) ; l'usine est reconstruite (machines, extracteurs, convoyeurs, séparateurs et leurs liaisons) et chaque Uploader, regroupé par item, est relié aux machines et extracteurs qui l'alimentent (recette, horloge, éclats, Somersloops, productivité mesurée), avec le stock actuel du Depot et l'extension achetée. Les débits par minute viendront ensuite.",
+            "en": "New tool, step 1: import a save (.sav, read in the browser, off the main thread); the factory is rebuilt (machines, extractors, belts, splitters and their links) and each Uploader, grouped by item, is traced back to the machines and extractors feeding it (recipe, clock, shards, Somersloops, measured productivity), next to the Depot's current stock and the purchased expansion. Per-minute rates come next."
+          }
+        }
+      ]
+    },
     "satisfactory_infographie.html": {
       "nom": {
         "fr": "Registre des rendements",

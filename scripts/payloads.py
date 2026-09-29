@@ -59,7 +59,8 @@ def icone_fichier(nom):
 
 def payload_depot():
     """Débit vers le Dimensional Depot (depot-dimensionnel.html) : noms du jeu pour lire le graphe tiré d'une
-    sauvegarde — items (slug → nom, et slugs dotés d'une icône), recettes (classe → nom), bâtiments (classe Build_… → nom) — et
+    sauvegarde — items (slug → nom, taille de pile, slugs dotés d'une icône), recettes (classe → nom, durée, entrées et
+    sorties solides), bâtiments (classe Build_… → nom), pureté des nœuds de la carte (donnees/noeuds-ressources.json) — et
     icône partagée de chaque item (commun/icones-44/)."""
     p = ROOT / "depot-dimensionnel.html"
     s = avant = p.read_text(encoding="utf-8")
@@ -69,8 +70,13 @@ def payload_depot():
         items[it["slug"]] = nom
         if (ICO / f"{it['slug']}.webp").exists():   # quelques items du référentiel n'ont pas d'icône source
             ic.append(icone_fichier(nom))
+    it = REF["items"]
+    flux = lambda l: [[it[n]["slug"], q] for n, q in l if n in it and not it[n]["liquide"]]   # fluides : hors convoyeurs
+    noeuds = json.loads((ROOT / "donnees" / "noeuds-ressources.json").read_text(encoding="utf-8"))["noeuds"]
     neuf = {"items": items, "ic": ic,
-            "rec": {r["classe"]: n for n, r in sorted(REF["recettes"].items())},
+            "pile": {v["slug"]: v["pile"] for n, v in sorted(it.items()) if not v["liquide"]},
+            "rec": {r["classe"]: [n, r["temps"], flux(r["ingredients"]), flux(r["produits"])] for n, r in sorted(REF["recettes"].items())},
+            "noeuds": {k: [v[0].lower().replace("_", "-"), v[1]] for k, v in sorted(noeuds.items()) if v[2] == "BP_ResourceNode_C"},
             "bat": {"Build_" + b["classe"][5:]: n for n, b in sorted(REF["batiments"].items()) if b["classe"].startswith("Desc_")}}
     s = s[:m.start(2)] + json.dumps(neuf, ensure_ascii=False, separators=(",", ":")) + s[m.end(2):]
     ecrire(p, s, avant)

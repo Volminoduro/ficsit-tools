@@ -13,7 +13,9 @@
      surcadençage et Somersloops (inventaire InventoryPotential), productivité mesurée par le jeu
      (mLastProductivityMeasurementProduceDuration / Duration), contenu (Uploaders : l'item de leur inventaire) ;
    - les liaisons : chaque FGFactoryConnectionComponent et son mConnectedComponent (port → port) ;
-   - le stock du Depot (FGCentralStorageSubsystem.mStoredItems) et les schémas achetés (paliers d'extension).
+   - le stock du Depot (FGCentralStorageSubsystem.mStoredItems) et les recherches achetées (extension du Depot,
+     vitesse d'envoi des Uploaders) ;
+   - pour les extracteurs : le nœud, sa pureté et sa ressource s'ils sont dans la save, l'item en stock en sortie.
    Pas encore lus : tuyaux (fluides), réseau électrique, contenu des convoyeurs. La pureté des nœuds de ressources
    n'est pas dans la sauvegarde (donnée de la carte). */
 (function(g){
@@ -52,7 +54,16 @@
       if(!(rec || res || fuel || branches.has(o.instanceName) || c === 'Build_CentralStorage_C')) return;
       var b = {c: c};
       if(rec) b.rec = classe(rec.pathName);
-      if(res) b.res = classe(res.pathName);
+      if(res){
+        b.res = classe(res.pathName);
+        // pureté et ressource portées par le nœud dans la save : absentes pour un nœud d'origine (donnée de la carte,
+        // voir donnees/noeuds-ressources.json), présentes s'il a été modifié (génération aléatoire, mods)
+        var nd = parNom.get(res.pathName), pu = prop(nd, 'mPurity') || prop(nd, 'mNodePurity'), rc = prop(nd, 'mResourceClass');
+        if(pu) b.pur = String(pu.value || pu).replace(/^RP_/, '').toLowerCase();
+        if(rc && rc.pathName) b.item = classe(rc.pathName);
+        var oi = prop(o, 'mOutputInventory'), so = oi && oi.pathName ? Object.keys(stacks(oi.pathName)) : [];
+        if(so.length) b.sortie = so[0];   // ce que l'extracteur a en stock : confirme la ressource extraite
+      }
       if(fuel) b.fuel = classe(fuel.pathName);
       var clk = prop(o, 'mCurrentPotential'); if(clk != null) b.clk = clk;
       var pot = prop(o, 'mInventoryPotential');
@@ -89,7 +100,7 @@
     var d = new Date(Number(h.saveDateTime));
     return {nom: h.sessionName || '', date: isNaN(d) ? null : d.toISOString(), duree: h.playDurationSeconds || 0,
       version: h.saveVersion, batis: batis, liens: liens, depot: depot,
-      extensions: schemas.filter(function(s){ return /CentralStackExpansion/.test(s); })};
+      extensions: schemas.filter(function(s){ return /Central(StackExpansion|UploadBoost)/.test(s); })};
   }
 
   function verifier(buf){

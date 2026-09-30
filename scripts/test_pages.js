@@ -180,6 +180,28 @@ const CHECKS = {
     const bad = [...document.querySelectorAll('#picker .slot')].map(e => e.title).filter(t => /function|undefined|null/.test(t));
     if (bad.length) out.push('infobulle anormale : ' + bad[0]);
     if (DATA.buildings.length < 20) out.push(`${DATA.buildings.length} bâtiments seulement`);
+    // régime d'éclats tiré de la partie : illimités avec l'éclat synthétique, rares sans ; nouvel import = nouveau réglage
+    const partie = (lu, r) => FicsitPartie.enregistrer({nom: 'Test', date: '2026-01-31T03:06:00.000Z', duree: 3600, version: 58, lu,
+      recettes: r, schemas: [], attente: []});
+    partie('test-horloge-1', ['Recipe_SyntheticPowerShard_C']);
+    if (regime !== 'free' || document.getElementById('regPartie').hidden) out.push('partie avec éclat synthétique : régime ' + regime);
+    partie('test-horloge-2', ['Recipe_IngotIron_C']);
+    if (regime !== 'rare') out.push('partie sans éclat synthétique : régime ' + regime);
+    FicsitPartie.oublier();
+    if (!document.getElementById('regPartie').hidden) out.push('note de régime restée après oubli de la partie');
+    return out;
+  },
+  // jalons du HUB obtenus dans la partie : cochés, palier complet marqué, bilan affiché
+  'memo-ficsit.html': () => {
+    const out = [], jal = document.querySelectorAll('.jal[data-s]');
+    if (jal.length !== 42) out.push(`${jal.length} jalons annotés (42 attendus)`);
+    FicsitPartie.enregistrer({nom: 'Test', date: '2026-01-31T03:06:00.000Z', duree: 3600, version: 58, lu: 'test-memo',
+      recettes: [], schemas: ['Schematic_1-1_C', 'Schematic_1-2_C', 'Schematic_1-3_C', 'Schematic_2-1_C'], attente: []});
+    const ok = document.querySelectorAll('.jal.ok').length, faits = document.querySelectorAll('.tier.fait').length;
+    if (ok !== 4 || faits !== 1) out.push(`jalons cochés ${ok} (4 attendus), paliers complets ${faits} (1 attendu)`);
+    if (!/4/.test(document.getElementById('jalBilan').innerText)) out.push('bilan des jalons absent');
+    FicsitPartie.oublier();
+    if (document.querySelectorAll('.jal.ok').length || !document.getElementById('jalBilan').hidden) out.push('jalons restés cochés après oubli');
     return out;
   },
   'satisfactory_infographie.html': () => {

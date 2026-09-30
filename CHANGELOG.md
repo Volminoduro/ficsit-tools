@@ -82,6 +82,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Module d'étalonnage / Calibration module — `ficsit_horloge.html`
 
+- **v1.11** (30/09/2026) : Le régime d'éclats se règle sur votre partie importée (bouton « Ma partie ») : « éclats illimités » si l'éclat de charge synthétique est débloqué, « éclats rares » sinon. Réglé à chaque nouvel import, toujours modifiable à la main.
+  *EN — The shard regime follows your imported game ("My game" button): "unlimited shards" if the synthetic power shard is unlocked, "scarce shards" otherwise. Set on each new import, still changeable by hand.*
 - **v1.10** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.
   *EN — Shared "My game" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game.*
 - **v1.9** (29/09/2026) : Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.
@@ -150,6 +152,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Mémo de terrain / Field memo — `memo-ficsit.html`
 
+- **v1.9** (30/09/2026) : Jalons du HUB : ceux obtenus dans votre partie importée (bouton « Ma partie ») sont cochés, les paliers complets marqués, avec un bilan en tête de section.
+  *EN — HUB milestones: those obtained in your imported game ("My game" button) are ticked, completed tiers highlighted, with a summary at the top of the section.*
 - **v1.8** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.
   *EN — Shared "My game" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game.*
 - **v1.7** (29/09/2026) : Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.

@@ -1,5 +1,5 @@
 {
-"_doc":"Nœuds de ressources de la carte (jeu de base, 1.0+) : identifiant de l'acteur tel qu'il apparaît dans une sauvegarde (mExtractableResource) → [classe de la ressource, pureté, classe du nœud]. La sauvegarde ne contient pas la pureté des nœuds non modifiés : c'est une donnée de la carte. Source : rockfactory/satisfactory-logistics, src/recipes/WorldResourceNodes.json (licence MIT, https://github.com/rockfactory/satisfactory-logistics). Si la sauvegarde porte elle-même une pureté (génération aléatoire, mods), c'est elle qui prime.",
+"_doc":"Nœuds de ressources de la carte (jeu de base, 1.0+) : identifiant de l'acteur tel qu'il apparaît dans une sauvegarde (mExtractableResource) → [classe de la ressource, pureté, classe du nœud]. La sauvegarde ne contient pas la pureté des nœuds non modifiés : c'est une donnée de la carte. Source : rockfactory/satisfactory-logistics, src/recipes/WorldResourceNodes.json (licence MIT, https://github.com/rockfactory/satisfactory-logistics). Si la sauvegarde porte elle-même une pureté (génération aléatoire, mods), c'est elle qui prime. Régénéré par scripts/noeuds.py.",
 "noeuds":{
 "BP_FrackingCore10":[
 "Desc_Water_C",

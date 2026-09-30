@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.7",
+          "date": "2026-09-30",
+          "texte": {
+            "fr": "Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.",
+            "en": "The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection."
+          }
+        },
+        {
           "version": "1.6",
           "date": "2026-09-30",
           "texte": {
@@ -71,6 +79,14 @@
         "en": "Yield registry"
       },
       "entrees": [
+        {
+          "version": "1.29",
+          "date": "2026-09-30",
+          "texte": {
+            "fr": "Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.",
+            "en": "The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection."
+          }
+        },
         {
           "version": "1.28",
           "date": "2026-09-29",
@@ -312,6 +328,22 @@
       },
       "entrees": [
         {
+          "version": "1.12",
+          "date": "2026-09-30",
+          "texte": {
+            "fr": "Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.",
+            "en": "The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection."
+          }
+        },
+        {
+          "version": "1.11",
+          "date": "2026-09-30",
+          "texte": {
+            "fr": "Le régime d'éclats se règle sur votre partie importée (bouton « Ma partie ») : « éclats illimités » si l'éclat de charge synthétique est débloqué, « éclats rares » sinon. Réglé à chaque nouvel import, toujours modifiable à la main.",
+            "en": "The shard regime follows your imported game (\"My game\" button): \"unlimited shards\" if the synthetic power shard is unlocked, \"scarce shards\" otherwise. Set on each new import, still changeable by hand."
+          }
+        },
+        {
           "version": "1.10",
           "date": "2026-09-29",
           "texte": {
@@ -407,6 +439,14 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.20",
+          "date": "2026-09-30",
+          "texte": {
+            "fr": "Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.",
+            "en": "The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection."
+          }
+        },
         {
           "version": "1.19",
           "date": "2026-09-29",
@@ -576,6 +616,22 @@
       },
       "entrees": [
         {
+          "version": "1.10",
+          "date": "2026-09-30",
+          "texte": {
+            "fr": "Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.",
+            "en": "The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection."
+          }
+        },
+        {
+          "version": "1.9",
+          "date": "2026-09-30",
+          "texte": {
+            "fr": "Jalons du HUB : ceux obtenus dans votre partie importée (bouton « Ma partie ») sont cochés, les paliers complets marqués, avec un bilan en tête de section.",
+            "en": "HUB milestones: those obtained in your imported game (\"My game\" button) are ticked, completed tiers highlighted, with a summary at the top of the section."
+          }
+        },
+        {
           "version": "1.8",
           "date": "2026-09-29",
           "texte": {
@@ -655,6 +711,14 @@
         "en": "Complexity vs sink value"
       },
       "entrees": [
+        {
+          "version": "1.9",
+          "date": "2026-09-30",
+          "texte": {
+            "fr": "Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.",
+            "en": "The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection."
+          }
+        },
         {
           "version": "1.8",
           "date": "2026-09-29",

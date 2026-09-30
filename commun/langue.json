@@ -250,6 +250,8 @@
                              "en": "Re-import my save" },
     "partieFichierNonGarde": { "fr": "Ce navigateur n'a pas pu garder le fichier (navigation privée ou stockage bloqué) : l'outil Depot le lira pour cette visite, mais il faudra le réimporter la prochaine fois.",
                              "en": "This browser could not keep the file (private browsing or storage blocked): the Depot tool will read it for this visit, but it will need re-importing next time." },
+    "depotCalculPc": { "fr": "Calcul des débits : {p} % (une fois, puis gardé dans ce navigateur)",
+                      "en": "Computing rates: {p}% (once, then kept in this browser)" },
     "depotStockVide": { "fr": "Le Depot est vide dans cette sauvegarde.",
                       "en": "The Depot is empty in this save." },
     "depotItem": { "fr": "Item",

@@ -68,15 +68,19 @@
   // acceptation d'une entrée parmi n qui se partagent A : au moins sa part, plus ce que les autres laissent
   var partEntree = function(A, total, propre, n){ return Math.max(A / n, A - (total - propre)); };
 
-  function calculer(u, P, opts){
+  /* Le modèle est construit une fois ; resoudre() le relaxe dans le mode courant (mode.libre), resultat() en tire le
+     résumé. deux() résout d'abord le mode réel, puis bascule en mode libre et repart de cet état (convergence rapide :
+     seuls les abords des Uploaders changent) — un seul graphe, deux régimes. */
+  function modele(u, P, opts){
     opts = opts || {};
     var ext = u.extensions || [], niv = function(re){ return ext.reduce(function(n, s){ var m = s.match(re); return m ? Math.max(n, +m[1]) : n; }, 0); };
     var U = 15 * Math.pow(2, niv(/CentralUploadBoost_0(\d)_C$/)), mult = 1 + niv(/CentralStackExpansion_0(\d)_C$/);
     var stock = {}; Object.keys(u.depot || {}).forEach(function(c){ stock[slug(c)] = u.depot[c]; });
     // opts.libre : ce que la chaîne peut fournir à chaque Uploader, sans ses deux autres plafonds (Depot jamais plein,
     // vitesse d'envoi et raccord illimités)
-    var limite = function(i){ return !opts.libre && P.pile[i] != null ? P.pile[i] * mult : Infinity; };
-    var Ueff = opts.libre ? Infinity : U;
+    var mode = {libre: !!opts.libre};
+    var limite = function(i){ return !mode.libre && P.pile[i] != null ? P.pile[i] * mult : Infinity; };
+    var Ueff = function(){ return mode.libre ? Infinity : U; };
     var N = u.batis.map(function(b, i){ return {i: i, b: b, g: genre(b, P), ins: [], outs: []}; });
     // gares, quais de camion, ports de drones : un réservoir commun par famille (les trajets ne sont pas lus) — ce
     // que les gares chargent en ressort par les gares qui déchargent, réparti selon ce que leur aval accepte
@@ -100,7 +104,7 @@
     // préparation par genre
     N.forEach(function(n){
       var b = n.b;
-      if(n.g === 'conv'){ var mk = (b.c.match(/Mk(\d)/) || [])[1]; n.cap = CONVOYEUR[mk] || Infinity; }
+      if(n.g === 'conv'){ var mk = (b.c.match(/Mk(\d)/) || [])[1]; n.cap = n.cap0 = CONVOYEUR[mk] || Infinity; }
       if(n.g === 'extr'){
         var nd = P.noeuds[b.res] || [], pur = b.pur || nd[1];
         if(!PURETE[pur]){ pur = 'normal'; n.pureteInconnue = true; alertes.purete++; }
@@ -144,6 +148,7 @@
     });
     // raccord de chaque Uploader : les convoyeurs et ascenseurs qui y mènent sans embranchement, depuis le dernier
     // bâtiment (conteneur, séparateur, machine…) ; son plafond est celui du plus faible (somme si plusieurs entrées)
+    var raccords = [];
     N.forEach(function(n){
       if(n.g !== 'upl') return;
       n.raccord = {cap: 0, mk: null};
@@ -152,7 +157,7 @@
         while(cur && cur.g === 'conv' && !vus[cur.i]){
           vus[cur.i] = 1;
           if(cur.cap < cap){ cap = cur.cap; mk = cur.b.c; }
-          if(opts.libre) cur.cap = Infinity;
+          raccords.push(cur);
           cur = cur.ins.length === 1 && cur.outs.length === 1 ? N[cur.ins[0].de] : null;
         }
         n.raccord.cap += cap;
@@ -160,6 +165,9 @@
       });
       if(!n.ins.length) n.raccord.cap = 0;
     });
+    // mode libre : raccords sans plafond
+    var appliquer = function(){ raccords.forEach(function(c){ c.cap = mode.libre ? Infinity : c.cap0; }); };
+    appliquer();
     // parcours : sources d'abord (profondeur depuis les extracteurs), puis le reste
     var ordre = [], vu = new Uint8Array(N.length), file = N.filter(function(n){ return n.g === 'extr' || !n.ins.length; }).map(function(n){ return n.i; });
     file.forEach(function(i){ vu[i] = 1; });
@@ -168,7 +176,8 @@
     // file de travail : un bâtiment n'est recalculé que si un lien voisin a changé (flux vers l'aval, acceptation
     // vers l'amont) au-delà de TOL items/min
     var TOL = 1e-4, file2 = [], dans = new Uint8Array(N.length);
-    var reveiller = function(i){ if(!dans[i]){ dans[i] = 1; file2.push(i); } };
+    var zone = null;   // si posée : seuls ces bâtiments sont recalculés (le reste garde son état)
+    var reveiller = function(i){ if(!dans[i] && (!zone || zone[i])){ dans[i] = 1; file2.push(i); } };
     var diff = function(x, y){ return x === y ? 0 : isFinite(x) && isFinite(y) ? Math.abs(x - y) : Infinity; };
     var poser = function(e, f){
       var d = 0;
@@ -261,11 +270,11 @@
       } else if(n.g === 'upl'){
         var tot2 = 0, recu = {};
         for(var i2 in T) tot2 += T[i2];
-        var k2 = tot2 > Ueff ? Ueff / tot2 : 1;
+        var k2 = tot2 > Ueff() ? Ueff() / tot2 : 1;
         for(var i3 in T) recu[i3] = T[i3] * k2;
         n.recu = recu;
-        var m2 = {}; Object.keys(stock).concat(Object.keys(T)).forEach(function(i){ m2[i] = stock[i] >= limite(i) ? 0 : Ueff; });
-        n.ins.forEach(function(e){ poserA(e, {d: Ueff, m: m2}); });
+        var m2 = {}; Object.keys(stock).concat(Object.keys(T)).forEach(function(i){ m2[i] = stock[i] >= limite(i) ? 0 : Ueff(); });
+        n.ins.forEach(function(e){ poserA(e, {d: Ueff(), m: m2}); });
       } else if(n.g === 'gen'){
         // générateur : brûle ce qui lui arrive jusqu'à sa puissance (les combustibles se partagent la part qui reste)
         var part = 0; for(var i5 in T) if(n.besoin[i5]) part += T[i5] / n.besoin[i5];
@@ -284,16 +293,26 @@
     }
     // relaxation jusqu'au point fixe, en partant des sources ; phase 1 sans la limite croisée des ingrédients
     // (sinon une machine à deux ingrédients reste à zéro), phase 2 avec
+    // progres(f), f de 0 à 1 : estimation (le nombre de pas n'est pas connu d'avance ; ~40 pas par bâtiment et par phase)
     var tours = 0, max = (opts.max || 400) * N.length, stable = true;
-    for(var phase = 1; phase <= 2; phase++){
-      ordre.forEach(reveiller);
-      for(var q2 = 0; q2 < file2.length; q2++){
-        if(++tours > max){ stable = false; break; }
-        var i4 = file2[q2]; dans[i4] = 0; pas(N[i4], phase);
-        if(q2 > 65536){ file2 = file2.slice(q2 + 1); q2 = -1; }
-      }
-      file2 = []; dans.fill(0);
+    // depart : bâtiments réveillés au début (tous par défaut) ; en repartant d'un état déjà résolu, seuls ceux dont
+    // les règles ont changé, la file propage le reste ; la phase suivante repasse sur tout ce que la précédente a touché
+    function resoudre(phases, progres, depart){
+      var t0 = tours, attendu = 40 * (depart ? Math.max(depart.length, N.length / 4) : N.length) * phases.length, touches = null;
+      phases.forEach(function(phase){
+        var suivants = new Set();
+        (touches ? Array.from(touches) : depart || ordre).forEach(reveiller);
+        for(var q2 = 0; q2 < file2.length; q2++){
+          if(++tours > max){ stable = false; break; }
+          var i4 = file2[q2]; dans[i4] = 0; pas(N[i4], phase); if(depart) suivants.add(i4);
+          if(q2 > 65536){ file2 = file2.slice(q2 + 1); q2 = -1; }
+          if(progres && !(tours & 8191)) progres(1 - Math.exp(-(tours - t0) / attendu));
+        }
+        file2 = []; dans.fill(0);
+        touches = depart ? suivants : null;
+      });
     }
+    function resultat(){
     var ups = N.filter(function(n){ return n.g === 'upl'; }).map(function(n){
       var tot = 0; for(var i in n.recu) tot += n.recu[i];
       var plein = Object.keys(n.recu).concat(Object.keys(n.b.stock || {}).map(slug)).some(function(i){ return stock[i] >= limite(i); });
@@ -333,12 +352,36 @@
     return {U: U, mult: mult, limite: lim, stock: stock, uploaders: ups, parItem: parItem, batis: batis,
       energie: {prod: prodMW, conso: conso, circuits: u.circuits || 0, fusibles: u.fusibles || 0}, reservoirs: reservoirs, tampons: tampons,
       tours: tours, stable: stable, alertes: alertes, noeuds: opts.noeuds ? N : undefined};
+    }
+    // ce que le passage au mode libre touche directement : les Uploaders et leurs raccords
+    var bascule = N.filter(function(n){ return n.g === 'upl'; }).map(function(n){ return n.i; }).concat(raccords.map(function(c){ return c.i; }));
+    // amont des Uploaders : tout ce qui y mène, en remontant les liens ; le plafond « chaîne en amont » n'est recalculé
+    // que là (le reste de l'usine garde son régime réel, qui fixe ce que les autres branches acceptent)
+    var amont = function(){
+      var z = new Uint8Array(N.length), pile = bascule.slice();
+      pile.forEach(function(i){ z[i] = 1; });
+      while(pile.length){ N[pile.pop()].ins.forEach(function(e){ if(!z[e.de]){ z[e.de] = 1; pile.push(e.de); } }); }
+      return z;
+    };
+    return {mode: mode, appliquer: appliquer, resoudre: resoudre, resultat: resultat, bascule: bascule,
+      limiter: function(z){ zone = z; }, amont: amont};
   }
+  // un seul régime (tests) : opts.libre pour le mode libre
+  function calculer(u, P, opts){ var m = modele(u, P, opts); m.resoudre([1, 2]); return m.resultat(); }
   // les trois plafonds de chaque Uploader : vitesse d'envoi (recherches du MAM), raccord (convoyeur qui y arrive),
   // chaîne en amont (calcul « libre », sans les deux autres ni la limite du Depot). Débit réel : le plus petit des
   // trois, 0 si le Depot est plein pour l'item ; « potentiel » : ce même minimum, Depot plein ou non.
-  function deux(u, P){
-    var reel = calculer(u, P), libre = calculer(u, P, {libre: true});
+  function deux(u, P, progres){
+    var p = progres || function(){};
+    // régime réel d'abord, depuis zéro (c'est lui qu'on affiche) ; le libre, qui ne sert qu'au plafond « chaîne en
+    // amont » des Uploaders, repart de cet état
+    var m = modele(u, P);
+    m.resoudre([1, 2], function(f){ p(0.65 * f); });
+    var reel = m.resultat();
+    m.mode.libre = true; m.appliquer(); m.limiter(m.amont());
+    // phase 1 aussi (sinon une chaîne bloquée dans le régime réel y resterait), mais seulement depuis les Uploaders
+    m.resoudre([1, 2], function(f){ p(0.65 + 0.35 * f); }, m.bascule);
+    var libre = m.resultat();
     reel.uploaders.forEach(function(x){
       var l = libre.uploaders.find(function(y){ return y.i === x.i; });
       x.amont = l ? l.total : 0;
@@ -354,7 +397,8 @@
 
   if(typeof document === 'undefined' && typeof importScripts === 'function' && typeof g.FicsitUsine === 'undefined'){   // worker
     g.onmessage = function(e){
-      try{ g.postMessage({flux: deux(e.data.u, e.data.P)}); }
+      var dernier = 0;
+      try{ g.postMessage({flux: deux(e.data.u, e.data.P, function(f){ var t = Date.now(); if(t - dernier > 150){ dernier = t; g.postMessage({progres: f}); } })}); }
       catch(err){ g.postMessage({erreur: String(err && err.message || err)}); }
     };
   }

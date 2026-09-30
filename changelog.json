@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.6",
+          "date": "2026-09-30",
+          "texte": {
+            "fr": "Première visite plus rapide (~14 s au lieu de ~20 sur une grosse usine) : un seul modèle de l'usine au lieu de deux, le plafond « chaîne en amont » n'étant recalculé qu'en amont des Uploaders. Barre de progression pendant le calcul des débits.",
+            "en": "Faster first visit (~14 s instead of ~20 on a large factory): a single factory model instead of two, the \"upstream chain\" cap being recomputed only upstream of the Uploaders. Progress bar while rates are computed."
+          }
+        },
+        {
           "version": "1.5",
           "date": "2026-09-29",
           "texte": {

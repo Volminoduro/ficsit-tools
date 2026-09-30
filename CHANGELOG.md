@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Débit vers le Dimensional Depot / Dimensional Depot throughput — `depot-dimensionnel.html`
 
+- **v1.6** (30/09/2026) : Première visite plus rapide (~14 s au lieu de ~20 sur une grosse usine) : un seul modèle de l'usine au lieu de deux, le plafond « chaîne en amont » n'étant recalculé qu'en amont des Uploaders. Barre de progression pendant le calcul des débits.
+  *EN — Faster first visit (~14 s instead of ~20 on a large factory): a single factory model instead of two, the "upstream chain" cap being recomputed only upstream of the Uploaders. Progress bar while rates are computed.*
 - **v1.5** (29/09/2026) : Outil signalé « en chantier » dans son titre et sur l'accueil. Partie importée avant le bouton commun (fichier non gardé) : l'outil l'explique et propose un bouton « Réimporter ma sauvegarde ». Si le navigateur ne peut pas garder le fichier (navigation privée), il reste utilisable pendant la visite et le panneau le signale.
   *EN — Tool marked "work in progress" in its title and on the home page. Game imported before the shared button (file not kept): the tool explains it and offers a "Re-import my save" button. If the browser cannot keep the file (private browsing), it stays usable during the visit and the panel says so.*
 - **v1.4** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée. L'outil n'a plus son propre import : il relit le fichier gardé par le bouton commun, et garde l'usine et les débits calculés dans ce navigateur (une nouvelle visite s'affiche aussitôt).

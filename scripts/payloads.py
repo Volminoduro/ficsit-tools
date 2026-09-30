@@ -60,8 +60,8 @@ def icone_fichier(nom):
 def payload_depot():
     """Débit vers le Dimensional Depot (depot-dimensionnel.html) : noms du jeu pour lire le graphe tiré d'une
     sauvegarde — items (slug → nom, taille de pile, slugs dotés d'une icône), recettes (classe → nom, durée, entrées et
-    sorties solides, MW moyens des recettes à puissance variable), bâtiments (classe Build_… → nom, MW consommés ou
-    produits), énergie des combustibles, pureté des nœuds et geysers de la carte (donnees/noeuds-ressources.json) — et
+    sorties, fluides compris, MW moyens des recettes à puissance variable), bâtiments (classe Build_… → nom, MW consommés ou
+    produits), fluides, énergie des combustibles, pureté des nœuds, geysers et puits de la carte (donnees/noeuds-ressources.json) — et
     icône partagée de chaque item (commun/icones-44/)."""
     p = ROOT / "depot-dimensionnel.html"
     s = avant = p.read_text(encoding="utf-8")
@@ -72,19 +72,20 @@ def payload_depot():
         if (ICO / f"{it['slug']}.webp").exists():   # quelques items du référentiel n'ont pas d'icône source
             ic.append(icone_fichier(nom))
     it = REF["items"]
-    flux = lambda l: [[it[n]["slug"], q] for n, q in l if n in it and not it[n]["liquide"]]   # fluides : hors convoyeurs
+    flux = lambda l: [[it[n]["slug"], q] for n, q in l if n in it]   # fluides compris (m³), ils passent par les tuyaux
     noeuds = json.loads((ROOT / "donnees" / "noeuds-ressources.json").read_text(encoding="utf-8"))["noeuds"]
     neuf = {"items": items, "ic": ic,
             "pile": {v["slug"]: v["pile"] for n, v in sorted(it.items()) if not v["liquide"]},
+            "liq": [v["slug"] for n, v in sorted(it.items()) if v["liquide"]],
             "rec": {r["classe"]: [n, r["temps"], flux(r["ingredients"]), flux(r["produits"])]
                     + ([(r["mwMin"] + r["mwMax"]) / 2] if r.get("mwMax") else []) for n, r in sorted(REF["recettes"].items())},
             # électricité : bâtiment Build_… → [MW consommés à 100 %, exposant de la cadence, MW produits]
             "pw": {"Build_" + b["classe"][5:]: [b["mw"], b["exposant"], b.get("production", 0)]
                    for n, b in sorted(REF["batiments"].items()) if b["classe"].startswith("Desc_") and (b["mw"] or b.get("production"))},
-            # énergie des combustibles solides (MJ par item)
-            "nrj": {v["slug"]: v["energie"] for n, v in sorted(it.items()) if v["energie"] and not v["liquide"]},
+            # énergie des combustibles (MJ par item, par m³ pour un fluide)
+            "nrj": {v["slug"]: v["energie"] for n, v in sorted(it.items()) if v["energie"]},
             "noeuds": {k: [v[0].lower().replace("_", "-"), v[1]] for k, v in sorted(noeuds.items())
-                       if v[2] in ("BP_ResourceNode_C", "BP_ResourceNodeGeyser_C")},
+                       if v[2] in ("BP_ResourceNode_C", "BP_ResourceNodeGeyser_C", "BP_FrackingSatellite_C")},
             "bat": {"Build_" + b["classe"][5:]: n for n, b in sorted(REF["batiments"].items()) if b["classe"].startswith("Desc_")}}
     s = s[:m.start(2)] + json.dumps(neuf, ensure_ascii=False, separators=(",", ":")) + s[m.end(2):]
     ecrire(p, s, avant)

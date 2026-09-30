@@ -14,6 +14,7 @@
      .num(v, opts)         v.toLocaleString(locale, opts)
    Accueil : un lien vers index.html ouvre le dock sur chaque outil (pas sur l'accueil lui-même).
    Mention IA : un bandeau commun (texte langue.json > communs.ia) est ajouté en bas de chaque page.
+   Hors ligne : enregistre sw.js (copie des fichiers servis, voir ce fichier).
    Dock : tout élément marqué data-fdock est déplacé dans le dock commun en haut à droite, avant les drapeaux.
    HTML statique :
      <x data-l="fr">…</x><x data-l="en">…</x>     seule la variante de la langue active est affichée
@@ -101,6 +102,9 @@
   };
   window.addEventListener('storage', function(e){ if(e.key === CONF.cle && valide(e.newValue)) appliquer(e.newValue, false); });
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', monter); else monter();
+  // hors ligne : sw.js (racine du site) garde une copie de chaque fichier servi ; en http(s) seulement
+  if('serviceWorker' in navigator && /^https?:$/.test(location.protocol))
+    window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
 })();
 /* FICSIT — grille de paliers commune (infographie, broyeur, arbre de production).
    Source : commun/ficsit-paliers.js (+ ficsit-paliers.css, libellés dans langue.json > communs.paliers),

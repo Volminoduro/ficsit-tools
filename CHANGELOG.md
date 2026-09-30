@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Débit vers le Dimensional Depot / Dimensional Depot throughput — `depot-dimensionnel.html`
 
+- **v1.7** (30/09/2026) : Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.
+  *EN — The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection.*
 - **v1.6** (30/09/2026) : Première visite plus rapide (~14 s au lieu de ~20 sur une grosse usine) : un seul modèle de l'usine au lieu de deux, le plafond « chaîne en amont » n'étant recalculé qu'en amont des Uploaders. Barre de progression pendant le calcul des débits.
   *EN — Faster first visit (~14 s instead of ~20 on a large factory): a single factory model instead of two, the "upstream chain" cap being recomputed only upstream of the Uploaders. Progress bar while rates are computed.*
 - **v1.5** (29/09/2026) : Outil signalé « en chantier » dans son titre et sur l'accueil. Partie importée avant le bouton commun (fichier non gardé) : l'outil l'explique et propose un bouton « Réimporter ma sauvegarde ». Si le navigateur ne peut pas garder le fichier (navigation privée), il reste utilisable pendant la visite et le panneau le signale.
@@ -21,6 +23,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
+- **v1.29** (30/09/2026) : Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.
+  *EN — The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection.*
 - **v1.28** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée. Le panneau « Ma partie » du registre garde l'analyse (filtre, simulation, alternatives et disques notés) et renvoie au bouton commun pour l'import.
   *EN — Shared "My game" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game. The registry's "My game" panel keeps the analysis (filter, simulation, rated alternates and hard drives) and points to the shared button for importing.*
 - **v1.27** (29/09/2026) : Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.
@@ -82,6 +86,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Module d'étalonnage / Calibration module — `ficsit_horloge.html`
 
+- **v1.12** (30/09/2026) : Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.
+  *EN — The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection.*
 - **v1.11** (30/09/2026) : Le régime d'éclats se règle sur votre partie importée (bouton « Ma partie ») : « éclats illimités » si l'éclat de charge synthétique est débloqué, « éclats rares » sinon. Réglé à chaque nouvel import, toujours modifiable à la main.
   *EN — The shard regime follows your imported game ("My game" button): "unlimited shards" if the synthetic power shard is unlocked, "scarce shards" otherwise. Set on each new import, still changeable by hand.*
 - **v1.10** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.
@@ -109,6 +115,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Optimiseur de recyclage / Recycling optimizer — `broyeur-excedents.html`
 
+- **v1.20** (30/09/2026) : Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.
+  *EN — The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection.*
 - **v1.19** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.
   *EN — Shared "My game" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game.*
 - **v1.18** (29/09/2026) : Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.
@@ -152,6 +160,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Mémo de terrain / Field memo — `memo-ficsit.html`
 
+- **v1.10** (30/09/2026) : Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.
+  *EN — The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection.*
 - **v1.9** (30/09/2026) : Jalons du HUB : ceux obtenus dans votre partie importée (bouton « Ma partie ») sont cochés, les paliers complets marqués, avec un bilan en tête de section.
   *EN — HUB milestones: those obtained in your imported game ("My game" button) are ticked, completed tiers highlighted, with a summary at the top of the section.*
 - **v1.8** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.
@@ -175,6 +185,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Complexité et valeur au broyeur / Complexity vs sink value — `arbre-production.html`
 
+- **v1.9** (30/09/2026) : Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.
+  *EN — The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection.*
 - **v1.8** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.
   *EN — Shared "My game" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game.*
 - **v1.7** (28/09/2026) : Troisième chaîne « Ma partie », dès qu'une sauvegarde est importée dans le registre des rendements : pour chaque item, l'alternative de la chaîne optimisée si vous l'avez débloquée (ou simulée), sinon la recette de base. Le palier se règle sur celui de votre partie.

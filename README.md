@@ -22,6 +22,10 @@ Pages statiques, publiées sur GitHub Pages depuis `main` ; chacune charge le bl
 - `memo-ficsit.html` — **Mémo de terrain** : extraction selon la pureté des nœuds, cadence des convoyeurs, jalons et pièces de l'ascenseur spatial.
 - `scripts/lier-blueprints.ps1` — utilitaire Windows, hors site : regroupe les blueprints de toutes les parties dans une bibliothèque commune (`D:\Satisfactory\BP`) en remplaçant chaque dossier de blueprints par une jonction vers elle.
 
+## Hors ligne
+
+`sw.js` (service worker, enregistré par le bloc commun en http(s) seulement) garde une copie de chaque fichier servi : pages en réseau d'abord (dernière version si possible), fichiers versionnés `?v=…` depuis la copie (une nouvelle version remplace l'ancienne), le reste (icônes, parseur, workers) depuis la copie avec rafraîchissement en arrière-plan. Les pages de l'accueil sont copiées dès l'installation. Changer la constante `CACHE` vide toutes les copies (seulement si la stratégie change).
+
 ## Données de jeu
 
 - **Après toute modification : `bash scripts/tout.sh`** — régénère les pages (langue, journal, payloads), vérifie les payloads et teste les pages dans un navigateur. `--combinaisons` recalcule d'abord les combinaisons de l'infographie (~10 min, après un changement de recette, de palier ou du moteur) ; `--sans-tests` saute le navigateur ; `--ci` échoue si une page n'était pas à jour (c'est ce que lance la CI).

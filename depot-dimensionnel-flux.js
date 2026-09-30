@@ -19,11 +19,15 @@
      est servi d'abord, le conteneur ne garde que ce qu'il ne peut pas prendre.
    - gares, quais de camion, ports de drones : un réservoir commun par famille (ce qui est chargé ressort par les
      gares qui déchargent ; les trajets ne sont pas lus) ;
-   - générateurs à combustible solide : consommation 60 × MW × cadence / énergie de l'item ;
-   - bilan électrique estimé (consommation à la marche calculée, production des générateurs).
-   Pas encore pris en compte : fluides (supposés disponibles), répartition des bâtiments entre circuits électriques
-   (seul le bilan global et les fusibles grillés lus dans la save sont donnés). Tout autre bâtiment (broyeur,
-   ascenseur spatial…) prend tout ce qui lui arrive et ne fournit rien. */
+   - fluides : chaque réseau de tuyaux lu dans la save est un réservoir commun (ce que les machines et extracteurs y
+     versent est réparti entre ceux qui en tirent) ; extracteur d'eau 120 m³/min, extracteur de pétrole 120 et puits
+     60 par min × pureté × cadence ; un fluide ne passe que par les tuyaux, un solide que par les convoyeurs. Le
+     débit des tuyaux n'est pas plafonné dans le calcul : un réseau qui dépasse son tuyau le plus faible est signalé ;
+   - générateurs : consommation 60 × MW × cadence / énergie du combustible (item ou m³), plus l'eau des centrales à
+     charbon (45 m³/min) et nucléaires (240 m³/min) ;
+   - électricité : un bâtiment hors de tout circuit ou sur un circuit dont le fusible a grillé est à l'arrêt ; bilan
+     estimé par circuit (consommation à la marche calculée, production des générateurs).
+   Tout autre bâtiment (broyeur, ascenseur spatial…) prend tout ce qui lui arrive et ne fournit rien. */
 (function(g){
   var SORTIE = /^(Output|ConveyorAny1|mOutput)/, ENTREE = /^(Input|ConveyorAny0|mInput)/;
   var CONVOYEUR = {1: 60, 2: 120, 3: 270, 4: 480, 5: 780, 6: 1200};
@@ -34,10 +38,14 @@
     Build_OilRefinery_C: 2, Build_Converter_C: 2, Build_ManufacturerMk1_C: 4, Build_Blender_C: 4,
     Build_HadronCollider_C: 4, Build_QuantumEncoder_C: 4};
   var TOUT = 'desc-wildcard-c', AUCUN = 'desc-none-c', EXCEDENT = 'desc-overflow-c', AUTRE = 'desc-anyundefined-c';
-  var FAMILLE = {Build_TrainDockingStation_C: 'train', Build_TruckStation_C: 'camion', Build_DroneStation_C: 'drone'};
+  var FAMILLE = {Build_TrainDockingStation_C: 'train', Build_TrainDockingStationLiquid_C: 'train', Build_TruckStation_C: 'camion', Build_DroneStation_C: 'drone'};
   // géothermie : puissance moyenne selon la pureté du geyser (elle oscille autour de cette valeur)
   var GEYSER = {impure: 100, normal: 200, pure: 400};
-  var EPS = 1e-6;
+  // extracteurs de fluides : débit à 100 % pour un nœud normal (l'extracteur d'eau n'a pas de nœud)
+  var FLUIDE = {Build_WaterPump_C: 120, Build_OilPump_C: 120, Build_FrackingExtractor_C: 60};
+  // eau des centrales, en m³/min par MW produit (charbon : 45 pour 75 MW ; nucléaire : 240 pour 2 500 MW)
+  var EAU = {Build_GeneratorCoal_C: 45 / 75, Build_GeneratorNuclear_C: 240 / 2500};
+  var EPS = 1e-6, LIQ = {};
   var slug = function(c){ return String(c || '').toLowerCase().replace(/_/g, '-'); };
 
   function genre(b, P){
@@ -46,14 +54,14 @@
     if(/Splitter/.test(b.c)) return 'sep';
     if(/Merger|^Build_ConveyorAttachment/.test(b.c)) return 'fus';
     if(b.rec && P.rec[b.rec]) return 'mach';
-    if(b.res && /^Build_MinerMk\d/.test(b.c)) return 'extr';
-    // générateurs à combustible solide (le générateur à carburant brûle un fluide : supposé alimenté)
-    if(P.pw && P.pw[b.c] && P.pw[b.c][2] > 0 && b.c !== 'Build_GeneratorFuel_C') return 'gen';
+    if(b.res && /^Build_MinerMk\d/.test(b.c) || FLUIDE[b.c]) return 'extr';
+    if(P.pw && P.pw[b.c] && P.pw[b.c][2] > 0) return 'gen';
     if(/Storage(Container|Integrated)|^Build_Container/.test(b.c)) return 'fus';   // tampon : ce qui entre ressort
     return 'autre';
   }
   // acceptation d'un lien : {d: par défaut, m: {item: débit}} ; lue par acc(e, item)
-  var acc = function(e, i){ return e.a.m[i] != null ? e.a.m[i] : e.a.d; };
+  // un fluide ne passe que par les tuyaux, un solide que par les convoyeurs
+  var acc = function(e, i){ return !e.fluide !== !LIQ[i] ? 0 : e.a.m[i] != null ? e.a.m[i] : e.a.d; };
   // parts égales entre sorties plafonnées ; le surplus d'une sortie pleine va aux autres
   function repartir(q, caps){
     var r = caps.map(function(){ return 0; }), libres = caps.map(function(_, k){ return k; }), reste = q;
@@ -79,6 +87,9 @@
     // opts.libre : ce que la chaîne peut fournir à chaque Uploader, sans ses deux autres plafonds (Depot jamais plein,
     // vitesse d'envoi et raccord illimités)
     var mode = {libre: !!opts.libre};
+    LIQ = {}; (P.liq || []).forEach(function(i){ LIQ[i] = 1; });
+    // usine lue avant la prise en compte des tuyaux (cache d'une version précédente) : fluides supposés disponibles
+    var sansTuyaux = !u.fluides;
     var limite = function(i){ return !mode.libre && P.pile[i] != null ? P.pile[i] * mult : Infinity; };
     var Ueff = function(){ return mode.libre ? Infinity : U; };
     var N = u.batis.map(function(b, i){ return {i: i, b: b, g: genre(b, P), ins: [], outs: []}; });
@@ -100,6 +111,26 @@
       if(e.de === e.vers) return;
       E.push(e); N[e.de].outs.push(e); N[e.vers].ins.push(e);
     });
+    // réseaux de fluides : un réservoir commun par réseau ; sens d'après le port (sortie d'une machine ou d'une gare,
+    // extracteur) ou le bâtiment (générateur : entrée) ; un port inconnu (mods) est ignoré
+    var reseaux = [];
+    (u.fluides || []).forEach(function(r){
+      var k = N.length, R0 = {i: k, b: {c: 'fluide:' + r.fluide}, g: 'fus', ins: [], outs: [], reseau: r, fluide: slug(r.fluide)};
+      N.push(R0); reseaux.push(R0);
+      r.membres.forEach(function(m){
+        var n = N[m[0]], p = m[1], sort;
+        if(/Output/.test(p) || FLUIDE[n.b.c]) sort = true;
+        else if(/Input/.test(p) || n.g === 'gen') sort = false;
+        else return;
+        var de = sort ? vers(m[0]) : k, ve = sort ? k : vers(m[0]);
+        if(de === ve) return;
+        var e = {de: de, pd: p, vers: ve, pv: p, f: {}, a: {d: Infinity, m: {}}, fluide: true};
+        E.push(e); N[de].outs.push(e); N[ve].ins.push(e);
+      });
+    });
+    // électricité : hors de tout circuit, ou fusible grillé → à l'arrêt (seulement si la save donne les circuits)
+    var circuitsL = u.circuitsL && u.circuitsL.length ? u.circuitsL : null;
+    var horsTension = function(b){ return !!circuitsL && (b.circ == null || circuitsL[b.circ] && circuitsL[b.circ].grille); };
     var alertes = {purete: 0, recette: 0};
     // préparation par genre
     N.forEach(function(n){
@@ -107,16 +138,20 @@
       if(n.g === 'conv'){ var mk = (b.c.match(/Mk(\d)/) || [])[1]; n.cap = n.cap0 = CONVOYEUR[mk] || Infinity; }
       if(n.g === 'extr'){
         var nd = P.noeuds[b.res] || [], pur = b.pur || nd[1];
+        if(b.c === 'Build_WaterPump_C') pur = 'normal';
         if(!PURETE[pur]){ pur = 'normal'; n.pureteInconnue = true; alertes.purete++; }
-        n.item = b.item ? slug(b.item) : nd[0] || slug(b.sortie);
+        n.item = b.item ? slug(b.item) : nd[0] || slug(b.sortie) || (b.c === 'Build_WaterPump_C' ? 'desc-water-c' : undefined);
         n.pur = pur;
-        n.taux = (MINEUR[(b.c.match(/Mk(\d)/) || [])[1]] || 0) * PURETE[pur] * (b.clk == null ? 1 : b.clk);
+        var base = FLUIDE[b.c] ? FLUIDE[b.c] * (b.c === 'Build_WaterPump_C' ? 1 : PURETE[pur]) : (MINEUR[(b.c.match(/Mk(\d)/) || [])[1]] || 0) * PURETE[pur];
+        n.taux = horsTension(b) ? 0 : base * (b.clk == null ? 1 : b.clk);
+        n.off = horsTension(b);
       }
       if(n.g === 'mach'){
         var R = P.rec[b.rec], k = 60 / R[1] * (b.clk == null ? 1 : b.clk), amp = SLOOPS[b.c] ? 1 + (b.sloops || 0) / SLOOPS[b.c] : 1;
-        n.besoin = {}; R[2].forEach(function(x){ n.besoin[x[0]] = (n.besoin[x[0]] || 0) + x[1] * k; });
-        n.prod = {}; R[3].forEach(function(x){ n.prod[x[0]] = (n.prod[x[0]] || 0) + x[1] * k * amp; });
-        n.x = 0;
+        var garde = function(x){ return !(sansTuyaux && LIQ[x[0]]); };
+        n.besoin = {}; R[2].filter(garde).forEach(function(x){ n.besoin[x[0]] = (n.besoin[x[0]] || 0) + x[1] * k; });
+        n.prod = {}; R[3].filter(garde).forEach(function(x){ n.prod[x[0]] = (n.prod[x[0]] || 0) + x[1] * k * amp; });
+        n.x = 0; n.off = horsTension(b);
       }
       if(n.g === 'sep'){
         var regles = (b.regles || []).map(function(r){ return [slug(r[0]), r[1]]; }), listes = {};
@@ -140,9 +175,11 @@
         var cases = function(sauf){ var k = 0; for(var j in cont) if(j !== sauf) k += Math.ceil(cont[j] / pile(j)); return b.cases - k; };
         n.libre = function(i){ return i === '*' ? cases(null) * 100 : cases(i) * pile(i) - (cont[i] || 0); };
       }
-      if(n.g === 'gen'){   // combustible solide : 60 × MW × cadence / énergie de l'item (MJ) par minute
+      if(n.g === 'gen'){   // combustible : 60 × MW × cadence / énergie de l'item (MJ, ou MJ/m³) par minute
         n.mw = P.pw[b.c][2] * (b.clk == null ? 1 : b.clk);
         n.besoin = {}; Object.keys(P.nrj || {}).forEach(function(i){ n.besoin[i] = 60 * n.mw / P.nrj[i]; });
+        if(sansTuyaux) Object.keys(n.besoin).forEach(function(i){ if(LIQ[i]) delete n.besoin[i]; });
+        if(EAU[b.c] && !sansTuyaux) n.eau = EAU[b.c] * n.mw;
         n.x = 0;
       }
     });
@@ -190,6 +227,7 @@
     // (fusionneurs en série) oscillent sans fin autour du point fixe
     var amortir = function(x, y){ return isFinite(x) && isFinite(y) ? y + (x - y) / 2 : x; };
     var poserA = function(e, a){
+      for(var x in a.m) if(!e.fluide !== !LIQ[x]) delete a.m[x];   // item qui ne passe pas par ce lien : acceptation 0
       var reste = 0;   // chemin encore à faire après amortissement : le bâtiment se réveille jusqu'à l'avoir fait
       for(var k in a.m){ var c = amortir(a.m[k], acc(e, k)); reste = Math.max(reste, diff(a.m[k], c)); a.m[k] = c; }
       var cd = amortir(a.d, e.a.d); reste = Math.max(reste, diff(a.d, cd)); a.d = cd;
@@ -247,14 +285,15 @@
         distribuer(n, S, n.permis);
         accPassage(n, T, n.outs.length ? cap : 0, n.permis);
       } else if(n.g === 'mach'){
-        var lim = 1, ratio = {};
+        var lim = n.off ? 0 : 1, ratio = {};
         Object.keys(n.prod).forEach(function(p){
           var A = n.outs.reduce(function(s, e){ return s + acc(e, p); }, 0);
           lim = Math.min(lim, A / n.prod[p]);
         });
         Object.keys(n.besoin).forEach(function(i){ ratio[i] = Math.min(1, (T[i] || 0) / n.besoin[i]); });
         var x = lim; for(var r in ratio) x = Math.min(x, ratio[r]);
-        n.x = x;
+        n.x = x; n.lim = lim; n.ratio = ratio;
+        if(phase === 1) n.r1 = ratio;   // phase 1 : ce que l'amont peut fournir, sans la limite croisée des ingrédients
         var o2 = {}; Object.keys(n.prod).forEach(function(p){ o2[p] = x * n.prod[p]; });
         distribuer(n, o2);
         var nIn = n.ins.length;
@@ -277,12 +316,16 @@
         n.ins.forEach(function(e){ poserA(e, {d: Ueff(), m: m2}); });
       } else if(n.g === 'gen'){
         // générateur : brûle ce qui lui arrive jusqu'à sa puissance (les combustibles se partagent la part qui reste)
+        // centrale à charbon ou nucléaire : l'eau limite aussi (et le combustible accepté suit l'eau reçue, en phase 2)
         var part = 0; for(var i5 in T) if(n.besoin[i5]) part += T[i5] / n.besoin[i5];
-        n.x = Math.min(1, part);
-        var nG = n.ins.length;
+        var eau = n.eau ? Math.min(1, (T['desc-water-c'] || 0) / n.eau) : 1;
+        n.x = Math.min(1, part, eau);
+        if(phase === 1){ n.part1 = part; n.eau1 = eau; }
+        var nG = n.ins.length, pf = phase === 2 ? eau : 1, pe = phase === 2 ? Math.min(1, part) : 1;
         n.ins.forEach(function(e){
           var m3 = {}, propre = 0; for(var j5 in e.f) if(n.besoin[j5]) propre += e.f[j5] / n.besoin[j5];
-          for(var i6 in n.besoin) m3[i6] = n.besoin[i6] * partEntree(1, part, propre, nG);
+          for(var i6 in n.besoin) m3[i6] = n.besoin[i6] * partEntree(pf, part, propre, nG);
+          if(n.eau) m3['desc-water-c'] = partEntree(n.eau * pe, T['desc-water-c'] || 0, e.f['desc-water-c'] || 0, nG);
           poserA(e, {d: 0, m: m3});
         });
         n.outs.forEach(function(e){ poser(e, {}); });
@@ -320,17 +363,44 @@
     });
     // bilan électrique estimé : chaque consommateur à la marche calculée (MW × cadence^exposant × Somersloops²),
     // générateurs selon le combustible reçu, générateur à carburant plein, géothermie selon la pureté du geyser
+    // par circuit (index dans u.circuitsL ; -1 : hors circuit), et au total
     var conso = 0, prodMW = 0, somme = function(l){ return l.reduce(function(s, e){ for(var i in e.f) s += e.f[i]; return s; }, 0); };
+    var parCircuit = {}, cir = function(b){ var k = b.circ == null ? -1 : b.circ; return parCircuit[k] || (parCircuit[k] = {prod: 0, conso: 0, batis: 0, arret: 0}); };
+    var produit = function(b, mw){ prodMW += mw; cir(b).prod += mw; };
     N.forEach(function(n){
       var b = n.b, pw = P.pw && P.pw[b.c], clk = b.clk == null ? 1 : b.clk;
-      if(b.c === 'Build_GeneratorGeoThermal_C'){ prodMW += GEYSER[b.pur || (P.noeuds[b.res] || [])[1]] || GEYSER.normal; return; }
+      if(b.c === 'Build_GeneratorGeoThermal_C'){ produit(b, GEYSER[b.pur || (P.noeuds[b.res] || [])[1]] || GEYSER.normal); return; }
       if(!pw) return;
-      if(n.g === 'gen'){ prodMW += n.mw * n.x; return; }
-      if(pw[2] > 0){ prodMW += pw[2] * clk; return; }
+      if(n.g === 'gen'){ produit(b, n.mw * n.x); return; }
+      if(pw[2] > 0){ produit(b, pw[2] * clk); return; }
       if(!(pw[0] > 0) && !(n.g === 'mach' && P.rec[b.rec][4])) return;
       var base = n.g === 'mach' && P.rec[b.rec][4] || pw[0], amp = SLOOPS[b.c] ? Math.pow(1 + (b.sloops || 0) / SLOOPS[b.c], 2) : 1;
       var marche = n.g === 'mach' ? n.x : n.g === 'extr' ? (n.taux > 0 ? Math.min(1, somme(n.outs) / n.taux) : 0) : 1;
-      conso += base * Math.pow(clk, pw[1] || 1) * amp * marche;
+      var c = base * Math.pow(clk, pw[1] || 1) * amp * marche, k = cir(b);
+      conso += c; k.conso += c; k.batis++; if(n.off) k.arret++;
+    });
+    var circuits = circuitsL ? Object.keys(parCircuit).map(function(k){
+      var c = parCircuit[k], L = u.circuitsL[k] || {};
+      return {k: +k, id: L.id, grille: !!L.grille, prod: c.prod, conso: c.conso, batis: c.batis, arret: c.arret};
+    }).sort(function(a, b){ return b.conso + b.prod - a.conso - a.prod; }) : [];
+    // réseaux de fluides : débit, tuyau le plus faible, et ce qui manque aux machines et centrales qui en tirent
+    var fluides = N.filter(function(n){ return n.reseau && n.ins.length + n.outs.length; }).map(function(n){
+      // manque : ce qu'il faudrait en plus aux preneurs dont ce fluide est la limite (ni un autre ingrédient, ni l'aval) ;
+      // la limite se lit en fin de phase 1, quand chaque ingrédient reçoit ce que l'amont peut fournir
+      var debit = somme(n.ins), manque = 0, f = n.fluide, P1 = 1 - 1e-3;
+      n.outs.forEach(function(e){
+        var c = N[e.vers], recu = e.f[f] || 0, r, autres;
+        if(c.g === 'mach' && !c.off && c.besoin[f] && c.r1){
+          r = c.r1[f]; autres = c.lim; for(var j in c.r1) if(j !== f) autres = Math.min(autres, c.r1[j]);
+          if(r < P1 && r < autres - 1e-3) manque += Math.max(0, c.besoin[f] * Math.min(1, autres) - recu);
+        } else if(c.g === 'gen' && c.part1 != null){
+          var eau = f === 'desc-water-c' && c.eau;
+          r = eau ? c.eau1 : c.part1; autres = Math.min(1, eau ? c.part1 : c.eau1);
+          if(r < P1 && r < autres - 1e-3) manque += Math.max(0, (eau ? c.eau : c.besoin[f] || 0) * autres - recu);
+        }
+      });
+      return {i: n.i, fluide: n.fluide, debit: debit, tuyau: n.reseau.tuyau, trop: n.reseau.tuyau > 0 && debit > n.reseau.tuyau + 1e-3,
+        manque: manque, sources: n.ins.length, puits: n.outs.length};
     });
     // conteneurs qui se remplissent : ce qu'ils absorbent (entrée − sortie) et le temps avant d'être pleins
     var tampons = [];
@@ -347,10 +417,10 @@
     Object.keys(stock).concat(Object.keys(parItem)).forEach(function(i){ lim[i] = limite(i); });
     // résultat compact (transmis par le worker) : par bâtiment, part de marche des machines, débit des extracteurs
     var batis = N.map(function(n){
-      return n.g === 'mach' || n.g === 'gen' ? {x: n.x} : n.g === 'extr' ? {taux: n.taux, pur: n.pur, item: n.item, inc: n.pureteInconnue || undefined} : 0;
+      return n.g === 'mach' || n.g === 'gen' ? {x: n.x, off: n.off || undefined} : n.g === 'extr' ? {taux: n.taux, pur: n.pur, item: n.item, inc: n.pureteInconnue || undefined, off: n.off || undefined} : 0;
     });
     return {U: U, mult: mult, limite: lim, stock: stock, uploaders: ups, parItem: parItem, batis: batis,
-      energie: {prod: prodMW, conso: conso, circuits: u.circuits || 0, fusibles: u.fusibles || 0}, reservoirs: reservoirs, tampons: tampons,
+      energie: {prod: prodMW, conso: conso, circuits: u.circuits || 0, fusibles: u.fusibles || 0, parCircuit: circuits}, fluides: fluides, reservoirs: reservoirs, tampons: tampons,
       tours: tours, stable: stable, alertes: alertes, noeuds: opts.noeuds ? N : undefined};
     }
     // ce que le passage au mode libre touche directement : les Uploaders et leurs raccords

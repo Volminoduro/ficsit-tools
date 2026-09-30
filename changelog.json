@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.8",
+          "date": "2026-09-30",
+          "texte": {
+            "fr": "Fluides et électricité par circuit. Chaque réseau de tuyaux lu dans la sauvegarde devient un réservoir commun : extracteurs d'eau et de pétrole, puits, raffineries, conditionneuses et générateurs y versent ou y puisent, un fluide ne passant que par les tuyaux. Les machines sont désormais limitées par leurs fluides, les centrales à charbon et nucléaires par leur eau, et les générateurs à carburant comptent dans la production. Un réseau à qui il manque du fluide est signalé, avec la quantité manquante, ainsi qu'un réseau dont le débit dépasse son tuyau le plus faible. Chaque bâtiment est rattaché à son circuit : bilan par circuit, circuit en déficit ou sans générateur signalé, et un bâtiment sur un circuit dont le fusible a grillé, ou branché à aucun circuit, est compté à l'arrêt. Recoupement avec le jeu : 77 % des machines à 10 points près sur une grosse partie (74 % avant).",
+            "en": "Fluids and power per circuit. Each pipe network read from the save becomes a shared pool: water and oil extractors, resource wells, refineries, packagers and generators feed into it or draw from it, and a fluid only travels through pipes. Machines are now limited by their fluids, coal and nuclear plants by their water, and fuel generators count towards production. A network short of fluid is flagged, with the missing amount, as is a network whose flow exceeds its weakest pipe. Each building is tied to its circuit: balance per circuit, circuits in deficit or without a generator flagged, and a building on a circuit with a blown fuse, or connected to no circuit, is counted as stopped. Cross-check with the game: 77% of machines within 10 points on a large save (74% before)."
+          }
+        },
+        {
           "version": "1.7",
           "date": "2026-09-30",
           "texte": {

@@ -17,8 +17,11 @@
      vitesse d'envoi des Uploaders) ;
    - pour les extracteurs : le nœud, sa pureté et sa ressource s'ils sont dans la save, l'item en stock en sortie.
    - conteneurs : contenu et nombre de cases (pour savoir s'ils peuvent encore absorber un surplus) ;
-   - réseau électrique : nombre de circuits et de fusibles grillés (FGPowerCircuit.mIsFuseTriggered).
-   Pas encore lus : tuyaux (fluides), câbles (quel bâtiment est sur quel circuit), contenu des convoyeurs. La pureté des nœuds de ressources
+   - réseaux de fluides (FGPipeNetwork) : fluide, membres (machines, extracteurs, générateurs, gares et leurs ports),
+     tuyau le plus faible (Mk1 300, Mk2 600 m³/min) ; les tuyaux, jonctions, pompes et réservoirs n'en sont que le
+     chemin ;
+   - circuits électriques (FGPowerCircuit) : fusible grillé, et pour chaque bâtiment gardé son circuit (mComponents).
+   Pas encore lus : contenu des convoyeurs et des tuyaux. La pureté des nœuds de ressources
    n'est pas dans la sauvegarde (donnée de la carte). */
 (function(g){
   var classe = function(p){ p = p || ''; return p.slice(p.lastIndexOf('.') + 1); };
@@ -41,15 +44,24 @@
     };
     // tout bâtiment qui a au moins un port de convoyeur branché est gardé : convoyeurs, séparateurs, conteneurs (y
     // compris les variantes comme Build_ContainerScreen_Mk1_C), gares, ports de drones… — pas de liste à tenir à jour
-    var branches = new Set();
+    var branches = new Set(), TUYAU = /^Build_(Pipeline|PipeStorage|IndustrialTank|Valve|PipelinePump|PipelineJunction)/;
     objs.forEach(function(o){
       var v = /FGFactoryConnectionComponent/.test(o.typePath) && prop(o, 'mConnectedComponent');
       if(v && v.pathName) branches.add(parent(o.instanceName));
+      // bâtiment branché à un réseau de fluides (hors tuyaux et accessoires, qui n'en sont que le chemin)
+      if(/FGPipeConnectionFactory/.test(o.typePath) && prop(o, 'mPipeNetworkID') != null && !TUYAU.test(classe(parent(o.instanceName)))) branches.add(parent(o.instanceName));
     });
-    var batis = [], ids = new Map(), sub = null, schemas = [], circuits = 0, fusibles = 0;
+    var batis = [], ids = new Map(), sub = null, schemas = [], circuits = 0, fusibles = 0, circ = [], nets = [];
     objs.forEach(function(o){
       var c = classe(o.typePath);
-      if(/FGPowerCircuit/.test(o.typePath)){ circuits++; if(prop(o, 'mIsFuseTriggered')) fusibles++; }   // fusibles grillés
+      if(/FGPowerCircuit$/.test(o.typePath)){   // fusibles grillés ; membres rattachés plus bas
+        circuits++; var grille = !!prop(o, 'mIsFuseTriggered'); if(grille) fusibles++;
+        circ.push({id: prop(o, 'mCircuitID'), grille: grille, comp: prop(o, 'mComponents') || []});
+      }
+      if(/FGPipeNetwork$/.test(o.typePath)){
+        var fd = prop(o, 'mFluidDescriptor');
+        nets.push({id: prop(o, 'mPipeNetworkID'), fluide: classe(fd && fd.pathName), membres: prop(o, 'mFluidIntegrantScriptInterfaces') || []});
+      }
       if(/CentralStorageSubsystem/.test(o.typePath)) sub = o;
       if(/SchematicManager/.test(o.typePath)) schemas = (prop(o, 'mPurchasedSchematics') || []).map(function(r){ return classe(r.pathName); });
       if(o.type !== 'SaveEntity' || !/^Build_/.test(c)) return;
@@ -99,6 +111,23 @@
       if(vus.has(cle)) return; vus.add(cle);
       liens.push([a, pa, bb, pb]);
     });
+    // réseaux de fluides : [bâtiment, port] des membres gardés, et le tuyau le plus faible
+    var PIPE = {Build_Pipeline_C: 300, Build_PipelineNoIndicator_C: 300, Build_PipelineMK2_C: 600, Build_PipelineMK2_NoIndicator_C: 600};
+    var fluides = [];
+    nets.forEach(function(r){
+      var m = [], tuyau = Infinity;
+      r.membres.forEach(function(x){
+        // « …PersistentLevel.Build_X_123.Port » : un port de bâtiment ; « …PersistentLevel.Build_Pipeline_C_456 » : un tuyau
+        var p = x && x.pathName || '', port = p.slice(p.lastIndexOf(':') + 1).split('.').length > 2;
+        var nom = port ? parent(p) : p, cb = classe(nom).replace(/_\d+$/, '');
+        if(PIPE[cb]) tuyau = Math.min(tuyau, PIPE[cb]);
+        var k = ids.get(nom); if(port && k != null) m.push([k, classe(p)]);
+      });
+      if(m.length) fluides.push({fluide: r.fluide, membres: m, tuyau: isFinite(tuyau) ? tuyau : 0});
+    });
+    // circuits : bâtiment gardé → index du circuit (un circuit sans bâtiment gardé est quand même compté)
+    var circuitsL = circ.map(function(r){ return {id: r.id, grille: r.grille}; });
+    circ.forEach(function(r, k){ r.comp.forEach(function(x){ var b = ids.get(parent(x && x.pathName || '')); if(b != null) batis[b].circ = k; }); });
     var depot = {};
     (prop(sub, 'mStoredItems') || []).forEach(function(s){
       var p = s.properties || {}, c = classe(p.ItemClass && p.ItemClass.value && p.ItemClass.value.pathName);
@@ -106,7 +135,7 @@
     });
     var d = new Date(Number(h.saveDateTime));
     return {nom: h.sessionName || '', date: isNaN(d) ? null : d.toISOString(), duree: h.playDurationSeconds || 0,
-      version: h.saveVersion, batis: batis, liens: liens, depot: depot, circuits: circuits, fusibles: fusibles,
+      version: h.saveVersion, batis: batis, liens: liens, depot: depot, circuits: circuits, fusibles: fusibles, circuitsL: circuitsL, fluides: fluides,
       extensions: schemas.filter(function(s){ return /Central(StackExpansion|UploadBoost)/.test(s); })};
   }
 

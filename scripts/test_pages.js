@@ -173,6 +173,24 @@ const CHECKS = {
       out.push('bilan de débit du groupe « plaques » : ' + (plaques.querySelector('.debit') || {}).innerText);
     if (!/1[\s\u202f.,]?234/.test(txt('stock'))) out.push('stock du Depot absent du tableau');
     if (!/200/.test(txt('extension'))) out.push('extension 200 % non affichée');
+    // fluides et circuits : pompe à eau à 25 % (30 m³/min) pour une centrale à charbon qui en veut 45 → marche 2/3,
+    // 50 MW, il manque 15 m³/min d'eau ; constructeur sur un circuit grillé et fonderie hors circuit : à l'arrêt
+    const uf = {batis: [
+      {c: 'Build_WaterPump_C', res: 'x', clk: 0.25, circ: 0},
+      {c: 'Build_MinerMk1_C', res: 'x', item: 'Desc_Coal_C', pur: 'pure', circ: 0},
+      {c: 'Build_ConveyorBeltMk2_C'},
+      {c: 'Build_GeneratorCoal_C', fuel: 'Desc_Coal_C', circ: 0},
+      {c: 'Build_ConstructorMk1_C', rec: 'Recipe_IronPlate_C', circ: 1},
+      {c: 'Build_SmelterMk1_C', rec: 'Recipe_IngotIron_C'}],
+      liens: [[1, 'Output0', 2, 'ConveyorAny0'], [2, 'ConveyorAny1', 3, 'Input0']],
+      fluides: [{fluide: 'Desc_Water_C', membres: [[0, 'FGPipeConnectionFactory'], [3, 'FGPipeConnectionFactory']], tuyau: 300}],
+      circuitsL: [{id: 1, grille: false}, {id: 2, grille: true}], depot: {}, extensions: []};
+    const rf = FicsitFlux.calculer(uf, P), fl = rf.fluides[0] || {}, pc = rf.energie.parCircuit;
+    if (Math.abs(rf.batis[3].x - 2 / 3) > 0.01 || Math.abs(rf.energie.prod - 50) > 0.5) out.push('centrale à charbon limitée par l\'eau : ' + JSON.stringify([rf.batis[3], rf.energie.prod]));
+    if (Math.abs(fl.debit - 30) > 0.05 || Math.abs(fl.manque - 15) > 0.05 || fl.trop) out.push('réseau d\'eau : ' + JSON.stringify(fl));
+    if (!rf.batis[4].off || rf.batis[4].x || !rf.batis[5].off) out.push('machines hors tension en marche : ' + JSON.stringify(rf.batis.slice(4)));
+    if (!pc.some(c => c.k === 1 && c.grille) || !pc.some(c => c.k === -1 && c.arret === 1)) out.push('circuits : ' + JSON.stringify(pc));
+    if (!rf.stable) out.push('calcul fluides non convergé');
     return out;
   },
   'ficsit_horloge.html': () => {

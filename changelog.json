@@ -816,6 +816,14 @@
       },
       "entrees": [
         {
+          "version": "1.1",
+          "date": "2026-10-01",
+          "texte": {
+            "fr": "Carburant ionisé : ses éclats de charge sont désormais fabriqués par la recette synthétique (palier 9), avec les MW de l'encodeur quantique, de l'accélérateur de particules et du convertisseur, et les ressources des cristaux temporels et de la matière noire. La filière passe au palier 9 et à environ 23 900 MW nets par nœud de pétrole normal, derrière le carburant de fusée nitro (27 900 MW).",
+            "en": "Ionized fuel: its power shards are now made by the synthetic recipe (tier 9), with the power of the quantum encoder, particle accelerator and converter, and the resources of time crystals and dark matter. The chain moves to tier 9 and to about 23,900 net MW per normal oil node, behind nitro rocket fuel (27,900 MW)."
+          }
+        },
+        {
           "version": "1.0",
           "date": "2026-10-01",
           "texte": {

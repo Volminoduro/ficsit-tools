@@ -460,7 +460,13 @@
       x.potentiel = f[1];
       x.facteur = f[0];
       x.frein = x.plein && x.total < 1e-3 ? 'plein' : f[0];
+      // item de l'Uploader : ce qu'il reçoit en régime libre, sinon ce qu'il a en stock
+      var r = l && l.recu || {}, it = Object.keys(r).sort(function(a, b){ return r[b] - r[a]; })[0];
+      x.item = it || Object.keys(u.batis[x.i].stock || {}).map(slug)[0];
     });
+    // débit théorique par item : somme des potentiels (ne dépend pas de ce que le Depot contient déjà)
+    reel.parItemTh = {};
+    reel.uploaders.forEach(function(x){ if(x.item) reel.parItemTh[x.item] = (reel.parItemTh[x.item] || 0) + x.potentiel; });
     return {reel: reel, libre: libre};
   }
   g.FicsitFlux = {calculer: calculer, deux: deux, repartir: repartir, slug: slug};

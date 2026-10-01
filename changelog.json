@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.10",
+          "date": "2026-10-01",
+          "texte": {
+            "fr": "Vue d'ensemble façon inventaire : une ligne par item (Uploaders et stock du Depot réunis) avec le débit théorique, le plafond qui le limite (E : vitesse d'envoi, R : raccord, A : chaîne en amont), le stock, la limite et le temps avant plein ; un carré rouge signale un Depot plein, avec une légende. Le détail d'un item (plafonds, sources en amont) s'ouvre au clic, une infobulle le résume au survol. Les hypothèses et alertes du calcul sont repliées.",
+            "en": "Inventory-style overview: one row per item (Uploaders and Depot stock together) with the theoretical rate, the cap that limits it (E: upload speed, R: feed belt, A: upstream chain), the stock, the limit and the time until full; a red square flags a full Depot, with a legend. An item's details (caps, upstream sources) open on click, a tooltip sums them up on hover. The computation's assumptions and warnings are folded away."
+          }
+        },
+        {
           "version": "1.9",
           "date": "2026-10-01",
           "texte": {

@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.9",
+          "date": "2026-10-01",
+          "texte": {
+            "fr": "Le débit affiché pour chaque item est désormais le débit théorique vers le Depot (le plus petit des trois plafonds : vitesse d'envoi, raccord, chaîne en amont), que le Depot soit plein ou non. Avant, un item dont le Depot était plein affichait 0 /min en titre. Le plein est signalé à part, en rouge, et le tableau du stock donne aussi le débit théorique.",
+            "en": "The rate shown for each item is now the theoretical rate into the Depot (the smallest of the three caps: upload speed, feed, upstream chain), whether the Depot is full or not. Before, an item whose Depot was full showed 0/min as its headline. Being full is flagged separately, in red, and the stock table also gives the theoretical rate."
+          }
+        },
+        {
           "version": "1.8",
           "date": "2026-09-30",
           "texte": {

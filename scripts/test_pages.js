@@ -170,7 +170,8 @@ const CHECKS = {
     if (plaques && !plaques.querySelector('.alerte')) out.push('séparateur en amont non signalé');
     if (plaques && (plaques.querySelectorAll('.facteurs li').length !== 3 || !/amont|upstream/.test(plaques.querySelector('.facteurs li.min').innerText)))
       out.push('les trois plafonds ne sont pas affichés : ' + (plaques.querySelector('.debit') || {}).innerText);
-    if (plaques && !(/20/.test(plaques.querySelector('.debit').innerText) && /\b0\b/.test(plaques.querySelector('.debit b').innerText)))
+    // Depot plein : le titre donne le débit théorique (20 /min), le plein est signalé à part
+    if (plaques && !(/20/.test(plaques.querySelector('.debit b').innerText) && plaques.querySelector('.debit small.plein')))
       out.push('bilan de débit du groupe « plaques » : ' + (plaques.querySelector('.debit') || {}).innerText);
     if (!/1[\s\u202f.,]?234/.test(txt('stock'))) out.push('stock du Depot absent du tableau');
     if (!/200/.test(txt('extension'))) out.push('extension 200 % non affichée');

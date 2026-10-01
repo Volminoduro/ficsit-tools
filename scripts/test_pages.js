@@ -29,6 +29,7 @@ const PAGES = {
   'arbre-production.html': null,
   // usine synthétique passée par l'extraction de commun/ficsit-usine-worker.js, puis rendue
   'depot-dimensionnel.html': p => p.evaluate(usineTest),
+  'energie-noeuds.html': null,
 };
 /* Dimensional Depot : sauvegarde synthétique (objets tels que le parseur les rend) — foreuse Mk1 sur un nœud de fer
    normal (60 /min) → fonderie (30 lingots /min) → constructeur (plaques, cadence 150 %, 2 éclats : il lui faudrait
@@ -191,6 +192,24 @@ const CHECKS = {
     if (!rf.batis[4].off || rf.batis[4].x || !rf.batis[5].off) out.push('machines hors tension en marche : ' + JSON.stringify(rf.batis.slice(4)));
     if (!pc.some(c => c.k === 1 && c.grille) || !pc.some(c => c.k === -1 && c.arret === 1)) out.push('circuits : ' + JSON.stringify(pc));
     if (!rf.stable) out.push('calcul fluides non convergé');
+    return out;
+  },
+  // rentabilité par nœud : sans partie, toutes les filières ; avec une partie qui n'a que la foreuse Mk.1, le convoyeur
+  // Mk.1 et la centrale à charbon, seul le charbon reste : 60 /min × (5 MW bruts − 0,5 MW d'eau) − 5 MW = 265 MW nets,
+  // et à 250 % le convoyeur Mk.1 plafonne le nœud (même valeur, signalée)
+  'energie-noeuds.html': () => {
+    const out = [], lignes = () => [...document.querySelectorAll('#tableau .ligne:not(.tete)')];
+    if (lignes().length !== P.ch.length + 1) out.push(`${lignes().length} lignes (${P.ch.length + 1} attendues)`);
+    if (/NaN|undefined/.test(document.getElementById('tableau').innerText)) out.push('valeur invalide dans le tableau');
+    if (document.querySelector('#tableau .ligne.hors')) out.push('filière grisée sans partie importée');
+    FicsitPartie.enregistrer({nom: 'Test', date: '2026-01-31T03:06:00.000Z', duree: 3600, version: 58, lu: 'test-energie',
+      recettes: ['Recipe_MinerMk1_C', 'Recipe_ConveyorBeltMk1_C', 'Recipe_GeneratorCoal_C'], schemas: [], attente: []});
+    const ok = lignes().filter(l => !l.classList.contains('hors'));
+    const v = ok.length === 1 ? [...ok[0].querySelectorAll('.cel')][1].innerText.replace(/\s+/g, ' ') : '';
+    if (ok.length !== 1 || !/^265 MW/.test(v) || !/250 % : 265 MW/.test(v)) out.push(`partie au charbon : ${ok.length} filière(s) disponible(s), nœud normal « ${v} »`);
+    if (!lignes().some(l => l.classList.contains('hors') && l.querySelector('.manque'))) out.push('ce qui manque aux filières grisées n\'est pas dit');
+    FicsitPartie.oublier();
+    if (document.querySelector('#tableau .ligne.hors')) out.push('filières restées grisées après oubli de la partie');
     return out;
   },
   'ficsit_horloge.html': () => {

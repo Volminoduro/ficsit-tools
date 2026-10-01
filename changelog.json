@@ -624,6 +624,14 @@
       },
       "entrees": [
         {
+          "version": "1.11",
+          "date": "2026-10-01",
+          "texte": {
+            "fr": "Rangé dans la nouvelle catégorie « Tableaux de lecture » de l'accueil, avec la rentabilité énergétique par nœud : les pages qu'on lit sans rien régler.",
+            "en": "Moved to the new Reference charts category on the home page, next to Power per node: the pages you read without setting anything."
+          }
+        },
+        {
           "version": "1.10",
           "date": "2026-09-30",
           "texte": {
@@ -797,6 +805,22 @@
           "texte": {
             "fr": "Première version : profondeur de l'arbre de production et nombre d'items intermédiaires de chaque item broyable, face à sa valeur AWESOME, en recettes de base ou en chaîne optimisée (MW), filtrable par palier.",
             "en": "First release: production tree depth and number of intermediate items for every sinkable item, against its AWESOME value, with standard recipes or the optimized (MW) chain, filterable by tier."
+          }
+        }
+      ]
+    },
+    "energie-noeuds.html": {
+      "nom": {
+        "fr": "Rentabilité énergétique par nœud",
+        "en": "Power per node"
+      },
+      "entrees": [
+        {
+          "version": "1.0",
+          "date": "2026-10-01",
+          "texte": {
+            "fr": "Nouvel outil, à lire sans rien régler : combien de MW nets tirer d'un seul nœud, filière par filière (charbon, charbon compacté, carburant et ses variantes, turbocarburant, carburant de fusée, carburant ionisé, uranium, géothermie), par pureté du nœud, à 100 % et à 250 % de cadence. Nets : extraction du nœud, machines de la chaîne et ressources d'appoint payées. Chaînes calculées par script depuis le référentiel. Avec une partie importée, la foreuse, le convoyeur et le tuyau sont les vôtres, et les filières pas encore débloquées sont grisées avec ce qui leur manque.",
+            "en": "New tool, read-only: how many net MW a single node can give, chain by chain (coal, compacted coal, fuel and its variants, turbofuel, rocket fuel, ionized fuel, uranium, geothermal), by node purity, at 100% and 250% clock speed. Net: the node's extraction, the chain's machines and side resources paid for. Chains computed by script from the shared dataset. With an imported game, the miner, belt and pipe are yours, and chains not unlocked yet are greyed out with what they are missing."
           }
         }
       ]

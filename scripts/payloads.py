@@ -92,6 +92,51 @@ def payload_depot():
     print(f"depot-dimensionnel.html : {len(items)} items ({len(ic)} icônes partagées), {len(neuf['rec'])} recettes, {len(neuf['bat'])} bâtiments")
 
 
+def payload_energie():
+    """Rentabilité énergétique par nœud (energie-noeuds.html) : coefficients de chaque filière (scripts/energie.py),
+    extraction (foreuses, extracteur de pétrole, eau, azote), plafonds des convoyeurs et tuyaux, géothermie, et
+    recette de construction de chaque bâtiment requis (pour la partie importée, dont la liste les contient)."""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import energie
+    p = ROOT / "energie-noeuds.html"
+    s = avant = p.read_text(encoding="utf-8")
+    m, _ = bloc_json(s, "payload")
+    B = REF["batiments"]
+    construction = lambda nom: "Recipe_" + B[nom]["classe"][5:]
+    ch, ic = [], set()
+    for c in energie.coefficients():
+        machines = sorted({REF["recettes"][n]["machine"] for n in c["etapes"]} | {c["gen"]})
+        ch.append({"id": c["id"], "res": c["res"], "fuel": c["fuel"], "gen": c["gen"],
+                   "brut": round(c["brut"], 6), "proc": round(c["proc"], 6), "gens": round(c["gens"], 6),
+                   "sec": {k: round(v, 6) for k, v in c["sec"].items()}, "hors": {k: round(v, 6) for k, v in c["hors"].items()},
+                   "surplus": {k: round(v, 6) for k, v in c["surplus"].items()},
+                   "rec": c["rec"], "alt": c["alt"], "bat": [construction(b) for b in machines], "t": c["t"],
+                   "principale": c["principale"], "etapes": c["etapes"]})
+        ic |= {c["res"], c["fuel"], c["gen"], *c["sec"], *c["hors"]}
+    mineur = lambda k, base: [base, B[f"Miner Mk.{k}"]["mw"], B[f"Miner Mk.{k}"]["palier"], construction(f"Miner Mk.{k}")]
+    neuf = {"ch": ch,
+            # extraction : [débit à 100 % sur nœud normal, MW, palier, recette de construction]
+            "mineurs": [mineur(1, 60), mineur(2, 120), mineur(3, 240)],
+            "petrole": [120, B["Oil Extractor"]["mw"], B["Oil Extractor"]["palier"], construction("Oil Extractor")],
+            "eau": [120, B["Water Extractor"]["mw"]], "azote": 0.5, "exp": B["Miner Mk.1"]["exposant"],
+            # convoyeurs : [plafond /min, palier, recette] ; tuyaux Mk.1 (palier 3) et Mk.2 (palier 6), absents de la source
+            "conv": [[cap, B[f"Conveyor Belt Mk.{k}"]["palier"], construction(f"Conveyor Belt Mk.{k}")]
+                     for k, cap in enumerate([60, 120, 270, 480, 780, 1200], 1)],
+            "tuy": [[300, 3, "Recipe_Pipeline_C"], [600, 6, "Recipe_PipelineMK2_C"]],
+            # géothermie : puissance moyenne par pureté du geyser (elle oscille autour de cette valeur), pas de cadence
+            "geo": {"mw": [100, 200, 400], "bat": construction("Geothermal Generator")},
+            # nom → icône partagée (commun/icones-44/<slug>.webp) ; noms des recettes et bâtiments par classe
+            "ic": {n: icone_fichier(n) for n in sorted(ic | {"Geothermal Generator"}) if n in SLUGS},
+            "noms": {}}
+    tous = {**{r["classe"]: n for n, r in REF["recettes"].items()},
+            **{construction(n): n for n, b in B.items() if b["classe"].startswith("Desc_")}}
+    utiles = {x for c in ch for x in c["rec"] + c["bat"]} | {m[3] for m in neuf["mineurs"]} | {neuf["petrole"][3]}
+    neuf["noms"] = {k: tous[k] for k in sorted(utiles) if k in tous}
+    s = s[:m.start(2)] + json.dumps(neuf, ensure_ascii=False, separators=(",", ":")) + s[m.end(2):]
+    ecrire(p, s, avant)
+    print(f"energie-noeuds.html : {len(ch)} filières")
+
+
 def page_icones_partagees(fichier, ident, cle=None):
     """Remplace un dictionnaire d'icônes nom → base64 ou slug par nom → slug (fichiers partagés, icone_fichier)."""
     p = ROOT / fichier
@@ -318,6 +363,7 @@ if __name__ == "__main__":
     horloge()
     memo()
     payload_depot()
+    payload_energie()
     # icônes partagées que plus aucune page n'utilise
     if not VERIF and ICO44.exists():
         for f in ICO44.glob("*.webp"):

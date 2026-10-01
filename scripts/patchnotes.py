@@ -39,6 +39,8 @@ THEMES = {
       ancre=("<footer", "avant")),
   "depot-dimensionnel.html": dict(disp="'Saira Condensed',sans-serif", body="'Barlow',sans-serif",
       panel="var(--panel)", deep="var(--deep)", line="var(--rule)", ink="var(--ink)", dim="var(--dim)",
+      ancre=("<footer", "avant")),  "energie-noeuds.html": dict(disp="'Saira Condensed',sans-serif", body="'Barlow',sans-serif",
+      panel="var(--panel)", deep="var(--deep)", line="var(--rule)", ink="var(--ink)", dim="var(--dim)",
       ancre=("<footer", "avant")),
 }
 

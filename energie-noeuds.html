@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<!-- FICSIT-LANG:START -->
+<link rel="stylesheet" href="commun/ficsit-commun.css?v=8a124abd64">
+<script src="commun/ficsit-commun.js?v=c818c45833"></script>
+<!-- FICSIT-LANG:END -->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title data-fr="Rentabilité énergétique par nœud — combien de MW tirer d'un nœud" data-en="Power per node — how many MW a node can give">Rentabilité énergétique par nœud — combien de MW tirer d'un nœud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Palette FICSIT : acier sombre, orange signalétique */
+  :root{
+    --bg:#14181D; --panel:#1D232B; --panel2:#252D37; --deep:#0E1216;
+    --rule:#39434F; --rule2:#4C5A69; --grid:#2A323C;
+    --ink:#E4EAF0; --dim:#93A2B1; --mute:#6F7E8D;
+    --or:#FA9549; --or2:#E5761F; --bad:#C8624F;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:"Barlow",system-ui,-apple-system,Segoe UI,sans-serif;font-size:15px;line-height:1.55;
+    -webkit-text-size-adjust:100%}
+  body{background-image:linear-gradient(180deg,rgba(250,149,73,.05) 0,transparent 420px),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0 1px,transparent 1px 4px)}
+  .wrap{max-width:1080px;margin:0 auto;padding:26px 16px 90px}
+  @media (max-width:1240px){.wrap{padding-top:50px}}
+  h1,h2,.tete,.mw{font-family:"Saira Condensed","Barlow Condensed",Arial Narrow,sans-serif}
+  h1{font-size:clamp(30px,7vw,54px);line-height:.98;margin:0 0 4px;font-weight:700;text-transform:uppercase;color:#fff;overflow-wrap:anywhere}
+  h1 em{font-style:normal;color:var(--or)}
+  .eyebrow{font-family:"Saira Condensed",sans-serif;color:var(--or);letter-spacing:.18em;text-transform:uppercase;font-size:13px;margin:0 0 6px}
+  .stripe{height:9px;margin:12px 0 16px;background:repeating-linear-gradient(-45deg,var(--or2) 0 11px,var(--deep) 11px 22px);
+    border-top:1px solid #6b3d17;border-bottom:1px solid #6b3d17}
+  h2{font-size:clamp(20px,4.5vw,26px);margin:40px 0 6px;color:#fff;text-transform:uppercase;letter-spacing:.03em;
+    font-weight:600;border-left:4px solid var(--or);padding-left:10px}
+  p{margin:.5em 0}
+  .lede{color:var(--dim);max-width:72ch}
+  .contexte{margin:16px 0 0;padding:10px 14px;background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--or);
+    font-size:14px;color:var(--dim)}
+  .contexte b{color:var(--ink)}
+  /* tableau : une ligne par filière, trois colonnes de pureté */
+  .tab{margin-top:18px;border-top:1px solid var(--rule)}
+  .ligne{display:grid;grid-template-columns:minmax(0,2.1fr) repeat(3,minmax(0,1fr));gap:0 12px;padding:12px 4px;border-bottom:1px solid var(--rule)}
+  .ligne.tete{padding:8px 4px;color:var(--dim);font-size:13px;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid var(--rule2)}
+  .ligne.tete span:not(:first-child){text-align:right}
+  .ligne.hors{opacity:.5}
+  .fil{min-width:0}
+  .fil .nom{display:flex;align-items:center;gap:8px;color:#fff;font-weight:600;overflow-wrap:anywhere}
+  .fil .nom img{width:28px;height:28px;flex:none}
+  .fil .gen{color:var(--dim);font-size:13px}
+  .fil .etapes{color:var(--mute);font-size:12.5px;overflow-wrap:anywhere}
+  .fil .det{color:var(--dim);font-size:12.5px;margin-top:4px;overflow-wrap:anywhere}
+  .fil .manque{color:var(--bad);font-size:12.5px;margin-top:4px}
+  .fil .pal{display:inline-block;margin-left:6px;padding:0 6px;border:1px solid var(--rule2);color:var(--dim);font-size:11.5px;font-weight:500;letter-spacing:.06em}
+  .cel{text-align:right;min-width:0}
+  .cel .mw{font-size:20px;font-weight:600;color:#fff;line-height:1.1;white-space:nowrap}
+  .cel .mw.neg{color:var(--bad)}
+  .cel .barre{height:5px;margin:4px 0 3px auto;background:var(--or);max-width:100%}
+  .cel .oc{color:var(--dim);font-size:12.5px;white-space:nowrap}
+  .cel .oc i{font-style:normal;color:var(--mute)}
+  .legende{margin-top:10px;color:var(--mute);font-size:12.5px}
+  @media (max-width:640px){
+    .ligne{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 8px}
+    .fil{grid-column:1/-1}
+    .ligne.tete span:first-child{display:none}
+    .cel .mw{font-size:17px}
+    .cel .oc{font-size:11px}
+    .ligne.tete{font-size:11.5px;letter-spacing:.04em}
+  }
+  @media (max-width:400px){.cel .mw{font-size:15px}.cel .oc{white-space:normal}}
+  .note{color:var(--dim);font-size:13.5px;max-width:90ch}
+  ul.note{padding-left:20px}
+  ul.note li{margin:4px 0}
+  footer{margin-top:40px;color:var(--mute);font-size:12.5px}
+  footer a{color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow"><span data-l="fr">Dossier énergie · Nœuds de ressources</span><span data-l="en" lang="en">Power file · Resource nodes</span></p>
+  <h1><span data-l="fr">Rentabilité énergétique <em>par nœud</em></span><span data-l="en" lang="en">Power <em>per node</em></span></h1>
+  <div class="stripe"></div>
+  <p class="lede"><span data-l="fr">Combien de mégawatts nets tirer d'un seul nœud, selon la filière : charbon, pétrole et ses
+    carburants, uranium, geysers. Nets veut dire une fois payés l'extraction du nœud, les machines de la chaîne et
+    l'extraction des ressources d'appoint. Par pureté du nœud, à 100 % et à 250 % de cadence.</span><span data-l="en" lang="en">How many
+    net megawatts a single node can give, by power chain: coal, oil and its fuels, uranium, geysers. Net means after
+    paying for the node's extraction, the chain's machines and the extraction of the side resources. By node purity, at
+    100% and 250% clock speed.</span></p>
+  <p class="contexte" id="contexte" aria-live="polite"></p>
+
+  <div class="tab" id="tableau" role="table"></div>
+  <p class="legende" id="legende"></p>
+
+  <h2><span data-l="fr">Hypothèses</span><span data-l="en" lang="en">Assumptions</span></h2>
+  <ul class="note">
+    <li><span data-l="fr">Le nœud est exploité par la meilleure foreuse (ou l'extracteur de pétrole) disponible, et son débit est
+      plafonné par le meilleur convoyeur ou tuyau disponible : à 250 %, un nœud pur dépasse souvent ce plafond, la cadence
+      utile est alors plus basse (signalé).</span><span data-l="en" lang="en">The node is worked by the best miner (or oil extractor)
+      available, and its output is capped by the best belt or pipe available: at 250%, a pure node often goes over that cap,
+      the useful clock speed is then lower (flagged).</span></li>
+    <li><span data-l="fr">Les machines de la chaîne tournent à 100 % (puissance moyenne pour celles à puissance variable) ; le
+      surcadençage ne s'applique qu'à l'extraction du nœud, dont la consommation suit la cadence puissance 1,32.</span><span data-l="en" lang="en">The
+      chain's machines run at 100% (average power for variable-power ones); overclocking only applies to the node's
+      extraction, whose draw follows clock speed to the power 1.32.</span></li>
+    <li><span data-l="fr">Les ressources d'appoint (soufre, charbon, eau, azote…) sont comptées au prix de leur extraction : nœud
+      normal à 100 % avec la même foreuse, 20 MW par extracteur d'eau (120 m³/min), 0,5 MW par m³/min d'azote. Les
+      éclats de surcharge du carburant ionisé ne sont pas comptés en MW.</span><span data-l="en" lang="en">Side resources (sulfur,
+      coal, water, nitrogen…) are charged at their extraction cost: normal node at 100% with the same miner, 20 MW per water
+      extractor (120 m³/min), 0.5 MW per m³/min of nitrogen. The power shards of ionized fuel are not counted in MW.</span></li>
+    <li><span data-l="fr">L'eau des centrales à charbon (45 m³/min) et nucléaires (240 m³/min) est comptée. Un coproduit sert
+      d'abord à la chaîne, le reste est un surplus non crédité (résine, coke…). Les déchets nucléaires ne sont pas
+      traités.</span><span data-l="en" lang="en">The water of coal plants (45 m³/min) and nuclear plants (240 m³/min) is counted. A
+      by-product first feeds the chain, the rest is a surplus that is not credited (resin, coke…). Nuclear waste is not
+      handled.</span></li>
+    <li><span data-l="fr">Géothermie : puissance moyenne du geyser (elle oscille autour), sans cadence ni consommation.</span><span data-l="en" lang="en">Geothermal:
+      average output of the geyser (it oscillates around it), no clock speed and no draw.</span></li>
+    <li><span data-l="fr">Avec une partie importée (bouton « Ma partie »), seules les filières que vous pouvez construire sont mises
+      en avant : recettes, alternatives et bâtiments débloqués lus dans la sauvegarde.</span><span data-l="en" lang="en">With an
+      imported game ("My game" button), only the chains you can build are highlighted: recipes, alternates and buildings
+      unlocked, read from the save.</span></li>
+  </ul>
+
+<!-- PATCHNOTES:START -->
+<style>.pn{--pn-or:#FA9549;display:flex;font-family:var(--pn-body);text-align:left}
+.pn *{box-sizing:border-box}
+.pn-btn{all:unset;box-sizing:border-box;position:relative;cursor:pointer;display:flex;align-items:center;gap:7px;
+  padding:6px 11px 5px 10px;background:rgba(14,18,22,.94);border:1px solid #39434F;box-shadow:0 3px 12px rgba(0,0,0,.45);
+  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));
+  font:700 12px/1 'Saira Condensed','Rajdhani','Barlow Condensed',system-ui,sans-serif;letter-spacing:.1em;color:#E4EAF0;
+  transition:color .15s,background .15s}
+.pn-btn::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;
+  background:repeating-linear-gradient(135deg,#FA9549 0 6px,transparent 6px 12px);opacity:.8}
+.pn-btn svg{width:13px;height:13px;flex:none;fill:none;stroke:#FA9549;stroke-width:1.6}
+.pn-btn:hover,.pn-btn[aria-expanded=true]{background:#FA9549;color:#1B1206}
+.pn-btn:hover svg,.pn-btn[aria-expanded=true] svg{stroke:#1B1206}
+.pn-btn:focus-visible{outline:2px solid #FA9549;outline-offset:1px}
+.pn-dot{display:none;position:absolute;left:3px;top:3px;width:8px;height:8px;border-radius:50%;background:#FA9549;
+  box-shadow:0 0 0 2px rgba(14,18,22,.94)}
+.pn-neuf .pn-dot{display:block;animation:pn-pulse 1.8s ease-in-out infinite}
+.pn-neuf .pn-btn:hover .pn-dot,.pn-neuf .pn-btn[aria-expanded=true] .pn-dot{background:#1B1206}
+@keyframes pn-pulse{50%{box-shadow:0 0 0 2px rgba(14,18,22,.94),0 0 0 5px rgba(250,149,73,.35)}}
+@media (prefers-reduced-motion:reduce){.pn-neuf .pn-dot{animation:none}}
+.pn-panel{position:absolute;top:calc(100% + 6px);right:0;width:min(440px,calc(100vw - 24px));max-height:min(72vh,640px);
+  overflow:auto;overscroll-behavior:contain;background:var(--pn-panel);color:var(--pn-ink);
+  border:1px solid var(--pn-line);border-left:3px solid var(--pn-or);box-shadow:0 10px 30px rgba(0,0,0,.55)}
+.pn-panel[hidden]{display:none}
+.pn-hz{height:6px;background:repeating-linear-gradient(45deg,var(--pn-or) 0 10px,transparent 10px 20px);opacity:.7}
+.pn-head{display:flex;align-items:center;gap:12px;padding:14px 16px 11px;border-bottom:1px solid var(--pn-line)}
+.pn-head > div{flex:1;min-width:0}
+.pn-slot{flex:none;width:42px;height:42px;display:grid;place-items:center;background:var(--pn-deep);
+  border:1px solid var(--pn-line);box-shadow:inset 0 0 0 2px rgba(0,0,0,.35)}
+.pn-slot img{width:30px;height:30px;object-fit:contain;display:block}
+.pn-title{margin:0;padding:0;border:0;background:none;font-family:var(--pn-disp);font-weight:700;font-size:1.15rem;
+  line-height:1.1;letter-spacing:.02em;color:var(--pn-or)}
+.pn-sub{margin:3px 0 0;padding:0;font-size:.86rem;line-height:1.3;color:var(--pn-dim);max-width:none}
+.pn-x{all:unset;flex:none;cursor:pointer;width:28px;height:28px;display:grid;place-items:center;color:var(--pn-dim);
+  font:400 22px/1 system-ui,sans-serif}
+.pn-x:hover,.pn-x:focus-visible{color:var(--pn-or)}
+.pn-x:focus-visible{outline:2px solid var(--pn-or)}
+.pn-list{list-style:none;margin:0;padding:14px 16px 4px 16px;position:relative}
+.pn-e{position:relative;margin:0;padding:0 0 13px 22px}
+.pn-e::before{content:"";position:absolute;left:5px;top:14px;bottom:-2px;width:1px;background:var(--pn-line)}
+.pn-list > .pn-e:last-child::before{display:none}
+.pn-e::after{content:"";position:absolute;left:1px;top:6px;width:9px;height:9px;transform:rotate(45deg);
+  border:1.5px solid var(--pn-dim);background:var(--pn-panel)}
+.pn-list:first-of-type > .pn-e:first-child::after,.pn-e.pn-new::after{background:var(--pn-or);border-color:var(--pn-or)}
+.pn-meta{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;margin-bottom:3px}
+.pn-v{font-family:var(--pn-disp);font-weight:700;font-size:.85rem;padding:1px 8px 1px 7px;background:var(--pn-or);
+  color:#1b1206;clip-path:polygon(0 0,100% 0,100% 60%,calc(100% - 6px) 100%,0 100%)}
+.pn-e + .pn-e .pn-v,.pn-old .pn-v{background:var(--pn-deep);color:var(--pn-dim);box-shadow:inset 0 0 0 1px var(--pn-line)}
+.pn-d{font-family:var(--pn-disp);font-size:.88rem;color:var(--pn-dim);letter-spacing:.03em}
+.pn-nv{display:none;font-family:var(--pn-disp);font-weight:700;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--pn-or)}
+.pn-new .pn-nv{display:inline}
+.pn-t{margin:0;padding:0;font-size:.94rem;line-height:1.5;color:var(--pn-ink);max-width:none}
+.pn-old{border-top:1px dashed var(--pn-line);margin:0 16px}
+.pn-old summary{cursor:pointer;padding:10px 0;font-family:var(--pn-disp);font-weight:600;font-size:.9rem;color:var(--pn-dim);
+  list-style:none}
+.pn-old summary::-webkit-details-marker{display:none}
+.pn-old summary::before{content:"+";display:inline-block;width:1.1em;color:var(--pn-or);font-weight:700}
+.pn-old[open] summary::before{content:"\2212"}
+.pn-old summary:hover,.pn-old summary:focus-visible{color:var(--pn-ink)}
+.pn-old summary:focus-visible{outline:2px solid var(--pn-or);outline-offset:2px}
+.pn-old .pn-list{padding:4px 0 6px}
+.pn-foot{height:8px}
+html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none}
+@media (max-width:560px){.pn-btn{padding:5px 8px 4px 9px;gap:5px}.pn-panel{position:fixed;top:44px;right:6px;width:calc(100vw - 12px)}}
+@media print{.pn{display:none}}</style>
+<div class="pn" id="journal" data-fdock data-outil="energie-noeuds.html" data-v="1.0" style="--pn-disp:'Saira Condensed',sans-serif;--pn-body:'Barlow',sans-serif;--pn-panel:var(--panel);--pn-deep:var(--deep);--pn-line:var(--rule);--pn-ink:var(--ink);--pn-dim:var(--dim)">
+<button type="button" class="pn-btn" aria-expanded="false" aria-controls="pn-panel" data-fr-title="Journal des révisions : ce qui a changé" data-en-title="Revision log: what changed" title="Journal des révisions : ce qui a changé"><span class="pn-dot" aria-hidden="true"></span><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5h8v11H3z"/><path d="M5 4.5h4M5 7h4M5 9.5h2.5"/></svg><span>v1.0</span></button>
+<div class="pn-panel" id="pn-panel" role="region" aria-labelledby="pn-titre" hidden><div class="pn-hz"></div>
+<div class="pn-head"><span class="pn-slot"><img src="data:image/webp;base64,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" alt=""></span><div><div class="pn-title" id="pn-titre" role="heading" aria-level="2"><span data-l="fr">Journal des révisions</span><span data-l="en" lang="en">Revision log</span></div>
+<p class="pn-sub"><span data-l="fr">Version 1.0, mise à jour le 01/10/2026</span><span data-l="en" lang="en">Version 1.0, updated 1 Oct 2026</span></p></div><button type="button" class="pn-x" data-fr-aria-label="Fermer" data-en-aria-label="Close" aria-label="Fermer">×</button></div>
+<ol class="pn-list"><li class="pn-e" data-v="1.0"><div class="pn-meta"><span class="pn-v">v1.0</span><time class="pn-d" datetime="2026-10-01"><span data-l="fr">01/10/2026</span><span data-l="en" lang="en">1 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Nouvel outil, à lire sans rien régler : combien de MW nets tirer d&#x27;un seul nœud, filière par filière (charbon, charbon compacté, carburant et ses variantes, turbocarburant, carburant de fusée, carburant ionisé, uranium, géothermie), par pureté du nœud, à 100 % et à 250 % de cadence. Nets : extraction du nœud, machines de la chaîne et ressources d&#x27;appoint payées. Chaînes calculées par script depuis le référentiel. Avec une partie importée, la foreuse, le convoyeur et le tuyau sont les vôtres, et les filières pas encore débloquées sont grisées avec ce qui leur manque.</span><span data-l="en" lang="en">New tool, read-only: how many net MW a single node can give, chain by chain (coal, compacted coal, fuel and its variants, turbofuel, rocket fuel, ionized fuel, uranium, geothermal), by node purity, at 100% and 250% clock speed. Net: the node&#x27;s extraction, the chain&#x27;s machines and side resources paid for. Chains computed by script from the shared dataset. With an imported game, the miner, belt and pipe are yours, and chains not unlocked yet are greyed out with what they are missing.</span></p></li></ol>
+<div class="pn-foot"></div></div></div>
+<script>(function(){
+  var r = document.getElementById('journal'); if(!r) return;
+  var b = r.querySelector('.pn-btn'), p = r.querySelector('.pn-panel'), x = r.querySelector('.pn-x');
+  var K = 'ficsit-tools:vu:' + r.dataset.outil, V = r.dataset.v, vu = null;
+  try{ vu = localStorage.getItem(K); }catch(e){}
+  function cmp(a, c){ a = a.split('.').map(Number); c = c.split('.').map(Number);
+    for(var i = 0; i < Math.max(a.length, c.length); i++){ var d = (a[i] || 0) - (c[i] || 0); if(d) return d; } return 0; }
+  if(vu !== V) r.classList.add('pn-neuf');
+  if(vu) r.querySelectorAll('.pn-e[data-v]').forEach(function(e){
+    if(cmp(e.dataset.v, vu) > 0){ e.classList.add('pn-new'); var d = e.closest('details'); if(d) d.open = true; } });
+  function ouvrir(o){
+    p.hidden = !o; b.setAttribute('aria-expanded', o);
+    if(o){ r.classList.remove('pn-neuf'); try{ localStorage.setItem(K, V); }catch(e){} }
+  }
+  b.addEventListener('click', function(e){ e.stopPropagation(); ouvrir(p.hidden); });
+  x.addEventListener('click', function(){ ouvrir(false); b.focus(); });
+  document.addEventListener('click', function(e){ if(!p.hidden && !r.contains(e.target)) ouvrir(false); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && !p.hidden){ ouvrir(false); b.focus(); } });
+})();</script>
+<!-- PATCHNOTES:END -->
+<footer><span data-l="fr">Recettes, énergie des combustibles et bâtiments : référentiel commun du dépôt, d'après</span><span data-l="en" lang="en">Recipes, fuel energy and buildings: the repository's shared dataset, from</span>
+  <a href="https://github.com/greeny/SatisfactoryTools" target="_blank" rel="noopener">greeny/SatisfactoryTools</a>.</footer>
+</div>
+
+<script id="payload" type="application/json">{"ch":[{"id":"charbon","res":"Coal","fuel":"Coal","gen":"Coal-Powered Generator","brut":5.0,"proc":0.0,"gens":0.066667,"sec":{"Water":3.0},"hors":{},"surplus":{},"rec":[],"alt":[],"bat":["Recipe_GeneratorCoal_C"],"t":3,"principale":null,"etapes":[]},{"id":"charbon-compacte","res":"Coal","fuel":"Compacted Coal","gen":"Coal-Powered Generator","brut":10.5,"proc":0.6,"gens":0.14,"sec":{"Sulfur":1.0,"Water":6.3},"hors":{},"surplus":{},"rec":["Recipe_Alternate_EnrichedCoal_C"],"alt":["Recipe_Alternate_EnrichedCoal_C"],"bat":["Recipe_GeneratorCoal_C"],"t":3,"principale":"Alternate: Compacted Coal","etapes":[]},{"id":"carburant","res":"Crude Oil","fuel":"Fuel","gen":"Fuel-Powered Generator","brut":8.333333,"proc":0.5,"gens":0.033333,"sec":{},"hors":{},"surplus":{"Polymer Resin":0.5},"rec":["Recipe_LiquidFuel_C"],"alt":[],"bat":["Recipe_GeneratorFuel_C"],"t":5,"principale":"Fuel","etapes":[]},{"id":"residuel","res":"Crude Oil","fuel":"Fuel","gen":"Fuel-Powered Generator","brut":11.111111,"proc":1.666667,"gens":0.044444,"sec":{},"hors":{},"surplus":{"Polymer Resin":0.666667},"rec":["Recipe_Alternate_HeavyOilResidue_C","Recipe_ResidualFuel_C"],"alt":["Recipe_Alternate_HeavyOilResidue_C"],"bat":["Recipe_GeneratorFuel_C","Recipe_OilRefinery_C"],"t":5,"principale":"Residual Fuel","etapes":["Alternate: Heavy Oil Residue"]},{"id":"dilue","res":"Crude Oil","fuel":"Fuel","gen":"Fuel-Powered Generator","brut":33.333333,"proc":3.0,"gens":0.133333,"sec":{"Water":2.666667},"hors":{},"surplus":{"Polymer Resin":0.666667},"rec":["Recipe_Alternate_DilutedFuel_C","Recipe_Alternate_HeavyOilResidue_C"],"alt":["Recipe_Alternate_DilutedFuel_C","Recipe_Alternate_HeavyOilResidue_C"],"bat":["Recipe_GeneratorFuel_C","Recipe_OilRefinery_C"],"t":7,"principale":"Alternate: Diluted Fuel","etapes":["Alternate: Heavy Oil Residue"]},{"id":"turbo","res":"Crude Oil","fuel":"Turbofuel","gen":"Fuel-Powered Generator","brut":74.074074,"proc":7.622222,"gens":0.296296,"sec":{"Water":2.666667,"Coal":1.777778,"Sulfur":1.777778},"hors":{},"surplus":{"Polymer Resin":0.666667},"rec":["Recipe_Alternate_DilutedFuel_C","Recipe_Alternate_EnrichedCoal_C","Recipe_Alternate_HeavyOilResidue_C","Recipe_Alternate_Turbofuel_C"],"alt":["Recipe_Alternate_DilutedFuel_C","Recipe_Alternate_EnrichedCoal_C","Recipe_Alternate_HeavyOilResidue_C","Recipe_Alternate_Turbofuel_C"],"bat":["Recipe_AssemblerMk1_C","Recipe_Blender_C","Recipe_GeneratorFuel_C","Recipe_OilRefinery_C"],"t":7,"principale":"Turbofuel","etapes":["Alternate: Diluted Fuel","Alternate: Heavy Oil Residue","Alternate: Compacted Coal"]},{"id":"turbo-lourd","res":"Crude Oil","fuel":"Turbofuel","gen":"Fuel-Powered Generator","brut":35.555556,"proc":2.706667,"gens":0.142222,"sec":{"Coal":1.066667,"Sulfur":1.066667},"hors":{},"surplus":{"Polymer Resin":0.666667},"rec":["Recipe_Alternate_EnrichedCoal_C","Recipe_Alternate_HeavyOilResidue_C","Recipe_Alternate_TurboHeavyFuel_C"],"alt":["Recipe_Alternate_EnrichedCoal_C","Recipe_Alternate_HeavyOilResidue_C","Recipe_Alternate_TurboHeavyFuel_C"],"bat":["Recipe_AssemblerMk1_C","Recipe_GeneratorFuel_C","Recipe_OilRefinery_C"],"t":5,"principale":"Alternate: Turbo Heavy Fuel","etapes":["Alternate: Heavy Oil Residue","Alternate: Compacted Coal"]},{"id":"turbo-melange","res":"Crude Oil","fuel":"Turbofuel","gen":"Fuel-Powered Generator","brut":44.444444,"proc":3.722222,"gens":0.177778,"sec":{"Sulfur":0.666667,"Water":0.444444},"hors":{},"surplus":{"Polymer Resin":0.666667},"rec":["Recipe_Alternate_DilutedFuel_C","Recipe_Alternate_HeavyOilResidue_C","Recipe_Alternate_TurboBlendFuel_C","Recipe_PetroleumCoke_C"],"alt":["Recipe_Alternate_DilutedFuel_C","Recipe_Alternate_HeavyOilResidue_C","Recipe_Alternate_TurboBlendFuel_C"],"bat":["Recipe_Blender_C","Recipe_GeneratorFuel_C","Recipe_OilRefinery_C"],"t":7,"principale":"Alternate: Turbo Blend Fuel","etapes":["Alternate: Diluted Fuel","Alternate: Heavy Oil Residue","Petroleum Coke"]},{"id":"roquette","res":"Crude Oil","fuel":"Rocket Fuel","gen":"Fuel-Powered Generator","brut":222.222222,"proc":11.153086,"gens":0.888889,"sec":{"Nitrogen Gas":1.481481,"Water":3.037037,"Coal":1.407407,"Sulfur":1.407407,"Iron Ore":0.185185},"hors":{},"surplus":{"Polymer Resin":0.666667},"rec":["Recipe_Alternate_DilutedFuel_C","Recipe_Alternate_EnrichedCoal_C","Recipe_Alternate_HeavyOilResidue_C","Recipe_Alternate_Turbofuel_C","Recipe_IngotIron_C","Recipe_IronPlate_C","Recipe_NitricAcid_C","Recipe_RocketFuel_C"],"alt":["Recipe_Alternate_DilutedFuel_C","Recipe_Alternate_EnrichedCoal_C","Recipe_Alternate_HeavyOilResidue_C","Recipe_Alternate_Turbofuel_C"],"bat":["Recipe_AssemblerMk1_C","Recipe_Blender_C","Recipe_ConstructorMk1_C","Recipe_GeneratorFuel_C","Recipe_OilRefinery_C","Recipe_SmelterMk1_C"],"t":8,"principale":"Rocket Fuel","etapes":["Nitric Acid","Alternate: Diluted Fuel","Turbofuel","Alternate: Heavy Oil Residue","Alternate: Compacted Coal","Iron Plate","Iron Ingot"]},{"id":"roquette-nitro","res":"Crude Oil","fuel":"Rocket Fuel","gen":"Fuel-Powered Generator","brut":240.0,"proc":5.0,"gens":0.96,"sec":{"Nitrogen Gas":2.0,"Sulfur":2.666667,"Coal":1.333333,"Water":2.666667},"hors":{},"surplus":{"Compacted Coal":0.666667,"Polymer Resin":0.666667},"rec":["Recipe_Alternate_DilutedFuel_C","Recipe_Alternate_HeavyOilResidue_C","Recipe_Alternate_RocketFuel_Nitro_C"],"alt":["Recipe_Alternate_DilutedFuel_C","Recipe_Alternate_HeavyOilResidue_C","Recipe_Alternate_RocketFuel_Nitro_C"],"bat":["Recipe_Blender_C","Recipe_GeneratorFuel_C","Recipe_OilRefinery_C"],"t":8,"principale":"Alternate: Nitro Rocket Fuel","etapes":["Alternate: Diluted Fuel","Alternate: Heavy Oil Residue"]},{"id":"ionise","res":"Crude Oil","fuel":"Ionized Fuel","gen":"Fuel-Powered Generator","brut":333.333333,"proc":8.0,"gens":1.333333,"sec":{"Nitrogen Gas":2.0,"Sulfur":2.666667,"Coal":1.333333,"Water":2.666667},"hors":{"Power Shard":0.25},"surplus":{"Compacted Coal":1.166667,"Polymer Resin":0.666667},"rec":["Recipe_Alternate_DilutedFuel_C","Recipe_Alternate_HeavyOilResidue_C","Recipe_Alternate_RocketFuel_Nitro_C","Recipe_IonizedFuel_C"],"alt":["Recipe_Alternate_DilutedFuel_C","Recipe_Alternate_HeavyOilResidue_C","Recipe_Alternate_RocketFuel_Nitro_C"],"bat":["Recipe_Blender_C","Recipe_GeneratorFuel_C","Recipe_OilRefinery_C"],"t":8,"principale":"Ionized Fuel","etapes":["Alternate: Nitro Rocket Fuel","Alternate: Diluted Fuel","Alternate: Heavy Oil Residue"]},{"id":"uranium","res":"Uranium","fuel":"Uranium Fuel Rod","gen":"Nuclear Power Plant","brut":125.0,"proc":4.724167,"gens":0.05,"sec":{"Limestone":1.44,"Sulfur":0.6,"Water":12.6,"Iron Ore":0.6975,"Coal":0.6975,"Copper Ore":0.8,"Caterium Ore":0.6},"hors":{},"surplus":{},"rec":["Recipe_AILimiter_C","Recipe_Concrete_C","Recipe_CopperSheet_C","Recipe_ElectromagneticControlRod_C","Recipe_EncasedIndustrialBeam_C","Recipe_IngotCaterium_C","Recipe_IngotCopper_C","Recipe_IngotSteel_C","Recipe_NuclearFuelRod_C","Recipe_Quickwire_C","Recipe_Stator_C","Recipe_SteelBeam_C","Recipe_SteelPipe_C","Recipe_SulfuricAcid_C","Recipe_UraniumCell_C","Recipe_Wire_C"],"alt":[],"bat":["Recipe_AssemblerMk1_C","Recipe_Blender_C","Recipe_ConstructorMk1_C","Recipe_FoundryMk1_C","Recipe_GeneratorNuclear_C","Recipe_OilRefinery_C","Recipe_SmelterMk1_C"],"t":8,"principale":"Uranium Fuel Rod","etapes":["Encased Uranium Cell","Electromagnetic Control Rod","Sulfuric Acid","Encased Industrial Beam","Stator","Steel Beam","Steel Ingot","Steel Pipe","AI Limiter","Copper Sheet","Quickwire","Caterium Ingot","Concrete","Wire","Copper Ingot"]}],"mineurs":[[60,5,0,"Recipe_MinerMk1_C"],[120,15,4,"Recipe_MinerMk2_C"],[240,45,8,"Recipe_MinerMk3_C"]],"petrole":[120,40,5,"Recipe_OilPump_C"],"eau":[120,20],"azote":0.5,"exp":1.321929,"conv":[[60,0,"Recipe_ConveyorBeltMk1_C"],[120,2,"Recipe_ConveyorBeltMk2_C"],[270,4,"Recipe_ConveyorBeltMk3_C"],[480,5,"Recipe_ConveyorBeltMk4_C"],[780,7,"Recipe_ConveyorBeltMk5_C"],[1200,9,"Recipe_ConveyorBeltMk6_C"]],"tuy":[[300,3,"Recipe_Pipeline_C"],[600,6,"Recipe_PipelineMK2_C"]],"geo":{"mw":[100,200,400],"bat":"Recipe_GeneratorGeoThermal_C"},"ic":{"Caterium Ore":"desc-oregold-c","Coal":"desc-coal-c","Coal-Powered Generator":"desc-generatorcoal-c","Compacted Coal":"desc-compactedcoal-c","Copper Ore":"desc-orecopper-c","Crude Oil":"desc-liquidoil-c","Fuel":"desc-liquidfuel-c","Fuel-Powered Generator":"desc-generatorfuel-c","Geothermal Generator":"desc-generatorgeothermal-c","Ionized Fuel":"desc-ionizedfuel-c","Iron Ore":"desc-oreiron-c","Limestone":"desc-stone-c","Nitrogen Gas":"desc-nitrogengas-c","Nuclear Power Plant":"desc-generatornuclear-c","Power Shard":"desc-crystalshard-c","Rocket Fuel":"desc-rocketfuel-c","Sulfur":"desc-sulfur-c","Turbofuel":"desc-liquidturbofuel-c","Uranium":"desc-oreuranium-c","Uranium Fuel Rod":"desc-nuclearfuelrod-c","Water":"desc-water-c"},"noms":{"Recipe_AILimiter_C":"AI Limiter","Recipe_Alternate_DilutedFuel_C":"Alternate: Diluted Fuel","Recipe_Alternate_EnrichedCoal_C":"Alternate: Compacted Coal","Recipe_Alternate_HeavyOilResidue_C":"Alternate: Heavy Oil Residue","Recipe_Alternate_RocketFuel_Nitro_C":"Alternate: Nitro Rocket Fuel","Recipe_Alternate_TurboBlendFuel_C":"Alternate: Turbo Blend Fuel","Recipe_Alternate_TurboHeavyFuel_C":"Alternate: Turbo Heavy Fuel","Recipe_Alternate_Turbofuel_C":"Turbofuel","Recipe_AssemblerMk1_C":"Assembler","Recipe_Blender_C":"Blender","Recipe_Concrete_C":"Concrete","Recipe_ConstructorMk1_C":"Constructor","Recipe_CopperSheet_C":"Copper Sheet","Recipe_ElectromagneticControlRod_C":"Electromagnetic Control Rod","Recipe_EncasedIndustrialBeam_C":"Encased Industrial Beam","Recipe_FoundryMk1_C":"Foundry","Recipe_GeneratorCoal_C":"Coal-Powered Generator","Recipe_GeneratorFuel_C":"Fuel-Powered Generator","Recipe_GeneratorNuclear_C":"Nuclear Power Plant","Recipe_IngotCaterium_C":"Caterium Ingot","Recipe_IngotCopper_C":"Copper Ingot","Recipe_IngotIron_C":"Iron Ingot","Recipe_IngotSteel_C":"Steel Ingot","Recipe_IonizedFuel_C":"Ionized Fuel","Recipe_IronPlate_C":"Iron Plate","Recipe_LiquidFuel_C":"Fuel","Recipe_MinerMk1_C":"Miner Mk.1","Recipe_MinerMk2_C":"Miner Mk.2","Recipe_MinerMk3_C":"Miner Mk.3","Recipe_NitricAcid_C":"Nitric Acid","Recipe_NuclearFuelRod_C":"Uranium Fuel Rod","Recipe_OilPump_C":"Oil Extractor","Recipe_OilRefinery_C":"Refinery","Recipe_PetroleumCoke_C":"Petroleum Coke","Recipe_Quickwire_C":"Quickwire","Recipe_ResidualFuel_C":"Residual Fuel","Recipe_RocketFuel_C":"Rocket Fuel","Recipe_SmelterMk1_C":"Smelter","Recipe_Stator_C":"Stator","Recipe_SteelBeam_C":"Steel Beam","Recipe_SteelPipe_C":"Steel Pipe","Recipe_SulfuricAcid_C":"Sulfuric Acid","Recipe_UraniumCell_C":"Encased Uranium Cell","Recipe_Wire_C":"Wire"}}</script>
+<script>
+const P = JSON.parse(document.getElementById('payload').textContent);
+const T = k => FicsitLang.t(k), TX = (k, v) => FicsitPartie.texte(k, v);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const num = (v, d) => FicsitLang.num(v, {maximumFractionDigits: d || 0});
+const ico = n => P.ic[n] ? `<img alt="" loading="lazy" src="commun/icones-44/${P.ic[n]}.webp">` : '';
+const nomRec = c => { const n = P.noms[c] || c; return n.startsWith('Alternate: ') ? FicsitLang.recette(n.slice(11)) : FicsitLang.recette(n); };
+const nomBat = c => FicsitLang.batiment(P.noms[c] || c);
+const PUR = [0.5, 1, 2];
+
+/* ---------- contexte : partie importée (recettes et bâtiments débloqués) ou dernier palier ---------- */
+function contexte(){
+  const p = FicsitPartie.charger(), has = p ? new Set(p.recettes) : null;
+  const ok = (rec, t) => has ? has.has(rec) : true;
+  const dispo = l => l.filter(x => ok(x[x.length - 1], x[x.length - 2]));
+  const mineur = dispo(P.mineurs).pop() || P.mineurs[0];
+  const conv = dispo(P.conv).pop() || P.conv[0], tuy = dispo(P.tuy).pop() || P.tuy[0];
+  return {p, has, ok, mineur, conv, tuy, palier: p ? FicsitPartie.palier(p) : 9,
+    mk: P.mineurs.indexOf(mineur) + 1, ck: P.conv.indexOf(conv) + 1, tk: P.tuy.indexOf(tuy) + 1};
+}
+
+/* ---------- MW nets d'un nœud : pureté p (0, 1, 2), cadence clk ---------- */
+function cellule(c, C, p, clk){
+  const fluide = c.res === 'Crude Oil', ext = fluide ? P.petrole : C.mineur, cap = (fluide ? C.tuy : C.conv)[0];
+  const base = ext[0] * PUR[p], k = Math.min(clk, cap / base), debit = base * k;
+  const cout = i => i === 'Water' ? P.eau[1] / P.eau[0] : i === 'Crude Oil' ? P.petrole[1] / P.petrole[0]
+    : i === 'Nitrogen Gas' ? P.azote : C.mineur[1] / C.mineur[0];
+  let sec = 0; for(const i in c.sec) sec += c.sec[i] * cout(i);
+  return {net: debit * (c.brut - c.proc - sec) - ext[1] * Math.pow(k, P.exp), plafond: clk - k > 1e-9, debit};
+}
+
+/* ce qui manque pour construire la filière (avec une partie) ; sans partie, rien */
+function manque(c, C){
+  if(!C.has) return [];
+  const m = c.rec.filter(r => !C.has.has(r)).map(nomRec).concat(c.bat.filter(b => !C.has.has(b)).map(nomBat));
+  if(c.res === 'Crude Oil' && !C.has.has(P.petrole[3])) m.push(nomBat(P.petrole[3]));
+  return [...new Set(m)];
+}
+
+/* ressources d'appoint et surplus d'un nœud normal à 100 % */
+function details(c, C){
+  const n = cellule(c, C, 1, 1).debit, l = [];
+  for(const i in c.sec){
+    const q = c.sec[i] * n;
+    const r = FicsitLang.item(i);
+    if(i === 'Water') l.push(TX('energieEau', {r, n: num(q / P.eau[0], 1)}));
+    else if(i === 'Nitrogen Gas') l.push(TX('energieAzote', {r, n: num(q)}));
+    else l.push(TX('energieNoeuds', {r, n: num(q / (i === 'Crude Oil' ? P.petrole[0] : C.mineur[0]), 2)}));
+  }
+  for(const i in c.hors) l.push(TX('energieParMin', {n: num(c.hors[i] * n, 1), r: FicsitLang.item(i)}));
+  const s = Object.keys(c.surplus).map(i => TX('energieParMin', {n: num(c.surplus[i] * n, 1), r: FicsitLang.item(i)}));
+  return TX('energieDetail', {g: num(c.gens * n, 1), b: num(c.brut * n), m: num(c.proc * n)})
+    + (l.length ? ' ' + TX('energieAppoint', {l: l.join(' · ')}) : '') + (s.length ? ' ' + TX('energieSurplus', {l: s.join(' · ')}) : '');
+}
+
+function rendu(){
+  const C = contexte();
+  document.getElementById('contexte').innerHTML = C.p
+    ? TX('energieContexte', {n: esc(C.p.nom || '—'), t: C.palier, m: C.mk, c: C.ck, cc: num(C.conv[0]), k: C.tk, kc: num(C.tuy[0])})
+    : TX('energieContexteTout', {m: C.mk, c: C.ck, cc: num(C.conv[0]), k: C.tk, kc: num(C.tuy[0])});
+  // lignes : filières puis géothermie ; disponibles d'abord, par MW nets (nœud normal, 100 %) décroissants
+  const L = P.ch.map(c => ({c, m: manque(c, C), v: [0, 1, 2].map(p => [cellule(c, C, p, 1), cellule(c, C, p, 2.5)])}));
+  const geoOk = !C.has || C.has.has(P.geo.bat);
+  L.push({geo: true, m: geoOk ? [] : [nomBat(P.geo.bat)], v: P.geo.mw.map(w => [{net: w}, {net: w}])});
+  L.sort((a, b) => (a.m.length > 0) - (b.m.length > 0) || b.v[1][0].net - a.v[1][0].net);
+  const max = Math.max(...L.filter(x => !x.m.length).map(x => Math.max(...x.v.map(y => y[0].net))), 1);
+  const cel = ([a, b], geo) => `<div class="cel" role="cell"><div class="mw${a.net < 0 ? ' neg' : ''}">${num(a.net)} MW</div>
+    <div class="barre" style="width:${Math.max(0, Math.min(100, a.net / max * 100)).toFixed(1)}%"></div>
+    <div class="oc">${geo ? esc(T('energieSansCadence')) : esc(TX('energie250', {v: num(b.net)})) + (b.plafond ? ` <i>${esc(T('energiePlafond'))}</i>` : '')}</div></div>`;
+  const tete = `<div class="ligne tete" role="row"><span role="columnheader">${esc(T('energieFiliere'))}</span>`
+    + ['energieImpur', 'energieNormal', 'energiePur'].map(k => `<span role="columnheader">${esc(T(k))}</span>`).join('') + '</div>';
+  document.getElementById('tableau').innerHTML = tete + L.map(x => {
+    let fil;
+    if(x.geo) fil = `<div class="nom">${ico('Geothermal Generator')}${esc(FicsitLang.batiment('Geothermal Generator'))}</div>
+      <div class="gen">${esc(T('energieGeyser'))}</div>`;
+    else {
+      const c = x.c, rec = n => n.startsWith('Alternate: ') ? FicsitLang.recette(n.slice(11)) + ' ' + T('energieAlt') : FicsitLang.recette(n);
+      const et = c.etapes.map(rec), titre = c.principale ? rec(c.principale) : FicsitLang.item(c.fuel);
+      const etapes = et.length > 4 ? et.slice(0, 3).join(' · ') + ' · ' + TX('energieEtEncore', {n: et.length - 3}) : et.join(' · ');
+      fil = `<div class="nom">${ico(c.fuel)}<span>${esc(titre)}${C.has ? '' : `<span class="pal">${esc(TX('energiePalier', {t: c.t}))}</span>`}</span></div>
+        <div class="gen">${esc(TX('energieNoeudGen', {r: FicsitLang.item(c.res), g: FicsitLang.batiment(c.gen)}))}</div>
+        ${etapes ? `<div class="etapes">${esc(etapes)}</div>` : ''}
+        <div class="det">${esc(details(c, C))}</div>`;
+    }
+    if(x.m.length) fil += `<div class="manque">${esc(TX('energieManque', {l: x.m.join(', ')}))}</div>`;
+    return `<div class="ligne${x.m.length ? ' hors' : ''}" role="row"><div class="fil" role="cell">${fil}</div>${x.v.map(v => cel(v, x.geo)).join('')}</div>`;
+  }).join('');
+  document.getElementById('legende').textContent = T('energieLegende');
+}
+
+FicsitLang.on(rendu);
+FicsitPartie.surChangement(rendu);
+rendu();
+</script>
+</body>
+</html>

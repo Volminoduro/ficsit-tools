@@ -2,6 +2,11 @@
 
 Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer à la main.
 
+## Planificateur de production / Production planner — `planner.html`
+
+- **v1.0** (01/10/2026) : Nouvel outil : vos objectifs de production par minute, et la chaîne qui y mène jusqu'aux ressources brutes. Pour chaque recette, le nombre de machines (exact, puis entier avec la cadence qui va), leur consommation, ce qui entre et ce qui sort ; les sous-produits servent d'abord aux autres étapes, le reste part en surplus. Recette de chaque item au choix, ou « fournie » de l'extérieur. Avec une partie importée, seules les recettes débloquées sont proposées ; sinon, palier et alternatives à régler.
+  *EN — New tool: your production targets per minute, and the chain that leads to them, down to the raw resources. For each recipe, the number of machines (exact, then whole with the matching clock speed), their power draw, what goes in and what comes out; by-products first feed the other steps, the rest goes to surplus. Each item's recipe can be picked, or "supplied" from elsewhere. With an imported game, only unlocked recipes are offered; otherwise, set the tier and alternates.*
+
 ## Débit vers le Dimensional Depot / Dimensional Depot throughput — `depot-dimensionnel.html`
 
 - **v1.8** (30/09/2026) : Fluides et électricité par circuit. Chaque réseau de tuyaux lu dans la sauvegarde devient un réservoir commun : extracteurs d'eau et de pétrole, puits, raffineries, conditionneuses et générateurs y versent ou y puisent, un fluide ne passant que par les tuyaux. Les machines sont désormais limitées par leurs fluides, les centrales à charbon et nucléaires par leur eau, et les générateurs à carburant comptent dans la production. Un réseau à qui il manque du fluide est signalé, avec la quantité manquante, ainsi qu'un réseau dont le débit dépasse son tuyau le plus faible. Chaque bâtiment est rattaché à son circuit : bilan par circuit, circuit en déficit ou sans générateur signalé, et un bâtiment sur un circuit dont le fusible a grillé, ou branché à aucun circuit, est compté à l'arrêt. Recoupement avec le jeu : 77 % des machines à 10 points près sur une grosse partie (74 % avant).

@@ -1,6 +1,22 @@
 {
   "_doc": "Source unique des journaux de révision. Après modification : python3 scripts/patchnotes.py (met à jour l'encart de chaque outil et CHANGELOG.md). Entrées de la plus récente à la plus ancienne ; version en SemVer propre à chaque outil ; texte obligatoire en fr et en.",
   "outils": {
+    "planner.html": {
+      "nom": {
+        "fr": "Planificateur de production",
+        "en": "Production planner"
+      },
+      "entrees": [
+        {
+          "version": "1.0",
+          "date": "2026-10-01",
+          "texte": {
+            "fr": "Nouvel outil : vos objectifs de production par minute, et la chaîne qui y mène jusqu'aux ressources brutes. Pour chaque recette, le nombre de machines (exact, puis entier avec la cadence qui va), leur consommation, ce qui entre et ce qui sort ; les sous-produits servent d'abord aux autres étapes, le reste part en surplus. Recette de chaque item au choix, ou « fournie » de l'extérieur. Avec une partie importée, seules les recettes débloquées sont proposées ; sinon, palier et alternatives à régler.",
+            "en": "New tool: your production targets per minute, and the chain that leads to them, down to the raw resources. For each recipe, the number of machines (exact, then whole with the matching clock speed), their power draw, what goes in and what comes out; by-products first feed the other steps, the rest goes to surplus. Each item's recipe can be picked, or \"supplied\" from elsewhere. With an imported game, only unlocked recipes are offered; otherwise, set the tier and alternates."
+          }
+        }
+      ]
+    },
     "depot-dimensionnel.html": {
       "nom": {
         "fr": "Débit vers le Dimensional Depot",

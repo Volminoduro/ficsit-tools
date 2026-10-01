@@ -42,6 +42,9 @@ THEMES = {
       ancre=("<footer", "avant")),  "energie-noeuds.html": dict(disp="'Saira Condensed',sans-serif", body="'Barlow',sans-serif",
       panel="var(--panel)", deep="var(--deep)", line="var(--rule)", ink="var(--ink)", dim="var(--dim)",
       ancre=("<footer", "avant")),
+  "planner.html": dict(disp="'Saira Condensed',sans-serif", body="'Barlow',sans-serif",
+      panel="var(--panel)", deep="var(--deep)", line="var(--rule)", ink="var(--ink)", dim="var(--dim)",
+      ancre=("<footer", "avant")),
 }
 
 CSS = """

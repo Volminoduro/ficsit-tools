@@ -9,7 +9,7 @@
 var CACHE = 'ficsit-tools-1';
 var AVANCE = ['./', 'index.html', 'satisfactory_infographie.html', 'ficsit_horloge.html', 'broyeur-excedents.html',
   'arbre-production.html', 'memo-ficsit.html', 'depot-dimensionnel.html',
-  'energie-noeuds.html'];
+  'energie-noeuds.html', 'planner.html'];
 
 self.addEventListener('install', function(e){
   e.waitUntil(caches.open(CACHE).then(function(c){ return c.addAll(AVANCE).catch(function(){}); }).then(function(){ return self.skipWaiting(); }));

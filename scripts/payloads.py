@@ -3,7 +3,8 @@
 
 Aujourd'hui : les icônes (une seule source, donnees/icones/, ré-échantillonnée à la taille de chaque
 page), les paliers de recettes de l'infographie, tout le payload du broyeur (scripts/broyeur.py) et
-celui de l'arbre de production (scripts/arbre.py). Les combinaisons de l'infographie (clés tc, combi et
+celui de l'arbre de production (scripts/arbre.py) et celui
+du planificateur (planner.html). Les combinaisons de l'infographie (clés tc, combi et
 combiM) sont calculées par scripts/paliers_combinaisons.js et ne sont pas touchées ici.
 
 Usage : python3 scripts/payloads.py [--verifier]   (depuis la racine du dépôt)
@@ -353,6 +354,32 @@ def payload_arbre():
     print(f"arbre-production.html : {len(neuf['items'])} items, {len(neuf['ic'])} icônes partagées")
 
 
+def planner_donnees():
+    """Planificateur de production (planner.html) : recettes des bâtiments de production, machines et ressources brutes
+    (format décrit en tête de planner-moteur.js) ; icônes à 44 px partagées."""
+    B = REF["batiments"]
+    rec = sorted((n, r) for n, r in REF["recettes"].items() if B.get(r["machine"], {}).get("groupe") == "production")
+    mw = lambda r: round((r["mwMin"] + r["mwMax"]) / 2, 3) if r.get("mwMax", 0) > r.get("mwMin", 0) else 0
+    machines = sorted({r["machine"] for _, r in rec})
+    items = sorted({x[0] for _, r in rec for x in r["ingredients"] + r["produits"]} | set(REF["ressources"]))
+    return {"r": [[r["classe"], n, int(r["alternative"]), r["palier"], r["machine"], r["temps"],
+                   r["ingredients"], r["produits"], mw(r)] for n, r in rec],
+            "b": {m: [B[m]["mw"], B[m]["exposant"], B[m]["palier"]] for m in machines},
+            "res": REF["ressources"],
+            "liq": [i for i in items if REF["items"].get(i, {}).get("liquide")],
+            "ic": {n: icone_fichier(n) for n in items + machines if n in SLUGS}}
+
+
+def payload_planner():
+    p = ROOT / "planner.html"
+    s = avant = p.read_text(encoding="utf-8")
+    m, _ = bloc_json(s, "payload")
+    neuf = planner_donnees()
+    s = s[:m.start(2)] + json.dumps(neuf, ensure_ascii=False, separators=(",", ":")) + s[m.end(2):]
+    ecrire(p, s, avant)
+    print(f"planner.html : {len(neuf['r'])} recettes, {len(neuf['b'])} machines, {len(neuf['ic'])} icônes partagées")
+
+
 if __name__ == "__main__":
     paliers_infographie()
     emprises_infographie()
@@ -364,6 +391,7 @@ if __name__ == "__main__":
     memo()
     payload_depot()
     payload_energie()
+    payload_planner()
     # icônes partagées que plus aucune page n'utilise
     if not VERIF and ICO44.exists():
         for f in ICO44.glob("*.webp"):

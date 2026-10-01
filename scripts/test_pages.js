@@ -30,6 +30,7 @@ const PAGES = {
   // usine synthétique passée par l'extraction de commun/ficsit-usine-worker.js, puis rendue
   'depot-dimensionnel.html': p => p.evaluate(usineTest),
   'energie-noeuds.html': null,
+  'planner.html': null,
 };
 /* Dimensional Depot : sauvegarde synthétique (objets tels que le parseur les rend) — foreuse Mk1 sur un nœud de fer
    normal (60 /min) → fonderie (30 lingots /min) → constructeur (plaques, cadence 150 %, 2 éclats : il lui faudrait
@@ -210,6 +211,24 @@ const CHECKS = {
     if (!lignes().some(l => l.classList.contains('hors') && l.querySelector('.manque'))) out.push('ce qui manque aux filières grisées n\'est pas dit');
     FicsitPartie.oublier();
     if (document.querySelector('#tableau .ligne.hors')) out.push('filières restées grisées après oubli de la partie');
+    return out;
+  },
+  // planificateur : objectif par défaut (10 plaques renforcées /min → 120 minerai de fer), recette imposée, partie importée
+  'planner.html': () => {
+    const out = [], txt = id => document.getElementById(id).innerText.replace(/\s+/g, ' ');
+    if (!/120\b.*(Iron Ore|Minerai de fer)/.test(txt('bruts'))) out.push('ressources par défaut : ' + txt('bruts'));
+    if (document.querySelectorAll('#etapes .etape').length !== 5) out.push(document.querySelectorAll('#etapes .etape').length + ' étapes (5 attendues)');
+    if (/NaN|undefined/.test(document.body.innerText)) out.push('valeur invalide dans la page');
+    const sel = document.querySelector('#etapes select[data-item="Iron Plate"]');
+    sel.value = 'brut'; sel.dispatchEvent(new Event('change', {bubbles: true}));
+    if (!/60\b.*(Iron Plate|Plaque de fer)/.test(txt('bruts'))) out.push('plaques « fournies » absentes des ressources : ' + txt('bruts'));
+    document.getElementById('choixRaz').click();
+    FicsitPartie.enregistrer({nom: 'Test', date: '2026-01-31T03:06:00.000Z', duree: 3600, version: 58, lu: 'test-planner',
+      recettes: ['Recipe_IngotIron_C', 'Recipe_IronPlate_C', 'Recipe_IronRod_C', 'Recipe_Screw_C'], schemas: ['Schematic_1-1_C'], attente: []});
+    if (!/(Aucune recette permise|No allowed recipe).*(Reinforced Iron Plate|Plaque de fer renforcée)/.test(txt('alertes')))
+      out.push('partie sans plaques renforcées : pas d\'alerte « ' + txt('alertes') + ' »');
+    FicsitPartie.oublier();
+    if (txt('alertes')) out.push('alerte restée après oubli de la partie');
     return out;
   },
   'ficsit_horloge.html': () => {

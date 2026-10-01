@@ -80,3 +80,11 @@ Entrée de journal à prévoir pour le broyeur (une seule version regroupant les
     - bilan électrique global estimé et fusibles grillés (`FGPowerCircuit.mIsFuseTriggered`).
     Limites restantes : fluides (tuyaux non lus), répartition des bâtiments entre circuits (câbles non lus), trajets des trains et drones. Save 265 (même usine que 269 prise en marche) : 30 % seulement, régime transitoire (objets encore sur les convoyeurs).
   - [ ] Étape 4 — validation : remplissage réel des convoyeurs, comparaison de deux saves (delta de stock / delta de temps).
+
+## Graphiques (lecture seule)
+
+Catégorie de l'accueil pour les pages qu'on lit sans rien régler (comme le mémo) ; elles suivent seulement la partie importée.
+
+- [x] **Rentabilité énergétique par nœud** — **L** (fait le 2026-10-01 : `energie-noeuds.html`, coefficients par `scripts/energie.py` ; le mémo rejoint la catégorie)
+- [ ] **Rentabilité énergétique des véhicules** — **L** (demandé le 2026-10-01, plus tard)
+  Comparer camions, trains (fret et fluides), drones (et tracteur / explorateur ?) : énergie dépensée par item transporté selon la vitesse, la distance et la quantité (capacité des wagons, des camions, des drones ; carburant des véhicules, consommation électrique des trains et des ports de drones, batteries des drones). Mêmes principes que l'outil énergie : coefficients calculés par script depuis le référentiel (capacités, vitesses et consommations à ajouter s'ils manquent de la source), palier de la partie importée, page en lecture seule.

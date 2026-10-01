@@ -162,6 +162,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Mémo de terrain / Field memo — `memo-ficsit.html`
 
+- **v1.11** (01/10/2026) : Rangé dans la nouvelle catégorie « Tableaux de lecture » de l'accueil, avec la rentabilité énergétique par nœud : les pages qu'on lit sans rien régler.
+  *EN — Moved to the new Reference charts category on the home page, next to Power per node: the pages you read without setting anything.*
 - **v1.10** (30/09/2026) : Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.
   *EN — The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection.*
 - **v1.9** (30/09/2026) : Jalons du HUB : ceux obtenus dans votre partie importée (bouton « Ma partie ») sont cochés, les paliers complets marqués, avec un bilan en tête de section.
@@ -207,3 +209,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
   *EN — French names for every recipe, alternates included (160 names added from the game's official localization), and for alien remains.*
 - **v1.0** (24/09/2026) : Première version : profondeur de l'arbre de production et nombre d'items intermédiaires de chaque item broyable, face à sa valeur AWESOME, en recettes de base ou en chaîne optimisée (MW), filtrable par palier.
   *EN — First release: production tree depth and number of intermediate items for every sinkable item, against its AWESOME value, with standard recipes or the optimized (MW) chain, filterable by tier.*
+
+## Rentabilité énergétique par nœud / Power per node — `energie-noeuds.html`
+
+- **v1.0** (01/10/2026) : Nouvel outil, à lire sans rien régler : combien de MW nets tirer d'un seul nœud, filière par filière (charbon, charbon compacté, carburant et ses variantes, turbocarburant, carburant de fusée, carburant ionisé, uranium, géothermie), par pureté du nœud, à 100 % et à 250 % de cadence. Nets : extraction du nœud, machines de la chaîne et ressources d'appoint payées. Chaînes calculées par script depuis le référentiel. Avec une partie importée, la foreuse, le convoyeur et le tuyau sont les vôtres, et les filières pas encore débloquées sont grisées avec ce qui leur manque.
+  *EN — New tool, read-only: how many net MW a single node can give, chain by chain (coal, compacted coal, fuel and its variants, turbofuel, rocket fuel, ionized fuel, uranium, geothermal), by node purity, at 100% and 250% clock speed. Net: the node's extraction, the chain's machines and side resources paid for. Chains computed by script from the shared dataset. With an imported game, the miner, belt and pipe are yours, and chains not unlocked yet are greyed out with what they are missing.*

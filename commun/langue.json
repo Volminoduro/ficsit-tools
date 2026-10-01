@@ -316,6 +316,8 @@
                              "en": "This browser could not keep the file (private browsing or storage blocked): the Depot tool will read it for this visit, but it will need re-importing next time." },
     "depotCalculPc": { "fr": "Calcul des débits : {p} % (une fois, puis gardé dans ce navigateur)",
                       "en": "Computing rates: {p}% (once, then kept in this browser)" },
+    "memoEquipement": { "fr": "Partie « {nom} » : foreuse {f} et convoyeur {c} au mieux. Le matériel pas encore débloqué est grisé, comme les débits qui demandent un convoyeur que vous n'avez pas.",
+                        "en": "Game \"{nom}\": miner {f} and belt {c} at best. Equipment not unlocked yet is greyed out, as are the rates that need a belt you do not have." },
     "memoJalons": { "fr": "Partie « {nom} » : {n} jalons du HUB obtenus sur {t}, cochés ci-dessous.",
                    "en": "Game \"{nom}\": {n} of {t} HUB milestones obtained, ticked below." },
     "horlogeEclatsLibres": { "fr": "Partie « {nom} » : l'éclat de charge synthétique est débloqué, régime « éclats illimités » choisi.",

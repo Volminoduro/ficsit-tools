@@ -237,8 +237,14 @@ const CHECKS = {
     const ok = document.querySelectorAll('.jal.ok').length, faits = document.querySelectorAll('.tier.fait').length;
     if (ok !== 4 || faits !== 1) out.push(`jalons cochés ${ok} (4 attendus), paliers complets ${faits} (1 attendu)`);
     if (!/4/.test(document.getElementById('jalBilan').innerText)) out.push('bilan des jalons absent');
+    FicsitPartie.enregistrer({nom: 'Test', date: '2026-01-31T03:06:00.000Z', duree: 3600, version: 58, lu: 'test-memo-2',
+      recettes: ['Recipe_MinerMk1_C', 'Recipe_ConveyorBeltMk1_C', 'Recipe_ConveyorBeltMk2_C'], schemas: [], attente: []});
+    const conv = document.querySelectorAll('.slot.verrou').length, mineurs = document.querySelectorAll('tr.grp.verrou').length;
+    if (conv !== 4 || mineurs !== 2 || !/Mk\.1/.test(document.getElementById('equipBilan').innerText))
+      out.push(`partie Mk.1/Mk.2 : ${conv} convoyeurs grisés (4 attendus), ${mineurs} foreuses grisées (2 attendues)`);
     FicsitPartie.oublier();
     if (document.querySelectorAll('.jal.ok').length || !document.getElementById('jalBilan').hidden) out.push('jalons restés cochés après oubli');
+    if (document.querySelectorAll('.verrou').length || !document.getElementById('equipBilan').hidden) out.push('matériel resté grisé après oubli');
     return out;
   },
   'satisfactory_infographie.html': () => {

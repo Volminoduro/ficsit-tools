@@ -112,7 +112,7 @@ def payload_energie():
                    "surplus": {k: round(v, 6) for k, v in c["surplus"].items()},
                    "rec": c["rec"], "alt": c["alt"], "bat": [construction(b) for b in machines], "t": c["t"],
                    "principale": c["principale"], "etapes": c["etapes"]})
-        ic |= {c["res"], c["fuel"], c["gen"], *c["sec"], *c["hors"]}
+        ic |= {c["res"], c["fuel"], c["gen"], *c["sec"], *c["hors"], *c["surplus"]}
     mineur = lambda k, base: [base, B[f"Miner Mk.{k}"]["mw"], B[f"Miner Mk.{k}"]["palier"], construction(f"Miner Mk.{k}")]
     neuf = {"ch": ch,
             # extraction : [débit à 100 % sur nœud normal, MW, palier, recette de construction]

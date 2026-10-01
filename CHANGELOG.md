@@ -162,6 +162,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Mémo de terrain / Field memo — `memo-ficsit.html`
 
+- **v1.12** (01/10/2026) : Avec une partie importée, l'extraction suit votre matériel : les foreuses et convoyeurs pas encore débloqués sont grisés, comme les débits du tableau qui demandent un convoyeur que vous n'avez pas, et un bandeau rappelle la meilleure foreuse et le meilleur convoyeur dont vous disposez.
+  *EN — With an imported game, extraction follows your equipment: miners and belts not unlocked yet are greyed out, as are the table's rates that need a belt you do not have, and a banner recalls the best miner and belt you have.*
 - **v1.11** (01/10/2026) : Rangé dans la nouvelle catégorie « Tableaux de lecture » de l'accueil, avec la rentabilité énergétique par nœud : les pages qu'on lit sans rien régler.
   *EN — Moved to the new Reference charts category on the home page, next to Power per node: the pages you read without setting anything.*
 - **v1.10** (30/09/2026) : Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.
@@ -212,6 +214,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Rentabilité énergétique par nœud / Power per node — `energie-noeuds.html`
 
+- **v1.2** (01/10/2026) : Icônes des ressources dans la description de chaque filière : ressource du nœud, générateur, ressources d'appoint et surplus.
+  *EN — Resource icons in each chain's description: the node's resource, the generator, side resources and surplus.*
 - **v1.1** (01/10/2026) : Carburant ionisé : ses éclats de charge sont désormais fabriqués par la recette synthétique (palier 9), avec les MW de l'encodeur quantique, de l'accélérateur de particules et du convertisseur, et les ressources des cristaux temporels et de la matière noire. La filière passe au palier 9 et à environ 23 900 MW nets par nœud de pétrole normal, derrière le carburant de fusée nitro (27 900 MW).
   *EN — Ionized fuel: its power shards are now made by the synthetic recipe (tier 9), with the power of the quantum encoder, particle accelerator and converter, and the resources of time crystals and dark matter. The chain moves to tier 9 and to about 23,900 net MW per normal oil node, behind nitro rocket fuel (27,900 MW).*
 - **v1.0** (01/10/2026) : Nouvel outil, à lire sans rien régler : combien de MW nets tirer d'un seul nœud, filière par filière (charbon, charbon compacté, carburant et ses variantes, turbocarburant, carburant de fusée, carburant ionisé, uranium, géothermie), par pureté du nœud, à 100 % et à 250 % de cadence. Nets : extraction du nœud, machines de la chaîne et ressources d'appoint payées. Chaînes calculées par script depuis le référentiel. Avec une partie importée, la foreuse, le convoyeur et le tuyau sont les vôtres, et les filières pas encore débloquées sont grisées avec ce qui leur manque.

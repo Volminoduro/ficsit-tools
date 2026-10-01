@@ -42,11 +42,14 @@ CHAINES = [
      dict(DILUE, **{"Turbofuel": "Alternate: Turbo Blend Fuel", "Petroleum Coke": "Petroleum Coke"})),
     ("roquette", "Crude Oil", "Rocket Fuel", "Fuel-Powered Generator", TURBO),
     ("roquette-nitro", "Crude Oil", "Rocket Fuel", "Fuel-Powered Generator", dict(DILUE, **{"Rocket Fuel": "Alternate: Nitro Rocket Fuel"})),
-    ("ionise", "Crude Oil", "Ionized Fuel", "Fuel-Powered Generator", dict(DILUE, **{"Rocket Fuel": "Alternate: Nitro Rocket Fuel"})),
+    # éclats de charge : produits par la recette synthétique (palier 9), MW et ressources compris ; les limaces, en
+    # nombre fini sur la carte, ne font pas une filière
+    ("ionise", "Crude Oil", "Ionized Fuel", "Fuel-Powered Generator",
+     dict(DILUE, **{"Rocket Fuel": "Alternate: Nitro Rocket Fuel", "Power Shard": "Synthetic Power Shard"})),
     ("uranium", "Uranium", "Uranium Fuel Rod", "Nuclear Power Plant", {}),
 ]
-# entrées qui ne viennent pas d'un nœud (comptées à part, sans coût d'extraction)
-HORS_NOEUD = {"Power Shard"}
+# entrées qui ne viennent pas d'un nœud (comptées à part, sans coût d'extraction) ; aucune pour l'instant
+HORS_NOEUD = set()
 
 
 def mw_recette(r):
@@ -54,9 +57,11 @@ def mw_recette(r):
 
 
 def defaut(item):
-    """Recette de base dont l'item est le produit principal (hors conditionneuse, convertisseur, établi seul)."""
+    """Recette de base dont l'item est le produit principal (hors conditionneuse ; convertisseur seulement à défaut)."""
     c = [n for n, r in R.items() if r["produits"][0][0] == item and r["machine"] in B
          and r["machine"] not in ("Packager", "Converter")]
+    # convertisseur en dernier recours (cristaux temporels, matière photonique excitée : il est le seul à les faire)
+    c = c or [n for n, r in R.items() if r["produits"][0][0] == item and r["machine"] == "Converter"]
     base = [n for n in c if not R[n]["alternative"]]
     c = sorted(base or c, key=lambda n: (R[n]["palier"] if R[n]["palier"] is not None else 99, n))
     if not c:

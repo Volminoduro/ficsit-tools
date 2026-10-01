@@ -624,6 +624,14 @@
       },
       "entrees": [
         {
+          "version": "1.12",
+          "date": "2026-10-01",
+          "texte": {
+            "fr": "Avec une partie importée, l'extraction suit votre matériel : les foreuses et convoyeurs pas encore débloqués sont grisés, comme les débits du tableau qui demandent un convoyeur que vous n'avez pas, et un bandeau rappelle la meilleure foreuse et le meilleur convoyeur dont vous disposez.",
+            "en": "With an imported game, extraction follows your equipment: miners and belts not unlocked yet are greyed out, as are the table's rates that need a belt you do not have, and a banner recalls the best miner and belt you have."
+          }
+        },
+        {
           "version": "1.11",
           "date": "2026-10-01",
           "texte": {
@@ -815,6 +823,14 @@
         "en": "Power per node"
       },
       "entrees": [
+        {
+          "version": "1.2",
+          "date": "2026-10-01",
+          "texte": {
+            "fr": "Icônes des ressources dans la description de chaque filière : ressource du nœud, générateur, ressources d'appoint et surplus.",
+            "en": "Resource icons in each chain's description: the node's resource, the generator, side resources and surplus."
+          }
+        },
         {
           "version": "1.1",
           "date": "2026-10-01",

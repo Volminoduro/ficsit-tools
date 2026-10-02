@@ -3,58 +3,56 @@
 <head>
 <meta charset="utf-8">
 <!-- FICSIT-LANG:START -->
-<link rel="stylesheet" href="commun/ficsit-commun.css?v=8a124abd64">
+<link rel="stylesheet" href="commun/ficsit-commun.css?v=8cc88938f2">
 <script src="commun/ficsit-commun.js?v=fce851c7a3"></script>
 <!-- FICSIT-LANG:END -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title data-fr="FICSIT Inc. — Mémo de terrain" data-en="FICSIT Inc. — Field memo">FICSIT Inc. — Mémo de terrain</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0E1116; --deep:#141922; --panel:#1B212C; --panel2:#232B39; --slot:#12161E;
-  --line:#2E3849; --line2:#414D62;
-  --or:#FA9549; --or2:#E0762B; --or3:#7A4A20;
-  --sl:#5F668C; --sl2:#8B92B4;
-  --tx:#E6E9EF; --tx2:#98A1B5; --tx3:#6B738A;
-  --b1:#3F4560; --b2:#5F668C; --b3:#6E8AA8; --b4:#C08A3E; --b5:#FA9549; --b6:#D6472F;
-  --d:"Rajdhani",sans-serif; --b:"Barlow",sans-serif;
-  --cut:polygon(16px 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%,0 16px);
-  --cut-s:polygon(9px 0,100% 0,100% calc(100% - 9px),calc(100% - 9px) 100%,0 100%,0 9px);
-}
+    --bg:var(--f-fond); --deep:#212121; --panel:var(--f-fenetre); --panel2:var(--f-fenetre2); --slot:var(--f-creux);
+  --line:var(--f-trait); --line2:var(--f-trait2);
+  --or:var(--f-or); --or2:var(--f-or-fonce); --or3:#7A4A20;
+  --sl:#6E6E6E; --sl2:var(--f-encre2);
+  --tx:var(--f-encre); --tx2:var(--f-encre2); --tx3:var(--f-encre3);
+  --b1:#3F4560; --b2:#5F668C; --b3:#6E8AA8; --b4:#C08A3E; --b5:var(--f-or); --b6:#D6472F;
+  --d:var(--f-titre); --b:var(--f-police);
+  /* menus du jeu : coins droits */
+  --cut:none;
+  --cut-s:none;
+  }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--tx);font-family:var(--b);font-size:14px;line-height:1.55;
   -webkit-font-smoothing:antialiased;padding:26px 18px 70px;
-  background-image:radial-gradient(ellipse at 50% -10%,#1A2130 0%,var(--bg) 62%)}
+  background-image:radial-gradient(ellipse at 50% -10%,#2C2C2C 0%,var(--bg) 62%)}
 .sheet{max-width:1060px;margin:0 auto}
-.cap{font-family:var(--d);font-weight:600;text-transform:uppercase;letter-spacing:.12em}
-.hz{height:8px;background:repeating-linear-gradient(-45deg,var(--or) 0 12px,#171B23 12px 24px)}
+.cap{font-family:var(--d);font-stretch:var(--f-serre);font-weight:600;text-transform:uppercase;letter-spacing:.12em}
+.hz{height:3px;background:var(--or)}
 
 /* ---------- masthead ---------- */
 .mast{background:var(--panel);border:1px solid var(--line2);clip-path:var(--cut);
   padding:26px 30px 24px;position:relative}
-.mast .badge{display:inline-block;background:var(--or);color:#1A1004;font-family:var(--d);
+.mast .badge{display:inline-block;background:var(--or);color:var(--f-or-encre);font-family:var(--d);font-stretch:var(--f-serre);
   font-weight:700;font-size:12px;letter-spacing:.2em;padding:3px 12px;clip-path:var(--cut-s)}
-.mast h1{font-family:var(--d);font-weight:700;font-size:58px;line-height:.94;letter-spacing:.03em;
+.mast h1{font-family:var(--d);font-stretch:var(--f-serre);font-weight:700;font-size:58px;line-height:.94;letter-spacing:.03em;
   text-transform:uppercase;margin:14px 0 2px}
 .mast h1 em{font-style:normal;color:var(--or)}
-.mast .sub{font-family:var(--d);font-weight:500;font-size:17px;letter-spacing:.24em;
+.mast .sub{font-family:var(--d);font-stretch:var(--f-serre);font-weight:500;font-size:17px;letter-spacing:.24em;
   text-transform:uppercase;color:var(--sl2)}
 .mast p{color:var(--tx2);font-size:13px;max-width:64ch;margin-top:14px;border-top:1px solid var(--line);
   padding-top:12px}
-.mast .stamp{position:absolute;top:24px;right:30px;text-align:right;font-family:var(--d);
+.mast .stamp{position:absolute;top:24px;right:30px;text-align:right;font-family:var(--d);font-stretch:var(--f-serre);
   font-weight:600;font-size:12px;letter-spacing:.14em;color:var(--tx3);text-transform:uppercase;line-height:1.7}
 .mast .stamp b{color:var(--or);font-weight:600}
 
 /* ---------- sections ---------- */
 section{margin-top:30px}
-.shead{background:var(--or);color:#1A1004;clip-path:var(--cut-s);padding:7px 16px;
+.shead{background:var(--or);color:var(--f-or-encre);clip-path:var(--cut-s);padding:7px 16px;
   display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.shead .n{font-family:var(--d);font-weight:700;font-size:19px;letter-spacing:.06em;
-  background:#1A1004;color:var(--or);padding:0 9px;line-height:1.5}
-.shead h2{font-family:var(--d);font-weight:700;font-size:22px;letter-spacing:.1em;text-transform:uppercase}
-.shead .r{margin-left:auto;font-family:var(--d);font-weight:600;font-size:13px;letter-spacing:.14em;
+.shead .n{font-family:var(--d);font-stretch:var(--f-serre);font-weight:700;font-size:19px;letter-spacing:.06em;
+  background:var(--f-or-encre);color:var(--or);padding:0 9px;line-height:1.5}
+.shead h2{font-family:var(--d);font-stretch:var(--f-serre);font-weight:700;font-size:22px;letter-spacing:.1em;text-transform:uppercase}
+.shead .r{margin-left:auto;font-family:var(--d);font-stretch:var(--f-serre);font-weight:600;font-size:13px;letter-spacing:.14em;
   text-transform:uppercase;opacity:.72}
 .pane{background:var(--panel);border:1px solid var(--line);border-top:none;padding:22px}
 
@@ -62,45 +60,45 @@ section{margin-top:30px}
 .slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:8px}
 .slot{background:var(--slot);border:1px solid var(--line);border-top:3px solid var(--bc);
   clip-path:var(--cut-s);padding:11px 13px 12px}
-.slot .n{font-family:var(--d);font-weight:600;font-size:15px;letter-spacing:.1em;text-transform:uppercase;
+.slot .n{font-family:var(--d);font-stretch:var(--f-serre);font-weight:600;font-size:15px;letter-spacing:.1em;text-transform:uppercase;
   color:var(--bc)}
-.slot .v{font-family:var(--d);font-weight:700;font-size:29px;line-height:1.1;letter-spacing:.02em}
+.slot .v{font-family:var(--d);font-stretch:var(--f-serre);font-weight:700;font-size:29px;line-height:1.1;letter-spacing:.02em}
 .slot .v small{font-family:var(--b);font-size:11px;font-weight:400;color:var(--tx3);letter-spacing:0}
-.slot .u{font-size:11px;color:var(--tx2);font-family:var(--d);font-weight:500;letter-spacing:.08em;
+.slot .u{font-size:11px;color:var(--tx2);font-family:var(--d);font-stretch:var(--f-serre);font-weight:500;letter-spacing:.08em;
   text-transform:uppercase}
-.cue{font-family:var(--d);font-weight:500;font-size:13px;letter-spacing:.1em;text-transform:uppercase;
+.cue{font-family:var(--d);font-stretch:var(--f-serre);font-weight:500;font-size:13px;letter-spacing:.1em;text-transform:uppercase;
   color:var(--tx3);margin:14px 0 20px;padding-left:14px;border-left:3px solid var(--sl)}
 
 /* ---------- readout / formula ---------- */
 .readout{background:var(--slot);border:1px solid var(--line);clip-path:var(--cut-s);
-  padding:13px 18px;font-family:var(--d);font-weight:600;font-size:16px;letter-spacing:.05em;
+  padding:13px 18px;font-family:var(--d);font-stretch:var(--f-serre);font-weight:600;font-size:16px;letter-spacing:.05em;
   margin-bottom:18px;overflow-x:auto;white-space:nowrap;color:var(--tx2)}
 .readout b{color:var(--or);font-weight:700}
 .readout i{color:var(--sl2);font-style:normal;font-weight:700}
 
 /* ---------- tables ---------- */
 table{width:100%;border-collapse:collapse}
-th{font-family:var(--d);font-weight:600;font-size:14px;letter-spacing:.12em;text-transform:uppercase;
+th{font-family:var(--d);font-stretch:var(--f-serre);font-weight:600;font-size:14px;letter-spacing:.12em;text-transform:uppercase;
   color:var(--tx3);text-align:right;padding:8px 12px;border-bottom:2px solid var(--line2);white-space:nowrap}
 th.l{text-align:left}
 td{padding:0;border-bottom:1px solid var(--line)}
-td.l{padding:9px 12px;font-family:var(--d);font-weight:600;font-size:15px;letter-spacing:.09em;
+td.l{padding:9px 12px;font-family:var(--d);font-stretch:var(--f-serre);font-weight:600;font-size:15px;letter-spacing:.09em;
   text-transform:uppercase;color:var(--tx)}
 tr:last-child td{border-bottom:none}
-.grp td{background:var(--panel2);padding:7px 12px;font-family:var(--d);font-weight:700;font-size:14px;
+.grp td{background:var(--panel2);padding:7px 12px;font-family:var(--d);font-stretch:var(--f-serre);font-weight:700;font-size:14px;
   letter-spacing:.14em;text-transform:uppercase;color:var(--or);border-left:3px solid var(--or)}
 .grp td span{color:var(--tx3);font-weight:500;letter-spacing:.08em}
 .cell{position:relative}
 .cell .box{display:block;margin:4px;padding:6px 10px;text-align:right;background:var(--bc);
   clip-path:var(--cut-s)}
-.cell .q{font-family:var(--d);font-weight:700;font-size:19px;letter-spacing:.02em;color:#0E1116}
-.cell .m{display:block;font-family:var(--d);font-weight:600;font-size:10px;letter-spacing:.14em;
-  text-transform:uppercase;color:#0E1116;opacity:.6;margin-top:-3px}
+.cell .q{font-family:var(--d);font-stretch:var(--f-serre);font-weight:700;font-size:19px;letter-spacing:.02em;color:var(--f-creux)}
+.cell .m{display:block;font-family:var(--d);font-stretch:var(--f-serre);font-weight:600;font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--f-creux);opacity:.6;margin-top:-3px}
 
 /* ---------- notes ---------- */
 .note{background:var(--slot);border:1px solid var(--line);border-left:4px solid var(--or);
   padding:12px 16px;margin-top:16px;font-size:13px;color:var(--tx2);clip-path:var(--cut-s)}
-.note b{font-family:var(--d);font-weight:700;font-size:14px;letter-spacing:.12em;text-transform:uppercase;
+.note b{font-family:var(--d);font-stretch:var(--f-serre);font-weight:700;font-size:14px;letter-spacing:.12em;text-transform:uppercase;
   color:var(--or);display:block;margin-bottom:2px}
 .note.s{border-left-color:var(--sl)}
 .note.s b{color:var(--sl2)}
@@ -108,14 +106,14 @@ tr:last-child td{border-bottom:none}
 /* ---------- tiers ---------- */
 .gate{display:flex;align-items:center;gap:12px;margin:26px 0 12px}
 .gate:first-child{margin-top:0}
-.gate .t{font-family:var(--d);font-weight:700;font-size:13px;letter-spacing:.18em;text-transform:uppercase;
-  background:var(--sl);color:#0E1116;padding:3px 12px;clip-path:var(--cut-s);white-space:nowrap}
+.gate .t{font-family:var(--d);font-stretch:var(--f-serre);font-weight:700;font-size:13px;letter-spacing:.18em;text-transform:uppercase;
+  background:var(--sl);color:var(--f-creux);padding:3px 12px;clip-path:var(--cut-s);white-space:nowrap}
 .gate .ln{flex:1;height:1px;background:var(--line2)}
 .tier{display:grid;grid-template-columns:84px 1fr;background:var(--slot);border:1px solid var(--line);
   clip-path:var(--cut-s);margin-bottom:7px}
 .tier .tag{background:var(--panel2);border-right:1px solid var(--line);padding:13px 6px;text-align:center}
-.tier .tag .n{font-family:var(--d);font-weight:700;font-size:38px;line-height:.85;color:var(--or)}
-.tier .tag .w{font-family:var(--d);font-weight:600;font-size:9px;letter-spacing:.2em;color:var(--tx3);
+.tier .tag .n{font-family:var(--d);font-stretch:var(--f-serre);font-weight:700;font-size:38px;line-height:.85;color:var(--or)}
+.tier .tag .w{font-family:var(--d);font-stretch:var(--f-serre);font-weight:600;font-size:9px;letter-spacing:.2em;color:var(--tx3);
   text-transform:uppercase}
 .tier .c{padding:12px 16px}
 /* jalons obtenus dans la partie importée (bouton « Ma partie ») */
@@ -126,26 +124,26 @@ tr:last-child td{border-bottom:none}
 .jal-bilan b{color:var(--or)}
 /* matériel pas encore débloqué dans la partie importée */
 .verrou{opacity:.32;filter:grayscale(1)}
-.ms{font-family:var(--d);font-weight:600;font-size:16px;letter-spacing:.09em;text-transform:uppercase;
+.ms{font-family:var(--d);font-stretch:var(--f-serre);font-weight:600;font-size:16px;letter-spacing:.09em;text-transform:uppercase;
   color:var(--tx);margin-bottom:5px}
 .ms em{font-style:normal;color:var(--or3)}
 .un{font-size:13px;color:var(--tx2);line-height:1.65}
-.chip{font-family:var(--d);font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
-  color:#1A1004;background:var(--or);padding:1px 7px;white-space:nowrap;display:inline-block;
+.chip{font-family:var(--d);font-stretch:var(--f-serre);font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--f-or-encre);background:var(--or);padding:1px 7px;white-space:nowrap;display:inline-block;
   clip-path:var(--cut-s)}
 
 /* ---------- lineage ---------- */
 .phase{background:var(--slot);border:1px solid var(--line);clip-path:var(--cut-s);margin-bottom:9px}
 .ph{display:flex;align-items:center;gap:14px;padding:9px 16px;background:var(--panel2);flex-wrap:wrap;
   border-left:3px solid var(--or)}
-.ph .p{font-family:var(--d);font-weight:700;font-size:17px;letter-spacing:.1em;text-transform:uppercase}
-.ph .d{font-family:var(--d);font-weight:600;font-size:13px;letter-spacing:.1em;color:var(--or)}
-.ph .g{margin-left:auto;font-family:var(--d);font-weight:600;font-size:12px;letter-spacing:.14em;
+.ph .p{font-family:var(--d);font-stretch:var(--f-serre);font-weight:700;font-size:17px;letter-spacing:.1em;text-transform:uppercase}
+.ph .d{font-family:var(--d);font-stretch:var(--f-serre);font-weight:600;font-size:13px;letter-spacing:.1em;color:var(--or)}
+.ph .g{margin-left:auto;font-family:var(--d);font-stretch:var(--f-serre);font-weight:600;font-size:12px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--sl2)}
 .rec{padding:11px 16px;border-top:1px solid var(--line)}
-.rn{font-family:var(--d);font-weight:700;font-size:16px;letter-spacing:.09em;text-transform:uppercase;
+.rn{font-family:var(--d);font-stretch:var(--f-serre);font-weight:700;font-size:16px;letter-spacing:.09em;text-transform:uppercase;
   color:var(--or)}
-.rn small{font-family:var(--d);font-weight:500;font-size:11px;letter-spacing:.14em;color:var(--tx3);
+.rn small{font-family:var(--d);font-stretch:var(--f-serre);font-weight:500;font-size:11px;letter-spacing:.14em;color:var(--tx3);
   margin-left:10px}
 .tree{font-family:var(--b);font-size:13px;color:var(--tx2);line-height:1.8;margin-top:3px;
   white-space:pre-wrap}
@@ -211,7 +209,7 @@ td.l .ic{color:var(--sl2);stroke-width:1.5}
 .it-miner-mk-1{background-image:url(data:image/webp;base64,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)}
 .it-miner-mk-2{background-image:url(data:image/webp;base64,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)}
 .it-miner-mk-3{background-image:url(data:image/webp;base64,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)}
-footer{margin-top:34px;font-family:var(--d);font-weight:500;font-size:12px;letter-spacing:.14em;
+footer{margin-top:34px;font-family:var(--d);font-stretch:var(--f-serre);font-weight:500;font-size:12px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--tx3);text-align:center;padding-top:16px}
 
 /* très petit écran : les bandeaux de palier et les noms longs se replient */
@@ -226,7 +224,7 @@ footer{margin-top:34px;font-family:var(--d);font-weight:500;font-size:12px;lette
   .cell .q{font-size:15px}
   .cell .box{padding:5px 6px;margin:3px}
   td.l{font-size:13px;padding:8px 6px}
-  th{padding:7px 6px;font-size:12px}
+  th{padding:7px 6px;font-size:12px;letter-spacing:.04em}
   .tier{grid-template-columns:58px minmax(0,1fr)}
   .tier .tag .n{font-size:26px}
 }
@@ -495,42 +493,39 @@ footer{margin-top:34px;font-family:var(--d);font-weight:500;font-size:12px;lette
 
 <div class="hz" style="margin-top:30px"></div>
 <!-- PATCHNOTES:START -->
-<style>.pn{--pn-or:#FA9549;display:flex;font-family:var(--pn-body);text-align:left}
+<style>.pn{--pn-or:var(--f-or);--pn-disp:var(--f-police);--pn-body:var(--f-police);--pn-panel:var(--f-fenetre);
+  --pn-deep:var(--f-creux);--pn-line:var(--f-trait);--pn-ink:var(--f-encre);--pn-dim:var(--f-encre2);display:flex;font-family:var(--pn-body);text-align:left}
 .pn *{box-sizing:border-box}
 .pn-btn{all:unset;box-sizing:border-box;position:relative;cursor:pointer;display:flex;align-items:center;gap:7px;
-  padding:6px 11px 5px 10px;background:rgba(14,18,22,.94);border:1px solid #39434F;box-shadow:0 3px 12px rgba(0,0,0,.45);
-  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));
-  font:700 12px/1 'Saira Condensed','Rajdhani','Barlow Condensed',system-ui,sans-serif;letter-spacing:.1em;color:#E4EAF0;
+  padding:6px 11px 5px 10px;background:rgba(38,38,38,.95);box-shadow:0 3px 12px rgba(0,0,0,.45);
+  font:600 12px/1 var(--f-police);letter-spacing:.08em;color:var(--f-encre);
   transition:color .15s,background .15s}
-.pn-btn::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;
-  background:repeating-linear-gradient(135deg,#FA9549 0 6px,transparent 6px 12px);opacity:.8}
-.pn-btn svg{width:13px;height:13px;flex:none;fill:none;stroke:#FA9549;stroke-width:1.6}
-.pn-btn:hover,.pn-btn[aria-expanded=true]{background:#FA9549;color:#1B1206}
-.pn-btn:hover svg,.pn-btn[aria-expanded=true] svg{stroke:#1B1206}
-.pn-btn:focus-visible{outline:2px solid #FA9549;outline-offset:1px}
-.pn-dot{display:none;position:absolute;left:3px;top:3px;width:8px;height:8px;border-radius:50%;background:#FA9549;
-  box-shadow:0 0 0 2px rgba(14,18,22,.94)}
+.pn-btn svg{width:13px;height:13px;flex:none;fill:none;stroke:var(--f-or);stroke-width:1.6}
+.pn-btn:hover{background:var(--f-barre)}
+.pn-btn[aria-expanded=true]{background:var(--f-or);color:var(--f-or-encre)}
+.pn-btn[aria-expanded=true] svg{stroke:var(--f-or-encre)}
+.pn-btn:focus-visible{outline:2px solid var(--f-or-clair);outline-offset:1px}
+.pn-dot{display:none;position:absolute;left:3px;top:3px;width:8px;height:8px;border-radius:50%;background:var(--f-or);
+  box-shadow:0 0 0 2px rgba(38,38,38,.95)}
 .pn-neuf .pn-dot{display:block;animation:pn-pulse 1.8s ease-in-out infinite}
-.pn-neuf .pn-btn:hover .pn-dot,.pn-neuf .pn-btn[aria-expanded=true] .pn-dot{background:#1B1206}
-@keyframes pn-pulse{50%{box-shadow:0 0 0 2px rgba(14,18,22,.94),0 0 0 5px rgba(250,149,73,.35)}}
+.pn-neuf .pn-btn[aria-expanded=true] .pn-dot{background:var(--f-or-encre)}
+@keyframes pn-pulse{50%{box-shadow:0 0 0 2px rgba(38,38,38,.95),0 0 0 5px rgba(229,147,69,.35)}}
 @media (prefers-reduced-motion:reduce){.pn-neuf .pn-dot{animation:none}}
 .pn-panel{position:absolute;top:calc(100% + 6px);right:0;width:min(440px,calc(100vw - 24px));max-height:min(72vh,640px);
   overflow:auto;overscroll-behavior:contain;background:var(--pn-panel);color:var(--pn-ink);
-  border:1px solid var(--pn-line);border-left:3px solid var(--pn-or);box-shadow:0 10px 30px rgba(0,0,0,.55)}
+  box-shadow:var(--f-ombre)}
 .pn-panel[hidden]{display:none}
-.pn-hz{height:6px;background:repeating-linear-gradient(45deg,var(--pn-or) 0 10px,transparent 10px 20px);opacity:.7}
-.pn-head{display:flex;align-items:center;gap:12px;padding:14px 16px 11px;border-bottom:1px solid var(--pn-line)}
+.pn-hz{height:3px;background:var(--pn-or)}
+.pn-head{display:flex;align-items:center;gap:12px;padding:12px 0 12px 16px;background:var(--f-barre)}
 .pn-head > div{flex:1;min-width:0}
-.pn-slot{flex:none;width:42px;height:42px;display:grid;place-items:center;background:var(--pn-deep);
-  border:1px solid var(--pn-line);box-shadow:inset 0 0 0 2px rgba(0,0,0,.35)}
+.pn-slot{flex:none;width:42px;height:42px;display:grid;place-items:center;background:var(--f-case);border-radius:3px}
 .pn-slot img{width:30px;height:30px;object-fit:contain;display:block}
-.pn-title{margin:0;padding:0;border:0;background:none;font-family:var(--pn-disp);font-weight:700;font-size:1.15rem;
-  line-height:1.1;letter-spacing:.02em;color:var(--pn-or)}
+.pn-title{margin:0;padding:0;border:0;background:none;font-family:var(--pn-disp);font-weight:600;font-size:1.08rem;
+  line-height:1.15;letter-spacing:0;color:var(--pn-ink)}
 .pn-sub{margin:3px 0 0;padding:0;font-size:.86rem;line-height:1.3;color:var(--pn-dim);max-width:none}
-.pn-x{all:unset;flex:none;cursor:pointer;width:28px;height:28px;display:grid;place-items:center;color:var(--pn-dim);
-  font:400 22px/1 system-ui,sans-serif}
-.pn-x:hover,.pn-x:focus-visible{color:var(--pn-or)}
-.pn-x:focus-visible{outline:2px solid var(--pn-or)}
+.pn-x{all:unset;flex:none;cursor:pointer;align-self:stretch;width:44px;margin:-12px 0;display:grid;place-items:center;color:#fff;
+  background:#4A4A4A;font:400 22px/1 system-ui,sans-serif}
+.pn-x:hover,.pn-x:focus-visible{background:var(--pn-or);color:var(--f-or-encre)}
 .pn-list{list-style:none;margin:0;padding:14px 16px 4px 16px;position:relative}
 .pn-e{position:relative;margin:0;padding:0 0 13px 22px}
 .pn-e::before{content:"";position:absolute;left:5px;top:14px;bottom:-2px;width:1px;background:var(--pn-line)}
@@ -539,8 +534,8 @@ footer{margin-top:34px;font-family:var(--d);font-weight:500;font-size:12px;lette
   border:1.5px solid var(--pn-dim);background:var(--pn-panel)}
 .pn-list:first-of-type > .pn-e:first-child::after,.pn-e.pn-new::after{background:var(--pn-or);border-color:var(--pn-or)}
 .pn-meta{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;margin-bottom:3px}
-.pn-v{font-family:var(--pn-disp);font-weight:700;font-size:.85rem;padding:1px 8px 1px 7px;background:var(--pn-or);
-  color:#1b1206;clip-path:polygon(0 0,100% 0,100% 60%,calc(100% - 6px) 100%,0 100%)}
+.pn-v{font-family:var(--pn-disp);font-weight:700;font-size:.85rem;padding:1px 7px;background:var(--pn-or);
+  color:var(--f-or-encre);border-radius:2px}
 .pn-e + .pn-e .pn-v,.pn-old .pn-v{background:var(--pn-deep);color:var(--pn-dim);box-shadow:inset 0 0 0 1px var(--pn-line)}
 .pn-d{font-family:var(--pn-disp);font-size:.88rem;color:var(--pn-dim);letter-spacing:.03em}
 .pn-nv{display:none;font-family:var(--pn-disp);font-weight:700;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
@@ -560,13 +555,13 @@ footer{margin-top:34px;font-family:var(--d);font-weight:500;font-size:12px;lette
 html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none}
 @media (max-width:560px){.pn-btn{padding:5px 8px 4px 9px;gap:5px}.pn-panel{position:fixed;top:44px;right:6px;width:calc(100vw - 12px)}}
 @media print{.pn{display:none}}</style>
-<div class="pn" id="journal" data-fdock data-outil="memo-ficsit.html" data-v="1.12" style="--pn-disp:var(--d);--pn-body:var(--b);--pn-panel:var(--panel);--pn-deep:var(--slot);--pn-line:var(--line);--pn-ink:var(--tx);--pn-dim:var(--tx2)">
-<button type="button" class="pn-btn" aria-expanded="false" aria-controls="pn-panel" data-fr-title="Journal des révisions : ce qui a changé" data-en-title="Revision log: what changed" title="Journal des révisions : ce qui a changé"><span class="pn-dot" aria-hidden="true"></span><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5h8v11H3z"/><path d="M5 4.5h4M5 7h4M5 9.5h2.5"/></svg><span>v1.12</span></button>
+<div class="pn" id="journal" data-fdock data-outil="memo-ficsit.html" data-v="1.13">
+<button type="button" class="pn-btn" aria-expanded="false" aria-controls="pn-panel" data-fr-title="Journal des révisions : ce qui a changé" data-en-title="Revision log: what changed" title="Journal des révisions : ce qui a changé"><span class="pn-dot" aria-hidden="true"></span><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5h8v11H3z"/><path d="M5 4.5h4M5 7h4M5 9.5h2.5"/></svg><span>v1.13</span></button>
 <div class="pn-panel" id="pn-panel" role="region" aria-labelledby="pn-titre" hidden><div class="pn-hz"></div>
 <div class="pn-head"><span class="pn-slot"><img src="data:image/webp;base64,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" alt=""></span><div><div class="pn-title" id="pn-titre" role="heading" aria-level="2"><span data-l="fr">Journal des révisions</span><span data-l="en" lang="en">Revision log</span></div>
-<p class="pn-sub"><span data-l="fr">Version 1.12, mise à jour le 01/10/2026</span><span data-l="en" lang="en">Version 1.12, updated 1 Oct 2026</span></p></div><button type="button" class="pn-x" data-fr-aria-label="Fermer" data-en-aria-label="Close" aria-label="Fermer">×</button></div>
-<ol class="pn-list"><li class="pn-e" data-v="1.12"><div class="pn-meta"><span class="pn-v">v1.12</span><time class="pn-d" datetime="2026-10-01"><span data-l="fr">01/10/2026</span><span data-l="en" lang="en">1 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Avec une partie importée, l&#x27;extraction suit votre matériel : les foreuses et convoyeurs pas encore débloqués sont grisés, comme les débits du tableau qui demandent un convoyeur que vous n&#x27;avez pas, et un bandeau rappelle la meilleure foreuse et le meilleur convoyeur dont vous disposez.</span><span data-l="en" lang="en">With an imported game, extraction follows your equipment: miners and belts not unlocked yet are greyed out, as are the table&#x27;s rates that need a belt you do not have, and a banner recalls the best miner and belt you have.</span></p></li><li class="pn-e" data-v="1.11"><div class="pn-meta"><span class="pn-v">v1.11</span><time class="pn-d" datetime="2026-10-01"><span data-l="fr">01/10/2026</span><span data-l="en" lang="en">1 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Rangé dans la nouvelle catégorie « Tableaux de lecture » de l&#x27;accueil, avec la rentabilité énergétique par nœud : les pages qu&#x27;on lit sans rien régler.</span><span data-l="en" lang="en">Moved to the new Reference charts category on the home page, next to Power per node: the pages you read without setting anything.</span></p></li><li class="pn-e" data-v="1.10"><div class="pn-meta"><span class="pn-v">v1.10</span><time class="pn-d" datetime="2026-09-30"><span data-l="fr">30/09/2026</span><span data-l="en" lang="en">30 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l&#x27;outil ouvert à côté du jeu même sans connexion.</span><span data-l="en" lang="en">The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection.</span></p></li></ol>
-<details class="pn-old"><summary><span data-l="fr">10 révisions antérieures</span><span data-l="en" lang="en">10 earlier revisions</span></summary><ol class="pn-list"><li class="pn-e" data-v="1.9"><div class="pn-meta"><span class="pn-v">v1.9</span><time class="pn-d" datetime="2026-09-30"><span data-l="fr">30/09/2026</span><span data-l="en" lang="en">30 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Jalons du HUB : ceux obtenus dans votre partie importée (bouton « Ma partie ») sont cochés, les paliers complets marqués, avec un bilan en tête de section.</span><span data-l="en" lang="en">HUB milestones: those obtained in your imported game (&quot;My game&quot; button) are ticked, completed tiers highlighted, with a summary at the top of the section.</span></p></li><li class="pn-e" data-v="1.8"><div class="pn-meta"><span class="pn-v">v1.8</span><time class="pn-d" datetime="2026-09-29"><span data-l="fr">29/09/2026</span><span data-l="en" lang="en">29 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Bouton « Ma partie » commun, en haut à droite de chaque outil et de l&#x27;accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L&#x27;accueil résume la partie importée.</span><span data-l="en" lang="en">Shared &quot;My game&quot; button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game.</span></p></li><li class="pn-e" data-v="1.7"><div class="pn-meta"><span class="pn-v">v1.7</span><time class="pn-d" datetime="2026-09-29"><span data-l="fr">29/09/2026</span><span data-l="en" lang="en">29 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Vocabulaire du jeu en français : « cadence » au lieu d&#x27;« horloge », « surcadençage » et « sous-cadençage » au lieu d&#x27;overclock et d&#x27;underclock, « éclats de charge » au lieu de shards.</span><span data-l="en" lang="en">The French text now uses the game&#x27;s own French terms for clock speed, overclocking and power shards. English unchanged.</span></p></li><li class="pn-e" data-v="1.6"><div class="pn-meta"><span class="pn-v">v1.6</span><time class="pn-d" datetime="2026-09-28"><span data-l="fr">28/09/2026</span><span data-l="en" lang="en">28 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Sur très petit écran (320 px), les bandeaux de palier et les noms longs se replient au lieu de déborder.</span><span data-l="en" lang="en">On very small screens (320 px), tier banners and long names wrap instead of overflowing.</span></p></li><li class="pn-e" data-v="1.5"><div class="pn-meta"><span class="pn-v">v1.5</span><time class="pn-d" datetime="2026-09-26"><span data-l="fr">26/09/2026</span><span data-l="en" lang="en">26 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois.</span><span data-l="en" lang="en">Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once.</span></p></li><li class="pn-e" data-v="1.4"><div class="pn-meta"><span class="pn-v">v1.4</span><time class="pn-d" datetime="2026-09-25"><span data-l="fr">25/09/2026</span><span data-l="en" lang="en">25 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.</span><span data-l="en" lang="en">&quot;Home&quot; button in the top-right dock, to go back to the list of tools.</span></p></li><li class="pn-e" data-v="1.3"><div class="pn-meta"><span class="pn-v">v1.3</span><time class="pn-d" datetime="2026-09-24"><span data-l="fr">24/09/2026</span><span data-l="en" lang="en">24 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Mention en bas de page : le site est généré par IA.</span><span data-l="en" lang="en">Footer notice: the site is AI-generated.</span></p></li><li class="pn-e" data-v="1.2"><div class="pn-meta"><span class="pn-v">v1.2</span><time class="pn-d" datetime="2026-09-24"><span data-l="fr">24/09/2026</span><span data-l="en" lang="en">24 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d&#x27;un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal.</span><span data-l="en" lang="en">The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven&#x27;t seen yet, and new entries are marked in the log.</span></p></li><li class="pn-e" data-v="1.1"><div class="pn-meta"><span class="pn-v">v1.1</span><time class="pn-d" datetime="2026-09-22"><span data-l="fr">22/09/2026</span><span data-l="en" lang="en">22 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Version anglaise complète, via le drapeau FR/EN commun à tous les outils. Noms de bâtiments alignés sur la localisation française du jeu, et huit recettes corrigées dans l&#x27;arbre des pièces de projet (batterie, turbomoteur, cube de conversion de pression…).</span><span data-l="en" lang="en">Full English version, via the FR/EN flag shared by every tool. Building names aligned with the game&#x27;s French localization, and eight recipes fixed in the project parts tree (battery, turbo motor, pressure conversion cube…).</span></p></li><li class="pn-e" data-v="1.0"><div class="pn-meta"><span class="pn-v">v1.0</span><time class="pn-d" datetime="2026-08-31"><span data-l="fr">31/08/2026</span><span data-l="en" lang="en">31 Aug 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Première version : extraction par pureté de nœud et par horloge, cadences des convoyeurs, déblocages du HUB par palier et arborescence des pièces d&#x27;Ascenseur spatial.</span><span data-l="en" lang="en">First release: extraction by node purity and clock speed, conveyor belt rates, HUB unlocks by tier and the Space Elevator parts tree.</span></p></li></ol></details>
+<p class="pn-sub"><span data-l="fr">Version 1.13, mise à jour le 02/10/2026</span><span data-l="en" lang="en">Version 1.13, updated 2 Oct 2026</span></p></div><button type="button" class="pn-x" data-fr-aria-label="Fermer" data-en-aria-label="Close" aria-label="Fermer">×</button></div>
+<ol class="pn-list"><li class="pn-e" data-v="1.13"><div class="pn-meta"><span class="pn-v">v1.13</span><time class="pn-d" datetime="2026-10-02"><span data-l="fr">02/10/2026</span><span data-l="en" lang="en">2 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Couleurs et polices viennent désormais d&#x27;une charte commune à tous les outils.</span><span data-l="en" lang="en">Look brought as close as possible to the game&#x27;s menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game&#x27;s orange for selection and values, the free Noto typeface (close to the game&#x27;s font), the HUD&#x27;s orange line instead of hazard stripes. Colours and fonts now come from one style sheet shared by every tool.</span></p></li><li class="pn-e" data-v="1.12"><div class="pn-meta"><span class="pn-v">v1.12</span><time class="pn-d" datetime="2026-10-01"><span data-l="fr">01/10/2026</span><span data-l="en" lang="en">1 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Avec une partie importée, l&#x27;extraction suit votre matériel : les foreuses et convoyeurs pas encore débloqués sont grisés, comme les débits du tableau qui demandent un convoyeur que vous n&#x27;avez pas, et un bandeau rappelle la meilleure foreuse et le meilleur convoyeur dont vous disposez.</span><span data-l="en" lang="en">With an imported game, extraction follows your equipment: miners and belts not unlocked yet are greyed out, as are the table&#x27;s rates that need a belt you do not have, and a banner recalls the best miner and belt you have.</span></p></li><li class="pn-e" data-v="1.11"><div class="pn-meta"><span class="pn-v">v1.11</span><time class="pn-d" datetime="2026-10-01"><span data-l="fr">01/10/2026</span><span data-l="en" lang="en">1 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Rangé dans la nouvelle catégorie « Tableaux de lecture » de l&#x27;accueil, avec la rentabilité énergétique par nœud : les pages qu&#x27;on lit sans rien régler.</span><span data-l="en" lang="en">Moved to the new Reference charts category on the home page, next to Power per node: the pages you read without setting anything.</span></p></li></ol>
+<details class="pn-old"><summary><span data-l="fr">11 révisions antérieures</span><span data-l="en" lang="en">11 earlier revisions</span></summary><ol class="pn-list"><li class="pn-e" data-v="1.10"><div class="pn-meta"><span class="pn-v">v1.10</span><time class="pn-d" datetime="2026-09-30"><span data-l="fr">30/09/2026</span><span data-l="en" lang="en">30 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l&#x27;outil ouvert à côté du jeu même sans connexion.</span><span data-l="en" lang="en">The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection.</span></p></li><li class="pn-e" data-v="1.9"><div class="pn-meta"><span class="pn-v">v1.9</span><time class="pn-d" datetime="2026-09-30"><span data-l="fr">30/09/2026</span><span data-l="en" lang="en">30 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Jalons du HUB : ceux obtenus dans votre partie importée (bouton « Ma partie ») sont cochés, les paliers complets marqués, avec un bilan en tête de section.</span><span data-l="en" lang="en">HUB milestones: those obtained in your imported game (&quot;My game&quot; button) are ticked, completed tiers highlighted, with a summary at the top of the section.</span></p></li><li class="pn-e" data-v="1.8"><div class="pn-meta"><span class="pn-v">v1.8</span><time class="pn-d" datetime="2026-09-29"><span data-l="fr">29/09/2026</span><span data-l="en" lang="en">29 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Bouton « Ma partie » commun, en haut à droite de chaque outil et de l&#x27;accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L&#x27;accueil résume la partie importée.</span><span data-l="en" lang="en">Shared &quot;My game&quot; button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game.</span></p></li><li class="pn-e" data-v="1.7"><div class="pn-meta"><span class="pn-v">v1.7</span><time class="pn-d" datetime="2026-09-29"><span data-l="fr">29/09/2026</span><span data-l="en" lang="en">29 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Vocabulaire du jeu en français : « cadence » au lieu d&#x27;« horloge », « surcadençage » et « sous-cadençage » au lieu d&#x27;overclock et d&#x27;underclock, « éclats de charge » au lieu de shards.</span><span data-l="en" lang="en">The French text now uses the game&#x27;s own French terms for clock speed, overclocking and power shards. English unchanged.</span></p></li><li class="pn-e" data-v="1.6"><div class="pn-meta"><span class="pn-v">v1.6</span><time class="pn-d" datetime="2026-09-28"><span data-l="fr">28/09/2026</span><span data-l="en" lang="en">28 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Sur très petit écran (320 px), les bandeaux de palier et les noms longs se replient au lieu de déborder.</span><span data-l="en" lang="en">On very small screens (320 px), tier banners and long names wrap instead of overflowing.</span></p></li><li class="pn-e" data-v="1.5"><div class="pn-meta"><span class="pn-v">v1.5</span><time class="pn-d" datetime="2026-09-26"><span data-l="fr">26/09/2026</span><span data-l="en" lang="en">26 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois.</span><span data-l="en" lang="en">Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once.</span></p></li><li class="pn-e" data-v="1.4"><div class="pn-meta"><span class="pn-v">v1.4</span><time class="pn-d" datetime="2026-09-25"><span data-l="fr">25/09/2026</span><span data-l="en" lang="en">25 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.</span><span data-l="en" lang="en">&quot;Home&quot; button in the top-right dock, to go back to the list of tools.</span></p></li><li class="pn-e" data-v="1.3"><div class="pn-meta"><span class="pn-v">v1.3</span><time class="pn-d" datetime="2026-09-24"><span data-l="fr">24/09/2026</span><span data-l="en" lang="en">24 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Mention en bas de page : le site est généré par IA.</span><span data-l="en" lang="en">Footer notice: the site is AI-generated.</span></p></li><li class="pn-e" data-v="1.2"><div class="pn-meta"><span class="pn-v">v1.2</span><time class="pn-d" datetime="2026-09-24"><span data-l="fr">24/09/2026</span><span data-l="en" lang="en">24 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d&#x27;un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal.</span><span data-l="en" lang="en">The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven&#x27;t seen yet, and new entries are marked in the log.</span></p></li><li class="pn-e" data-v="1.1"><div class="pn-meta"><span class="pn-v">v1.1</span><time class="pn-d" datetime="2026-09-22"><span data-l="fr">22/09/2026</span><span data-l="en" lang="en">22 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Version anglaise complète, via le drapeau FR/EN commun à tous les outils. Noms de bâtiments alignés sur la localisation française du jeu, et huit recettes corrigées dans l&#x27;arbre des pièces de projet (batterie, turbomoteur, cube de conversion de pression…).</span><span data-l="en" lang="en">Full English version, via the FR/EN flag shared by every tool. Building names aligned with the game&#x27;s French localization, and eight recipes fixed in the project parts tree (battery, turbo motor, pressure conversion cube…).</span></p></li><li class="pn-e" data-v="1.0"><div class="pn-meta"><span class="pn-v">v1.0</span><time class="pn-d" datetime="2026-08-31"><span data-l="fr">31/08/2026</span><span data-l="en" lang="en">31 Aug 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Première version : extraction par pureté de nœud et par horloge, cadences des convoyeurs, déblocages du HUB par palier et arborescence des pièces d&#x27;Ascenseur spatial.</span><span data-l="en" lang="en">First release: extraction by node purity and clock speed, conveyor belt rates, HUB unlocks by tier and the Space Elevator parts tree.</span></p></li></ol></details>
 <div class="pn-foot"></div></div></div>
 <script>(function(){
   var r = document.getElementById('journal'); if(!r) return;

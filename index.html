@@ -3,24 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <!-- FICSIT-LANG:START -->
-<link rel="stylesheet" href="commun/ficsit-commun.css?v=8a124abd64">
+<link rel="stylesheet" href="commun/ficsit-commun.css?v=8cc88938f2">
 <script src="commun/ficsit-commun.js?v=fce851c7a3"></script>
 <!-- FICSIT-LANG:END -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-fr="FICSIT Inc. — Terminal Pionnier" data-en="FICSIT Inc. — Pioneer Terminal">FICSIT Inc. — Terminal Pionnier</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap');
 
   :root{
-    --bg:#101318;
-    --panel:#171c23;
-    --panel-2:#1d232b;
-    --line:#2a323c;
-    --orange:#FA9549;
-    --orange-deep:#C2661F;
-    --text:#E6E9EF;
-    --muted:#8B92B4;
-    --steel:#4C5A69;
+    --bg:var(--f-fond);
+    --panel:var(--f-fenetre);
+    --panel-2:var(--f-fenetre2);
+    --line:var(--f-trait);
+    --orange:var(--f-or);
+    --orange-deep:var(--f-or-fonce);
+    --text:var(--f-encre);
+    --muted:var(--f-encre2);
+    --steel:var(--f-trait2);
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
@@ -29,11 +28,11 @@
       repeating-linear-gradient(180deg, rgba(255,255,255,.015) 0px, rgba(255,255,255,.015) 1px, transparent 1px, transparent 3px),
       var(--bg);
     color:var(--text);
-    font-family:"Barlow",system-ui,sans-serif;
+    font-family:var(--f-police);
     min-height:100vh;
   }
 
-  .hazard{height:10px;background:repeating-linear-gradient(135deg,var(--orange) 0 18px,#1a1a1a 18px 36px);}
+  .hazard{height:3px;background:var(--orange)}
   .hazard.thin{height:5px;}
 
   header{
@@ -43,7 +42,7 @@
     position:relative;
   }
   .wordmark{
-    font-family:"Saira Condensed",sans-serif;
+    font-family:var(--f-titre);font-stretch:var(--f-serre);
     font-weight:700;
     font-size:2.1rem;
     letter-spacing:.14em;
@@ -52,7 +51,7 @@
   }
   .wordmark span{color:var(--orange)}
   .subhead{
-    font-family:"Saira Condensed",sans-serif;
+    font-family:var(--f-titre);font-stretch:var(--f-serre);
     color:var(--muted);
     letter-spacing:.28em;
     font-size:.78rem;
@@ -63,11 +62,10 @@
     position:absolute; top:20px; left:24px;
     border:1px solid var(--orange-deep);
     color:var(--orange);
-    font-family:"Saira Condensed",sans-serif;
+    font-family:var(--f-titre);font-stretch:var(--f-serre);
     font-size:.72rem;
     letter-spacing:.12em;
     padding:4px 10px;
-    clip-path:polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
     opacity:.85;
   }
 
@@ -84,7 +82,7 @@
   .ada b{color:var(--text); font-weight:600}
   .ada .tag{
     display:inline-block;
-    font-family:"Saira Condensed",sans-serif;
+    font-family:var(--f-titre);font-stretch:var(--f-serre);
     color:var(--orange);
     letter-spacing:.18em;
     font-size:.72rem;
@@ -93,10 +91,10 @@
 
   .wrap{max-width:980px; margin:0 auto; padding:30px 24px 60px;}
   .partie-resume{max-width:980px;margin:0 auto 6px;padding:10px 14px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;
-    background:var(--panel);border:1px solid #39434F;border-left:3px solid var(--orange);font-size:.9rem;color:#C9D3DD;box-sizing:border-box}
+    background:var(--panel);border:1px solid var(--f-trait);border-left:3px solid var(--orange);font-size:.9rem;color:#D6D6D6;box-sizing:border-box}
   .partie-resume:empty{display:none}
   .partie-resume b{color:#fff;font-weight:600}
-  .partie-resume button{margin-left:auto;background:transparent;border:1px solid #4C5A69;color:#C9D3DD;font:inherit;font-size:.75rem;
+  .partie-resume button{margin-left:auto;background:transparent;border:1px solid var(--f-trait2);color:#D6D6D6;font:inherit;font-size:.75rem;
     letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;cursor:pointer}
   .partie-resume button:hover,.partie-resume button:focus-visible{color:var(--orange);border-color:var(--orange);outline:none}
   @media (max-width:1012px){.partie-resume{margin:0 16px 6px}}
@@ -108,7 +106,7 @@
   .cat:first-child{margin-top:0}
   .cat h3{
     margin:0;
-    font-family:"Saira Condensed",sans-serif;
+    font-family:var(--f-titre);font-stretch:var(--f-serre);
     font-size:1.05rem; font-weight:600;
     letter-spacing:.16em; text-transform:uppercase;
     color:var(--orange);
@@ -129,7 +127,6 @@
     border:1px solid var(--line);
     padding:20px 20px 18px;
     position:relative;
-    clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
     transition:border-color .15s, transform .15s, background .15s;
   }
   a.card:hover{
@@ -143,15 +140,14 @@
   .slot{
     width:52px; height:52px;
     flex:none;
-    background:#0d1014;
+    background:var(--f-creux);
     border:1px solid var(--line);
     display:flex; align-items:center; justify-content:center;
-    clip-path:polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
   }
   .slot img{width:36px; height:36px; object-fit:contain;}
 
   .card h2{
-    font-family:"Saira Condensed",sans-serif;
+    font-family:var(--f-titre);font-stretch:var(--f-serre);
     font-size:1.15rem;
     font-weight:600;
     margin:0;
@@ -159,7 +155,7 @@
     letter-spacing:.01em;
   }
   .status{
-    font-family:"Saira Condensed",sans-serif;
+    font-family:var(--f-titre);font-stretch:var(--f-serre);
     font-size:.66rem;
     letter-spacing:.16em;
     color:var(--orange);
@@ -173,7 +169,7 @@
   }
   .card .open{
     margin-top:14px;
-    font-family:"Saira Condensed",sans-serif;
+    font-family:var(--f-titre);font-stretch:var(--f-serre);
     font-size:.75rem;
     letter-spacing:.1em;
     color:var(--orange-deep);

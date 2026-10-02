@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wdth,wght@62.5..100,400..800&display=swap');
+/* Charte commune, au plus près des menus et du HUD du jeu (relevés sur captures 1.0 / 1.1 : fenêtre du mineur,
+   Alien Power Augmenter, AWESOME Shop, inventaire, codex, accueil 1.1).
+   Le jeu : fenêtres gris neutre (pas bleuté), barre de titre #3F3F3F, coins droits, orange #E59345 pour la sélection
+   et les valeurs, cases d'objets gris clair avec badge de quantité orange, petites étiquettes « OUTPUT » en pastille
+   claire, écrans blancs à texte sombre, titres en capitales espacées, police humaniste (Noto Sans, libre, au plus près
+   de celle du jeu). Seule entorse : texte sombre sur l'orange (le blanc du jeu n'atteint pas le contraste AA).
+   Les pages n'ont plus de palette propre : leurs variables locales renvoient à celles-ci. */
+:root{
+  /* fonds */
+  --f-fond:#1B1B1B;        /* page : le décor flouté derrière les fenêtres */
+  --f-fenetre:#262626;     /* corps de fenêtre */
+  --f-fenetre2:#303030;    /* bloc posé sur la fenêtre, survol */
+  --f-creux:#121212;       /* listes, champs, cases vides sombres */
+  --f-barre:#3F3F3F;       /* barre de titre, en-tête de tableau */
+  --f-barre2:#575757;      /* onglet actif, barre secondaire */
+  --f-metal:#383838;       /* cadre de machine */
+  /* traits */
+  --f-trait:#444444;
+  --f-trait2:#5E5E5E;
+  /* texte */
+  --f-encre:#F2F2F2;
+  --f-encre2:#B8B8B8;
+  --f-encre3:#919191;
+  /* orange FICSIT */
+  --f-or:#E59345;
+  --f-or-clair:#F2AA63;
+  --f-or-fonce:#C27530;
+  --f-or-encre:#1A1108;    /* texte posé sur l'orange */
+  --f-or-voile:rgba(229,147,69,.14);
+  /* éléments clairs : cases d'objets, écrans de machine, pastilles */
+  --f-case:#CCCBCB;
+  --f-case-vide:#585959;
+  --f-ecran:#F2F2F2;
+  --f-ecran-encre:#3A3A3A;
+  --f-pastille:#E3E3E3;
+  /* états et séries (couleurs des graphes de puissance du jeu) */
+  --f-bleu:#4FA9C1;
+  --f-violet:#A86FAE;
+  --f-vert:#7DBE5A;
+  --f-jaune:#E8C24A;
+  --f-rouge:#E0604F;
+  /* polices */
+  --f-police:"Noto Sans","Open Sans","Segoe UI",Arial,"Liberation Sans",system-ui,sans-serif;  /* secours étroits avant system-ui */
+  --f-titre:"Noto Sans","Open Sans","Segoe UI",Arial,"Liberation Sans",system-ui,sans-serif;
+  --f-serre:87.5%;         /* titres d'écran : Noto Sans un peu resserrée (axe de chasse), pas une autre police */
+  --f-ombre:0 6px 22px rgba(0,0,0,.55);
+}
+
+/* Fenêtre : barre de titre grise (icône, titre, fermeture), corps gris foncé */
+.f-fenetre{background:var(--f-fenetre);color:var(--f-encre);box-shadow:var(--f-ombre)}
+.f-fenetre > .f-titre{display:flex;align-items:center;gap:10px;min-height:40px;padding:0 0 0 12px;background:var(--f-barre);
+  font:400 15px/1.2 var(--f-police);color:var(--f-encre)}
+.f-titre .f-x{all:unset;margin-left:auto;align-self:stretch;width:44px;display:grid;place-items:center;cursor:pointer;
+  background:#4A4A4A;font-size:22px;color:#fff}
+.f-titre .f-x:hover,.f-titre .f-x:focus-visible{background:var(--f-or);color:var(--f-or-encre)}
+
+/* Bandeau de section : capitales espacées sur un filet, comme « PURCHASES » ou « WELCOME INFORMATION » */
+.f-bandeau{margin:0 0 12px;padding:0 0 8px;border-bottom:1px solid var(--f-trait2);
+  font:500 14px/1.2 var(--f-titre);letter-spacing:.22em;text-transform:uppercase;color:var(--f-encre2)}
+
+/* Boutons : plein orange (action principale, « Agree and Proceed »), gris (secondaire) */
+.f-btn{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;
+  padding:8px 16px;background:var(--f-barre2);color:var(--f-encre);font:500 14px/1.2 var(--f-police);transition:background .15s,color .15s}
+.f-btn:hover{background:#6A6A6A}
+.f-btn.f-principal{background:var(--f-or);color:var(--f-or-encre)}
+.f-btn.f-principal:hover{background:var(--f-or-clair)}
+.f-btn:focus-visible{outline:2px solid var(--f-or-clair);outline-offset:2px}
+.f-btn:disabled,.f-btn[aria-disabled=true]{cursor:not-allowed;opacity:.5}
+
+/* Case d'objet : carré gris clair, icône, quantité en badge orange en bas à droite */
+.f-case{position:relative;display:inline-grid;place-items:center;width:44px;height:44px;background:var(--f-case);
+  border-radius:3px;box-sizing:border-box}
+.f-case img{width:82%;height:82%;object-fit:contain}
+.f-case.vide{background:var(--f-case-vide)}
+.f-qte{position:absolute;right:-2px;bottom:-2px;min-width:18px;padding:1px 4px;background:var(--f-or);border-radius:2px;
+  font:700 11px/1.2 var(--f-police);color:var(--f-or-encre);text-align:center}
+
+/* Étiquette en pastille sous un écran (« INPUT », « OUTPUT », « OVERCLOCK ») */
+.f-etiquette{display:inline-block;padding:2px 12px;background:var(--f-pastille);border-radius:3px;
+  font:700 10.5px/1.3 var(--f-police);letter-spacing:.06em;text-transform:uppercase;color:#4A4A4A}
+
+/* Écran de machine : panneau blanc, texte sombre, valeurs en orange */
+.f-ecran{background:var(--f-ecran);color:var(--f-ecran-encre);padding:12px 14px;border-radius:2px}
+.f-ecran b,.f-ecran .f-val{color:var(--f-or-fonce)}
+
+/* Jauge : remplissage orange à plat sur fond gris (barre d'avancement, cadence) */
+.f-jauge{height:8px;background:#666668;overflow:hidden}
+.f-jauge > i{display:block;height:100%;background:var(--f-or)}
+
+/* Onglets : gris, l'actif plus clair ; liste : la sélection est un aplat orange */
+.f-onglets{display:flex;gap:3px;background:var(--f-barre)}
+.f-onglets > *{all:unset;cursor:pointer;padding:9px 16px;background:#4B4B4B;color:var(--f-encre2);font:400 15px/1.2 var(--f-police)}
+.f-onglets > [aria-selected=true],.f-onglets > [aria-pressed=true]{background:var(--f-barre2);color:var(--f-encre)}
+.f-liste > *{padding:6px 12px;color:var(--f-encre)}
+.f-liste > [aria-selected=true],.f-liste > .actif{background:var(--f-or);color:var(--f-or-encre)}
+
+/* Tableau : en-tête en barre grise, lignes séparées d'un filet */
+.f-table{border-collapse:collapse;width:100%;font:400 14px/1.4 var(--f-police)}
+.f-table th{background:var(--f-barre);color:var(--f-encre2);font-weight:600;font-size:12px;letter-spacing:.08em;
+  text-transform:uppercase;text-align:left;padding:8px 10px}
+.f-table td{padding:8px 10px;border-bottom:1px solid var(--f-trait)}
+.f-table tbody tr:hover td{background:var(--f-fenetre2)}
+
+/* Filet orange du HUD (sous « Objective: », « Milestone: ») */
+.f-filet{height:2px;background:var(--f-or);border:0;margin:6px 0}

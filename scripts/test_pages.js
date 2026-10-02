@@ -263,6 +263,27 @@ const CHECKS = {
       if (!q || document.querySelector('#graphe .lien[data-vers="e:Recipe_IronPlate_C"]').getAttribute('d') === avantD) out.push('glisser sans effet : ' + JSON.stringify(q));
       document.getElementById('reorg').click();
       if (Object.keys(S.pos).length) out.push('réorganiser n\'efface pas les positions');
+      // montage dessiné : bloc déplié, séparateurs et groupeurs dessinés = ceux du calcul, dans les deux modes
+      for (const m of ['manifold', 'equilibre']) {
+        montage.value = m; montage.dispatchEvent(new Event('change'));
+        S.deplies = []; document.getElementById('deplier').click();
+        const blocs = [...document.querySelectorAll('#graphe .noeud.deplie')];
+        if (blocs.length !== 5) out.push(`${m} : ${blocs.length} bloc(s) déplié(s) sur 5`);
+        blocs.forEach(g => {
+          const n = GEO.parId.get(g.dataset.id), mo = M.montage(n.etape, m, DERNIER.D, LIQ);
+          const ent = mo.entrees.find(l => !l.liquide), sor = mo.sorties.find(l => !l.liquide);
+          const sep = ent ? ent.separateurs : 0, grp = (ent ? ent.groupeurs : 0) + (sor ? sor.groupeurs : 0);
+          const ds = g.querySelectorAll('.sep').length, dg = g.querySelectorAll('.grp').length;
+          if (ds !== sep || dg !== grp) out.push(`${m} ${g.dataset.id} : dessin ${ds} sép. / ${dg} grp., calcul ${sep} / ${grp}`);
+          if (g.querySelectorAll('.mach').length !== n.etape.entieres) out.push(`${m} ${g.dataset.id} : machines dessinées`);
+        });
+        if (/NaN|undefined/.test(document.querySelector('#graphe svg').outerHTML)) out.push(m + ' : valeur invalide dans le montage dessiné');
+      }
+      document.querySelector('#graphe .plier').dispatchEvent(new PointerEvent('pointerdown', {bubbles: true, pointerId: 8, button: 0}));
+      if (document.querySelectorAll('#graphe .noeud.deplie').length !== 4) out.push('le bouton − ne replie pas le bloc');
+      document.getElementById('deplier').click(); document.getElementById('deplier').click();
+      if (document.querySelectorAll('#graphe .noeud.deplie').length) out.push('« Tout déplier » ne replie pas tout au second clic');
+      montage.value = 'manifold'; montage.dispatchEvent(new Event('change'));
       const w = +document.querySelector('#graphe svg').getAttribute('width');
       document.querySelector('[data-z="1"]').click();
       if (!(+document.querySelector('#graphe svg').getAttribute('width') > w)) out.push('zoom sans effet');

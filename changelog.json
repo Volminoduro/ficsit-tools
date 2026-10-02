@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.5",
+          "date": "2026-10-02",
+          "texte": {
+            "fr": "Montage dessiné dans le graphe : le bouton + d'une étape (ou « Tout déplier ») déplie son bloc et dessine la ligne d'entrée, les séparateurs, une rangée par machine, les groupeurs et la ligne de sortie, avec le convoyeur de chaque tronçon. En manifold, le tronc et un séparateur par machine ; en équilibrage, l'arbre de séparateurs étage par étage et la boucle de retour des sorties en trop ; groupeurs en chaîne ou en arbre. Les autres entrées et sorties, au même montage, sont rappelées dessous. Les liens du graphe arrivent sur la ligne d'entrée et partent de la ligne de sortie du bloc déplié.",
+            "en": "Layout drawn in the graph: a step's + button (or \"Expand all\") unfolds its box and draws the input line, the splitters, one row per machine, the mergers and the output line, with each section's belt. As a manifold, the trunk and one splitter per machine; with load balancing, the splitter tree level by level and the loop back of extra outputs; mergers in a row or in a tree. The other inputs and outputs, with the same layout, are listed below. Graph links reach the unfolded box's input line and leave from its output line."
+          }
+        },
+        {
           "version": "1.4",
           "date": "2026-10-02",
           "texte": {

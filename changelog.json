@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.11",
+          "date": "2026-10-02",
+          "texte": {
+            "fr": "Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.",
+            "en": "Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts."
+          }
+        },
+        {
           "version": "1.10",
           "date": "2026-10-01",
           "texte": {
@@ -103,6 +111,14 @@
         "en": "Yield registry"
       },
       "entrees": [
+        {
+          "version": "1.30",
+          "date": "2026-10-02",
+          "texte": {
+            "fr": "Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.",
+            "en": "Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts."
+          }
+        },
         {
           "version": "1.29",
           "date": "2026-09-30",
@@ -352,6 +368,14 @@
       },
       "entrees": [
         {
+          "version": "1.13",
+          "date": "2026-10-02",
+          "texte": {
+            "fr": "Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.",
+            "en": "Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts."
+          }
+        },
+        {
           "version": "1.12",
           "date": "2026-09-30",
           "texte": {
@@ -463,6 +487,14 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.21",
+          "date": "2026-10-02",
+          "texte": {
+            "fr": "Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.",
+            "en": "Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts."
+          }
+        },
         {
           "version": "1.20",
           "date": "2026-09-30",
@@ -640,6 +672,14 @@
       },
       "entrees": [
         {
+          "version": "1.13",
+          "date": "2026-10-02",
+          "texte": {
+            "fr": "Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.",
+            "en": "Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts."
+          }
+        },
+        {
           "version": "1.12",
           "date": "2026-10-01",
           "texte": {
@@ -752,6 +792,14 @@
       },
       "entrees": [
         {
+          "version": "1.10",
+          "date": "2026-10-02",
+          "texte": {
+            "fr": "Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.",
+            "en": "Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts."
+          }
+        },
+        {
           "version": "1.9",
           "date": "2026-09-30",
           "texte": {
@@ -839,6 +887,14 @@
         "en": "Power per node"
       },
       "entrees": [
+        {
+          "version": "1.3",
+          "date": "2026-10-02",
+          "texte": {
+            "fr": "Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.",
+            "en": "Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts."
+          }
+        },
         {
           "version": "1.2",
           "date": "2026-10-01",

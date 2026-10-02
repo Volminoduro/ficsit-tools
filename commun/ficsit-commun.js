@@ -15,7 +15,9 @@
    Accueil : un lien vers index.html ouvre le dock sur chaque outil (pas sur l'accueil lui-même).
    Mention IA : un bandeau commun (texte langue.json > communs.ia) est ajouté en bas de chaque page.
    Hors ligne : enregistre sw.js (copie des fichiers servis, voir ce fichier).
-   Dock : tout élément marqué data-fdock est déplacé dans le dock commun en haut à droite, avant les drapeaux.
+   Dock : barre de titre commune, pleine largeur en haut de page, comme celle des fenêtres du jeu (« FICSIT » et le nom
+   de l'outil à gauche, tiré du <title>) ; tout élément marqué data-fdock y est déplacé, à droite, avant les drapeaux.
+   La barre réserve sa hauteur (html.fbarre) : elle ne recouvre jamais le contenu.
    HTML statique :
      <x data-l="fr">…</x><x data-l="en">…</x>     seule la variante de la langue active est affichée
      data-fr-<attr>="…" data-en-<attr>="…"       l'attribut <attr> (title, placeholder, aria-label…) suit la langue
@@ -70,10 +72,23 @@
       return '<button type="button" data-lang="' + c + '" lang="' + c + '" title="' + L.titre + '">'
         + (DRAPEAUX[c] || '') + '<span>' + L.court + '</span></button>'; }).join('');
     w.addEventListener('click', function(e){ var b = e.target.closest('button[data-lang]'); if(b) appliquer(b.dataset.lang, true); });
-    // Dock commun en haut à droite : les éléments de la page marqués data-fdock (ex. le journal des
-    // révisions), puis le sélecteur de langue.
+    // Barre de titre commune : « FICSIT » et le nom de l'outil, puis les éléments de la page marqués data-fdock
+    // (ex. le journal des révisions), puis le sélecteur de langue.
     var d = document.getElementById('fdock');
-    if(!d){ d = document.createElement('div'); d.id = 'fdock'; d.className = 'fdock'; document.body.appendChild(d); }
+    if(!d){ d = document.createElement('div'); d.id = 'fdock'; d.className = 'fdock'; document.body.insertBefore(d, document.body.firstChild); }
+    document.documentElement.classList.add('fbarre');
+    if(!d.querySelector('.fdock-id')){
+      var id = document.createElement('div'); id.className = 'fdock-id';
+      var b = document.createElement('b'); b.textContent = 'FICSIT'; id.appendChild(b);
+      var t = document.querySelector('title');
+      CODES.forEach(function(c){
+        var x = (t && (t.getAttribute('data-' + c) || t.textContent) || '').split(' — ');
+        var s = document.createElement('span'); s.setAttribute('data-l', c); s.lang = c;
+        s.textContent = /^FICSIT/.test(x[0]) && x[1] ? x[1] : x[0];
+        id.appendChild(s);
+      });
+      d.insertBefore(id, d.firstChild);
+    }
     // Retour à l'accueil (lien relatif : valable en local comme sur GitHub Pages), sauf sur l'accueil.
     if(!/(^|\/)(index\.html)?$/.test(location.pathname) && !document.getElementById('fhome')){
       var h = document.createElement('a'); h.id = 'fhome'; h.className = 'fhome'; h.href = 'index.html';

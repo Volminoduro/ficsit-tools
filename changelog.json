@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.2",
+          "date": "2026-10-02",
+          "texte": {
+            "fr": "Recettes optimisées : le planificateur peut choisir lui-même les recettes, en combinant librement toutes celles qui sont permises (un item peut en utiliser plusieurs), pour consommer le moins de ressources (chacune comptée selon sa rareté sur la carte) ou le moins d'énergie. Calcul exact par programmation linéaire (solveur HiGHS, chargé seulement à la première optimisation, puis gardé hors ligne). Nouvelle tuile du bilan : la part des ressources de la carte que demande le plan, pour comparer les modes.",
+            "en": "Optimised recipes: the planner can pick the recipes itself, freely combining every allowed one (an item may use several), to use the fewest resources (each weighted by its scarcity on the map) or the least power. Exact computation by linear programming (HiGHS solver, loaded only at the first optimisation, then kept offline). New summary tile: the share of the map's resources the plan needs, to compare modes."
+          }
+        },
+        {
           "version": "1.1",
           "date": "2026-10-02",
           "texte": {

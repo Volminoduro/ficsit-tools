@@ -15,6 +15,8 @@
         opts.preferees = Set(classes)   recettes à prendre d'abord par défaut (celles de l'usine existante)
      → {etapes: [{item, recette, machines, entieres, cadence, mw, entrees, sorties}], bruts: {item: /min},
         surplus: {item: /min}, manquants: [items sans recette permise], mw, converge}
+     optimiser(P, cibles, opts, highs)  même résultat, recettes choisies par programmation linéaire (HiGHS, voir plus bas) :
+        opts.critere = 'ressources' | 'energie' ; opts.choix et opts.permise comme calculer()
      installe(P, batis)             usine existante (bâtiments lus par commun/ficsit-usine-worker.js : {c, rec, clk, sloops,
                                      prod}) → {classe: {n machines, exec (exécutions/min à leur cadence, Somersloops
                                      compris), prod (part du temps où elles ont produit, mesurée par le jeu, ou null)}}
@@ -114,24 +116,31 @@
       if(ecart < 1e-7){ converge = true; break; }
     }
 
+    // l'item de chaque étape : celui pour lequel la recette a été retenue (sinon son produit principal)
+    var pour = {};
+    Object.keys(retenue).forEach(function(i){ var r = retenue[i]; if(r && !(r.classe in pour)) pour[r.classe] = i; });
+    var res = resultat(P, x, cible, pour);
+    return {etapes: res.etapes, bruts: res.bruts, surplus: res.surplus, manquants: Array.from(manquants), mw: res.mw,
+      converge: converge, iterations: it + 1};
+  }
+
+  /* étapes, ressources, surplus et MW d'un plan x = {classe: exécutions/min} ; pour = {classe: item} (item affiché) */
+  function resultat(P, x, cible, pour){
     // bilan par item : production − consommation − cibles
     var bilan = {};
     function ajoute(i, v){ bilan[i] = (bilan[i] || 0) + v; }
     Object.keys(cible).forEach(function(i){ ajoute(i, -cible[i]); });
-    // l'item de chaque étape : celui pour lequel la recette a été retenue (sinon son produit principal)
-    var pour = {};
-    Object.keys(retenue).forEach(function(i){ var r = retenue[i]; if(r && !(r.classe in pour)) pour[r.classe] = i; });
     var etapes = [], mw = 0;
     Object.keys(x).forEach(function(c){
       var n = x[c]; if(n < EPS) return;
-      var r = ix.parClasse[c], parMin = 60 / r.temps;                   // exécutions par minute d'une machine à 100 %
+      var r = index(P).parClasse[c], parMin = 60 / r.temps;                   // exécutions par minute d'une machine à 100 %
       var machines = n / parMin, entieres = Math.max(1, Math.ceil(machines - 1e-6)), cadence = machines / entieres;
       var b = P.b[r.machine] || [0, 1.321929, 0], base = r.mw || b[0];
       var conso = entieres * base * Math.pow(cadence, b[1]);
       mw += conso;
       r.ing.forEach(function(p){ ajoute(p[0], -n * p[1]); });
       r.prod.forEach(function(p){ ajoute(p[0], n * p[1]); });
-      etapes.push({item: pour[c] || r.prod[0][0], recette: r, machines: machines, entieres: entieres, cadence: cadence, mw: conso,
+      etapes.push({item: (pour && pour[c]) || r.prod[0][0], recette: r, machines: machines, entieres: entieres, cadence: cadence, mw: conso,
         entrees: r.ing.map(function(p){ return [p[0], n * p[1]]; }), sorties: r.prod.map(function(p){ return [p[0], n * p[1]]; })});
     });
     var bruts = {}, surplus = {};
@@ -141,7 +150,7 @@
       else if(v > 1e-6) surplus[i] = v;
     });
     ordonner(etapes, cible);
-    return {etapes: etapes, bruts: bruts, surplus: surplus, manquants: Array.from(manquants), mw: mw, converge: converge, iterations: it + 1};
+    return {etapes: etapes, bruts: bruts, surplus: surplus, mw: mw};
   }
 
   // tri de l'aval (cibles) vers l'amont : rang = plus longue distance depuis une cible (sans boucler)
@@ -159,6 +168,83 @@
     etapes.forEach(function(e){ if(!rang.has(e)) visite(e, 0, new Set()); });
     etapes.sort(function(a, b){ return (rang.get(a) - rang.get(b)) || a.item.localeCompare(b.item); });
     etapes.forEach(function(e){ e.rang = rang.get(e); });
+  }
+
+  /* Optimisation : les recettes permises en mélange libre, au moindre coût, par programmation linéaire résolue par
+     HiGHS (commun/vendor/highs.js, chargé par l'appelant : highs = await FicsitHighs()).
+     Variables : exécutions/min de chaque recette utile (remontée depuis les cibles), et pour chaque item un apport de
+     l'extérieur. Contraintes : pour chaque item, production − consommation + apport ≥ cible (le reste est un surplus).
+     opts.critere = 'ressources' (défaut) : part de la capacité mondiale d'extraction de chaque ressource brute
+       (P.rare = {ressource: poids}, ‰ par unité/min), plus un peu d'énergie pour départager ;
+       'energie' : MW des machines, plus un peu de ressources pour départager.
+     opts.choix = {item: classe | 'brut'} : recette imposée (les autres recettes dont l'item est le produit principal sont
+       écartées) ou item fourni de l'extérieur, gratuit. opts.permise : filtre des recettes.
+     Un item fabricable apporté de l'extérieur coûte très cher : il n'apparaît que faute de recette, et il est alors
+     signalé manquant. Même résultat que calculer(), plus cout (valeur de l'objectif). */
+  var PENALITE = 1e3;   // apport d'un item fabricable : bien plus cher que toute ressource
+  function optimiser(P, cibles, opts, highs){
+    opts = opts || {};
+    var ix = index(P), permise = opts.permise || null, choix = opts.choix || {}, energie = opts.critere === 'energie';
+    var cible = {};
+    cibles.forEach(function(c){ if(c.item && c.debit > 0) cible[c.item] = (cible[c.item] || 0) + c.debit; });
+    // recettes utiles : remontée depuis les cibles par tout ce qui produit un item demandé
+    var items = new Map(), recettes = [], vues = new Set(), file = Object.keys(cible);
+    var garde = function(r){
+      if(permise && !permise(r)) return false;
+      var p = r.prod[0][0];
+      return !choix[p] || (choix[p] !== 'brut' && (choix[p] === r.classe || !ix.parClasse[choix[p]]));
+    };
+    var ajouteItem = function(i){ if(!items.has(i)){ items.set(i, items.size); file.push(i); } };
+    Object.keys(cible).forEach(function(i){ items.set(i, items.size); });
+    while(file.length){
+      var it = file.shift();
+      if(choix[it] === 'brut') continue;
+      (ix.parItem[it] || []).forEach(function(c){
+        var r = c.r; if(vues.has(r.classe) || !garde(r)) return;
+        vues.add(r.classe); recettes.push(r);
+        r.ing.concat(r.prod).forEach(function(q){ ajouteItem(q[0]); });
+      });
+    }
+    var noms = Array.from(items.keys()), m = noms.length, n = recettes.length + m;
+    var A = noms.map(function(){ return {}; }), b = noms.map(function(i){ return cible[i] || 0; }), c = [], apport = [];
+    var poidsRes = function(i){ return (P.rare && P.rare[i] != null) ? P.rare[i] : 1; };
+    recettes.forEach(function(r, j){
+      r.ing.forEach(function(q){ var k = items.get(q[0]); A[k][j] = (A[k][j] || 0) - q[1]; });
+      r.prod.forEach(function(q){ var k = items.get(q[0]); A[k][j] = (A[k][j] || 0) + q[1]; });
+      var B = P.b[r.machine] || [0], mwExec = (r.mw || B[0]) * r.temps / 60;   // MW par exécution/min
+      c.push(1e-6 + (energie ? mwExec : 1e-3 * mwExec));
+    });
+    noms.forEach(function(i, k){
+      var j = recettes.length + k; A[k][j] = 1; apport.push(j);
+      var brut = ix.res.has(i), fourni = choix[i] === 'brut';
+      c.push(fourni ? 0 : brut ? (energie ? 1e-3 : 1) * poidsRes(i) : PENALITE);
+    });
+    // modèle au format LP (CPLEX), noms neutres r<j> (recettes) et a<k> (apports), une ligne par item
+    var nb = function(v){ return Number(v.toPrecision(12)).toString(); };
+    var terme = function(v, nom, premier){ return (v < 0 ? ' - ' : premier ? ' ' : ' + ') + nb(Math.abs(v)) + ' ' + nom; };
+    var nom = function(j){ return j < recettes.length ? 'r' + j : 'a' + (j - recettes.length); };
+    var lp = ['Minimize', ' cout:'];
+    c.forEach(function(v, j){ lp.push(terme(v, nom(j), j === 0)); });
+    lp.push('Subject To');
+    A.forEach(function(ligne, k){
+      var cols = Object.keys(ligne);
+      lp.push(' i' + k + ':' + cols.map(function(j, q){ return terme(ligne[j], nom(+j), q === 0); }).join('\n  ') + ' >= ' + nb(b[k]));
+    });
+    lp.push('End');
+    var sol;
+    try{ sol = highs.solve(lp.join('\n'), {output_flag: false}); }catch(e){ return null; }
+    if(!sol || sol.Status !== 'Optimal') return null;
+    var val = function(j){ var col = sol.Columns[nom(j)]; return col ? col.Primal : 0; };
+    var x = {}, manquants = [], cout = 0;
+    recettes.forEach(function(r, j){ var v = val(j); if(v > 1e-9) x[r.classe] = v; });
+    noms.forEach(function(i, k){
+      var v = val(recettes.length + k);
+      if(v > 1e-6 && !ix.res.has(i) && choix[i] !== 'brut') manquants.push(i);
+    });
+    var res = resultat(P, x, cible, null);
+    Object.keys(res.bruts).forEach(function(i){ if(ix.res.has(i)) cout += res.bruts[i] * poidsRes(i); });
+    return {etapes: res.etapes, bruts: res.bruts, surplus: res.surplus, manquants: manquants, mw: res.mw,
+      converge: true, rarete: cout};
   }
 
   function installe(P, batis){
@@ -181,7 +267,7 @@
     return {installe: installe, besoin: besoin, manque: manque, machines: manque / (60 / r.temps * q), n: i ? i.n : 0, prod: i ? i.prod : null};
   }
 
-  var API = {candidates: candidates, calculer: calculer, installe: installe, ecart: ecart};
+  var API = {candidates: candidates, calculer: calculer, optimiser: optimiser, installe: installe, ecart: ecart};
   if(typeof module !== 'undefined' && module.exports) module.exports = API;
   else racine.PlannerMoteur = API;
 })(typeof self !== 'undefined' ? self : this);

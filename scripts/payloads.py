@@ -359,6 +359,29 @@ SOMERSLOOPS = {"Smelter": 1, "Constructor": 1, "Assembler": 2, "Foundry": 2, "Re
                "Manufacturer": 4, "Blender": 4, "Particle Accelerator": 4, "Quantum Encoder": 4}
 
 
+def rarete():
+    """Poids de chaque ressource brute pour l'optimisation du planificateur : ‰ de la capacité mondiale d'extraction
+    par unité/min consommée. Capacité = somme des nœuds de la carte (donnees/noeuds-ressources.json) au mieux du jeu,
+    surcadencés à 250 % : foreuse Mk.3 (240 /min sur nœud normal, plafonnée par le convoyeur Mk.6 à 1 200), extracteur
+    de pétrole (120), puits (extracteur de puits, 60) ; pureté ×0,5 / ×1 / ×2. L'eau, illimitée, ne coûte rien."""
+    N = json.loads((ROOT / "donnees" / "noeuds-ressources.json").read_text(encoding="utf-8"))["noeuds"]
+    par_classe = {"Desc_" + v["slug"][5:-2].replace("-", "_") + "_C": n for n, v in REF["items"].items() if n in REF["ressources"]}
+    par_classe = {k.lower(): n for k, n in par_classe.items()}
+    pur = {"impure": .5, "normal": 1, "pure": 2}
+    cap = {}
+    for res, purete, noeud in N.values():
+        nom = par_classe.get(res.lower())
+        if not nom:
+            continue
+        base = {"BP_ResourceNode_C": 240, "BP_FrackingSatellite_C": 60}.get(noeud)
+        if base is None:
+            continue
+        if nom == "Crude Oil" and noeud == "BP_ResourceNode_C":
+            base = 120
+        cap[nom] = cap.get(nom, 0) + min(1200, base * pur[purete] * 2.5)
+    return {n: (0 if n == "Water" else round(1000 / cap[n], 6)) for n in sorted(REF["ressources"]) if n == "Water" or n in cap}
+
+
 def planner_donnees():
     """Planificateur de production (planner.html) : recettes des bâtiments de production, machines et ressources brutes
     (format décrit en tête de planner-moteur.js) ; icônes à 44 px partagées."""
@@ -372,6 +395,7 @@ def planner_donnees():
             "b": {m: [B[m]["mw"], B[m]["exposant"], B[m]["palier"], "Build_" + B[m]["classe"][5:], SOMERSLOOPS.get(m, 0)]
                   for m in machines},
             "res": REF["ressources"],
+            "rare": rarete(),
             "liq": [i for i in items if REF["items"].get(i, {}).get("liquide")],
             "ic": {n: icone_fichier(n) for n in items + machines if n in SLUGS}}
 

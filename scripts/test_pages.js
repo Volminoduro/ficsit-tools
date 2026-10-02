@@ -220,6 +220,20 @@ const CHECKS = {
     if (!/120\b.*(Iron Ore|Minerai de fer)/.test(txt('bruts'))) out.push('ressources par défaut : ' + txt('bruts'));
     if (document.querySelectorAll('#etapes .etape').length !== 5) out.push(document.querySelectorAll('#etapes .etape').length + ' étapes (5 attendues)');
     if (/NaN|undefined/.test(document.body.innerText)) out.push('valeur invalide dans la page');
+    // optimisation : solveur chargé à la demande (file:// compris), moins de ressources que le choix simple
+    const rare = () => parseFloat(document.querySelector('#tuiles [data-k="rare"] .big').innerText.replace(/\s/g, '').replace(',', '.'));
+    document.getElementById('alt').click();   // alternatives permises : l'optimum en profite
+    const avant = rare(), mode = document.getElementById('mode');
+    mode.value = 'ressources'; mode.dispatchEvent(new Event('change'));
+    for (let k = 0; k < 200 && !HIGHS && ETAT_H !== 'erreur'; k++) await new Promise(r => setTimeout(r, 100));
+    if (!HIGHS) out.push('solveur non chargé : ' + ETAT_H);
+    else {
+      if (txt('alertes')) out.push('alerte en mode optimisé : ' + txt('alertes'));
+      if (!(rare() < avant)) out.push(`optimisé : ${rare()} ‰ ≥ ${avant} ‰`);
+      if (/NaN|undefined/.test(document.body.innerText)) out.push('valeur invalide en mode optimisé');
+    }
+    mode.value = 'defaut'; mode.dispatchEvent(new Event('change'));
+    document.getElementById('alt').click();
     const sel = document.querySelector('#etapes select[data-item="Iron Plate"]');
     sel.value = 'brut'; sel.dispatchEvent(new Event('change', {bubbles: true}));
     if (!/60\b.*(Iron Plate|Plaque de fer)/.test(txt('bruts'))) out.push('plaques « fournies » absentes des ressources : ' + txt('bruts'));

@@ -105,5 +105,36 @@ const standard = r => !r.alt;
   ok('écart : recette absente de l\'usine', e2.n === 0 && proche(e2.manque, e2.besoin), JSON.stringify(e2));
 }
 
-if(echecs){ console.log(`${echecs} échec(s)`); process.exit(1); }
-console.log('planificateur : tous les tests passent');
+// 8. Optimisation (HiGHS) : jamais pire que le choix simple, recettes imposées et items fournis respectés
+const rarete = b => Object.keys(b).reduce((s, i) => s + b[i] * (P.rare[i] || 0), 0);
+require(path.join(ROOT, 'commun', 'vendor', 'highs.js'))().then(H => {
+  const tout = () => true, cible = [{item: 'Reinforced Iron Plate', debit: 5}];
+  const O = M.optimiser(P, cible, {permise: tout}, H), C = M.calculer(P, cible, {permise: tout});
+  ok('optimisé : RIP sans manquant', O && !O.manquants.length, O && O.manquants);
+  ok('optimisé : moins de ressources que le choix simple', rarete(O.bruts) < rarete(C.bruts) - 1e-6, `${rarete(O.bruts)} ≥ ${rarete(C.bruts)}`);
+  ok('optimisé : 5 RIP produites', proche(O.etapes.filter(e => e.item === 'Reinforced Iron Plate').reduce((s, e) => s + e.sorties[0][1], 0), 5), '');
+  const E = M.optimiser(P, cible, {permise: tout, critere: 'energie'}, H);
+  ok('énergie : pas plus de MW que le choix simple', E.mw <= C.mw + 1e-6, `${E.mw} > ${C.mw}`);
+  ok('énergie : pas plus de MW que l\'optimum ressources', E.mw <= O.mw + 1e-6, `${E.mw} > ${O.mw}`);
+  // recettes standard seulement : une seule chaîne possible, la même que le choix simple
+  const S = M.optimiser(P, cible, {permise: standard}, H);
+  ok('standard : 60 minerai de fer comme le choix simple', proche(S.bruts['Iron Ore'], 60), JSON.stringify(S.bruts));
+  // recette imposée : seule recette dont l'item est le produit principal
+  const F = M.optimiser(P, [{item: 'Iron Plate', debit: 60}], {permise: tout, choix: {'Iron Plate': 'Recipe_IronPlate_C'}}, H);
+  ok('imposée : plaques par le constructeur seulement', F.etapes.filter(e => e.recette.prod[0][0] === 'Iron Plate').every(e => e.recette.classe === 'Recipe_IronPlate_C'),
+    F.etapes.map(e => e.recette.classe).join(', '));
+  const B = M.optimiser(P, cible, {permise: standard, choix: {'Iron Plate': 'brut'}}, H);
+  ok('fourni : 30 plaques en ressources', proche(B.bruts['Iron Plate'], 30), JSON.stringify(B.bruts));
+  // tous les items fabricables : résolu, et jamais plus de ressources que le choix simple quand il aboutit
+  const items = [...new Set(P.r.flatMap(r => r[7].map(p => p[0])))], pires = [], echec = [];
+  for(const i of items){
+    const o = M.optimiser(P, [{item: i, debit: 10}], {permise: tout}, H), c = M.calculer(P, [{item: i, debit: 10}], {permise: tout});
+    if(!o){ echec.push(i); continue; }
+    if(c.converge && !c.manquants.length && rarete(o.bruts) > rarete(c.bruts) + 1e-6) pires.push(i);
+  }
+  ok(`tous les items (${items.length}) : résolus`, !echec.length, echec.join(', '));
+  ok('tous les items : jamais pire que le choix simple', !pires.length, pires.join(', '));
+}).catch(e => { ok('HiGHS chargé', false, e && e.message); }).then(() => {
+  if(echecs){ console.log(`${echecs} échec(s)`); process.exit(1); }
+  console.log('planificateur : tous les tests passent');
+});

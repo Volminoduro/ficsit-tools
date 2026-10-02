@@ -129,7 +129,7 @@ def bi(fr_txt, en_txt, tag="span"):
 def icones():
     s = (ROOT / "index.html").read_text(encoding="utf-8")
     out = {}
-    for m in re.finditer(r'<a class="card" href="([^"]+)">([\s\S]*?)</a>', s):
+    for m in re.finditer(r'<a class="card[^"]*" href="([^"]+)">([\s\S]*?)</a>', s):
         img = re.search(r'<img src="([^"]+)"', m.group(2))
         if img: out[m.group(1)] = img.group(1)
     return out

@@ -93,10 +93,11 @@
 .f-jauge{height:8px;background:#666668;overflow:hidden}
 .f-jauge > i{display:block;height:100%;background:var(--f-or)}
 
-/* Onglets : gris, l'actif plus clair ; liste : la sélection est un aplat orange */
+/* Onglets : gris, l'actif en orange (comme les pages) ; liste : la sélection est un aplat orange */
 .f-onglets{display:flex;gap:3px;background:var(--f-barre)}
 .f-onglets > *{all:unset;cursor:pointer;padding:9px 16px;background:#4B4B4B;color:var(--f-encre2);font:400 15px/1.2 var(--f-police)}
-.f-onglets > [aria-selected=true],.f-onglets > [aria-pressed=true]{background:var(--f-barre2);color:var(--f-encre)}
+.f-onglets > :hover{background:#5A5A5A;color:var(--f-encre)}
+.f-onglets > [aria-selected=true],.f-onglets > [aria-pressed=true]{background:var(--f-or);color:var(--f-or-encre)}
 .f-liste > *{padding:6px 12px;color:var(--f-encre)}
 .f-liste > [aria-selected=true],.f-liste > .actif{background:var(--f-or);color:var(--f-or-encre)}
 

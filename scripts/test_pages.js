@@ -30,6 +30,8 @@ const PAGES = {
   // usine synthétique passée par l'extraction de commun/ficsit-usine-worker.js, puis rendue
   'depot-dimensionnel.html': p => p.evaluate(usineTest),
   'energie-noeuds.html': null,
+  // vitrine de la charte commune (commun/ficsit-hud.css)
+  'charte.html': null,
 };
 /* Dimensional Depot : sauvegarde synthétique (objets tels que le parseur les rend) — foreuse Mk1 sur un nœud de fer
    normal (60 /min) → fonderie (30 lingots /min) → constructeur (plaques, cadence 150 %, 2 éclats : il lui faudrait

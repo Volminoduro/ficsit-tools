@@ -47,6 +47,30 @@
   }
   var lireCle = function(k){ return op('readonly', function(st){ return st.get(k); }).catch(function(){ return null; }); };
   var ecrireCle = function(k, v){ return op('readwrite', function(st){ st.put(v, k); }).catch(function(){ return false; }); };
+  /* Le .sav est gardé en Blob (le fichier lui-même : le navigateur le range sur disque, sans copie en mémoire ni limite
+     de taille d'un objet), dans IndexedDB, et à défaut dans le Cache Storage (autre stockage, autres limites) ; chaque
+     lecture en tire un ArrayBuffer neuf. garderFichier → Promise<'idb' | 'cache' | nom de l'erreur>. */
+  var CACHE_SAV = 'ficsit-tools-sav', URL_SAV = 'ficsit-sav';
+  function garderFichier(x){
+    var raison = null;
+    return op('readwrite', function(st){ st.put(x, 'sav'); })
+      .then(function(){ return 'idb'; }, function(e){ raison = (e && e.name) || 'IndexedDB'; })
+      .then(function(ok){
+        if(ok) return true;
+        if(!window.caches) return raison;
+        return caches.open(CACHE_SAV).then(function(c){
+          return c.put(URL_SAV, new Response(x.blob, {headers: {'x-lu': x.lu, 'x-nom': encodeURIComponent(x.nom)}}));
+        }).then(function(){ return 'cache'; }, function(e){ return raison + ' / ' + ((e && e.name) || 'Cache'); });
+      });
+  }
+  function lireFichier(){
+    return lireCle('sav').then(function(x){
+      if(x || !window.caches) return x;
+      return caches.open(CACHE_SAV).then(function(c){ return c.match(URL_SAV); }).then(function(r){
+        return r ? r.blob().then(function(b){ return {lu: r.headers.get('x-lu'), nom: decodeURIComponent(r.headers.get('x-nom') || ''), blob: b}; }) : null;
+      }).catch(function(){ return null; });
+    });
+  }
   var viderCles = function(){ return op('readwrite', function(st){ st.clear(); }).catch(function(){ return false; }); };
   // ce qui dépend d'un import précédent (fichier, usine, débits) ; le fichier et les calculs du nouvel import restent
   var purger = function(lu){ return op('readwrite', function(st){
@@ -57,7 +81,12 @@
   FP.fichier = function(){
     var p = FP.charger();
     if(!p) return Promise.resolve(null);
-    return lireCle('sav').then(function(x){ return x && x.lu === p.lu ? x : memoire && memoire.lu === p.lu ? memoire : null; });
+    return lireFichier().then(function(x){
+      x = x && x.lu === p.lu ? x : memoire && memoire.lu === p.lu ? memoire : null;
+      if(!x) return null;
+      // ancien format (ArrayBuffer gardé tel quel) ou Blob : toujours un tampon neuf, que le lecteur peut transférer
+      return (x.blob ? x.blob.arrayBuffer() : Promise.resolve(x.buf.slice(0))).then(function(buf){ return {lu: x.lu, nom: x.nom, buf: buf}; });
+    });
   };
   FP.cache = function(cle){
     var p = FP.charger();
@@ -105,7 +134,7 @@
     });
   };
   var oublierPartie = FP.oublier;
-  FP.oublier = function(){ viderCles(); oublierPartie(); };
+  FP.oublier = function(){ viderCles(); if(window.caches) caches.delete(CACHE_SAV).catch(function(){}); oublierPartie(); };
 
   FP.importer = function(f){
     if(!f) return Promise.resolve(null);
@@ -119,11 +148,15 @@
       // le fichier d'abord (l'outil Depot le relit dès qu'il apprend le changement), la partie ensuite, puis seulement
       // le ménage de l'import précédent : quitter la page en cours de route laisse l'ancienne partie intacte
       etat = {etape: 'fichier'}; rendu();
-      return f.arrayBuffer()
-        .then(function(buf){ memoire = {lu: p.lu, nom: f.name, buf: buf}; return ecrireCle('sav', memoire); })
+      memoire = {lu: p.lu, nom: f.name, blob: f};
+      return garderFichier(memoire)
         .then(function(garde){
-          etat = !FP.enregistrer(p) ? {erreur: 'stockage'} : garde === false ? {note: 'partieFichierNonGarde'} : null;
-          rendu(); purger(p.lu); return p;
+          var gardeOk = garde === 'idb' || garde === 'cache';
+          etat = !FP.enregistrer(p) ? {erreur: 'stockage'} : !gardeOk ? {note: 'partieFichierNonGarde', raison: garde} : null;
+          rendu(); purger(p.lu);
+          // gardé dans IndexedDB : une copie de secours d'un import précédent n'a plus lieu d'être
+          if(garde === 'idb' && window.caches) caches.delete(CACHE_SAV).then(function(){}, function(){});
+          return p;
         });
     }).catch(function(e){ etat = {erreur: e.message || 'format'}; rendu(); throw e; });
   };
@@ -200,7 +233,7 @@
         + '<div>' + esc(T('partieAnalyseAide')) + '</div>';
     } else {
       var err = e && e.erreur ? '<div class="fpartie-err">' + esc(ERR[e.erreur] ? T(ERR[e.erreur]) : T('partieErrFormat')) + '</div>'
-        : e && e.note ? '<div class="fpartie-err">' + esc(T(e.note)) + '</div>' : '';
+        : e && e.note ? '<div class="fpartie-err">' + esc(TX(e.note, {r: e.raison || '?'})) + '</div>' : '';
       if(!p) el.innerHTML = err + '<div>' + esc(T('partieAucuneCommun')) + '</div>';
       else {
         var date = new Date(p.date).toLocaleString(FicsitLang.locale, {dateStyle: 'long', timeStyle: 'short'});

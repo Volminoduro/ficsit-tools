@@ -72,6 +72,14 @@
       },
       "entrees": [
         {
+          "version": "1.13",
+          "date": "2026-10-02",
+          "texte": {
+            "fr": "Le fichier de la partie est gardé tel quel (sur disque par le navigateur, sans copie en mémoire), avec un second stockage de secours si le premier refuse : une grosse sauvegarde importée depuis l'accueil est bien reprise ici. Si les deux refusent, le panneau « Ma partie » donne l'erreur exacte du navigateur.",
+            "en": "The game file is kept as is (on disk by the browser, without an in-memory copy), with a second fallback storage if the first refuses: a large save imported from the home page is picked up here. If both refuse, the \"My game\" panel gives the browser's exact error."
+          }
+        },
+        {
           "version": "1.12",
           "date": "2026-10-02",
           "texte": {

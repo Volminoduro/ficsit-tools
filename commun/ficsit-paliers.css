@@ -12,7 +12,8 @@
 .fpal button.in .tn{color:var(--f-or)}
 .fpal button.out .tn{color:var(--f-encre2)}
 .fpal button.out img{filter:grayscale(.5)}
-.fpal button:disabled{cursor:not-allowed;opacity:.45;border-style:dashed;color:var(--f-encre3);background:var(--f-creux)}
+.fpal button:disabled{cursor:not-allowed;opacity:.45;border-style:dashed;color:var(--f-encre3);
+  background:repeating-linear-gradient(-45deg,transparent 0 6px,rgba(255,255,255,.04) 6px 12px) var(--f-creux)}  /* hachuré : « sans nouvelle cible » */
 .fpal button:disabled .tn{color:var(--f-encre3)}
 .fpal button:disabled img{filter:grayscale(1) brightness(.6)}
 /* sélectionné : aplat orange comme la liste du codex (les pages ne doivent pas l'écraser, d'où les règles appuyées) */

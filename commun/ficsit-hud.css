@@ -49,6 +49,9 @@
   --f-barre-h:40px;        /* hauteur de la barre de titre commune (dock) */
 }
 
+/* hidden reste masqué même sous all:unset (boutons à plat des pages) */
+[hidden]{display:none!important}
+
 /* Fenêtre : barre de titre grise (icône, titre, fermeture), corps gris foncé */
 .f-fenetre{background:var(--f-fenetre);color:var(--f-encre);box-shadow:var(--f-ombre)}
 .f-fenetre > .f-titre{display:flex;align-items:center;gap:10px;min-height:40px;padding:0 0 0 12px;background:var(--f-barre);

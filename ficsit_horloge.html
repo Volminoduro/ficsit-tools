@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <!-- FICSIT-LANG:START -->
-<link rel="stylesheet" href="commun/ficsit-commun.css?v=da70e344d8">
+<link rel="stylesheet" href="commun/ficsit-commun.css?v=467b5faefa">
 <script src="commun/ficsit-commun.js?v=43b23c3865"></script>
 <!-- FICSIT-LANG:END -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,8 +32,8 @@ body{
     radial-gradient(ellipse at 50% -10%, #2C2C2C 0%, transparent 60%),
     repeating-linear-gradient(0deg, rgba(255,255,255,.014) 0 1px, transparent 1px 4px);
   color:var(--text);
-  font-family:var(--f-titre);font-stretch:var(--f-serre);
-  font-size:16px;
+  font-family:var(--f-police);
+  font-size:15px;
   line-height:1.45;
   padding:0 0 72px;
 }
@@ -67,18 +67,17 @@ h1{
 header p{margin:8px 0 0;color:var(--muted);max-width:68ch;font-size:1.02rem}
 header code{color:var(--orange);font-family:var(--f-titre);font-stretch:var(--f-serre);font-weight:600}
 
-/* ---------- panneaux biseautés ---------- */
+/* ---------- panneaux : fenêtres du jeu (barre de titre grise, corps gris foncé) ---------- */
 .panel{
   background:var(--panel);
-  border:1px solid var(--line-soft);
-  padding:20px 22px;
+  padding:0 22px 20px;
   box-shadow:0 6px 20px var(--shadow);
 }
 .panel h2{
-  font-family:var(--f-titre);font-stretch:var(--f-serre);font-weight:700;
-  font-size:1.12rem;letter-spacing:1.4px;text-transform:uppercase;
-  margin:0 0 14px;color:var(--orange);
-  border-bottom:1px solid var(--line-soft);padding-bottom:8px;
+  font-family:var(--f-police);font-weight:400;
+  font-size:1rem;letter-spacing:0;text-transform:none;
+  margin:0 -22px 18px;color:var(--text);background:var(--f-barre);
+  padding:10px 22px;
 }
 
 .grid{display:grid;grid-template-columns:minmax(300px,360px) 1fr;gap:22px;margin-top:26px;align-items:start}
@@ -92,29 +91,26 @@ label.fld > span{
   font-weight:600;margin-bottom:5px;font-family:var(--f-titre);font-stretch:var(--f-serre);
 }
 input[type=number],input[type=text]{
-  width:100%;background:var(--slot);border:1px solid var(--line);
-  color:var(--text);font-family:var(--f-titre);font-stretch:var(--f-serre);font-size:1.35rem;font-weight:600;
+  width:100%;background:#5A5A5A;border:0;border-bottom:2px solid transparent;
+  color:#fff;font-family:var(--f-police);font-size:1.3rem;font-weight:500;
   padding:8px 11px;outline:none;
 }
-input:focus{border-color:var(--orange);box-shadow:0 0 0 2px rgba(229,147,69,.25)}
+input:focus{border-bottom-color:var(--orange)}
 .hint{font-size:.85rem;color:var(--muted);margin-top:4px}
 
 /* ---------- cases d'inventaire ---------- */
 .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:7px}
 .slot{
-  position:relative;aspect-ratio:1;background:var(--slot);
-  border:1px solid var(--line);cursor:pointer;display:grid;place-items:center;
-  transition:border-color .12s, background .12s;
+  position:relative;aspect-ratio:1;background:var(--f-barre);
+  border:0;cursor:pointer;display:grid;place-items:center;
+  transition:background .12s;
 }
-.slot:hover{border-color:var(--orange-deep);background:var(--f-fenetre2)}
+.slot:hover{background:#4E4E4E}
 .slot img{width:72%;height:72%;object-fit:contain;filter:drop-shadow(0 1px 2px rgba(0,0,0,.6))}
-.slot.sel{border-color:var(--orange);background:var(--f-or-voile);box-shadow:inset 0 0 0 1px rgba(229,147,69,.35)}
-.slot.sel::after{
-  content:"";position:absolute;inset:auto 0 0 0;height:3px;background:var(--orange);
-}
+.slot.sel{background:var(--orange)}
 .slot .mw{
-  position:absolute;right:2px;bottom:1px;font-size:.68rem;color:var(--muted);
-  font-weight:600;text-shadow:0 1px 2px #000;
+  position:absolute;right:3px;bottom:1px;font-size:.68rem;color:#fff;
+  font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,.6);
 }
 .grouptitle{
   font-family:var(--f-titre);font-stretch:var(--f-serre);font-size:.8rem;letter-spacing:1.6px;
@@ -122,43 +118,45 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 2px rgba(229,147,69,.25)
 }
 .selname{
   display:flex;align-items:center;gap:10px;margin-top:12px;
-  background:var(--panel2);border-left:3px solid var(--orange);padding:8px 12px;
+  background:var(--panel2);padding:8px 12px;
 }
 .selname img{width:30px;height:30px;object-fit:contain}
 .selname b{font-family:var(--f-titre);font-stretch:var(--f-serre);font-size:1.06rem;letter-spacing:.5px}
 .selname em{display:block;font-style:normal;color:var(--muted);font-size:.85rem}
 
 /* ---------- segmenté ---------- */
-.seg{display:flex;border:1px solid var(--line);background:var(--slot)}
+.seg{display:flex;gap:2px;background:var(--panel)}
 .seg button{
-  flex:1;background:none;border:none;color:var(--muted);cursor:pointer;
-  font-family:var(--f-titre);font-stretch:var(--f-serre);font-weight:600;font-size:.92rem;
-  letter-spacing:1px;padding:9px 6px;transition:.12s;
+  flex:1;background:#4B4B4B;border:none;color:var(--muted);cursor:pointer;
+  font-family:var(--f-police);font-weight:500;font-size:.9rem;
+  padding:9px 6px;transition:.12s;
 }
-.seg button:hover{color:var(--text)}
+.seg button:hover{color:var(--text);background:#5A5A5A}
 .seg button.on{background:var(--orange);color:var(--f-or-encre)}
-.resetbtn{background:transparent;border:1px solid var(--line);color:var(--text);opacity:.7;font:inherit;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;cursor:pointer;margin-left:8px;}
-.resetbtn:hover{opacity:1;border-color:var(--orange);color:var(--orange)}
+.resetbtn{background:var(--f-barre2);border:0;color:var(--text);font:inherit;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:7px 12px;cursor:pointer;margin-left:8px;}
+.resetbtn:hover{background:#6A6A6A}
 
 /* ---------- verdict ---------- */
+/* écran blanc de machine (comme l'affichage de la fenêtre du mineur), valeurs en orange */
 .verdict{
-  margin-top:18px;background:var(--panel2);border:1px solid var(--line-soft);
-  border-left:4px solid var(--orange);padding:14px 16px;
+  margin-top:6px;background:var(--f-ecran);color:var(--f-ecran-encre);padding:14px 18px;
+  box-shadow:0 0 0 6px var(--f-metal),0 0 0 7px #222;
 }
 .verdict .big{
-  font-family:var(--f-titre);font-stretch:var(--f-serre);font-size:1.6rem;font-weight:700;
-  color:var(--orange);line-height:1.1;
+  font-family:var(--f-police);font-size:1.8rem;font-weight:400;
+  color:var(--orange);line-height:1.1;padding-bottom:8px;border-bottom:1px solid #C9C9C9;
 }
-.verdict p{margin:6px 0 0;font-size:.95rem;color:var(--text)}
-.verdict .sub{color:var(--muted);font-size:.88rem}
+.verdict p{margin:8px 0 0;font-size:.95rem;color:var(--f-ecran-encre)}
+.verdict b{color:var(--orange-deep)}
+.verdict .sub{color:#6A6A6A;font-size:.88rem}
 
 /* ---------- table ---------- */
 .tablewrap{overflow-x:auto}
 table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
 th{
   font-family:var(--f-titre);font-stretch:var(--f-serre);font-weight:600;font-size:.8rem;
-  letter-spacing:1.1px;text-transform:uppercase;color:var(--muted);
-  text-align:right;padding:7px 10px;border-bottom:2px solid var(--line);white-space:nowrap;
+  letter-spacing:1.1px;text-transform:uppercase;color:var(--muted);background:var(--f-barre);
+  text-align:right;padding:8px 10px;white-space:nowrap;
 }
 th:first-child,td:first-child{text-align:left}
 td{padding:6px 10px;text-align:right;border-bottom:1px solid var(--line-soft);font-size:1.02rem;font-weight:500}
@@ -175,13 +173,13 @@ td.under{color:var(--f-bleu)}
 .partie-regime{margin-top:8px;padding:6px 10px;border-left:3px solid var(--accent, var(--f-or));background:rgba(229,147,69,.07)}
 .shardcell{display:inline-flex;align-items:center;gap:5px;justify-content:flex-end}
 .shardcell img{width:15px;height:15px;object-fit:contain}
-.bar{height:5px;background:var(--orange-deep);display:block;margin-top:3px;opacity:.65}
+.bar{height:5px;background:var(--orange);display:block;margin-top:3px}
 .tag{
-  font-family:var(--f-titre);font-stretch:var(--f-serre);font-size:.7rem;letter-spacing:1px;
-  padding:1px 6px;border:1px solid var(--orange);color:var(--orange);margin-left:6px;
+  font-family:var(--f-police);font-size:.68rem;font-weight:700;letter-spacing:.06em;
+  padding:1px 6px;background:var(--orange);color:var(--f-or-encre);margin-left:6px;border-radius:2px;
   text-transform:uppercase;
 }
-.tag.grey{border-color:var(--line);color:var(--muted)}
+.tag.grey{background:var(--f-pastille);color:#4A4A4A}
 
 /* ---------- formules ---------- */
 .formula{

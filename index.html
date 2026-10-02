@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <!-- FICSIT-LANG:START -->
-<link rel="stylesheet" href="commun/ficsit-commun.css?v=da70e344d8">
+<link rel="stylesheet" href="commun/ficsit-commun.css?v=467b5faefa">
 <script src="commun/ficsit-commun.js?v=43b23c3865"></script>
 <!-- FICSIT-LANG:END -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,13 +60,12 @@
   }
   .stamp{
     position:absolute; top:20px; left:24px;
-    border:1px solid var(--orange-deep);
-    color:var(--orange);
-    font-family:var(--f-titre);font-stretch:var(--f-serre);
-    font-size:.72rem;
-    letter-spacing:.12em;
-    padding:4px 10px;
-    opacity:.85;
+    background:var(--f-pastille);border-radius:3px;
+    color:#4A4A4A;font-weight:700;
+    font-family:var(--f-police);
+    font-size:.68rem;
+    letter-spacing:.08em;
+    padding:3px 10px;
   }
 
   .ada{
@@ -91,25 +90,25 @@
 
   .wrap{max-width:980px; margin:0 auto; padding:30px 24px 60px;}
   .partie-resume{max-width:980px;margin:0 auto 6px;padding:10px 14px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;
-    background:var(--panel);border:1px solid var(--f-trait);border-left:3px solid var(--orange);font-size:.9rem;color:#D6D6D6;box-sizing:border-box}
+    background:var(--panel);border-left:3px solid var(--orange);font-size:.9rem;color:#D6D6D6;box-sizing:border-box}
   .partie-resume:empty{display:none}
   .partie-resume b{color:#fff;font-weight:600}
-  .partie-resume button{margin-left:auto;background:transparent;border:1px solid var(--f-trait2);color:#D6D6D6;font:inherit;font-size:.75rem;
-    letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;cursor:pointer}
-  .partie-resume button:hover,.partie-resume button:focus-visible{color:var(--orange);border-color:var(--orange);outline:none}
+  .partie-resume button{margin-left:auto;background:var(--orange);border:0;color:var(--f-or-encre);font:inherit;font-size:.78rem;font-weight:600;
+    letter-spacing:.06em;text-transform:uppercase;padding:6px 12px;cursor:pointer}
+  .partie-resume button:hover,.partie-resume button:focus-visible{background:var(--f-or-clair);outline:none}
   @media (max-width:1012px){.partie-resume{margin:0 16px 6px}}
   .cat{
     display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
     margin:34px 0 12px; padding-bottom:6px;
-    border-bottom:1px solid var(--line);
+    border-bottom:1px solid var(--steel);
   }
   .cat:first-child{margin-top:0}
   .cat h3{
     margin:0;
     font-family:var(--f-titre);font-stretch:var(--f-serre);
-    font-size:1.05rem; font-weight:600;
-    letter-spacing:.16em; text-transform:uppercase;
-    color:var(--orange);
+    font-size:1.05rem; font-weight:500;
+    letter-spacing:.2em; text-transform:uppercase;
+    color:var(--text);
   }
   .cat p{margin:0; font-size:.85rem; color:var(--muted);}
   .grid{
@@ -124,15 +123,12 @@
     text-decoration:none;
     color:inherit;
     background:var(--panel);
-    border:1px solid var(--line);
     padding:20px 20px 18px;
     position:relative;
-    transition:border-color .15s, transform .15s, background .15s;
+    transition:background .15s;
   }
   a.card:hover{
-    border-color:var(--orange);
     background:var(--panel-2);
-    transform:translateY(-2px);
   }
   a.card:focus-visible{outline:2px solid var(--orange); outline-offset:2px;}
 
@@ -140,8 +136,7 @@
   .slot{
     width:52px; height:52px;
     flex:none;
-    background:var(--f-creux);
-    border:1px solid var(--line);
+    background:var(--f-case);border-radius:3px;
     display:flex; align-items:center; justify-content:center;
   }
   .slot img{width:36px; height:36px; object-fit:contain;}
@@ -167,14 +162,16 @@
     line-height:1.5;
     color:var(--muted);
   }
+  /* « Ouvrir le dossier » : bouton gris du jeu, orange au survol de la carte */
   .card .open{
-    margin-top:14px;
-    font-family:var(--f-titre);font-stretch:var(--f-serre);
-    font-size:.75rem;
-    letter-spacing:.1em;
-    color:var(--orange-deep);
+    display:inline-block;margin-top:14px;padding:6px 12px;
+    background:var(--f-barre2);color:var(--text);
+    font-family:var(--f-police);font-weight:500;
+    font-size:.78rem;
+    letter-spacing:.04em;
+    transition:background .15s;
   }
-  a.card:hover .open{color:var(--orange)}
+  a.card:hover .open{background:var(--orange);color:var(--f-or-encre)}
 
   footer{
     max-width:980px; margin:0 auto; padding:0 24px 40px;

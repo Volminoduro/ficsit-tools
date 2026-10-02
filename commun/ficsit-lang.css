@@ -1,27 +1,34 @@
 html:not([lang|=en]) [data-l=en],html[lang|=en] [data-l=fr]{display:none!important}
-/* Dock (Accueil, journal, Ma partie, langue) : plaques sombres du HUD, coins droits, capitales espacées */
-.fdock{position:fixed;top:10px;right:12px;z-index:9999;display:flex;align-items:stretch;gap:4px}
-.flang{position:relative;display:flex;gap:2px;padding:3px;
-  background:rgba(38,38,38,.95);box-shadow:0 3px 12px rgba(0,0,0,.45);
+/* Barre de titre commune (dock) : pleine largeur, gris des barres de titre du jeu ; « FICSIT » et le nom de l'outil à
+   gauche, les boutons (Accueil, journal, Ma partie, langue) en cases collées à droite. Elle réserve sa hauteur. */
+html.fbarre{padding-top:var(--f-barre-h);scroll-padding-top:calc(var(--f-barre-h) + 8px)}
+.fdock{position:fixed;top:0;left:0;right:0;height:var(--f-barre-h);z-index:9999;display:flex;align-items:stretch;
+  background:var(--f-barre);box-shadow:0 2px 12px rgba(0,0,0,.45)}
+.fdock > *{border-left:1px solid rgba(0,0,0,.28)}
+.fdock > .fdock-id{border-left:0}
+.fdock-id{margin-right:auto;min-width:0;display:flex;align-items:center;gap:14px;padding:0 16px;white-space:nowrap;overflow:hidden}
+.fdock-id b{flex:none;font:italic 800 15px/1 var(--f-police);letter-spacing:.02em;color:#9A9A9A}
+.fdock-id span{overflow:hidden;text-overflow:ellipsis;font:500 12.5px/1.7 var(--f-police);letter-spacing:.2em;text-transform:uppercase;color:var(--f-encre)}
+.flang{position:relative;display:flex;gap:0;padding:0;
   font:600 12px/1 var(--f-police);letter-spacing:.08em}
 .flang button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:6px;
-  padding:6px 9px 5px;color:var(--f-encre2);transition:color .15s,background .15s}
+  padding:0 11px;color:var(--f-encre2);transition:color .15s,background .15s}
 .flang button svg{width:21px;height:14px;display:block;flex:none;filter:grayscale(.55) brightness(.8);
   box-shadow:0 0 0 1px rgba(0,0,0,.5);transition:filter .15s}
-.flang button:hover{color:var(--f-encre);background:var(--f-barre)}
+.flang button:hover{color:var(--f-encre);background:#4A4A4A}
 .flang button:hover svg{filter:none}
 .flang button[aria-pressed=true]{color:var(--f-or-encre);background:var(--f-or);cursor:default}
 .flang button[aria-pressed=true] svg{filter:none}
 .flang button:focus-visible{outline:2px solid var(--f-or-clair);outline-offset:1px}
-.fhome{display:flex;align-items:center;gap:6px;padding:0 10px;text-decoration:none;color:var(--f-encre2);
-  background:rgba(38,38,38,.95);box-shadow:0 3px 12px rgba(0,0,0,.45);
+.fhome{display:flex;align-items:center;gap:6px;padding:0 12px;text-decoration:none;color:var(--f-encre2);
   font:600 12px/1 var(--f-police);letter-spacing:.08em;text-transform:uppercase;
   transition:color .15s,background .15s}
 .fhome svg{width:15px;height:15px;fill:currentColor;flex:none}
-.fhome:hover{color:var(--f-encre);background:var(--f-barre)}
+.fhome:hover{color:var(--f-encre);background:#4A4A4A}
 .fhome:focus-visible{outline:2px solid var(--f-or-clair);outline-offset:1px}
 @media (max-width:560px){.fhome{padding:0 8px}.fhome span{display:none}}
-@media (max-width:560px){.fdock{top:6px;right:6px;gap:3px}.flang button{padding:5px 6px 4px;gap:4px}.flang button svg{width:18px;height:12px}}
+@media (max-width:560px){.fdock-id{padding:0 10px}.fdock-id span{display:none}.flang button{padding:0 7px;gap:4px}.flang button svg{width:18px;height:12px}}
+@media print{html.fbarre{padding-top:0}}
 .fia{max-width:980px;margin:18px auto 22px;padding:8px 14px 8px 40px;position:relative;
   font:13px/1.45 var(--f-police);color:var(--f-encre2);
   background:rgba(38,38,38,.7);border-left:3px solid var(--f-barre2)}

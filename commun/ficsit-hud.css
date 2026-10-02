@@ -4,7 +4,8 @@
    Le jeu : fenêtres gris neutre (pas bleuté), barre de titre #3F3F3F, coins droits, orange #E59345 pour la sélection
    et les valeurs, cases d'objets gris clair avec badge de quantité orange, petites étiquettes « OUTPUT » en pastille
    claire, écrans blancs à texte sombre, titres en capitales espacées, police humaniste (Noto Sans, libre, au plus près
-   de celle du jeu). Seule entorse : texte sombre sur l'orange (le blanc du jeu n'atteint pas le contraste AA).
+   de celle du jeu). Texte blanc sur l'orange comme dans le jeu (choix du joueur, 2026-10-02), au prix du contraste :
+   2,4 : 1, sous le seuil AA.
    Les pages n'ont plus de palette propre : leurs variables locales renvoient à celles-ci. */
 :root{
   /* fonds */
@@ -26,7 +27,7 @@
   --f-or:#E59345;
   --f-or-clair:#F2AA63;
   --f-or-fonce:#C27530;
-  --f-or-encre:#1A1108;    /* texte posé sur l'orange */
+  --f-or-encre:#FFFFFF;    /* texte posé sur l'orange : blanc, comme le jeu */
   --f-or-voile:rgba(229,147,69,.14);
   /* éléments clairs : cases d'objets, écrans de machine, pastilles */
   --f-case:#CCCBCB;
@@ -45,6 +46,7 @@
   --f-titre:"Noto Sans","Open Sans","Segoe UI",Arial,"Liberation Sans",system-ui,sans-serif;
   --f-serre:87.5%;         /* titres d'écran : Noto Sans un peu resserrée (axe de chasse), pas une autre police */
   --f-ombre:0 6px 22px rgba(0,0,0,.55);
+  --f-barre-h:40px;        /* hauteur de la barre de titre commune (dock) */
 }
 
 /* Fenêtre : barre de titre grise (icône, titre, fermeture), corps gris foncé */

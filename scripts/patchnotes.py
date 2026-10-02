@@ -36,21 +36,21 @@ CSS = """
   --pn-deep:var(--f-creux);--pn-line:var(--f-trait);--pn-ink:var(--f-encre);--pn-dim:var(--f-encre2);display:flex;font-family:var(--pn-body);text-align:left}
 .pn *{box-sizing:border-box}
 .pn-btn{all:unset;box-sizing:border-box;position:relative;cursor:pointer;display:flex;align-items:center;gap:7px;
-  padding:6px 11px 5px 10px;background:rgba(38,38,38,.95);box-shadow:0 3px 12px rgba(0,0,0,.45);
+  padding:0 12px;background:none;
   font:600 12px/1 var(--f-police);letter-spacing:.08em;color:var(--f-encre);
   transition:color .15s,background .15s}
 .pn-btn svg{width:13px;height:13px;flex:none;fill:none;stroke:var(--f-or);stroke-width:1.6}
-.pn-btn:hover{background:var(--f-barre)}
+.pn-btn:hover{background:#4A4A4A}
 .pn-btn[aria-expanded=true]{background:var(--f-or);color:var(--f-or-encre)}
 .pn-btn[aria-expanded=true] svg{stroke:var(--f-or-encre)}
 .pn-btn:focus-visible{outline:2px solid var(--f-or-clair);outline-offset:1px}
 .pn-dot{display:none;position:absolute;left:3px;top:3px;width:8px;height:8px;border-radius:50%;background:var(--f-or);
-  box-shadow:0 0 0 2px rgba(38,38,38,.95)}
+  box-shadow:0 0 0 2px var(--f-barre)}
 .pn-neuf .pn-dot{display:block;animation:pn-pulse 1.8s ease-in-out infinite}
 .pn-neuf .pn-btn[aria-expanded=true] .pn-dot{background:var(--f-or-encre)}
-@keyframes pn-pulse{50%{box-shadow:0 0 0 2px rgba(38,38,38,.95),0 0 0 5px rgba(229,147,69,.35)}}
+@keyframes pn-pulse{50%{box-shadow:0 0 0 2px var(--f-barre),0 0 0 5px rgba(229,147,69,.35)}}
 @media (prefers-reduced-motion:reduce){.pn-neuf .pn-dot{animation:none}}
-.pn-panel{position:absolute;top:calc(100% + 6px);right:0;width:min(440px,calc(100vw - 24px));max-height:min(72vh,640px);
+.pn-panel{position:fixed;top:var(--f-barre-h);right:0;width:min(440px,calc(100vw - 24px));max-height:min(72vh,640px);
   overflow:auto;overscroll-behavior:contain;background:var(--pn-panel);color:var(--pn-ink);
   box-shadow:var(--f-ombre)}
 .pn-panel[hidden]{display:none}
@@ -92,7 +92,7 @@ CSS = """
 .pn-old .pn-list{padding:4px 0 6px}
 .pn-foot{height:8px}
 html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none}
-@media (max-width:560px){.pn-btn{padding:5px 8px 4px 9px;gap:5px}.pn-panel{position:fixed;top:44px;right:6px;width:calc(100vw - 12px)}}
+@media (max-width:560px){.pn-btn{padding:0 8px;gap:5px}.pn-panel{width:100vw}}
 @media print{.pn{display:none}}
 """
 

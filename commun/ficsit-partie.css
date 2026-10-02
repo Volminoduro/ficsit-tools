@@ -1,17 +1,16 @@
 /* Bouton « Ma partie » du dock et son panneau (commun/ficsit-partie-ui.js) : une fenêtre du jeu */
-.fpartie{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:flex;align-items:center;gap:6px;padding:0 10px;color:var(--f-encre2);
-  background:rgba(38,38,38,.95);box-shadow:0 3px 12px rgba(0,0,0,.45);
+.fpartie{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:flex;align-items:center;gap:6px;padding:0 12px;color:var(--f-encre2);
   font:600 12px/1 var(--f-police);letter-spacing:.08em;text-transform:uppercase;
   transition:color .15s,background .15s}
 .fpartie svg{width:15px;height:15px;flex:none}
 .fpartie i{display:none;width:7px;height:7px;background:var(--f-or);border-radius:50%;flex:none}
 .fpartie.charge i{display:block}
-.fpartie:hover{color:var(--f-encre);background:var(--f-barre)}
+.fpartie:hover{color:var(--f-encre);background:#4A4A4A}
 .fpartie[aria-expanded=true]{color:var(--f-or-encre);background:var(--f-or)}
 .fpartie[aria-expanded=true] i{background:var(--f-or-encre)}
 .fpartie:focus-visible{outline:2px solid var(--f-or-clair);outline-offset:1px}
 @media (max-width:560px){.fpartie{padding:0 8px}.fpartie span{display:none}}
-.fpartie-pn{position:fixed;top:52px;right:12px;z-index:9999;width:min(430px,calc(100vw - 24px));max-height:calc(100vh - 70px);overflow:auto;
+.fpartie-pn{position:fixed;top:var(--f-barre-h);right:0;z-index:9999;width:min(430px,calc(100vw - 24px));max-height:calc(100vh - 70px);overflow:auto;
   box-sizing:border-box;padding:0 14px 14px;background:var(--f-fenetre);box-shadow:var(--f-ombre);
   color:var(--f-encre);font:14px/1.5 var(--f-police);text-align:left}
 .fpartie-pn[hidden]{display:none}

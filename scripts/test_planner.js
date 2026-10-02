@@ -105,6 +105,39 @@ const standard = r => !r.alt;
   ok('écart : recette absente de l\'usine', e2.n === 0 && proche(e2.manque, e2.besoin), JSON.stringify(e2));
 }
 
+// 7b. Graphe : chaque étape reçoit exactement ses entrées, chaque objectif son débit, chaque ressource donne ce qu'elle apporte
+function conservation(nom, R, cibles){
+  const G = M.graphe(R, cibles), entre = {}, sort = {};
+  G.liens.forEach(l => { entre[l.vers + '|' + l.item] = (entre[l.vers + '|' + l.item] || 0) + l.debit;
+    sort[l.de + '|' + l.item] = (sort[l.de + '|' + l.item] || 0) + l.debit; });
+  const ko = [];
+  G.noeuds.forEach(n => {
+    if(n.type === 'etape') n.etape.entrees.forEach(([i, v]) => {
+      const auto = n.etape.sorties.some(s => s[0] === i);   // une étape qui consomme son propre produit n'a pas de lien vers elle-même
+      if(!auto && !proche(entre[n.id + '|' + i] || 0, v)) ko.push(`${n.item} ← ${i} : ${entre[n.id + '|' + i]} ≠ ${v}`);
+    });
+    if(n.type === 'cible' || n.type === 'surplus') { if(!proche(entre[n.id + '|' + n.item] || 0, n.debit)) ko.push(`${n.type} ${n.item}`); }
+    if(n.type === 'brut') { if(!proche(sort[n.id + '|' + n.item] || 0, n.debit)) ko.push(`brut ${n.item}`); }
+  });
+  const col = new Map(G.noeuds.map(n => [n.id, n.col]));
+  const brutsAvant = G.liens.filter(l => l.de.startsWith('b:')).every(l => col.get(l.de) === col.get(l.vers) + 1
+    || col.get(l.de) > col.get(l.vers));
+  const brutsColles = G.noeuds.filter(n => n.type === 'brut').every(n => G.liens.some(l => l.de === n.id && col.get(l.vers) === n.col - 1));
+  ok(`graphe ${nom} : débits conservés`, !ko.length, ko.slice(0, 3).join(' ; '));
+  ok(`graphe ${nom} : ressources juste avant leur consommateur le plus en amont`, brutsAvant && brutsColles, '');
+  ok(`graphe ${nom} : objectifs à droite`, G.noeuds.filter(n => n.type === 'cible').every(n => n.col === 0), '');
+  ok(`graphe ${nom} : liens toujours vers la droite`, G.liens.every(l => col.get(l.de) > col.get(l.vers) || l.de.startsWith('e') && l.vers.startsWith('e')), '');
+  return G;
+}
+{
+  const c = [{item: 'Reinforced Iron Plate', debit: 5}];
+  const G = conservation('RIP', M.calculer(P, c, {permise: standard}), c);
+  ok('graphe RIP : 5 étapes, 1 ressource, 1 objectif', G.noeuds.length === 7, G.noeuds.map(n => n.id).join(' '));
+  const c2 = [{item: 'Plastic', debit: 20}];
+  const G2 = conservation('plastique', M.calculer(P, c2, {permise: standard}), c2);
+  ok('graphe plastique : résidu lourd vers le surplus', G2.liens.some(l => l.vers === 's:Heavy Oil Residue' && proche(l.debit, 10)), JSON.stringify(G2.liens));
+}
+
 // 8. Optimisation (HiGHS) : jamais pire que le choix simple, recettes imposées et items fournis respectés
 const rarete = b => Object.keys(b).reduce((s, i) => s + b[i] * (P.rare[i] || 0), 0);
 require(path.join(ROOT, 'commun', 'vendor', 'highs.js'))().then(H => {
@@ -134,6 +167,9 @@ require(path.join(ROOT, 'commun', 'vendor', 'highs.js'))().then(H => {
   }
   ok(`tous les items (${items.length}) : résolus`, !echec.length, echec.join(', '));
   ok('tous les items : jamais pire que le choix simple', !pires.length, pires.join(', '));
+  // graphe d'un plan optimisé (plusieurs recettes par item, sous-produits réutilisés)
+  const co = [{item: 'Computer', debit: 5}, {item: 'Heavy Modular Frame', debit: 2}];
+  conservation('optimisé', M.optimiser(P, co, {permise: tout}, H), co);
 }).catch(e => { ok('HiGHS chargé', false, e && e.message); }).then(() => {
   if(echecs){ console.log(`${echecs} échec(s)`); process.exit(1); }
   console.log('planificateur : tous les tests passent');

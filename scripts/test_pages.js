@@ -220,6 +220,23 @@ const CHECKS = {
     if (!/120\b.*(Iron Ore|Minerai de fer)/.test(txt('bruts'))) out.push('ressources par défaut : ' + txt('bruts'));
     if (document.querySelectorAll('#etapes .etape').length !== 5) out.push(document.querySelectorAll('#etapes .etape').length + ' étapes (5 attendues)');
     if (/NaN|undefined/.test(document.body.innerText)) out.push('valeur invalide dans la page');
+    // vue en graphe : 5 étapes + minerai + objectif, 7 liens (6 entre étapes et ressource, 1 vers l'objectif), survol qui isole, retour à la liste
+    document.querySelector('[data-vue="graphe"]').click();
+    const svg = document.querySelector('#graphe svg');
+    if (!svg || document.getElementById('vueGraphe').hidden || !document.getElementById('vueListe').hidden) out.push('vue en graphe non affichée');
+    else {
+      if (svg.querySelectorAll('.noeud').length !== 7) out.push(svg.querySelectorAll('.noeud').length + ' blocs dans le graphe (7 attendus)');
+      if (svg.querySelectorAll('.lien').length !== 7) out.push(svg.querySelectorAll('.lien').length + ' liens dans le graphe (7 attendus)');
+      if (/NaN|undefined/.test(svg.outerHTML)) out.push('valeur invalide dans le graphe');
+      svg.querySelector('.noeud[data-id^="b:"]').dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
+      if (!svg.classList.contains('actif') || svg.querySelectorAll('.lien.lie').length !== 1) out.push('survol du minerai : ' + svg.querySelectorAll('.lien.lie').length + ' lien(s) isolé(s)');
+      const w = +svg.getAttribute('width');
+      document.querySelector('[data-z="1"]').click();
+      if (!(+document.querySelector('#graphe svg').getAttribute('width') > w)) out.push('zoom sans effet');
+      document.querySelector('[data-z="0"]').click();
+    }
+    document.querySelector('[data-vue="liste"]').click();
+    if (document.getElementById('vueListe').hidden) out.push('retour à la liste impossible');
     // optimisation : solveur chargé à la demande (file:// compris), moins de ressources que le choix simple
     const rare = () => parseFloat(document.querySelector('#tuiles [data-k="rare"] .big').innerText.replace(/\s/g, '').replace(',', '.'));
     document.getElementById('alt').click();   // alternatives permises : l'optimum en profite

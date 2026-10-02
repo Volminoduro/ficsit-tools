@@ -17,6 +17,7 @@
         surplus: {item: /min}, manquants: [items sans recette permise], mw, converge}
      optimiser(P, cibles, opts, highs)  même résultat, recettes choisies par programmation linéaire (HiGHS, voir plus bas) :
         opts.critere = 'ressources' | 'energie' ; opts.choix et opts.permise comme calculer()
+     graphe(R, cibles)              nœuds et liens d'un plan, pour la vue en graphe (voir plus bas)
      installe(P, batis)             usine existante (bâtiments lus par commun/ficsit-usine-worker.js : {c, rec, clk, sloops,
                                      prod}) → {classe: {n machines, exec (exécutions/min à leur cadence, Somersloops
                                      compris), prod (part du temps où elles ont produit, mesurée par le jeu, ou null)}}
@@ -153,21 +154,87 @@
     return {etapes: etapes, bruts: bruts, surplus: surplus, mw: mw};
   }
 
-  // tri de l'aval (cibles) vers l'amont : rang = plus longue distance depuis une cible (sans boucler)
+  /* tri de l'aval (cibles) vers l'amont : rang = plus longue distance depuis une étape qui produit une cible, en
+     suivant « consomme ce que produit ». Les boucles (recyclage plastique ↔ caoutchouc, résidu de matière noire…) sont
+     coupées par un parcours en profondeur qui écarte les arcs retour ; plus long chemin ensuite dans l'ordre
+     topologique du graphe sans boucle. */
   function ordonner(etapes, cible){
     var parItem = {};
     etapes.forEach(function(e){ e.sorties.forEach(function(s){ (parItem[s[0]] = parItem[s[0]] || []).push(e); }); });
-    var rang = new Map();
-    function visite(e, d, pile){
-      if(pile.has(e) || (rang.has(e) && rang.get(e) >= d)) return;
-      rang.set(e, d); pile.add(e);
-      e.entrees.forEach(function(p){ (parItem[p[0]] || []).forEach(function(f){ if(f !== e) visite(f, d + 1, pile); }); });
-      pile.delete(e);
+    var amont = new Map(etapes.map(function(e){
+      var l = [];
+      e.entrees.forEach(function(p){ (parItem[p[0]] || []).forEach(function(f){ if(f !== e && l.indexOf(f) < 0) l.push(f); }); });
+      return [e, l];
+    }));
+    var etat = new Map(), ordre = [], gardes = new Map(etapes.map(function(e){ return [e, []]; }));
+    function visite(e){
+      etat.set(e, 1);
+      amont.get(e).forEach(function(f){
+        if(etat.get(f) === 1) return;                 // arc retour : boucle, ignoré pour la mise en rang
+        gardes.get(e).push(f);
+        if(!etat.has(f)) visite(f);
+      });
+      etat.set(e, 2); ordre.push(e);
     }
-    etapes.forEach(function(e){ if(e.sorties.some(function(s){ return s[0] in cible; })) visite(e, 0, new Set()); });
-    etapes.forEach(function(e){ if(!rang.has(e)) visite(e, 0, new Set()); });
+    var racines = etapes.filter(function(e){ return e.sorties.some(function(s){ return s[0] in cible; }); });
+    racines.concat(etapes).forEach(function(e){ if(!etat.has(e)) visite(e); });
+    var rang = new Map(etapes.map(function(e){ return [e, 0]; }));
+    for(var k = ordre.length - 1; k >= 0; k--){       // ordre inverse du post-ordre : chaque étape avant son amont
+      var e = ordre[k];
+      gardes.get(e).forEach(function(f){ rang.set(f, Math.max(rang.get(f), rang.get(e) + 1)); });
+    }
     etapes.sort(function(a, b){ return (rang.get(a) - rang.get(b)) || a.item.localeCompare(b.item); });
     etapes.forEach(function(e){ e.rang = rang.get(e); });
+  }
+
+  /* Graphe d'un plan (résultat de calculer ou optimiser) : nœuds = étapes, ressources brutes, objectifs, surplus ;
+     liens = débit d'un item d'un nœud à l'autre. Quand plusieurs nœuds produisent un item, chaque consommateur reçoit
+     de chacun au prorata de sa production. col : colonne de mise en page, 0 = objectifs et surplus (à droite), puis
+     les étapes par rang ; chaque ressource brute juste à gauche de son consommateur le plus en amont.
+     → {noeuds: [{id, type: 'etape' | 'brut' | 'cible' | 'surplus', item, debit, etape?, col}], liens: [{de, vers, item, debit}]} */
+  function graphe(R, cibles){
+    var cible = {};
+    (cibles || []).forEach(function(c){ if(c.item && c.debit > 0) cible[c.item] = (cible[c.item] || 0) + c.debit; });
+    var noeuds = [], prod = {}, cons = {}, maxRang = 0;
+    var ajoute = function(t, i, nd, v){ (t[i] = t[i] || []).push([nd, v]); };
+    R.etapes.forEach(function(e, k){
+      var nd = {id: 'e' + k, type: 'etape', item: e.item, debit: 0, etape: e, col: (e.rang || 0) + 1};
+      maxRang = Math.max(maxRang, nd.col);
+      e.sorties.forEach(function(s){ if(s[0] === e.item) nd.debit += s[1]; ajoute(prod, s[0], nd, s[1]); });
+      e.entrees.forEach(function(s){ ajoute(cons, s[0], nd, s[1]); });
+      noeuds.push(nd);
+    });
+    Object.keys(R.bruts).forEach(function(i){
+      var nd = {id: 'b:' + i, type: 'brut', item: i, debit: R.bruts[i], col: maxRang + 1};
+      noeuds.push(nd); ajoute(prod, i, nd, R.bruts[i]);
+    });
+    Object.keys(cible).forEach(function(i){
+      var nd = {id: 'c:' + i, type: 'cible', item: i, debit: cible[i], col: 0};
+      noeuds.push(nd); ajoute(cons, i, nd, cible[i]);
+    });
+    Object.keys(R.surplus).forEach(function(i){
+      var nd = {id: 's:' + i, type: 'surplus', item: i, debit: R.surplus[i], col: 0};
+      noeuds.push(nd); ajoute(cons, i, nd, R.surplus[i]);
+    });
+    var liens = [];
+    Object.keys(cons).forEach(function(i){
+      var ps = prod[i] || [], total = ps.reduce(function(s, p){ return s + p[1]; }, 0);
+      if(total <= 0) return;
+      cons[i].forEach(function(c){ ps.forEach(function(p){
+        var v = p[1] * c[1] / total;
+        if(p[0] !== c[0] && v > 1e-9) liens.push({de: p[0].id, vers: c[0].id, item: i, debit: v});
+      }); });
+    });
+    // une ressource se place juste avant son consommateur le plus en amont (pas toutes dans la dernière colonne)
+    var parId = {};
+    noeuds.forEach(function(nd){ parId[nd.id] = nd; });
+    noeuds.forEach(function(nd){
+      if(nd.type !== 'brut') return;
+      var c = 0;
+      liens.forEach(function(l){ if(l.de === nd.id) c = Math.max(c, parId[l.vers].col); });
+      nd.col = c + 1;
+    });
+    return {noeuds: noeuds, liens: liens};
   }
 
   /* Optimisation : les recettes permises en mélange libre, au moindre coût, par programmation linéaire résolue par
@@ -267,7 +334,7 @@
     return {installe: installe, besoin: besoin, manque: manque, machines: manque / (60 / r.temps * q), n: i ? i.n : 0, prod: i ? i.prod : null};
   }
 
-  var API = {candidates: candidates, calculer: calculer, optimiser: optimiser, installe: installe, ecart: ecart};
+  var API = {candidates: candidates, calculer: calculer, optimiser: optimiser, graphe: graphe, installe: installe, ecart: ecart};
   if(typeof module !== 'undefined' && module.exports) module.exports = API;
   else racine.PlannerMoteur = API;
 })(typeof self !== 'undefined' ? self : this);

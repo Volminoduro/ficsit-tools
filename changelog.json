@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.6",
+          "date": "2026-10-02",
+          "texte": {
+            "fr": "Les recettes se changent depuis le graphe : le bouton ⇄ d'une étape (ou la touche R) ouvre sur le graphe la liste des recettes permises pour son item, la recette actuelle cochée, avec « Fourni (hors chaîne) ». Un item fourni garde le bouton sur son bloc de ressource, avec « Recette par défaut » pour le refabriquer. Le panneau du bloc choisi propose aussi la liste des recettes.",
+            "en": "Recipes can be changed from the graph: a step's ⇄ button (or the R key) opens on the graph the list of allowed recipes for its item, the current one ticked, with \"Supplied (outside the chain)\". A supplied item keeps the button on its resource box, with \"Default recipe\" to make it again. The chosen box's panel also offers the recipe list."
+          }
+        },
+        {
           "version": "1.5",
           "date": "2026-10-02",
           "texte": {

@@ -253,6 +253,27 @@ const CHECKS = {
       montage.value = 'equilibre'; montage.dispatchEvent(new Event('change'));
       if (n4() === avantM || !/(équilibrage|load balancing)/i.test(document.getElementById('detail').innerText)) out.push('bascule du montage sans effet : ' + n4());
       montage.value = 'manifold'; montage.dispatchEvent(new Event('change'));
+      // changer de recette depuis le graphe : bouton ⇄, menu, « Fourni », puis retour à la recette par défaut
+      const ouvrir = id => document.querySelector(`#graphe .recette[data-recette="${id}"]`)
+        .dispatchEvent(new PointerEvent('pointerdown', {bubbles: true, pointerId: 9, button: 0}));
+      ouvrir('e:Recipe_IronPlate_C');
+      const menu = document.getElementById('menuRec'), opts = () => [...menu.querySelectorAll('button[data-val]')];
+      if (menu.hidden || opts().length < 2 || !opts().some(b => b.getAttribute('aria-checked') === 'true' && b.dataset.val === 'Recipe_IronPlate_C'))
+        out.push('menu des recettes : ' + menu.innerText.replace(/\s+/g, ' '));
+      else {
+        opts().find(b => b.dataset.val === 'brut').click();
+        if (!menu.hidden || !/60\b.*(Iron Plate|Plaque de fer)/.test(txt('bruts'))) out.push('« Fourni » depuis le graphe : ' + txt('bruts'));
+        if (!document.querySelector('#graphe .recette[data-recette="b:Iron Plate"]')) out.push('item fourni sans bouton ⇄ dans le graphe');
+        else {
+          ouvrir('b:Iron Plate');
+          const def = opts().find(b => b.dataset.val === '');
+          if (!def) out.push('pas de « recette par défaut » pour un item fourni'); else def.click();
+          if (S.choix['Iron Plate'] !== undefined || !document.querySelector('#graphe .noeud[data-id="e:Recipe_IronPlate_C"]')) out.push('retour à la recette par défaut depuis le graphe');
+        }
+      }
+      // panneau du bloc choisi (toucher un bloc déjà choisi le désélectionne) : liste des recettes
+      if (CHOISI !== 'e:Recipe_IronPlate_C') { pointeur('pointerdown', bloc(), 100, 100); pointeur('pointerup', document.getElementById('graphe'), 100, 100); }
+      if (!document.querySelector('#detail select[data-item="Iron Plate"]')) out.push('pas de liste de recettes dans le panneau du bloc');
       // glisser le bloc de 150 px vers le bas : position retenue, lien redessiné
       const avantD = document.querySelector('#graphe .lien[data-vers="e:Recipe_IronPlate_C"]').getAttribute('d');
       pointeur('pointerdown', bloc(), 100, 100);

@@ -227,7 +227,9 @@ const CHECKS = {
     if (!/120\b.*(Iron Ore|Minerai de fer)/.test(txt('bruts'))) out.push('ressources par défaut : ' + txt('bruts'));
     if (document.querySelectorAll('#etapes .etape').length !== 5) out.push(document.querySelectorAll('#etapes .etape').length + ' étapes (5 attendues)');
     if (/NaN|undefined/.test(document.body.innerText)) out.push('valeur invalide dans la page');
-    // vue en graphe : 5 étapes + minerai + objectif, 7 liens (6 entre étapes et ressource, 1 vers l'objectif), survol qui isole, retour à la liste
+    // vue en graphe, affichée par défaut : 5 étapes + minerai + objectif, 7 liens (6 entre étapes et ressource, 1 vers
+    // l'objectif), convoyeurs, détail du montage, glisser, survol qui isole, retour à la liste
+    if (document.getElementById('vueGraphe').hidden) out.push('le graphe n\'est pas la vue par défaut');
     document.querySelector('[data-vue="graphe"]').click();
     const svg = document.querySelector('#graphe svg');
     if (!svg || document.getElementById('vueGraphe').hidden || !document.getElementById('vueListe').hidden) out.push('vue en graphe non affichée');
@@ -237,7 +239,31 @@ const CHECKS = {
       if (/NaN|undefined/.test(svg.outerHTML)) out.push('valeur invalide dans le graphe');
       svg.querySelector('.noeud[data-id^="b:"]').dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
       if (!svg.classList.contains('actif') || svg.querySelectorAll('.lien.lie').length !== 1) out.push('survol du minerai : ' + svg.querySelectorAll('.lien.lie').length + ' lien(s) isolé(s)');
-      const w = +svg.getAttribute('width');
+      // convoyeur sur chaque lien : 120 minerai → Mk.2
+      const etiq = [...svg.querySelectorAll('.etiq')].map(x => x.textContent.replace(/\s+/g, ' '));
+      if (!etiq.every(x => /Mk\.\d/.test(x)) || !etiq.some(x => /^120 Mk\.2$/.test(x))) out.push('convoyeurs des liens : ' + etiq.join(' | '));
+      // toucher un bloc : choisi, détail du montage (3 constructeurs de plaques : manifold, 2 séparateurs)
+      const pointeur = (type, el, x, y) => el.dispatchEvent(new PointerEvent(type, {bubbles: true, pointerId: 7, clientX: x, clientY: y, button: 0}));
+      const bloc = () => document.querySelector('#graphe .noeud[data-id="e:Recipe_IronPlate_C"]');
+      pointeur('pointerdown', bloc(), 100, 100); pointeur('pointerup', document.getElementById('graphe'), 100, 100);
+      if (!bloc().classList.contains('choisi') || !/2 (séparateur|splitter)/.test(document.getElementById('detail').innerText))
+        out.push('détail du montage : ' + document.getElementById('detail').innerText);
+      const n4 = () => bloc().querySelector('.n4').textContent;
+      const avantM = n4(), montage = document.getElementById('montage');
+      montage.value = 'equilibre'; montage.dispatchEvent(new Event('change'));
+      if (n4() === avantM || !/(équilibrage|load balancing)/i.test(document.getElementById('detail').innerText)) out.push('bascule du montage sans effet : ' + n4());
+      montage.value = 'manifold'; montage.dispatchEvent(new Event('change'));
+      // glisser le bloc de 150 px vers le bas : position retenue, lien redessiné
+      const avantD = document.querySelector('#graphe .lien[data-vers="e:Recipe_IronPlate_C"]').getAttribute('d');
+      pointeur('pointerdown', bloc(), 100, 100);
+      pointeur('pointermove', document.getElementById('graphe'), 100, 180);
+      pointeur('pointermove', document.getElementById('graphe'), 100, 250);
+      pointeur('pointerup', document.getElementById('graphe'), 100, 250);
+      const q = S.pos['e:Recipe_IronPlate_C'];
+      if (!q || document.querySelector('#graphe .lien[data-vers="e:Recipe_IronPlate_C"]').getAttribute('d') === avantD) out.push('glisser sans effet : ' + JSON.stringify(q));
+      document.getElementById('reorg').click();
+      if (Object.keys(S.pos).length) out.push('réorganiser n\'efface pas les positions');
+      const w = +document.querySelector('#graphe svg').getAttribute('width');
       document.querySelector('[data-z="1"]').click();
       if (!(+document.querySelector('#graphe svg').getAttribute('width') > w)) out.push('zoom sans effet');
       document.querySelector('[data-z="0"]').click();

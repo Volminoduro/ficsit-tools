@@ -18,6 +18,9 @@
      optimiser(P, cibles, opts, highs)  même résultat, recettes choisies par programmation linéaire (HiGHS, voir plus bas) :
         opts.critere = 'ressources' | 'energie' ; opts.choix et opts.permise comme calculer()
      graphe(R, cibles)              nœuds et liens d'un plan, pour la vue en graphe (voir plus bas)
+     convoyeur(debit, liquide, dispo), equilibre(n), montage(etape, mode, dispo, liquides)
+                                     niveau de tapis ou de tuyau d'un débit ; arbre de séparateurs vers n machines ;
+                                     montage d'une étape en manifold ou en équilibrage (voir plus bas)
      installe(P, batis)             usine existante (bâtiments lus par commun/ficsit-usine-worker.js : {c, rec, clk, sloops,
                                      prod}) → {classe: {n machines, exec (exécutions/min à leur cadence, Somersloops
                                      compris), prod (part du temps où elles ont produit, mesurée par le jeu, ou null)}}
@@ -198,7 +201,7 @@
     var noeuds = [], prod = {}, cons = {}, maxRang = 0;
     var ajoute = function(t, i, nd, v){ (t[i] = t[i] || []).push([nd, v]); };
     R.etapes.forEach(function(e, k){
-      var nd = {id: 'e' + k, type: 'etape', item: e.item, debit: 0, etape: e, col: (e.rang || 0) + 1};
+      var nd = {id: 'e:' + e.recette.classe, type: 'etape', item: e.item, debit: 0, etape: e, col: (e.rang || 0) + 1};
       maxRang = Math.max(maxRang, nd.col);
       e.sorties.forEach(function(s){ if(s[0] === e.item) nd.debit += s[1]; ajoute(prod, s[0], nd, s[1]); });
       e.entrees.forEach(function(s){ ajoute(cons, s[0], nd, s[1]); });
@@ -314,6 +317,71 @@
       converge: true, rarete: cout};
   }
 
+  /* ---------- convoyeurs et montage ----------
+     dispo = {conv: [[débit max /min, nom]…], tuy: [[débit max m³/min, nom]…]}, du plus petit au plus grand : les niveaux
+     débloqués (la page les tire du payload P.conv / P.tuy selon la partie ou le palier). */
+
+  // plus petit tapis (ou tuyau) qui passe le débit ; au-delà du plus grand, plusieurs lignes du plus grand
+  function convoyeur(debit, liquide, dispo){
+    var l = (liquide ? dispo.tuy : dispo.conv) || [];
+    if(!l.length) return null;
+    for(var k = 0; k < l.length; k++) if(debit <= l[k][0] + 1e-6) return {nom: l[k][1], cap: l[k][0], n: 1};
+    var max = l[l.length - 1];
+    return {nom: max[1], cap: max[0], n: Math.ceil(debit / max[0] - 1e-9)};
+  }
+
+  /* arbre d'équilibrage d'une ligne vers n machines avec des séparateurs (1 → 2 ou 1 → 3) : n s'écrit 2^a·3^b, sinon on
+     vise le plus petit m = 2^a·3^b ≥ n et les m − n sorties en trop reviennent sur l'entrée par un groupeur (boucle).
+     Étages : les 2 d'abord (moins de séparateurs : 1 + f1 + f1·f2 + …). → {facteurs, m, boucle, separateurs} */
+  function equilibre(n){
+    if(n <= 1) return {facteurs: [], m: 1, boucle: 0, separateurs: 0};
+    var m = Infinity;
+    for(var a = 1; a <= 2 * n; a *= 2) for(var b = a; b <= 2 * n; b *= 3) if(b >= n && b < m) m = b;
+    var f = [], r = m;
+    while(r % 2 === 0){ f.push(2); r /= 2; }
+    while(r % 3 === 0){ f.push(3); r /= 3; }
+    var sep = 0, prod = 1;
+    f.forEach(function(x){ sep += prod; prod *= x; });
+    return {facteurs: f, m: m, boucle: m - n, separateurs: sep};
+  }
+
+  /* montage d'une étape (machines entières) pour chaque entrée et chaque sortie :
+     mode 'manifold' : une ligne qui longe les machines, n − 1 séparateurs (la dernière est au bout du tapis) ou
+       n − 1 groupeurs ; la ligne porte tout le débit ;
+     mode 'equilibre' : arbre de séparateurs (equilibre(n)), débit de chaque étage ; sorties réunies par des groupeurs
+       à 3 entrées en arbre (⌈(n − 1) / 2⌉ groupeurs).
+     Fluides : tuyau en manifold dans les deux modes (un réseau de tuyaux s'équilibre seul).
+     → {entrees: [lot], sorties: [lot]}, lot = {item, debit, liquide, mode, ligne (convoyeur), separateurs, groupeurs,
+        etages: [{facteur, branches, debit, tapis}], boucle, debitLigne (débit sur la ligne d'entrée, boucle comprise)} */
+  function montage(e, mode, dispo, liquides){
+    var n = e.entieres, liq = function(i){ return liquides ? liquides.has(i) : false; };
+    function lot(item, debit, sens){
+      var l = {item: item, debit: debit, liquide: liq(item), separateurs: 0, groupeurs: 0, etages: [], boucle: 0, debitLigne: debit};
+      l.mode = l.liquide || n <= 1 ? (n <= 1 ? 'direct' : 'manifold') : mode;
+      if(l.mode === 'manifold'){
+        if(sens === 'entree') l.separateurs = n - 1; else l.groupeurs = n - 1;
+      } else if(l.mode === 'equilibre'){
+        if(sens === 'entree'){
+          var q = equilibre(n), parBranche = debit / n, branches = 1;
+          l.separateurs = q.separateurs; l.boucle = q.boucle; l.debitLigne = parBranche * q.m;
+          if(q.boucle) l.groupeurs = 1;   // groupeur qui renvoie les sorties en trop sur l'entrée
+          q.facteurs.forEach(function(f){
+            branches *= f;
+            var d = l.debitLigne / branches;
+            l.etages.push({facteur: f, separateurs: branches / f, branches: branches, debit: d, tapis: convoyeur(d, false, dispo)});
+          });
+        } else {
+          l.groupeurs = Math.ceil((n - 1) / 2);
+        }
+      }
+      l.ligne = convoyeur(l.debitLigne, l.liquide, dispo);
+      l.branche = convoyeur(debit / Math.max(1, n), l.liquide, dispo);
+      return l;
+    }
+    return {entrees: e.entrees.map(function(p){ return lot(p[0], p[1], 'entree'); }),
+            sorties: e.sorties.map(function(p){ return lot(p[0], p[1], 'sortie'); })};
+  }
+
   function installe(P, batis){
     var ix = index(P), parBat = {}, out = {};
     Object.keys(P.b).forEach(function(m){ parBat[P.b[m][3]] = P.b[m]; });
@@ -334,7 +402,8 @@
     return {installe: installe, besoin: besoin, manque: manque, machines: manque / (60 / r.temps * q), n: i ? i.n : 0, prod: i ? i.prod : null};
   }
 
-  var API = {candidates: candidates, calculer: calculer, optimiser: optimiser, graphe: graphe, installe: installe, ecart: ecart};
+  var API = {candidates: candidates, calculer: calculer, optimiser: optimiser, graphe: graphe, installe: installe, ecart: ecart,
+    convoyeur: convoyeur, equilibre: equilibre, montage: montage};
   if(typeof module !== 'undefined' && module.exports) module.exports = API;
   else racine.PlannerMoteur = API;
 })(typeof self !== 'undefined' ? self : this);

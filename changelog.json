@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.11",
+          "date": "2026-10-02",
+          "texte": {
+            "fr": "Sauvegarde importée depuis une autre page (accueil, autre outil) : l'outil la reprend aussi quand on y revient par le bouton « retour » du navigateur, et un import interrompu (page quittée avant la fin) ne fait plus perdre la partie précédente. Pendant l'enregistrement du fichier, le panneau « Ma partie » le signale et le navigateur demande confirmation avant de quitter la page.",
+            "en": "Save imported from another page (home, another tool): the tool also picks it up when you come back with the browser's back button, and an interrupted import (page left before the end) no longer loses the previous game. While the file is being saved, the \"My game\" panel says so and the browser asks for confirmation before leaving the page."
+          }
+        },
+        {
           "version": "1.10",
           "date": "2026-10-01",
           "texte": {

@@ -69,7 +69,8 @@
   }
 
   function charger(){ try{ var p = JSON.parse(localStorage.getItem(CLE)); return p && p.recettes ? p : null; }catch(e){ return null; } }
-  function prevenir(){ abonnes.forEach(function(f){ try{ f(); }catch(e){} }); }
+  var vue;   // partie vue par cette page (identifiant de l'import), fixée au chargement plus bas
+  function prevenir(){ vue = (charger() || {}).lu; abonnes.forEach(function(f){ try{ f(); }catch(e){} }); }
   window.addEventListener('storage', function(e){ if(e.key === CLE || e.key === CLE_SIMU || e.key === null) prevenir(); });
 
   /* Référentiel des alternatives (FicsitAlternatives) : recettes[classe] = [nom, item produit, slug d'icône, palier],
@@ -127,6 +128,10 @@
     return new Set(Array.from(dispo).map(function(i){ return G.items[i]; }));
   }
 
+  // page rendue depuis le cache de l'historique (retour arrière) : si la partie a changé entre-temps (import dans une
+  // autre page), les outils sont prévenus comme pour un import fait ici
+  window.addEventListener('pageshow', function(e){ if(e.persisted && (charger() || {}).lu !== vue) prevenir(); });
+  vue = (charger() || {}).lu;
   window.FicsitPartie = {
     simulation: simulation, simuler: simuler, permises: permises, fabricables: fabricables,
     cle: CLE, lire: lire, charger: charger, bilan: bilan,

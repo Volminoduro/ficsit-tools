@@ -48,6 +48,11 @@
   var lireCle = function(k){ return op('readonly', function(st){ return st.get(k); }).catch(function(){ return null; }); };
   var ecrireCle = function(k, v){ return op('readwrite', function(st){ st.put(v, k); }).catch(function(){ return false; }); };
   var viderCles = function(){ return op('readwrite', function(st){ st.clear(); }).catch(function(){ return false; }); };
+  // ce qui dépend d'un import précédent (fichier, usine, débits) ; le fichier et les calculs du nouvel import restent
+  var purger = function(lu){ return op('readwrite', function(st){
+    var c = st.openCursor();
+    c.onsuccess = function(){ var k = c.result; if(!k) return; if(!k.value || k.value.lu !== lu) k.delete(); k.continue(); };
+  }).catch(function(){ return false; }); };
 
   FP.fichier = function(){
     var p = FP.charger();
@@ -111,12 +116,14 @@
       if(etape !== etat.etape || fr >= 1 || t - dernier > 100){ dernier = t; etat = {etape: etape, f: fr}; rendu(); }
     }).then(function(p){
       p.fichier = f.name;
-      // le fichier d'abord (l'outil Depot le relit dès qu'il apprend le changement), la partie ensuite
-      return viderCles().then(function(){ return f.arrayBuffer(); })
+      // le fichier d'abord (l'outil Depot le relit dès qu'il apprend le changement), la partie ensuite, puis seulement
+      // le ménage de l'import précédent : quitter la page en cours de route laisse l'ancienne partie intacte
+      etat = {etape: 'fichier'}; rendu();
+      return f.arrayBuffer()
         .then(function(buf){ memoire = {lu: p.lu, nom: f.name, buf: buf}; return ecrireCle('sav', memoire); })
         .then(function(garde){
           etat = !FP.enregistrer(p) ? {erreur: 'stockage'} : garde === false ? {note: 'partieFichierNonGarde'} : null;
-          rendu(); return p;
+          rendu(); purger(p.lu); return p;
         });
     }).catch(function(e){ etat = {erreur: e.message || 'format'}; rendu(); throw e; });
   };
@@ -187,8 +194,8 @@
     var el = document.getElementById('fpartieEtat'), e = etat;
     el.classList.toggle('erreur', !!(e && e.erreur));
     if(e && e.etape){
-      var pc = Math.round((e.f || 0) * 100), lec = e.etape === 'lecture';
-      el.innerHTML = '<div>' + esc(lec ? T('partieLecture') : TX('partieAnalyse', {p: FicsitLang.num(pc)})) + '</div>'
+      var pc = Math.round((e.f || 0) * 100), lec = e.etape === 'lecture' || e.etape === 'fichier';
+      el.innerHTML = '<div>' + esc(e.etape === 'fichier' ? T('partieFichierEnCours') : lec ? T('partieLecture') : TX('partieAnalyse', {p: FicsitLang.num(pc)})) + '</div>'
         + '<div class="fpartie-jauge' + (lec ? ' lecture' : '') + '" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pc + '"><i style="width:' + (lec ? 100 : pc) + '%"></i></div>'
         + '<div>' + esc(T('partieAnalyseAide')) + '</div>';
     } else {
@@ -216,6 +223,8 @@
   }
   FP.surChangement(rendu);
   FicsitLang.on(rendu);
+  // import en cours : quitter la page l'interromprait (la partie ne serait pas enregistrée)
+  window.addEventListener('beforeunload', function(e){ if(etat && etat.etape){ e.preventDefault(); e.returnValue = ''; } });
   // après le dock de ficsit-lang.js (monté au même moment, enregistré avant)
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', monter); else monter();
 })();

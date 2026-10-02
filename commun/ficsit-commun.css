@@ -1,104 +1,247 @@
 /* Fichier généré par scripts/langue.py depuis commun/ : ne pas éditer. */
+/* Noto Sans embarquée (commun/polices/, licence OFL, sous-ensembles de Google Fonts, variable en graisse et en chasse) :
+   rendu identique hors ligne, en CI et pour les captures de référence. Le navigateur ne charge que les sous-ensembles
+   dont la page a besoin (unicode-range). Chemins relatifs à commun/ficsit-commun.css. */
+@font-face{font-family:'Noto Sans';font-style:normal;font-weight:400 800;font-stretch:62.5% 100%;font-display:swap;
+  src:url(polices/noto-sans-latin.woff2) format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Noto Sans';font-style:normal;font-weight:400 800;font-stretch:62.5% 100%;font-display:swap;
+  src:url(polices/noto-sans-latin-ext.woff2) format('woff2');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Noto Sans';font-style:normal;font-weight:400 800;font-stretch:62.5% 100%;font-display:swap;
+  src:url(polices/noto-sans-grec.woff2) format('woff2');
+  unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF}
+/* compléments, hors des sous-ensembles Google : exposants et indices (Noto Sans), flèches (Noto Sans Math), traits
+   d'arbre (Noto Sans Mono), ■ ▲ ▸ ★ ✓ ✔ (Noto Sans Symbols 2) — sans eux, ces signes viendraient d'une police système,
+   différente d'une machine à l'autre (captures de référence). Mêmes plages de graisse et de chasse que les autres faces,
+   sinon Chromium en fait un groupe à part et rend le reste du texte avec la police de secours. */
+@font-face{font-family:'Noto Sans';font-style:normal;font-weight:400 800;font-stretch:62.5% 100%;font-display:swap;
+  src:url(polices/noto-sans-exposants.woff2) format('woff2');
+  unicode-range:U+2070-209F}
+@font-face{font-family:'Noto Sans';font-style:normal;font-weight:400 800;font-stretch:62.5% 100%;font-display:swap;
+  src:url(polices/noto-sans-math-fleches.woff2) format('woff2');
+  unicode-range:U+2190,U+2192,U+2194-21FF}
+@font-face{font-family:'Noto Sans';font-style:normal;font-weight:400 800;font-stretch:62.5% 100%;font-display:swap;
+  src:url(polices/noto-sans-mono-traits.woff2) format('woff2');
+  unicode-range:U+2500-257F}
+@font-face{font-family:'Noto Sans';font-style:normal;font-weight:400 800;font-stretch:62.5% 100%;font-display:swap;
+  src:url(polices/noto-sans-symboles2.woff2) format('woff2');
+  unicode-range:U+25A0-25FF,U+2605,U+2713-2714}
+/* Charte commune, au plus près des menus et du HUD du jeu (relevés sur captures 1.0 / 1.1 : fenêtre du mineur,
+   Alien Power Augmenter, AWESOME Shop, inventaire, codex, accueil 1.1).
+   Le jeu : fenêtres gris neutre (pas bleuté), barre de titre #3F3F3F, coins droits, orange #E59345 pour la sélection
+   et les valeurs, cases d'objets gris clair avec badge de quantité orange, petites étiquettes « OUTPUT » en pastille
+   claire, écrans blancs à texte sombre, titres en capitales espacées, police humaniste (Noto Sans, libre, au plus près
+   de celle du jeu, embarquée). Texte blanc sur l'orange comme dans le jeu (choix du joueur, 2026-10-02), au prix du contraste :
+   2,4 : 1, sous le seuil AA.
+   Les pages n'ont plus de palette propre : leurs variables locales renvoient à celles-ci. */
+:root{
+  /* fonds */
+  --f-fond:#1B1B1B;        /* page : le décor flouté derrière les fenêtres */
+  --f-fenetre:#262626;     /* corps de fenêtre */
+  --f-fenetre2:#303030;    /* bloc posé sur la fenêtre, survol */
+  --f-creux:#121212;       /* listes, champs, cases vides sombres */
+  --f-barre:#3F3F3F;       /* barre de titre, en-tête de tableau */
+  --f-barre2:#575757;      /* onglet actif, barre secondaire */
+  --f-metal:#383838;       /* cadre de machine */
+  /* traits */
+  --f-trait:#444444;
+  --f-trait2:#5E5E5E;
+  /* texte */
+  --f-encre:#F2F2F2;
+  --f-encre2:#B8B8B8;
+  --f-encre3:#919191;
+  /* orange FICSIT */
+  --f-or:#E59345;
+  --f-or-clair:#F2AA63;
+  --f-or-fonce:#C27530;
+  --f-or-encre:#FFFFFF;    /* texte posé sur l'orange : blanc, comme le jeu */
+  --f-or-voile:rgba(229,147,69,.14);
+  /* éléments clairs : cases d'objets, écrans de machine, pastilles */
+  --f-case:#CCCBCB;
+  --f-case-vide:#585959;
+  --f-ecran:#F2F2F2;
+  --f-ecran-encre:#3A3A3A;
+  --f-pastille:#E3E3E3;
+  /* états et séries (couleurs des graphes de puissance du jeu) */
+  --f-bleu:#4FA9C1;
+  --f-violet:#A86FAE;
+  --f-vert:#7DBE5A;
+  --f-jaune:#E8C24A;
+  --f-rouge:#E0604F;
+  /* polices */
+  --f-police:"Noto Sans","Open Sans","Segoe UI",Arial,"Liberation Sans",system-ui,sans-serif;  /* secours étroits avant system-ui */
+  --f-titre:"Noto Sans","Open Sans","Segoe UI",Arial,"Liberation Sans",system-ui,sans-serif;
+  --f-serre:87.5%;         /* titres d'écran : Noto Sans un peu resserrée (axe de chasse), pas une autre police */
+  --f-ombre:0 6px 22px rgba(0,0,0,.55);
+  --f-barre-h:40px;        /* hauteur de la barre de titre commune (dock) */
+}
+
+/* hidden reste masqué même sous all:unset (boutons à plat des pages) */
+[hidden]{display:none!important}
+
+/* Fenêtre : barre de titre grise (icône, titre, fermeture), corps gris foncé */
+.f-fenetre{background:var(--f-fenetre);color:var(--f-encre);box-shadow:var(--f-ombre)}
+.f-fenetre > .f-titre{display:flex;align-items:center;gap:10px;min-height:40px;padding:0 0 0 12px;background:var(--f-barre);
+  font:400 15px/1.2 var(--f-police);color:var(--f-encre)}
+.f-titre .f-x{all:unset;margin-left:auto;align-self:stretch;width:44px;display:grid;place-items:center;cursor:pointer;
+  background:#4A4A4A;font-size:22px;color:#fff}
+.f-titre .f-x:hover,.f-titre .f-x:focus-visible{background:var(--f-or);color:var(--f-or-encre)}
+
+/* Bandeau de section : capitales espacées sur un filet, comme « PURCHASES » ou « WELCOME INFORMATION » */
+.f-bandeau{margin:0 0 12px;padding:0 0 8px;border-bottom:1px solid var(--f-trait2);
+  font:500 14px/1.2 var(--f-titre);letter-spacing:.22em;text-transform:uppercase;color:var(--f-encre2)}
+
+/* Boutons : plein orange (action principale, « Agree and Proceed »), gris (secondaire) */
+.f-btn{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;
+  padding:8px 16px;background:var(--f-barre2);color:var(--f-encre);font:500 14px/1.2 var(--f-police);transition:background .15s,color .15s}
+.f-btn:hover{background:#6A6A6A}
+.f-btn.f-principal{background:var(--f-or);color:var(--f-or-encre)}
+.f-btn.f-principal:hover{background:var(--f-or-clair)}
+.f-btn:focus-visible{outline:2px solid var(--f-or-clair);outline-offset:2px}
+.f-btn:disabled,.f-btn[aria-disabled=true]{cursor:not-allowed;opacity:.5}
+
+/* Case d'objet : carré gris clair, icône, quantité en badge orange en bas à droite */
+.f-case{position:relative;display:inline-grid;place-items:center;width:44px;height:44px;background:var(--f-case);
+  border-radius:3px;box-sizing:border-box}
+.f-case img{width:82%;height:82%;object-fit:contain}
+.f-case.vide{background:var(--f-case-vide)}
+.f-qte{position:absolute;right:-2px;bottom:-2px;min-width:18px;padding:1px 4px;background:var(--f-or);border-radius:2px;
+  font:700 11px/1.2 var(--f-police);color:var(--f-or-encre);text-align:center}
+
+/* Étiquette en pastille sous un écran (« INPUT », « OUTPUT », « OVERCLOCK ») */
+.f-etiquette{display:inline-block;padding:2px 12px;background:var(--f-pastille);border-radius:3px;
+  font:700 10.5px/1.3 var(--f-police);letter-spacing:.06em;text-transform:uppercase;color:#4A4A4A}
+
+/* Écran de machine : panneau blanc, texte sombre, valeurs en orange */
+.f-ecran{background:var(--f-ecran);color:var(--f-ecran-encre);padding:12px 14px;border-radius:2px}
+.f-ecran b,.f-ecran .f-val{color:var(--f-or-fonce)}
+
+/* Jauge : remplissage orange à plat sur fond gris (barre d'avancement, cadence) */
+.f-jauge{height:8px;background:#666668;overflow:hidden}
+.f-jauge > i{display:block;height:100%;background:var(--f-or)}
+
+/* Onglets : gris, l'actif en orange (comme les pages) ; liste : la sélection est un aplat orange */
+.f-onglets{display:flex;gap:3px;background:var(--f-barre)}
+.f-onglets > *{all:unset;cursor:pointer;padding:9px 16px;background:#4B4B4B;color:var(--f-encre2);font:400 15px/1.2 var(--f-police)}
+.f-onglets > :hover{background:#5A5A5A;color:var(--f-encre)}
+.f-onglets > [aria-selected=true],.f-onglets > [aria-pressed=true]{background:var(--f-or);color:var(--f-or-encre)}
+.f-liste > *{padding:6px 12px;color:var(--f-encre)}
+.f-liste > [aria-selected=true],.f-liste > .actif{background:var(--f-or);color:var(--f-or-encre)}
+
+/* Tableau : en-tête en barre grise, lignes séparées d'un filet */
+.f-table{border-collapse:collapse;width:100%;font:400 14px/1.4 var(--f-police)}
+.f-table th{background:var(--f-barre);color:var(--f-encre2);font-weight:600;font-size:12px;letter-spacing:.08em;
+  text-transform:uppercase;text-align:left;padding:8px 10px}
+.f-table td{padding:8px 10px;border-bottom:1px solid var(--f-trait)}
+.f-table tbody tr:hover td{background:var(--f-fenetre2)}
+
+/* Filet orange du HUD (sous « Objective: », « Milestone: ») */
+.f-filet{height:2px;background:var(--f-or);border:0;margin:6px 0}
 html:not([lang|=en]) [data-l=en],html[lang|=en] [data-l=fr]{display:none!important}
-.fdock{position:fixed;top:10px;right:12px;z-index:9999;display:flex;align-items:stretch;gap:6px}
-.flang{position:relative;display:flex;gap:2px;padding:3px;
-  background:rgba(14,18,22,.94);border:1px solid #39434F;box-shadow:0 3px 12px rgba(0,0,0,.45);
-  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));
-  font:700 12px/1 'Saira Condensed','Rajdhani','Barlow Condensed',system-ui,sans-serif;letter-spacing:.1em}
-.flang::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;
-  background:repeating-linear-gradient(135deg,#FA9549 0 6px,transparent 6px 12px);opacity:.8}
+/* Barre de titre commune (dock) : pleine largeur, gris des barres de titre du jeu ; « FICSIT » et le nom de l'outil à
+   gauche, les boutons (Accueil, journal, Ma partie, langue) en cases collées à droite. Elle réserve sa hauteur. */
+html.fbarre{padding-top:var(--f-barre-h);scroll-padding-top:calc(var(--f-barre-h) + 8px)}
+.fdock{position:fixed;top:0;left:0;right:0;height:var(--f-barre-h);z-index:9999;display:flex;align-items:stretch;
+  background:var(--f-barre);box-shadow:0 2px 12px rgba(0,0,0,.45)}
+.fdock > *{border-left:1px solid rgba(0,0,0,.28)}
+.fdock > .fdock-id{border-left:0}
+.fdock-id{margin-right:auto;min-width:0;display:flex;align-items:center;gap:14px;padding:0 16px;white-space:nowrap;overflow:hidden}
+.fdock-id b{flex:none;font:italic 800 15px/1 var(--f-police);letter-spacing:.02em;color:#9A9A9A}
+.fdock-id span{overflow:hidden;text-overflow:ellipsis;font:500 12.5px/1.7 var(--f-police);letter-spacing:.2em;text-transform:uppercase;color:var(--f-encre)}
+.flang{position:relative;display:flex;gap:0;padding:0;
+  font:600 12px/1 var(--f-police);letter-spacing:.08em}
 .flang button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:6px;
-  padding:6px 9px 5px;color:#93A2B1;transition:color .15s,background .15s}
+  padding:0 11px;color:var(--f-encre2);transition:color .15s,background .15s}
 .flang button svg{width:21px;height:14px;display:block;flex:none;filter:grayscale(.55) brightness(.8);
   box-shadow:0 0 0 1px rgba(0,0,0,.5);transition:filter .15s}
-.flang button:hover{color:#E4EAF0}
+.flang button:hover{color:var(--f-encre);background:#4A4A4A}
 .flang button:hover svg{filter:none}
-.flang button[aria-pressed=true]{color:#1B1206;background:#FA9549;cursor:default}
+.flang button[aria-pressed=true]{color:var(--f-or-encre);background:var(--f-or);cursor:default}
 .flang button[aria-pressed=true] svg{filter:none}
-.flang button:focus-visible{outline:2px solid #FA9549;outline-offset:1px}
-.fhome{display:flex;align-items:center;gap:6px;padding:0 10px;text-decoration:none;color:#93A2B1;
-  background:rgba(14,18,22,.94);border:1px solid #39434F;box-shadow:0 3px 12px rgba(0,0,0,.45);
-  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));
-  font:700 12px/1 'Saira Condensed','Rajdhani','Barlow Condensed',system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;
-  transition:color .15s,border-color .15s}
+.flang button:focus-visible{outline:2px solid var(--f-or-clair);outline-offset:1px}
+.fhome{display:flex;align-items:center;gap:6px;padding:0 12px;text-decoration:none;color:var(--f-encre2);
+  font:600 12px/1 var(--f-police);letter-spacing:.08em;text-transform:uppercase;
+  transition:color .15s,background .15s}
 .fhome svg{width:15px;height:15px;fill:currentColor;flex:none}
-.fhome:hover{color:#FA9549;border-color:#FA9549}
-.fhome:focus-visible{outline:2px solid #FA9549;outline-offset:1px}
+.fhome:hover{color:var(--f-encre);background:#4A4A4A}
+.fhome:focus-visible{outline:2px solid var(--f-or-clair);outline-offset:1px}
 @media (max-width:560px){.fhome{padding:0 8px}.fhome span{display:none}}
-@media (max-width:560px){.fdock{top:6px;right:6px;gap:4px}.flang button{padding:5px 6px 4px;gap:4px}.flang button svg{width:18px;height:12px}}
-.fia{max-width:980px;margin:18px auto 22px;padding:8px 14px 8px 38px;position:relative;
-  font:13px/1.45 'Barlow','Rajdhani',system-ui,sans-serif;color:#93A2B1;
-  background:rgba(14,18,22,.6);border:1px dashed #4C5A69}
-.fia::before{content:"IA";position:absolute;left:9px;top:8px;padding:1px 4px;
-  font:700 10px/1.3 'Saira Condensed',system-ui,sans-serif;letter-spacing:.08em;color:#1B1206;background:#FA9549}
+@media (max-width:560px){.fdock-id{padding:0 10px}.fdock-id span{display:none}.flang button{padding:0 7px;gap:4px}.flang button svg{width:18px;height:12px}}
+@media print{html.fbarre{padding-top:0}}
+.fia{max-width:980px;margin:18px auto 22px;padding:8px 14px 8px 40px;position:relative;
+  font:13px/1.45 var(--f-police);color:var(--f-encre2);
+  background:rgba(38,38,38,.7);border-left:3px solid var(--f-barre2)}
+.fia::before{content:"IA";position:absolute;left:10px;top:8px;padding:1px 4px;border-radius:2px;
+  font:700 10px/1.3 var(--f-police);letter-spacing:.06em;color:var(--f-or-encre);background:var(--f-or)}
 html[lang|=en] .fia::before{content:"AI"}
 @media print{.fdock{display:none}}
-.fpal{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:6px}
+/* Grille de paliers : les paliers du terminal du HUB (« TIER 0 … 9 »), cases à plat, coins droits */
+.fpal{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:4px}
 .fpal button{all:unset;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px 7px;
-  background:#0E1216;border:1px solid #39434F;color:#93A2B1;cursor:pointer;text-align:center;
-  font:500 12px/1.2 'Barlow',system-ui,sans-serif;clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
+  background:var(--f-creux);border:1px solid var(--f-trait);color:var(--f-encre2);cursor:pointer;text-align:center;
+  font:500 12px/1.2 var(--f-police)}
 .fpal .fpal-ic{width:36px;height:36px;display:flex;align-items:center;justify-content:center}
 .fpal .fpal-ic img{width:34px;height:34px;object-fit:contain;display:block;margin:0;padding:0;border:0;background:none}
 .fpal .fpal-ic .slot{width:36px;height:36px;border:0;background:none;box-shadow:none}
-.fpal .tn{font:700 19px/1 'Saira Condensed','Barlow Condensed',sans-serif;color:#fff}
-.fpal .tl{font-size:10.5px;line-height:1.15;text-transform:uppercase;letter-spacing:.03em}
-.fpal button.in{background:#252D37;border-color:#4C5A69}
-.fpal button.in .tn{color:#FA9549}
-.fpal button.out .tn{color:#93A2B1}
+.fpal .tn{font:600 19px/1 var(--f-police);color:#fff}
+.fpal .tl{font-size:10px;line-height:1.15;text-transform:uppercase;letter-spacing:.1em}
+.fpal button.in{background:var(--f-fenetre2);border-color:var(--f-trait2)}
+.fpal button.in .tn{color:var(--f-or)}
+.fpal button.out .tn{color:var(--f-encre2)}
 .fpal button.out img{filter:grayscale(.5)}
-.fpal button:disabled{cursor:not-allowed;opacity:.45;border-style:dashed;color:#6F7E8D;
-  background:repeating-linear-gradient(-45deg,transparent 0 6px,rgba(255,255,255,.035) 6px 12px)}
-.fpal button:disabled .tn{color:#6F7E8D}
+.fpal button:disabled{cursor:not-allowed;opacity:.45;border-style:dashed;color:var(--f-encre3);
+  background:repeating-linear-gradient(-45deg,transparent 0 6px,rgba(255,255,255,.04) 6px 12px) var(--f-creux)}  /* hachuré : « sans nouvelle cible » */
+.fpal button:disabled .tn{color:var(--f-encre3)}
 .fpal button:disabled img{filter:grayscale(1) brightness(.6)}
-/* sélectionné : texte orange (les pages ne doivent pas l'écraser, d'où les règles appuyées) */
-.fpal button[aria-pressed=true],.fpal button[aria-pressed=true]:hover{border-color:#FA9549;background:#3A2A1C;color:#FA9549;
-  box-shadow:inset 0 -3px 0 #FA9549}
-.fpal button[aria-pressed=true] .tn{color:#FA9549}
+/* sélectionné : aplat orange comme la liste du codex (les pages ne doivent pas l'écraser, d'où les règles appuyées) */
+.fpal button[aria-pressed=true],.fpal button[aria-pressed=true]:hover{border-color:var(--f-or);background:var(--f-or);color:var(--f-or-encre)}
+.fpal button[aria-pressed=true] .tn{color:var(--f-or-encre)}
 /* survol : fond éclairci et texte blanc, sans orange (réservé à la sélection) */
-.fpal button:not(:disabled):not([aria-pressed=true]):hover{border-color:#8FA0B2;background:#2C353F;color:#E8EEF3}
+.fpal button:not(:disabled):not([aria-pressed=true]):hover{border-color:var(--f-trait2);background:var(--f-barre);color:var(--f-encre)}
 .fpal button:not(:disabled):not([aria-pressed=true]):hover .tn{color:#fff}
 .fpal button:not(:disabled):not([aria-pressed=true]):hover img{filter:none}
-.fpal button:focus-visible{outline:2px solid #FFB673;outline-offset:2px}
-/* Bouton « Ma partie » du dock et son panneau (commun/ficsit-partie-ui.js) */
-.fpartie{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:flex;align-items:center;gap:6px;padding:0 10px;color:#93A2B1;
-  background:rgba(14,18,22,.94);border:1px solid #39434F;box-shadow:0 3px 12px rgba(0,0,0,.45);
-  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));
-  font:700 12px/1 'Saira Condensed','Rajdhani','Barlow Condensed',system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;
-  transition:color .15s,border-color .15s}
+.fpal button:focus-visible{outline:2px solid var(--f-or-clair);outline-offset:2px}
+/* Bouton « Ma partie » du dock et son panneau (commun/ficsit-partie-ui.js) : une fenêtre du jeu */
+.fpartie{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:flex;align-items:center;gap:6px;padding:0 12px;color:var(--f-encre2);
+  font:600 12px/1 var(--f-police);letter-spacing:.08em;text-transform:uppercase;
+  transition:color .15s,background .15s}
 .fpartie svg{width:15px;height:15px;flex:none}
-.fpartie i{display:none;width:7px;height:7px;background:#FA9549;border-radius:50%;flex:none}
+.fpartie i{display:none;width:7px;height:7px;background:var(--f-or);border-radius:50%;flex:none}
 .fpartie.charge i{display:block}
-.fpartie:hover,.fpartie[aria-expanded=true]{color:#FA9549;border-color:#FA9549}
-.fpartie:focus-visible{outline:2px solid #FA9549;outline-offset:1px}
+.fpartie:hover{color:var(--f-encre);background:#4A4A4A}
+.fpartie[aria-expanded=true]{color:var(--f-or-encre);background:var(--f-or)}
+.fpartie[aria-expanded=true] i{background:var(--f-or-encre)}
+.fpartie:focus-visible{outline:2px solid var(--f-or-clair);outline-offset:1px}
 @media (max-width:560px){.fpartie{padding:0 8px}.fpartie span{display:none}}
-.fpartie-pn{position:fixed;top:52px;right:12px;z-index:9999;width:min(430px,calc(100vw - 24px));max-height:calc(100vh - 70px);overflow:auto;
-  box-sizing:border-box;padding:12px 14px 14px;background:#161B21;border:1px solid #4C5A69;border-top:3px solid #FA9549;
-  box-shadow:0 10px 30px rgba(0,0,0,.6);color:#E4EAF0;font:14px/1.5 'Barlow','Rajdhani',system-ui,sans-serif;text-align:left}
+.fpartie-pn{position:fixed;top:var(--f-barre-h);right:0;z-index:9999;width:min(430px,calc(100vw - 24px));max-height:calc(100vh - 70px);overflow:auto;
+  box-sizing:border-box;padding:0 14px 14px;background:var(--f-fenetre);box-shadow:var(--f-ombre);
+  color:var(--f-encre);font:14px/1.5 var(--f-police);text-align:left}
 .fpartie-pn[hidden]{display:none}
-.fpartie-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.fpartie-hd b{font:700 18px/1 'Saira Condensed',system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#fff}
-.fpartie-x{all:unset;cursor:pointer;font-size:22px;line-height:1;padding:0 6px;color:#93A2B1}
-.fpartie-x:hover,.fpartie-x:focus-visible{color:#FA9549}
-.fpartie-depot{display:block;position:relative;padding:10px 12px;border:1px dashed #4C5A69;background:#1D232B;cursor:pointer;font-size:13px;color:#93A2B1}
+.fpartie-hd{display:flex;align-items:center;justify-content:space-between;min-height:40px;margin:0 -14px 12px;padding:0 0 0 14px;background:var(--f-barre)}
+.fpartie-hd b{font:400 15px/1.2 var(--f-police);color:var(--f-encre)}
+.fpartie-x{all:unset;cursor:pointer;align-self:stretch;width:44px;display:grid;place-items:center;font-size:22px;line-height:1;background:#4A4A4A;color:#fff}
+.fpartie-x:hover,.fpartie-x:focus-visible{background:var(--f-or);color:var(--f-or-encre)}
+.fpartie-depot{display:block;position:relative;padding:10px 12px;border:1px dashed var(--f-trait2);background:var(--f-creux);cursor:pointer;font-size:13px;color:var(--f-encre2)}
 .fpartie-depot b{display:block;color:#fff;font-size:15px;margin-bottom:2px}
-.fpartie-depot:hover,.fpartie-depot.survol{border-color:#FA9549}
-.fpartie-depot:focus-within{outline:2px solid #FA9549;outline-offset:2px}
+.fpartie-depot:hover,.fpartie-depot.survol{border-color:var(--f-or)}
+.fpartie-depot:focus-within{outline:2px solid var(--f-or-clair);outline-offset:2px}
 .fpartie-depot input{position:absolute;opacity:0;width:1px;height:1px}
-.fpartie-chemin{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin:8px 0 10px;font-size:12.5px;color:#93A2B1}
-.fpartie-chemin code{font-size:12px;word-break:break-all;color:#C9D3DD}
-.fpartie-chemin button{all:unset;cursor:pointer;border:1px solid #4C5A69;padding:3px 8px;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase}
-.fpartie-chemin button:hover,.fpartie-chemin button.ok{color:#FA9549;border-color:#FA9549}
+.fpartie-chemin{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin:8px 0 10px;font-size:12.5px;color:var(--f-encre2)}
+.fpartie-chemin code{font-size:12px;word-break:break-all;color:var(--f-encre)}
+.fpartie-chemin button{all:unset;cursor:pointer;background:var(--f-barre2);padding:3px 9px;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase}
+.fpartie-chemin button:hover,.fpartie-chemin button.ok{background:var(--f-or);color:var(--f-or-encre)}
 .fpartie-chemin button.ok::after{content:' ✓'}
-.fpartie-etat{padding:10px 12px;background:#1D232B;border-left:3px solid #FA9549;font-size:13.5px;color:#93A2B1}
-.fpartie-etat.erreur{border-left-color:#C8624F}
-.fpartie-err{color:#E4EAF0;margin-bottom:6px}
-.fpartie-nom{font:600 20px/1.2 'Saira Condensed',system-ui,sans-serif;color:#fff}
+.fpartie-etat{padding:10px 12px;background:var(--f-fenetre2);border-left:3px solid var(--f-or);font-size:13.5px;color:var(--f-encre2)}
+.fpartie-etat.erreur{border-left-color:var(--f-rouge)}
+.fpartie-err{color:var(--f-encre);margin-bottom:6px}
+.fpartie-nom{font:600 19px/1.2 var(--f-police);color:#fff}
 .fpartie-chiffres{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:6px}
-.fpartie-chiffres b{font:700 20px/1 'Saira Condensed',system-ui,sans-serif;color:#FA9549;margin-right:5px}
+.fpartie-chiffres b{font:700 19px/1 var(--f-police);color:var(--f-or);margin-right:5px}
 .fpartie-aide{margin:8px 0 6px;font-size:12.5px}
-.fpartie-vider{all:unset;cursor:pointer;border:1px solid #4C5A69;padding:4px 9px;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase}
-.fpartie-vider:hover,.fpartie-vider:focus-visible{color:#FA9549;border-color:#FA9549}
-.fpartie-jauge{height:8px;margin:8px 0 6px;background:#0E1216;border:1px solid #39434F;overflow:hidden}
-.fpartie-jauge i{display:block;height:100%;background:#FA9549;transition:width .2s}
+.fpartie-vider{all:unset;cursor:pointer;background:var(--f-barre2);padding:4px 10px;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase}
+.fpartie-vider:hover,.fpartie-vider:focus-visible{background:var(--f-or);color:var(--f-or-encre)}
+.fpartie-jauge{height:8px;margin:8px 0 6px;background:#666668;overflow:hidden}
+.fpartie-jauge i{display:block;height:100%;background:var(--f-or);transition:width .2s}
 .fpartie-jauge.lecture i{opacity:.35}
 @media print{.fpartie-pn{display:none}}

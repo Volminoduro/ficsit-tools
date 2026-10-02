@@ -103,9 +103,19 @@ def icones():
     ligne("icônes", "items sans icône", f"{len(manque)} : {sorted(manque)[:5]}")
 
 
+def planner():
+    """Planificateur : le payload est tout entier dérivé du référentiel (scripts/payloads.py, planner_donnees)."""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    sys.argv.append("--verifier")   # payloads.py en lecture seule : aucune icône écrite
+    import payloads
+    P, attendu = payload("planner.html"), payloads.planner_donnees()
+    ecarts = [k for k in attendu if P.get(k) != attendu[k]]
+    ligne("planner", "blocs non alignés", f"{len(ecarts)} : {ecarts}")
+
+
 if __name__ == "__main__":
     if not R:
         sys.exit("référentiel vide : lancer scripts/donnees.py")
-    infographie(); broyeur(); arbre(); horloge(); icones()
+    infographie(); broyeur(); arbre(); horloge(); planner(); icones()
     if ECARTS:
         sys.exit(f"{len(ECARTS)} contrôle(s) en échec : {', '.join(ECARTS)}")

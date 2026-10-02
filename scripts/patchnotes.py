@@ -18,69 +18,54 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 START, END = "<!-- PATCHNOTES:START -->", "<!-- PATCHNOTES:END -->"
 VISIBLES = 3  # entrées affichées avant le repli
 
-# Habillage par outil : polices et couleurs reprises des variables de chaque page.
-# ancre = (texte repère, "avant" | "apres_paragraphe") pour la première insertion.
+# Ancre par outil = (texte repère, "avant" | "apres_paragraphe") pour la première insertion.
+# Habillage : les variables de la charte commune (commun/ficsit-hud.css), les mêmes sur toutes les pages.
 # Langue : l'encart suit l'attribut lang de <html>, posé par le sélecteur commun (scripts/langue.py).
 THEMES = {
-  "satisfactory_infographie.html": dict(disp="'Saira Condensed',sans-serif", body="'Barlow',sans-serif",
-      panel="var(--panel)", deep="var(--deep)", line="var(--rule)", ink="var(--ink)", dim="var(--dim)",
-      ancre=("<p class=\"foot\"><span data-l=\"fr\">Données et icônes", "apres_paragraphe")),
-  "ficsit_horloge.html": dict(disp="'Saira Condensed',sans-serif", body="'Rajdhani',sans-serif",
-      panel="var(--panel)", deep="var(--slot)", line="var(--line)", ink="var(--text)", dim="var(--muted)",
-      ancre=("<footer", "avant")),
-  "broyeur-excedents.html": dict(disp="var(--disp)", body="var(--sans)",
-      panel="var(--p1)", deep="var(--p3)", line="var(--ln)", ink="var(--ink)", dim="var(--ink2)",
-      ancre=("<footer", "avant")),
-  "arbre-production.html": dict(disp="'Saira Condensed',sans-serif", body="'Barlow',sans-serif",
-      panel="var(--panel)", deep="var(--deep)", line="var(--rule)", ink="var(--ink)", dim="var(--dim)",
-      ancre=("<footer", "avant")),
-  "memo-ficsit.html": dict(disp="var(--d)", body="var(--b)",
-      panel="var(--panel)", deep="var(--slot)", line="var(--line)", ink="var(--tx)", dim="var(--tx2)",
-      ancre=("<footer", "avant")),
-  "depot-dimensionnel.html": dict(disp="'Saira Condensed',sans-serif", body="'Barlow',sans-serif",
-      panel="var(--panel)", deep="var(--deep)", line="var(--rule)", ink="var(--ink)", dim="var(--dim)",
-      ancre=("<footer", "avant")),  "energie-noeuds.html": dict(disp="'Saira Condensed',sans-serif", body="'Barlow',sans-serif",
-      panel="var(--panel)", deep="var(--deep)", line="var(--rule)", ink="var(--ink)", dim="var(--dim)",
-      ancre=("<footer", "avant")),
+  "satisfactory_infographie.html": dict(ancre=("<p class=\"foot\"><span data-l=\"fr\">Données et icônes", "apres_paragraphe")),
+  "ficsit_horloge.html": dict(ancre=("<footer", "avant")),
+  "broyeur-excedents.html": dict(ancre=("<footer", "avant")),
+  "arbre-production.html": dict(ancre=("<footer", "avant")),
+  "memo-ficsit.html": dict(ancre=("<footer", "avant")),
+  "depot-dimensionnel.html": dict(ancre=("<footer", "avant")),
+  "energie-noeuds.html": dict(ancre=("<footer", "avant")),
+  "planner.html": dict(ancre=("<footer", "avant")),
 }
 
 CSS = """
-.pn{--pn-or:#FA9549;display:flex;font-family:var(--pn-body);text-align:left}
+.pn{--pn-or:var(--f-or);--pn-disp:var(--f-police);--pn-body:var(--f-police);--pn-panel:var(--f-fenetre);
+  --pn-deep:var(--f-creux);--pn-line:var(--f-trait);--pn-ink:var(--f-encre);--pn-dim:var(--f-encre2);display:flex;font-family:var(--pn-body);text-align:left}
 .pn *{box-sizing:border-box}
 .pn-btn{all:unset;box-sizing:border-box;position:relative;cursor:pointer;display:flex;align-items:center;gap:7px;
-  padding:6px 11px 5px 10px;background:rgba(14,18,22,.94);border:1px solid #39434F;box-shadow:0 3px 12px rgba(0,0,0,.45);
-  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));
-  font:700 12px/1 'Saira Condensed','Rajdhani','Barlow Condensed',system-ui,sans-serif;letter-spacing:.1em;color:#E4EAF0;
+  padding:0 12px;background:none;
+  font:600 12px/1 var(--f-police);letter-spacing:.08em;color:var(--f-encre);
   transition:color .15s,background .15s}
-.pn-btn::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;
-  background:repeating-linear-gradient(135deg,#FA9549 0 6px,transparent 6px 12px);opacity:.8}
-.pn-btn svg{width:13px;height:13px;flex:none;fill:none;stroke:#FA9549;stroke-width:1.6}
-.pn-btn:hover,.pn-btn[aria-expanded=true]{background:#FA9549;color:#1B1206}
-.pn-btn:hover svg,.pn-btn[aria-expanded=true] svg{stroke:#1B1206}
-.pn-btn:focus-visible{outline:2px solid #FA9549;outline-offset:1px}
-.pn-dot{display:none;position:absolute;left:3px;top:3px;width:8px;height:8px;border-radius:50%;background:#FA9549;
-  box-shadow:0 0 0 2px rgba(14,18,22,.94)}
+.pn-btn svg{width:13px;height:13px;flex:none;fill:none;stroke:var(--f-or);stroke-width:1.6}
+.pn-btn:hover{background:#4A4A4A}
+.pn-btn[aria-expanded=true]{background:var(--f-or);color:var(--f-or-encre)}
+.pn-btn[aria-expanded=true] svg{stroke:var(--f-or-encre)}
+.pn-btn:focus-visible{outline:2px solid var(--f-or-clair);outline-offset:1px}
+.pn-dot{display:none;position:absolute;left:3px;top:3px;width:8px;height:8px;border-radius:50%;background:var(--f-or);
+  box-shadow:0 0 0 2px var(--f-barre)}
 .pn-neuf .pn-dot{display:block;animation:pn-pulse 1.8s ease-in-out infinite}
-.pn-neuf .pn-btn:hover .pn-dot,.pn-neuf .pn-btn[aria-expanded=true] .pn-dot{background:#1B1206}
-@keyframes pn-pulse{50%{box-shadow:0 0 0 2px rgba(14,18,22,.94),0 0 0 5px rgba(250,149,73,.35)}}
+.pn-neuf .pn-btn[aria-expanded=true] .pn-dot{background:var(--f-or-encre)}
+@keyframes pn-pulse{50%{box-shadow:0 0 0 2px var(--f-barre),0 0 0 5px rgba(229,147,69,.35)}}
 @media (prefers-reduced-motion:reduce){.pn-neuf .pn-dot{animation:none}}
-.pn-panel{position:absolute;top:calc(100% + 6px);right:0;width:min(440px,calc(100vw - 24px));max-height:min(72vh,640px);
+.pn-panel{position:fixed;top:var(--f-barre-h);right:0;width:min(440px,calc(100vw - 24px));max-height:min(72vh,640px);
   overflow:auto;overscroll-behavior:contain;background:var(--pn-panel);color:var(--pn-ink);
-  border:1px solid var(--pn-line);border-left:3px solid var(--pn-or);box-shadow:0 10px 30px rgba(0,0,0,.55)}
+  box-shadow:var(--f-ombre)}
 .pn-panel[hidden]{display:none}
-.pn-hz{height:6px;background:repeating-linear-gradient(45deg,var(--pn-or) 0 10px,transparent 10px 20px);opacity:.7}
-.pn-head{display:flex;align-items:center;gap:12px;padding:14px 16px 11px;border-bottom:1px solid var(--pn-line)}
+.pn-hz{height:3px;background:var(--pn-or)}
+.pn-head{display:flex;align-items:center;gap:12px;padding:12px 0 12px 16px;background:var(--f-barre)}
 .pn-head > div{flex:1;min-width:0}
-.pn-slot{flex:none;width:42px;height:42px;display:grid;place-items:center;background:var(--pn-deep);
-  border:1px solid var(--pn-line);box-shadow:inset 0 0 0 2px rgba(0,0,0,.35)}
+.pn-slot{flex:none;width:42px;height:42px;display:grid;place-items:center;background:var(--f-case);border-radius:3px}
 .pn-slot img{width:30px;height:30px;object-fit:contain;display:block}
-.pn-title{margin:0;padding:0;border:0;background:none;font-family:var(--pn-disp);font-weight:700;font-size:1.15rem;
-  line-height:1.1;letter-spacing:.02em;color:var(--pn-or)}
+.pn-title{margin:0;padding:0;border:0;background:none;font-family:var(--pn-disp);font-weight:600;font-size:1.08rem;
+  line-height:1.15;letter-spacing:0;color:var(--pn-ink)}
 .pn-sub{margin:3px 0 0;padding:0;font-size:.86rem;line-height:1.3;color:var(--pn-dim);max-width:none}
-.pn-x{all:unset;flex:none;cursor:pointer;width:28px;height:28px;display:grid;place-items:center;color:var(--pn-dim);
-  font:400 22px/1 system-ui,sans-serif}
-.pn-x:hover,.pn-x:focus-visible{color:var(--pn-or)}
-.pn-x:focus-visible{outline:2px solid var(--pn-or)}
+.pn-x{all:unset;flex:none;cursor:pointer;align-self:stretch;width:44px;margin:-12px 0;display:grid;place-items:center;color:#fff;
+  background:#4A4A4A;font:400 22px/1 system-ui,sans-serif}
+.pn-x:hover,.pn-x:focus-visible{background:var(--pn-or);color:var(--f-or-encre)}
 .pn-list{list-style:none;margin:0;padding:14px 16px 4px 16px;position:relative}
 .pn-e{position:relative;margin:0;padding:0 0 13px 22px}
 .pn-e::before{content:"";position:absolute;left:5px;top:14px;bottom:-2px;width:1px;background:var(--pn-line)}
@@ -89,8 +74,8 @@ CSS = """
   border:1.5px solid var(--pn-dim);background:var(--pn-panel)}
 .pn-list:first-of-type > .pn-e:first-child::after,.pn-e.pn-new::after{background:var(--pn-or);border-color:var(--pn-or)}
 .pn-meta{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;margin-bottom:3px}
-.pn-v{font-family:var(--pn-disp);font-weight:700;font-size:.85rem;padding:1px 8px 1px 7px;background:var(--pn-or);
-  color:#1b1206;clip-path:polygon(0 0,100% 0,100% 60%,calc(100% - 6px) 100%,0 100%)}
+.pn-v{font-family:var(--pn-disp);font-weight:700;font-size:.85rem;padding:1px 7px;background:var(--pn-or);
+  color:var(--f-or-encre);border-radius:2px}
 .pn-e + .pn-e .pn-v,.pn-old .pn-v{background:var(--pn-deep);color:var(--pn-dim);box-shadow:inset 0 0 0 1px var(--pn-line)}
 .pn-d{font-family:var(--pn-disp);font-size:.88rem;color:var(--pn-dim);letter-spacing:.03em}
 .pn-nv{display:none;font-family:var(--pn-disp);font-weight:700;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
@@ -108,7 +93,7 @@ CSS = """
 .pn-old .pn-list{padding:4px 0 6px}
 .pn-foot{height:8px}
 html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none}
-@media (max-width:560px){.pn-btn{padding:5px 8px 4px 9px;gap:5px}.pn-panel{position:fixed;top:44px;right:6px;width:calc(100vw - 12px)}}
+@media (max-width:560px){.pn-btn{padding:0 8px;gap:5px}.pn-panel{width:100vw}}
 @media print{.pn{display:none}}
 """
 
@@ -126,7 +111,7 @@ def bi(fr_txt, en_txt, tag="span"):
 def icones():
     s = (ROOT / "index.html").read_text(encoding="utf-8")
     out = {}
-    for m in re.finditer(r'<a class="card" href="([^"]+)">([\s\S]*?)</a>', s):
+    for m in re.finditer(r'<a class="card[^"]*" href="([^"]+)">([\s\S]*?)</a>', s):
         img = re.search(r'<img src="([^"]+)"', m.group(2))
         if img: out[m.group(1)] = img.group(1)
     return out
@@ -164,14 +149,12 @@ ICONE_JOURNAL = ('<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5h8v
                  '<path d="M5 4.5h4M5 7h4M5 9.5h2.5"/></svg>')
 
 def bloc(fichier, outil, icone):
-    t = THEMES[fichier]; es = outil["entrees"]; der = es[0]; v = html.escape(der["version"])
-    style = (f'--pn-disp:{t["disp"]};--pn-body:{t["body"]};--pn-panel:{t["panel"]};--pn-deep:{t["deep"]};'
-             f'--pn-line:{t["line"]};--pn-ink:{t["ink"]};--pn-dim:{t["dim"]}')
+    es = outil["entrees"]; der = es[0]; v = html.escape(der["version"])
     slot = f'<span class="pn-slot"><img src="{icone}" alt=""></span>' if icone else ""
     vis, old = es[:VISIBLES], es[VISIBLES:]
     date = der["date"]
     h = [START, f'<style>{CSS.strip()}</style>',
-         f'<div class="pn" id="journal" data-fdock data-outil="{html.escape(fichier)}" data-v="{v}" style="{style}">',
+         f'<div class="pn" id="journal" data-fdock data-outil="{html.escape(fichier)}" data-v="{v}">',
          f'<button type="button" class="pn-btn" aria-expanded="false" aria-controls="pn-panel" '
          f'data-fr-title="Journal des révisions : ce qui a changé" data-en-title="Revision log: what changed" '
          f'title="Journal des révisions : ce qui a changé">'

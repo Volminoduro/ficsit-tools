@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Régénère toutes les pages depuis leurs sources, puis vérifie. À lancer après toute modification.
-#   bash scripts/tout.sh                  régénère (langue, journal, payloads), vérifie les payloads, teste les pages
+#   bash scripts/tout.sh                  régénère (langue, journal, payloads), vérifie les payloads, teste les pages,
+#                                         compare les captures de référence (changement voulu : node scripts/captures.js --maj)
 #   bash scripts/tout.sh --combinaisons   recalcule d'abord les combinaisons de l'infographie (~10 min)
 #   bash scripts/tout.sh --ci             échoue si la régénération modifie une page (source oubliée) ; utilisé par la CI
 #   bash scripts/tout.sh --sans-tests     sans les tests navigateur (Playwright absent)
@@ -38,9 +39,12 @@ fi
 echo "== payloads"
 python3 scripts/verif_payloads.py
 node scripts/test_partie.js
+node scripts/test_planner.js
 
 if [ "$tests" = 1 ]; then
   echo "== pages dans un navigateur"
   node scripts/test_pages.js
+  echo "== captures de référence"
+  node scripts/captures.js
 fi
 echo "== tout est à jour"

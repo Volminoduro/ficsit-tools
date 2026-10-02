@@ -15,7 +15,9 @@
    Accueil : un lien vers index.html ouvre le dock sur chaque outil (pas sur l'accueil lui-même).
    Mention IA : un bandeau commun (texte langue.json > communs.ia) est ajouté en bas de chaque page.
    Hors ligne : enregistre sw.js (copie des fichiers servis, voir ce fichier).
-   Dock : tout élément marqué data-fdock est déplacé dans le dock commun en haut à droite, avant les drapeaux.
+   Dock : barre de titre commune, pleine largeur en haut de page, comme celle des fenêtres du jeu (« FICSIT » et le nom
+   de l'outil à gauche, tiré du <title>) ; tout élément marqué data-fdock y est déplacé, à droite, avant les drapeaux.
+   La barre réserve sa hauteur (html.fbarre) : elle ne recouvre jamais le contenu.
    HTML statique :
      <x data-l="fr">…</x><x data-l="en">…</x>     seule la variante de la langue active est affichée
      data-fr-<attr>="…" data-en-<attr>="…"       l'attribut <attr> (title, placeholder, aria-label…) suit la langue
@@ -70,10 +72,23 @@
       return '<button type="button" data-lang="' + c + '" lang="' + c + '" title="' + L.titre + '">'
         + (DRAPEAUX[c] || '') + '<span>' + L.court + '</span></button>'; }).join('');
     w.addEventListener('click', function(e){ var b = e.target.closest('button[data-lang]'); if(b) appliquer(b.dataset.lang, true); });
-    // Dock commun en haut à droite : les éléments de la page marqués data-fdock (ex. le journal des
-    // révisions), puis le sélecteur de langue.
+    // Barre de titre commune : « FICSIT » et le nom de l'outil, puis les éléments de la page marqués data-fdock
+    // (ex. le journal des révisions), puis le sélecteur de langue.
     var d = document.getElementById('fdock');
-    if(!d){ d = document.createElement('div'); d.id = 'fdock'; d.className = 'fdock'; document.body.appendChild(d); }
+    if(!d){ d = document.createElement('div'); d.id = 'fdock'; d.className = 'fdock'; document.body.insertBefore(d, document.body.firstChild); }
+    document.documentElement.classList.add('fbarre');
+    if(!d.querySelector('.fdock-id')){
+      var id = document.createElement('div'); id.className = 'fdock-id';
+      var b = document.createElement('b'); b.textContent = 'FICSIT'; id.appendChild(b);
+      var t = document.querySelector('title');
+      CODES.forEach(function(c){
+        var x = (t && (t.getAttribute('data-' + c) || t.textContent) || '').split(' — ');
+        var s = document.createElement('span'); s.setAttribute('data-l', c); s.lang = c;
+        s.textContent = /^FICSIT/.test(x[0]) && x[1] ? x[1] : x[0];
+        id.appendChild(s);
+      });
+      d.insertBefore(id, d.firstChild);
+    }
     // Retour à l'accueil (lien relatif : valable en local comme sur GitHub Pages), sauf sur l'accueil.
     if(!/(^|\/)(index\.html)?$/.test(location.pathname) && !document.getElementById('fhome')){
       var h = document.createElement('a'); h.id = 'fhome'; h.className = 'fhome'; h.href = 'index.html';
@@ -303,13 +318,14 @@ window.FicsitRecettes={"items":["AI Expansion Server","AI Limiter","Adaptive Con
    Deux niveaux de lecture :
    - lecture rapide (FicsitPartie.lire, ~1 s) : recettes, schémas, disques durs — gardée dans le stockage local ;
    - le fichier lui-même est gardé dans IndexedDB (base 'ficsit-tools', magasin 'fichiers', clé 'sav'), pour qu'un
-     outil qui a besoin de l'usine entière (Débit vers le Dimensional Depot) la lise à la demande sans redemander le
+     outil qui a besoin de l'usine entière (Débit vers le Dimensional Depot, planificateur) la lise à la demande sans redemander le
      fichier ; son résultat y est mis en cache (clé 'usine'), lié à l'import par partie.lu.
    API ajoutée à window.FicsitPartie :
      .ouvrir() / .fermer()            panneau commun
      .importer(fichier) → Promise     lecture rapide, mémorisation, fichier gardé dans IndexedDB
      .fichier() → Promise<{buf, nom, lu} | null>   le .sav de la partie mémorisée
      .cache(cle) → Promise<valeur | null> ; .garder(cle, valeur) → Promise   petit cache IndexedDB (usine calculée…)
+     .usine(progres) → Promise<usine | null>   usine entière (bâtiments, liaisons…), lue à la demande puis en cache
    Accueil : un élément [data-partie-resume] reçoit le résumé de la partie et un bouton vers le panneau. */
 (function(){
   var FP = window.FicsitPartie; if(!FP) return;
@@ -363,6 +379,42 @@ window.FicsitRecettes={"items":["AI Expansion Server","AI Limiter","Adaptive Con
   FP.garder = function(cle, valeur){
     var p = FP.charger();
     return p ? ecrireCle(cle, {lu: p.lu, valeur: valeur}) : Promise.resolve(false);
+  };
+  /* usine entière de la partie (commun/ficsit-usine-worker.js, lecture lente : 5 à 15 s), mise en cache sous 'usine' :
+     Promise<usine | null> (null : ni cache ni fichier gardé, il faut réimporter) ; rejet Error('format' | 'memoire'…).
+     Un cache d'une version précédente de la lecture (sans tuyaux ni circuits) est relu depuis le fichier s'il est là. */
+  var BASE = ((document.currentScript && document.currentScript.src) || 'commun/').replace(/[^/]*$/, '');
+  function usineWorker(buf, progres){
+    return new Promise(function(ok, ko){
+      var w, parti = false;
+      try{ w = new Worker(BASE + 'ficsit-usine-worker.js'); }catch(e){ ko(new Error('worker')); return; }
+      w.onmessage = function(e){ var m = e.data;
+        if(m.progres != null){ parti = true; progres(m.progres); }
+        else { w.terminate(); if(m.usine) ok(m.usine); else ko(new Error(m.erreur || 'format')); } };
+      w.onerror = function(e){ e.preventDefault(); w.terminate();
+        ko(new Error(!parti ? 'worker' : /memory|allocation/i.test(e.message || '') ? 'memoire' : 'format')); };
+      w.postMessage(buf, [buf]);
+    });
+  }
+  function usineSansWorker(buf, progres){   // page en file:// : même code, dans le fil principal
+    var c = function(src){ return new Promise(function(ok, ko){ var s = document.createElement('script'); s.src = src; s.onload = ok;
+      s.onerror = function(){ ko(new Error('format')); }; document.head.appendChild(s); }); };
+    return (window.SatisfactoryFileParser ? Promise.resolve() : c(BASE + 'vendor/satisfactory-file-parser.js'))
+      .then(function(){ return window.FicsitUsine ? null : c(BASE + 'ficsit-usine-worker.js'); })
+      .then(function(){ return new Promise(function(r){ setTimeout(r, 30); }); })
+      .then(function(){ return FicsitUsine.lire(buf, progres); });
+  }
+  FP.usine = function(progres){
+    progres = progres || function(){};
+    return FP.cache('usine').then(function(cache){
+      if(cache && cache.fluides) return cache;
+      return FP.fichier().then(function(f){
+        if(!f) return cache || null;
+        var copie = f.buf.slice(0);
+        return usineWorker(f.buf, progres).catch(function(e){ if(e.message === 'worker') return usineSansWorker(copie, progres); throw e; })
+          .then(function(u){ u.fichier = f.nom; FP.garder('usine', u); return u; });
+      });
+    });
   };
   var oublierPartie = FP.oublier;
   FP.oublier = function(){ viderCles(); oublierPartie(); };

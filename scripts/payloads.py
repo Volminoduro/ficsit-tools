@@ -3,7 +3,8 @@
 
 Aujourd'hui : les icônes (une seule source, donnees/icones/, ré-échantillonnée à la taille de chaque
 page), les paliers de recettes de l'infographie, tout le payload du broyeur (scripts/broyeur.py) et
-celui de l'arbre de production (scripts/arbre.py). Les combinaisons de l'infographie (clés tc, combi et
+celui de l'arbre de production (scripts/arbre.py) et celui
+du planificateur (planner.html). Les combinaisons de l'infographie (clés tc, combi et
 combiM) sont calculées par scripts/paliers_combinaisons.js et ne sont pas touchées ici.
 
 Usage : python3 scripts/payloads.py [--verifier]   (depuis la racine du dépôt)
@@ -353,6 +354,67 @@ def payload_arbre():
     print(f"arbre-production.html : {len(neuf['items'])} items, {len(neuf['ic'])} icônes partagées")
 
 
+# emplacements de Somersloop par machine (absents de la source ; mêmes valeurs que depot-dimensionnel-flux.js)
+SOMERSLOOPS = {"Smelter": 1, "Constructor": 1, "Assembler": 2, "Foundry": 2, "Refinery": 2, "Converter": 2,
+               "Manufacturer": 4, "Blender": 4, "Particle Accelerator": 4, "Quantum Encoder": 4}
+
+
+def rarete():
+    """Poids de chaque ressource brute pour l'optimisation du planificateur : ‰ de la capacité mondiale d'extraction
+    par unité/min consommée. Capacité = somme des nœuds de la carte (donnees/noeuds-ressources.json) au mieux du jeu,
+    surcadencés à 250 % : foreuse Mk.3 (240 /min sur nœud normal, plafonnée par le convoyeur Mk.6 à 1 200), extracteur
+    de pétrole (120), puits (extracteur de puits, 60) ; pureté ×0,5 / ×1 / ×2. L'eau, illimitée, ne coûte rien."""
+    N = json.loads((ROOT / "donnees" / "noeuds-ressources.json").read_text(encoding="utf-8"))["noeuds"]
+    par_classe = {"Desc_" + v["slug"][5:-2].replace("-", "_") + "_C": n for n, v in REF["items"].items() if n in REF["ressources"]}
+    par_classe = {k.lower(): n for k, n in par_classe.items()}
+    pur = {"impure": .5, "normal": 1, "pure": 2}
+    cap = {}
+    for res, purete, noeud in N.values():
+        nom = par_classe.get(res.lower())
+        if not nom:
+            continue
+        base = {"BP_ResourceNode_C": 240, "BP_FrackingSatellite_C": 60}.get(noeud)
+        if base is None:
+            continue
+        if nom == "Crude Oil" and noeud == "BP_ResourceNode_C":
+            base = 120
+        cap[nom] = cap.get(nom, 0) + min(1200, base * pur[purete] * 2.5)
+    return {n: (0 if n == "Water" else round(1000 / cap[n], 6)) for n in sorted(REF["ressources"]) if n == "Water" or n in cap}
+
+
+def planner_donnees():
+    """Planificateur de production (planner.html) : recettes des bâtiments de production, machines et ressources brutes
+    (format décrit en tête de planner-moteur.js) ; icônes à 44 px partagées."""
+    B = REF["batiments"]
+    rec = sorted((n, r) for n, r in REF["recettes"].items() if B.get(r["machine"], {}).get("groupe") == "production")
+    mw = lambda r: round((r["mwMin"] + r["mwMax"]) / 2, 3) if r.get("mwMax", 0) > r.get("mwMin", 0) else 0
+    machines = sorted({r["machine"] for _, r in rec})
+    items = sorted({x[0] for _, r in rec for x in r["ingredients"] + r["produits"]} | set(REF["ressources"]))
+    return {"r": [[r["classe"], n, int(r["alternative"]), r["palier"], r["machine"], r["temps"],
+                   r["ingredients"], r["produits"], mw(r)] for n, r in rec],
+            "b": {m: [B[m]["mw"], B[m]["exposant"], B[m]["palier"], "Build_" + B[m]["classe"][5:], SOMERSLOOPS.get(m, 0)]
+                  for m in machines},
+            "res": REF["ressources"],
+            "rare": rarete(),
+            "liq": [i for i in items if REF["items"].get(i, {}).get("liquide")],
+            # convoyeurs et tuyaux (montage) : [débit max /min, palier, recette de construction] ; tuyaux absents de la
+            # source, comme pour energie-noeuds.html
+            "conv": [[cap, B[f"Conveyor Belt Mk.{k}"]["palier"], "Recipe_" + B[f"Conveyor Belt Mk.{k}"]["classe"][5:]]
+                     for k, cap in enumerate([60, 120, 270, 480, 780, 1200], 1)],
+            "tuy": [[300, 3, "Recipe_Pipeline_C"], [600, 6, "Recipe_PipelineMK2_C"]],
+            "ic": {n: icone_fichier(n) for n in items + machines if n in SLUGS}}
+
+
+def payload_planner():
+    p = ROOT / "planner.html"
+    s = avant = p.read_text(encoding="utf-8")
+    m, _ = bloc_json(s, "payload")
+    neuf = planner_donnees()
+    s = s[:m.start(2)] + json.dumps(neuf, ensure_ascii=False, separators=(",", ":")) + s[m.end(2):]
+    ecrire(p, s, avant)
+    print(f"planner.html : {len(neuf['r'])} recettes, {len(neuf['b'])} machines, {len(neuf['ic'])} icônes partagées")
+
+
 if __name__ == "__main__":
     paliers_infographie()
     emprises_infographie()
@@ -364,6 +426,7 @@ if __name__ == "__main__":
     memo()
     payload_depot()
     payload_energie()
+    payload_planner()
     # icônes partagées que plus aucune page n'utilise
     if not VERIF and ICO44.exists():
         for f in ICO44.glob("*.webp"):

@@ -82,5 +82,28 @@ const standard = r => !r.alt;
   ok('candidates : standard en tête', c[0].classe === 'Recipe_IronPlate_C' && c.length >= 3, c.map(r => r.classe).join(', '));
 }
 
+// 7. Usine existante : capacité installée (cadence, Somersloops), écart au plan, préférence pour ses recettes
+{
+  const batis = [
+    {c: 'Build_ConstructorMk1_C', rec: 'Recipe_IronPlate_C', clk: 1.5, prod: 0.5},     // 30 plaques /min
+    {c: 'Build_ConstructorMk1_C', rec: 'Recipe_IronPlate_C', sloops: 1, prod: 1},      // 20 × 2 = 40 plaques /min
+    {c: 'Build_FoundryMk1_C', rec: 'Recipe_Alternate_IngotIron_C'},                     // fer en fonderie (alternative)
+    {c: 'Build_ConveyorBeltMk1_C'},                                                     // sans recette : ignoré
+  ];
+  const I = M.installe(P, batis);
+  ok('installé : 2 constructeurs de plaques', I.Recipe_IronPlate_C && I.Recipe_IronPlate_C.n === 2, JSON.stringify(I));
+  ok('installé : 35 exécutions /min', proche(I.Recipe_IronPlate_C.exec, 35), I.Recipe_IronPlate_C.exec);
+  ok('installé : productivité moyenne', proche(I.Recipe_IronPlate_C.prod, .75), I.Recipe_IronPlate_C.prod);
+  const R = M.calculer(P, [{item: 'Iron Plate', debit: 100}], {permise: () => true, preferees: new Set(Object.keys(I))});
+  const e = M.ecart(etape(R, 'Iron Plate'), I);
+  ok('écart : 70 installées, 30 manquent, 1,5 machine', proche(e.installe, 70) && proche(e.manque, 30) && proche(e.machines, 1.5), JSON.stringify(e));
+  ok('préférées : lingots en fonderie', etape(R, 'Iron Ingot').recette.classe === 'Recipe_Alternate_IngotIron_C',
+    etape(R, 'Iron Ingot').recette.classe);
+  const R2 = M.calculer(P, [{item: 'Iron Plate', debit: 100}], {permise: () => true});
+  ok('sans préférence : lingots au haut fourneau', etape(R2, 'Iron Ingot').recette.classe === 'Recipe_IngotIron_C', etape(R2, 'Iron Ingot').recette.classe);
+  const e2 = M.ecart(etape(R2, 'Iron Ingot'), I);
+  ok('écart : recette absente de l\'usine', e2.n === 0 && proche(e2.manque, e2.besoin), JSON.stringify(e2));
+}
+
 if(echecs){ console.log(`${echecs} échec(s)`); process.exit(1); }
 console.log('planificateur : tous les tests passent');

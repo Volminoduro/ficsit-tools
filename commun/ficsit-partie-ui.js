@@ -6,13 +6,14 @@
    Deux niveaux de lecture :
    - lecture rapide (FicsitPartie.lire, ~1 s) : recettes, schémas, disques durs — gardée dans le stockage local ;
    - le fichier lui-même est gardé dans IndexedDB (base 'ficsit-tools', magasin 'fichiers', clé 'sav'), pour qu'un
-     outil qui a besoin de l'usine entière (Débit vers le Dimensional Depot) la lise à la demande sans redemander le
+     outil qui a besoin de l'usine entière (Débit vers le Dimensional Depot, planificateur) la lise à la demande sans redemander le
      fichier ; son résultat y est mis en cache (clé 'usine'), lié à l'import par partie.lu.
    API ajoutée à window.FicsitPartie :
      .ouvrir() / .fermer()            panneau commun
      .importer(fichier) → Promise     lecture rapide, mémorisation, fichier gardé dans IndexedDB
      .fichier() → Promise<{buf, nom, lu} | null>   le .sav de la partie mémorisée
      .cache(cle) → Promise<valeur | null> ; .garder(cle, valeur) → Promise   petit cache IndexedDB (usine calculée…)
+     .usine(progres) → Promise<usine | null>   usine entière (bâtiments, liaisons…), lue à la demande puis en cache
    Accueil : un élément [data-partie-resume] reçoit le résumé de la partie et un bouton vers le panneau. */
 (function(){
   var FP = window.FicsitPartie; if(!FP) return;
@@ -61,6 +62,42 @@
   FP.garder = function(cle, valeur){
     var p = FP.charger();
     return p ? ecrireCle(cle, {lu: p.lu, valeur: valeur}) : Promise.resolve(false);
+  };
+  /* usine entière de la partie (commun/ficsit-usine-worker.js, lecture lente : 5 à 15 s), mise en cache sous 'usine' :
+     Promise<usine | null> (null : ni cache ni fichier gardé, il faut réimporter) ; rejet Error('format' | 'memoire'…).
+     Un cache d'une version précédente de la lecture (sans tuyaux ni circuits) est relu depuis le fichier s'il est là. */
+  var BASE = ((document.currentScript && document.currentScript.src) || 'commun/').replace(/[^/]*$/, '');
+  function usineWorker(buf, progres){
+    return new Promise(function(ok, ko){
+      var w, parti = false;
+      try{ w = new Worker(BASE + 'ficsit-usine-worker.js'); }catch(e){ ko(new Error('worker')); return; }
+      w.onmessage = function(e){ var m = e.data;
+        if(m.progres != null){ parti = true; progres(m.progres); }
+        else { w.terminate(); if(m.usine) ok(m.usine); else ko(new Error(m.erreur || 'format')); } };
+      w.onerror = function(e){ e.preventDefault(); w.terminate();
+        ko(new Error(!parti ? 'worker' : /memory|allocation/i.test(e.message || '') ? 'memoire' : 'format')); };
+      w.postMessage(buf, [buf]);
+    });
+  }
+  function usineSansWorker(buf, progres){   // page en file:// : même code, dans le fil principal
+    var c = function(src){ return new Promise(function(ok, ko){ var s = document.createElement('script'); s.src = src; s.onload = ok;
+      s.onerror = function(){ ko(new Error('format')); }; document.head.appendChild(s); }); };
+    return (window.SatisfactoryFileParser ? Promise.resolve() : c(BASE + 'vendor/satisfactory-file-parser.js'))
+      .then(function(){ return window.FicsitUsine ? null : c(BASE + 'ficsit-usine-worker.js'); })
+      .then(function(){ return new Promise(function(r){ setTimeout(r, 30); }); })
+      .then(function(){ return FicsitUsine.lire(buf, progres); });
+  }
+  FP.usine = function(progres){
+    progres = progres || function(){};
+    return FP.cache('usine').then(function(cache){
+      if(cache && cache.fluides) return cache;
+      return FP.fichier().then(function(f){
+        if(!f) return cache || null;
+        var copie = f.buf.slice(0);
+        return usineWorker(f.buf, progres).catch(function(e){ if(e.message === 'worker') return usineSansWorker(copie, progres); throw e; })
+          .then(function(u){ u.fichier = f.nom; FP.garder('usine', u); return u; });
+      });
+    });
   };
   var oublierPartie = FP.oublier;
   FP.oublier = function(){ viderCles(); oublierPartie(); };

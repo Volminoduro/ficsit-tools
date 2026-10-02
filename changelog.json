@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.1",
+          "date": "2026-10-02",
+          "texte": {
+            "fr": "Comparaison avec votre usine : avec une partie importée, le planificateur lit les machines déjà construites (la même lecture que l'outil Depot, gardée en cache). Pour chaque étape, ce que vos machines produisent avec la même recette, à leur cadence et avec leurs Somersloops, la part du temps où elles tournent (mesurée par le jeu), et ce qu'il manque : débit et machines à construire, avec leur total dans le bilan. « Recettes de mon usine d'abord » choisit par défaut les recettes que vous avez déjà construites.",
+            "en": "Comparison with your factory: with an imported game, the planner reads the machines already built (the same reading as the Depot tool, kept in cache). For each step, what your machines make with the same recipe, at their clock speed and with their Somersloops, how much of the time they run (measured by the game), and what is missing: rate and machines to build, with their total in the summary. \"My factory's recipes first\" picks by default the recipes you have already built."
+          }
+        },
+        {
           "version": "1.0",
           "date": "2026-10-01",
           "texte": {

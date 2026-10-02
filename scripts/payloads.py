@@ -354,6 +354,11 @@ def payload_arbre():
     print(f"arbre-production.html : {len(neuf['items'])} items, {len(neuf['ic'])} icônes partagées")
 
 
+# emplacements de Somersloop par machine (absents de la source ; mêmes valeurs que depot-dimensionnel-flux.js)
+SOMERSLOOPS = {"Smelter": 1, "Constructor": 1, "Assembler": 2, "Foundry": 2, "Refinery": 2, "Converter": 2,
+               "Manufacturer": 4, "Blender": 4, "Particle Accelerator": 4, "Quantum Encoder": 4}
+
+
 def planner_donnees():
     """Planificateur de production (planner.html) : recettes des bâtiments de production, machines et ressources brutes
     (format décrit en tête de planner-moteur.js) ; icônes à 44 px partagées."""
@@ -364,7 +369,8 @@ def planner_donnees():
     items = sorted({x[0] for _, r in rec for x in r["ingredients"] + r["produits"]} | set(REF["ressources"]))
     return {"r": [[r["classe"], n, int(r["alternative"]), r["palier"], r["machine"], r["temps"],
                    r["ingredients"], r["produits"], mw(r)] for n, r in rec],
-            "b": {m: [B[m]["mw"], B[m]["exposant"], B[m]["palier"]] for m in machines},
+            "b": {m: [B[m]["mw"], B[m]["exposant"], B[m]["palier"], "Build_" + B[m]["classe"][5:], SOMERSLOOPS.get(m, 0)]
+                  for m in machines},
             "res": REF["ressources"],
             "liq": [i for i in items if REF["items"].get(i, {}).get("liquide")],
             "ic": {n: icone_fichier(n) for n in items + machines if n in SLUGS}}

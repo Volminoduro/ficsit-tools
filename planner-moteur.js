@@ -3,7 +3,8 @@
    Données (payload de planner.html, écrit par scripts/payloads.py depuis donnees/donnees-jeu.json) :
      P.r   = [[classe, nom, alternative 0/1, palier, machine, temps (s), [[item, qté]…] ingrédients, [[item, qté]…] produits,
               MW moyens de la recette (0 = ceux de la machine)]…]   recettes des bâtiments de production
-     P.b   = {machine: [MW, exposant de consommation, palier]}
+     P.b   = {machine: [MW, exposant de consommation, palier, classe du bâtiment construit (Build_…), emplacements de
+              Somersloop]}
      P.res = [ressources brutes (extraites, jamais fabriquées par défaut)]
 
    API (window.PlannerMoteur, ou module.exports) :
@@ -11,8 +12,14 @@
      calculer(P, cibles, opts)      cibles = [{item, debit (/min)}] ;
         opts.permise(recette) → bool    filtre (palier, alternatives, partie importée) ; défaut : toutes
         opts.choix = {item: classe}     recette imposée pour un item ; 'brut' = l'item est fourni de l'extérieur
+        opts.preferees = Set(classes)   recettes à prendre d'abord par défaut (celles de l'usine existante)
      → {etapes: [{item, recette, machines, entieres, cadence, mw, entrees, sorties}], bruts: {item: /min},
         surplus: {item: /min}, manquants: [items sans recette permise], mw, converge}
+     installe(P, batis)             usine existante (bâtiments lus par commun/ficsit-usine-worker.js : {c, rec, clk, sloops,
+                                     prod}) → {classe: {n machines, exec (exécutions/min à leur cadence, Somersloops
+                                     compris), prod (part du temps où elles ont produit, mesurée par le jeu, ou null)}}
+     ecart(etape, inst)             capacité installée face au besoin d'une étape → {installe (/min de son item), besoin,
+                                     manque (/min), machines (à ajouter, à 100 %)}
 
    Calcul : chaque item demandé est produit par une seule recette (la choisie, sinon la première candidate).
    Le débit de chaque recette suit la demande nette de son item : cibles + consommation des autres recettes
@@ -50,8 +57,9 @@
      propre recette par défaut consomme l'item : déballer ce qu'on vient d'emballer, matière noire qui consomme son
      propre résidu). Si toutes bouclent (turbocarburant sans son alternative : seulement le déballage), aucune : l'item
      est signalé manquant, l'utilisateur peut encore imposer une recette. */
-  function parDefaut(P, item, permise){
+  function parDefaut(P, item, permise, preferees){
     var c = candidates(P, item, permise), res = index(P).res;
+    if(preferees) c = c.filter(function(r){ return preferees.has(r.classe); }).concat(c.filter(function(r){ return !preferees.has(r.classe); }));
     return c.filter(function(r){
       return !r.ing.some(function(p){
         if(res.has(p[0])) return false;
@@ -77,7 +85,7 @@
       if(c === 'brut') r = null;
       else if(c && ix.parClasse[c] && (!permise || permise(ix.parClasse[c])) && qte(ix.parClasse[c].prod, item) > 0) r = ix.parClasse[c];
       else if(!ix.res.has(item)){
-        r = parDefaut(P, item, permise);
+        r = parDefaut(P, item, permise, opts.preferees);
         if(!r) manquants.add(item);
       }
       return (retenue[item] = r);
@@ -153,7 +161,27 @@
     etapes.forEach(function(e){ e.rang = rang.get(e); });
   }
 
-  var API = {candidates: candidates, calculer: calculer};
+  function installe(P, batis){
+    var ix = index(P), parBat = {}, out = {};
+    Object.keys(P.b).forEach(function(m){ parBat[P.b[m][3]] = P.b[m]; });
+    (batis || []).forEach(function(b){
+      var r = b.rec && ix.parClasse[b.rec]; if(!r) return;
+      var B = parBat[b.c] || P.b[r.machine], fentes = B && B[4];
+      var amp = fentes ? 1 + (b.sloops || 0) / fentes : 1, clk = b.clk == null ? 1 : b.clk;
+      var o = out[r.classe] = out[r.classe] || {n: 0, exec: 0, prod: null, _p: 0, _np: 0};
+      o.n++; o.exec += 60 / r.temps * clk * amp;
+      if(b.prod != null){ o._p += b.prod; o._np++; }
+    });
+    Object.keys(out).forEach(function(c){ var o = out[c]; o.prod = o._np ? o._p / o._np : null; delete o._p; delete o._np; });
+    return out;
+  }
+  function ecart(e, inst){
+    var r = e.recette, q = qte(r.prod, e.item), i = inst && inst[r.classe];
+    var installe = i ? i.exec * q : 0, besoin = qte(e.sorties, e.item), manque = Math.max(0, besoin - installe);
+    return {installe: installe, besoin: besoin, manque: manque, machines: manque / (60 / r.temps * q), n: i ? i.n : 0, prod: i ? i.prod : null};
+  }
+
+  var API = {candidates: candidates, calculer: calculer, installe: installe, ecart: ecart};
   if(typeof module !== 'undefined' && module.exports) module.exports = API;
   else racine.PlannerMoteur = API;
 })(typeof self !== 'undefined' ? self : this);

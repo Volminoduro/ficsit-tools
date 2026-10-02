@@ -40,7 +40,8 @@ const PAGES = {
    constructeur continue ; potentiel 20 /min limité par l'amont. Charge le module d'extraction, l'applique, calcule
    les débits, affiche. */
 async function usineTest() {
-  if (!window.FicsitUsine) await charger(BASE + 'ficsit-usine-worker.js');
+  if (!window.FicsitUsine) await new Promise((ok, ko) => { const s = document.createElement('script');
+    s.src = 'commun/ficsit-usine-worker.js'; s.onload = ok; s.onerror = ko; document.head.appendChild(s); });
   const ref = (n) => ({pathName: n}), o = (t, nom, props, type) => ({type: type || 'SaveEntity',
     typePath: '/Game/X/' + t + '.' + t, instanceName: nom, properties: props || {}});
   const pr = v => ({value: v}), lien = (a, b) => o('FGFactoryConnectionComponent', a, {mConnectedComponent: pr(ref(b))}, 'SaveComponent');
@@ -214,7 +215,7 @@ const CHECKS = {
     return out;
   },
   // planificateur : objectif par défaut (10 plaques renforcées /min → 120 minerai de fer), recette imposée, partie importée
-  'planner.html': () => {
+  'planner.html': async () => {
     const out = [], txt = id => document.getElementById(id).innerText.replace(/\s+/g, ' ');
     if (!/120\b.*(Iron Ore|Minerai de fer)/.test(txt('bruts'))) out.push('ressources par défaut : ' + txt('bruts'));
     if (document.querySelectorAll('#etapes .etape').length !== 5) out.push(document.querySelectorAll('#etapes .etape').length + ' étapes (5 attendues)');
@@ -227,8 +228,27 @@ const CHECKS = {
       recettes: ['Recipe_IngotIron_C', 'Recipe_IronPlate_C', 'Recipe_IronRod_C', 'Recipe_Screw_C'], schemas: ['Schematic_1-1_C'], attente: []});
     if (!/(Aucune recette permise|No allowed recipe).*(Reinforced Iron Plate|Plaque de fer renforcée)/.test(txt('alertes')))
       out.push('partie sans plaques renforcées : pas d\'alerte « ' + txt('alertes') + ' »');
+    // usine en cache : 2 constructeurs de plaques (150 % et 100 %) → 50 plaques /min installées, il en faut 60 ;
+    // vis sans machine ; « Recettes de mon usine d'abord » prend la fonderie (alliage de fer) pour les lingots
+    FicsitPartie.enregistrer({nom: 'Test', date: '2026-01-31T03:06:00.000Z', duree: 3600, version: 58, lu: 'test-planner-usine',
+      recettes: ['Recipe_IngotIron_C', 'Recipe_Alternate_IngotIron_C', 'Recipe_IronPlate_C', 'Recipe_IronRod_C', 'Recipe_Screw_C',
+        'Recipe_IronPlateReinforced_C'], schemas: ['Schematic_1-1_C'], attente: []});
+    await FicsitPartie.garder('usine', {batis: [{c: 'Build_ConstructorMk1_C', rec: 'Recipe_IronPlate_C', clk: 1.5, prod: .5},
+      {c: 'Build_ConstructorMk1_C', rec: 'Recipe_IronPlate_C'}, {c: 'Build_FoundryMk1_C', rec: 'Recipe_Alternate_IngotIron_C'}], fluides: []});
+    await chargerUsine();
+    const u = [...document.querySelectorAll('#etapes .etape')].map(e => [e.querySelector('select').dataset.item, (e.querySelector('.usine') || {}).innerText || '']);
+    const plaques = (u.find(x => x[0] === 'Iron Plate') || [])[1] || '', vis = (u.find(x => x[0] === 'Screws') || [])[1] || '';
+    if (!/\b2\b.*\b50\b.*\b10\b.*\b1\b/.test(plaques)) out.push('plaques : ' + plaques);
+    if (!/(aucune machine|no machine)/.test(vis)) out.push('vis : ' + vis);
+    const lingots = () => (document.querySelector('#etapes select[data-item="Iron Ingot"]') || {}).value;
+    if (lingots() !== 'Recipe_Alternate_IngotIron_C') out.push('recette de l\'usine non préférée pour les lingots : ' + lingots());
+    if (!/(machines à construire|machines to build)/i.test(txt('tuiles'))) out.push('tuile « à construire » absente');
+    document.getElementById('suivre').click();
+    if (lingots() !== 'Recipe_IngotIron_C') out.push('sans « recettes de mon usine d\'abord », lingots : ' + lingots());
+    document.getElementById('suivre').click();
     FicsitPartie.oublier();
-    if (txt('alertes')) out.push('alerte restée après oubli de la partie');
+    await new Promise(r => setTimeout(r, 50));
+    if (txt('alertes') || document.querySelector('#etapes .usine')) out.push('alerte ou comparaison restée après oubli de la partie');
     return out;
   },
   'ficsit_horloge.html': () => {

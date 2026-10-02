@@ -1,11 +1,38 @@
 /* Fichier généré par scripts/langue.py depuis commun/ : ne pas éditer. */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wdth,wght@62.5..100,400..800&display=swap');
+/* Noto Sans embarquée (commun/polices/, licence OFL, sous-ensembles de Google Fonts, variable en graisse et en chasse) :
+   rendu identique hors ligne, en CI et pour les captures de référence. Le navigateur ne charge que les sous-ensembles
+   dont la page a besoin (unicode-range). Chemins relatifs à commun/ficsit-commun.css. */
+@font-face{font-family:'Noto Sans';font-style:normal;font-weight:400 800;font-stretch:62.5% 100%;font-display:swap;
+  src:url(polices/noto-sans-latin.woff2) format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Noto Sans';font-style:normal;font-weight:400 800;font-stretch:62.5% 100%;font-display:swap;
+  src:url(polices/noto-sans-latin-ext.woff2) format('woff2');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Noto Sans';font-style:normal;font-weight:400 800;font-stretch:62.5% 100%;font-display:swap;
+  src:url(polices/noto-sans-grec.woff2) format('woff2');
+  unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF}
+/* compléments, hors des sous-ensembles Google : exposants et indices (Noto Sans), flèches (Noto Sans Math), traits
+   d'arbre (Noto Sans Mono), ■ ▲ ▸ ★ ✓ ✔ (Noto Sans Symbols 2) — sans eux, ces signes viendraient d'une police système,
+   différente d'une machine à l'autre (captures de référence). Mêmes plages de graisse et de chasse que les autres faces,
+   sinon Chromium en fait un groupe à part et rend le reste du texte avec la police de secours. */
+@font-face{font-family:'Noto Sans';font-style:normal;font-weight:400 800;font-stretch:62.5% 100%;font-display:swap;
+  src:url(polices/noto-sans-exposants.woff2) format('woff2');
+  unicode-range:U+2070-209F}
+@font-face{font-family:'Noto Sans';font-style:normal;font-weight:400 800;font-stretch:62.5% 100%;font-display:swap;
+  src:url(polices/noto-sans-math-fleches.woff2) format('woff2');
+  unicode-range:U+2190,U+2192,U+2194-21FF}
+@font-face{font-family:'Noto Sans';font-style:normal;font-weight:400 800;font-stretch:62.5% 100%;font-display:swap;
+  src:url(polices/noto-sans-mono-traits.woff2) format('woff2');
+  unicode-range:U+2500-257F}
+@font-face{font-family:'Noto Sans';font-style:normal;font-weight:400 800;font-stretch:62.5% 100%;font-display:swap;
+  src:url(polices/noto-sans-symboles2.woff2) format('woff2');
+  unicode-range:U+25A0-25FF,U+2605,U+2713-2714}
 /* Charte commune, au plus près des menus et du HUD du jeu (relevés sur captures 1.0 / 1.1 : fenêtre du mineur,
    Alien Power Augmenter, AWESOME Shop, inventaire, codex, accueil 1.1).
    Le jeu : fenêtres gris neutre (pas bleuté), barre de titre #3F3F3F, coins droits, orange #E59345 pour la sélection
    et les valeurs, cases d'objets gris clair avec badge de quantité orange, petites étiquettes « OUTPUT » en pastille
    claire, écrans blancs à texte sombre, titres en capitales espacées, police humaniste (Noto Sans, libre, au plus près
-   de celle du jeu). Texte blanc sur l'orange comme dans le jeu (choix du joueur, 2026-10-02), au prix du contraste :
+   de celle du jeu, embarquée). Texte blanc sur l'orange comme dans le jeu (choix du joueur, 2026-10-02), au prix du contraste :
    2,4 : 1, sous le seuil AA.
    Les pages n'ont plus de palette propre : leurs variables locales renvoient à celles-ci. */
 :root{

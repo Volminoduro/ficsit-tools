@@ -24,5 +24,12 @@ jobs:
           npm install --no-save playwright@1.56.1
           npx playwright install --with-deps chromium
       # Régénération (échec si une page n'est pas à jour), payloads alignés sur le référentiel,
-      # pages dans un navigateur (erreurs JS, texte de l'autre langue, résultats attendus).
+      # pages dans un navigateur (erreurs JS, texte de l'autre langue, résultats attendus), captures de référence.
       - run: bash scripts/tout.sh --ci
+      # captures de référence différentes : nouvelles captures et images des écarts à télécharger
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: captures-ecarts
+          path: scripts/captures-ecarts/
+          if-no-files-found: ignore

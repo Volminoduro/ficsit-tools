@@ -3,24 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <!-- FICSIT-LANG:START -->
-<link rel="stylesheet" href="commun/ficsit-commun.css?v=8a124abd64">
-<script src="commun/ficsit-commun.js?v=bf662a3bf7"></script>
+<link rel="stylesheet" href="commun/ficsit-commun.css?v=d3388b0b7c">
+<script src="commun/ficsit-commun.js?v=bbcc8020fa"></script>
 <!-- FICSIT-LANG:END -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-fr="FICSIT Inc. — Terminal Pionnier" data-en="FICSIT Inc. — Pioneer Terminal">FICSIT Inc. — Terminal Pionnier</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap');
 
   :root{
-    --bg:#101318;
-    --panel:#171c23;
-    --panel-2:#1d232b;
-    --line:#2a323c;
-    --orange:#FA9549;
-    --orange-deep:#C2661F;
-    --text:#E6E9EF;
-    --muted:#8B92B4;
-    --steel:#4C5A69;
+    --bg:var(--f-fond);
+    --panel:var(--f-fenetre);
+    --panel-2:var(--f-fenetre2);
+    --line:var(--f-trait);
+    --orange:var(--f-or);
+    --orange-deep:var(--f-or-fonce);
+    --text:var(--f-encre);
+    --muted:var(--f-encre2);
+    --steel:var(--f-trait2);
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
@@ -29,11 +28,11 @@
       repeating-linear-gradient(180deg, rgba(255,255,255,.015) 0px, rgba(255,255,255,.015) 1px, transparent 1px, transparent 3px),
       var(--bg);
     color:var(--text);
-    font-family:"Barlow",system-ui,sans-serif;
+    font-family:var(--f-police);
     min-height:100vh;
   }
 
-  .hazard{height:10px;background:repeating-linear-gradient(135deg,var(--orange) 0 18px,#1a1a1a 18px 36px);}
+  .hazard{height:3px;background:var(--orange)}
   .hazard.thin{height:5px;}
 
   header{
@@ -43,7 +42,7 @@
     position:relative;
   }
   .wordmark{
-    font-family:"Saira Condensed",sans-serif;
+    font-family:var(--f-titre);font-stretch:var(--f-serre);
     font-weight:700;
     font-size:2.1rem;
     letter-spacing:.14em;
@@ -52,7 +51,7 @@
   }
   .wordmark span{color:var(--orange)}
   .subhead{
-    font-family:"Saira Condensed",sans-serif;
+    font-family:var(--f-titre);font-stretch:var(--f-serre);
     color:var(--muted);
     letter-spacing:.28em;
     font-size:.78rem;
@@ -61,14 +60,12 @@
   }
   .stamp{
     position:absolute; top:20px; left:24px;
-    border:1px solid var(--orange-deep);
-    color:var(--orange);
-    font-family:"Saira Condensed",sans-serif;
-    font-size:.72rem;
-    letter-spacing:.12em;
-    padding:4px 10px;
-    clip-path:polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
-    opacity:.85;
+    background:var(--f-pastille);border-radius:3px;
+    color:#4A4A4A;font-weight:700;
+    font-family:var(--f-police);
+    font-size:.68rem;
+    letter-spacing:.08em;
+    padding:3px 10px;
   }
 
   .ada{
@@ -84,7 +81,7 @@
   .ada b{color:var(--text); font-weight:600}
   .ada .tag{
     display:inline-block;
-    font-family:"Saira Condensed",sans-serif;
+    font-family:var(--f-titre);font-stretch:var(--f-serre);
     color:var(--orange);
     letter-spacing:.18em;
     font-size:.72rem;
@@ -93,25 +90,28 @@
 
   .wrap{max-width:980px; margin:0 auto; padding:30px 24px 60px;}
   .partie-resume{max-width:980px;margin:0 auto 6px;padding:10px 14px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;
-    background:var(--panel);border:1px solid #39434F;border-left:3px solid var(--orange);font-size:.9rem;color:#C9D3DD;box-sizing:border-box}
+    background:var(--panel);border-left:3px solid var(--orange);font-size:.9rem;color:#D6D6D6;box-sizing:border-box}
   .partie-resume:empty{display:none}
   .partie-resume b{color:#fff;font-weight:600}
-  .partie-resume button{margin-left:auto;background:transparent;border:1px solid #4C5A69;color:#C9D3DD;font:inherit;font-size:.75rem;
-    letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;cursor:pointer}
-  .partie-resume button:hover,.partie-resume button:focus-visible{color:var(--orange);border-color:var(--orange);outline:none}
+  .partie-resume button{margin-left:auto;background:var(--orange);border:0;color:var(--f-or-encre);font:inherit;font-size:.78rem;font-weight:600;
+    letter-spacing:.06em;text-transform:uppercase;padding:6px 12px;cursor:pointer}
+  .partie-resume button:hover,.partie-resume button:focus-visible{background:var(--f-or-clair);outline:none}
   @media (max-width:1012px){.partie-resume{margin:0 16px 6px}}
   .cat{
-    display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
     margin:34px 0 12px; padding-bottom:6px;
-    border-bottom:1px solid var(--line);
+    border-bottom:1px solid var(--steel);
   }
   .cat:first-child{margin-top:0}
+  /* icône de catégorie : vrai bâtiment ou objet du jeu sur case claire, comme l'inventaire */
+  .cat-ic{width:34px;height:34px;flex:none;display:grid;place-items:center;background:var(--f-case);border-radius:3px}
+  .cat-ic img{width:28px;height:28px;object-fit:contain}
   .cat h3{
     margin:0;
-    font-family:"Saira Condensed",sans-serif;
-    font-size:1.05rem; font-weight:600;
-    letter-spacing:.16em; text-transform:uppercase;
-    color:var(--orange);
+    font-family:var(--f-titre);font-stretch:var(--f-serre);
+    font-size:1.05rem; font-weight:500;
+    letter-spacing:.2em; text-transform:uppercase;
+    color:var(--text);
   }
   .cat p{margin:0; font-size:.85rem; color:var(--muted);}
   .grid{
@@ -126,16 +126,12 @@
     text-decoration:none;
     color:inherit;
     background:var(--panel);
-    border:1px solid var(--line);
     padding:20px 20px 18px;
     position:relative;
-    clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
-    transition:border-color .15s, transform .15s, background .15s;
+    transition:background .15s;
   }
   a.card:hover{
-    border-color:var(--orange);
     background:var(--panel-2);
-    transform:translateY(-2px);
   }
   a.card:focus-visible{outline:2px solid var(--orange); outline-offset:2px;}
 
@@ -143,15 +139,13 @@
   .slot{
     width:52px; height:52px;
     flex:none;
-    background:#0d1014;
-    border:1px solid var(--line);
+    background:var(--f-case);border-radius:3px;
     display:flex; align-items:center; justify-content:center;
-    clip-path:polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
   }
   .slot img{width:36px; height:36px; object-fit:contain;}
 
   .card h2{
-    font-family:"Saira Condensed",sans-serif;
+    font-family:var(--f-titre);font-stretch:var(--f-serre);
     font-size:1.15rem;
     font-weight:600;
     margin:0;
@@ -159,7 +153,7 @@
     letter-spacing:.01em;
   }
   .status{
-    font-family:"Saira Condensed",sans-serif;
+    font-family:var(--f-titre);font-stretch:var(--f-serre);
     font-size:.66rem;
     letter-spacing:.16em;
     color:var(--orange);
@@ -172,21 +166,23 @@
     color:var(--muted);
   }
   /* outil en chantier : bande de signalisation en haut, pancarte hachurée posée dessus, bordure en pointillés */
-  a.card.chantier{border-style:dashed;border-color:var(--orange-deep);padding-top:40px}
+  a.card.chantier{border:1px dashed var(--orange-deep);padding-top:40px}
   a.card.chantier::before{content:"";position:absolute;left:0;right:0;top:0;height:10px;
     background:repeating-linear-gradient(135deg,var(--orange) 0 12px,#1a1a1a 12px 24px)}
-  .ruban{position:absolute;top:2px;left:18px;padding:4px 10px 3px;font-family:"Saira Condensed",sans-serif;font-weight:700;
-    font-size:.78rem;letter-spacing:.14em;line-height:1.2;color:#1B1206;white-space:nowrap;
-    background:repeating-linear-gradient(-45deg,var(--orange) 0 10px,#E5761F 10px 20px);
+  .ruban{position:absolute;top:2px;left:18px;padding:4px 10px 3px;font-family:var(--f-titre);font-stretch:var(--f-serre);font-weight:700;
+    font-size:.78rem;letter-spacing:.14em;line-height:1.2;color:var(--f-or-encre);white-space:nowrap;
+    background:repeating-linear-gradient(-45deg,var(--orange) 0 10px,var(--orange-deep) 10px 20px);
     box-shadow:0 0 0 2px #1a1a1a,0 2px 6px rgba(0,0,0,.5)}
+  /* « Ouvrir le dossier » : bouton gris du jeu, orange au survol de la carte */
   .card .open{
-    margin-top:14px;
-    font-family:"Saira Condensed",sans-serif;
-    font-size:.75rem;
-    letter-spacing:.1em;
-    color:var(--orange-deep);
+    display:inline-block;margin-top:14px;padding:6px 12px;
+    background:var(--f-barre2);color:var(--text);
+    font-family:var(--f-police);font-weight:500;
+    font-size:.78rem;
+    letter-spacing:.04em;
+    transition:background .15s;
   }
-  a.card:hover .open{color:var(--orange)}
+  a.card:hover .open{background:var(--orange);color:var(--f-or-encre)}
 
   footer{
     max-width:980px; margin:0 auto; padding:0 24px 40px;
@@ -229,7 +225,7 @@
 <div class="partie-resume" data-partie-resume></div>
 
 <div class="wrap">
-  <div class="cat"><h3><span data-l="fr">Production</span><span data-l="en" lang="en">Production</span></h3><p><span data-l="fr">Extraction, recettes et cadences.</span><span data-l="en" lang="en">Extraction, recipes and rates.</span></p></div>
+  <div class="cat"><span class="cat-ic"><img src="data:image/webp;base64,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" alt=""></span><h3><span data-l="fr">Production</span><span data-l="en" lang="en">Production</span></h3><p><span data-l="fr">Extraction, recettes et cadences.</span><span data-l="en" lang="en">Extraction, recipes and rates.</span></p></div>
   <div class="grid">
 
     <a class="card chantier" href="planner.html">
@@ -293,7 +289,7 @@
     </a>
 
   </div>
-  <div class="cat"><h3><span data-l="fr">Tableaux de lecture</span><span data-l="en" lang="en">Reference charts</span></h3><p><span data-l="fr">À lire, sans rien régler : ils suivent la partie importée.</span><span data-l="en" lang="en">To read, nothing to set: they follow the imported game.</span></p></div>
+  <div class="cat"><span class="cat-ic"><img src="data:image/webp;base64,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" alt=""></span><h3><span data-l="fr">Tableaux de lecture</span><span data-l="en" lang="en">Reference charts</span></h3><p><span data-l="fr">À lire, sans rien régler : ils suivent la partie importée.</span><span data-l="en" lang="en">To read, nothing to set: they follow the imported game.</span></p></div>
   <div class="grid">
 
     <a class="card" href="memo-ficsit.html">
@@ -326,7 +322,7 @@
     </a>
 
   </div>
-  <div class="cat"><h3><span data-l="fr">Recyclage</span><span data-l="en" lang="en">Recycling</span></h3><p><span data-l="fr">Le broyeur AWESOME : quoi y envoyer, et ce que vaut chaque pièce.</span><span data-l="en" lang="en">The AWESOME Sink: what to feed it, and what each part is worth.</span></p></div>
+  <div class="cat"><span class="cat-ic"><img src="data:image/webp;base64,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" alt=""></span><h3><span data-l="fr">Recyclage</span><span data-l="en" lang="en">Recycling</span></h3><p><span data-l="fr">Le broyeur AWESOME : quoi y envoyer, et ce que vaut chaque pièce.</span><span data-l="en" lang="en">The AWESOME Sink: what to feed it, and what each part is worth.</span></p></div>
   <div class="grid">
 
     <a class="card" href="broyeur-excedents.html">

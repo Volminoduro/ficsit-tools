@@ -1,26 +1,26 @@
-.fpal{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:6px}
+/* Grille de paliers : les paliers du terminal du HUB (« TIER 0 … 9 »), cases à plat, coins droits */
+.fpal{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:4px}
 .fpal button{all:unset;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px 7px;
-  background:#0E1216;border:1px solid #39434F;color:#93A2B1;cursor:pointer;text-align:center;
-  font:500 12px/1.2 'Barlow',system-ui,sans-serif;clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
+  background:var(--f-creux);border:1px solid var(--f-trait);color:var(--f-encre2);cursor:pointer;text-align:center;
+  font:500 12px/1.2 var(--f-police)}
 .fpal .fpal-ic{width:36px;height:36px;display:flex;align-items:center;justify-content:center}
 .fpal .fpal-ic img{width:34px;height:34px;object-fit:contain;display:block;margin:0;padding:0;border:0;background:none}
 .fpal .fpal-ic .slot{width:36px;height:36px;border:0;background:none;box-shadow:none}
-.fpal .tn{font:700 19px/1 'Saira Condensed','Barlow Condensed',sans-serif;color:#fff}
-.fpal .tl{font-size:10.5px;line-height:1.15;text-transform:uppercase;letter-spacing:.03em}
-.fpal button.in{background:#252D37;border-color:#4C5A69}
-.fpal button.in .tn{color:#FA9549}
-.fpal button.out .tn{color:#93A2B1}
+.fpal .tn{font:600 19px/1 var(--f-police);color:#fff}
+.fpal .tl{font-size:10px;line-height:1.15;text-transform:uppercase;letter-spacing:.1em}
+.fpal button.in{background:var(--f-fenetre2);border-color:var(--f-trait2)}
+.fpal button.in .tn{color:var(--f-or)}
+.fpal button.out .tn{color:var(--f-encre2)}
 .fpal button.out img{filter:grayscale(.5)}
-.fpal button:disabled{cursor:not-allowed;opacity:.45;border-style:dashed;color:#6F7E8D;
-  background:repeating-linear-gradient(-45deg,transparent 0 6px,rgba(255,255,255,.035) 6px 12px)}
-.fpal button:disabled .tn{color:#6F7E8D}
+.fpal button:disabled{cursor:not-allowed;opacity:.45;border-style:dashed;color:var(--f-encre3);
+  background:repeating-linear-gradient(-45deg,transparent 0 6px,rgba(255,255,255,.04) 6px 12px) var(--f-creux)}  /* hachuré : « sans nouvelle cible » */
+.fpal button:disabled .tn{color:var(--f-encre3)}
 .fpal button:disabled img{filter:grayscale(1) brightness(.6)}
-/* sélectionné : texte orange (les pages ne doivent pas l'écraser, d'où les règles appuyées) */
-.fpal button[aria-pressed=true],.fpal button[aria-pressed=true]:hover{border-color:#FA9549;background:#3A2A1C;color:#FA9549;
-  box-shadow:inset 0 -3px 0 #FA9549}
-.fpal button[aria-pressed=true] .tn{color:#FA9549}
+/* sélectionné : aplat orange comme la liste du codex (les pages ne doivent pas l'écraser, d'où les règles appuyées) */
+.fpal button[aria-pressed=true],.fpal button[aria-pressed=true]:hover{border-color:var(--f-or);background:var(--f-or);color:var(--f-or-encre)}
+.fpal button[aria-pressed=true] .tn{color:var(--f-or-encre)}
 /* survol : fond éclairci et texte blanc, sans orange (réservé à la sélection) */
-.fpal button:not(:disabled):not([aria-pressed=true]):hover{border-color:#8FA0B2;background:#2C353F;color:#E8EEF3}
+.fpal button:not(:disabled):not([aria-pressed=true]):hover{border-color:var(--f-trait2);background:var(--f-barre);color:var(--f-encre)}
 .fpal button:not(:disabled):not([aria-pressed=true]):hover .tn{color:#fff}
 .fpal button:not(:disabled):not([aria-pressed=true]):hover img{filter:none}
-.fpal button:focus-visible{outline:2px solid #FFB673;outline-offset:2px}
+.fpal button:focus-visible{outline:2px solid var(--f-or-clair);outline-offset:2px}

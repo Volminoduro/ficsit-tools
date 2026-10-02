@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<!-- FICSIT-LANG:START -->
+<link rel="stylesheet" href="commun/ficsit-commun.css?v=d3388b0b7c">
+<script src="commun/ficsit-commun.js?v=bbcc8020fa"></script>
+<!-- FICSIT-LANG:END -->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title data-fr="Charte graphique — composants façon menus du jeu" data-en="Style guide — game-menu components">Charte graphique — composants façon menus du jeu</title>
+<style>
+  /* Vitrine de commun/ficsit-hud.css : la page n'a pas de style propre au-delà de la mise en page. */
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--f-fond);color:var(--f-encre);font:15px/1.55 var(--f-police)}
+  .wrap{max-width:1000px;margin:0 auto;padding:26px 16px 80px}
+  h1{font:700 clamp(28px,6vw,44px)/1.05 var(--f-titre);font-stretch:var(--f-serre);text-transform:uppercase;margin:0 0 4px}
+  h1 em{font-style:normal;color:var(--f-or)}
+  .lede{color:var(--f-encre2);max-width:70ch}
+  section{margin-top:34px}
+  .rang{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start}
+  .col{flex:1 1 280px;min-width:0}
+  .nuancier{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px}
+  .nuance{background:var(--f-fenetre);font-size:12px;color:var(--f-encre2)}
+  .nuance i{display:block;height:46px}
+  .nuance span{display:block;padding:5px 8px;overflow-wrap:anywhere}
+  .nuance b{display:block;color:var(--f-encre);font-weight:600}
+  code{font-size:12.5px;color:var(--f-encre2)}
+  .f-fenetre .corps{padding:14px 16px}
+  .cases{display:flex;flex-wrap:wrap;gap:6px}
+  .typo p{margin:4px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1><span data-l="fr">Charte <em>graphique</em></span><span data-l="en" lang="en">Style <em>guide</em></span></h1>
+  <p class="lede"><span data-l="fr">Variables et composants de <code>commun/ficsit-hud.css</code>, relevés sur des captures des menus du jeu (1.0 et 1.1). Toutes les pages du site s'en servent ; cette page permet de juger le rendu d'un coup d'œil.</span><span data-l="en" lang="en">Variables and components of <code>commun/ficsit-hud.css</code>, taken from screenshots of the game's menus (1.0 and 1.1). Every page of the site uses them; this page shows the result at a glance.</span></p>
+
+  <section>
+    <h2 class="f-bandeau"><span data-l="fr">Couleurs</span><span data-l="en" lang="en">Colours</span></h2>
+    <div class="nuancier">
+      <div class="nuance"><i style="background:var(--f-fond)"></i><span><b>--f-fond</b><span data-l="fr">fond de page</span><span data-l="en" lang="en">page background</span></span></div>
+      <div class="nuance"><i style="background:var(--f-fenetre);box-shadow:inset 0 0 0 1px #444"></i><span><b>--f-fenetre</b><span data-l="fr">corps de fenêtre</span><span data-l="en" lang="en">window body</span></span></div>
+      <div class="nuance"><i style="background:var(--f-barre)"></i><span><b>--f-barre</b><span data-l="fr">barre de titre</span><span data-l="en" lang="en">title bar</span></span></div>
+      <div class="nuance"><i style="background:var(--f-barre2)"></i><span><b>--f-barre2</b><span data-l="fr">bouton, onglet</span><span data-l="en" lang="en">button, tab</span></span></div>
+      <div class="nuance"><i style="background:var(--f-creux)"></i><span><b>--f-creux</b><span data-l="fr">listes, creux</span><span data-l="en" lang="en">lists, wells</span></span></div>
+      <div class="nuance"><i style="background:var(--f-or)"></i><span><b>--f-or</b><span data-l="fr">sélection, valeurs</span><span data-l="en" lang="en">selection, values</span></span></div>
+      <div class="nuance"><i style="background:var(--f-case)"></i><span><b>--f-case</b><span data-l="fr">case d'objet</span><span data-l="en" lang="en">item slot</span></span></div>
+      <div class="nuance"><i style="background:var(--f-ecran)"></i><span><b>--f-ecran</b><span data-l="fr">écran de machine</span><span data-l="en" lang="en">machine screen</span></span></div>
+      <div class="nuance"><i style="background:var(--f-bleu)"></i><span><b>--f-bleu</b><span data-l="fr">série, information</span><span data-l="en" lang="en">series, information</span></span></div>
+      <div class="nuance"><i style="background:var(--f-violet)"></i><span><b>--f-violet</b><span data-l="fr">série</span><span data-l="en" lang="en">series</span></span></div>
+      <div class="nuance"><i style="background:var(--f-vert)"></i><span><b>--f-vert</b><span data-l="fr">gain, succès</span><span data-l="en" lang="en">gain, success</span></span></div>
+      <div class="nuance"><i style="background:var(--f-rouge)"></i><span><b>--f-rouge</b><span data-l="fr">perte, alerte</span><span data-l="en" lang="en">loss, warning</span></span></div>
+    </div>
+  </section>
+
+  <section class="typo">
+    <h2 class="f-bandeau"><span data-l="fr">Typographie</span><span data-l="en" lang="en">Typography</span></h2>
+    <p style="font:700 30px/1.1 var(--f-titre);font-stretch:var(--f-serre);text-transform:uppercase"><span data-l="fr">Titre d'écran resserré</span><span data-l="en" lang="en">Condensed screen title</span></p>
+    <p style="font:500 14px var(--f-police);letter-spacing:.22em;text-transform:uppercase;color:var(--f-encre2)"><span data-l="fr">Bandeau de section</span><span data-l="en" lang="en">Section band</span></p>
+    <p><span data-l="fr">Texte courant en Noto Sans, la police libre la plus proche de celle du jeu. Les valeurs ressortent en</span><span data-l="en" lang="en">Body text in Noto, the free typeface closest to the game's. Values stand out in</span> <b style="color:var(--f-or)">orange : 271,2 /min</b>.</p>
+  </section>
+
+  <section>
+    <h2 class="f-bandeau"><span data-l="fr">Fenêtre, boutons, onglets</span><span data-l="en" lang="en">Window, buttons, tabs</span></h2>
+    <div class="rang">
+      <div class="f-fenetre col">
+        <div class="f-titre"><span data-l="fr">Foreuse</span><span data-l="en" lang="en">Miner</span><button class="f-x" type="button" aria-label="×">×</button></div>
+        <div class="corps">
+          <div class="f-onglets" role="tablist" style="margin-bottom:12px"><button type="button" role="tab" aria-selected="true"><span data-l="fr">Production</span><span data-l="en" lang="en">Production</span></button><button type="button" role="tab" aria-selected="false"><span data-l="fr">Énergie</span><span data-l="en" lang="en">Power</span></button></div>
+          <p style="margin:0 0 12px;color:var(--f-encre2)"><span data-l="fr">Barre de titre grise, fermeture en case carrée, corps gris foncé.</span><span data-l="en" lang="en">Grey title bar, square close button, dark grey body.</span></p>
+          <div class="rang"><button class="f-btn f-principal" type="button">✔ <span data-l="fr">Accepter</span><span data-l="en" lang="en">Accept</span></button><button class="f-btn" type="button"><span data-l="fr">Trier</span><span data-l="en" lang="en">Sort</span></button><button class="f-btn" type="button" disabled><span data-l="fr">Indisponible</span><span data-l="en" lang="en">Unavailable</span></button></div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="f-liste" style="background:var(--f-creux)"><div><span data-l="fr">Pièces</span><span data-l="en" lang="en">Parts</span></div><div class="actif"><span data-l="fr">Équipement</span><span data-l="en" lang="en">Equipment</span></div><div><span data-l="fr">Bâtiments</span><span data-l="en" lang="en">Buildings</span></div><div><span data-l="fr">Véhicules</span><span data-l="en" lang="en">Vehicles</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="f-bandeau"><span data-l="fr">Cases d'objets, écran, jauge</span><span data-l="en" lang="en">Item slots, screen, gauge</span></h2>
+    <div class="rang">
+      <div class="col">
+        <div class="cases">
+          <span class="f-case"><img src="commun/icones-44/desc-ironplate-c.webp" alt=""><span class="f-qte">100</span></span>
+          <span class="f-case"><img src="commun/icones-44/desc-ironscrew-c.webp" alt=""><span class="f-qte">500</span></span>
+          <span class="f-case"><img src="commun/icones-44/desc-coal-c.webp" alt=""><span class="f-qte">89</span></span>
+          <span class="f-case"><img src="commun/icones-44/desc-copperingot-c.webp" alt=""></span>
+          <span class="f-case vide"></span><span class="f-case vide"></span>
+        </div>
+        <p style="margin:14px 0 6px;color:var(--f-encre2)"><span data-l="fr">Cadence</span><span data-l="en" lang="en">Clock speed</span> — 74 %</p>
+        <div class="f-jauge"><i style="width:74%"></i></div>
+        <hr class="f-filet">
+      </div>
+      <div class="col" style="text-align:center">
+        <div class="f-ecran" style="text-align:center"><b style="font-size:17px;color:var(--f-ecran-encre)"><span data-l="fr">Charbon</span><span data-l="en" lang="en">Coal</span></b><br><span class="f-val">271,2</span> <span data-l="fr">par minute</span><span data-l="en" lang="en">per minute</span></div>
+        <span class="f-etiquette" style="margin-top:8px"><span data-l="fr">Sortie</span><span data-l="en" lang="en">Output</span></span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="f-bandeau"><span data-l="fr">Tableau</span><span data-l="en" lang="en">Table</span></h2>
+    <div style="overflow-x:auto">
+    <table class="f-table">
+      <thead><tr><th><span data-l="fr">Recette</span><span data-l="en" lang="en">Recipe</span></th><th style="text-align:right">/min</th><th style="text-align:right">MW</th></tr></thead>
+      <tbody>
+        <tr><td><span data-l="fr">Plaque de fer</span><span data-l="en" lang="en">Iron Plate</span></td><td style="text-align:right">20</td><td style="text-align:right">4</td></tr>
+        <tr><td><span data-l="fr">Plaque de fer revêtue</span><span data-l="en" lang="en">Coated Iron Plate</span></td><td style="text-align:right;color:var(--f-or)">75</td><td style="text-align:right">15</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+</div>
+</body>
+</html>

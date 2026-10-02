@@ -31,6 +31,8 @@ const PAGES = {
   'depot-dimensionnel.html': p => p.evaluate(usineTest),
   'energie-noeuds.html': null,
   'planner.html': null,
+  // vitrine de la charte commune (commun/ficsit-hud.css)
+  'charte.html': null,
 };
 /* Dimensional Depot : sauvegarde synthétique (objets tels que le parseur les rend) — foreuse Mk1 sur un nœud de fer
    normal (60 /min) → fonderie (30 lingots /min) → constructeur (plaques, cadence 150 %, 2 éclats : il lui faudrait
@@ -164,17 +166,22 @@ const CHECKS = {
       if (!(F.reel.energie.conso > 0) || F.reel.energie.prod !== 0) out.push('bilan électrique : ' + JSON.stringify(F.reel.energie));
       if (!F.reel.stable) out.push('calcul non convergé');
     }
-    const upl = [...document.querySelectorAll('#uploaders .upl')];
+    // inventaire : une ligne par item, détail dans un <details> (fermé : textContent, pas innerText)
+    const upl = [...document.querySelectorAll('#uploaders details.upl')], tx = e => (e && e.textContent || '').replace(/\s+/g, ' ');
     if (upl.length !== 2) out.push(`${upl.length} groupes d'Uploaders (2 attendus)`);
-    const plaques = upl.find(x => x.querySelector('img.ic'));
-    if (!plaques || plaques.querySelectorAll(':scope > ul:not(.facteurs) > li').length !== 1 || !/150/.test(plaques.innerText) || !/2/.test(plaques.innerText))
-      out.push('source du groupe « plaques » : ' + (plaques ? plaques.innerText.replace(/\s+/g, ' ') : 'absent'));
+    const plaques = upl.find(x => x.querySelector('summary img.ic'));
+    if (!plaques || plaques.querySelectorAll('ul.src > li').length !== 1 || !/150/.test(tx(plaques)) || !/2/.test(tx(plaques)))
+      out.push('source du groupe « plaques » : ' + (plaques ? tx(plaques) : 'absent'));
     if (plaques && !plaques.querySelector('.alerte')) out.push('séparateur en amont non signalé');
-    if (plaques && (plaques.querySelectorAll('.facteurs li').length !== 3 || !/amont|upstream/.test(plaques.querySelector('.facteurs li.min').innerText)))
-      out.push('les trois plafonds ne sont pas affichés : ' + (plaques.querySelector('.debit') || {}).innerText);
-    if (plaques && !(/20/.test(plaques.querySelector('.debit').innerText) && /\b0\b/.test(plaques.querySelector('.debit b').innerText)))
-      out.push('bilan de débit du groupe « plaques » : ' + (plaques.querySelector('.debit') || {}).innerText);
-    if (!/1[\s\u202f.,]?234/.test(txt('stock'))) out.push('stock du Depot absent du tableau');
+    if (plaques && (plaques.querySelectorAll('.facteurs li').length !== 3 || !/amont|upstream/.test(tx(plaques.querySelector('.facteurs li.min')))))
+      out.push('les trois plafonds ne sont pas affichés : ' + tx(plaques.querySelector('.debit')));
+    // Depot plein : la ligne donne le débit théorique (20 /min), le plafond (A) et le signe « plein » ; le détail le redit
+    const s = plaques && plaques.querySelector('summary');
+    if (!s || !/^20\b/.test(tx(s.querySelector('.debitc b'))) || !/A/.test(tx(s.querySelector('.debitc .tag'))) || !s.querySelector('.tag.p')
+      || !plaques.querySelector('.debit small.plein'))
+      out.push('ligne du groupe « plaques » : ' + tx(s));
+    if (!/1[\s\u202f.,]?234/.test(tx(document.getElementById('uploaders')))) out.push('stock du Depot absent de l\'inventaire');
+    if (!document.getElementById('legende').querySelector('.tag.p')) out.push('légende absente');
     if (!/200/.test(txt('extension'))) out.push('extension 200 % non affichée');
     // fluides et circuits : pompe à eau à 25 % (30 m³/min) pour une centrale à charbon qui en veut 45 → marche 2/3,
     // 50 MW, il manque 15 m³/min d'eau ; constructeur sur un circuit grillé et fonderie hors circuit : à l'arrêt

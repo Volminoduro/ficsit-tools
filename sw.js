@@ -3,7 +3,7 @@
    - pages (navigation) : le réseau d'abord, pour avoir la dernière version ; la copie si le réseau manque ;
    - fichiers versionnés (?v=…, bloc commun, scripts de page) : la copie d'abord, ils ne changent jamais sous le même
      nom ; une nouvelle version remplace l'ancienne copie du même fichier ;
-   - le reste (icônes, parseur, workers) : la copie tout de suite, rafraîchie en arrière-plan.
+   - le reste (icônes, polices de commun/polices/, parseur, workers) : la copie tout de suite, rafraîchie en arrière-plan.
    À l'installation, les pages de l'accueil et le parseur sont copiés d'avance ; le reste l'est au fil des visites.
    Changer CACHE vide les anciennes copies (à faire si la stratégie change, pas à chaque version du site). */
 var CACHE = 'ficsit-tools-1';
@@ -36,7 +36,7 @@ function garder(req, rep){
 
 self.addEventListener('fetch', function(e){
   var req = e.request, u = new URL(req.url);
-  if(req.method !== 'GET' || u.origin !== location.origin) return;   // polices Google, etc. : le navigateur s'en charge
+  if(req.method !== 'GET' || u.origin !== location.origin) return;   // autres origines : le navigateur s'en charge
   if(req.mode === 'navigate'){
     e.respondWith(fetch(req).then(function(r){ return garder(req, r); }).catch(function(){
       return caches.match(req, {ignoreSearch: true}).then(function(r){ return r || caches.match('index.html'); });

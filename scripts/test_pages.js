@@ -30,6 +30,7 @@ const PAGES = {
   // usine synthétique passée par l'extraction de commun/ficsit-usine-worker.js, puis rendue
   'depot-dimensionnel.html': p => p.evaluate(usineTest),
   'energie-noeuds.html': null,
+  'planner.html': null,
   // vitrine de la charte commune (commun/ficsit-hud.css)
   'charte.html': null,
 };
@@ -41,7 +42,8 @@ const PAGES = {
    constructeur continue ; potentiel 20 /min limité par l'amont. Charge le module d'extraction, l'applique, calcule
    les débits, affiche. */
 async function usineTest() {
-  if (!window.FicsitUsine) await charger(BASE + 'ficsit-usine-worker.js');
+  if (!window.FicsitUsine) await new Promise((ok, ko) => { const s = document.createElement('script');
+    s.src = 'commun/ficsit-usine-worker.js'; s.onload = ok; s.onerror = ko; document.head.appendChild(s); });
   const ref = (n) => ({pathName: n}), o = (t, nom, props, type) => ({type: type || 'SaveEntity',
     typePath: '/Game/X/' + t + '.' + t, instanceName: nom, properties: props || {}});
   const pr = v => ({value: v}), lien = (a, b) => o('FGFactoryConnectionComponent', a, {mConnectedComponent: pr(ref(b))}, 'SaveComponent');
@@ -217,6 +219,74 @@ const CHECKS = {
     if (!lignes().some(l => l.classList.contains('hors') && l.querySelector('.manque'))) out.push('ce qui manque aux filières grisées n\'est pas dit');
     FicsitPartie.oublier();
     if (document.querySelector('#tableau .ligne.hors')) out.push('filières restées grisées après oubli de la partie');
+    return out;
+  },
+  // planificateur : objectif par défaut (10 plaques renforcées /min → 120 minerai de fer), recette imposée, partie importée
+  'planner.html': async () => {
+    const out = [], txt = id => document.getElementById(id).innerText.replace(/\s+/g, ' ');
+    if (!/120\b.*(Iron Ore|Minerai de fer)/.test(txt('bruts'))) out.push('ressources par défaut : ' + txt('bruts'));
+    if (document.querySelectorAll('#etapes .etape').length !== 5) out.push(document.querySelectorAll('#etapes .etape').length + ' étapes (5 attendues)');
+    if (/NaN|undefined/.test(document.body.innerText)) out.push('valeur invalide dans la page');
+    // vue en graphe : 5 étapes + minerai + objectif, 7 liens (6 entre étapes et ressource, 1 vers l'objectif), survol qui isole, retour à la liste
+    document.querySelector('[data-vue="graphe"]').click();
+    const svg = document.querySelector('#graphe svg');
+    if (!svg || document.getElementById('vueGraphe').hidden || !document.getElementById('vueListe').hidden) out.push('vue en graphe non affichée');
+    else {
+      if (svg.querySelectorAll('.noeud').length !== 7) out.push(svg.querySelectorAll('.noeud').length + ' blocs dans le graphe (7 attendus)');
+      if (svg.querySelectorAll('.lien').length !== 7) out.push(svg.querySelectorAll('.lien').length + ' liens dans le graphe (7 attendus)');
+      if (/NaN|undefined/.test(svg.outerHTML)) out.push('valeur invalide dans le graphe');
+      svg.querySelector('.noeud[data-id^="b:"]').dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
+      if (!svg.classList.contains('actif') || svg.querySelectorAll('.lien.lie').length !== 1) out.push('survol du minerai : ' + svg.querySelectorAll('.lien.lie').length + ' lien(s) isolé(s)');
+      const w = +svg.getAttribute('width');
+      document.querySelector('[data-z="1"]').click();
+      if (!(+document.querySelector('#graphe svg').getAttribute('width') > w)) out.push('zoom sans effet');
+      document.querySelector('[data-z="0"]').click();
+    }
+    document.querySelector('[data-vue="liste"]').click();
+    if (document.getElementById('vueListe').hidden) out.push('retour à la liste impossible');
+    // optimisation : solveur chargé à la demande (file:// compris), moins de ressources que le choix simple
+    const rare = () => parseFloat(document.querySelector('#tuiles [data-k="rare"] .big').innerText.replace(/\s/g, '').replace(',', '.'));
+    document.getElementById('alt').click();   // alternatives permises : l'optimum en profite
+    const avant = rare(), mode = document.getElementById('mode');
+    mode.value = 'ressources'; mode.dispatchEvent(new Event('change'));
+    for (let k = 0; k < 200 && !HIGHS && ETAT_H !== 'erreur'; k++) await new Promise(r => setTimeout(r, 100));
+    if (!HIGHS) out.push('solveur non chargé : ' + ETAT_H);
+    else {
+      if (txt('alertes')) out.push('alerte en mode optimisé : ' + txt('alertes'));
+      if (!(rare() < avant)) out.push(`optimisé : ${rare()} ‰ ≥ ${avant} ‰`);
+      if (/NaN|undefined/.test(document.body.innerText)) out.push('valeur invalide en mode optimisé');
+    }
+    mode.value = 'defaut'; mode.dispatchEvent(new Event('change'));
+    document.getElementById('alt').click();
+    const sel = document.querySelector('#etapes select[data-item="Iron Plate"]');
+    sel.value = 'brut'; sel.dispatchEvent(new Event('change', {bubbles: true}));
+    if (!/60\b.*(Iron Plate|Plaque de fer)/.test(txt('bruts'))) out.push('plaques « fournies » absentes des ressources : ' + txt('bruts'));
+    document.getElementById('choixRaz').click();
+    FicsitPartie.enregistrer({nom: 'Test', date: '2026-01-31T03:06:00.000Z', duree: 3600, version: 58, lu: 'test-planner',
+      recettes: ['Recipe_IngotIron_C', 'Recipe_IronPlate_C', 'Recipe_IronRod_C', 'Recipe_Screw_C'], schemas: ['Schematic_1-1_C'], attente: []});
+    if (!/(Aucune recette permise|No allowed recipe).*(Reinforced Iron Plate|Plaque de fer renforcée)/.test(txt('alertes')))
+      out.push('partie sans plaques renforcées : pas d\'alerte « ' + txt('alertes') + ' »');
+    // usine en cache : 2 constructeurs de plaques (150 % et 100 %) → 50 plaques /min installées, il en faut 60 ;
+    // vis sans machine ; « Recettes de mon usine d'abord » prend la fonderie (alliage de fer) pour les lingots
+    FicsitPartie.enregistrer({nom: 'Test', date: '2026-01-31T03:06:00.000Z', duree: 3600, version: 58, lu: 'test-planner-usine',
+      recettes: ['Recipe_IngotIron_C', 'Recipe_Alternate_IngotIron_C', 'Recipe_IronPlate_C', 'Recipe_IronRod_C', 'Recipe_Screw_C',
+        'Recipe_IronPlateReinforced_C'], schemas: ['Schematic_1-1_C'], attente: []});
+    await FicsitPartie.garder('usine', {batis: [{c: 'Build_ConstructorMk1_C', rec: 'Recipe_IronPlate_C', clk: 1.5, prod: .5},
+      {c: 'Build_ConstructorMk1_C', rec: 'Recipe_IronPlate_C'}, {c: 'Build_FoundryMk1_C', rec: 'Recipe_Alternate_IngotIron_C'}], fluides: []});
+    await chargerUsine();
+    const u = [...document.querySelectorAll('#etapes .etape')].map(e => [e.querySelector('select').dataset.item, (e.querySelector('.usine') || {}).innerText || '']);
+    const plaques = (u.find(x => x[0] === 'Iron Plate') || [])[1] || '', vis = (u.find(x => x[0] === 'Screws') || [])[1] || '';
+    if (!/\b2\b.*\b50\b.*\b10\b.*\b1\b/.test(plaques)) out.push('plaques : ' + plaques);
+    if (!/(aucune machine|no machine)/.test(vis)) out.push('vis : ' + vis);
+    const lingots = () => (document.querySelector('#etapes select[data-item="Iron Ingot"]') || {}).value;
+    if (lingots() !== 'Recipe_Alternate_IngotIron_C') out.push('recette de l\'usine non préférée pour les lingots : ' + lingots());
+    if (!/(machines à construire|machines to build)/i.test(txt('tuiles'))) out.push('tuile « à construire » absente');
+    document.getElementById('suivre').click();
+    if (lingots() !== 'Recipe_IngotIron_C') out.push('sans « recettes de mon usine d\'abord », lingots : ' + lingots());
+    document.getElementById('suivre').click();
+    FicsitPartie.oublier();
+    await new Promise(r => setTimeout(r, 50));
+    if (txt('alertes') || document.querySelector('#etapes .usine')) out.push('alerte ou comparaison restée après oubli de la partie');
     return out;
   },
   'ficsit_horloge.html': () => {

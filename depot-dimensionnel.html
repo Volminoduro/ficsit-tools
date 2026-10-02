@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <!-- FICSIT-LANG:START -->
 <link rel="stylesheet" href="commun/ficsit-commun.css?v=d3388b0b7c">
-<script src="commun/ficsit-commun.js?v=43b23c3865"></script>
+<script src="commun/ficsit-commun.js?v=bbcc8020fa"></script>
 <!-- FICSIT-LANG:END -->
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title data-fr="Débit vers le Dimensional Depot (en chantier) — ce que vos Uploaders reçoivent" data-en="Dimensional Depot throughput (work in progress) — what your Uploaders receive">Débit vers le Dimensional Depot (en chantier) — ce que vos Uploaders reçoivent</title>
@@ -273,27 +273,6 @@ const nomRec = c => { const n = P.rec[c] && P.rec[c][0]; return n ? (n.startsWit
 const nomBat = c => P.bat[c] ? FicsitLang.batiment(P.bat[c]) : String(c).replace(/^Build_|_C$/g, '');
 let USINE = null, etat = null, FLUX = null;
 
-/* ---------- lecture : worker commun/ficsit-usine-worker.js (repli dans la page en file://) ---------- */
-const BASE = 'commun/';
-function charger(src){ return new Promise((ok, ko) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = () => ko(new Error('format')); document.head.appendChild(s); }); }
-function avecWorker(buf, progres){
-  return new Promise((ok, ko) => {
-    let w, parti = false;
-    try{ w = new Worker(BASE + 'ficsit-usine-worker.js'); }catch(e){ ko(new Error('worker')); return; }
-    w.onmessage = e => { const m = e.data;
-      if(m.progres != null){ parti = true; progres(m.progres); }
-      else { w.terminate(); m.usine ? ok(m.usine) : ko(new Error(m.erreur || 'format')); } };
-    w.onerror = e => { e.preventDefault(); w.terminate();
-      ko(new Error(!parti ? 'worker' : /memory|allocation/i.test(e.message || '') ? 'memoire' : 'format')); };
-    w.postMessage(buf, [buf]);
-  });
-}
-async function sansWorker(buf, progres){
-  if(!window.SatisfactoryFileParser) await charger(BASE + 'vendor/satisfactory-file-parser.js');
-  if(!window.FicsitUsine) await charger(BASE + 'ficsit-usine-worker.js');
-  await new Promise(r => setTimeout(r, 30));
-  return FicsitUsine.lire(buf, progres);
-}
 /* ---------- débits : worker depot-dimensionnel-flux.js, à l'adresse versionnée de sa balise <script> (repli dans
    la page en file://) ---------- */
 function fluxWorker(u){
@@ -330,30 +309,13 @@ async function chargerUsine(){
   USINE = null; FLUX = null; etat = null;
   if(!p){ rendu(); return; }
   etat = {etape: 'usine', f: 0}; rendu();   // pas de « aucune sauvegarde » furtif pendant la lecture du cache
-  const cache = await FicsitPartie.cache('usine');
+  // usine : cache commun, sinon lue depuis le fichier gardé (FicsitPartie.usine, commun/ficsit-partie-ui.js)
+  let dernier = 0;
+  const progres = fr => { const n = performance.now(); if(t === tour && (fr >= 1 || n - dernier > 120)){ dernier = n; etat = {etape: 'usine', f: fr}; rendu(); } };
+  try{ USINE = await FicsitPartie.usine(progres); }
+  catch(e){ if(t === tour){ etat = {erreur: e.message || 'format'}; rendu(); } return; }
   if(t !== tour) return;
-  // usine lue par une version précédente (sans tuyaux ni circuits) : relue depuis le fichier gardé s'il est là
-  if(cache && cache.fluides) USINE = cache;
-  else {
-    const f = await FicsitPartie.fichier();
-    if(t !== tour) return;
-    if(!f && cache) USINE = cache;
-  }
-  if(!USINE){
-    const f = await FicsitPartie.fichier();
-    if(t !== tour) return;
-    if(!f){ etat = {manque: true}; rendu(); return; }
-    let dernier = 0;
-    const progres = fr => { const n = performance.now(); if(t === tour && (fr >= 1 || n - dernier > 120)){ dernier = n; etat = {etape: 'usine', f: fr}; rendu(); } };
-    etat = {etape: 'usine', f: 0}; rendu();
-    try{
-      const copie = f.buf.slice(0);
-      USINE = await avecWorker(f.buf, progres).catch(e => { if(e.message === 'worker') return sansWorker(copie, progres); throw e; });
-    }catch(e){ if(t === tour){ etat = {erreur: e.message || 'format'}; rendu(); } return; }
-    if(t !== tour) return;
-    USINE.fichier = f.nom;
-    FicsitPartie.garder('usine', USINE);
-  }
+  if(!USINE){ etat = {manque: true}; rendu(); return; }
   const fc = await FicsitPartie.cache(cleFlux());
   if(t !== tour) return;
   if(fc){ FLUX = fc; etat = null; rendu(); return; }

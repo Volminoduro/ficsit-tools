@@ -25,7 +25,8 @@ const SEUIL = 8;           // écart par canal (0-255) au-delà duquel un pixel 
 const TOLERANCE = 20;      // pixels différents admis : le même navigateur rend au pixel près, la marge couvre un aléa
 
 const PAGES = ['index.html', 'satisfactory_infographie.html', 'ficsit_horloge.html', 'broyeur-excedents.html',
-  'arbre-production.html', 'memo-ficsit.html', 'depot-dimensionnel.html', 'energie-noeuds.html', 'charte.html'];
+  'arbre-production.html', 'memo-ficsit.html', 'depot-dimensionnel.html', 'energie-noeuds.html', 'charte.html',
+  'planner.html'];
 const LARGEURS = [[1280, 900], [390, 844]];
 // états ouverts des éléments communs, sur une page
 const ETATS = {

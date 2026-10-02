@@ -112,6 +112,14 @@
       },
       "entrees": [
         {
+          "version": "1.31",
+          "date": "2026-10-02",
+          "texte": {
+            "fr": "Combinaisons et chaînes optimisées en bleu, la couleur des graphes de puissance du jeu, au lieu du jaune absent de ses menus : l'orange reste aux recettes alternatives, le gris aux recettes de base.",
+            "en": "Combinations and optimised chains in blue, the colour of the game's power graphs, instead of a yellow its menus never use: orange stays for alternate recipes, grey for standard ones."
+          }
+        },
+        {
           "version": "1.30",
           "date": "2026-10-02",
           "texte": {

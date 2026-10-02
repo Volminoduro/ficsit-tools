@@ -109,6 +109,23 @@
   .graphe.glisse .noeud{cursor:grabbing}
   .graphe .noeud.choisi rect{stroke:#fff;stroke-width:2}
   .graphe .n4{font-size:11px;fill:var(--mute)}
+  /* changement de recette depuis le graphe : bouton ⇄ et menu posé sur le bloc */
+  .cadre-graphe{position:relative}
+  .graphe .recette rect{fill:var(--f-barre)}
+  .graphe .recette text{font-size:13px;font-weight:700;fill:#fff;pointer-events:none}
+  .graphe .recette{cursor:pointer}
+  .graphe .recette:hover rect{fill:var(--or)}
+  .menu-rec{position:absolute;z-index:5;min-width:240px;max-width:min(380px,calc(100% - 8px));max-height:320px;overflow:auto;
+    background:var(--panel);border:1px solid var(--or);box-shadow:var(--f-ombre);padding:4px}
+  .menu-rec .tete{padding:6px 8px;color:var(--dim);font-size:12.5px;text-transform:uppercase;letter-spacing:.08em}
+  .menu-rec button{display:block;width:100%;text-align:left;background:transparent;font-family:var(--f-police);font-stretch:normal;
+    text-transform:none;letter-spacing:0;font-weight:400;font-size:13.5px;padding:6px 8px;color:var(--ink)}
+  .menu-rec button:hover,.menu-rec button:focus-visible{background:var(--or);color:var(--f-or-encre);outline:none}
+  .menu-rec button[aria-checked=true]{font-weight:700}
+  .menu-rec button[aria-checked=true]::before{content:"✓ ";color:var(--or)}
+  .menu-rec button[aria-checked=true]:hover::before,.menu-rec button[aria-checked=true]:focus-visible::before{color:inherit}
+  .menu-rec .sep-m{border-top:1px solid var(--rule);margin:4px 0}
+  .detail select{margin:2px 0 8px;font-size:13.5px;padding:4px 6px;max-width:100%}
   /* montage dessiné dans un bloc déplié */
   .graphe .plier rect{fill:var(--f-barre);stroke:none}
   .graphe .plier text{font-size:14px;font-weight:700;fill:#fff;pointer-events:none}
@@ -213,18 +230,21 @@
   <div id="vueGraphe" hidden>
   <p class="hint"><span data-l="fr">Des ressources brutes (à gauche) aux objectifs (à droite). Chaque lien donne son débit et le
     convoyeur (ou le tuyau) qu'il lui faut. Faites glisser un bloc pour le déplacer ; touchez-le pour isoler ses liens et
-    voir son montage (séparateurs, groupeurs) sous le graphe. Les recettes se changent dans la liste. Le bouton + d'une
+    voir son montage (séparateurs, groupeurs) sous le graphe. Le bouton ⇄ d'un bloc (ou la touche R) change sa recette. Le bouton + d'une
     étape déplie son montage, dessiné dans le graphe.</span><span data-l="en" lang="en">From
     raw resources (left) to targets (right). Each link shows its rate and the belt (or pipe) it needs. Drag a box to move
     it; tap it to isolate its links and see its layout (splitters, mergers) below the graph. Recipes are changed in the
-    list. The + button of a step unfolds its layout drawn in the graph.</span></p>
+    list or with a box's ⇄ button. The + button of a step unfolds its layout drawn in the graph.</span></p>
   <div class="zoom"><button type="button" data-z="-1" data-fr-aria-label="Réduire" data-en-aria-label="Zoom out" aria-label="Réduire">−</button>
     <span id="zoomVal">100 %</span>
     <button type="button" data-z="1" data-fr-aria-label="Agrandir" data-en-aria-label="Zoom in" aria-label="Agrandir">+</button>
     <button type="button" data-z="0"><span data-l="fr">Ajuster</span><span data-l="en" lang="en">Fit</span></button>
     <button type="button" id="reorg"><span data-l="fr">Réorganiser</span><span data-l="en" lang="en">Re-arrange</span></button>
     <button type="button" id="deplier"><span data-l="fr">Tout déplier</span><span data-l="en" lang="en">Expand all</span></button></div>
-  <div class="graphe" id="graphe"></div>
+  <div class="cadre-graphe">
+    <div class="graphe" id="graphe"></div>
+    <div class="menu-rec" id="menuRec" role="menu" hidden></div>
+  </div>
   <div class="detail" id="detail" aria-live="polite"></div>
   </div>
 
@@ -342,13 +362,13 @@
 html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none}
 @media (max-width:560px){.pn-btn{padding:0 8px;gap:5px}.pn-panel{width:100vw}}
 @media print{.pn{display:none}}</style>
-<div class="pn" id="journal" data-fdock data-outil="planner.html" data-v="1.5">
-<button type="button" class="pn-btn" aria-expanded="false" aria-controls="pn-panel" data-fr-title="Journal des révisions : ce qui a changé" data-en-title="Revision log: what changed" title="Journal des révisions : ce qui a changé"><span class="pn-dot" aria-hidden="true"></span><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5h8v11H3z"/><path d="M5 4.5h4M5 7h4M5 9.5h2.5"/></svg><span>v1.5</span></button>
+<div class="pn" id="journal" data-fdock data-outil="planner.html" data-v="1.6">
+<button type="button" class="pn-btn" aria-expanded="false" aria-controls="pn-panel" data-fr-title="Journal des révisions : ce qui a changé" data-en-title="Revision log: what changed" title="Journal des révisions : ce qui a changé"><span class="pn-dot" aria-hidden="true"></span><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5h8v11H3z"/><path d="M5 4.5h4M5 7h4M5 9.5h2.5"/></svg><span>v1.6</span></button>
 <div class="pn-panel" id="pn-panel" role="region" aria-labelledby="pn-titre" hidden><div class="pn-hz"></div>
 <div class="pn-head"><span class="pn-slot"><img src="data:image/webp;base64,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" alt=""></span><div><div class="pn-title" id="pn-titre" role="heading" aria-level="2"><span data-l="fr">Journal des révisions</span><span data-l="en" lang="en">Revision log</span></div>
-<p class="pn-sub"><span data-l="fr">Version 1.5, mise à jour le 02/10/2026</span><span data-l="en" lang="en">Version 1.5, updated 2 Oct 2026</span></p></div><button type="button" class="pn-x" data-fr-aria-label="Fermer" data-en-aria-label="Close" aria-label="Fermer">×</button></div>
-<ol class="pn-list"><li class="pn-e" data-v="1.5"><div class="pn-meta"><span class="pn-v">v1.5</span><time class="pn-d" datetime="2026-10-02"><span data-l="fr">02/10/2026</span><span data-l="en" lang="en">2 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Montage dessiné dans le graphe : le bouton + d&#x27;une étape (ou « Tout déplier ») déplie son bloc et dessine la ligne d&#x27;entrée, les séparateurs, une rangée par machine, les groupeurs et la ligne de sortie, avec le convoyeur de chaque tronçon. En manifold, le tronc et un séparateur par machine ; en équilibrage, l&#x27;arbre de séparateurs étage par étage et la boucle de retour des sorties en trop ; groupeurs en chaîne ou en arbre. Les autres entrées et sorties, au même montage, sont rappelées dessous. Les liens du graphe arrivent sur la ligne d&#x27;entrée et partent de la ligne de sortie du bloc déplié.</span><span data-l="en" lang="en">Layout drawn in the graph: a step&#x27;s + button (or &quot;Expand all&quot;) unfolds its box and draws the input line, the splitters, one row per machine, the mergers and the output line, with each section&#x27;s belt. As a manifold, the trunk and one splitter per machine; with load balancing, the splitter tree level by level and the loop back of extra outputs; mergers in a row or in a tree. The other inputs and outputs, with the same layout, are listed below. Graph links reach the unfolded box&#x27;s input line and leave from its output line.</span></p></li><li class="pn-e" data-v="1.4"><div class="pn-meta"><span class="pn-v">v1.4</span><time class="pn-d" datetime="2026-10-02"><span data-l="fr">02/10/2026</span><span data-l="en" lang="en">2 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Le graphe devient la vue par défaut. Chaque lien indique le convoyeur (ou le tuyau) qu&#x27;il lui faut, le plus petit niveau débloqué qui passe son débit, plusieurs lignes au-delà du Mk.6. Les blocs se déplacent à la souris, au doigt ou aux flèches du clavier, et gardent leur place ; « Réorganiser » revient à la disposition automatique. Nouveau choix de montage : manifold (séparateurs et groupeurs en chaîne) ou équilibrage (arbre de séparateurs 1 → 2 ou 1 → 3, avec boucle de retour quand le nombre de machines ne s&#x27;y prête pas, groupeurs en arbre) ; chaque bloc résume ses séparateurs et groupeurs, et le toucher donne sous le graphe le montage de chaque entrée et sortie, avec le convoyeur de chaque branche. Le même détail se déplie dans la liste.</span><span data-l="en" lang="en">The graph becomes the default view. Each link shows the belt (or pipe) it needs, the smallest unlocked tier that carries its rate, several lines beyond Mk.6. Boxes move with the mouse, a finger or the arrow keys, and keep their place; &quot;Re-arrange&quot; goes back to the automatic layout. New layout choice: manifold (splitters and mergers in a row) or load balancing (tree of 1 → 2 or 1 → 3 splitters, with a loop back when the machine count does not allow it, mergers in a tree); each box sums up its splitters and mergers, and tapping it shows below the graph the layout of each input and output, with the belt of each branch. The same detail unfolds in the list.</span></p></li><li class="pn-e" data-v="1.3"><div class="pn-meta"><span class="pn-v">v1.3</span><time class="pn-d" datetime="2026-10-02"><span data-l="fr">02/10/2026</span><span data-l="en" lang="en">2 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Vue en graphe : les étapes de production en blocs reliés par les débits, des ressources brutes (à gauche) aux objectifs et surplus (à droite), avec l&#x27;épaisseur de chaque lien selon son débit et les fluides en bleu. Survoler ou toucher un bloc isole ses liens ; zoom et ajustement à la largeur ; avec une partie importée, les blocs disent ce qu&#x27;il reste à construire. Les boucles de recettes (recyclage plastique ↔ caoutchouc) ne déroulent plus l&#x27;ordre des étapes.</span><span data-l="en" lang="en">Graph view: production steps as boxes linked by their rates, from raw resources (left) to targets and surplus (right), each link as wide as its rate and fluids in blue. Hover or tap a box to isolate its links; zoom and fit to width; with an imported game, boxes tell what is left to build. Recipe loops (plastic ↔ rubber recycling) no longer stretch the step order.</span></p></li></ol>
-<details class="pn-old"><summary><span data-l="fr">3 révisions antérieures</span><span data-l="en" lang="en">3 earlier revisions</span></summary><ol class="pn-list"><li class="pn-e" data-v="1.2"><div class="pn-meta"><span class="pn-v">v1.2</span><time class="pn-d" datetime="2026-10-02"><span data-l="fr">02/10/2026</span><span data-l="en" lang="en">2 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Recettes optimisées : le planificateur peut choisir lui-même les recettes, en combinant librement toutes celles qui sont permises (un item peut en utiliser plusieurs), pour consommer le moins de ressources (chacune comptée selon sa rareté sur la carte) ou le moins d&#x27;énergie. Calcul exact par programmation linéaire (solveur HiGHS, chargé seulement à la première optimisation, puis gardé hors ligne). Nouvelle tuile du bilan : la part des ressources de la carte que demande le plan, pour comparer les modes.</span><span data-l="en" lang="en">Optimised recipes: the planner can pick the recipes itself, freely combining every allowed one (an item may use several), to use the fewest resources (each weighted by its scarcity on the map) or the least power. Exact computation by linear programming (HiGHS solver, loaded only at the first optimisation, then kept offline). New summary tile: the share of the map&#x27;s resources the plan needs, to compare modes.</span></p></li><li class="pn-e" data-v="1.1"><div class="pn-meta"><span class="pn-v">v1.1</span><time class="pn-d" datetime="2026-10-02"><span data-l="fr">02/10/2026</span><span data-l="en" lang="en">2 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Comparaison avec votre usine : avec une partie importée, le planificateur lit les machines déjà construites (la même lecture que l&#x27;outil Depot, gardée en cache). Pour chaque étape, ce que vos machines produisent avec la même recette, à leur cadence et avec leurs Somersloops, la part du temps où elles tournent (mesurée par le jeu), et ce qu&#x27;il manque : débit et machines à construire, avec leur total dans le bilan. « Recettes de mon usine d&#x27;abord » choisit par défaut les recettes que vous avez déjà construites.</span><span data-l="en" lang="en">Comparison with your factory: with an imported game, the planner reads the machines already built (the same reading as the Depot tool, kept in cache). For each step, what your machines make with the same recipe, at their clock speed and with their Somersloops, how much of the time they run (measured by the game), and what is missing: rate and machines to build, with their total in the summary. &quot;My factory&#x27;s recipes first&quot; picks by default the recipes you have already built.</span></p></li><li class="pn-e" data-v="1.0"><div class="pn-meta"><span class="pn-v">v1.0</span><time class="pn-d" datetime="2026-10-01"><span data-l="fr">01/10/2026</span><span data-l="en" lang="en">1 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Nouvel outil : vos objectifs de production par minute, et la chaîne qui y mène jusqu&#x27;aux ressources brutes. Pour chaque recette, le nombre de machines (exact, puis entier avec la cadence qui va), leur consommation, ce qui entre et ce qui sort ; les sous-produits servent d&#x27;abord aux autres étapes, le reste part en surplus. Recette de chaque item au choix, ou « fournie » de l&#x27;extérieur. Avec une partie importée, seules les recettes débloquées sont proposées ; sinon, palier et alternatives à régler.</span><span data-l="en" lang="en">New tool: your production targets per minute, and the chain that leads to them, down to the raw resources. For each recipe, the number of machines (exact, then whole with the matching clock speed), their power draw, what goes in and what comes out; by-products first feed the other steps, the rest goes to surplus. Each item&#x27;s recipe can be picked, or &quot;supplied&quot; from elsewhere. With an imported game, only unlocked recipes are offered; otherwise, set the tier and alternates.</span></p></li></ol></details>
+<p class="pn-sub"><span data-l="fr">Version 1.6, mise à jour le 02/10/2026</span><span data-l="en" lang="en">Version 1.6, updated 2 Oct 2026</span></p></div><button type="button" class="pn-x" data-fr-aria-label="Fermer" data-en-aria-label="Close" aria-label="Fermer">×</button></div>
+<ol class="pn-list"><li class="pn-e" data-v="1.6"><div class="pn-meta"><span class="pn-v">v1.6</span><time class="pn-d" datetime="2026-10-02"><span data-l="fr">02/10/2026</span><span data-l="en" lang="en">2 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Les recettes se changent depuis le graphe : le bouton ⇄ d&#x27;une étape (ou la touche R) ouvre sur le graphe la liste des recettes permises pour son item, la recette actuelle cochée, avec « Fourni (hors chaîne) ». Un item fourni garde le bouton sur son bloc de ressource, avec « Recette par défaut » pour le refabriquer. Le panneau du bloc choisi propose aussi la liste des recettes.</span><span data-l="en" lang="en">Recipes can be changed from the graph: a step&#x27;s ⇄ button (or the R key) opens on the graph the list of allowed recipes for its item, the current one ticked, with &quot;Supplied (outside the chain)&quot;. A supplied item keeps the button on its resource box, with &quot;Default recipe&quot; to make it again. The chosen box&#x27;s panel also offers the recipe list.</span></p></li><li class="pn-e" data-v="1.5"><div class="pn-meta"><span class="pn-v">v1.5</span><time class="pn-d" datetime="2026-10-02"><span data-l="fr">02/10/2026</span><span data-l="en" lang="en">2 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Montage dessiné dans le graphe : le bouton + d&#x27;une étape (ou « Tout déplier ») déplie son bloc et dessine la ligne d&#x27;entrée, les séparateurs, une rangée par machine, les groupeurs et la ligne de sortie, avec le convoyeur de chaque tronçon. En manifold, le tronc et un séparateur par machine ; en équilibrage, l&#x27;arbre de séparateurs étage par étage et la boucle de retour des sorties en trop ; groupeurs en chaîne ou en arbre. Les autres entrées et sorties, au même montage, sont rappelées dessous. Les liens du graphe arrivent sur la ligne d&#x27;entrée et partent de la ligne de sortie du bloc déplié.</span><span data-l="en" lang="en">Layout drawn in the graph: a step&#x27;s + button (or &quot;Expand all&quot;) unfolds its box and draws the input line, the splitters, one row per machine, the mergers and the output line, with each section&#x27;s belt. As a manifold, the trunk and one splitter per machine; with load balancing, the splitter tree level by level and the loop back of extra outputs; mergers in a row or in a tree. The other inputs and outputs, with the same layout, are listed below. Graph links reach the unfolded box&#x27;s input line and leave from its output line.</span></p></li><li class="pn-e" data-v="1.4"><div class="pn-meta"><span class="pn-v">v1.4</span><time class="pn-d" datetime="2026-10-02"><span data-l="fr">02/10/2026</span><span data-l="en" lang="en">2 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Le graphe devient la vue par défaut. Chaque lien indique le convoyeur (ou le tuyau) qu&#x27;il lui faut, le plus petit niveau débloqué qui passe son débit, plusieurs lignes au-delà du Mk.6. Les blocs se déplacent à la souris, au doigt ou aux flèches du clavier, et gardent leur place ; « Réorganiser » revient à la disposition automatique. Nouveau choix de montage : manifold (séparateurs et groupeurs en chaîne) ou équilibrage (arbre de séparateurs 1 → 2 ou 1 → 3, avec boucle de retour quand le nombre de machines ne s&#x27;y prête pas, groupeurs en arbre) ; chaque bloc résume ses séparateurs et groupeurs, et le toucher donne sous le graphe le montage de chaque entrée et sortie, avec le convoyeur de chaque branche. Le même détail se déplie dans la liste.</span><span data-l="en" lang="en">The graph becomes the default view. Each link shows the belt (or pipe) it needs, the smallest unlocked tier that carries its rate, several lines beyond Mk.6. Boxes move with the mouse, a finger or the arrow keys, and keep their place; &quot;Re-arrange&quot; goes back to the automatic layout. New layout choice: manifold (splitters and mergers in a row) or load balancing (tree of 1 → 2 or 1 → 3 splitters, with a loop back when the machine count does not allow it, mergers in a tree); each box sums up its splitters and mergers, and tapping it shows below the graph the layout of each input and output, with the belt of each branch. The same detail unfolds in the list.</span></p></li></ol>
+<details class="pn-old"><summary><span data-l="fr">4 révisions antérieures</span><span data-l="en" lang="en">4 earlier revisions</span></summary><ol class="pn-list"><li class="pn-e" data-v="1.3"><div class="pn-meta"><span class="pn-v">v1.3</span><time class="pn-d" datetime="2026-10-02"><span data-l="fr">02/10/2026</span><span data-l="en" lang="en">2 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Vue en graphe : les étapes de production en blocs reliés par les débits, des ressources brutes (à gauche) aux objectifs et surplus (à droite), avec l&#x27;épaisseur de chaque lien selon son débit et les fluides en bleu. Survoler ou toucher un bloc isole ses liens ; zoom et ajustement à la largeur ; avec une partie importée, les blocs disent ce qu&#x27;il reste à construire. Les boucles de recettes (recyclage plastique ↔ caoutchouc) ne déroulent plus l&#x27;ordre des étapes.</span><span data-l="en" lang="en">Graph view: production steps as boxes linked by their rates, from raw resources (left) to targets and surplus (right), each link as wide as its rate and fluids in blue. Hover or tap a box to isolate its links; zoom and fit to width; with an imported game, boxes tell what is left to build. Recipe loops (plastic ↔ rubber recycling) no longer stretch the step order.</span></p></li><li class="pn-e" data-v="1.2"><div class="pn-meta"><span class="pn-v">v1.2</span><time class="pn-d" datetime="2026-10-02"><span data-l="fr">02/10/2026</span><span data-l="en" lang="en">2 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Recettes optimisées : le planificateur peut choisir lui-même les recettes, en combinant librement toutes celles qui sont permises (un item peut en utiliser plusieurs), pour consommer le moins de ressources (chacune comptée selon sa rareté sur la carte) ou le moins d&#x27;énergie. Calcul exact par programmation linéaire (solveur HiGHS, chargé seulement à la première optimisation, puis gardé hors ligne). Nouvelle tuile du bilan : la part des ressources de la carte que demande le plan, pour comparer les modes.</span><span data-l="en" lang="en">Optimised recipes: the planner can pick the recipes itself, freely combining every allowed one (an item may use several), to use the fewest resources (each weighted by its scarcity on the map) or the least power. Exact computation by linear programming (HiGHS solver, loaded only at the first optimisation, then kept offline). New summary tile: the share of the map&#x27;s resources the plan needs, to compare modes.</span></p></li><li class="pn-e" data-v="1.1"><div class="pn-meta"><span class="pn-v">v1.1</span><time class="pn-d" datetime="2026-10-02"><span data-l="fr">02/10/2026</span><span data-l="en" lang="en">2 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Comparaison avec votre usine : avec une partie importée, le planificateur lit les machines déjà construites (la même lecture que l&#x27;outil Depot, gardée en cache). Pour chaque étape, ce que vos machines produisent avec la même recette, à leur cadence et avec leurs Somersloops, la part du temps où elles tournent (mesurée par le jeu), et ce qu&#x27;il manque : débit et machines à construire, avec leur total dans le bilan. « Recettes de mon usine d&#x27;abord » choisit par défaut les recettes que vous avez déjà construites.</span><span data-l="en" lang="en">Comparison with your factory: with an imported game, the planner reads the machines already built (the same reading as the Depot tool, kept in cache). For each step, what your machines make with the same recipe, at their clock speed and with their Somersloops, how much of the time they run (measured by the game), and what is missing: rate and machines to build, with their total in the summary. &quot;My factory&#x27;s recipes first&quot; picks by default the recipes you have already built.</span></p></li><li class="pn-e" data-v="1.0"><div class="pn-meta"><span class="pn-v">v1.0</span><time class="pn-d" datetime="2026-10-01"><span data-l="fr">01/10/2026</span><span data-l="en" lang="en">1 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><p class="pn-t"><span data-l="fr">Nouvel outil : vos objectifs de production par minute, et la chaîne qui y mène jusqu&#x27;aux ressources brutes. Pour chaque recette, le nombre de machines (exact, puis entier avec la cadence qui va), leur consommation, ce qui entre et ce qui sort ; les sous-produits servent d&#x27;abord aux autres étapes, le reste part en surplus. Recette de chaque item au choix, ou « fournie » de l&#x27;extérieur. Avec une partie importée, seules les recettes débloquées sont proposées ; sinon, palier et alternatives à régler.</span><span data-l="en" lang="en">New tool: your production targets per minute, and the chain that leads to them, down to the raw resources. For each recipe, the number of machines (exact, then whole with the matching clock speed), their power draw, what goes in and what comes out; by-products first feed the other steps, the rest goes to surplus. Each item&#x27;s recipe can be picked, or &quot;supplied&quot; from elsewhere. With an imported game, only unlocked recipes are offered; otherwise, set the tier and alternates.</span></p></li></ol></details>
 <div class="pn-foot"></div></div></div>
 <script>(function(){
   var r = document.getElementById('journal'); if(!r) return;
@@ -508,6 +528,14 @@ function texteMontage(e, D){
   return {resume, lignes};
 }
 
+/* recettes proposées pour un item : celles permises (meilleure d'abord), plus la recette actuelle si elle n'en est pas */
+function optionsRecette(item, actuelle, C){
+  const cand = M.candidates(P, item, C.permise);
+  if(actuelle && !cand.includes(actuelle)) cand.unshift(actuelle);
+  return cand;
+}
+const libRecette = c => `${nomRec(c.nom)}${c.alt ? ' (alt.)' : ''} — ${nomBat(c.machine)}`;
+
 // items qu'on peut viser : produits par au moins une recette (toutes, la permission est vérifiée au calcul)
 const FABRICABLES = Array.from(new Set(P.r.flatMap(r => r[7].map(p => p[0]))));
 
@@ -605,9 +633,8 @@ function calcul(){
     || `<p class="vide">${L({fr: 'Aucun.', en: 'None.'})}</p>`;
 
   document.getElementById('etapes').innerHTML = R.etapes.map(e => {
-    const r = e.recette, cand = M.candidates(P, e.item, C.permise);
-    if(!cand.includes(r)) cand.unshift(r);
-    const opts = cand.map(c => `<option value="${esc(c.classe)}"${c === r ? ' selected' : ''}>${esc(nomRec(c.nom))}${c.alt ? ' (alt.)' : ''} — ${esc(nomBat(c.machine))}</option>`).join('')
+    const r = e.recette, cand = optionsRecette(e.item, r, C);
+    const opts = cand.map(c => `<option value="${esc(c.classe)}"${c === r ? ' selected' : ''}>${esc(libRecette(c))}</option>`).join('')
       + `<option value="brut">${L({fr: 'Fourni (hors chaîne)', en: 'Supplied (outside the chain)'})}</option>`;
     const cad = e.cadence > 0.99999 ? '100 %' : num(e.cadence * 100, 1) + ' %';
     const x = EC && EC.get(e), u = unite(e.item);
@@ -632,7 +659,7 @@ function calcul(){
       </div>${usine}${(() => { const m = texteMontage(e, D);
         return `<details class="montage"><summary>${L({fr: 'Montage', en: 'Layout'})} : ${m.resume}</summary>${m.lignes.join('')}</details>`; })()}</div>`;
   }).join('') || `<p class="vide">${L({fr: 'Rien à produire.', en: 'Nothing to make.'})}</p>`;
-  DERNIER = {R, EC, D};
+  DERNIER = {R, EC, D, C};
   if(S.vue === 'graphe') rendreGraphe();
 }
 
@@ -741,6 +768,7 @@ function cheminLien(l){
   return {d: `M${x1},${y1} C${x1 + dx},${y1} ${x2 - dx},${y2} ${x2},${y2}`, mx: (x1 + x2) / 2, my: (y1 + y2) / 2};
 }
 function rendreGraphe(){
+  if(MENU) fermerMenu(false);   // le menu d'un bloc ne survit pas à un nouveau dessin
   const box = document.getElementById('graphe');
   if(!DERNIER || !DERNIER.R.etapes.length){
     box.innerHTML = `<p class="vide" style="padding:12px">${L({fr: 'Rien à produire.', en: 'Nothing to make.'})}</p>`;
@@ -821,12 +849,17 @@ function rendreGraphe(){
       l3 = `<tspan class="n3${n.type === 'surplus' ? ' okc' : ''}">${num(n.debit)} ${unite(n.item)}</tspan>`;
     }
     if(n.id === CHOISI) cls += ' choisi';
+    const changeable = n.type === 'etape' || (n.type === 'brut' && (S.choix[n.item] === 'brut' || !P.res.includes(n.item)));
+    const xr = n.type === 'etape' ? n.w - 48 : n.w - 24;
+    const recette = changeable ? `<g class="recette" data-recette="${esc(n.id)}" role="button"
+      aria-label="${esc(L({fr: 'Changer de recette', en: 'Change recipe'}))}"><title>${esc(L({fr: 'Changer de recette', en: 'Change recipe'}))}</title>
+      <rect x="${xr}" y="4" width="20" height="20" rx="2"/><text x="${xr + 10}" y="19" text-anchor="middle">⇄</text></g>` : '';
     const plier = n.type === 'etape' ? `<g class="plier" data-plier="${esc(n.id)}" role="button"
       aria-label="${esc(n.sch ? L({fr: 'Replier le montage', en: 'Fold the layout'}) : L({fr: 'Déplier le montage', en: 'Unfold the layout'}))}">
       <rect x="${n.w - 24}" y="4" width="20" height="20" rx="2"/><text x="${n.w - 14}" y="19" text-anchor="middle">${n.sch ? '−' : '+'}</text></g>` : '';
     return `<g class="noeud ${cls}${n.sch ? ' deplie' : ''}" data-id="${esc(n.id)}" tabindex="0" transform="translate(${n.px},${n.py})"><title>${esc(titre)}</title>
-      <rect x="0" y="0" width="${n.w}" height="${n.h}" rx="2"/>${ic}${plier}${n.sch ? n.sch.svg : ''}
-      <text x="46" y="19" class="n1">${esc(couper(nomItem(n.item), n.type === 'etape' ? 18 : 21))}</text>
+      <rect x="0" y="0" width="${n.w}" height="${n.h}" rx="2"/>${ic}${recette}${plier}${n.sch ? n.sch.svg : ''}
+      <text x="46" y="19" class="n1">${esc(couper(nomItem(n.item), n.type === 'etape' ? 15 : changeable ? 18 : 21))}</text>
       <text x="46" y="35" class="n2">${esc(couper(l2, 26))}</text>
       <text x="46" y="52">${l3}</text>
       ${l4 ? `<text x="46" y="68" class="n4">${esc(couper(l4, 28))}</text>` : ''}</g>`;
@@ -854,8 +887,11 @@ function rendreDetail(){
   const n = CHOISI && GEO && GEO.parId.get(CHOISI);
   if(!n || n.type !== 'etape'){ el.innerHTML = ''; return; }
   const e = n.etape, m = texteMontage(e, DERNIER.D);
+  const opts = optionsRecette(e.item, e.recette, DERNIER.C).map(c => `<option value="${esc(c.classe)}"${c === e.recette ? ' selected' : ''}>${esc(libRecette(c))}</option>`).join('')
+    + `<option value="brut">${L({fr: 'Fourni (hors chaîne)', en: 'Supplied (outside the chain)'})}</option>`;
   el.innerHTML = `<div class="boite"><h3>${esc(nomItem(e.item))} — ${num(e.entieres, 0)} × ${esc(nomBat(e.recette.machine))}
-    (${esc(nomRec(e.recette.nom))}) · ${L({fr: 'montage', en: 'layout'})} ${esc(L(MONTAGES[S.montage]).toLowerCase())}</h3>${m.lignes.join('')}</div>`;
+    · ${L({fr: 'montage', en: 'layout'})} ${esc(L(MONTAGES[S.montage]).toLowerCase())}</h3>
+    <select data-item="${esc(e.item)}" aria-label="${esc(L({fr: 'Recette', en: 'Recipe'}))}">${opts}</select>${m.lignes.join('')}</div>`;
 }
 // survol ou toucher d'un bloc : ses liens et ses voisins seuls
 function isoler(id){
@@ -883,12 +919,58 @@ let GLISSE = null;   // {id, sx, sy, x0, y0, bouge}
 boxG.addEventListener('mouseover', e => { if(GLISSE) return; const g = e.target.closest('.noeud'); isoler(g ? g.dataset.id : CHOISI); });
 boxG.addEventListener('mouseleave', () => { if(!GLISSE) isoler(CHOISI); });
 boxG.addEventListener('focusin', e => { const g = e.target.closest('.noeud'); if(g) isoler(g.dataset.id); });
+/* menu des recettes d'un bloc, posé sous le bloc (coordonnées du dessin × zoom − défilement du cadre) */
+const menu = document.getElementById('menuRec');
+let MENU = null;   // identifiant du bloc dont le menu est ouvert
+function ouvrirMenu(id){
+  const n = GEO && GEO.parId.get(id); if(!n) return;
+  const item = n.item, actuelle = n.type === 'etape' ? n.etape.recette : null, choix = S.choix[item];
+  const btn = (val, lib, coche) => `<button type="button" role="menuitemradio" aria-checked="${!!coche}" data-val="${esc(val)}">${esc(lib)}</button>`;
+  menu.innerHTML = `<div class="tete">${esc(L({fr: 'Recette', en: 'Recipe'}))} · ${esc(nomItem(item))}</div>`
+    + optionsRecette(item, actuelle, DERNIER.C).map(c => btn(c.classe, libRecette(c), c === actuelle)).join('')
+    + '<div class="sep-m"></div>'
+    + btn('brut', L({fr: 'Fourni (hors chaîne)', en: 'Supplied (outside the chain)'}), choix === 'brut')
+    + (choix ? btn('', L({fr: 'Recette par défaut', en: 'Default recipe'}), false) : '');
+  const cadre = menu.parentElement.getBoundingClientRect(), r = boxG.getBoundingClientRect();
+  menu.hidden = false;
+  const x = r.left - cadre.left + n.px * S.zoom - boxG.scrollLeft, y = r.top - cadre.top + (n.py + Math.min(n.h, GH)) * S.zoom - boxG.scrollTop + 2;
+  menu.style.left = Math.max(0, Math.min(x, cadre.width - menu.offsetWidth - 4)) + 'px';
+  menu.style.top = Math.max(0, y) + 'px';
+  MENU = id;
+  (menu.querySelector('[aria-checked="true"]') || menu.querySelector('button')).focus({preventScroll: true});
+}
+function fermerMenu(rendre){
+  if(!MENU) return;
+  const id = MENU; MENU = null; menu.hidden = true;
+  if(rendre){ const g = document.querySelector(`#graphe .noeud[data-id="${CSS.escape(id)}"]`); if(g) g.focus({preventScroll: true}); }
+}
+menu.addEventListener('click', e => {
+  const b = e.target.closest('button[data-val]'); if(!b || !MENU) return;
+  const item = GEO.parId.get(MENU).item, v = b.dataset.val;
+  if(v) S.choix[item] = v; else delete S.choix[item];
+  fermerMenu(false); garder(); calcul();
+});
+menu.addEventListener('keydown', e => {
+  const bs = [...menu.querySelectorAll('button')], i = bs.indexOf(document.activeElement);
+  if(e.key === 'Escape'){ e.preventDefault(); fermerMenu(true); }
+  else if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){ e.preventDefault(); bs[(i + (e.key === 'ArrowDown' ? 1 : bs.length - 1)) % bs.length].focus(); }
+});
+document.addEventListener('pointerdown', e => {
+  if(MENU && !e.target.closest('#menuRec') && !e.target.closest('.recette')) fermerMenu(false);
+}, true);
+boxG.addEventListener('scroll', () => fermerMenu(false));
+document.getElementById('detail').addEventListener('change', e => {
+  const t = e.target; if(!t.dataset.item) return;
+  S.choix[t.dataset.item] = t.value; garder(); calcul();
+});
 function basculer(id){
   const d = new Set(S.deplies);
   if(d.has(id)) d.delete(id); else d.add(id);
   S.deplies = [...d]; garder(); rendreGraphe();
 }
 boxG.addEventListener('pointerdown', e => {
+  const rb = e.target.closest('.recette');
+  if(rb){ e.preventDefault(); if(MENU === rb.dataset.recette) fermerMenu(false); else ouvrirMenu(rb.dataset.recette); return; }
   const pl = e.target.closest('.plier');
   if(pl){ e.preventDefault(); basculer(pl.dataset.plier); return; }
   const g = e.target.closest('.noeud');
@@ -922,6 +1004,7 @@ boxG.addEventListener('keydown', e => {
   const id = g.dataset.id, n = GEO.parId.get(id), pas = e.shiftKey ? 60 : 20;
   const d = {ArrowLeft: [-pas, 0], ArrowRight: [pas, 0], ArrowUp: [0, -pas], ArrowDown: [0, pas]}[e.key];
   if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); choisir(CHOISI === id ? null : id); return; }
+  if((e.key === 'r' || e.key === 'R') && g.querySelector('.recette')){ e.preventDefault(); ouvrirMenu(id); return; }
   if((e.key === '+' || e.key === '-') && id.startsWith('e:')){ e.preventDefault(); basculer(id);
     const g2 = document.querySelector(`#graphe .noeud[data-id="${CSS.escape(id)}"]`); if(g2) g2.focus(); return; }
   if(!d) return;

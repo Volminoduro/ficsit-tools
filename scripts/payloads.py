@@ -397,6 +397,11 @@ def planner_donnees():
             "res": REF["ressources"],
             "rare": rarete(),
             "liq": [i for i in items if REF["items"].get(i, {}).get("liquide")],
+            # convoyeurs et tuyaux (montage) : [débit max /min, palier, recette de construction] ; tuyaux absents de la
+            # source, comme pour energie-noeuds.html
+            "conv": [[cap, B[f"Conveyor Belt Mk.{k}"]["palier"], "Recipe_" + B[f"Conveyor Belt Mk.{k}"]["classe"][5:]]
+                     for k, cap in enumerate([60, 120, 270, 480, 780, 1200], 1)],
+            "tuy": [[300, 3, "Recipe_Pipeline_C"], [600, 6, "Recipe_PipelineMK2_C"]],
             "ic": {n: icone_fichier(n) for n in items + machines if n in SLUGS}}
 
 

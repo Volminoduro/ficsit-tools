@@ -138,6 +138,40 @@ function conservation(nom, R, cibles){
   ok('graphe plastique : résidu lourd vers le surplus', G2.liens.some(l => l.vers === 's:Heavy Oil Residue' && proche(l.debit, 10)), JSON.stringify(G2.liens));
 }
 
+// 7c. Convoyeurs et montage
+{
+  const D = {conv: P.conv.map((c, k) => [c[0], 'Mk.' + (k + 1)]), tuy: P.tuy.map((c, k) => [c[0], 'Mk.' + (k + 1)])};
+  ok('convoyeur : 100 /min sur Mk.2', M.convoyeur(100, false, D).nom === 'Mk.2', JSON.stringify(M.convoyeur(100, false, D)));
+  ok('convoyeur : 60 /min tient sur Mk.1', M.convoyeur(60, false, D).nom === 'Mk.1', '');
+  ok('convoyeur : 1 500 /min sur 2 × Mk.6', M.convoyeur(1500, false, D).n === 2 && M.convoyeur(1500, false, D).nom === 'Mk.6', '');
+  ok('tuyau : 350 m³/min sur Mk.2', M.convoyeur(350, true, D).nom === 'Mk.2', '');
+  ok('convoyeur : rien de débloqué', M.convoyeur(10, true, {conv: D.conv, tuy: []}) === null, '');
+  const q = n => M.equilibre(n);
+  ok('équilibrage 4 : 2 × 2, 3 séparateurs', q(4).m === 4 && q(4).separateurs === 3 && !q(4).boucle, JSON.stringify(q(4)));
+  ok('équilibrage 6 : 2 puis 3, 3 séparateurs', q(6).facteurs.join() === '2,3' && q(6).separateurs === 3, JSON.stringify(q(6)));
+  ok('équilibrage 9 : 3 × 3, 4 séparateurs', q(9).separateurs === 4, JSON.stringify(q(9)));
+  ok('équilibrage 5 : vise 6, 1 sortie en boucle', q(5).m === 6 && q(5).boucle === 1, JSON.stringify(q(5)));
+  for(let n = 2; n <= 40; n++){ const r = q(n); if(!(r.m >= n && r.m === r.facteurs.reduce((a, b) => a * b, 1))) ok('équilibrage ' + n, false, JSON.stringify(r)); }
+  // 5 constructeurs de plaques (150 lingots) : équilibrage avec boucle, la ligne d'entrée porte 180 /min (6 × 30)
+  const R = M.calculer(P, [{item: 'Iron Plate', debit: 100}], {permise: standard}), e = etape(R, 'Iron Plate');
+  ok('5 constructeurs pour 100 plaques', e.entieres === 5, e.entieres);
+  const mo = M.montage(e, 'equilibre', D, new Set(P.liq)), ent = mo.entrees[0];
+  ok('équilibrage : ligne à 180 /min (boucle comprise) sur Mk.3', proche(ent.debitLigne, 180) && ent.ligne.nom === 'Mk.3', JSON.stringify(ent));
+  ok('équilibrage : branches finales à 30 /min sur Mk.1', proche(ent.etages[ent.etages.length - 1].debit, 30) && ent.branche.nom === 'Mk.1', '');
+  ok('équilibrage : 3 séparateurs et 1 groupeur de boucle', ent.separateurs === 3 && ent.groupeurs === 1 && ent.boucle === 1, '');
+  ok('équilibrage : sorties réunies par 2 groupeurs', mo.sorties[0].groupeurs === 2, mo.sorties[0].groupeurs);
+  const ma = M.montage(e, 'manifold', D, new Set(P.liq));
+  ok('manifold : 4 séparateurs, ligne à 150 /min sur Mk.3', ma.entrees[0].separateurs === 4 && proche(ma.entrees[0].debitLigne, 150) && ma.entrees[0].ligne.nom === 'Mk.3', JSON.stringify(ma.entrees[0]));
+  ok('manifold : 4 groupeurs en sortie', ma.sorties[0].groupeurs === 4, '');
+  // fluides : tuyau en manifold même en mode équilibrage
+  const Rp = M.calculer(P, [{item: 'Plastic', debit: 40}], {permise: standard}), ep = etape(Rp, 'Plastic');
+  const mp = M.montage(ep, 'equilibre', D, new Set(P.liq));
+  ok('fluide : pétrole en manifold même en équilibrage', mp.entrees[0].liquide && mp.entrees[0].mode === 'manifold', JSON.stringify(mp.entrees[0]));
+  // une seule machine : direct
+  const R1 = M.calculer(P, [{item: 'Iron Plate', debit: 10}], {permise: standard});
+  ok('1 machine : montage direct', M.montage(etape(R1, 'Iron Plate'), 'equilibre', D, new Set(P.liq)).entrees[0].mode === 'direct', '');
+}
+
 // 8. Optimisation (HiGHS) : jamais pire que le choix simple, recettes imposées et items fournis respectés
 const rarete = b => Object.keys(b).reduce((s, i) => s + b[i] * (P.rare[i] || 0), 0);
 require(path.join(ROOT, 'commun', 'vendor', 'highs.js'))().then(H => {

@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.4",
+          "date": "2026-10-02",
+          "texte": {
+            "fr": "Le graphe devient la vue par défaut. Chaque lien indique le convoyeur (ou le tuyau) qu'il lui faut, le plus petit niveau débloqué qui passe son débit, plusieurs lignes au-delà du Mk.6. Les blocs se déplacent à la souris, au doigt ou aux flèches du clavier, et gardent leur place ; « Réorganiser » revient à la disposition automatique. Nouveau choix de montage : manifold (séparateurs et groupeurs en chaîne) ou équilibrage (arbre de séparateurs 1 → 2 ou 1 → 3, avec boucle de retour quand le nombre de machines ne s'y prête pas, groupeurs en arbre) ; chaque bloc résume ses séparateurs et groupeurs, et le toucher donne sous le graphe le montage de chaque entrée et sortie, avec le convoyeur de chaque branche. Le même détail se déplie dans la liste.",
+            "en": "The graph becomes the default view. Each link shows the belt (or pipe) it needs, the smallest unlocked tier that carries its rate, several lines beyond Mk.6. Boxes move with the mouse, a finger or the arrow keys, and keep their place; \"Re-arrange\" goes back to the automatic layout. New layout choice: manifold (splitters and mergers in a row) or load balancing (tree of 1 → 2 or 1 → 3 splitters, with a loop back when the machine count does not allow it, mergers in a tree); each box sums up its splitters and mergers, and tapping it shows below the graph the layout of each input and output, with the belt of each branch. The same detail unfolds in the list."
+          }
+        },
+        {
           "version": "1.3",
           "date": "2026-10-02",
           "texte": {

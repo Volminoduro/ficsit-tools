@@ -31,6 +31,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
+- **v1.32** (02/10/2026) : Synthèse : l'étiquette « perdante » s'affiche en blanc sur rouge, lisible ; elle prenait par erreur le style gris des sous-titres de groupe.
+  *EN — Synthesis: the “losing” tag now shows white on red, readable; it was wrongly picking up the grey style of group subtitles.*
 - **v1.31** (02/10/2026) : Combinaisons et chaînes optimisées en bleu, la couleur des graphes de puissance du jeu, au lieu du jaune absent de ses menus : l'orange reste aux recettes alternatives, le gris aux recettes de base.
   *EN — Combinations and optimised chains in blue, the colour of the game's power graphs, instead of a yellow its menus never use: orange stays for alternate recipes, grey for standard ones.*
 - **v1.30** (02/10/2026) : Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.

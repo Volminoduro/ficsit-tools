@@ -112,6 +112,14 @@
       },
       "entrees": [
         {
+          "version": "1.32",
+          "date": "2026-10-02",
+          "texte": {
+            "fr": "Synthèse : l'étiquette « perdante » s'affiche en blanc sur rouge, lisible ; elle prenait par erreur le style gris des sous-titres de groupe.",
+            "en": "Synthesis: the “losing” tag now shows white on red, readable; it was wrongly picking up the grey style of group subtitles."
+          }
+        },
+        {
           "version": "1.31",
           "date": "2026-10-02",
           "texte": {

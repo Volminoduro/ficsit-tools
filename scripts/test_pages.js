@@ -327,6 +327,13 @@ const CHECKS = {
       if (txt('alertes')) out.push('alerte en mode optimisé : ' + txt('alertes'));
       if (!(rare() < avant)) out.push(`optimisé : ${rare()} ‰ ≥ ${avant} ‰`);
       if (/NaN|undefined/.test(document.body.innerText)) out.push('valeur invalide en mode optimisé');
+      // place et synthèse : écart affiché face au standard, curseurs de poids seulement en synthèse
+      for (const m of ['place', 'synthese']) {
+        mode.value = m; mode.dispatchEvent(new Event('change'));
+        if (!document.querySelector('#tuiles [data-k="esp"] .ec')) out.push(m + ' : pas d\'écart face au standard');
+        if (document.getElementById('poids').hidden !== (m !== 'synthese')) out.push(m + ' : curseurs de poids mal affichés');
+        if (/NaN|undefined/.test(document.body.innerText)) out.push(m + ' : valeur invalide');
+      }
     }
     mode.value = 'defaut'; mode.dispatchEvent(new Event('change'));
     document.getElementById('alt').click();

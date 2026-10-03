@@ -382,6 +382,14 @@ def rarete():
     return {n: (0 if n == "Water" else round(1000 / cap[n], 6)) for n in sorted(REF["ressources"]) if n == "Water" or n in cap}
 
 
+def emprises_machines(machines):
+    E = json.loads((ROOT / "donnees" / "emprises.json").read_text(encoding="utf-8"))["batiments"]
+    manque = [m for m in machines if m not in E]
+    if manque:
+        raise SystemExit(f"payloads.py : machines du planificateur sans emprise dans donnees/emprises.json : {manque}")
+    return {m: round(E[m]["l"] * E[m]["L"], 2) for m in machines}
+
+
 def planner_donnees():
     """Planificateur de production (planner.html) : recettes des bâtiments de production, machines et ressources brutes
     (format décrit en tête de planner-moteur.js) ; icônes à 44 px partagées."""
@@ -396,6 +404,8 @@ def planner_donnees():
                   for m in machines},
             "res": REF["ressources"],
             "rare": rarete(),
+            # emprise au sol de chaque machine (m², donnees/emprises.json, comme le mode « Espace » de l'infographie)
+            "em": emprises_machines(machines),
             "liq": [i for i in items if REF["items"].get(i, {}).get("liquide")],
             # convoyeurs et tuyaux (montage) : [débit max /min, palier, recette de construction] ; tuyaux absents de la
             # source, comme pour energie-noeuds.html

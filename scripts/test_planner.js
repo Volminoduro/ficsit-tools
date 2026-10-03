@@ -183,6 +183,16 @@ require(path.join(ROOT, 'commun', 'vendor', 'highs.js'))().then(H => {
   const E = M.optimiser(P, cible, {permise: tout, critere: 'energie'}, H);
   ok('énergie : pas plus de MW que le choix simple', E.mw <= C.mw + 1e-6, `${E.mw} > ${C.mw}`);
   ok('énergie : pas plus de MW que l\'optimum ressources', E.mw <= O.mw + 1e-6, `${E.mw} > ${O.mw}`);
+  // place : moins de m² au sol que le choix simple et que les autres optima ; synthèse : jamais pire que le standard
+  const esp = R => M.mesures(P, R).esp, Pl = M.optimiser(P, cible, {permise: tout, critere: 'place'}, H);
+  ok('place : pas plus de m² que le choix simple', esp(Pl) <= esp(C) + 1e-6, `${esp(Pl)} > ${esp(C)}`);
+  ok('place : pas plus de m² que l\'optimum énergie', esp(Pl) <= esp(E) + 1e-6, `${esp(Pl)} > ${esp(E)}`);
+  const ref = M.mesures(P, C), score = R => { const m = M.mesures(P, R); return m.mat / ref.mat + m.mw / ref.mw + m.esp / ref.esp; };
+  const Sy = M.optimiser(P, cible, {permise: tout, critere: 'synthese', poids: {mat: 1, mw: 1, esp: 1}, ref}, H);
+  ok('synthèse : mieux que le standard sur la somme des trois', score(Sy) < 3 - 1e-6, score(Sy));
+  ok('synthèse : pas pire que chaque optimum seul', [O, E, Pl].every(R => score(Sy) <= score(R) + 0.05), [Sy, O, E, Pl].map(score).join(' / '));
+  const SyE = M.optimiser(P, cible, {permise: tout, critere: 'synthese', poids: {mat: 0, mw: 0, esp: 1}, ref}, H);
+  ok('synthèse place seule = optimum place', esp(SyE) <= esp(Pl) + 1e-6, `${esp(SyE)} > ${esp(Pl)}`);
   // recettes standard seulement : une seule chaîne possible, la même que le choix simple
   const S = M.optimiser(P, cible, {permise: standard}, H);
   ok('standard : 60 minerai de fer comme le choix simple', proche(S.bruts['Iron Ore'], 60), JSON.stringify(S.bruts));

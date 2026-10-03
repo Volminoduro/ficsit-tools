@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.7",
+          "date": "2026-10-03",
+          "texte": {
+            "fr": "L'outil devient un graphe en plein écran : objectifs et réglages dans un panneau à gauche, bilan (MW, machines, ressources brutes, surplus) à droite, outils (vue, zoom, réorganiser, déplier) en bas, détail du bloc choisi en bas à gauche ; chaque panneau se replie (mémorisé), la liste des étapes et les hypothèses s'ouvrent par-dessus. Le fond du graphe se fait glisser pour se déplacer, « Ajuster » remplit la place laissée par les panneaux. Le montage manifold / équilibrage devient un interrupteur. Les convoyeurs (et les tuyaux) sont colorés par niveau, dans les liens comme dans les montages dépliés, avec une légende ; tirets quand il faut plusieurs lignes.",
+            "en": "The tool becomes a full-screen graph: targets and settings in a panel on the left, summary (MW, machines, raw resources, surplus) on the right, tools (view, zoom, re-arrange, unfold) at the bottom, the chosen box's details at the bottom left; each panel folds away (remembered), the step list and the assumptions open on top. Drag the graph's background to move around, \"Fit\" fills the room the panels leave. The manifold / load balancing layout becomes a switch. Belts (and pipes) are coloured by tier, on links and in unfolded layouts, with a legend; dashes when several lines are needed."
+          }
+        },
+        {
           "version": "1.6",
           "date": "2026-10-02",
           "texte": {

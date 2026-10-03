@@ -308,6 +308,10 @@ const CHECKS = {
       const w = +document.querySelector('#graphe svg').getAttribute('width');
       document.querySelector('[data-z="1"]').click();
       if (!(+document.querySelector('#graphe svg').getAttribute('width') > w)) out.push('zoom sans effet');
+      const w2 = +document.querySelector('#graphe svg').getAttribute('width');
+      document.getElementById('graphe').dispatchEvent(new WheelEvent('wheel', {bubbles: true, cancelable: true, deltaY: 200, clientX: 600, clientY: 300}));
+      if (!(+document.querySelector('#graphe svg').getAttribute('width') < w2)) out.push('molette : pas de zoom arrière');
+      if (!document.querySelector('#graphe path.defile')) out.push('convoyeurs sans défilement');
       document.querySelector('[data-z="0"]').click();
     }
     document.querySelector('[data-vue="liste"]').click();

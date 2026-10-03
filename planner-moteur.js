@@ -16,7 +16,10 @@
      → {etapes: [{item, recette, machines, entieres, cadence, mw, entrees, sorties}], bruts: {item: /min},
         surplus: {item: /min}, manquants: [items sans recette permise], mw, converge}
      optimiser(P, cibles, opts, highs)  même résultat, recettes choisies par programmation linéaire (HiGHS, voir plus bas) :
-        opts.critere = 'ressources' | 'energie' ; opts.choix et opts.permise comme calculer()
+        opts.critere = 'ressources' (matière : ressources brutes pesées par leur rareté) | 'energie' (MW des machines)
+          | 'place' (m² au sol des machines) | 'synthese' (les trois, chacun rapporté à sa valeur dans opts.ref, la chaîne
+          de référence, et pondéré par opts.poids = {mat, mw, esp}) ; opts.choix et opts.permise comme calculer()
+     mesures(P, R)                  les trois critères d'un plan → {mat (‰ des ressources de la carte), mw, esp (m²)}
      graphe(R, cibles)              nœuds et liens d'un plan, pour la vue en graphe (voir plus bas)
      convoyeur(debit, liquide, dispo), equilibre(n), montage(etape, mode, dispo, liquides)
                                      niveau de tapis ou de tuyau d'un débit ; arbre de séparateurs vers n machines ;
@@ -254,7 +257,17 @@
   var PENALITE = 1e3;   // apport d'un item fabricable : bien plus cher que toute ressource
   function optimiser(P, cibles, opts, highs){
     opts = opts || {};
-    var ix = index(P), permise = opts.permise || null, choix = opts.choix || {}, energie = opts.critere === 'energie';
+    var ix = index(P), permise = opts.permise || null, choix = opts.choix || {}, critere = opts.critere || 'ressources';
+    // poids de chaque critère dans l'objectif : synthèse = poids ÷ valeur de référence (chaque critère en part de la
+    // chaîne de référence) ; critère seul = lui, et un millième des autres pour départager
+    var w = {mat: 1, mw: 1e-3, esp: 0};
+    if(critere === 'energie') w = {mat: 1e-3, mw: 1, esp: 0};
+    else if(critere === 'place') w = {mat: 1e-3, mw: 1e-6, esp: 1};
+    else if(critere === 'synthese'){
+      var po = opts.poids || {mat: 1, mw: 1, esp: 1}, rf = opts.ref || {}, tp = (po.mat || 0) + (po.mw || 0) + (po.esp || 0) || 1;
+      var part = function(k){ return (po[k] || 0) / tp / (rf[k] > 1e-9 ? rf[k] : 1); };
+      w = {mat: part('mat') || 1e-4 / (rf.mat > 1e-9 ? rf.mat : 1), mw: part('mw'), esp: part('esp')};
+    }
     var cible = {};
     cibles.forEach(function(c){ if(c.item && c.debit > 0) cible[c.item] = (cible[c.item] || 0) + c.debit; });
     // recettes utiles : remontée depuis les cibles par tout ce qui produit un item demandé
@@ -282,12 +295,13 @@
       r.ing.forEach(function(q){ var k = items.get(q[0]); A[k][j] = (A[k][j] || 0) - q[1]; });
       r.prod.forEach(function(q){ var k = items.get(q[0]); A[k][j] = (A[k][j] || 0) + q[1]; });
       var B = P.b[r.machine] || [0], mwExec = (r.mw || B[0]) * r.temps / 60;   // MW par exécution/min
-      c.push(1e-6 + (energie ? mwExec : 1e-3 * mwExec));
+      var espExec = (P.em && P.em[r.machine] || 0) * r.temps / 60;   // m² par exécution/min
+      c.push(1e-6 + w.mw * mwExec + w.esp * espExec);
     });
     noms.forEach(function(i, k){
       var j = recettes.length + k; A[k][j] = 1; apport.push(j);
       var brut = ix.res.has(i), fourni = choix[i] === 'brut';
-      c.push(fourni ? 0 : brut ? (energie ? 1e-3 : 1) * poidsRes(i) : PENALITE);
+      c.push(fourni ? 0 : brut ? w.mat * poidsRes(i) : PENALITE);
     });
     // modèle au format LP (CPLEX), noms neutres r<j> (recettes) et a<k> (apports), une ligne par item
     var nb = function(v){ return Number(v.toPrecision(12)).toString(); };
@@ -315,6 +329,16 @@
     Object.keys(res.bruts).forEach(function(i){ if(ix.res.has(i)) cout += res.bruts[i] * poidsRes(i); });
     return {etapes: res.etapes, bruts: res.bruts, surplus: res.surplus, manquants: manquants, mw: res.mw,
       converge: true, rarete: cout};
+  }
+
+  // les trois critères d'un plan : matière (‰ des ressources de la carte, comme le tri par rareté), MW des machines
+  // (entières, à leur cadence), m² au sol des machines au prorata de leur usage (comme l'optimisation et le critère
+  // Espace de l'infographie : une recette qui tourne à 1 % ne coûte pas un bâtiment entier ; sans convoyeurs ni extraction)
+  function mesures(P, R){
+    var mat = 0, esp = 0;
+    Object.keys(R.bruts).forEach(function(i){ mat += R.bruts[i] * ((P.rare && P.rare[i]) || 0); });
+    R.etapes.forEach(function(e){ esp += e.machines * ((P.em && P.em[e.recette.machine]) || 0); });
+    return {mat: mat, mw: R.mw, esp: esp};
   }
 
   /* ---------- convoyeurs et montage ----------
@@ -402,7 +426,7 @@
     return {installe: installe, besoin: besoin, manque: manque, machines: manque / (60 / r.temps * q), n: i ? i.n : 0, prod: i ? i.prod : null};
   }
 
-  var API = {candidates: candidates, calculer: calculer, optimiser: optimiser, graphe: graphe, installe: installe, ecart: ecart,
+  var API = {candidates: candidates, calculer: calculer, optimiser: optimiser, mesures: mesures, graphe: graphe, installe: installe, ecart: ecart,
     convoyeur: convoyeur, equilibre: equilibre, montage: montage};
   if(typeof module !== 'undefined' && module.exports) module.exports = API;
   else racine.PlannerMoteur = API;

@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.9",
+          "date": "2026-10-03",
+          "texte": {
+            "fr": "Trois optimisations, comme les critères de l'infographie : moins de matière (ressources pesées par leur rareté), moins d'énergie (MW des machines), et nouveau, moins de place (m² au sol des machines, au prorata de leur usage). Nouvelle synthèse des trois : chaque critère compte en part de sa valeur pour la chaîne standard, avec un curseur de poids par critère. Le bilan donne la place au sol et, en mode optimisé, l'écart de chaque critère face à la chaîne standard.",
+            "en": "Three optimisations, like the infographic's criteria: fewer materials (resources weighed by their scarcity), less power (machine MW), and new, less space (the machines' floor m², pro rata of their use). New combination of all three: each criterion counts as a share of its value for the standard chain, with one weight slider per criterion. The summary gives the floor space and, when optimised, each criterion's gap from the standard chain."
+          }
+        },
+        {
           "version": "1.8",
           "date": "2026-10-03",
           "texte": {

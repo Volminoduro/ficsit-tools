@@ -250,9 +250,9 @@ const CHECKS = {
         out.push('détail du montage : ' + document.getElementById('detail').innerText);
       const n4 = () => bloc().querySelector('.n4').textContent;
       const avantM = n4(), montage = document.getElementById('montage');
-      montage.value = 'equilibre'; montage.dispatchEvent(new Event('change'));
+      montage.checked = 'equilibre' === 'equilibre'; montage.dispatchEvent(new Event('change'));
       if (n4() === avantM || !/(équilibrage|load balancing)/i.test(document.getElementById('detail').innerText)) out.push('bascule du montage sans effet : ' + n4());
-      montage.value = 'manifold'; montage.dispatchEvent(new Event('change'));
+      montage.checked = 'manifold' === 'equilibre'; montage.dispatchEvent(new Event('change'));
       // changer de recette depuis le graphe : bouton ⇄, menu, « Fourni », puis retour à la recette par défaut
       const ouvrir = id => document.querySelector(`#graphe .recette[data-recette="${id}"]`)
         .dispatchEvent(new PointerEvent('pointerdown', {bubbles: true, pointerId: 9, button: 0}));
@@ -286,7 +286,7 @@ const CHECKS = {
       if (Object.keys(S.pos).length) out.push('réorganiser n\'efface pas les positions');
       // montage dessiné : bloc déplié, séparateurs et groupeurs dessinés = ceux du calcul, dans les deux modes
       for (const m of ['manifold', 'equilibre']) {
-        montage.value = m; montage.dispatchEvent(new Event('change'));
+        montage.checked = m === 'equilibre'; montage.dispatchEvent(new Event('change'));
         S.deplies = []; document.getElementById('deplier').click();
         const blocs = [...document.querySelectorAll('#graphe .noeud.deplie')];
         if (blocs.length !== 5) out.push(`${m} : ${blocs.length} bloc(s) déplié(s) sur 5`);
@@ -304,7 +304,7 @@ const CHECKS = {
       if (document.querySelectorAll('#graphe .noeud.deplie').length !== 4) out.push('le bouton − ne replie pas le bloc');
       document.getElementById('deplier').click(); document.getElementById('deplier').click();
       if (document.querySelectorAll('#graphe .noeud.deplie').length) out.push('« Tout déplier » ne replie pas tout au second clic');
-      montage.value = 'manifold'; montage.dispatchEvent(new Event('change'));
+      montage.checked = 'manifold' === 'equilibre'; montage.dispatchEvent(new Event('change'));
       const w = +document.querySelector('#graphe svg').getAttribute('width');
       document.querySelector('[data-z="1"]').click();
       if (!(+document.querySelector('#graphe svg').getAttribute('width') > w)) out.push('zoom sans effet');

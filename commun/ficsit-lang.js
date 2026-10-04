@@ -17,6 +17,8 @@
    Dock : barre de titre commune, pleine largeur en haut de page, comme celle des fenêtres du jeu (« FICSIT » et le nom
    de l'outil à gauche, tiré du <title>) ; tout élément marqué data-fdock y est déplacé, à droite, avant les drapeaux.
    La barre réserve sa hauteur (html.fbarre) : elle ne recouvre jamais le contenu.
+   Outils : onglets vers chaque outil juste après l'identité (liste unique : langue.json > outils, outil courant en orange) ;
+   sur écran étroit ils se replient dans un menu « Outils ».
    HTML statique :
      <x data-l="fr">…</x><x data-l="en">…</x>     seule la variante de la langue active est affichée
      data-fr-<attr>="…" data-en-<attr>="…"       l'attribut <attr> (title, placeholder, aria-label…) suit la langue
@@ -54,6 +56,34 @@
     var ia = document.getElementById('fia'); if(ia) ia.textContent = FL.t('ia');
     var h = document.getElementById('fhome');
     if(h){ h.querySelector('span').textContent = FL.t('accueil'); h.title = FL.t('accueilTitle'); }
+    var nb = document.getElementById('fnavbtn');
+    if(nb){ nb.querySelector('span').textContent = FL.t('outils'); nb.title = FL.t('outilsTitle'); }
+  }
+  // Onglets des outils dans la barre (liste : langue.json > outils), repliés en menu « Outils » sur écran étroit.
+  function navOutils(d, apres){
+    var liste = CONF.outils || []; if(!liste.length || document.getElementById('fnav')) return;
+    var cour = (location.pathname.split('/').pop() || 'index.html');
+    function bi(o){ return '<span data-l="fr">' + o.fr + '</span><span data-l="en" lang="en">' + o.en + '</span>'; }
+    var btn = document.createElement('button');
+    btn.id = 'fnavbtn'; btn.type = 'button'; btn.className = 'fnavbtn';
+    btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-controls', 'fnav');
+    btn.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3h12v2H2zm0 4h12v2H2zm0 4h12v2H2z"/></svg><span></span>';
+    var nav = document.createElement('nav');
+    nav.id = 'fnav'; nav.className = 'fnav';
+    nav.innerHTML = liste.map(function(o){
+      var t = o.titre, ch = o.chantier ? ' — ' + CONF.communs.chantier.fr : '', che = o.chantier ? ' — ' + CONF.communs.chantier.en : '';
+      return '<a href="' + o.f + '"' + (o.f === cour ? ' aria-current="page"' : '') + (o.chantier ? ' class="ch"' : '')
+        + ' data-fr-title="' + t.fr + ch + '" data-en-title="' + t.en + che + '">'
+        + '<span class="fnav-c">' + bi(o) + '</span><span class="fnav-l">' + bi(t) + '</span></a>';
+    }).join('');
+    function ferme(rend){ nav.classList.remove('ouvert'); btn.setAttribute('aria-expanded', 'false'); if(rend) btn.focus(); }
+    btn.addEventListener('click', function(){
+      var o = !nav.classList.contains('ouvert'); nav.classList.toggle('ouvert', o); btn.setAttribute('aria-expanded', String(o));
+    });
+    document.addEventListener('click', function(e){ if(!nav.contains(e.target) && !btn.contains(e.target)) ferme(false); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && nav.classList.contains('ouvert')) ferme(true); });
+    d.classList.add('avecnav');
+    apres.after(btn); btn.after(nav);
   }
   function appliquer(l, memoriser){
     if(!valide(l)) return;
@@ -88,6 +118,7 @@
       });
       d.insertBefore(id, d.firstChild);
     }
+    navOutils(d, d.querySelector('.fdock-id'));
     // Retour à l'accueil (lien relatif : valable en local comme sur GitHub Pages), sauf sur l'accueil.
     if(!/(^|\/)(index\.html)?$/.test(location.pathname) && !document.getElementById('fhome')){
       var h = document.createElement('a'); h.id = 'fhome'; h.className = 'fhome'; h.href = 'index.html';

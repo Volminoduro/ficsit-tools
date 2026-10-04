@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.12",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».",
+            "en": "The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu."
+          }
+        },
+        {
           "version": "1.11",
           "date": "2026-10-04",
           "texte": {
@@ -111,6 +119,14 @@
         "en": "Dimensional Depot throughput"
       },
       "entrees": [
+        {
+          "version": "1.16",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».",
+            "en": "The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu."
+          }
+        },
         {
           "version": "1.15",
           "date": "2026-10-04",
@@ -247,6 +263,14 @@
         "en": "Yield registry"
       },
       "entrees": [
+        {
+          "version": "1.35",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».",
+            "en": "The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu."
+          }
+        },
         {
           "version": "1.34",
           "date": "2026-10-04",
@@ -536,6 +560,14 @@
       },
       "entrees": [
         {
+          "version": "1.15",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».",
+            "en": "The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu."
+          }
+        },
+        {
           "version": "1.14",
           "date": "2026-10-04",
           "texte": {
@@ -663,6 +695,14 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.23",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».",
+            "en": "The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu."
+          }
+        },
         {
           "version": "1.22",
           "date": "2026-10-04",
@@ -856,6 +896,14 @@
       },
       "entrees": [
         {
+          "version": "1.15",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».",
+            "en": "The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu."
+          }
+        },
+        {
           "version": "1.14",
           "date": "2026-10-04",
           "texte": {
@@ -984,6 +1032,14 @@
       },
       "entrees": [
         {
+          "version": "1.12",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».",
+            "en": "The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu."
+          }
+        },
+        {
           "version": "1.11",
           "date": "2026-10-04",
           "texte": {
@@ -1087,6 +1143,14 @@
         "en": "Power per node"
       },
       "entrees": [
+        {
+          "version": "1.5",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».",
+            "en": "The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu."
+          }
+        },
         {
           "version": "1.4",
           "date": "2026-10-04",

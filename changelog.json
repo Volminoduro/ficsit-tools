@@ -8,11 +8,19 @@
       },
       "entrees": [
         {
-          "version": "1.11",
+          "version": "1.12",
           "date": "2026-10-04",
           "texte": {
             "fr": "Corrigé : faire glisser le fond du graphe surlignait le texte des blocs et des liens.",
             "en": "Fixed: dragging the graph's background highlighted the text of boxes and links."
+          }
+        },
+        {
+          "version": "1.11",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.",
+            "en": "Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard."
           }
         },
         {
@@ -111,6 +119,22 @@
         "en": "Dimensional Depot throughput"
       },
       "entrees": [
+        {
+          "version": "1.15",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "L'infobulle d'une ligne de l'inventaire se place près du curseur, comme la bulle du navigateur, au lieu de se centrer sur la ligne entière.",
+            "en": "A row's tooltip in the inventory now sits near the cursor, like the browser's own bubble, instead of being centred on the whole row."
+          }
+        },
+        {
+          "version": "1.14",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.",
+            "en": "Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard."
+          }
+        },
         {
           "version": "1.13",
           "date": "2026-10-02",
@@ -231,6 +255,22 @@
         "en": "Yield registry"
       },
       "entrees": [
+        {
+          "version": "1.34",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier. Le registre n'a plus d'onglet vertical « Ma partie » (qui doublonnait le bouton du haut de page) : ses alternatives débloquées et disques durs s'ouvrent par un bouton « Mes alternatives » dans la rangée d'outils.",
+            "en": "Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard. The registry no longer has the vertical “My game” tab (which duplicated the top-of-page button): its unlocked alternates and hard drives open from a “My alternates” button in the toolbar."
+          }
+        },
+        {
+          "version": "1.33",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "Combinaisons et chaînes optimisées repassent en orange, la couleur ordinaire : l'onglet dit déjà de quoi on parle. Dans la séquence d'une chaîne, la cible est une tuile blanche à chiffre sombre (comme le palier choisi du terminal du jeu), un coproduit a un trait pointillé, et le chiffre de l'extraction est lisible.",
+            "en": "Combinations and optimised chains are back to orange, the ordinary colour: the tab already says what they are. In a chain's sequence the target is a white tile with a dark digit (like the game's selected tier), a co-product has a dashed edge, and the extraction digit is readable."
+          }
+        },
         {
           "version": "1.32",
           "date": "2026-10-02",
@@ -504,6 +544,14 @@
       },
       "entrees": [
         {
+          "version": "1.14",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.",
+            "en": "Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard."
+          }
+        },
+        {
           "version": "1.13",
           "date": "2026-10-02",
           "texte": {
@@ -623,6 +671,14 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.22",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.",
+            "en": "Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard."
+          }
+        },
         {
           "version": "1.21",
           "date": "2026-10-02",
@@ -808,6 +864,14 @@
       },
       "entrees": [
         {
+          "version": "1.14",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.",
+            "en": "Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard."
+          }
+        },
+        {
           "version": "1.13",
           "date": "2026-10-02",
           "texte": {
@@ -928,6 +992,14 @@
       },
       "entrees": [
         {
+          "version": "1.11",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "L'infobulle du graphique reprend l'habillage commun des bulles d'aide (fenêtre sombre sous un filet orange, points AWESOME en orange). Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.",
+            "en": "The chart tooltip now shares the common help-bubble look (dark window under an orange line, AWESOME points in orange). Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard."
+          }
+        },
+        {
           "version": "1.10",
           "date": "2026-10-02",
           "texte": {
@@ -1023,6 +1095,14 @@
         "en": "Power per node"
       },
       "entrees": [
+        {
+          "version": "1.4",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.",
+            "en": "Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard."
+          }
+        },
         {
           "version": "1.3",
           "date": "2026-10-02",

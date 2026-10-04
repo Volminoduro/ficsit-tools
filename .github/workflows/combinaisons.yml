@@ -1,12 +1,19 @@
-# Les combinaisons précalculées de l'infographie dépendent de ses recettes et de ses paliers.
-# Calcul long (~7 min) : seulement quand l'un d'eux peut avoir changé.
+# Les combinaisons précalculées de l'infographie dépendent de ses recettes, de ses paliers et du moteur de la page.
+# Calcul long (~15 min) : sauté quand rien de tout cela n'a changé depuis la base de la PR (empreinte, voir
+# scripts/empreinte_combinaisons.js) — un changement d'interface seul passe en quelques secondes.
+# Garde-fou : le recalcul complet tourne aussi chaque semaine sur main (et à la demande), pour qu'un saut à tort
+# ne reste pas caché.
 name: Combinaisons de l'infographie
 on:
   pull_request:
     paths:
       - satisfactory_infographie.html
       - scripts/paliers_combinaisons.js
+      - scripts/empreinte_combinaisons.js
       - donnees/**
+  schedule:
+    - cron: "23 5 * * 1"
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
@@ -15,10 +22,32 @@ jobs:
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - name: Entrées ou combinaisons changées depuis la base ?
+        id: decision
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ github.base_ref }}
+        run: |
+          if [ "$EVENT" = "pull_request" ]; then
+            git show "origin/$BASE:satisfactory_infographie.html" > "$RUNNER_TEMP/base.html" 2>/dev/null || true
+            git show "origin/$BASE:scripts/paliers_combinaisons.js" > "$RUNNER_TEMP/base.js" 2>/dev/null || true
+            avant=$(node scripts/empreinte_combinaisons.js "$RUNNER_TEMP/base.html" "$RUNNER_TEMP/base.js" 2>/dev/null || true)
+            apres=$(node scripts/empreinte_combinaisons.js satisfactory_infographie.html)
+            if [ -n "$avant" ] && [ "$avant" = "$apres" ]; then
+              echo "recalcul=non" >> "$GITHUB_OUTPUT"
+              echo "::notice::Recettes, paliers, moteur, script et combinaisons identiques à la base ($apres) : recalcul inutile."
+              exit 0
+            fi
+            echo "Empreinte de la base : ${avant:-absente} ; de la PR : $apres → recalcul."
+          fi
+          echo "recalcul=oui" >> "$GITHUB_OUTPUT"
       - name: Recalcul et comparaison avec le payload commité
+        if: steps.decision.outputs.recalcul == 'oui'
         run: |
           node scripts/paliers_combinaisons.js satisfactory_infographie.html --ecrire 2>/dev/null
           if ! git diff --quiet satisfactory_infographie.html; then

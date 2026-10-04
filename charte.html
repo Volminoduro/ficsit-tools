@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <!-- FICSIT-LANG:START -->
-<link rel="stylesheet" href="commun/ficsit-commun.css?v=d3388b0b7c">
-<script src="commun/ficsit-commun.js?v=29a39c2c99"></script>
+<link rel="stylesheet" href="commun/ficsit-commun.css?v=738b65a141">
+<script src="commun/ficsit-commun.js?v=8833b2516a"></script>
 <!-- FICSIT-LANG:END -->
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title data-fr="Charte graphique — composants façon menus du jeu" data-en="Style guide — game-menu components">Charte graphique — composants façon menus du jeu</title>
@@ -95,6 +95,27 @@
       <div class="col" style="text-align:center">
         <div class="f-ecran" style="text-align:center"><b style="font-size:17px;color:var(--f-ecran-encre)"><span data-l="fr">Charbon</span><span data-l="en" lang="en">Coal</span></b><br><span class="f-val">271,2</span> <span data-l="fr">par minute</span><span data-l="en" lang="en">per minute</span></div>
         <span class="f-etiquette" style="margin-top:8px"><span data-l="fr">Sortie</span><span data-l="en" lang="en">Output</span></span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="f-bandeau"><span data-l="fr">Infobulle</span><span data-l="en" lang="en">Tooltip</span></h2>
+    <div class="rang">
+      <div class="col">
+        <p style="margin:0 0 10px;color:var(--f-encre2)"><span data-l="fr">Tout attribut <code>title</code> s'affiche ainsi, à la place de la bulle du navigateur : survolez ou tabulez sur le bouton. La première ligne est le titre, les suivantes le détail.</span><span data-l="en" lang="en">Any <code>title</code> attribute shows like this, instead of the browser's bubble: hover or tab to the button. The first line is the heading, the next ones the detail.</span></p>
+        <button class="f-btn" type="button" title="Plaque de fer renforcée&#10;Assembleuse · 15 MW · 100 m²&#10;Palier 3, disque dur" data-fr-title="Plaque de fer renforcée&#10;Assembleuse · 15 MW · 100 m²&#10;Palier 3, disque dur" data-en-title="Reinforced Iron Plate&#10;Assembler · 15 MW · 100 m²&#10;Tier 3, hard drive"><span data-l="fr">Survolez-moi</span><span data-l="en" lang="en">Hover me</span></button>
+        <div id="ligneLarge" style="margin-top:12px;padding:9px 12px;background:var(--f-fenetre2)" title="Ligne large&#10;La bulle se place près du curseur, comme celle du navigateur, et non au centre de la ligne." data-fr-title="Ligne large&#10;La bulle se place près du curseur, comme celle du navigateur, et non au centre de la ligne." data-en-title="Wide row&#10;The bubble sits near the cursor, like the browser's own, not in the middle of the row."><span data-l="fr">Ligne large : survolez à gauche, puis à droite.</span><span data-l="en" lang="en">Wide row: hover on the left, then on the right.</span></div>
+      </div>
+      <div class="col">
+        <p style="margin:0 0 10px;color:var(--f-encre2)"><span data-l="fr">Variante à lignes titre / valeur (points du graphique de l'arbre) :</span><span data-l="en" lang="en">Variant with label / value rows (tree chart points):</span></p>
+        <div class="f-info" style="position:static;display:block;max-width:260px">
+          <div class="t"><span data-l="fr">Moteur à distorsion balistique</span><span data-l="en" lang="en">Ballistic Warp Drive</span></div>
+          <div class="d"><span data-l="fr">Recette de base · palier 9</span><span data-l="en" lang="en">Standard recipe · tier 9</span></div>
+          <div class="l f-val"><span data-l="fr">Points AWESOME</span><span data-l="en" lang="en">AWESOME points</span><b>5 062 500</b></div>
+          <div class="l"><span data-l="fr">Profondeur</span><span data-l="en" lang="en">Depth</span><b>11</b></div>
+          <div class="l"><span data-l="fr">Ressources brutes</span><span data-l="en" lang="en">Raw resources</span><b>9</b></div>
+        </div>
       </div>
     </div>
   </section>

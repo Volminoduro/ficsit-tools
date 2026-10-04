@@ -66,8 +66,8 @@ function ouvrirPanneau(on, focus = true){
 }
 function renderPartieTab(){
   const tab = document.getElementById('partieTab'), n = PARTIE && PARTIE.attente ? PARTIE.attente.length : 0;
-  tab.innerHTML = escH(PT('partieOnglet')) + (n ? `<b>${n}</b>` : '');
-  tab.title = PT('partieOngletTitre');
+  tab.innerHTML = escH(PT('partieAltOnglet')) + (n ? `<b>${n}</b>` : '');
+  tab.title = PT('partieAltOngletTitre');
 }
 function renderBandeau(){
   const el = document.getElementById('partieBandeau');
@@ -91,7 +91,7 @@ function renderPartie(){
     pn.setAttribute('aria-labelledby', 'pnTitre'); pn.setAttribute('aria-modal', 'false');
     document.getElementById('partieFermer').addEventListener('click', () => ouvrirPanneau(false));
   }
-  document.getElementById('pnTitre').textContent = PT('partieOnglet');
+  document.getElementById('pnTitre').textContent = PT('partieAltOnglet');
   document.getElementById('partieFermer').title = document.getElementById('partieFermer').ariaLabel = PT('partieFermer');
   document.getElementById('pnImport').textContent = PT(PARTIE ? 'partieChanger' : 'partieImporter');
   const el = document.getElementById('partieEtat');

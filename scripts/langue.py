@@ -5,7 +5,8 @@ Sources : commun/langue.json (configuration), commun/glossaire.json (noms du jeu
 commun/ficsit-hud.css (charte commune : variables et composants façon menus du jeu, en tête de la feuille),
 commun/ficsit-lang.js (moteur + sélecteur à drapeaux), commun/ficsit-lang.css,
 commun/ficsit-paliers.js et .css (grille de paliers commune), commun/ficsit-partie.js (lecture d'une sauvegarde),
-commun/ficsit-partie-ui.js et ficsit-partie.css (bouton « Ma partie » commun, dans le dock)
+commun/ficsit-partie-ui.js et ficsit-partie.css (bouton « Ma partie » commun, dans le dock),
+commun/ficsit-infobulle.js (infobulles de la charte, à la place des bulles natives)
 et le référentiel des alternatives qu'il utilise, tiré de donnees/donnees-jeu.json.
 Produit commun/ficsit-commun.js et commun/ficsit-commun.css (fichiers générés : ne pas les éditer), une seule
 copie servie à tous les outils et mise en cache par le navigateur. Chaque page reçoit, en tête de <head> juste après
@@ -69,6 +70,7 @@ def bloc():
     js += "window.FicsitRecettes=" + recettes() + ";\n"
     js += (C / "ficsit-partie.js").read_text(encoding="utf-8").strip() + "\n"
     js += (C / "ficsit-partie-ui.js").read_text(encoding="utf-8").strip() + "\n"
+    js += (C / "ficsit-infobulle.js").read_text(encoding="utf-8").strip() + "\n"
     css = tete + "\n".join((C / f).read_text(encoding="utf-8").strip()
                             for f in ("ficsit-hud.css", "ficsit-lang.css", "ficsit-paliers.css", "ficsit-partie.css")) + "\n"
     for nom, contenu in (("ficsit-commun.js", js), ("ficsit-commun.css", css)):

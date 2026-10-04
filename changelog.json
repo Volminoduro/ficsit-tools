@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.10",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "Moins de place : la surface compte désormais des bâtiments entiers (une machine à 10 % prend autant de place qu'à 100 %), résolu en nombres entiers à 1 % près de l'optimum, au lieu d'une surface au prorata de la cadence qui n'avait pas de sens. Corrigé : sur une grosse chaîne, « moins d'énergie » ou « moins de place » pouvait laisser des items (jusqu'aux objectifs) comme « à fournir » au lieu de les fabriquer. Les optimisations sont mémorisées : changer le montage, la vue ou la langue ne les relance plus.",
+            "en": "Less space: the floor area now counts whole buildings (a machine at 10% takes as much room as at 100%), solved in whole numbers within 1% of the optimum, instead of an area pro rata of the clock speed that made no sense. Fixed: on a large chain, \"less power\" or \"less space\" could leave items (up to the targets) as \"to supply\" instead of making them. Optimisations are remembered: changing the layout, view or language no longer reruns them."
+          }
+        },
+        {
           "version": "1.9",
           "date": "2026-10-03",
           "texte": {

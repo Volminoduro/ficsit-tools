@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.12",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "Corrigé : faire glisser le fond du graphe surlignait le texte des blocs et des liens.",
+            "en": "Fixed: dragging the graph's background highlighted the text of boxes and links."
+          }
+        },
+        {
           "version": "1.11",
           "date": "2026-10-04",
           "texte": {

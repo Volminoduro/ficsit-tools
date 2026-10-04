@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Planificateur de production / Production planner — `planner.html`
 
+- **v1.12** (04/10/2026) : Corrigé : faire glisser le fond du graphe surlignait le texte des blocs et des liens.
+  *EN — Fixed: dragging the graph's background highlighted the text of boxes and links.*
 - **v1.11** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
   *EN — Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard.*
 - **v1.10** (04/10/2026) : Moins de place : la surface compte désormais des bâtiments entiers (une machine à 10 % prend autant de place qu'à 100 %), résolu en nombres entiers à 1 % près de l'optimum, au lieu d'une surface au prorata de la cadence qui n'avait pas de sens. Corrigé : sur une grosse chaîne, « moins d'énergie » ou « moins de place » pouvait laisser des items (jusqu'aux objectifs) comme « à fournir » au lieu de les fabriquer. Les optimisations sont mémorisées : changer le montage, la vue ou la langue ne les relance plus.

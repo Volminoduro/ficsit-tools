@@ -60,6 +60,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
+- **v1.33** (04/10/2026) : Combinaisons et chaînes optimisées repassent en orange, la couleur ordinaire : l'onglet dit déjà de quoi on parle. Dans la séquence d'une chaîne, la cible est une tuile blanche à chiffre sombre (comme le palier choisi du terminal du jeu), un coproduit a un trait pointillé, et le chiffre de l'extraction est lisible.
+  *EN — Combinations and optimised chains are back to orange, the ordinary colour: the tab already says what they are. In a chain's sequence the target is a white tile with a dark digit (like the game's selected tier), a co-product has a dashed edge, and the extraction digit is readable.*
 - **v1.32** (02/10/2026) : Synthèse : l'étiquette « perdante » s'affiche en blanc sur rouge, lisible ; elle prenait par erreur le style gris des sous-titres de groupe.
   *EN — Synthesis: the “losing” tag now shows white on red, readable; it was wrongly picking up the grey style of group subtitles.*
 - **v1.31** (02/10/2026) : Combinaisons et chaînes optimisées en bleu, la couleur des graphes de puissance du jeu, au lieu du jaune absent de ses menus : l'orange reste aux recettes alternatives, le gris aux recettes de base.

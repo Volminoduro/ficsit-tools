@@ -224,6 +224,14 @@
       },
       "entrees": [
         {
+          "version": "1.33",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "Combinaisons et chaînes optimisées repassent en orange, la couleur ordinaire : l'onglet dit déjà de quoi on parle. Dans la séquence d'une chaîne, la cible est une tuile blanche à chiffre sombre (comme le palier choisi du terminal du jeu), un coproduit a un trait pointillé, et le chiffre de l'extraction est lisible.",
+            "en": "Combinations and optimised chains are back to orange, the ordinary colour: the tab already says what they are. In a chain's sequence the target is a white tile with a dark digit (like the game's selected tier), a co-product has a dashed edge, and the extraction digit is readable."
+          }
+        },
+        {
           "version": "1.32",
           "date": "2026-10-02",
           "texte": {

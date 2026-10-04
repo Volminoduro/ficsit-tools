@@ -136,6 +136,18 @@
 .f-table td{padding:8px 10px;border-bottom:1px solid var(--f-trait)}
 .f-table tbody tr:hover td{background:var(--f-fenetre2)}
 
+/* Infobulle (survol d'un élément à title, commun/ficsit-infobulle.js ; l'arbre de production l'emploie pour les points
+   du graphique) : fenêtre sombre sous un filet orange, titre blanc, détail gris, valeurs en orange */
+.f-info{position:fixed;z-index:10001;max-width:min(300px,calc(100vw - 16px));box-sizing:border-box;padding:7px 12px 9px;
+  background:var(--f-creux);border-top:2px solid var(--f-or);box-shadow:var(--f-ombre);pointer-events:none;
+  color:var(--f-encre);font:400 12.5px/1.45 var(--f-police);overflow-wrap:anywhere}
+.f-info .t{font-weight:600;color:#fff;font-size:13px}
+.f-info .d{margin-top:2px;color:var(--f-encre2)}
+.f-info .l{display:flex;justify-content:space-between;gap:14px;margin-top:2px;color:var(--f-encre2)}
+.f-info .l b{font-weight:500;color:var(--f-encre);font-variant-numeric:tabular-nums}
+.f-info .l.f-val b{color:var(--f-or);font-weight:600}
+@media print{.f-info{display:none}}
+
 /* Filet orange du HUD (sous « Objective: », « Milestone: ») */
 .f-filet{height:2px;background:var(--f-or);border:0;margin:6px 0}
 html:not([lang|=en]) [data-l=en],html[lang|=en] [data-l=fr]{display:none!important}

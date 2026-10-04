@@ -541,6 +541,18 @@ const INDICES = {
       echecs.push(`infobulle au survol : ${JSON.stringify(ok)}`);
     await p.mouse.move(2, 2); await p.waitForTimeout(250);
     if (await p.evaluate(() => !document.getElementById('finfo').hidden)) echecs.push('infobulle : reste affichée après la sortie');
+    // élément large : la bulle se place près du curseur (à gauche, puis à droite), pas au centre de la ligne
+    const ligne = p.locator('#ligneLarge');
+    await ligne.scrollIntoViewIfNeeded();
+    const bx = await ligne.boundingBox(), gauche = [];
+    for (const dx of [30, bx.width - 60]) {
+      await p.mouse.move(2, 2); await p.waitForTimeout(150);
+      await p.mouse.move(bx.x + dx, bx.y + bx.height / 2); await p.waitForTimeout(450);
+      gauche.push(await p.evaluate(() => { const i = document.getElementById('finfo'); return i.hidden ? null : Math.round(i.getBoundingClientRect().left); }));
+    }
+    if (gauche[0] == null || gauche[1] == null || Math.abs(gauche[0] - (bx.x + 30 - 14)) > 6 || gauche[1] - gauche[0] < bx.width / 2 - 80)
+      echecs.push(`infobulle sur une ligne large : pas près du curseur (cibles ${bx.x + 16} et ${bx.x + bx.width - 74}, obtenu ${gauche})`);
+    await p.mouse.move(2, 2); await p.waitForTimeout(250);
     await p.keyboard.press('Tab'); await p.keyboard.press('Shift+Tab'); await p.waitForTimeout(250);
     console.log(`${echecs.some(x => x.startsWith('infobulle')) ? 'ÉCHEC' : 'ok   '} infobulle (survol, sortie)`);
     await p.close();

@@ -31,6 +31,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Débit vers le Dimensional Depot / Dimensional Depot throughput — `depot-dimensionnel.html`
 
+- **v1.15** (04/10/2026) : L'infobulle d'une ligne de l'inventaire se place près du curseur, comme la bulle du navigateur, au lieu de se centrer sur la ligne entière.
+  *EN — A row's tooltip in the inventory now sits near the cursor, like the browser's own bubble, instead of being centred on the whole row.*
 - **v1.14** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
   *EN — Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard.*
 - **v1.13** (02/10/2026) : Le fichier de la partie est gardé tel quel (sur disque par le navigateur, sans copie en mémoire), avec un second stockage de secours si le premier refuse : une grosse sauvegarde importée depuis l'accueil est bien reprise ici. Si les deux refusent, le panneau « Ma partie » donne l'erreur exacte du navigateur.

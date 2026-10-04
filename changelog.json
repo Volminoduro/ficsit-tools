@@ -112,6 +112,14 @@
       },
       "entrees": [
         {
+          "version": "1.15",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "L'infobulle d'une ligne de l'inventaire se place près du curseur, comme la bulle du navigateur, au lieu de se centrer sur la ligne entière.",
+            "en": "A row's tooltip in the inventory now sits near the cursor, like the browser's own bubble, instead of being centred on the whole row."
+          }
+        },
+        {
           "version": "1.14",
           "date": "2026-10-04",
           "texte": {

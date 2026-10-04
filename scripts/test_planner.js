@@ -193,6 +193,12 @@ require(path.join(ROOT, 'commun', 'vendor', 'highs.js'))().then(H => {
   ok('synthèse : pas pire que chaque optimum seul', [O, E, Pl].every(R => score(Sy) <= score(R) + 0.05), [Sy, O, E, Pl].map(score).join(' / '));
   const SyE = M.optimiser(P, cible, {permise: tout, critere: 'synthese', poids: {mat: 0, mw: 0, esp: 1}, ref}, H);
   ok('synthèse place seule = optimum place', esp(SyE) <= esp(Pl) + 1e-6, `${esp(SyE)} > ${esp(Pl)}`);
+  // grosse chaîne : jamais d'objectif « apporté » pour éviter une chaîne chère (pénalité dépassée par des milliers de MW)
+  const gros = [{item: 'Ballistic Warp Drive', debit: 1}];
+  for(const k of ['energie', 'place']){
+    const g = M.optimiser(P, gros, {permise: tout, critere: k}, H);
+    ok(`${k} : warp drive fabriqué, sans manquant`, g && !g.manquants.length && g.etapes.length > 10, g && [g.etapes.length, g.manquants]);
+  }
   // recettes standard seulement : une seule chaîne possible, la même que le choix simple
   const S = M.optimiser(P, cible, {permise: standard}, H);
   ok('standard : 60 minerai de fer comme le choix simple', proche(S.bruts['Iron Ore'], 60), JSON.stringify(S.bruts));

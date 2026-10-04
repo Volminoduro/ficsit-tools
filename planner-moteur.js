@@ -17,7 +17,7 @@
         surplus: {item: /min}, manquants: [items sans recette permise], mw, converge}
      optimiser(P, cibles, opts, highs)  même résultat, recettes choisies par programmation linéaire (HiGHS, voir plus bas) :
         opts.critere = 'ressources' (matière : ressources brutes pesées par leur rareté) | 'energie' (MW des machines)
-          | 'place' (m² au sol des machines) | 'synthese' (les trois, chacun rapporté à sa valeur dans opts.ref, la chaîne
+          | 'place' (m² au sol des machines entières : programme en nombres entiers) | 'synthese' (les trois, chacun rapporté à sa valeur dans opts.ref, la chaîne
           de référence, et pondéré par opts.poids = {mat, mw, esp}) ; opts.choix et opts.permise comme calculer()
      mesures(P, R)                  les trois critères d'un plan → {mat (‰ des ressources de la carte), mw, esp (m²)}
      graphe(R, cibles)              nœuds et liens d'un plan, pour la vue en graphe (voir plus bas)
@@ -295,9 +295,11 @@
       r.ing.forEach(function(q){ var k = items.get(q[0]); A[k][j] = (A[k][j] || 0) - q[1]; });
       r.prod.forEach(function(q){ var k = items.get(q[0]); A[k][j] = (A[k][j] || 0) + q[1]; });
       var B = P.b[r.machine] || [0], mwExec = (r.mw || B[0]) * r.temps / 60;   // MW par exécution/min
-      var espExec = (P.em && P.em[r.machine] || 0) * r.temps / 60;   // m² par exécution/min
-      c.push(1e-6 + w.mw * mwExec + w.esp * espExec);
+      c.push(1e-6 + w.mw * mwExec);
     });
+    // place : des bâtiments entiers (une machine posée prend toute sa surface, quelle que soit sa cadence) →
+    // une variable entière m<j> par recette, au moins le nombre de machines à 100 % (exécutions/min × temps / 60)
+    var entiers = w.esp > 0 ? recettes.map(function(r){ return (P.em && P.em[r.machine]) || 0; }) : [];
     noms.forEach(function(i, k){
       var j = recettes.length + k; A[k][j] = 1; apport.push(j);
       var brut = ix.res.has(i), fourni = choix[i] === 'brut';
@@ -309,15 +311,34 @@
     var nom = function(j){ return j < recettes.length ? 'r' + j : 'a' + (j - recettes.length); };
     var lp = ['Minimize', ' cout:'];
     c.forEach(function(v, j){ lp.push(terme(v, nom(j), j === 0)); });
+    entiers.forEach(function(em, j){ if(em > 0) lp.push(terme(w.esp * em, 'm' + j, false)); });
     lp.push('Subject To');
     A.forEach(function(ligne, k){
       var cols = Object.keys(ligne);
       lp.push(' i' + k + ':' + cols.map(function(j, q){ return terme(ligne[j], nom(+j), q === 0); }).join('\n  ') + ' >= ' + nb(b[k]));
     });
-    lp.push('End');
-    var sol;
-    try{ sol = highs.solve(lp.join('\n'), {output_flag: false}); }catch(e){ return null; }
-    if(!sol || sol.Status !== 'Optimal') return null;
+    entiers.forEach(function(em, j){ if(em > 0) lp.push(' n' + j + ':' + terme(recettes[j].temps / 60, nom(j), true) + ' - m' + j + ' <= 0'); });
+    // un item qu'une recette permise sait fabriquer n'est jamais « apporté » : la pénalité seule ne suffit pas quand la
+    // chaîne coûte plus qu'elle (des milliers de MW ou de m²). Repli sur la pénalité si le modèle borné n'a pas de solution.
+    var fabricable = new Set();
+    recettes.forEach(function(r){ r.prod.forEach(function(q){ fabricable.add(q[0]); }); });
+    var bornes = [];
+    noms.forEach(function(i, k){ if(fabricable.has(i) && !ix.res.has(i) && choix[i] !== 'brut') bornes.push(' a' + k + ' = 0'); });
+    var fin = [];
+    if(entiers.some(function(em){ return em > 0; })){
+      fin.push('General');
+      entiers.forEach(function(em, j){ if(em > 0) fin.push(' m' + j); });
+    }
+    fin.push('End');
+    // en nombres entiers : 1 % de l'optimum suffit, et au plus quelques secondes (la meilleure solution trouvée reste valable)
+    var reglages = {output_flag: false, mip_rel_gap: 0.01, time_limit: 2.5};
+    var resoudre = function(borne){
+      var texte = lp.concat(borne && bornes.length ? ['Bounds'].concat(bornes) : [], fin).join('\n');
+      try{ var so = highs.solve(texte, reglages); }catch(e){ return null; }
+      return so && (so.Status === 'Optimal' || (so.Status === 'Time limit reached' && so.Columns && so.Columns.r0 && isFinite(so.ObjectiveValue))) ? so : null;
+    };
+    var sol = resoudre(true) || resoudre(false);
+    if(!sol) return null;
     var val = function(j){ var col = sol.Columns[nom(j)]; return col ? col.Primal : 0; };
     var x = {}, manquants = [], cout = 0;
     recettes.forEach(function(r, j){ var v = val(j); if(v > 1e-9) x[r.classe] = v; });
@@ -332,12 +353,11 @@
   }
 
   // les trois critères d'un plan : matière (‰ des ressources de la carte, comme le tri par rareté), MW des machines
-  // (entières, à leur cadence), m² au sol des machines au prorata de leur usage (comme l'optimisation et le critère
-  // Espace de l'infographie : une recette qui tourne à 1 % ne coûte pas un bâtiment entier ; sans convoyeurs ni extraction)
+  // (entières, à leur cadence), m² au sol des bâtiments posés (machines entières ; sans convoyeurs ni extraction)
   function mesures(P, R){
     var mat = 0, esp = 0;
     Object.keys(R.bruts).forEach(function(i){ mat += R.bruts[i] * ((P.rare && P.rare[i]) || 0); });
-    R.etapes.forEach(function(e){ esp += e.machines * ((P.em && P.em[e.recette.machine]) || 0); });
+    R.etapes.forEach(function(e){ esp += e.entieres * ((P.em && P.em[e.recette.machine]) || 0); });
     return {mat: mat, mw: R.mw, esp: esp};
   }
 

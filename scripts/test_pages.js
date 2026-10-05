@@ -345,6 +345,10 @@ const CHECKS = {
     document.getElementById('choixRaz').click();
     FicsitPartie.enregistrer({nom: 'Test', date: '2026-01-31T03:06:00.000Z', duree: 3600, version: 58, lu: 'test-planner',
       recettes: ['Recipe_IngotIron_C', 'Recipe_IronPlate_C', 'Recipe_IronRod_C', 'Recipe_Screw_C'], schemas: ['Schematic_1-1_C'], attente: []});
+    // grille de paliers commune : palier de la partie sélectionné tout seul, paliers au-delà hachurés
+    { const pr = document.querySelector('#paliers button[aria-pressed="true"]'), pp = FicsitPartie.palier(FicsitPartie.charger());
+      if (!pr || +pr.dataset.t !== pp) out.push(`palier de la partie non sélectionné (${pr && pr.dataset.t} ≠ ${pp})`);
+      if (pp < 9 && !document.querySelector(`#paliers button[data-t="${pp + 1}"]`).disabled) out.push('palier au-delà de la partie cliquable'); }
     if (!/(Aucune recette permise|No allowed recipe).*(Reinforced Iron Plate|Plaque de fer renforcée)/.test(txt('alertes')))
       out.push('partie sans plaques renforcées : pas d\'alerte « ' + txt('alertes') + ' »');
     // usine en cache : 2 constructeurs de plaques (150 % et 100 %) → 50 plaques /min installées, il en faut 60 ;

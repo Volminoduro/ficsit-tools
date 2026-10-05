@@ -17,7 +17,7 @@
    Dock : barre de titre commune, pleine largeur en haut de page, comme celle des fenêtres du jeu (« FICSIT » et le nom
    de l'outil à gauche, tiré du <title>) ; tout élément marqué data-fdock y est déplacé, à droite, avant les drapeaux.
    La barre réserve sa hauteur (html.fbarre) : elle ne recouvre jamais le contenu.
-   Outils : onglets vers chaque outil juste après l'identité (liste unique : langue.json > outils, outil courant en orange) ;
+   Outils : « Accueil » puis les onglets vers chaque outil juste après l'identité (liste unique : langue.json > outils, outil courant en orange) ;
    sur écran étroit ils se replient dans un menu « Outils ».
    HTML statique :
      <x data-l="fr">…</x><x data-l="en">…</x>     seule la variante de la langue active est affichée
@@ -118,13 +118,13 @@
       });
       d.insertBefore(id, d.firstChild);
     }
-    navOutils(d, d.querySelector('.fdock-id'));
-    // Retour à l'accueil (lien relatif : valable en local comme sur GitHub Pages), sauf sur l'accueil.
+    // Retour à l'accueil, à gauche juste après l'identité (lien relatif : valable en local comme sur GitHub Pages), sauf sur l'accueil.
     if(!/(^|\/)(index\.html)?$/.test(location.pathname) && !document.getElementById('fhome')){
       var h = document.createElement('a'); h.id = 'fhome'; h.className = 'fhome'; h.href = 'index.html';
       h.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 1 7.6l1 1.1L3 7.8V14h4v-4h2v4h4V7.8l1 .9 1-1.1z"/></svg><span></span>';
-      d.appendChild(h);
+      d.querySelector('.fdock-id').after(h);
     }
+    navOutils(d, document.getElementById('fhome') || d.querySelector('.fdock-id'));
     document.querySelectorAll('[data-fdock]').forEach(function(el){ d.appendChild(el); });
     d.appendChild(w);
     // Mention IA, en bas de chaque page.

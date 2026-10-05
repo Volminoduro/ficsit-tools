@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Planificateur de production / Production planner — `planner.html`
 
+- **v1.14** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
+  *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
 - **v1.13** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
   *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
 - **v1.12** (04/10/2026) : Corrigé : faire glisser le fond du graphe surlignait le texte des blocs et des liens.
@@ -35,6 +37,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Débit vers le Dimensional Depot / Dimensional Depot throughput — `depot-dimensionnel.html`
 
+- **v1.17** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
+  *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
 - **v1.16** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
   *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
 - **v1.15** (04/10/2026) : L'infobulle d'une ligne de l'inventaire se place près du curseur, comme la bulle du navigateur, au lieu de se centrer sur la ligne entière.
@@ -72,6 +76,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
+- **v1.36** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
+  *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
 - **v1.35** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
   *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
 - **v1.34** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier. Le registre n'a plus d'onglet vertical « Ma partie » (qui doublonnait le bouton du haut de page) : ses alternatives débloquées et disques durs s'ouvrent par un bouton « Mes alternatives » dans la rangée d'outils.
@@ -147,6 +153,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Module d'étalonnage / Calibration module — `ficsit_horloge.html`
 
+- **v1.16** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
+  *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
 - **v1.15** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
   *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
 - **v1.14** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
@@ -182,6 +190,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Optimiseur de recyclage / Recycling optimizer — `broyeur-excedents.html`
 
+- **v1.24** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
+  *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
 - **v1.23** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
   *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
 - **v1.22** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
@@ -233,6 +243,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Mémo de terrain / Field memo — `memo-ficsit.html`
 
+- **v1.16** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
+  *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
 - **v1.15** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
   *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
 - **v1.14** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
@@ -268,6 +280,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Complexité et valeur au broyeur / Complexity vs sink value — `arbre-production.html`
 
+- **v1.13** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
+  *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
 - **v1.12** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
   *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
 - **v1.11** (04/10/2026) : L'infobulle du graphique reprend l'habillage commun des bulles d'aide (fenêtre sombre sous un filet orange, points AWESOME en orange). Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
@@ -297,6 +311,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Rentabilité énergétique par nœud / Power per node — `energie-noeuds.html`
 
+- **v1.6** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
+  *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
 - **v1.5** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
   *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
 - **v1.4** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.

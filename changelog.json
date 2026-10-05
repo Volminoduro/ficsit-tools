@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.14",
+          "date": "2026-10-05",
+          "texte": {
+            "fr": "Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.",
+            "en": "The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right."
+          }
+        },
+        {
           "version": "1.13",
           "date": "2026-10-04",
           "texte": {
@@ -127,6 +135,14 @@
         "en": "Dimensional Depot throughput"
       },
       "entrees": [
+        {
+          "version": "1.17",
+          "date": "2026-10-05",
+          "texte": {
+            "fr": "Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.",
+            "en": "The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right."
+          }
+        },
         {
           "version": "1.16",
           "date": "2026-10-04",
@@ -271,6 +287,14 @@
         "en": "Yield registry"
       },
       "entrees": [
+        {
+          "version": "1.36",
+          "date": "2026-10-05",
+          "texte": {
+            "fr": "Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.",
+            "en": "The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right."
+          }
+        },
         {
           "version": "1.35",
           "date": "2026-10-04",
@@ -568,6 +592,14 @@
       },
       "entrees": [
         {
+          "version": "1.16",
+          "date": "2026-10-05",
+          "texte": {
+            "fr": "Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.",
+            "en": "The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right."
+          }
+        },
+        {
           "version": "1.15",
           "date": "2026-10-04",
           "texte": {
@@ -703,6 +735,14 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.24",
+          "date": "2026-10-05",
+          "texte": {
+            "fr": "Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.",
+            "en": "The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right."
+          }
+        },
         {
           "version": "1.23",
           "date": "2026-10-04",
@@ -904,6 +944,14 @@
       },
       "entrees": [
         {
+          "version": "1.16",
+          "date": "2026-10-05",
+          "texte": {
+            "fr": "Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.",
+            "en": "The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right."
+          }
+        },
+        {
           "version": "1.15",
           "date": "2026-10-04",
           "texte": {
@@ -1040,6 +1088,14 @@
       },
       "entrees": [
         {
+          "version": "1.13",
+          "date": "2026-10-05",
+          "texte": {
+            "fr": "Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.",
+            "en": "The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right."
+          }
+        },
+        {
           "version": "1.12",
           "date": "2026-10-04",
           "texte": {
@@ -1151,6 +1207,14 @@
         "en": "Power per node"
       },
       "entrees": [
+        {
+          "version": "1.6",
+          "date": "2026-10-05",
+          "texte": {
+            "fr": "Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.",
+            "en": "The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right."
+          }
+        },
         {
           "version": "1.5",
           "date": "2026-10-04",

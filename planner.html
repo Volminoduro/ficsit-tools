@@ -799,7 +799,9 @@ function contexte(){
     const ok = FicsitPartie.permises(p), max = FicsitPartie.palier(p);
     if(!S.palierPartie || S.palierPartie.lu !== p.lu){ S.palierPartie = {lu: p.lu, t: max}; garder(); }
     const t = Math.min(S.palierPartie.t, max);
-    return {p, palier: t, palierMax: max, permise: r => ok.has(r.classe) && (r.palier || 0) <= t,
+    // au palier de la partie : toutes ses recettes débloquées (une alternative de disque dur peut porter un palier plus
+    // haut) ; plus bas : seulement celles jusqu'au palier choisi
+    return {p, palier: t, palierMax: max, permise: t >= max ? r => ok.has(r.classe) : r => ok.has(r.classe) && (r.palier || 0) <= t,
       preferees: INST && S.suivre ? new Set(Object.keys(INST)) : null};
   }
   // optimisé : les alternatives sont toujours permises (l'optimisation n'a de sens qu'en les comparant)

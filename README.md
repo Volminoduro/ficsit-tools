@@ -66,6 +66,7 @@ Versions épinglées dans les workflows (Python 3.12, Pillow 12.3.0, Node 22, Pl
 - Après chaque évolution d'un outil : ajouter l'entrée, puis lancer `python3 scripts/patchnotes.py`. Le script réécrit le « Journal des révisions » de chaque page (entre les marqueurs `PATCHNOTES:START/END`) et régénère `CHANGELOG.md`.
 - Le journal s'ouvre depuis un badge de version (« v1.8 ») placé en haut à droite, dans le dock commun à côté des drapeaux. Chaque navigateur retient la dernière version vue de chaque outil (`ficsit-tools:vu:<fichier>`) : une pastille signale une version pas encore vue, et les entrées nouvelles sont marquées « nouveau » à l'ouverture. Il est embarqué dans le HTML (lisible hors ligne) et suit la langue commune (voir ci-dessous).
 - Dock commun : `commun/ficsit-lang.js` crée en haut à droite un conteneur `#fdock`, y place le bouton « Accueil » (sauf sur l'accueil), puis tout élément de la page marqué `data-fdock`, avant les drapeaux.
+- Onglets des outils : le même dock porte, juste après « FICSIT », un onglet par outil (liste unique dans `commun/langue.json` > `outils` : fichier, libellé court, titre, `chantier`), l'outil courant en orange. Sous 1280 px ils se replient dans un menu « Outils » (`#fnavbtn`, `#fnav`). **Ajouter un outil : l'inscrire dans cette liste**, en plus de sa carte sur l'accueil.
 
 ## Langue (FR / EN)
 

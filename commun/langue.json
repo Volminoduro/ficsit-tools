@@ -6,12 +6,25 @@
     "fr": { "nom": "Français", "court": "FR", "locale": "fr-FR", "titre": "Afficher en français" },
     "en": { "nom": "English", "court": "EN", "locale": "en-US", "titre": "Show in English" }
   },
+  "outils": [
+    { "f": "planner.html",                 "chantier": true, "fr": "Planificateur", "en": "Planner",     "titre": { "fr": "Planificateur de production", "en": "Production planner" } },
+    { "f": "satisfactory_infographie.html",                  "fr": "Registre",      "en": "Registry",    "titre": { "fr": "Registre des rendements", "en": "Yield registry" } },
+    { "f": "ficsit_horloge.html",                            "fr": "Étalonnage",    "en": "Calibration", "titre": { "fr": "Module d'étalonnage", "en": "Calibration module" } },
+    { "f": "depot-dimensionnel.html",      "chantier": true, "fr": "Depot",         "en": "Depot",       "titre": { "fr": "Débit vers le Dimensional Depot", "en": "Dimensional Depot throughput" } },
+    { "f": "memo-ficsit.html",                               "fr": "Mémo",          "en": "Memo",        "titre": { "fr": "Mémo de terrain", "en": "Field memo" } },
+    { "f": "energie-noeuds.html",                            "fr": "Nœuds",         "en": "Nodes",       "titre": { "fr": "Rentabilité énergétique par nœud", "en": "Power per node" } },
+    { "f": "broyeur-excedents.html",                         "fr": "Recyclage",     "en": "Recycling",   "titre": { "fr": "Optimiseur de recyclage (Broyeur AWESOME)", "en": "Recycling optimizer (AWESOME Sink)" } },
+    { "f": "arbre-production.html",                          "fr": "Arbre",         "en": "Tree",        "titre": { "fr": "Complexité et valeur au broyeur", "en": "Complexity vs sink value" } }
+  ],
   "communs": {
     "reset":      { "fr": "Réinitialiser", "en": "Reset" },
     "resetTitle": { "fr": "Oublier les réglages mémorisés de cet outil et revenir aux valeurs par défaut (la langue est conservée)",
                     "en": "Forget this tool's saved settings and restore defaults (the language is kept)" },
     "groupe":     { "fr": "Langue de l'interface", "en": "Interface language" },
     "accueil":    { "fr": "Accueil", "en": "Home" },
+    "outils":     { "fr": "Outils", "en": "Tools" },
+    "outilsTitle":{ "fr": "Passer directement à un autre outil", "en": "Jump straight to another tool" },
+    "chantier":   { "fr": "en chantier", "en": "work in progress" },
     "palier":     { "fr": "Palier", "en": "Tier" },
     "paliers":    { "fr": ["Départ", "Disques durs", "Assembleuse", "Acier", "Moteurs", "Pétrole", "Ordinateurs", "Aluminium", "Nucléaire", "Quantique"],
                     "en": ["Start", "Hard drives", "Assembler", "Steel", "Motors", "Oil", "Computers", "Aluminum", "Nuclear", "Quantum"] },

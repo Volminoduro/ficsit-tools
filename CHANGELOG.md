@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Planificateur de production / Production planner — `planner.html`
 
+- **v1.13** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
+  *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
 - **v1.12** (04/10/2026) : Corrigé : faire glisser le fond du graphe surlignait le texte des blocs et des liens.
   *EN — Fixed: dragging the graph's background highlighted the text of boxes and links.*
 - **v1.11** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
@@ -33,6 +35,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Débit vers le Dimensional Depot / Dimensional Depot throughput — `depot-dimensionnel.html`
 
+- **v1.16** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
+  *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
 - **v1.15** (04/10/2026) : L'infobulle d'une ligne de l'inventaire se place près du curseur, comme la bulle du navigateur, au lieu de se centrer sur la ligne entière.
   *EN — A row's tooltip in the inventory now sits near the cursor, like the browser's own bubble, instead of being centred on the whole row.*
 - **v1.14** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
@@ -68,6 +72,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
+- **v1.35** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
+  *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
 - **v1.34** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier. Le registre n'a plus d'onglet vertical « Ma partie » (qui doublonnait le bouton du haut de page) : ses alternatives débloquées et disques durs s'ouvrent par un bouton « Mes alternatives » dans la rangée d'outils.
   *EN — Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard. The registry no longer has the vertical “My game” tab (which duplicated the top-of-page button): its unlocked alternates and hard drives open from a “My alternates” button in the toolbar.*
 - **v1.33** (04/10/2026) : Combinaisons et chaînes optimisées repassent en orange, la couleur ordinaire : l'onglet dit déjà de quoi on parle. Dans la séquence d'une chaîne, la cible est une tuile blanche à chiffre sombre (comme le palier choisi du terminal du jeu), un coproduit a un trait pointillé, et le chiffre de l'extraction est lisible.
@@ -141,6 +147,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Module d'étalonnage / Calibration module — `ficsit_horloge.html`
 
+- **v1.15** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
+  *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
 - **v1.14** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
   *EN — Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard.*
 - **v1.13** (02/10/2026) : Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.
@@ -174,6 +182,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Optimiseur de recyclage / Recycling optimizer — `broyeur-excedents.html`
 
+- **v1.23** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
+  *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
 - **v1.22** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
   *EN — Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard.*
 - **v1.21** (02/10/2026) : Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.
@@ -223,6 +233,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Mémo de terrain / Field memo — `memo-ficsit.html`
 
+- **v1.15** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
+  *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
 - **v1.14** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
   *EN — Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard.*
 - **v1.13** (02/10/2026) : Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.
@@ -256,6 +268,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Complexité et valeur au broyeur / Complexity vs sink value — `arbre-production.html`
 
+- **v1.12** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
+  *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
 - **v1.11** (04/10/2026) : L'infobulle du graphique reprend l'habillage commun des bulles d'aide (fenêtre sombre sous un filet orange, points AWESOME en orange). Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
   *EN — The chart tooltip now shares the common help-bubble look (dark window under an orange line, AWESOME points in orange). Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard.*
 - **v1.10** (02/10/2026) : Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.
@@ -283,6 +297,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Rentabilité énergétique par nœud / Power per node — `energie-noeuds.html`
 
+- **v1.5** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
+  *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
 - **v1.4** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
   *EN — Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard.*
 - **v1.3** (02/10/2026) : Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.

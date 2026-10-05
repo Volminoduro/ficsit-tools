@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.18",
+          "date": "2026-10-05",
+          "texte": {
+            "fr": "Les montages sont dépliés par défaut dans le graphe (séparateurs, machines, groupeurs de chaque étape) ; le bouton − d'un bloc le replie et la page s'en souvient, « Tout replier » / « Tout déplier » bascule l'ensemble. L'interrupteur manifold / équilibrage est plus grand.",
+            "en": "Layouts are unfolded by default in the graph (each step's splitters, machines, mergers); a box's − button folds it and the page remembers, \"Fold all\" / \"Expand all\" toggles them all. The manifold / load balancing switch is larger."
+          }
+        },
+        {
           "version": "1.17",
           "date": "2026-10-05",
           "texte": {

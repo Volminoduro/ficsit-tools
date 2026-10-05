@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.16",
+          "date": "2026-10-05",
+          "texte": {
+            "fr": "Objectifs et réglages passent dans un bandeau en haut, sur toute la largeur : objectifs côte à côte, choix des recettes, palier et alternatives, montage ; il se replie (objectifs seuls), et la colonne de gauche ne garde que le bilan et les outils. Le choix des recettes devient une glissière : son curseur se fait glisser d'un mode à l'autre (ou un clic sur un mode, ou les flèches). La liste des objectifs ne propose que les items qu'on peut fabriquer avec les recettes permises (palier, alternatives, ou partie importée).",
+            "en": "Targets and settings move to a band across the top: targets side by side, recipe choice, tier and alternates, layout; it folds away (targets only), and the left column keeps only the summary and tools. The recipe choice becomes a slider: drag its handle from one mode to another (or click a mode, or use the arrow keys). The target list only offers items that the allowed recipes can make (tier, alternates, or imported game)."
+          }
+        },
+        {
           "version": "1.15",
           "date": "2026-10-05",
           "texte": {

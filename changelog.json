@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.17",
+          "date": "2026-10-05",
+          "texte": {
+            "fr": "Le palier se choisit dans la même grille que les autres outils (icône et numéro de chaque palier du HUB). Avec une partie importée, le palier atteint est sélectionné tout seul à chaque import ; on peut descendre plus bas pour préparer un plan plus modeste, les paliers pas encore atteints sont hachurés. La case Alternatives et « Recettes par défaut » passent sous le choix des recettes.",
+            "en": "The tier is picked from the same grid as the other tools (each HUB tier's icon and number). With an imported game, the tier reached is selected automatically at each import; you can go lower to prepare a smaller plan, tiers not reached yet are hatched. The Alternates box and \"Default recipes\" move under the recipe choice."
+          }
+        },
+        {
           "version": "1.16",
           "date": "2026-10-05",
           "texte": {

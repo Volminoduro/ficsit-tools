@@ -287,7 +287,7 @@ const CHECKS = {
       // montage dessiné : bloc déplié, séparateurs et groupeurs dessinés = ceux du calcul, dans les deux modes
       for (const m of ['manifold', 'equilibre']) {
         montage.checked = m === 'equilibre'; montage.dispatchEvent(new Event('change'));
-        S.deplies = []; document.getElementById('deplier').click();
+        S.replies = []; rendreGraphe();   // dépliés par défaut
         const blocs = [...document.querySelectorAll('#graphe .noeud.deplie')];
         if (blocs.length !== 5) out.push(`${m} : ${blocs.length} bloc(s) déplié(s) sur 5`);
         blocs.forEach(g => {

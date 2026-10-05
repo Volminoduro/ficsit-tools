@@ -319,8 +319,9 @@ const CHECKS = {
     // optimisation : solveur chargé à la demande (file:// compris), moins de ressources que le choix simple
     const rare = () => parseFloat(document.querySelector('#tuiles [data-k="rare"] .big').innerText.replace(/\s/g, '').replace(',', '.'));
     document.getElementById('alt').click();   // alternatives permises : l'optimum en profite
-    const avant = rare(), mode = document.getElementById('mode');
-    mode.value = 'ressources'; mode.dispatchEvent(new Event('change'));
+    const avant = rare(), mode = m => document.querySelector(`#mode [data-mode="${m}"]`).click();
+    mode('ressources');
+    if (!document.getElementById('alt').disabled || !document.getElementById('alt').checked) out.push('mode optimisé : alternatives pas imposées');
     for (let k = 0; k < 200 && !HIGHS && ETAT_H !== 'erreur'; k++) await new Promise(r => setTimeout(r, 100));
     if (!HIGHS) out.push('solveur non chargé : ' + ETAT_H);
     else {
@@ -329,13 +330,14 @@ const CHECKS = {
       if (/NaN|undefined/.test(document.body.innerText)) out.push('valeur invalide en mode optimisé');
       // place et synthèse : écart affiché face au standard, curseurs de poids seulement en synthèse
       for (const m of ['place', 'synthese']) {
-        mode.value = m; mode.dispatchEvent(new Event('change'));
+        mode(m);
+        if (document.querySelector(`#mode [data-mode="${m}"]`).getAttribute('aria-checked') !== 'true') out.push(m + ' : bouton pas coché');
         if (!document.querySelector('#tuiles [data-k="esp"] .ec')) out.push(m + ' : pas d\'écart face au standard');
         if (document.getElementById('poids').hidden !== (m !== 'synthese')) out.push(m + ' : curseurs de poids mal affichés');
         if (/NaN|undefined/.test(document.body.innerText)) out.push(m + ' : valeur invalide');
       }
     }
-    mode.value = 'defaut'; mode.dispatchEvent(new Event('change'));
+    mode('defaut');
     document.getElementById('alt').click();
     const sel = document.querySelector('#etapes select[data-item="Iron Plate"]');
     sel.value = 'brut'; sel.dispatchEvent(new Event('change', {bubbles: true}));

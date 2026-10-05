@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.15",
+          "date": "2026-10-05",
+          "texte": {
+            "fr": "Recettes alternatives visibles : un bloc qui en utilise une porte un liseré et une pastille ALT orange, avec le nom de la recette ; le bilan les liste, et un clic amène à leur bloc. Le bouton ⇄ d'un bloc affiche combien d'alternatives permises pourraient le remplacer. Le choix des recettes devient une règlette (Standard, puis Matière, Énergie, Place, Synthèse optimisées) : un clic au lieu de deux. En mode optimisé, les alternatives sont toujours incluses (case cochée et grisée). Les objectifs se choisissent dans une liste avec icônes et recherche (clavier compris), et la quantité a des boutons − et + de la hauteur du champ (Maj : par 10).",
+            "en": "Alternate recipes are visible: a box that uses one gets an orange edge and ALT tag, with the recipe's name; the summary lists them, and a click takes you to their box. A box's ⇄ button shows how many allowed alternates could replace it. The recipe choice becomes a segmented bar (Standard, then optimised Materials, Power, Space, All three): one click instead of two. In optimised modes, alternates are always included (box ticked and greyed out). Targets are picked from a list with icons and search (keyboard included), and the amount has − and + buttons as tall as the field (Shift: by 10)."
+          }
+        },
+        {
           "version": "1.14",
           "date": "2026-10-05",
           "texte": {

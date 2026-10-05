@@ -8,11 +8,19 @@
       },
       "entrees": [
         {
-          "version": "1.12",
+          "version": "1.13",
           "date": "2026-10-04",
           "texte": {
             "fr": "La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».",
             "en": "The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu."
+          }
+        },
+        {
+          "version": "1.12",
+          "date": "2026-10-04",
+          "texte": {
+            "fr": "Corrigé : faire glisser le fond du graphe surlignait le texte des blocs et des liens.",
+            "en": "Fixed: dragging the graph's background highlighted the text of boxes and links."
           }
         },
         {

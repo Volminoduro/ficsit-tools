@@ -238,7 +238,21 @@ const CHECKS = {
       if (svg.querySelectorAll('.lien').length !== 7) out.push(svg.querySelectorAll('.lien').length + ' liens dans le graphe (7 attendus)');
       if (/NaN|undefined/.test(svg.outerHTML)) out.push('valeur invalide dans le graphe');
       svg.querySelector('.noeud[data-id^="b:"]').dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
-      if (!svg.classList.contains('actif') || svg.querySelectorAll('.lien.lie').length !== 1) out.push('survol du minerai : ' + svg.querySelectorAll('.lien.lie').length + ' lien(s) isolé(s)');
+      if (!svg.classList.contains('actif')) out.push('survol du minerai : graphe pas isolé');
+      // survol de l'objectif : toute la lignée en amont s'allume (7 liens, 7 blocs), pas seulement le fournisseur direct
+      svg.querySelector('.noeud[data-id^="c:"]').dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
+      if (svg.querySelectorAll('.lien.lie').length !== 7 || svg.querySelectorAll('.noeud.lie').length !== 7)
+        out.push(`survol de l'objectif : ${svg.querySelectorAll('.lien.lie').length} lien(s), ${svg.querySelectorAll('.noeud.lie').length} bloc(s) en lumière (7 / 7 attendus)`);
+      // et toute la chaîne en aval : depuis le minerai, tout le graphe (il alimente tout)
+      svg.querySelector('.noeud[data-id^="b:"]').dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
+      if (svg.querySelectorAll('.lien.lie').length !== 7) out.push(`survol du minerai : ${svg.querySelectorAll('.lien.lie').length} lien(s) en aval (7 attendus)`);
+      // bloc du milieu (barres) : minerai → lingots → barres en amont, barres → vis → plaques renforcées → objectif en aval,
+      // mais pas la branche des plaques de fer (5 liens)
+      const tige = [...GEO.parId.values()].find(n => n.type === 'etape' && n.item === 'Iron Rod');
+      svg.querySelector(`.noeud[data-id="${CSS.escape(tige.id)}"]`).dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
+      const plaques = [...GEO.parId.values()].find(n => n.type === 'etape' && n.item === 'Iron Plate');
+      if (svg.querySelectorAll('.lien.lie').length !== 5 || svg.querySelector(`.noeud[data-id="${CSS.escape(plaques.id)}"]`).classList.contains('lie'))
+        out.push(`survol des barres : ${svg.querySelectorAll('.lien.lie').length} lien(s) (5 attendus), branche des plaques ${svg.querySelector(`.noeud[data-id="${CSS.escape(plaques.id)}"]`).classList.contains('lie') ? 'allumée' : 'éteinte'}`);
       // convoyeur sur chaque lien : 120 minerai → Mk.2
       const etiq = [...svg.querySelectorAll('.etiq')].map(x => x.textContent.replace(/\s+/g, ' '));
       if (!etiq.every(x => /Mk\.\d/.test(x)) || !etiq.some(x => /^120 Mk\.2$/.test(x))) out.push('convoyeurs des liens : ' + etiq.join(' | '));

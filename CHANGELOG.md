@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Planificateur de production / Production planner — `planner.html`
 
+- **v1.27** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
+  *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
 - **v1.26** (06/10/2026) : Graphe plus lisible : bien moins de flux qui se croisent (souvent de moitié, parfois plus), chaque bloc est aligné sur ceux qu'il alimente et dont il dépend pour des liens plus droits, et un flux qui saute plusieurs colonnes passe entre les blocs, en ligne droite, au lieu de les traverser.
   *EN — A clearer graph: far fewer flows crossing each other (often half as many, sometimes fewer still), each box is lined up with the boxes it feeds and draws from so links run straighter, and a flow that skips several columns runs straight between the boxes instead of through them.*
 - **v1.25** (06/10/2026) : Plusieurs plans à la fois, dans des onglets au-dessus des objectifs : « + » en ouvre un nouveau, double-clic ou ✎ pour le renommer, × pour le fermer ; chaque plan garde ses objectifs, ses recettes, son mode et sa disposition. Le plan affiché est aussi inscrit dans l'adresse de la page : envoyer le lien suffit pour le partager, il s'ouvre chez l'autre dans un nouvel onglet.
@@ -61,6 +63,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Débit vers le Dimensional Depot / Dimensional Depot throughput — `depot-dimensionnel.html`
 
+- **v1.23** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
+  *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
 - **v1.22** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
   *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
 - **v1.21** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
@@ -110,6 +114,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
+- **v1.42** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
+  *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
 - **v1.41** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
   *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
 - **v1.40** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
@@ -197,6 +203,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Module d'étalonnage / Calibration module — `ficsit_horloge.html`
 
+- **v1.22** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
+  *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
 - **v1.21** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
   *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
 - **v1.20** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
@@ -244,6 +252,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Optimiseur de recyclage / Recycling optimizer — `broyeur-excedents.html`
 
+- **v1.30** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
+  *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
 - **v1.29** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
   *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
 - **v1.28** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
@@ -307,6 +317,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Mémo de terrain / Field memo — `memo-ficsit.html`
 
+- **v1.22** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
+  *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
 - **v1.21** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
   *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
 - **v1.20** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
@@ -354,6 +366,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Complexité et valeur au broyeur / Complexity vs sink value — `arbre-production.html`
 
+- **v1.19** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
+  *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
 - **v1.18** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
   *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
 - **v1.17** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
@@ -395,6 +409,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Rentabilité énergétique par nœud / Power per node — `energie-noeuds.html`
 
+- **v1.12** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
+  *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
 - **v1.11** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
   *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
 - **v1.10** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.

@@ -154,6 +154,14 @@ html:not([lang|=en]) [data-l=en],html[lang|=en] [data-l=fr]{display:none!importa
 /* Barre de titre commune (dock) : pleine largeur, gris des barres de titre du jeu ; « FICSIT » et le nom de l'outil à
    gauche suivis d'« Accueil » et des onglets des outils, les boutons (journal, Ma partie, langue) en cases collées à droite. Elle réserve sa hauteur. */
 html.fbarre{padding-top:var(--f-barre-h);scroll-padding-top:calc(var(--f-barre-h) + 8px)}
+/* Changer d'outil : transition de page native (Chrome, Edge, Safari) — la barre de titre reste en place, le reste passe
+   en fondu court au lieu d'un écran qui clignote ; fond sombre dès le premier instant. */
+html{background:#1B1B1B}
+@view-transition{navigation:auto}
+.fdock{view-transition-name:fdock}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.14s}
+::view-transition-group(fdock),::view-transition-old(fdock),::view-transition-new(fdock){animation-duration:.1s}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
 .fdock{position:fixed;top:0;left:0;right:0;height:var(--f-barre-h);z-index:9999;display:flex;align-items:stretch;
   background:var(--f-barre);box-shadow:0 2px 12px rgba(0,0,0,.45)}
 .fdock > *{border-left:1px solid rgba(0,0,0,.28)}

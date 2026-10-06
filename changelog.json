@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.27",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.",
+            "en": "Fixed: a bubble with the tool's file name (\"planner.html\"…) followed the cursor all over the page."
+          }
+        },
+        {
           "version": "1.26",
           "date": "2026-10-06",
           "texte": {
@@ -232,6 +240,14 @@
       },
       "entrees": [
         {
+          "version": "1.23",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.",
+            "en": "Fixed: a bubble with the tool's file name (\"planner.html\"…) followed the cursor all over the page."
+          }
+        },
+        {
           "version": "1.22",
           "date": "2026-10-06",
           "texte": {
@@ -423,6 +439,14 @@
         "en": "Yield registry"
       },
       "entrees": [
+        {
+          "version": "1.42",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.",
+            "en": "Fixed: a bubble with the tool's file name (\"planner.html\"…) followed the cursor all over the page."
+          }
+        },
         {
           "version": "1.41",
           "date": "2026-10-06",
@@ -768,6 +792,14 @@
       },
       "entrees": [
         {
+          "version": "1.22",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.",
+            "en": "Fixed: a bubble with the tool's file name (\"planner.html\"…) followed the cursor all over the page."
+          }
+        },
+        {
           "version": "1.21",
           "date": "2026-10-06",
           "texte": {
@@ -951,6 +983,14 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.30",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.",
+            "en": "Fixed: a bubble with the tool's file name (\"planner.html\"…) followed the cursor all over the page."
+          }
+        },
         {
           "version": "1.29",
           "date": "2026-10-06",
@@ -1200,6 +1240,14 @@
       },
       "entrees": [
         {
+          "version": "1.22",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.",
+            "en": "Fixed: a bubble with the tool's file name (\"planner.html\"…) followed the cursor all over the page."
+          }
+        },
+        {
           "version": "1.21",
           "date": "2026-10-06",
           "texte": {
@@ -1384,6 +1432,14 @@
       },
       "entrees": [
         {
+          "version": "1.19",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.",
+            "en": "Fixed: a bubble with the tool's file name (\"planner.html\"…) followed the cursor all over the page."
+          }
+        },
+        {
           "version": "1.18",
           "date": "2026-10-06",
           "texte": {
@@ -1543,6 +1599,14 @@
         "en": "Power per node"
       },
       "entrees": [
+        {
+          "version": "1.12",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.",
+            "en": "Fixed: a bubble with the tool's file name (\"planner.html\"…) followed the cursor all over the page."
+          }
+        },
         {
           "version": "1.11",
           "date": "2026-10-06",

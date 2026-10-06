@@ -639,23 +639,24 @@ const INDICES = {
     if (await p.evaluate(() => document.getElementById('fjournal').hidden)) pb.push('barre : journal de l\'outil absent');
     await memoF0.evaluate(() => { window.__etat = 42; });
     await p.click('#fnav a[href="planner.html"]');
-    await p.waitForSelector('iframe[title="planner.html"]', {state: 'attached'});
+    await p.waitForSelector('iframe[data-outil="planner.html"]', {state: 'attached'});
     await p.waitForTimeout(600);
     const st = await p.evaluate(() => ({marque: window.__marque, hash: location.hash,
-      vus: [...document.querySelectorAll('iframe')].filter(f => f.classList.contains('actif')).map(f => f.title)}));
+      vus: [...document.querySelectorAll('iframe')].filter(f => f.classList.contains('actif')).map(f => f.dataset.outil)}));
+    if (await p.evaluate(() => [...document.querySelectorAll('iframe')].some(f => f.hasAttribute('title')))) pb.push('cadre avec un attribut title (bulle qui suit le curseur)');
     if (st.marque !== 1) pb.push('la coquille s\'est rechargée au changement d\'outil');
     if (!/^#planner\.html(\?p=|$)/.test(st.hash) || st.vus.join() !== 'planner.html') pb.push('outil affiché : ' + JSON.stringify(st));
     if (!/[Pp]lanif|[Pp]lanner/.test(await p.title())) pb.push('titre de la coquille : ' + await p.title());
     await p.goBack(); await p.waitForTimeout(300);
     const memoF = cadreDe('memo-ficsit.html');
-    const vus = await p.evaluate(() => [...document.querySelectorAll('iframe')].filter(f => f.classList.contains('actif')).map(f => f.title).join());
+    const vus = await p.evaluate(() => [...document.querySelectorAll('iframe')].filter(f => f.classList.contains('actif')).map(f => f.dataset.outil).join());
     if (vus !== 'memo-ficsit.html' || await memoF.evaluate(() => window.__etat) !== 42) pb.push('retour au mémo : cadre ' + vus + ', état perdu ?');
     // préchargement : tous les outils de l'accueil finissent ouverts en arrière-plan (liste = langue.json > outils + accueil)
     const attendus = ['index.html', ...require(path.join(ROOT, 'commun', 'langue.json')).outils.map(o => o.f)].sort().join();
     let ouverts = '';
     for (let k = 0; k < 60 && ouverts !== attendus; k++) {
       await p.waitForTimeout(500);
-      ouverts = (await p.evaluate(() => [...document.querySelectorAll('iframe')].filter(f => f.dataset.pret).map(f => f.title))).sort().join();
+      ouverts = (await p.evaluate(() => [...document.querySelectorAll('iframe')].filter(f => f.dataset.pret).map(f => f.dataset.outil))).sort().join();
     }
     if (ouverts !== attendus) pb.push(`préchargement : ${ouverts} au lieu de ${attendus}`);
     if (errs.length) pb.push('erreurs JS : ' + errs.slice(0, 2).join(' | '));

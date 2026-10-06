@@ -51,9 +51,11 @@
   function prevenir(f){ try{ f.contentWindow.postMessage({ficsitFond: f !== actif}, location.origin); }catch(e){} }
   function cadre(k, u){
     var f = cadres[k] = document.createElement('iframe');
-    f.title = k; f.src = u; f.dataset.u = u; f.inert = true;
+    // pas d'attribut title : le navigateur l'afficherait en bulle partout au-dessus de l'outil ; nom accessible par aria-label
+    f.dataset.outil = k; f.setAttribute('aria-label', k); f.src = u; f.dataset.u = u; f.inert = true;
     f.addEventListener('load', function(){
       f.dataset.pret = '1'; prevenir(f);
+      try{ if(f.contentDocument.title) f.setAttribute('aria-label', f.contentDocument.title); }catch(e){}
       if(f === voulu) apres(function(){ if(f === voulu) activer(f); });
     });
     document.body.appendChild(f);
@@ -76,7 +78,7 @@
   // barre partagée : nom de l'outil affiché, onglet courant, journal de l'outil
   function habiller(){
     if(!actif) return;
-    var k = actif.title, et = etats[k] || {};
+    var k = actif.dataset.outil, et = etats[k] || {};
     titre();
     if(et.titres) document.querySelectorAll('.fdock-id span[data-l]').forEach(function(sp){
       var x = (et.titres[sp.getAttribute('data-l')] || '').split(' — ');

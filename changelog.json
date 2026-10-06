@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.19",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Les modes optimisés suivent l'ordre des critères de l'infographie : Énergie, Matière, Espace (au lieu de « Place »), puis Synthèse. Même ordre pour les poids de la synthèse et les tuiles du bilan.",
+            "en": "Optimised modes follow the order of the infographic's criteria: Power, Materials, Space, then Synthesis. Same order for the synthesis weights and the summary tiles."
+          }
+        },
+        {
           "version": "1.18",
           "date": "2026-10-05",
           "texte": {

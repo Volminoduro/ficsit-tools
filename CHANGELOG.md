@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Planificateur de production / Production planner — `planner.html`
 
+- **v1.20** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
+  *EN — Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge).*
 - **v1.19** (06/10/2026) : Les modes optimisés suivent l'ordre des critères de l'infographie : Énergie, Matière, Espace (au lieu de « Place »), puis Synthèse. Même ordre pour les poids de la synthèse et les tuiles du bilan.
   *EN — Optimised modes follow the order of the infographic's criteria: Power, Materials, Space, then Synthesis. Same order for the synthesis weights and the summary tiles.*
 - **v1.18** (05/10/2026) : Les montages sont dépliés par défaut dans le graphe (séparateurs, machines, groupeurs de chaque étape) ; le bouton − d'un bloc le replie et la page s'en souvient, « Tout replier » / « Tout déplier » bascule l'ensemble. L'interrupteur manifold / équilibrage est plus grand.
@@ -47,6 +49,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Débit vers le Dimensional Depot / Dimensional Depot throughput — `depot-dimensionnel.html`
 
+- **v1.18** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
+  *EN — Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge).*
 - **v1.17** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
   *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
 - **v1.16** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
@@ -86,6 +90,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
+- **v1.37** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
+  *EN — Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge).*
 - **v1.36** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
   *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
 - **v1.35** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
@@ -163,6 +169,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Module d'étalonnage / Calibration module — `ficsit_horloge.html`
 
+- **v1.17** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
+  *EN — Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge).*
 - **v1.16** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
   *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
 - **v1.15** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
@@ -200,6 +208,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Optimiseur de recyclage / Recycling optimizer — `broyeur-excedents.html`
 
+- **v1.25** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
+  *EN — Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge).*
 - **v1.24** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
   *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
 - **v1.23** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
@@ -253,6 +263,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Mémo de terrain / Field memo — `memo-ficsit.html`
 
+- **v1.17** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
+  *EN — Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge).*
 - **v1.16** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
   *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
 - **v1.15** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
@@ -290,6 +302,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Complexité et valeur au broyeur / Complexity vs sink value — `arbre-production.html`
 
+- **v1.14** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
+  *EN — Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge).*
 - **v1.13** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
   *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
 - **v1.12** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
@@ -321,6 +335,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Rentabilité énergétique par nœud / Power per node — `energie-noeuds.html`
 
+- **v1.7** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
+  *EN — Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge).*
 - **v1.6** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
   *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
 - **v1.5** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».

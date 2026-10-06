@@ -38,6 +38,21 @@
   function lire(){ try{ var v = localStorage.getItem(CONF.cle); if(valide(v)) return v; }catch(e){} return CONF.defaut; }
   var cur = lire();
   document.documentElement.lang = cur;
+  // Changer d'outil sans « flash » (voir aussi ficsit-lang.css, @view-transition) :
+  // - la place de la barre de titre est réservée dès le chargement, avant qu'elle soit construite ;
+  // - un lien vers un outil survolé ou appuyé est préchargé (règles de spéculation, Chrome et Edge) : au clic, la page est
+  //   déjà prête. Le Depot est seulement téléchargé, pas exécuté : il lirait toute l'usine de la partie à chaque survol.
+  document.documentElement.classList.add('fbarre');
+  try{
+    if(HTMLScriptElement.supports && HTMLScriptElement.supports('speculationrules')){
+      var depot = {selector_matches: 'a[href*="depot-dimensionnel"]'}, sr = document.createElement('script');
+      sr.type = 'speculationrules';
+      sr.textContent = JSON.stringify({
+        prerender: [{where: {and: [{selector_matches: 'a[href$=".html"]'}, {not: depot}]}, eagerness: 'moderate'}],
+        prefetch: [{where: depot, eagerness: 'moderate'}]});
+      document.head.appendChild(sr);
+    }
+  }catch(e){}
 
   function attrs(){
     document.querySelectorAll('title[data-' + cur + ']').forEach(function(t){ document.title = t.getAttribute('data-' + cur); });

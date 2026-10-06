@@ -107,5 +107,7 @@ def injecter(p, contenu):
 if __name__ == "__main__":
     b = bloc()
     for p in sorted(ROOT.glob("*.html")):
+        if p.name == "outils.html":   # la coquille : pas de bloc commun (chaque outil a le sien, dans son cadre)
+            continue
         injecter(p, b)
         print(f"{p.name} : bloc langue à jour")

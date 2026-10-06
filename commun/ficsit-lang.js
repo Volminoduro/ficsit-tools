@@ -38,12 +38,38 @@
   function lire(){ try{ var v = localStorage.getItem(CONF.cle); if(valide(v)) return v; }catch(e){} return CONF.defaut; }
   var cur = lire();
   document.documentElement.lang = cur;
-  // Changer d'outil sans « flash » (voir aussi ficsit-lang.css, @view-transition) :
-  // - la place de la barre de titre est réservée dès le chargement, avant qu'elle soit construite ;
-  // - un lien vers un outil survolé ou appuyé est préchargé (règles de spéculation, Chrome et Edge) : au clic, la page est
-  //   déjà prête. Le Depot est seulement téléchargé, pas exécuté : il lirait toute l'usine de la partie à chaque survol.
+  // Changer d'outil sans rechargement : le site tient dans une coquille (outils.html), un cadre par outil, gardé ouvert.
+  // - Page ouverte seule (http) : elle bascule dans la coquille, à la même adresse (paramètres compris). Pas en local
+  //   (file://), ni sous un navigateur piloté (tests), ni avec ?seul=1.
+  // - Page dans la coquille : ses liens vers les autres pages du site demandent à la coquille de montrer l'outil voulu ;
+  //   son titre et son adresse (paramètres) sont remontés à la coquille.
+  // - Sinon (seule malgré tout) : place de la barre réservée dès le chargement, transition de page (ficsit-lang.css) et
+  //   préchargement des liens survolés (règles de spéculation ; le Depot seulement téléchargé : il lirait toute l'usine).
+  var ICI = location.pathname.split('/').pop() || 'index.html', COQ = false, BASCULE = false;
+  try{ COQ = window.parent !== window && window.parent.__ficsitCoquille === true; }catch(e){}
+  if(window.top === window && /^https?:$/.test(location.protocol) && !navigator.webdriver && !/[?&]seul=1(&|$)/.test(location.search))
+  { BASCULE = true; location.replace('outils.html#' + encodeURIComponent(ICI + location.search + location.hash)); }
   document.documentElement.classList.add('fbarre');
-  try{
+  function versCoquille(m){ try{ window.parent.postMessage(m, location.origin); }catch(e){} }
+  if(COQ){
+    document.documentElement.classList.add('en-coquille');
+    var adresse = function(){ versCoquille({ficsitAdresse: ICI + location.search + location.hash}); };
+    ['pushState', 'replaceState'].forEach(function(m){
+      var o = history[m];
+      history[m] = function(){ var r = o.apply(this, arguments); adresse(); return r; };
+    });
+    window.addEventListener('hashchange', adresse);
+    document.addEventListener('click', function(e){
+      if(e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target.closest && e.target.closest('a[href]');
+      if(!a || (a.target && a.target !== '_self') || a.hasAttribute('download')) return;
+      var u = new URL(a.getAttribute('href'), location.href), f = u.pathname.split('/').pop() || 'index.html';
+      if(u.origin !== location.origin || !/\.html$/.test(f) || f === 'outils.html') return;
+      if(f === ICI && !u.search && u.hash) return;   // ancre dans la même page
+      e.preventDefault();
+      versCoquille({ficsitOuvrir: f + u.search + u.hash});
+    }, true);
+  } else try{
     if(HTMLScriptElement.supports && HTMLScriptElement.supports('speculationrules')){
       var depot = {selector_matches: 'a[href*="depot-dimensionnel"]'}, sr = document.createElement('script');
       sr.type = 'speculationrules';
@@ -56,6 +82,7 @@
 
   function attrs(){
     document.querySelectorAll('title[data-' + cur + ']').forEach(function(t){ document.title = t.getAttribute('data-' + cur); });
+    if(COQ) versCoquille({ficsitTitre: document.title});
     var pre = 'data-' + cur + '-';
     document.querySelectorAll('*').forEach(function(el){
       for(var i = 0; i < el.attributes.length; i++){
@@ -161,7 +188,8 @@
     num: function(v, o){ return Number(v).toLocaleString(CONF.langues[cur].locale, o); }
   };
   window.addEventListener('storage', function(e){ if(e.key === CONF.cle && valide(e.newValue)) appliquer(e.newValue, false); });
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', monter); else monter();
+  // page qui bascule dans la coquille : rien à construire (le chargement s'arrête, parfois avant le <body>)
+  if(BASCULE){} else if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', monter); else monter();
   // hors ligne : sw.js (racine du site) garde une copie de chaque fichier servi ; en http(s) seulement
   if('serviceWorker' in navigator && /^https?:$/.test(location.protocol))
     window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });

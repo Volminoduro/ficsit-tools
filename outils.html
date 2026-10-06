@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FICSIT Inc.</title>
+<!-- Coquille du site : chaque outil s'ouvre dans son propre cadre, gardé ouvert ; changer d'outil montre un autre cadre,
+     sans rechargement, et chaque outil garde son état (défilement, zoom, saisies). Chaque outil garde aussi sa barre de
+     titre : ses liens vers les autres outils passent par ici (commun/ficsit-lang.js, mode « coquille »).
+     Adresse : outils.html#<page>[?…][#…], l'outil affiché et ses paramètres ; une page d'outil ouverte seule bascule ici
+     (sauf en local, file://, et avec ?seul=1). Pas de bloc commun dans cette page : scripts/langue.py la saute. -->
+<style>
+  html,body{margin:0;height:100%;overflow:hidden;background:#1B1B1B}
+  iframe{position:fixed;inset:0;width:100%;height:100%;border:0;display:block;background:#1B1B1B}
+  iframe[hidden]{display:none}
+</style>
+</head>
+<body>
+<script>
+(function(){
+  window.__ficsitCoquille = true;
+  var cadres = {}, actif = null;
+  var page = function(u){ return u.split(/[?#]/)[0] || 'index.html'; };
+  // outil demandé par l'adresse : une page .html du site, avec ses paramètres ; l'accueil sinon
+  function demande(){
+    var h = location.hash.slice(1);
+    try{ h = decodeURIComponent(h); }catch(e){ h = ''; }
+    return /^[\w.-]+\.html([?#].*)?$/.test(h) && page(h) !== 'outils.html' ? h : 'index.html';
+  }
+  function titre(){ try{ document.title = actif.contentDocument.title; }catch(e){} }
+  function montrer(u, historique){
+    var k = page(u), f = cadres[k];
+    if(!f){
+      f = cadres[k] = document.createElement('iframe');
+      f.title = k; f.src = u; f.dataset.u = u;
+      f.addEventListener('load', function(){ if(f === actif) titre(); });
+      document.body.appendChild(f);
+    } else if(u !== k && f.dataset.u !== u){ f.src = u; f.dataset.u = u; }   // lien avec paramètres : l'outil les relit
+    if(actif && actif !== f) actif.hidden = true;
+    f.hidden = false; actif = f;
+    if(historique === 'pousser') history.pushState(null, '', '#' + f.dataset.u);
+    else if(historique === 'remplacer') history.replaceState(null, '', '#' + f.dataset.u);
+    titre();
+    try{
+      f.contentWindow.focus();
+      // l'outil revient au premier plan : il revérifie la partie importée, comme au retour par l'historique
+      f.contentWindow.dispatchEvent(new PageTransitionEvent('pageshow', {persisted: true}));
+    }catch(e){}
+  }
+  addEventListener('message', function(e){
+    if(e.origin !== location.origin || !e.data) return;
+    var d = e.data, de = Object.keys(cadres).filter(function(k){ return cadres[k].contentWindow === e.source; })[0];
+    if(!de) return;
+    if(typeof d.ficsitOuvrir === 'string') montrer(d.ficsitOuvrir, 'pousser');
+    // l'outil affiché a changé de titre (langue) ou d'adresse (paramètres) : la coquille suit
+    if(cadres[de] === actif && typeof d.ficsitTitre === 'string') document.title = d.ficsitTitre;
+    if(typeof d.ficsitAdresse === 'string' && page(d.ficsitAdresse) === de){
+      cadres[de].dataset.u = d.ficsitAdresse;
+      if(cadres[de] === actif) history.replaceState(null, '', '#' + d.ficsitAdresse);
+    }
+  });
+  addEventListener('popstate', function(){ montrer(demande(), null); });
+  montrer(demande(), 'remplacer');
+})();
+</script>
+</body>
+</html>

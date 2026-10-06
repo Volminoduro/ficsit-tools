@@ -7,7 +7,7 @@
    À l'installation, les pages de l'accueil et le parseur sont copiés d'avance ; le reste l'est au fil des visites.
    Changer CACHE vide les anciennes copies (à faire si la stratégie change, pas à chaque version du site). */
 var CACHE = 'ficsit-tools-1';
-var AVANCE = ['./', 'index.html', 'satisfactory_infographie.html', 'ficsit_horloge.html', 'broyeur-excedents.html',
+var AVANCE = ['./', 'outils.html', 'index.html', 'satisfactory_infographie.html', 'ficsit_horloge.html', 'broyeur-excedents.html',
   'arbre-production.html', 'memo-ficsit.html', 'depot-dimensionnel.html',
   'energie-noeuds.html', 'planner.html'];
 

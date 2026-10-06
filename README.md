@@ -26,6 +26,8 @@ Pages statiques, publiées sur GitHub Pages depuis `main` ; chacune charge le bl
 
 ## Hors ligne
 
+`outils.html` (coquille) : le site tient dans une seule page, un cadre par outil, gardé ouvert ; changer d'onglet montre un autre cadre, sans rechargement, et chaque outil garde son état. Chaque outil garde sa barre de titre ; en coquille, le bloc commun (`commun/ficsit-lang.js`) envoie ses liens vers les autres pages à la coquille (`postMessage`) et lui remonte son titre et son adresse. L'adresse est `outils.html#<page>[?…]` ; une page ouverte seule en http(s) y bascule d'elle-même (pas en `file://`, ni sous un navigateur piloté, ni avec `?seul=1`). `scripts/langue.py` saute la coquille ; `scripts/test_pages.js` la vérifie en http (changer d'onglet ne recharge rien, l'état et « Précédent » sont gardés).
+
 `sw.js` (service worker, enregistré par le bloc commun en http(s) seulement) garde une copie de chaque fichier servi : pages en réseau d'abord (dernière version si possible), fichiers versionnés `?v=…` depuis la copie (une nouvelle version remplace l'ancienne), le reste (icônes, parseur, workers) depuis la copie avec rafraîchissement en arrière-plan. Les pages de l'accueil sont copiées dès l'installation. Changer la constante `CACHE` vide toutes les copies (seulement si la stratégie change).
 
 ## Données de jeu

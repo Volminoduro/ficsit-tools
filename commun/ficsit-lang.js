@@ -59,6 +59,11 @@
       history[m] = function(){ var r = o.apply(this, arguments); adresse(); return r; };
     });
     window.addEventListener('hashchange', adresse);
+    // outil passé en arrière-plan par la coquille : animations en pause (ficsit-lang.css, html.en-fond)
+    window.addEventListener('message', function(e){
+      if(e.source === window.parent && e.data && typeof e.data.ficsitFond === 'boolean')
+        document.documentElement.classList.toggle('en-fond', e.data.ficsitFond);
+    });
     document.addEventListener('click', function(e){
       if(e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       var a = e.target.closest && e.target.closest('a[href]');

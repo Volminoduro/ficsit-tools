@@ -158,6 +158,8 @@ html.fbarre{padding-top:var(--f-barre-h);scroll-padding-top:calc(var(--f-barre-h
    en fondu court au lieu d'un écran qui clignote ; fond sombre dès le premier instant. */
 html{background:#1B1B1B}
 @view-transition{navigation:auto}
+/* outil en arrière-plan dans la coquille (outils.html) : rien ne s'anime pour rien */
+html.en-fond *,html.en-fond *::before,html.en-fond *::after{animation-play-state:paused!important}
 .fdock{view-transition-name:fdock}
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.14s}
 ::view-transition-group(fdock),::view-transition-old(fdock),::view-transition-new(fdock){animation-duration:.1s}

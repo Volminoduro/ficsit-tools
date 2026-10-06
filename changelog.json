@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.26",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Graphe plus lisible : bien moins de flux qui se croisent (souvent de moitié, parfois plus), chaque bloc est aligné sur ceux qu'il alimente et dont il dépend pour des liens plus droits, et un flux qui saute plusieurs colonnes passe entre les blocs, en ligne droite, au lieu de les traverser.",
+            "en": "A clearer graph: far fewer flows crossing each other (often half as many, sometimes fewer still), each box is lined up with the boxes it feeds and draws from so links run straighter, and a flow that skips several columns runs straight between the boxes instead of through them."
+          }
+        },
+        {
           "version": "1.25",
           "date": "2026-10-06",
           "texte": {

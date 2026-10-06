@@ -53,6 +53,9 @@
   --f-encre3:#919191;
   /* orange FICSIT */
   --f-or:#E59345;
+  /* convoyeurs Mk.1 → Mk.6 : du froid au chaud, une seule échelle pour tout le site (mémo, planificateur) ;
+     Mk.1 et Mk.2 assez clairs pour se voir en trait fin sur le fond sombre */
+  --f-mk1:#737A99; --f-mk2:#8E95CC; --f-mk3:#6FA3CF; --f-mk4:#C08A3E; --f-mk5:#E59345; --f-mk6:#D6472F;
   --f-or-clair:#F2AA63;
   --f-or-fonce:#C27530;
   --f-or-encre:#FFFFFF;    /* texte posé sur l'orange : blanc, comme le jeu */

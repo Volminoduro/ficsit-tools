@@ -292,11 +292,16 @@ const CHECKS = {
         if (blocs.length !== 5) out.push(`${m} : ${blocs.length} bloc(s) déplié(s) sur 5`);
         blocs.forEach(g => {
           const n = GEO.parId.get(g.dataset.id), mo = M.montage(n.etape, m, DERNIER.D, LIQ);
-          const ent = mo.entrees.find(l => !l.liquide), sor = mo.sorties.find(l => !l.liquide);
-          const sep = ent ? ent.separateurs : 0, grp = (ent ? ent.groupeurs : 0) + (sor ? sor.groupeurs : 0);
+          // toutes les entrées et sorties solides sont dessinées (les tuyaux n'ont ni séparateur ni groupeur)
+          const sol = ls => ls.filter(l => !l.liquide), som = (ls, k) => sol(ls).reduce((s0, l) => s0 + l[k], 0);
+          const sep = som(mo.entrees, 'separateurs'), grp = som(mo.entrees, 'groupeurs') + som(mo.sorties, 'groupeurs');
           const ds = g.querySelectorAll('.sep').length, dg = g.querySelectorAll('.grp').length;
           if (ds !== sep || dg !== grp) out.push(`${m} ${g.dataset.id} : dessin ${ds} sép. / ${dg} grp., calcul ${sep} / ${grp}`);
           if (g.querySelectorAll('.mach').length !== n.etape.entieres) out.push(`${m} ${g.dataset.id} : machines dessinées`);
+          // une ligne d'entrée par ingrédient, chacune avec son point d'arrivée
+          if (Object.keys(n.sch.yEs).length !== mo.entrees.length || Object.keys(n.sch.ySs).length !== mo.sorties.length)
+            out.push(`${m} ${g.dataset.id} : ${Object.keys(n.sch.yEs).length} ligne(s) d'entrée dessinée(s) pour ${mo.entrees.length}`);
+          if (/même montage|same layout/.test(g.textContent)) out.push(`${m} ${g.dataset.id} : entrée rappelée en note au lieu d'être dessinée`);
         });
         if (/NaN|undefined/.test(document.querySelector('#graphe svg').outerHTML)) out.push(m + ' : valeur invalide dans le montage dessiné');
       }

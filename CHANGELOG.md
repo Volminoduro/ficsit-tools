@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Planificateur de production / Production planner — `planner.html`
 
+- **v1.29** (06/10/2026) : Montage déplié : chaque ingrédient a maintenant sa propre ligne dessinée jusqu'aux machines, avec son nom, ses séparateurs et son convoyeur (le charbon et le minerai de fer d'une fonderie d'acier, par exemple), au lieu d'une note « même montage » sous le bloc. Les sous-produits ont aussi leur ligne de sortie. Chaque lien du graphe arrive sur la ligne de son item, et les lignes sont rangées selon la place des blocs voisins pour éviter que les flux se croisent.
+  *EN — Unfolded layout: each ingredient now has its own line drawn up to the machines, with its name, splitters and belt (the coal and the iron ore of a steel foundry, for instance), instead of a "same layout" note under the box. By-products get their own output line too. Each graph link reaches its item's line, and the lines are ordered by where the neighbouring boxes sit so flows do not cross.*
 - **v1.28** (06/10/2026) : Les convoyeurs du graphe prennent les couleurs du mémo de terrain, du froid au chaud : Mk.1 ardoise, Mk.2 lavande, Mk.3 bleu, Mk.4 bronze, Mk.5 orange, Mk.6 rouge. Une seule échelle pour tout le site.
   *EN — Graph belts take the field notes' colours, from cool to warm: Mk.1 slate, Mk.2 lavender, Mk.3 blue, Mk.4 bronze, Mk.5 orange, Mk.6 red. One scale for the whole site.*
 - **v1.27** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.

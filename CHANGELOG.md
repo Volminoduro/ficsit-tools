@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Planificateur de production / Production planner — `planner.html`
 
+- **v1.19** (06/10/2026) : Les modes optimisés suivent l'ordre des critères de l'infographie : Énergie, Matière, Espace (au lieu de « Place »), puis Synthèse. Même ordre pour les poids de la synthèse et les tuiles du bilan.
+  *EN — Optimised modes follow the order of the infographic's criteria: Power, Materials, Space, then Synthesis. Same order for the synthesis weights and the summary tiles.*
 - **v1.18** (05/10/2026) : Les montages sont dépliés par défaut dans le graphe (séparateurs, machines, groupeurs de chaque étape) ; le bouton − d'un bloc le replie et la page s'en souvient, « Tout replier » / « Tout déplier » bascule l'ensemble. L'interrupteur manifold / équilibrage est plus grand.
   *EN — Layouts are unfolded by default in the graph (each step's splitters, machines, mergers); a box's − button folds it and the page remembers, "Fold all" / "Expand all" toggles them all. The manifold / load balancing switch is larger.*
 - **v1.17** (05/10/2026) : Le palier se choisit dans la même grille que les autres outils (icône et numéro de chaque palier du HUB). Avec une partie importée, le palier atteint est sélectionné tout seul à chaque import ; on peut descendre plus bas pour préparer un plan plus modeste, les paliers pas encore atteints sont hachurés. La case Alternatives et « Recettes par défaut » passent sous le choix des recettes.

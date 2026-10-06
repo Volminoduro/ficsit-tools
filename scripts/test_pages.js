@@ -581,10 +581,16 @@ const INDICES = {
     const errs = []; p.on('pageerror', e => errs.push(e.message));
     await p.goto(base + 'outils.html#memo-ficsit.html');
     await p.evaluate(() => { window.__marque = 1; });
-    const memo = p.frameLocator('iframe[title="memo-ficsit.html"]');
-    await memo.locator('#fnav a[href="planner.html"]').waitFor({state: 'attached'});
-    await p.frames().find(f => f.url().endsWith('memo-ficsit.html')).evaluate(() => { window.__etat = 42; });
-    await memo.locator('#fnav a[href="planner.html"]').click();
+    // barre unique : celle de la coquille ; l'outil dans son cadre n'en a pas
+    await p.waitForFunction(() => document.querySelector('iframe.actif'));
+    const cadreDe = n => p.frames().find(f => f.parentFrame() && new URL(f.url()).pathname.endsWith('/' + n));   // pas la coquille (#memo-ficsit.html)
+    const memoF0 = cadreDe('memo-ficsit.html');
+    if (await memoF0.evaluate(() => !!document.getElementById('fdock'))) pb.push('barre de titre dans le cadre de l\'outil');
+    try { await p.waitForFunction(() => /Mémo|Memo/i.test(document.querySelector('.fdock-id').textContent), null, {timeout: 5000}); }
+    catch (e) { pb.push('barre : nom de l\'outil absent'); }
+    if (await p.evaluate(() => document.getElementById('fjournal').hidden)) pb.push('barre : journal de l\'outil absent');
+    await memoF0.evaluate(() => { window.__etat = 42; });
+    await p.click('#fnav a[href="planner.html"]');
     await p.waitForSelector('iframe[title="planner.html"]', {state: 'attached'});
     await p.waitForTimeout(600);
     const st = await p.evaluate(() => ({marque: window.__marque, hash: location.hash,
@@ -593,7 +599,7 @@ const INDICES = {
     if (st.hash !== '#planner.html' || st.vus.join() !== 'planner.html') pb.push('outil affiché : ' + JSON.stringify(st));
     if (!/[Pp]lanif|[Pp]lanner/.test(await p.title())) pb.push('titre de la coquille : ' + await p.title());
     await p.goBack(); await p.waitForTimeout(300);
-    const memoF = p.frames().find(f => f.url().endsWith('memo-ficsit.html'));
+    const memoF = cadreDe('memo-ficsit.html');
     const vus = await p.evaluate(() => [...document.querySelectorAll('iframe')].filter(f => f.classList.contains('actif')).map(f => f.title).join());
     if (vus !== 'memo-ficsit.html' || await memoF.evaluate(() => window.__etat) !== 42) pb.push('retour au mémo : cadre ' + vus + ', état perdu ?');
     // préchargement : tous les outils de l'accueil finissent ouverts en arrière-plan (liste = langue.json > outils + accueil)

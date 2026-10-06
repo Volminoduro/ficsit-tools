@@ -45,12 +45,27 @@
   //   son titre et son adresse (paramètres) sont remontés à la coquille.
   // - Sinon (seule malgré tout) : place de la barre réservée dès le chargement, transition de page (ficsit-lang.css) et
   //   préchargement des liens survolés (règles de spéculation ; le Depot seulement téléchargé : il lirait toute l'usine).
-  var ICI = location.pathname.split('/').pop() || 'index.html', COQ = false, BASCULE = false;
+  // COQ : page d'outil dans un cadre de la coquille ; COQUILLE : la coquille elle-même (outils.html), qui porte la barre
+  var ICI = location.pathname.split('/').pop() || 'index.html', COQ = false, BASCULE = false, COQUILLE = ICI === 'outils.html';
   try{ COQ = window.parent !== window && window.parent.__ficsitCoquille === true; }catch(e){}
-  if(window.top === window && /^https?:$/.test(location.protocol) && !navigator.webdriver && !/[?&]seul=1(&|$)/.test(location.search))
+  if(window.top === window && !COQUILLE && /^https?:$/.test(location.protocol) && !navigator.webdriver && !/[?&]seul=1(&|$)/.test(location.search))
   { BASCULE = true; location.replace('outils.html#' + encodeURIComponent(ICI + location.search + location.hash)); }
   document.documentElement.classList.add('fbarre');
-  function versCoquille(m){ try{ window.parent.postMessage(m, location.origin); }catch(e){} }
+  function versCoquille(m){
+    if(COQUILLE){ if(m.ficsitOuvrir && window.__ficsitOuvrir) window.__ficsitOuvrir(m.ficsitOuvrir); return; }
+    try{ window.parent.postMessage(m, location.origin); }catch(e){}
+  }
+  // liens vers une autre page du site : c'est la coquille qui montre l'outil voulu (dans la coquille : ses onglets)
+  if(COQ || COQUILLE) document.addEventListener('click', function(e){
+    if(e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target.closest && e.target.closest('a[href]');
+    if(!a || (a.target && a.target !== '_self') || a.hasAttribute('download')) return;
+    var u = new URL(a.getAttribute('href'), location.href), f = u.pathname.split('/').pop() || 'index.html';
+    if(u.origin !== location.origin || !/\.html$/.test(f) || f === 'outils.html') return;
+    if(f === ICI && !u.search && u.hash) return;   // ancre dans la même page
+    e.preventDefault();
+    versCoquille({ficsitOuvrir: f + u.search + u.hash});
+  }, true);
   if(COQ){
     document.documentElement.classList.add('en-coquille');
     var adresse = function(){ versCoquille({ficsitAdresse: ICI + location.search + location.hash}); };
@@ -64,17 +79,7 @@
       if(e.source === window.parent && e.data && typeof e.data.ficsitFond === 'boolean')
         document.documentElement.classList.toggle('en-fond', e.data.ficsitFond);
     });
-    document.addEventListener('click', function(e){
-      if(e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      var a = e.target.closest && e.target.closest('a[href]');
-      if(!a || (a.target && a.target !== '_self') || a.hasAttribute('download')) return;
-      var u = new URL(a.getAttribute('href'), location.href), f = u.pathname.split('/').pop() || 'index.html';
-      if(u.origin !== location.origin || !/\.html$/.test(f) || f === 'outils.html') return;
-      if(f === ICI && !u.search && u.hash) return;   // ancre dans la même page
-      e.preventDefault();
-      versCoquille({ficsitOuvrir: f + u.search + u.hash});
-    }, true);
-  } else try{
+  } else if(!COQUILLE) try{
     if(HTMLScriptElement.supports && HTMLScriptElement.supports('speculationrules')){
       var depot = {selector_matches: 'a[href*="depot-dimensionnel"]'}, sr = document.createElement('script');
       sr.type = 'speculationrules';
@@ -140,8 +145,29 @@
     boutons(); attrs();
     if(change) subs.forEach(function(fn){ try{ fn(l); }catch(e){ console.error(e); } });
   }
+  // dans un cadre de la coquille : pas de barre ; l'outil dit à la coquille son titre et l'état de son journal (bouton
+  // de la barre partagée), et ouvre ou ferme son journal à sa demande
+  function relais(){
+    var r = document.getElementById('journal'), b = r && r.querySelector('.pn-btn'), t = document.querySelector('title');
+    var envoyer = function(){
+      var tt = {}; CODES.forEach(function(c){ tt[c] = t && (t.getAttribute('data-' + c) || t.textContent) || ''; });
+      versCoquille({ficsitEtat: {titres: tt, journal: b ? {html: b.innerHTML, neuf: r.classList.contains('pn-neuf'),
+        ouvert: b.getAttribute('aria-expanded') === 'true', titre: b.getAttribute('title') || ''} : null}});
+    };
+    if(r) new MutationObserver(envoyer).observe(r, {attributes: true, subtree: true, childList: true, characterData: true});
+    window.addEventListener('message', function(e){
+      if(e.source !== window.parent || !e.data) return;
+      if(e.data.ficsitJournal === 'basculer' && b) b.click();
+      if(e.data.ficsitEtat === '?') envoyer();
+    });
+    envoyer();
+  }
   function monter(){
-    if(document.getElementById('flang')) return;
+    if(document.getElementById('flang') || document.getElementById('fia')) return;
+    if(COQ){
+      var ia0 = document.createElement('p'); ia0.id = 'fia'; ia0.className = 'fia'; document.body.appendChild(ia0);
+      relais(); boutons(); attrs(); return;
+    }
     var w = document.createElement('div');
     w.id = 'flang'; w.className = 'flang'; w.setAttribute('role', 'group');
     w.innerHTML = CODES.map(function(c){ var L = CONF.langues[c];
@@ -175,7 +201,7 @@
     document.querySelectorAll('[data-fdock]').forEach(function(el){ d.appendChild(el); });
     d.appendChild(w);
     // Mention IA, en bas de chaque page.
-    var ia = document.createElement('p'); ia.id = 'fia'; ia.className = 'fia'; document.body.appendChild(ia);
+    if(!COQUILLE){ var ia = document.createElement('p'); ia.id = 'fia'; ia.className = 'fia'; document.body.appendChild(ia); }
     boutons(); attrs();
   }
 

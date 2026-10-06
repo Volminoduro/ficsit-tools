@@ -2,13 +2,19 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<!-- FICSIT-LANG:START -->
+<link rel="stylesheet" href="commun/ficsit-commun.css?v=82db9fc4ab">
+<script src="commun/ficsit-commun.js?v=2f7f9903d3"></script>
+<!-- FICSIT-LANG:END -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FICSIT Inc.</title>
+<title data-fr="FICSIT Inc. — Outils" data-en="FICSIT Inc. — Tools">FICSIT Inc. — Outils</title>
 <!-- Coquille du site : chaque outil s'ouvre dans son propre cadre, gardé ouvert ; changer d'outil montre un autre cadre,
      sans rechargement, et chaque outil garde son état (défilement, zoom, saisies). Chaque outil garde aussi sa barre de
-     titre : ses liens vers les autres outils passent par ici (commun/ficsit-lang.js, mode « coquille »).
+     titre : la barre (identité, accueil, onglets, journal, « Ma partie », langue) est celle de la coquille, construite par
+     le bloc commun (commun/ficsit-lang.js) et partagée par tous ; un outil dans son cadre n'a pas de barre à lui : il
+     donne son titre et l'état de son journal, et ses liens vers les autres outils passent par ici.
      Adresse : outils.html#<page>[?…][#…], l'outil affiché et ses paramètres ; une page d'outil ouverte seule bascule ici
-     (sauf en local, file://, et avec ?seul=1). Pas de bloc commun dans cette page : scripts/langue.py la saute.
+     (sauf en local, file://, et avec ?seul=1).
      Une fois l'outil demandé chargé, les autres le sont en arrière-plan, un à la fois (PRECHARGE, même liste que
      langue.json > outils, vérifiée par scripts/test_pages.js ; le Depot en dernier : avec une partie, il lit toute
      l'usine) : à la première visite d'un onglet, l'outil est déjà prêt. Tous restent dessinés, empilés ; changer d'outil
@@ -17,23 +23,28 @@
   html,body{margin:0;height:100%;overflow:hidden;background:#1B1B1B}
   /* tous les outils restent dessinés, empilés : seul celui du dessus se voit et répond (changer d'outil = le passer devant,
      sans rien redessiner) ; un outil pas encore prêt reste dessous, l'outil affiché ne bouge pas jusqu'à ce qu'il le soit */
-  iframe{position:fixed;inset:0;width:100%;height:100%;border:0;display:block;background:#1B1B1B;z-index:1;pointer-events:none}
+  iframe{position:fixed;left:0;right:0;bottom:0;top:var(--f-barre-h);width:100%;height:calc(100% - var(--f-barre-h));border:0;
+    display:block;background:#1B1B1B;z-index:1;pointer-events:none}
   iframe.actif{z-index:2;pointer-events:auto}
   /* chargement d'un outil pas encore prêt : liseré orange en haut, l'outil courant reste à l'écran */
-  #charge{position:fixed;top:0;left:0;height:3px;width:100%;z-index:3;pointer-events:none;opacity:0;transition:opacity .2s;
+  #charge{position:fixed;top:var(--f-barre-h);left:0;height:3px;width:100%;z-index:3;pointer-events:none;opacity:0;transition:opacity .2s;
     background:linear-gradient(90deg,transparent,#E59345 40%,#F2AA63 60%,transparent) 0 0/40% 100% no-repeat}
   #charge.en-cours{opacity:1;animation:charge 1s linear infinite}
   @keyframes charge{from{background-position:-40% 0}to{background-position:140% 0}}
 </style>
 </head>
 <body>
+<!-- reflet du journal de l'outil affiché, placé dans la barre par le bloc commun (data-fdock) -->
+<button type="button" id="fjournal" class="fjournal" data-fdock hidden aria-expanded="false"></button>
 <div id="charge" aria-hidden="true"></div>
 <script>
 (function(){
   window.__ficsitCoquille = true;
   var PRECHARGE = ['index.html', 'planner.html', 'satisfactory_infographie.html', 'ficsit_horloge.html', 'memo-ficsit.html',
     'energie-noeuds.html', 'broyeur-excedents.html', 'arbre-production.html', 'depot-dimensionnel.html'];
-  var cadres = {}, actif = null, voulu = null, charge = document.getElementById('charge');
+  var cadres = {}, actif = null, voulu = null, charge = document.getElementById('charge'), etats = {};
+  var journal = document.getElementById('fjournal');
+  window.__ficsitOuvrir = function(u){ montrer(u, 'pousser'); };   // onglets de la barre (commun/ficsit-lang.js)
   var page = function(u){ return u.split(/[?#]/)[0] || 'index.html'; };
   var apres = function(fn){ requestAnimationFrame(function(){ requestAnimationFrame(fn); }); };   // une fois dessiné
   // dit à chaque outil s'il est au premier plan (en arrière-plan, ses animations sont en pause)
@@ -62,6 +73,27 @@
     return /^[\w.-]+\.html([?#].*)?$/.test(h) && page(h) !== 'outils.html' ? h : 'index.html';
   }
   function titre(){ try{ document.title = actif.contentDocument.title; }catch(e){} }
+  // barre partagée : nom de l'outil affiché, onglet courant, journal de l'outil
+  function habiller(){
+    if(!actif) return;
+    var k = actif.title, et = etats[k] || {};
+    titre();
+    if(et.titres) document.querySelectorAll('.fdock-id span[data-l]').forEach(function(sp){
+      var x = (et.titres[sp.getAttribute('data-l')] || '').split(' — ');
+      sp.textContent = /^FICSIT/.test(x[0]) && x[1] ? x[1] : x[0];
+    });
+    document.querySelectorAll('#fnav a').forEach(function(a){
+      if(a.getAttribute('href') === k) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    });
+    var h = document.getElementById('fhome'); if(h) h.hidden = k === 'index.html';
+    var j = et.journal;
+    journal.hidden = !j;
+    if(j){ journal.innerHTML = j.html; journal.title = j.titre; journal.classList.toggle('neuf', j.neuf);
+      journal.setAttribute('aria-expanded', String(j.ouvert)); }
+  }
+  journal.addEventListener('click', function(){ if(actif) try{ actif.contentWindow.postMessage({ficsitJournal: 'basculer'}, location.origin); }catch(e){} });
+  document.addEventListener('DOMContentLoaded', habiller);
+  if(window.FicsitLang) FicsitLang.on(function(){ setTimeout(habiller, 0); });
   // passe l'outil devant : instantané, il est déjà dessiné
   function activer(f){
     var avant = actif;
@@ -69,7 +101,8 @@
     if(avant && avant !== f){ avant.classList.remove('actif'); avant.inert = true; }
     f.classList.add('actif'); f.inert = false; actif = f;
     Object.keys(cadres).forEach(function(k){ prevenir(cadres[k]); });
-    titre();
+    try{ f.contentWindow.postMessage({ficsitEtat: '?'}, location.origin); }catch(e){}
+    habiller();
     try{
       f.contentWindow.focus();
       // l'outil revient au premier plan : il revérifie la partie importée, comme au retour par l'historique
@@ -93,6 +126,7 @@
     if(typeof d.ficsitOuvrir === 'string') montrer(d.ficsitOuvrir, 'pousser');
     // l'outil affiché a changé de titre (langue) ou d'adresse (paramètres) : la coquille suit
     if(cadres[de] === actif && typeof d.ficsitTitre === 'string') document.title = d.ficsitTitre;
+    if(d.ficsitEtat && typeof d.ficsitEtat === 'object'){ etats[de] = d.ficsitEtat; if(cadres[de] === actif) habiller(); }
     if(typeof d.ficsitAdresse === 'string' && page(d.ficsitAdresse) === de){
       cadres[de].dataset.u = d.ficsitAdresse;
       if(cadres[de] === actif) history.replaceState(null, '', '#' + d.ficsitAdresse);

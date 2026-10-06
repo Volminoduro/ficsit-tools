@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Planificateur de production / Production planner — `planner.html`
 
+- **v1.24** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
+  *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
 - **v1.23** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
   *EN — No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations.*
 - **v1.22** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
@@ -55,6 +57,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Débit vers le Dimensional Depot / Dimensional Depot throughput — `depot-dimensionnel.html`
 
+- **v1.22** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
+  *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
 - **v1.21** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
   *EN — No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations.*
 - **v1.20** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
@@ -102,6 +106,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
+- **v1.41** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
+  *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
 - **v1.40** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
   *EN — No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations.*
 - **v1.39** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
@@ -187,6 +193,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Module d'étalonnage / Calibration module — `ficsit_horloge.html`
 
+- **v1.21** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
+  *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
 - **v1.20** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
   *EN — No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations.*
 - **v1.19** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
@@ -232,6 +240,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Optimiseur de recyclage / Recycling optimizer — `broyeur-excedents.html`
 
+- **v1.29** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
+  *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
 - **v1.28** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
   *EN — No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations.*
 - **v1.27** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
@@ -293,6 +303,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Mémo de terrain / Field memo — `memo-ficsit.html`
 
+- **v1.21** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
+  *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
 - **v1.20** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
   *EN — No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations.*
 - **v1.19** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
@@ -338,6 +350,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Complexité et valeur au broyeur / Complexity vs sink value — `arbre-production.html`
 
+- **v1.18** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
+  *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
 - **v1.17** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
   *EN — No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations.*
 - **v1.16** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
@@ -377,6 +391,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Rentabilité énergétique par nœud / Power per node — `energie-noeuds.html`
 
+- **v1.11** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
+  *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
 - **v1.10** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
   *EN — No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations.*
 - **v1.9** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.

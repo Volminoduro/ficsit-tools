@@ -588,14 +588,22 @@ const INDICES = {
     await p.waitForSelector('iframe[title="planner.html"]', {state: 'attached'});
     await p.waitForTimeout(600);
     const st = await p.evaluate(() => ({marque: window.__marque, hash: location.hash,
-      vus: [...document.querySelectorAll('iframe')].filter(f => !f.hidden).map(f => f.title)}));
+      vus: [...document.querySelectorAll('iframe')].filter(f => !f.classList.contains('cache')).map(f => f.title)}));
     if (st.marque !== 1) pb.push('la coquille s\'est rechargée au changement d\'outil');
     if (st.hash !== '#planner.html' || st.vus.join() !== 'planner.html') pb.push('outil affiché : ' + JSON.stringify(st));
     if (!/[Pp]lanif|[Pp]lanner/.test(await p.title())) pb.push('titre de la coquille : ' + await p.title());
     await p.goBack(); await p.waitForTimeout(300);
     const memoF = p.frames().find(f => f.url().endsWith('memo-ficsit.html'));
-    const vus = await p.evaluate(() => [...document.querySelectorAll('iframe')].filter(f => !f.hidden).map(f => f.title).join());
+    const vus = await p.evaluate(() => [...document.querySelectorAll('iframe')].filter(f => !f.classList.contains('cache')).map(f => f.title).join());
     if (vus !== 'memo-ficsit.html' || await memoF.evaluate(() => window.__etat) !== 42) pb.push('retour au mémo : cadre ' + vus + ', état perdu ?');
+    // préchargement : tous les outils de l'accueil finissent ouverts en arrière-plan (liste = langue.json > outils + accueil)
+    const attendus = ['index.html', ...require(path.join(ROOT, 'commun', 'langue.json')).outils.map(o => o.f)].sort().join();
+    let ouverts = '';
+    for (let k = 0; k < 60 && ouverts !== attendus; k++) {
+      await p.waitForTimeout(500);
+      ouverts = (await p.evaluate(() => [...document.querySelectorAll('iframe')].filter(f => f.dataset.pret).map(f => f.title))).sort().join();
+    }
+    if (ouverts !== attendus) pb.push(`préchargement : ${ouverts} au lieu de ${attendus}`);
     if (errs.length) pb.push('erreurs JS : ' + errs.slice(0, 2).join(' | '));
     pb.forEach(x => echecs.push('coquille : ' + x));
     console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} coquille (onglets sans rechargement)`);

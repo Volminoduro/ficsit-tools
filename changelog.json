@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.21",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.",
+            "en": "The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and \"Back\" returns to the previous tool."
+          }
+        },
+        {
           "version": "1.20",
           "date": "2026-10-06",
           "texte": {
@@ -184,6 +192,14 @@
       },
       "entrees": [
         {
+          "version": "1.19",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.",
+            "en": "The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and \"Back\" returns to the previous tool."
+          }
+        },
+        {
           "version": "1.18",
           "date": "2026-10-06",
           "texte": {
@@ -343,6 +359,14 @@
         "en": "Yield registry"
       },
       "entrees": [
+        {
+          "version": "1.38",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.",
+            "en": "The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and \"Back\" returns to the previous tool."
+          }
+        },
         {
           "version": "1.37",
           "date": "2026-10-06",
@@ -656,6 +680,14 @@
       },
       "entrees": [
         {
+          "version": "1.18",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.",
+            "en": "The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and \"Back\" returns to the previous tool."
+          }
+        },
+        {
           "version": "1.17",
           "date": "2026-10-06",
           "texte": {
@@ -807,6 +839,14 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.26",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.",
+            "en": "The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and \"Back\" returns to the previous tool."
+          }
+        },
         {
           "version": "1.25",
           "date": "2026-10-06",
@@ -1024,6 +1064,14 @@
       },
       "entrees": [
         {
+          "version": "1.18",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.",
+            "en": "The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and \"Back\" returns to the previous tool."
+          }
+        },
+        {
           "version": "1.17",
           "date": "2026-10-06",
           "texte": {
@@ -1176,6 +1224,14 @@
       },
       "entrees": [
         {
+          "version": "1.15",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.",
+            "en": "The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and \"Back\" returns to the previous tool."
+          }
+        },
+        {
           "version": "1.14",
           "date": "2026-10-06",
           "texte": {
@@ -1303,6 +1359,14 @@
         "en": "Power per node"
       },
       "entrees": [
+        {
+          "version": "1.8",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.",
+            "en": "The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and \"Back\" returns to the previous tool."
+          }
+        },
         {
           "version": "1.7",
           "date": "2026-10-06",

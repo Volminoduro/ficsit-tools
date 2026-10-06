@@ -564,6 +564,44 @@ const INDICES = {
     await p.close();
   }
 
+  // coquille (outils.html, en http) : un onglet de la barre montre l'outil dans un autre cadre, sans recharger la page ;
+  // l'outil précédent garde son état ; l'adresse et le titre suivent ; « Précédent » revient au premier outil
+  {
+    const http = require('http'), fs = require('fs');
+    const TYPES = {'.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.webp': 'image/webp',
+      '.woff2': 'font/woff2', '.wasm': 'application/wasm', '.svg': 'image/svg+xml', '.png': 'image/png'};
+    const srv = http.createServer((q, r) => {
+      const f = path.join(ROOT, decodeURIComponent(q.url.split('?')[0]).replace(/^\/+/, '') || 'index.html');
+      fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); r.end(); return; }
+        r.writeHead(200, {'Content-Type': TYPES[path.extname(f)] || 'application/octet-stream'}); r.end(d); });
+    });
+    await new Promise(res => srv.listen(0, '127.0.0.1', res));
+    const base = `http://127.0.0.1:${srv.address().port}/`, pb = [];
+    const p = await b.newPage({viewport: {width: 1280, height: 800}});
+    const errs = []; p.on('pageerror', e => errs.push(e.message));
+    await p.goto(base + 'outils.html#memo-ficsit.html');
+    await p.evaluate(() => { window.__marque = 1; });
+    const memo = p.frameLocator('iframe[title="memo-ficsit.html"]');
+    await memo.locator('#fnav a[href="planner.html"]').waitFor({state: 'attached'});
+    await p.frames().find(f => f.url().endsWith('memo-ficsit.html')).evaluate(() => { window.__etat = 42; });
+    await memo.locator('#fnav a[href="planner.html"]').click();
+    await p.waitForSelector('iframe[title="planner.html"]', {state: 'attached'});
+    await p.waitForTimeout(600);
+    const st = await p.evaluate(() => ({marque: window.__marque, hash: location.hash,
+      vus: [...document.querySelectorAll('iframe')].filter(f => !f.hidden).map(f => f.title)}));
+    if (st.marque !== 1) pb.push('la coquille s\'est rechargée au changement d\'outil');
+    if (st.hash !== '#planner.html' || st.vus.join() !== 'planner.html') pb.push('outil affiché : ' + JSON.stringify(st));
+    if (!/[Pp]lanif|[Pp]lanner/.test(await p.title())) pb.push('titre de la coquille : ' + await p.title());
+    await p.goBack(); await p.waitForTimeout(300);
+    const memoF = p.frames().find(f => f.url().endsWith('memo-ficsit.html'));
+    const vus = await p.evaluate(() => [...document.querySelectorAll('iframe')].filter(f => !f.hidden).map(f => f.title).join());
+    if (vus !== 'memo-ficsit.html' || await memoF.evaluate(() => window.__etat) !== 42) pb.push('retour au mémo : cadre ' + vus + ', état perdu ?');
+    if (errs.length) pb.push('erreurs JS : ' + errs.slice(0, 2).join(' | '));
+    pb.forEach(x => echecs.push('coquille : ' + x));
+    console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} coquille (onglets sans rechargement)`);
+    await p.close(); srv.close();
+  }
+
   // téléphone : aucune page ne déborde horizontalement (320 et 390 px, chaque onglet de l'infographie ouvert)
   for (const page of [...new Set(Object.keys(PAGES).map(x => x.split('#')[0]))]) {
     for (const w of [320, 390]) {

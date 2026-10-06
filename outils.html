@@ -11,25 +11,40 @@
      (sauf en local, file://, et avec ?seul=1). Pas de bloc commun dans cette page : scripts/langue.py la saute.
      Une fois l'outil demandé chargé, les autres le sont en arrière-plan, un à la fois (PRECHARGE, même liste que
      langue.json > outils, vérifiée par scripts/test_pages.js ; le Depot en dernier : avec une partie, il lit toute
-     l'usine) : à la première visite d'un onglet, l'outil est déjà prêt. -->
+     l'usine) : à la première visite d'un onglet, l'outil est déjà prêt. Tous restent dessinés, empilés ; changer d'outil
+     passe le voulu devant, une fois prêt (jamais d'écran noir) ; en arrière-plan, leurs animations sont en pause. -->
 <style>
   html,body{margin:0;height:100%;overflow:hidden;background:#1B1B1B}
-  iframe{position:fixed;inset:0;width:100%;height:100%;border:0;display:block;background:#1B1B1B}
-  /* outil en arrière-plan : invisible mais à pleine taille (sa mise en page se calcule comme s'il était affiché) */
-  iframe.cache{visibility:hidden;pointer-events:none;z-index:-1}
+  /* tous les outils restent dessinés, empilés : seul celui du dessus se voit et répond (changer d'outil = le passer devant,
+     sans rien redessiner) ; un outil pas encore prêt reste dessous, l'outil affiché ne bouge pas jusqu'à ce qu'il le soit */
+  iframe{position:fixed;inset:0;width:100%;height:100%;border:0;display:block;background:#1B1B1B;z-index:1;pointer-events:none}
+  iframe.actif{z-index:2;pointer-events:auto}
+  /* chargement d'un outil pas encore prêt : liseré orange en haut, l'outil courant reste à l'écran */
+  #charge{position:fixed;top:0;left:0;height:3px;width:100%;z-index:3;pointer-events:none;opacity:0;transition:opacity .2s;
+    background:linear-gradient(90deg,transparent,#E59345 40%,#F2AA63 60%,transparent) 0 0/40% 100% no-repeat}
+  #charge.en-cours{opacity:1;animation:charge 1s linear infinite}
+  @keyframes charge{from{background-position:-40% 0}to{background-position:140% 0}}
 </style>
 </head>
 <body>
+<div id="charge" aria-hidden="true"></div>
 <script>
 (function(){
   window.__ficsitCoquille = true;
   var PRECHARGE = ['index.html', 'planner.html', 'satisfactory_infographie.html', 'ficsit_horloge.html', 'memo-ficsit.html',
     'energie-noeuds.html', 'broyeur-excedents.html', 'arbre-production.html', 'depot-dimensionnel.html'];
-  var cadres = {}, actif = null;
+  var cadres = {}, actif = null, voulu = null, charge = document.getElementById('charge');
+  var page = function(u){ return u.split(/[?#]/)[0] || 'index.html'; };
+  var apres = function(fn){ requestAnimationFrame(function(){ requestAnimationFrame(fn); }); };   // une fois dessiné
+  // dit à chaque outil s'il est au premier plan (en arrière-plan, ses animations sont en pause)
+  function prevenir(f){ try{ f.contentWindow.postMessage({ficsitFond: f !== actif}, location.origin); }catch(e){} }
   function cadre(k, u){
     var f = cadres[k] = document.createElement('iframe');
-    f.title = k; f.src = u; f.dataset.u = u; f.className = 'cache'; f.inert = true;
-    f.addEventListener('load', function(){ f.dataset.pret = '1'; if(f === actif) titre(); });
+    f.title = k; f.src = u; f.dataset.u = u; f.inert = true;
+    f.addEventListener('load', function(){
+      f.dataset.pret = '1'; prevenir(f);
+      if(f === voulu) apres(function(){ if(f === voulu) activer(f); });
+    });
     document.body.appendChild(f);
     return f;
   }
@@ -40,7 +55,6 @@
     var f = cadre(k, k);
     f.addEventListener('load', function(){ (window.requestIdleCallback || setTimeout)(precharger, {timeout: 1500}); }, {once: true});
   }
-  var page = function(u){ return u.split(/[?#]/)[0] || 'index.html'; };
   // outil demandé par l'adresse : une page .html du site, avec ses paramètres ; l'accueil sinon
   function demande(){
     var h = location.hash.slice(1);
@@ -48,20 +62,29 @@
     return /^[\w.-]+\.html([?#].*)?$/.test(h) && page(h) !== 'outils.html' ? h : 'index.html';
   }
   function titre(){ try{ document.title = actif.contentDocument.title; }catch(e){} }
-  function montrer(u, historique){
-    var k = page(u), f = cadres[k];
-    if(!f) f = cadre(k, u);
-    else if(u !== k && f.dataset.u !== u){ f.src = u; f.dataset.u = u; }   // lien avec paramètres : l'outil les relit
-    if(actif && actif !== f){ actif.classList.add('cache'); actif.inert = true; }
-    f.classList.remove('cache'); f.inert = false; actif = f;
-    if(historique === 'pousser') history.pushState(null, '', '#' + f.dataset.u);
-    else if(historique === 'remplacer') history.replaceState(null, '', '#' + f.dataset.u);
+  // passe l'outil devant : instantané, il est déjà dessiné
+  function activer(f){
+    var avant = actif;
+    voulu = null; charge.classList.remove('en-cours');
+    if(avant && avant !== f){ avant.classList.remove('actif'); avant.inert = true; }
+    f.classList.add('actif'); f.inert = false; actif = f;
+    Object.keys(cadres).forEach(function(k){ prevenir(cadres[k]); });
     titre();
     try{
       f.contentWindow.focus();
       // l'outil revient au premier plan : il revérifie la partie importée, comme au retour par l'historique
-      f.contentWindow.dispatchEvent(new PageTransitionEvent('pageshow', {persisted: true}));
+      if(avant && avant !== f) f.contentWindow.dispatchEvent(new PageTransitionEvent('pageshow', {persisted: true}));
     }catch(e){}
+    if(!avant) setTimeout(precharger, 300);   // premier outil affiché : les autres suivent, en arrière-plan
+  }
+  function montrer(u, historique){
+    var k = page(u), f = cadres[k];
+    if(!f) f = cadre(k, u);
+    else if(u !== k && f.dataset.u !== u){ f.dataset.pret = ''; f.src = u; f.dataset.u = u; }   // paramètres : l'outil les relit
+    if(historique === 'pousser') history.pushState(null, '', '#' + f.dataset.u);
+    else if(historique === 'remplacer') history.replaceState(null, '', '#' + f.dataset.u);
+    if(f.dataset.pret){ activer(f); return; }
+    voulu = f; charge.classList.add('en-cours');   // pas encore prêt : l'outil courant reste affiché en attendant
   }
   addEventListener('message', function(e){
     if(e.origin !== location.origin || !e.data) return;
@@ -77,8 +100,6 @@
   });
   addEventListener('popstate', function(){ montrer(demande(), null); });
   montrer(demande(), 'remplacer');
-  // les autres outils, une fois le premier affiché
-  if(actif.dataset.pret) precharger(); else actif.addEventListener('load', function(){ setTimeout(precharger, 300); }, {once: true});
 })();
 </script>
 </body>

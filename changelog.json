@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.23",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.",
+            "en": "No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations."
+          }
+        },
+        {
           "version": "1.22",
           "date": "2026-10-06",
           "texte": {
@@ -200,6 +208,14 @@
       },
       "entrees": [
         {
+          "version": "1.21",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.",
+            "en": "No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations."
+          }
+        },
+        {
           "version": "1.20",
           "date": "2026-10-06",
           "texte": {
@@ -375,6 +391,14 @@
         "en": "Yield registry"
       },
       "entrees": [
+        {
+          "version": "1.40",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.",
+            "en": "No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations."
+          }
+        },
         {
           "version": "1.39",
           "date": "2026-10-06",
@@ -704,6 +728,14 @@
       },
       "entrees": [
         {
+          "version": "1.20",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.",
+            "en": "No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations."
+          }
+        },
+        {
           "version": "1.19",
           "date": "2026-10-06",
           "texte": {
@@ -871,6 +903,14 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.28",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.",
+            "en": "No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations."
+          }
+        },
         {
           "version": "1.27",
           "date": "2026-10-06",
@@ -1104,6 +1144,14 @@
       },
       "entrees": [
         {
+          "version": "1.20",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.",
+            "en": "No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations."
+          }
+        },
+        {
           "version": "1.19",
           "date": "2026-10-06",
           "texte": {
@@ -1272,6 +1320,14 @@
       },
       "entrees": [
         {
+          "version": "1.17",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.",
+            "en": "No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations."
+          }
+        },
+        {
           "version": "1.16",
           "date": "2026-10-06",
           "texte": {
@@ -1415,6 +1471,14 @@
         "en": "Power per node"
       },
       "entrees": [
+        {
+          "version": "1.10",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.",
+            "en": "No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations."
+          }
+        },
         {
           "version": "1.9",
           "date": "2026-10-06",

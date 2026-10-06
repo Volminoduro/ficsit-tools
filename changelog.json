@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.24",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.",
+            "en": "A single title bar for the whole site: tabs, changelog, \"My game\" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen."
+          }
+        },
+        {
           "version": "1.23",
           "date": "2026-10-06",
           "texte": {
@@ -208,6 +216,14 @@
       },
       "entrees": [
         {
+          "version": "1.22",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.",
+            "en": "A single title bar for the whole site: tabs, changelog, \"My game\" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen."
+          }
+        },
+        {
           "version": "1.21",
           "date": "2026-10-06",
           "texte": {
@@ -391,6 +407,14 @@
         "en": "Yield registry"
       },
       "entrees": [
+        {
+          "version": "1.41",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.",
+            "en": "A single title bar for the whole site: tabs, changelog, \"My game\" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen."
+          }
+        },
         {
           "version": "1.40",
           "date": "2026-10-06",
@@ -728,6 +752,14 @@
       },
       "entrees": [
         {
+          "version": "1.21",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.",
+            "en": "A single title bar for the whole site: tabs, changelog, \"My game\" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen."
+          }
+        },
+        {
           "version": "1.20",
           "date": "2026-10-06",
           "texte": {
@@ -903,6 +935,14 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.29",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.",
+            "en": "A single title bar for the whole site: tabs, changelog, \"My game\" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen."
+          }
+        },
         {
           "version": "1.28",
           "date": "2026-10-06",
@@ -1144,6 +1184,14 @@
       },
       "entrees": [
         {
+          "version": "1.21",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.",
+            "en": "A single title bar for the whole site: tabs, changelog, \"My game\" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen."
+          }
+        },
+        {
           "version": "1.20",
           "date": "2026-10-06",
           "texte": {
@@ -1320,6 +1368,14 @@
       },
       "entrees": [
         {
+          "version": "1.18",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.",
+            "en": "A single title bar for the whole site: tabs, changelog, \"My game\" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen."
+          }
+        },
+        {
           "version": "1.17",
           "date": "2026-10-06",
           "texte": {
@@ -1471,6 +1527,14 @@
         "en": "Power per node"
       },
       "entrees": [
+        {
+          "version": "1.11",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.",
+            "en": "A single title bar for the whole site: tabs, changelog, \"My game\" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen."
+          }
+        },
         {
           "version": "1.10",
           "date": "2026-10-06",

@@ -6,6 +6,22 @@ html.fbarre{padding-top:var(--f-barre-h);scroll-padding-top:calc(var(--f-barre-h
    en fondu court au lieu d'un écran qui clignote ; fond sombre dès le premier instant. */
 html{background:#1B1B1B}
 @view-transition{navigation:auto}
+/* outil dans un cadre de la coquille : pas de barre à lui (la coquille porte la barre partagée) ; son bouton de journal
+   est caché, la coquille en montre un reflet (.fjournal) et lui transmet les clics */
+html.en-coquille{--f-barre-h:0px}
+html.en-coquille .pn > .pn-btn{display:none}
+html.en-coquille .pn{position:relative;z-index:9999}   /* le panneau du journal au-dessus de l'outil, comme quand il était dans la barre */
+.fjournal{all:unset;box-sizing:border-box;position:relative;cursor:pointer;display:flex;align-items:center;gap:7px;padding:0 12px;
+  font:600 12px/1 var(--f-police);letter-spacing:.08em;color:var(--f-encre);transition:color .15s,background .15s}
+.fjournal[hidden]{display:none}
+.fjournal svg{width:13px;height:13px;flex:none;fill:none;stroke:var(--f-or);stroke-width:1.6}
+.fjournal:hover{background:#4A4A4A}
+.fjournal[aria-expanded=true]{background:var(--f-or);color:var(--f-or-encre)}
+.fjournal[aria-expanded=true] svg{stroke:var(--f-or-encre)}
+.fjournal:focus-visible{outline:2px solid var(--f-or-clair);outline-offset:1px}
+.fjournal .pn-dot{display:none;position:absolute;left:3px;top:3px;width:8px;height:8px;border-radius:50%;background:var(--f-or);
+  box-shadow:0 0 0 2px var(--f-barre)}
+.fjournal.neuf .pn-dot{display:block}
 /* outil en arrière-plan dans la coquille (outils.html) : rien ne s'anime pour rien */
 html.en-fond *,html.en-fond *::before,html.en-fond *::after{animation-play-state:paused!important}
 .fdock{view-transition-name:fdock}

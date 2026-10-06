@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.28",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Les convoyeurs du graphe prennent les couleurs du mémo de terrain, du froid au chaud : Mk.1 ardoise, Mk.2 lavande, Mk.3 bleu, Mk.4 bronze, Mk.5 orange, Mk.6 rouge. Une seule échelle pour tout le site.",
+            "en": "Graph belts take the field notes' colours, from cool to warm: Mk.1 slate, Mk.2 lavender, Mk.3 blue, Mk.4 bronze, Mk.5 orange, Mk.6 red. One scale for the whole site."
+          }
+        },
+        {
           "version": "1.27",
           "date": "2026-10-06",
           "texte": {
@@ -1239,6 +1247,14 @@
         "en": "Field memo"
       },
       "entrees": [
+        {
+          "version": "1.23",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Couleurs des convoyeurs partagées avec le planificateur ; Mk.1 et Mk.2 éclaircis, plus lisibles (chiffres sombres sur la case).",
+            "en": "Belt colours shared with the planner; Mk.1 and Mk.2 made lighter and easier to read (dark figures on the cell)."
+          }
+        },
         {
           "version": "1.22",
           "date": "2026-10-06",

@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Planificateur de production / Production planner — `planner.html`
 
+- **v1.28** (06/10/2026) : Les convoyeurs du graphe prennent les couleurs du mémo de terrain, du froid au chaud : Mk.1 ardoise, Mk.2 lavande, Mk.3 bleu, Mk.4 bronze, Mk.5 orange, Mk.6 rouge. Une seule échelle pour tout le site.
+  *EN — Graph belts take the field notes' colours, from cool to warm: Mk.1 slate, Mk.2 lavender, Mk.3 blue, Mk.4 bronze, Mk.5 orange, Mk.6 red. One scale for the whole site.*
 - **v1.27** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
   *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
 - **v1.26** (06/10/2026) : Graphe plus lisible : bien moins de flux qui se croisent (souvent de moitié, parfois plus), chaque bloc est aligné sur ceux qu'il alimente et dont il dépend pour des liens plus droits, et un flux qui saute plusieurs colonnes passe entre les blocs, en ligne droite, au lieu de les traverser.
@@ -317,6 +319,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Mémo de terrain / Field memo — `memo-ficsit.html`
 
+- **v1.23** (06/10/2026) : Couleurs des convoyeurs partagées avec le planificateur ; Mk.1 et Mk.2 éclaircis, plus lisibles (chiffres sombres sur la case).
+  *EN — Belt colours shared with the planner; Mk.1 and Mk.2 made lighter and easier to read (dark figures on the cell).*
 - **v1.22** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
   *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
 - **v1.21** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.

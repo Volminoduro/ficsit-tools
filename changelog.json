@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.29",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Montage déplié : chaque ingrédient a maintenant sa propre ligne dessinée jusqu'aux machines, avec son nom, ses séparateurs et son convoyeur (le charbon et le minerai de fer d'une fonderie d'acier, par exemple), au lieu d'une note « même montage » sous le bloc. Les sous-produits ont aussi leur ligne de sortie. Chaque lien du graphe arrive sur la ligne de son item, et les lignes sont rangées selon la place des blocs voisins pour éviter que les flux se croisent.",
+            "en": "Unfolded layout: each ingredient now has its own line drawn up to the machines, with its name, splitters and belt (the coal and the iron ore of a steel foundry, for instance), instead of a \"same layout\" note under the box. By-products get their own output line too. Each graph link reaches its item's line, and the lines are ordered by where the neighbouring boxes sit so flows do not cross."
+          }
+        },
+        {
           "version": "1.28",
           "date": "2026-10-06",
           "texte": {

@@ -372,6 +372,35 @@ const CHECKS = {
     FicsitPartie.oublier();
     await new Promise(r => setTimeout(r, 50));
     if (txt('alertes') || document.querySelector('#etapes .usine')) out.push('alerte ou comparaison restée après oubli de la partie');
+    // onglets : un nouveau plan part des valeurs par défaut, chaque plan garde ses objectifs et son mode, renommage gardé,
+    // le plan affiché est dans l'adresse
+    {
+      mode('energie');
+      const cle = () => JSON.parse(localStorage.getItem('ficsit-tools:planner'));
+      document.getElementById('planAjout').click();
+      if (document.querySelectorAll('#plans .p-nom').length !== 2 || S.actif !== 1) out.push('onglets : pas de second plan');
+      if (S.mode !== 'defaut' || S.cibles.length !== 1 || S.cibles[0].item !== 'Reinforced Iron Plate') out.push('onglets : nouveau plan pas par défaut');
+      S.cibles = [{item: 'Iron Rod', debit: 30}]; garder(); calcul();
+      const nom = document.querySelector('#plans .p-nom[aria-selected="true"]');
+      nom.dispatchEvent(new MouseEvent('dblclick', {bubbles: true}));
+      const inp = document.querySelector('#plans input');
+      if (!inp) out.push('onglets : pas de champ de renommage');
+      else { inp.value = 'Tiges'; inp.dispatchEvent(new KeyboardEvent('keydown', {key: 'Enter', bubbles: true})); }
+      if (document.querySelector('#plans .p-nom[aria-selected="true"]').textContent !== 'Tiges') out.push('onglets : renommage non affiché');
+      await new Promise(r => setTimeout(r, 400));   // adresse mise à jour après une courte pause
+      const code = new URLSearchParams(location.search).get('p');
+      if (!code || !/Iron Rod/.test(atob(code.replace(/-/g, '+').replace(/_/g, '/')))) out.push('adresse : plan affiché absent (' + location.search + ')');
+      document.querySelector('#plans .p-nom[data-i="0"]').click();
+      if (S.mode !== 'energie' || S.cibles[0].item !== 'Reinforced Iron Plate') out.push('onglets : premier plan pas retrouvé');
+      const c = cle();
+      if (c.plans.length !== 2 || c.plans[1].nom !== 'Tiges' || c.plans[1].cibles[0].item !== 'Iron Rod') out.push('onglets : plans mal gardés');
+      const ok = window.confirm; window.confirm = () => true;
+      document.querySelector('#plans .p-nom[data-i="1"]').click();
+      document.querySelector('#plans [data-suppr="1"]').click();
+      window.confirm = ok;
+      if (document.querySelectorAll('#plans .p-nom').length !== 1 || S.actif !== 0 || S.mode !== 'energie') out.push('onglets : fermeture');
+      mode('defaut');
+    }
     return out;
   },
   'ficsit_horloge.html': () => {
@@ -564,6 +593,25 @@ const INDICES = {
     await p.close();
   }
 
+  // lien partagé : planner.html?p=… ouvre le plan reçu dans un nouvel onglet, avec ses objectifs, son nom et son mode
+  {
+    const p = await b.newPage(), errs = [];
+    p.on('pageerror', e => errs.push(e.message));
+    const code = Buffer.from(JSON.stringify({c: [['Modular Frame', 4]], m: 'ressources'})).toString('base64url');
+    await p.goto('file://' + path.join(ROOT, 'planner.html') + '?p=' + code);
+    await p.waitForTimeout(800);
+    const st = await p.evaluate(() => ({n: S.plans.length, actif: S.actif, nom: S.plans[S.actif].nom, cibles: S.cibles, mode: S.mode,
+      onglet: document.querySelector('#plans .p-nom[aria-selected="true"]').textContent}));
+    if (errs.length || st.cibles[0].item !== 'Modular Frame' || st.cibles[0].debit !== 4 || st.mode !== 'ressources' || !/Plan reçu|Shared plan/.test(st.onglet))
+      echecs.push('lien partagé du planificateur : ' + JSON.stringify(st) + ' ' + errs.join(' | '));
+    // relu une seconde fois : le même plan, pas un doublon
+    await p.reload(); await p.waitForTimeout(500);
+    const n = await p.evaluate(() => S.plans.length);
+    if (n !== st.n) echecs.push(`lien partagé du planificateur : rechargé, ${n} plans (${st.n} attendus)`);
+    console.log(`${echecs.some(x => x.startsWith('lien partagé')) ? 'ÉCHEC' : 'ok   '} planificateur : lien partagé`);
+    await p.close();
+  }
+
   // coquille (outils.html, en http) : un onglet de la barre montre l'outil dans un autre cadre, sans recharger la page ;
   // l'outil précédent garde son état ; l'adresse et le titre suivent ; « Précédent » revient au premier outil
   {
@@ -596,7 +644,7 @@ const INDICES = {
     const st = await p.evaluate(() => ({marque: window.__marque, hash: location.hash,
       vus: [...document.querySelectorAll('iframe')].filter(f => f.classList.contains('actif')).map(f => f.title)}));
     if (st.marque !== 1) pb.push('la coquille s\'est rechargée au changement d\'outil');
-    if (st.hash !== '#planner.html' || st.vus.join() !== 'planner.html') pb.push('outil affiché : ' + JSON.stringify(st));
+    if (!/^#planner\.html(\?p=|$)/.test(st.hash) || st.vus.join() !== 'planner.html') pb.push('outil affiché : ' + JSON.stringify(st));
     if (!/[Pp]lanif|[Pp]lanner/.test(await p.title())) pb.push('titre de la coquille : ' + await p.title());
     await p.goBack(); await p.waitForTimeout(300);
     const memoF = cadreDe('memo-ficsit.html');

@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.25",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Plusieurs plans à la fois, dans des onglets au-dessus des objectifs : « + » en ouvre un nouveau, double-clic ou ✎ pour le renommer, × pour le fermer ; chaque plan garde ses objectifs, ses recettes, son mode et sa disposition. Le plan affiché est aussi inscrit dans l'adresse de la page : envoyer le lien suffit pour le partager, il s'ouvre chez l'autre dans un nouvel onglet.",
+            "en": "Several plans at once, in tabs above the targets: \"+\" opens a new one, double-click or ✎ renames it, × closes it; each plan keeps its targets, recipes, mode and layout. The plan on screen is also written in the page address: sending the link is enough to share it, and it opens in a new tab on the other side."
+          }
+        },
+        {
           "version": "1.24",
           "date": "2026-10-06",
           "texte": {

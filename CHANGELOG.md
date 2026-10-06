@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Planificateur de production / Production planner — `planner.html`
 
+- **v1.25** (06/10/2026) : Plusieurs plans à la fois, dans des onglets au-dessus des objectifs : « + » en ouvre un nouveau, double-clic ou ✎ pour le renommer, × pour le fermer ; chaque plan garde ses objectifs, ses recettes, son mode et sa disposition. Le plan affiché est aussi inscrit dans l'adresse de la page : envoyer le lien suffit pour le partager, il s'ouvre chez l'autre dans un nouvel onglet.
+  *EN — Several plans at once, in tabs above the targets: "+" opens a new one, double-click or ✎ renames it, × closes it; each plan keeps its targets, recipes, mode and layout. The plan on screen is also written in the page address: sending the link is enough to share it, and it opens in a new tab on the other side.*
 - **v1.24** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
   *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
 - **v1.23** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.

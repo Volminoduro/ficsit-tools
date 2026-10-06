@@ -8,18 +8,38 @@
      sans rechargement, et chaque outil garde son état (défilement, zoom, saisies). Chaque outil garde aussi sa barre de
      titre : ses liens vers les autres outils passent par ici (commun/ficsit-lang.js, mode « coquille »).
      Adresse : outils.html#<page>[?…][#…], l'outil affiché et ses paramètres ; une page d'outil ouverte seule bascule ici
-     (sauf en local, file://, et avec ?seul=1). Pas de bloc commun dans cette page : scripts/langue.py la saute. -->
+     (sauf en local, file://, et avec ?seul=1). Pas de bloc commun dans cette page : scripts/langue.py la saute.
+     Une fois l'outil demandé chargé, les autres le sont en arrière-plan, un à la fois (PRECHARGE, même liste que
+     langue.json > outils, vérifiée par scripts/test_pages.js ; le Depot en dernier : avec une partie, il lit toute
+     l'usine) : à la première visite d'un onglet, l'outil est déjà prêt. -->
 <style>
   html,body{margin:0;height:100%;overflow:hidden;background:#1B1B1B}
   iframe{position:fixed;inset:0;width:100%;height:100%;border:0;display:block;background:#1B1B1B}
-  iframe[hidden]{display:none}
+  /* outil en arrière-plan : invisible mais à pleine taille (sa mise en page se calcule comme s'il était affiché) */
+  iframe.cache{visibility:hidden;pointer-events:none;z-index:-1}
 </style>
 </head>
 <body>
 <script>
 (function(){
   window.__ficsitCoquille = true;
+  var PRECHARGE = ['index.html', 'planner.html', 'satisfactory_infographie.html', 'ficsit_horloge.html', 'memo-ficsit.html',
+    'energie-noeuds.html', 'broyeur-excedents.html', 'arbre-production.html', 'depot-dimensionnel.html'];
   var cadres = {}, actif = null;
+  function cadre(k, u){
+    var f = cadres[k] = document.createElement('iframe');
+    f.title = k; f.src = u; f.dataset.u = u; f.className = 'cache'; f.inert = true;
+    f.addEventListener('load', function(){ f.dataset.pret = '1'; if(f === actif) titre(); });
+    document.body.appendChild(f);
+    return f;
+  }
+  // préchargement : l'outil suivant de la liste dès que le précédent a fini (et que le navigateur souffle)
+  function precharger(){
+    var k = PRECHARGE.filter(function(x){ return !cadres[x]; })[0];
+    if(!k) return;
+    var f = cadre(k, k);
+    f.addEventListener('load', function(){ (window.requestIdleCallback || setTimeout)(precharger, {timeout: 1500}); }, {once: true});
+  }
   var page = function(u){ return u.split(/[?#]/)[0] || 'index.html'; };
   // outil demandé par l'adresse : une page .html du site, avec ses paramètres ; l'accueil sinon
   function demande(){
@@ -30,14 +50,10 @@
   function titre(){ try{ document.title = actif.contentDocument.title; }catch(e){} }
   function montrer(u, historique){
     var k = page(u), f = cadres[k];
-    if(!f){
-      f = cadres[k] = document.createElement('iframe');
-      f.title = k; f.src = u; f.dataset.u = u;
-      f.addEventListener('load', function(){ if(f === actif) titre(); });
-      document.body.appendChild(f);
-    } else if(u !== k && f.dataset.u !== u){ f.src = u; f.dataset.u = u; }   // lien avec paramètres : l'outil les relit
-    if(actif && actif !== f) actif.hidden = true;
-    f.hidden = false; actif = f;
+    if(!f) f = cadre(k, u);
+    else if(u !== k && f.dataset.u !== u){ f.src = u; f.dataset.u = u; }   // lien avec paramètres : l'outil les relit
+    if(actif && actif !== f){ actif.classList.add('cache'); actif.inert = true; }
+    f.classList.remove('cache'); f.inert = false; actif = f;
     if(historique === 'pousser') history.pushState(null, '', '#' + f.dataset.u);
     else if(historique === 'remplacer') history.replaceState(null, '', '#' + f.dataset.u);
     titre();
@@ -61,6 +77,8 @@
   });
   addEventListener('popstate', function(){ montrer(demande(), null); });
   montrer(demande(), 'remplacer');
+  // les autres outils, une fois le premier affiché
+  if(actif.dataset.pret) precharger(); else actif.addEventListener('load', function(){ setTimeout(precharger, 300); }, {once: true});
 })();
 </script>
 </body>

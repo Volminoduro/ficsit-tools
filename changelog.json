@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.22",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.",
+            "en": "The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame."
+          }
+        },
+        {
           "version": "1.21",
           "date": "2026-10-06",
           "texte": {
@@ -192,6 +200,14 @@
       },
       "entrees": [
         {
+          "version": "1.20",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.",
+            "en": "The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame."
+          }
+        },
+        {
           "version": "1.19",
           "date": "2026-10-06",
           "texte": {
@@ -359,6 +375,14 @@
         "en": "Yield registry"
       },
       "entrees": [
+        {
+          "version": "1.39",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.",
+            "en": "The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame."
+          }
+        },
         {
           "version": "1.38",
           "date": "2026-10-06",
@@ -680,6 +704,14 @@
       },
       "entrees": [
         {
+          "version": "1.19",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.",
+            "en": "The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame."
+          }
+        },
+        {
           "version": "1.18",
           "date": "2026-10-06",
           "texte": {
@@ -839,6 +871,14 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.27",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.",
+            "en": "The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame."
+          }
+        },
         {
           "version": "1.26",
           "date": "2026-10-06",
@@ -1064,6 +1104,14 @@
       },
       "entrees": [
         {
+          "version": "1.19",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.",
+            "en": "The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame."
+          }
+        },
+        {
           "version": "1.18",
           "date": "2026-10-06",
           "texte": {
@@ -1224,6 +1272,14 @@
       },
       "entrees": [
         {
+          "version": "1.16",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.",
+            "en": "The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame."
+          }
+        },
+        {
           "version": "1.15",
           "date": "2026-10-06",
           "texte": {
@@ -1359,6 +1415,14 @@
         "en": "Power per node"
       },
       "entrees": [
+        {
+          "version": "1.9",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.",
+            "en": "The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame."
+          }
+        },
         {
           "version": "1.8",
           "date": "2026-10-06",

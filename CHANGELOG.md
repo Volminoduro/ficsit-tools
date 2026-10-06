@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Planificateur de production / Production planner — `planner.html`
 
+- **v1.22** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
+  *EN — The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame.*
 - **v1.21** (06/10/2026) : Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.
   *EN — The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and "Back" returns to the previous tool.*
 - **v1.20** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
@@ -51,6 +53,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Débit vers le Dimensional Depot / Dimensional Depot throughput — `depot-dimensionnel.html`
 
+- **v1.20** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
+  *EN — The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame.*
 - **v1.19** (06/10/2026) : Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.
   *EN — The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and "Back" returns to the previous tool.*
 - **v1.18** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
@@ -94,6 +98,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
+- **v1.39** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
+  *EN — The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame.*
 - **v1.38** (06/10/2026) : Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.
   *EN — The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and "Back" returns to the previous tool.*
 - **v1.37** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
@@ -175,6 +181,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Module d'étalonnage / Calibration module — `ficsit_horloge.html`
 
+- **v1.19** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
+  *EN — The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame.*
 - **v1.18** (06/10/2026) : Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.
   *EN — The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and "Back" returns to the previous tool.*
 - **v1.17** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
@@ -216,6 +224,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Optimiseur de recyclage / Recycling optimizer — `broyeur-excedents.html`
 
+- **v1.27** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
+  *EN — The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame.*
 - **v1.26** (06/10/2026) : Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.
   *EN — The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and "Back" returns to the previous tool.*
 - **v1.25** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
@@ -273,6 +283,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Mémo de terrain / Field memo — `memo-ficsit.html`
 
+- **v1.19** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
+  *EN — The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame.*
 - **v1.18** (06/10/2026) : Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.
   *EN — The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and "Back" returns to the previous tool.*
 - **v1.17** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
@@ -314,6 +326,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Complexité et valeur au broyeur / Complexity vs sink value — `arbre-production.html`
 
+- **v1.16** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
+  *EN — The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame.*
 - **v1.15** (06/10/2026) : Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.
   *EN — The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and "Back" returns to the previous tool.*
 - **v1.14** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
@@ -349,6 +363,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Rentabilité énergétique par nœud / Power per node — `energie-noeuds.html`
 
+- **v1.9** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
+  *EN — The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame.*
 - **v1.8** (06/10/2026) : Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.
   *EN — The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and "Back" returns to the previous tool.*
 - **v1.7** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).

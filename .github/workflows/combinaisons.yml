@@ -8,6 +8,7 @@ on:
   pull_request:
     paths:
       - satisfactory_infographie.html
+      - satisfactory_infographie.js
       - scripts/paliers_combinaisons.js
       - scripts/empreinte_combinaisons.js
       - donnees/**

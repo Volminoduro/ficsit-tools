@@ -608,6 +608,24 @@ const INDICES = {
       echecs.push(`infobulle sur une ligne large : pas près du curseur (cibles ${bx.x + 16} et ${bx.x + bx.width - 74}, obtenu ${gauche})`);
     await p.mouse.move(2, 2); await p.waitForTimeout(250);
     await p.keyboard.press('Tab'); await p.keyboard.press('Shift+Tab'); await p.waitForTimeout(250);
+    // tactile : appui long = la bulle (qui reste après le doigt levé), sans activer l'élément ; le toucher suivant la ferme
+    await p.mouse.move(2, 2); await p.waitForTimeout(250);
+    const tact = await p.evaluate(async () => {
+      const e = document.querySelector('button.f-btn[data-fr-title]'), i = () => document.getElementById('finfo'), r = e.getBoundingClientRect();
+      const ev = (t, cible) => cible.dispatchEvent(new PointerEvent(t, {pointerType: 'touch', bubbles: true, cancelable: true, clientX: r.x + 5, clientY: r.y + 5}));
+      let clics = 0; e.addEventListener('click', () => clics++);
+      const dort = ms => new Promise(f => setTimeout(f, ms));
+      ev('pointerdown', e); await dort(150);
+      const tot = !i() || i().hidden;                      // pas encore : l'appui est trop court
+      await dort(450);
+      const vu = !!i() && !i().hidden;
+      ev('pointerup', e); ev('pointerout', e); e.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+      await dort(50);
+      const reste = !!i() && !i().hidden;
+      ev('pointerdown', document.body); await dort(50); ev('pointerup', document.body);
+      return {tot, vu, reste, clics, ferme: i().hidden};
+    });
+    if (!tact.tot || !tact.vu || !tact.reste || tact.clics || !tact.ferme) echecs.push(`infobulle au tactile (appui long) : ${JSON.stringify(tact)}`);
     console.log(`${echecs.some(x => x.startsWith('infobulle')) ? 'ÉCHEC' : 'ok   '} infobulle (survol, sortie)`);
     await p.close();
   }

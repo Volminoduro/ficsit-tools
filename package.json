@@ -1,0 +1,12 @@
+{
+  "name": "ficsit-tools",
+  "private": true,
+  "description": "Outils pour Satisfactory — pages statiques, scripts de génération et de test (voir README.md)",
+  "scripts": {
+    "tout": "bash scripts/tout.sh",
+    "test": "bash scripts/tout.sh --sans-tests && node scripts/test_pages.js"
+  },
+  "devDependencies": {
+    "playwright": "1.56.1"
+  }
+}

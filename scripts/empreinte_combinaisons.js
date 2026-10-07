@@ -12,7 +12,9 @@ const fs = require('fs'), path = require('path'), crypto = require('crypto');
 const html = fs.readFileSync(process.argv[2], 'utf8');
 const script = fs.readFileSync(process.argv[3] || path.join(__dirname, 'paliers_combinaisons.js'), 'utf8');
 const P = JSON.parse(html.match(/<script id="payload" type="application\/json">([\s\S]*?)<\/script>/)[1]);
-const js = html.match(/<script>\n([\s\S]*?)<\/script>/)[1];
+// code de la page : satisfactory_infographie.js à côté du HTML, sinon (ancienne version) dans un <script> du HTML
+const jsFichier = process.argv[2].replace(/\.html$/, '.js');
+const js = fs.existsSync(jsFichier) ? fs.readFileSync(jsFichier, 'utf8') : html.match(/<script>\n([\s\S]*?)<\/script>/)[1];
 const bloc = (a, b) => {
   const i = js.indexOf(a), j = js.indexOf(b);
   if (i < 0 || j < i) { console.error('marqueurs', a, '/', b, 'introuvables dans', process.argv[2]); process.exit(1); }

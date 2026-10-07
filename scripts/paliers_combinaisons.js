@@ -18,7 +18,9 @@
 const fs = require('fs');
 const html = fs.readFileSync(process.argv[2], 'utf8');
 const P = JSON.parse(html.match(/<script id="payload" type="application\/json">([\s\S]*?)<\/script>/)[1]);
-const js = html.match(/<script>\n([\s\S]*?)<\/script>/)[1];
+// code de la page : satisfactory_infographie.js à côté du HTML, sinon (ancienne version) dans un <script> du HTML
+const jsFichier = process.argv[2].replace(/\.html$/, '.js');
+const js = fs.existsSync(jsFichier) ? fs.readFileSync(jsFichier, 'utf8') : html.match(/<script>\n([\s\S]*?)<\/script>/)[1];
 // Code partagé : entre les marqueurs MOTEUR:START et MOTEUR:END de la page (échec explicite s'ils manquent).
 const i0 = js.indexOf('/* MOTEUR:START'), i1 = js.indexOf('/* MOTEUR:END */');
 if(i0 < 0 || i1 < i0){ console.error('marqueurs MOTEUR:START / MOTEUR:END introuvables dans', process.argv[2]); process.exit(1); }

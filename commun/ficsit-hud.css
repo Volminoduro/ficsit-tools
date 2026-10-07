@@ -152,3 +152,9 @@
 
 /* Filet orange du HUD (sous « Objective: », « Milestone: ») */
 .f-filet{height:2px;background:var(--f-or);border:0;margin:6px 0}
+
+/* Contraste renforcé demandé au système (prefers-contrast: more) : texte sombre sur l'orange (≈ 7 : 1 au lieu de 2,4 : 1),
+   textes secondaires plus clairs. Sans cette demande, le rendu reste celui du jeu (blanc sur orange). */
+@media (prefers-contrast:more){
+  :root{--f-or-encre:#141414;--f-encre2:#D6D6D6;--f-encre3:#BDBDBD}
+}

@@ -1,0 +1,2 @@
+# Dépendances Python des scripts (versions épinglées : un autre Pillow pourrait ré-encoder les icônes différemment)
+pillow==12.3.0

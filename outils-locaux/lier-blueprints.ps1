@@ -1,5 +1,5 @@
 $bp  = "$env:LOCALAPPDATA\FactoryGame\Saved\SaveGames\blueprints"
-$lib = "D:\Satisfactory\BP"
+$lib = if ($args[0]) { $args[0] } else { "D:\Satisfactory\BP" }   # dossier commun : premier argument, sinon D:\Satisfactory\BP
 New-Item -ItemType Directory -Force -Path $lib | Out-Null
 
 Get-ChildItem $bp -Directory | Where-Object { -not $_.LinkType } | ForEach-Object {

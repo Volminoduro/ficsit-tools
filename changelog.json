@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.35",
+          "date": "2026-10-07",
+          "texte": {
+            "fr": "Items acheminés de façon cohérente dans les montages dépliés : un item suit un trajet d'un seul tenant, de l'entrée à la machine (ou de la machine à la sortie, ou par le trait de retour), et choisit sa branche tour à tour à chaque séparateur au lieu de disparaître et réapparaître ; l'espacement se répartit donc comme le flux, et la vitesse suit le niveau de convoyeur de chaque tronçon. Le texte du Mk apparaît au départ de chaque entrée et à chaque changement de niveau (étage de séparateurs, branche, regroupement).",
+            "en": "Items are now carried consistently inside unfolded layouts: an item follows a single path from the input to the machine (or from the machine to the output, or around the return line) and picks its branch in turn at each splitter instead of vanishing and reappearing; spacing therefore follows the flow, and speed follows the conveyor tier of each stretch. The Mk text appears at the start of each input and wherever the tier changes (splitter stage, branch, merge)."
+          }
+        },
+        {
           "version": "1.34",
           "date": "2026-10-07",
           "texte": {

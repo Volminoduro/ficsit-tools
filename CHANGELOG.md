@@ -4,8 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Planificateur de production / Production planner — `planner.html`
 
-- **v1.33** (07/10/2026) : Montage déplié plus lisible : liseré sombre sous chaque convoyeur (les lignes proches se distinguent), pointes de flèche à l'arrivée sur les machines, machines numérotées, noms des convoyeurs cernés d'un contour sombre pour rester lisibles par-dessus les lignes.
-  *EN — Unfolded layouts easier to read: dark casing under every conveyor (close lines stay distinct), arrowheads where lines reach the machines, numbered machines, conveyor names outlined in dark so they stay legible over the lines.*
+- **v1.33** (07/10/2026) : Montage déplié plus lisible : lignes d'entrée deux fois plus espacées (chaque ligne se suit jusqu'à sa machine, même à quatre entrées), machines numérotées, noms des convoyeurs cernés d'un contour sombre pour rester lisibles par-dessus les lignes.
+  *EN — Unfolded layouts easier to read: input lines spaced twice as far apart (each line can be followed to its machine, even with four inputs), numbered machines, conveyor names outlined in dark so they stay legible over the lines.*
 - **v1.32** (07/10/2026) : Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.
   *EN — Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter.*
 - **v1.31** (06/10/2026) : Survoler un bloc du graphe met en lumière toute sa chaîne : en amont jusqu'aux ressources brutes (fournisseurs, leurs fournisseurs…) et en aval jusqu'aux objectifs (consommateurs, leurs consommateurs…), avec les flux qui les relient ; le reste s'efface.

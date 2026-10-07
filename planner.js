@@ -754,16 +754,15 @@ function schemaMontage(e, D, rang){
   // sorties : bande 0 la plus à droite (vers le bord), les suivantes plus près des machines
   const x1S = new Array(kS); xc = xO;
   for(let j = kS - 1; j >= 0; j--){ x1S[j] = xc; xc = bandeS(sors[j], xc, dS(j), true)[0] + 8; }
-  const QUEUE = kS > 1 ? 96 : 34, xFin = xc + QUEUE - 8;
+  const QUEUE = kS > 1 ? 24 : 14, xFin = xc + QUEUE - 8;
   // sorties suivantes (sous-produits) : repartent par le bas, comme leurs blocs « surplus » en bas de colonne
   const bas = top + rows * RH + (boucle ? 12 + 4 * kE : 6), yB = j => bas + PAS * (j - 1) + 4;
   const ySs = {}; let yS = y(0);
   sors.forEach((l, j) => {
     const [xb, yb, trajets] = bandeS(l, x1S[j], dS(j), false);
-    const nom = kS > 1 ? `${couper(nomItem(l.item), 15)} ${tapisCourt(l.ligne)}` : tapisCourt(l.ligne);
     let queue;
-    if(j === 0){ trait(`M${xb},${yb} H${xFin}`, cl(l, l.ligne)); yS = yb; ySs[l.item] = yb; texte(xFin - 2, yb - 6, nom, 'tap', true); queue = [['H', xFin]]; }
-    else { trait(`M${xb},${yb} H${xb + 4} V${yB(j)} H${xFin}`, cl(l, l.ligne)); ySs[l.item] = yB(j); texte(xFin - 2, yB(j) - 3, nom, 'tap', true); queue = [['H', xb + 4], ['V', yB(j)], ['H', xFin]]; }
+    if(j === 0){ trait(`M${xb},${yb} H${xFin}`, cl(l, l.ligne)); yS = yb; ySs[l.item] = yb; queue = [['H', xFin]]; }
+    else { trait(`M${xb},${yb} H${xb + 4} V${yB(j)} H${xFin}`, cl(l, l.ligne)); ySs[l.item] = yB(j); queue = [['H', xb + 4], ['V', yB(j)], ['H', xFin]]; }
     if(P.ic[l.item]) bandes.push(prevoir(l.item, l.liquide, trajets.map(r => { const e = r[r.length - 1]; return r.concat(suite(e.x1, e.y1, queue.map(([k, v2]) => [k, v2, l.ligne]), l.liquide)); })));
   });
   // icônes qui acheminent les items le long des trajets (sinon, trop nombreuses : les points restent)

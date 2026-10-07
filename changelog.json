@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.34",
+          "date": "2026-10-07",
+          "texte": {
+            "fr": "Objectif replié sur son bloc : quand tout ce qu'une étape produit va à un seul objectif, le cadre « objectif » et son lien disparaissent ; le bloc prend un liseré orange et un onglet « OBJECTIF · 5 /min ». Un item qui sert aussi d'autres blocs, ou plusieurs objectifs, gardent leur cadre.",
+            "en": "Target folded onto its block: when everything a step makes goes to a single target, the « target » box and its link disappear; the block gets an orange outline and a « TARGET · 5 /min » tab. An item that also feeds other blocks, or several targets, keep their box."
+          }
+        },
+        {
           "version": "1.33",
           "date": "2026-10-07",
           "texte": {

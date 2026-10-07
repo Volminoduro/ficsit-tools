@@ -234,25 +234,25 @@ const CHECKS = {
     const svg = document.querySelector('#graphe svg');
     if (!svg || document.getElementById('vueGraphe').hidden || !document.getElementById('vueListe').hidden) out.push('vue en graphe non affichée');
     else {
-      if (svg.querySelectorAll('.noeud').length !== 7) out.push(svg.querySelectorAll('.noeud').length + ' blocs dans le graphe (7 attendus)');
-      if (svg.querySelectorAll('.lien').length !== 7) out.push(svg.querySelectorAll('.lien').length + ' liens dans le graphe (7 attendus)');
+      if (svg.querySelectorAll('.noeud').length !== 6) out.push(svg.querySelectorAll('.noeud').length + ' blocs dans le graphe (6 attendus : l\'objectif est replié sur son bloc)');
+      if (svg.querySelectorAll('.lien').length !== 6) out.push(svg.querySelectorAll('.lien').length + ' liens dans le graphe (6 attendus)');
       if (/NaN|undefined/.test(svg.outerHTML)) out.push('valeur invalide dans le graphe');
       svg.querySelector('.noeud[data-id^="b:"]').dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
       if (!svg.classList.contains('actif')) out.push('survol du minerai : graphe pas isolé');
-      // survol de l'objectif : toute la lignée en amont s'allume (7 liens, 7 blocs), pas seulement le fournisseur direct
-      svg.querySelector('.noeud[data-id^="c:"]').dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
-      if (svg.querySelectorAll('.lien.lie').length !== 7 || svg.querySelectorAll('.noeud.lie').length !== 7)
-        out.push(`survol de l'objectif : ${svg.querySelectorAll('.lien.lie').length} lien(s), ${svg.querySelectorAll('.noeud.lie').length} bloc(s) en lumière (7 / 7 attendus)`);
+      // survol du bloc de l'objectif (replié sur lui) : toute la lignée en amont s'allume (6 liens, 6 blocs), pas seulement le fournisseur direct
+      svg.querySelector('.noeud.objectif').dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
+      if (svg.querySelectorAll('.lien.lie').length !== 6 || svg.querySelectorAll('.noeud.lie').length !== 6)
+        out.push(`survol de l'objectif : ${svg.querySelectorAll('.lien.lie').length} lien(s), ${svg.querySelectorAll('.noeud.lie').length} bloc(s) en lumière (6 / 6 attendus)`);
       // et toute la chaîne en aval : depuis le minerai, tout le graphe (il alimente tout)
       svg.querySelector('.noeud[data-id^="b:"]').dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
-      if (svg.querySelectorAll('.lien.lie').length !== 7) out.push(`survol du minerai : ${svg.querySelectorAll('.lien.lie').length} lien(s) en aval (7 attendus)`);
+      if (svg.querySelectorAll('.lien.lie').length !== 6) out.push(`survol du minerai : ${svg.querySelectorAll('.lien.lie').length} lien(s) en aval (6 attendus)`);
       // bloc du milieu (barres) : minerai → lingots → barres en amont, barres → vis → plaques renforcées → objectif en aval,
-      // mais pas la branche des plaques de fer (5 liens)
+      // mais pas la branche des plaques de fer (4 liens : le dernier lien vers l'objectif n'existe plus, l'objectif est replié sur son bloc)
       const tige = [...GEO.parId.values()].find(n => n.type === 'etape' && n.item === 'Iron Rod');
       svg.querySelector(`.noeud[data-id="${CSS.escape(tige.id)}"]`).dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
       const plaques = [...GEO.parId.values()].find(n => n.type === 'etape' && n.item === 'Iron Plate');
-      if (svg.querySelectorAll('.lien.lie').length !== 5 || svg.querySelector(`.noeud[data-id="${CSS.escape(plaques.id)}"]`).classList.contains('lie'))
-        out.push(`survol des barres : ${svg.querySelectorAll('.lien.lie').length} lien(s) (5 attendus), branche des plaques ${svg.querySelector(`.noeud[data-id="${CSS.escape(plaques.id)}"]`).classList.contains('lie') ? 'allumée' : 'éteinte'}`);
+      if (svg.querySelectorAll('.lien.lie').length !== 4 || svg.querySelector(`.noeud[data-id="${CSS.escape(plaques.id)}"]`).classList.contains('lie'))
+        out.push(`survol des barres : ${svg.querySelectorAll('.lien.lie').length} lien(s) (4 attendus), branche des plaques ${svg.querySelector(`.noeud[data-id="${CSS.escape(plaques.id)}"]`).classList.contains('lie') ? 'allumée' : 'éteinte'}`);
       // convoyeur sur chaque lien : 120 minerai → Mk.2
       const etiq = [...svg.querySelectorAll('.etiq')].map(x => x.textContent.replace(/\s+/g, ' '));
       if (!etiq.every(x => /Mk\.\d/.test(x)) || !etiq.some(x => /^120 Mk\.2$/.test(x))) out.push('convoyeurs des liens : ' + etiq.join(' | '));
@@ -667,6 +667,23 @@ const INDICES = {
       && replie.montage === 0 && replie.liensP > 0 && !errs.length;
     if (!bon) echecs.push('items acheminés : ' + JSON.stringify({pres, loin, replie}) + ' ' + errs.join(' | '));
     console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : items acheminés (zoom, blocs repliés)`);
+    await p.close();
+  }
+
+  // objectif replié sur son bloc : plus de cadre quand l'étape ne sert que cet objectif ; le cadre reste si l'item sert aussi d'autres blocs
+  {
+    const p = await b.newPage({viewport: {width: 1400, height: 900}}), errs = [];
+    p.on('pageerror', e => errs.push(e.message));
+    const etat = async cibles => {
+      await p.goto('file://' + path.join(ROOT, 'planner.html') + '?p=' + Buffer.from(JSON.stringify({c: cibles})).toString('base64url'));
+      await p.waitForTimeout(800);
+      return p.evaluate(() => ({cadres: document.querySelectorAll('#graphe .noeud.cible').length, onglets: [...document.querySelectorAll('#graphe .noeud.objectif .obj-tab text')].map(t => t.textContent)}));
+    };
+    const seul = await etat([['Motor', 5]]);
+    const deux = await etat([['Reinforced Iron Plate', 5], ['Iron Plate', 20]]);
+    const bon = seul.cadres === 0 && seul.onglets.length === 1 && /5/.test(seul.onglets[0]) && deux.cadres === 1 && deux.onglets.length === 1 && !errs.length;
+    if (!bon) echecs.push('objectif replié sur son bloc : ' + JSON.stringify({seul, deux}) + ' ' + errs.join(' | '));
+    console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : objectif replié sur son bloc`);
     await p.close();
   }
 

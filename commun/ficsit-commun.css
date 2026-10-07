@@ -153,6 +153,12 @@
 
 /* Filet orange du HUD (sous « Objective: », « Milestone: ») */
 .f-filet{height:2px;background:var(--f-or);border:0;margin:6px 0}
+
+/* Contraste renforcé demandé au système (prefers-contrast: more) : texte sombre sur l'orange (≈ 7 : 1 au lieu de 2,4 : 1),
+   textes secondaires plus clairs. Sans cette demande, le rendu reste celui du jeu (blanc sur orange). */
+@media (prefers-contrast:more){
+  :root{--f-or-encre:#141414;--f-encre2:#D6D6D6;--f-encre3:#BDBDBD}
+}
 html:not([lang|=en]) [data-l=en],html[lang|=en] [data-l=fr]{display:none!important}
 /* Barre de titre commune (dock) : pleine largeur, gris des barres de titre du jeu ; « FICSIT » et le nom de l'outil à
    gauche suivis d'« Accueil » et des onglets des outils, les boutons (journal, Ma partie, langue) en cases collées à droite. Elle réserve sa hauteur. */

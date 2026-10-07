@@ -683,7 +683,8 @@ window.FicsitRecettes={"items":["AI Expansion Server","AI Limiter","Adaptive Con
    avant que le navigateur n'affiche sa bulle) et s'affiche dans une fenêtre de la charte : première ligne en titre,
    les suivantes en détail. Placement : centrée sous un petit élément (bouton, icône) ; près du curseur sur un élément
    large (ligne d'un tableau), comme la bulle native ; centrée sous l'élément au clavier. Valable pour tout title, posé dans le HTML ou plus tard par un script (changement de
-   langue compris : le nouveau title l'emporte au survol suivant). Rien pour le tactile, qui n'a pas de survol.
+   langue compris : le nouveau title l'emporte au survol suivant). Au tactile (pas de survol) : appui long sur l'élément, qui n'est alors pas activé ; la bulle se ferme au toucher suivant
+   ou au défilement.
    Accessibilité : la bulle est un role="tooltip" relié à l'élément (aria-describedby) ; un élément sans texte visible
    garde son nom accessible (aria-label tiré du title). */
 (function(){
@@ -751,10 +752,30 @@ window.FicsitRecettes={"items":["AI Expansion Server","AI Limiter","Adaptive Con
   document.addEventListener('pointerover', function(e){ if(e.pointerType !== 'touch') souris = {x: e.clientX, y: e.clientY}; viser(e, false); });
   document.addEventListener('focusin', function(e){ if(e.target.matches && e.target.matches(':focus-visible')) viser(e, true); });
   document.addEventListener('pointerout', function(e){
+    if(e.pointerType === 'touch') return;   // le doigt qui se lève : la bulle reste jusqu'au toucher suivant
     if(cible || delai){ var vers = e.relatedTarget; if(!vers || !(cible || e.target).contains(vers)) cacher(); }
   });
   document.addEventListener('focusout', cacher);
-  document.addEventListener('pointerdown', cacher);
+  // tactile : appui long (≈ 0,5 s sans bouger) = la bulle ; le geste ne déclenche pas l'élément (clic et menu contextuel avalés)
+  var appui = null, longAppui = false, depart = null;
+  function annulerAppui(){ clearTimeout(appui); appui = null; }
+  document.addEventListener('pointerdown', function(e){
+    cacher(); annulerAppui(); longAppui = false;
+    if(e.pointerType !== 'touch') return;
+    var el = e.target.closest && e.target.closest('[title],[data-ftip]');
+    if(!el) return;
+    var t = texte(el);
+    if(!t) return;
+    depart = {x: e.clientX, y: e.clientY};
+    appui = setTimeout(function(){ appui = null; longAppui = true; afficher(el, t, true); }, 500);
+  });
+  document.addEventListener('pointermove', function(e){
+    if(appui && Math.abs(e.clientX - depart.x) + Math.abs(e.clientY - depart.y) > 12) annulerAppui();
+  }, {passive: true});
+  document.addEventListener('pointerup', annulerAppui);
+  document.addEventListener('pointercancel', annulerAppui);
+  document.addEventListener('click', function(e){ if(longAppui){ longAppui = false; e.preventDefault(); e.stopPropagation(); } }, true);
+  document.addEventListener('contextmenu', function(e){ if(appui || longAppui) e.preventDefault(); });
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape') cacher(); });
   window.addEventListener('scroll', cacher, true);
 })();

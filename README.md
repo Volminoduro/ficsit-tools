@@ -36,7 +36,7 @@ bash scripts/tout.sh                      # régénère les pages, vérifie, tes
 
 ## Arborescence
 
-- `*.html`, `planner-moteur.js`, `depot-dimensionnel-flux.js`, `satisfactory_infographie-partie.js` : les pages et leurs moteurs.
+- `*.html` (structure, style, données embarquées), `planner.js` et `satisfactory_infographie.js` (code de leur page), `planner-moteur.js`, `depot-dimensionnel-flux.js`, `satisfactory_infographie-partie.js` (moteurs et modules).
 - `commun/` : bloc commun (charte, langue, paliers, « Ma partie », infobulles), icônes partagées, polices, bibliothèques embarquées.
 - `donnees/` : référentiel du jeu (`donnees-jeu.json`, jamais édité à la main), icônes, nœuds de ressources, arbre du MAM.
 - `scripts/` : génération (`payloads.py`, `langue.py`, `patchnotes.py`…), vérifications et tests.

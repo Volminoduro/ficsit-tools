@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.32",
+          "date": "2026-10-07",
+          "texte": {
+            "fr": "Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.",
+            "en": "Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter."
+          }
+        },
+        {
           "version": "1.31",
           "date": "2026-10-06",
           "texte": {
@@ -272,6 +280,14 @@
       },
       "entrees": [
         {
+          "version": "1.24",
+          "date": "2026-10-07",
+          "texte": {
+            "fr": "Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.",
+            "en": "Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter."
+          }
+        },
+        {
           "version": "1.23",
           "date": "2026-10-06",
           "texte": {
@@ -471,6 +487,14 @@
         "en": "Yield registry"
       },
       "entrees": [
+        {
+          "version": "1.43",
+          "date": "2026-10-07",
+          "texte": {
+            "fr": "Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.",
+            "en": "Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter."
+          }
+        },
         {
           "version": "1.42",
           "date": "2026-10-06",
@@ -824,6 +848,14 @@
       },
       "entrees": [
         {
+          "version": "1.23",
+          "date": "2026-10-07",
+          "texte": {
+            "fr": "Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.",
+            "en": "Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter."
+          }
+        },
+        {
           "version": "1.22",
           "date": "2026-10-06",
           "texte": {
@@ -1015,6 +1047,14 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
+        {
+          "version": "1.31",
+          "date": "2026-10-07",
+          "texte": {
+            "fr": "Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.",
+            "en": "Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter."
+          }
+        },
         {
           "version": "1.30",
           "date": "2026-10-06",
@@ -1272,6 +1312,14 @@
       },
       "entrees": [
         {
+          "version": "1.24",
+          "date": "2026-10-07",
+          "texte": {
+            "fr": "Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.",
+            "en": "Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter."
+          }
+        },
+        {
           "version": "1.23",
           "date": "2026-10-06",
           "texte": {
@@ -1472,6 +1520,14 @@
       },
       "entrees": [
         {
+          "version": "1.20",
+          "date": "2026-10-07",
+          "texte": {
+            "fr": "Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.",
+            "en": "Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter."
+          }
+        },
+        {
           "version": "1.19",
           "date": "2026-10-06",
           "texte": {
@@ -1639,6 +1695,14 @@
         "en": "Power per node"
       },
       "entrees": [
+        {
+          "version": "1.13",
+          "date": "2026-10-07",
+          "texte": {
+            "fr": "Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.",
+            "en": "Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter."
+          }
+        },
         {
           "version": "1.12",
           "date": "2026-10-06",

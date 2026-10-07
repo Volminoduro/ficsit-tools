@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Planificateur de production / Production planner — `planner.html`
 
+- **v1.32** (07/10/2026) : Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.
+  *EN — Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter.*
 - **v1.31** (06/10/2026) : Survoler un bloc du graphe met en lumière toute sa chaîne : en amont jusqu'aux ressources brutes (fournisseurs, leurs fournisseurs…) et en aval jusqu'aux objectifs (consommateurs, leurs consommateurs…), avec les flux qui les relient ; le reste s'efface.
   *EN — Hovering a graph box highlights its whole chain: upstream down to the raw resources (suppliers, their suppliers…) and downstream up to the targets (consumers, their consumers…), with the flows linking them; the rest fades out.*
 - **v1.30** (06/10/2026) : Survoler un bloc du graphe met en lumière toute sa lignée en amont, de ses fournisseurs directs jusqu'aux ressources brutes, avec les flux qui les relient (et toujours ses consommateurs directs) ; le reste s'efface.
@@ -71,6 +73,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Débit vers le Dimensional Depot / Dimensional Depot throughput — `depot-dimensionnel.html`
 
+- **v1.24** (07/10/2026) : Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.
+  *EN — Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter.*
 - **v1.23** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
   *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
 - **v1.22** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
@@ -122,6 +126,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
+- **v1.43** (07/10/2026) : Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.
+  *EN — Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter.*
 - **v1.42** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
   *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
 - **v1.41** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
@@ -211,6 +217,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Module d'étalonnage / Calibration module — `ficsit_horloge.html`
 
+- **v1.23** (07/10/2026) : Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.
+  *EN — Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter.*
 - **v1.22** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
   *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
 - **v1.21** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
@@ -260,6 +268,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Optimiseur de recyclage / Recycling optimizer — `broyeur-excedents.html`
 
+- **v1.31** (07/10/2026) : Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.
+  *EN — Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter.*
 - **v1.30** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
   *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
 - **v1.29** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
@@ -325,6 +335,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Mémo de terrain / Field memo — `memo-ficsit.html`
 
+- **v1.24** (07/10/2026) : Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.
+  *EN — Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter.*
 - **v1.23** (06/10/2026) : Couleurs des convoyeurs partagées avec le planificateur ; Mk.1 et Mk.2 éclaircis, plus lisibles (chiffres sombres sur la case).
   *EN — Belt colours shared with the planner; Mk.1 and Mk.2 made lighter and easier to read (dark figures on the cell).*
 - **v1.22** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
@@ -376,6 +388,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Complexité et valeur au broyeur / Complexity vs sink value — `arbre-production.html`
 
+- **v1.20** (07/10/2026) : Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.
+  *EN — Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter.*
 - **v1.19** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
   *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
 - **v1.18** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
@@ -419,6 +433,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Rentabilité énergétique par nœud / Power per node — `energie-noeuds.html`
 
+- **v1.13** (07/10/2026) : Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.
+  *EN — Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter.*
 - **v1.12** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
   *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
 - **v1.11** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.

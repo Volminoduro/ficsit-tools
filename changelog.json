@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.33",
+          "date": "2026-10-07",
+          "texte": {
+            "fr": "Montage déplié plus lisible : liseré sombre sous chaque convoyeur (les lignes proches se distinguent), pointes de flèche à l'arrivée sur les machines, machines numérotées, noms des convoyeurs cernés d'un contour sombre pour rester lisibles par-dessus les lignes.",
+            "en": "Unfolded layouts easier to read: dark casing under every conveyor (close lines stay distinct), arrowheads where lines reach the machines, numbered machines, conveyor names outlined in dark so they stay legible over the lines."
+          }
+        },
+        {
           "version": "1.32",
           "date": "2026-10-07",
           "texte": {

@@ -534,9 +534,13 @@ function schemaMontage(e, D, rang){
   const y = i => top + RH * i + RH / 2;
   const dE = j => (j - (kE - 1) / 2) * DECAL, dS = j => (j - (kS - 1) / 2) * DECAL;
   const yF = j => top - PAS * j + 2;     // ligne j > 0 : passage par le haut
-  let out = [], nSep = 0, nGrp = 0;
-  const trait = (d, cls) => {
+  let out = [], bords = [], nSep = 0, nGrp = 0;
+  // liseré sombre sous chaque tracé (dessiné avant tous les tracés : les embranchements ne le coupent pas), pointe de flèche
+  // à l'arrivée sur une machine (entrées) : le sens de circulation se lit sans attendre l'animation
+  const trait = (d, cls, fin) => {
+    if(!/\bboucle\b/.test(cls || '')) bords.push(`<path class="sch-g" d="${d}"/>`);
     out.push(`<path class="sch${cls ? ' ' + cls : ''}" d="${d}"/>`);
+    if(fin) out.push(`<path class="sch-f${cls ? ' ' + cls : ''}" d="M${fin[0] - 6},${fin[1] - 3.5} L${fin[0] - 1},${fin[1]} L${fin[0] - 6},${fin[1] + 3.5}"/>`);
     // items qui défilent dans le sens du tracé (tous les tracés vont de l'entrée vers la sortie)
     const niv = (cls || '').match(/\b[tp][1-6]\b/), liq = /\bliq\b/.test(cls || '');
     out.push(`<path class="defile d-sch${niv ? ' ' + niv[0] : ''}${liq ? ' liq' : ''}" d="${d}" stroke-width="1.6"/>`);
@@ -548,11 +552,11 @@ function schemaMontage(e, D, rang){
   // --- une bande d'entrée : de (x0, départ) jusqu'aux machines (xM), à la hauteur y(i) + dy ; renvoie le point de départ
   function bandeE(l, x0, xM, dy, j){
     let y0 = y(0) + dy;
-    if(l.mode === 'direct') trait(`M${x0},${y0} H${xM}`, cl(l, l.ligne));
+    if(l.mode === 'direct') trait(`M${x0},${y0} H${xM}`, cl(l, l.ligne), [xM, y0]);
     else if(l.mode === 'manifold'){
       const xT = x0 + 20;
-      trait(`M${x0},${y0} H${xT} V${y(n - 1) + dy} H${xM}`, cl(l, l.ligne));
-      for(let i = 0; i < n - 1; i++){ trait(`M${xT},${y(i) + dy} H${xM}`, cl(l, l.branche)); if(!l.liquide) sep(xT, y(i) + dy); }
+      trait(`M${x0},${y0} H${xT} V${y(n - 1) + dy} H${xM}`, cl(l, l.ligne), [xM, y(n - 1) + dy]);
+      for(let i = 0; i < n - 1; i++){ trait(`M${xT},${y(i) + dy} H${xM}`, cl(l, l.branche), [xM, y(i) + dy]); if(!l.liquide) sep(xT, y(i) + dy); }
     } else {
       const q = M.equilibre(n), f = q.facteurs, xR = x0 + (boucle ? 40 : 18);
       // séparateur de l'étage k, rang t : couvre les feuilles [t·c, (t+1)·c), c = m / (f1·…·fk)
@@ -567,7 +571,7 @@ function schemaMontage(e, D, rang){
           const ya = ys(k, t);
           for(let c = 0; c < fk; c++){
             const ch = t * fk + c, yb = k < f.length - 1 ? ys(k + 1, ch) : y(ch) + dy;
-            trait(`M${xk},${ya} H${xk + DX / 2} V${yb} H${xs}`, classeTapis(l.etages && l.etages[k] ? l.etages[k].tapis : l.branche));
+            trait(`M${xk},${ya} H${xk + DX / 2} V${yb} H${xs}`, classeTapis(l.etages && l.etages[k] ? l.etages[k].tapis : l.branche), k === f.length - 1 ? [xs, yb] : null);
           }
           sep(xk, ya);
         }
@@ -602,7 +606,10 @@ function schemaMontage(e, D, rang){
   });
   if(kE === 1 && n > 1) texte(xM + 2, y(0) - MHk / 2 - 3, tapisCourt(ents[0].branche));
   // --- machines
-  for(let i = 0; i < n; i++) out.push(`<rect class="mach" x="${xM}" y="${y(i) - MHk / 2}" width="${MW}" height="${MHk}" rx="2"><title>${esc(nomBat(e.recette.machine))} ${i + 1}</title></rect>`);
+  for(let i = 0; i < n; i++){
+    out.push(`<rect class="mach" x="${xM}" y="${y(i) - MHk / 2}" width="${MW}" height="${MHk}" rx="3"><title>${esc(nomBat(e.recette.machine))} ${i + 1}</title></rect>`);
+    if(n > 1) out.push(`<text class="mach-n" x="${xM + MW / 2}" y="${y(i) + 3.5}" text-anchor="middle">${i + 1}</text>`);
+  }
   // --- une bande de sortie : des machines (xO) jusqu'à x1 (début de la bande) + sa largeur ; renvoie [x de fin, y de fin]
   const xO = xM + MW;
   function bandeS(l, x1, dy, mesure){
@@ -640,7 +647,7 @@ function schemaMontage(e, D, rang){
     else { trait(`M${xb},${yb} H${xb + 4} V${yB(j)} H${xFin}`, cl(l, l.ligne)); ySs[l.item] = yB(j); texte(xFin - 2, yB(j) - 3, nom, 'tap', true); }
   });
   const h = bas + PAS * Math.max(0, kS - 1);
-  return {w: Math.max(GW, xFin + 14), h: h + 10, svg: out.join(''), nSep, nGrp, yE, yS, yEs, ySs};
+  return {w: Math.max(GW, xFin + 14), h: h + 10, svg: bords.join('') + out.join(''), nSep, nGrp, yE, yS, yEs, ySs};
 }
 // légende des couleurs : les niveaux de convoyeur et de tuyau présents dans le graphe
 function legende(u){

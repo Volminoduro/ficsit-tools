@@ -627,6 +627,9 @@ function schemaMontage(e, D, rang){
   const grp = (x, yy) => { nGrp++; out.push(`<rect class="grp" x="${x - 4}" y="${yy - 4}" width="8" height="8" transform="rotate(45 ${x} ${yy})"><title>${tGrp}</title></rect>`); };
   const texte = (x, yy, t, cls, fin) => textes.push(`<text class="sch-t${cls ? ' ' + cls : ''}" x="${x}" y="${yy}"${fin ? ' text-anchor="end"' : ''}>${esc(t)}</text>`);
   const cl = (l, t) => (l.liquide ? 'liq ' : '') + classeTapis(t, l.liquide);
+  // texte « Mk.x » à la couleur du niveau, posé là où le niveau change (et au départ de chaque bande d'entrée)
+  const tn = (t, liq) => classeTapis(t, liq).split(' ')[0];
+  const etiq = (x, yy, t, liq) => texte(x, yy, tapisCourt(t), 'tap ' + tn(t, liq));
   // --- une bande d'entrée : de (x0, départ) jusqu'aux machines (xM), à la hauteur y(i) + dy ; renvoie le point de départ
   function bandeE(l, x0, xM, dy, j){
     porte = l.item;
@@ -638,6 +641,7 @@ function schemaMontage(e, D, rang){
       trait(`M${x0},${y0} H${xT} V${y(n - 1) + dy} H${xM}`, cl(l, l.ligne));
       for(let i = 0; i < n - 1; i++){ trait(`M${xT},${y(i) + dy} H${xM}`, cl(l, l.branche)); if(!l.liquide) sep(xT, y(i) + dy); }
       for(let i = 0; i < n; i++) trajets.push(suite(x0, y0, [['H', xT, l.ligne], ['V', y(i) + dy, l.ligne], ['H', xM, i === n - 1 ? l.ligne : l.branche]], l.liquide));
+      if(n > 1 && tn(l.branche, l.liquide) !== tn(l.ligne, l.liquide)) etiq(xT + 4, y(0) + dy - 3, l.branche, l.liquide);
     } else {
       const q = M.equilibre(n), f = q.facteurs, xR = x0 + (boucle ? 40 : 18);
       // séparateur de l'étage k, rang t : couvre les feuilles [t·c, (t+1)·c), c = m / (f1·…·fk)
@@ -645,9 +649,12 @@ function schemaMontage(e, D, rang){
       y0 = ys(0, 0);
       trait(`M${x0},${y0} H${xR}`, classeTapis(l.ligne));
       if(l.boucle) grp(x0 + 16, y0);
-      let nb = 1;
+      let nb = 1, precedent = l.ligne;
+      const tapisEtage = k => l.etages && l.etages[k] ? l.etages[k].tapis : l.branche;
       f.forEach((fk, k) => {
         const xk = xR + k * DX, xs = k < f.length - 1 ? xk + DX : xM;
+        if(tn(tapisEtage(k), l.liquide) !== tn(precedent, l.liquide)) etiq(xk + DX / 2 + 2, (k < f.length - 1 ? ys(k + 1, 0) : y(0) + dy) - 3, tapisEtage(k), l.liquide);
+        precedent = tapisEtage(k);
         for(let t = 0; t < nb; t++){
           const ya = ys(k, t);
           for(let c = 0; c < fk; c++){
@@ -668,8 +675,19 @@ function schemaMontage(e, D, rang){
         });
         trajets.push(suite(x0, y0, pas, l.liquide));
       }
-      // sorties en trop : renvoyées sur l'entrée par le groupeur
+      // sorties en trop : renvoyées sur l'entrée par le groupeur ; les items y suivent leur feuille puis le trait de retour
       const yb = top + rows * RH + 4 + j * 4;
+      for(let L = n; L < n + l.boucle; L++){
+        const pas = [['H', xR, l.ligne]]; let pr = 1, tap = l.branche;
+        f.forEach((fk, k) => {
+          pr *= fk;
+          const xk = xR + k * DX, xs = k < f.length - 1 ? xk + DX : xM, ch = Math.floor(L / (q.m / pr));
+          tap = tapisEtage(k);
+          pas.push(['H', xk + DX / 2, tap], ['V', k < f.length - 1 ? ys(k + 1, ch) : y(ch) + dy, tap], ['H', xs, tap]);
+        });
+        pas.push(['V', yb, tap], ['H', x0 + 16, tap], ['V', y0, tap]);
+        trajets.push(suite(x0, y0, pas, l.liquide));
+      }
       for(let r = n; r < n + l.boucle; r++){
         if(j === 0) texte(xM + 2, y(r) + 3, '↺');
         trait(`M${xM},${y(r) + dy} V${yb} H${x0 + 16} V${y0}`, 'boucle');
@@ -690,14 +708,13 @@ function schemaMontage(e, D, rang){
     let amorce = [];
     if(j === 0){
       if(x0E[0] > 0){ trait(`M0,${y0} H${x0E[0]}`, cl(l, l.ligne)); amorce = suite(0, y0, [['H', x0E[0], l.ligne]], l.liquide); }
-      yE = y0; yEs[l.item] = y0;
+      yE = y0; yEs[l.item] = y0; etiq(2, y0 - 6, l.ligne, l.liquide);
     } else {
       trait(`M0,${yF(j)} H${x0E[j]} V${y0}`, cl(l, l.ligne)); amorce = suite(0, yF(j), [['H', x0E[j], l.ligne], ['V', y0, l.ligne]], l.liquide);
-      yEs[l.item] = yF(j);
+      yEs[l.item] = yF(j); etiq(2, yF(j) - 3, l.ligne, l.liquide);
     }
     if(P.ic[l.item]) bandes.push(prevoir(l.item, l.liquide, trajets.map(r => amorce.concat(r))));
   });
-  if(kE === 1 && n > 1) texte(xM + 2, y(0) - MHk / 2 - 3, tapisCourt(ents[0].branche));
   // --- machines
   for(let i = 0; i < n; i++){
     out.push(`<rect class="mach" x="${xM}" y="${y(i) - MHk / 2}" width="${MW}" height="${MHk}" rx="3"><title>${esc(nomBat(e.recette.machine))} ${i + 1}</title></rect>`);
@@ -712,6 +729,7 @@ function schemaMontage(e, D, rang){
       const xT = x1 + 18;
       t(`M${xO},${y(0) + dy} H${xT} V${y(n - 1) + dy} H${xT + 10}`, cl(l, l.ligne));
       for(let i = 1; i < n; i++){ t(`M${xO},${y(i) + dy} H${xT}`, cl(l, l.branche)); if(!l.liquide) g(xT, y(i) + dy); }
+      if(!mesure && n > 1 && tn(l.branche, l.liquide) !== tn(l.ligne, l.liquide)){ etiq(xO + 3, y(1) + dy - 3, l.branche, l.liquide); etiq(xT + 3, y(0) + dy - 3, l.ligne, l.liquide); }
       for(let i = 0; i < n; i++) trajets.push(suite(xO, y(i) + dy, [['H', xT, i === 0 ? l.ligne : l.branche], ['V', y(n - 1) + dy, l.ligne], ['H', xT + 10, l.ligne]], l.liquide));
       return [xT + 10, y(n - 1) + dy, trajets];
     }
@@ -719,9 +737,13 @@ function schemaMontage(e, D, rang){
       // groupeurs à 3 entrées, en file : chaque groupeur prend les trois premières lignes et rejoint la fin de la file
       const file = Array.from({length: n}, (_, i) => ({x: x1, xs: xO, y: y(i) + dy, ids: [i]}));
       for(let i = 0; i < n; i++) trajets.push([]);
+      let premier = true;
+      if(!mesure && tn(l.branche, l.liquide) !== tn(l.ligne, l.liquide)) etiq(xO + 3, y(0) + dy - 3, l.branche, l.liquide);
       while(file.length > 1){
         const gs = file.splice(0, Math.min(3, file.length)), gx = Math.max(...gs.map(a => a.x)) + DX, gy = gs.reduce((s0, a) => s0 + a.y, 0) / gs.length;
         gs.forEach(a => { t(`M${a.xs},${a.y} H${gx - DX / 2} V${gy} H${gx}`, classeTapis(a.xs === xO ? l.branche : l.ligne)); const tap = a.xs === xO ? l.branche : l.ligne; a.ids.forEach(i => { const r = trajets[i], px = r.length ? r[r.length - 1].x1 : xO, py = r.length ? r[r.length - 1].y1 : y(i) + dy; trajets[i] = r.concat(suite(px, py, [['H', gx - DX / 2, tap], ['V', gy, tap], ['H', gx, tap]], l.liquide)); }); });
+        if(!mesure && premier && tn(l.branche, l.liquide) !== tn(l.ligne, l.liquide)) etiq(gx + 3, gy - 3, l.ligne, l.liquide);
+        premier = false;
         g(gx, gy); file.push({x: gx, xs: gx, y: gy, ids: [].concat(...gs.map(a => a.ids))});
       }
       return [file[0].x, file[0].y, trajets];

@@ -861,6 +861,19 @@ function rendreGraphe(){
     document.getElementById('detail').innerHTML = ''; document.getElementById('legende').innerHTML = ''; GEO = null; return;
   }
   const {R, EC, D} = DERNIER, G = M.graphe(R, S.cibles);
+  // objectif replié sur son bloc : quand tout ce qu'une étape produit va à un seul objectif, le cadre de l'objectif (et son
+  // lien) disparaît ; le bloc porte l'objectif en onglet. Un item qui sert aussi d'autres blocs, ou plusieurs objectifs,
+  // gardent leur cadre.
+  {
+    const plies = new Set();
+    G.noeuds.filter(n => n.type === 'cible').forEach(c => {
+      const entrants = G.liens.filter(l => l.vers === c.id); if(entrants.length !== 1) return;
+      const src = G.noeuds.find(n => n.id === entrants[0].de);
+      if(!src || src.type !== 'etape' || G.liens.filter(l => l.de === src.id).length !== 1) return;
+      src.objectif = entrants[0].debit; src.objectifItem = c.item; plies.add(c.id);
+    });
+    if(plies.size){ G.noeuds = G.noeuds.filter(n => !plies.has(n.id)); G.liens = G.liens.filter(l => !plies.has(l.vers)); }
+  }
   const parId = new Map(G.noeuds.map(n => [n.id, n]));
   // colonnes compactées (une colonne de la mise en page peut être vide), ressources à gauche
   const cols = [...new Set(G.noeuds.map(n => n.col))].sort((a, b) => b - a), colonnes = cols.map(() => []);
@@ -900,7 +913,7 @@ function rendreGraphe(){
   });
   if(refaire){ cols0.forEach((c, x) => { colonnes[x] = c.slice(); }); disposer(G, colonnes); }
   // positions choisies à la main
-  G.noeuds.forEach(n => { const q = S.pos[n.id]; if(q){ n.px = Math.max(0, q.x); n.py = Math.max(0, q.y); } });
+  G.noeuds.forEach(n => { const q = S.pos[n.id]; if(q){ n.px = Math.max(0, q.x); n.py = Math.max(n.objectif != null ? 14 : 0, q.y); } });
   // un lien ne passe par ses points de passage que si ses deux bouts sont à leur place automatique
   G.liens.forEach(l => { if(l.via && (S.pos[l.de] || S.pos[l.vers])) l.via = null; });
   const pts = G.noeuds.concat(...G.liens.map(l => l.via || []));
@@ -967,8 +980,10 @@ function rendreGraphe(){
     const plier = n.type === 'etape' ? `<g class="plier" data-plier="${esc(n.id)}" role="button"
       aria-label="${esc(n.sch ? L({fr: 'Replier le montage', en: 'Fold the layout'}) : L({fr: 'Déplier le montage', en: 'Unfold the layout'}))}">
       <rect x="${n.w - 24}" y="4" width="20" height="20" rx="2"/><text x="${n.w - 14}" y="19" text-anchor="middle">${n.sch ? '−' : '+'}</text></g>` : '';
-    return `<g class="noeud ${cls}${n.sch ? ' deplie' : ''}" data-id="${esc(n.id)}" tabindex="0" transform="translate(${n.px},${n.py})"><title>${esc(titre)}</title>
-      <rect x="0" y="0" width="${n.w}" height="${n.h}" rx="2"/>${marqueAlt}${ic}${recette}${plier}${n.sch ? n.sch.svg : ''}
+    const tx = n.objectif != null ? `${L({fr: 'OBJECTIF', en: 'TARGET'})} · ${num(n.objectif)} ${unite(n.objectifItem)}` : '';
+    const onglet = tx ? `<g class="obj-tab"><rect x="-1" y="-13" width="${Math.round(tx.length * 6.3 + 14)}" height="14" rx="2"/><text x="6" y="-2.5">${esc(tx)}</text></g>` : '';
+    return `<g class="noeud ${cls}${n.objectif != null ? ' objectif' : ''}${n.sch ? ' deplie' : ''}" data-id="${esc(n.id)}" tabindex="0" transform="translate(${n.px},${n.py})"><title>${esc(titre)}${tx ? ' — ' + esc(tx.toLowerCase()) : ''}</title>
+      <rect x="0" y="0" width="${n.w}" height="${n.h}" rx="2"/>${onglet}${marqueAlt}${ic}${recette}${plier}${n.sch ? n.sch.svg : ''}
       <text x="46" y="19" class="n1">${esc(couper(nomItem(n.item), n.type === 'etape' ? 15 : changeable ? 18 : 21))}</text>
       <text x="46" y="35" class="n2">${esc(couper(l2, 26))}</text>
       <text x="46" y="52">${l3}</text>
@@ -986,7 +1001,7 @@ function rendreGraphe(){
 }
 // déplace un bloc : son groupe et les liens qui le touchent, sans tout redessiner
 function deplacer(id, x, y){
-  const n = GEO.parId.get(id); n.px = Math.max(0, x); n.py = Math.max(0, y);
+  const n = GEO.parId.get(id); n.px = Math.max(0, x); n.py = Math.max(n.objectif != null ? 14 : 0, y);
   const svg = document.querySelector('#graphe svg');
   svg.querySelector(`.noeud[data-id="${CSS.escape(id)}"]`).setAttribute('transform', `translate(${n.px},${n.py})`);
   GEO.liens.forEach((l, k) => {

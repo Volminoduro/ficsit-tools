@@ -1,5 +1,5 @@
 __pycache__/
-# installé par npm pour les tests (CI : npm install --no-save playwright)
+# installé par npm pour les tests (CI : npm ci)
 node_modules/
 # images d'écart des captures de référence (scripts/captures.js)
 scripts/captures-ecarts/

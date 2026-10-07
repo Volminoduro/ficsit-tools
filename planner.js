@@ -556,7 +556,7 @@ function majProche(svg){
   svg.classList.toggle('proche', S.zoom >= SEUIL_PROCHE);
   svg.classList.toggle('trop', svg.querySelectorAll('.porte-m').length > PLAFOND_PORTES);   // trop d'icônes à animer : les points
 }
-const RH0 = 20, DX = 26, MW = 30, MH = 12, MAXDESSIN = 27, PAS = 12, DECAL = 10;
+const RH0 = 20, DX = 26, MW = 30, MH = 12, MAXDESSIN = 27, PAS = 26, DECAL = 14;
 function schemaMontage(e, D, rang){
   const mo = M.montage(e, S.montage, D, LIQ), n = e.entieres;
   const tSep = L({fr: 'Séparateur', en: 'Splitter'}), tGrp = L({fr: 'Groupeur', en: 'Merger'});
@@ -708,10 +708,10 @@ function schemaMontage(e, D, rang){
     let amorce = [];
     if(j === 0){
       if(x0E[0] > 0){ trait(`M0,${y0} H${x0E[0]}`, cl(l, l.ligne)); amorce = suite(0, y0, [['H', x0E[0], l.ligne]], l.liquide); }
-      yE = y0; yEs[l.item] = y0; etiq(2, y0 - 6, l.ligne, l.liquide);
+      yE = y0; yEs[l.item] = y0; etiq(4, y0 - 9, l.ligne, l.liquide);
     } else {
       trait(`M0,${yF(j)} H${x0E[j]} V${y0}`, cl(l, l.ligne)); amorce = suite(0, yF(j), [['H', x0E[j], l.ligne], ['V', y0, l.ligne]], l.liquide);
-      yEs[l.item] = yF(j); etiq(2, yF(j) - 3, l.ligne, l.liquide);
+      yEs[l.item] = yF(j); etiq(4, yF(j) - 9, l.ligne, l.liquide);
     }
     if(P.ic[l.item]) bandes.push(prevoir(l.item, l.liquide, trajets.map(r => amorce.concat(r))));
   });

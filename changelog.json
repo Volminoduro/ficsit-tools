@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.37",
+          "date": "2026-10-07",
+          "texte": {
+            "fr": "Montages dépliés : les sorties des machines sont toujours réunies par un seul collecteur (n − 1 groupeurs), quel que soit le montage des entrées ; le dernier groupeur s'appuie sur le bord du bloc, d'où part le lien (plus de trait de sortie). Un montage plus étroit que le bloc est calé à droite.",
+            "en": "Unfolded layouts: machine outputs are always merged by a single collector (n − 1 mergers), whatever the input layout; the last merger sits on the block's edge, where the link starts (no more output stub). A layout narrower than the block is aligned to the right."
+          }
+        },
+        {
           "version": "1.36",
           "date": "2026-10-07",
           "texte": {

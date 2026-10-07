@@ -4,6 +4,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Planificateur de production / Production planner — `planner.html`
 
+- **v1.37** (07/10/2026) : Montages dépliés : les sorties des machines sont toujours réunies par un seul collecteur (n − 1 groupeurs), quel que soit le montage des entrées ; le dernier groupeur s'appuie sur le bord du bloc, d'où part le lien (plus de trait de sortie). Un montage plus étroit que le bloc est calé à droite.
+  *EN — Unfolded layouts: machine outputs are always merged by a single collector (n − 1 mergers), whatever the input layout; the last merger sits on the block's edge, where the link starts (no more output stub). A layout narrower than the block is aligned to the right.*
 - **v1.36** (07/10/2026) : Montages dépliés : le texte du Mk de sortie n'est plus répété (le lien, en dehors du bloc, l'indique déjà) ; les textes de Mk ont leur place sans recouvrir les convoyeurs (lignes d'entrée plus espacées, départs rehaussés).
   *EN — Unfolded layouts: the output Mk text is no longer repeated (the link outside the block already shows it); Mk texts now have room and no longer cover the conveyors (input lines spaced further apart, starts raised).*
 - **v1.35** (07/10/2026) : Items acheminés de façon cohérente dans les montages dépliés : un item suit un trajet d'un seul tenant, de l'entrée à la machine (ou de la machine à la sortie, ou par le trait de retour), et choisit sa branche tour à tour à chaque séparateur au lieu de disparaître et réapparaître ; l'espacement se répartit donc comme le flux, et la vitesse suit le niveau de convoyeur de chaque tronçon. Le texte du Mk apparaît au départ de chaque entrée et à chaque changement de niveau (étage de séparateurs, branche, regroupement).

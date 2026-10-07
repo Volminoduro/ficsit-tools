@@ -401,7 +401,8 @@
     var n = e.entieres, liq = function(i){ return liquides ? liquides.has(i) : false; };
     function lot(item, debit, sens){
       var l = {item: item, debit: debit, liquide: liq(item), separateurs: 0, groupeurs: 0, etages: [], boucle: 0, debitLigne: debit};
-      l.mode = l.liquide || n <= 1 ? (n <= 1 ? 'direct' : 'manifold') : mode;
+      // sorties : toujours un seul collecteur (n − 1 groupeurs), quel que soit le montage des entrées
+      l.mode = l.liquide || n <= 1 ? (n <= 1 ? 'direct' : 'manifold') : sens === 'sortie' ? 'manifold' : mode;
       if(l.mode === 'manifold'){
         if(sens === 'entree') l.separateurs = n - 1; else l.groupeurs = n - 1;
       } else if(l.mode === 'equilibre'){
@@ -414,8 +415,6 @@
             var d = l.debitLigne / branches;
             l.etages.push({facteur: f, separateurs: branches / f, branches: branches, debit: d, tapis: convoyeur(d, false, dispo)});
           });
-        } else {
-          l.groupeurs = Math.ceil((n - 1) / 2);
         }
       }
       l.ligne = convoyeur(l.debitLigne, l.liquide, dispo);

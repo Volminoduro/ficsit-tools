@@ -262,8 +262,7 @@ function texteMontage(e, D){
     let t;
     if(l.mode === 'direct') t = L({fr: `directement, sur ${tapis(l.ligne, l.liquide)}`, en: `directly, on a ${tapis(l.ligne, l.liquide)}`});
     else if(l.liquide) t = L({fr: `${tapis(l.ligne, true)} en manifold`, en: `${tapis(l.ligne, true)} as a manifold`});
-    else if(l.mode === 'manifold') t = L({fr: `${l.groupeurs} groupeur(s) en chaîne vers ${tapis(l.ligne)}`, en: `${l.groupeurs} merger(s) in a row onto a ${tapis(l.ligne)}`});
-    else t = L({fr: `${l.groupeurs} groupeur(s) à 3 entrées en arbre vers ${tapis(l.ligne)}`, en: `${l.groupeurs} 3-input merger(s) in a tree onto a ${tapis(l.ligne)}`});
+    else t = L({fr: `${l.groupeurs} groupeur(s) en chaîne vers ${tapis(l.ligne)}`, en: `${l.groupeurs} merger(s) in a row onto a ${tapis(l.ligne)}`});
     lignes.push(`<p class="montage-l"><span class="s">${L({fr: 'Sortie', en: 'Output'})}</span> ${qui(l)} — ${t}</p>`);
   });
   const resume = sep || grp ? L({fr: `${sep} sép. · ${grp} grp.`, en: `${sep} split. · ${grp} merg.`}) : L({fr: 'montage direct', en: 'direct feed'});
@@ -742,21 +741,6 @@ function schemaMontage(e, D, rang){
       if(!mesure && n > 1 && tn(l.branche, l.liquide) !== tn(l.ligne, l.liquide)){ etiq(xO + 3, y(1) + dy - 3, l.branche, l.liquide); etiq(xT + 3, y(0) + dy - 3, l.ligne, l.liquide); }
       for(let i = 0; i < n; i++) trajets.push(suite(xO, y(i) + dy, [['H', xT, i === 0 ? l.ligne : l.branche], ['V', y(n - 1) + dy, l.ligne], ['H', xT + 10, l.ligne]], l.liquide));
       return [xT + 10, y(n - 1) + dy, trajets];
-    }
-    if(l.mode === 'equilibre'){
-      // groupeurs à 3 entrées, en file : chaque groupeur prend les trois premières lignes et rejoint la fin de la file
-      const file = Array.from({length: n}, (_, i) => ({x: x1, xs: xO, y: y(i) + dy, ids: [i]}));
-      for(let i = 0; i < n; i++) trajets.push([]);
-      let premier = true;
-      if(!mesure && tn(l.branche, l.liquide) !== tn(l.ligne, l.liquide)) etiq(xO + 3, y(0) + dy - 3, l.branche, l.liquide);
-      while(file.length > 1){
-        const gs = file.splice(0, Math.min(3, file.length)), gx = Math.max(...gs.map(a => a.x)) + DX, gy = gs.reduce((s0, a) => s0 + a.y, 0) / gs.length;
-        gs.forEach(a => { t(`M${a.xs},${a.y} H${gx - DX / 2} V${gy} H${gx}`, classeTapis(a.xs === xO ? l.branche : l.ligne)); const tap = a.xs === xO ? l.branche : l.ligne; a.ids.forEach(i => { const r = trajets[i], px = r.length ? r[r.length - 1].x1 : xO, py = r.length ? r[r.length - 1].y1 : y(i) + dy; trajets[i] = r.concat(suite(px, py, [['H', gx - DX / 2, tap], ['V', gy, tap], ['H', gx, tap]], l.liquide)); }); });
-        if(!mesure && premier && tn(l.branche, l.liquide) !== tn(l.ligne, l.liquide)) etiq(gx + 3, gy - 3, l.ligne, l.liquide);
-        premier = false;
-        g(gx, gy); file.push({x: gx, xs: gx, y: gy, ids: [].concat(...gs.map(a => a.ids))});
-      }
-      return [file[0].x, file[0].y, trajets];
     }
     t(`M${xO},${y(0) + dy} H${x1 + 8}`, cl(l, l.ligne));
     return [x1 + 8, y(0) + dy, [suite(xO, y(0) + dy, [['H', x1 + 8, l.ligne]], l.liquide)]];

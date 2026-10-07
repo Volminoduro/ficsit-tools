@@ -159,7 +159,7 @@ function conservation(nom, R, cibles){
   ok('équilibrage : ligne à 180 /min (boucle comprise) sur Mk.3', proche(ent.debitLigne, 180) && ent.ligne.nom === 'Mk.3', JSON.stringify(ent));
   ok('équilibrage : branches finales à 30 /min sur Mk.1', proche(ent.etages[ent.etages.length - 1].debit, 30) && ent.branche.nom === 'Mk.1', '');
   ok('équilibrage : 3 séparateurs et 1 groupeur de boucle', ent.separateurs === 3 && ent.groupeurs === 1 && ent.boucle === 1, '');
-  ok('équilibrage : sorties réunies par 2 groupeurs', mo.sorties[0].groupeurs === 2, mo.sorties[0].groupeurs);
+  ok('équilibrage : sorties réunies par un seul collecteur (4 groupeurs)', mo.sorties[0].mode === 'manifold' && mo.sorties[0].groupeurs === 4, JSON.stringify(mo.sorties[0]));
   const ma = M.montage(e, 'manifold', D, new Set(P.liq));
   ok('manifold : 4 séparateurs, ligne à 150 /min sur Mk.3', ma.entrees[0].separateurs === 4 && proche(ma.entrees[0].debitLigne, 150) && ma.entrees[0].ligne.nom === 'Mk.3', JSON.stringify(ma.entrees[0]));
   ok('manifold : 4 groupeurs en sortie', ma.sorties[0].groupeurs === 4, '');

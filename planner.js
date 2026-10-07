@@ -517,7 +517,60 @@ const GW = 196, GH = 76, GX = 130, GY = 18, MARGE = 16;
    convoyeur, dans sa bande : la première entrée part du bord gauche (la plus éloignée des machines), les suivantes
    arrivent par le haut ; la première sortie va au bord droit, les suivantes (sous-produits) repartent par le bas. Chaque ligne touche
    les machines à sa hauteur (décalée d'une ligne à l'autre). Au-delà de 27 machines, pas de dessin. */
-const RH0 = 20, DX = 26, MW = 30, MH = 12, MAXDESSIN = 27, PAS = 12, DECAL = 5;
+
+/* items acheminés : une icône par unité sur le trajet, qui avance à la vitesse du convoyeur (SMIL). Dans un montage déplié
+   (seulement au zoom SEUIL_PROCHE ou plus, classe « proche » du dessin) et sur les liens qui sortent d'un bloc replié ou, au zoom
+   plus faible, de n'importe quel bloc. Au-delà de PLAFOND_PORTES icônes, retour aux points qui défilent. */
+const SEUIL_PROCHE = 0.8, PLAFOND_PORTES = 800, PLAFOND_BLOC = 150, VITESSE = {t1: 12, t2: 16, t3: 21, t4: 28, t5: 36, t6: 48, p1: 16, p2: 28};   // px/s
+let NPORTES = 0;
+const calme = () => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+function longueurTrace(d){   // tracés du montage : segments horizontaux et verticaux seulement
+  let x = 0, y = 0, L0 = 0; const seg = [];
+  (d.match(/[MHV][^MHV]*/g) || []).forEach(c => { const k = c[0];
+    if(k === 'M'){ const [a, b] = c.slice(1).split(',').map(Number); x = a; y = b; }
+    else if(k === 'H'){ const v = +c.slice(1); seg.push([L0, x, y, v, y, Math.abs(v - x)]); L0 += Math.abs(v - x); x = v; }
+    else { const v = +c.slice(1); seg.push([L0, x, y, x, v, Math.abs(v - y)]); L0 += Math.abs(v - y); y = v; } });
+  return {L: L0, seg};
+}
+function pointTrace(t, s0){
+  const dernier = t.seg[t.seg.length - 1];
+  for(const [l0, x0, y0, x1, y1, ln] of t.seg){ if(s0 <= l0 + ln || [l0, x0, y0, x1, y1, ln] === dernier){
+    const f = ln ? Math.min(1, Math.max(0, (s0 - l0) / ln)) : 0; return [x0 + (x1 - x0) * f, y0 + (y1 - y0) * f]; } }
+  return [0, 0];
+}
+// groupe d'une icône qui avance le long de d (ou posée à son point, en mouvement réduit) ; fixe : [x, y]
+const porteSvg = (item, d, dur, decal, taille, fixe, titre) => {
+  const f = P.ic[item], r = taille / 2 + 1.5;
+  const mv = fixe ? '' : `<animateMotion dur="${dur.toFixed(2)}s" begin="${(-decal).toFixed(2)}s" repeatCount="indefinite" path="${d}"/>`;
+  return `<g class="porte"${fixe ? ` transform="translate(${fixe[0].toFixed(1)},${fixe[1].toFixed(1)})"` : ''}>${mv}<circle r="${r}" style="fill:#1c1c1c;stroke:none"/>`
+    + `<image href="commun/icones-44/${f}.webp" x="${-taille / 2}" y="${-taille / 2}" width="${taille}" height="${taille}"/>${titre ? `<title>${esc(titre)}</title>` : ''}</g>`;
+};
+// icônes des liens entre blocs : posées après coup (la longueur d'une courbe se mesure dans le DOM), refaites quand un bloc bouge
+function portesLien(svg, k){
+  svg.querySelectorAll(`.porte-lien[data-k="${k}"]`).forEach(g => g.remove());
+  const l = GEO.liens[k], lien = svg.querySelector(`.lien[data-k="${k}"]`), pt = svg.querySelector(`.defile[data-k="${k}"]`);
+  if(!lien || !pt || !P.ic[l.item]) return;
+  const len = lien.getTotalLength(), m = Math.max(1, Math.round(len / 90));
+  if(NPORTES + m > PLAFOND_PORTES){ pt.removeAttribute('data-src'); return; }
+  NPORTES += m;
+  const niv = classeTapis(l.tapis, LIQ.has(l.item)).split(' ')[0], dur = len / (VITESSE[niv] || 12), fixe = calme();
+  const src = GEO.parId.get(l.de).sch ? 'd' : 'p', d = lien.getAttribute('d');
+  pt.setAttribute('data-src', src);
+  let html = '';
+  for(let i = 0; i < m; i++){
+    const q = fixe ? lien.getPointAtLength(len * (i + 0.5) / m) : null;
+    html += porteSvg(l.item, d, dur, dur * i / m, 14, q ? [q.x, q.y] : null, '').replace('class="porte"', `class="porte porte-lien" data-k="${k}" data-de="${esc(l.de)}" data-vers="${esc(l.vers)}" data-src="${src}"`);
+  }
+  const noeud = svg.querySelector('.noeud');
+  const tmp = document.createElementNS('http://www.w3.org/2000/svg', 'g'); tmp.innerHTML = html;
+  [...tmp.children].forEach(g => svg.insertBefore(g, noeud));
+}
+function majProche(svg){
+  if(!svg) return;
+  svg.classList.toggle('proche', S.zoom >= SEUIL_PROCHE);
+  svg.classList.toggle('trop', svg.querySelectorAll('.porte-m').length > PLAFOND_PORTES);   // trop d'icônes à animer : les points
+}
+const RH0 = 20, DX = 26, MW = 30, MH = 12, MAXDESSIN = 27, PAS = 12, DECAL = 10;
 function schemaMontage(e, D, rang){
   const mo = M.montage(e, S.montage, D, LIQ), n = e.entieres;
   const tSep = L({fr: 'Séparateur', en: 'Splitter'}), tGrp = L({fr: 'Groupeur', en: 'Merger'});
@@ -534,19 +587,28 @@ function schemaMontage(e, D, rang){
   const y = i => top + RH * i + RH / 2;
   const dE = j => (j - (kE - 1) / 2) * DECAL, dS = j => (j - (kS - 1) / 2) * DECAL;
   const yF = j => top - PAS * j + 2;     // ligne j > 0 : passage par le haut
-  let out = [], nSep = 0, nGrp = 0;
+  let out = [], nSep = 0, nGrp = 0, porte = null, nPorte = 0;
+  const textes = [], fixe = calme();
   const trait = (d, cls) => {
     out.push(`<path class="sch${cls ? ' ' + cls : ''}" d="${d}"/>`);
-    // items qui défilent dans le sens du tracé (tous les tracés vont de l'entrée vers la sortie)
+    // items qui défilent dans le sens du tracé (tous les tracés vont de l'entrée vers la sortie) : des points, ou, au zoom
+    // voulu, l'icône de l'item de la ligne (les points s'effacent alors, voir .avec-ic)
     const niv = (cls || '').match(/\b[tp][1-6]\b/), liq = /\bliq\b/.test(cls || '');
-    out.push(`<path class="defile d-sch${niv ? ' ' + niv[0] : ''}${liq ? ' liq' : ''}" d="${d}" stroke-width="1.6"/>`);
+    const tr = porte && P.ic[porte] ? longueurTrace(d) : null, m = tr ? Math.max(1, Math.round(tr.L / (n > 8 ? 70 : 44))) : 0;
+    const ok = m && (nPorte += m) <= PLAFOND_BLOC;
+    out.push(`<path class="defile d-sch${ok ? ' avec-ic' : ''}${niv ? ' ' + niv[0] : ''}${liq ? ' liq' : ''}" d="${d}" stroke-width="1.6"/>`);
+    if(!ok) return;
+    const dur = tr.L / (VITESSE[niv ? niv[0] : (liq ? 'p1' : 't1')] || 12);
+    for(let k = 0; k < m; k++)
+      out.push(porteSvg(porte, d, dur, dur * k / m, 10, fixe ? pointTrace(tr, tr.L * (k + 0.5) / m) : null, `${nomItem(porte)}`).replace('class="porte"', 'class="porte porte-m"'));
   };
   const sep = (x, yy) => { nSep++; out.push(`<rect class="sep" x="${x - 4}" y="${yy - 4}" width="8" height="8"><title>${tSep}</title></rect>`); };
   const grp = (x, yy) => { nGrp++; out.push(`<rect class="grp" x="${x - 4}" y="${yy - 4}" width="8" height="8" transform="rotate(45 ${x} ${yy})"><title>${tGrp}</title></rect>`); };
-  const texte = (x, yy, t, cls, fin) => out.push(`<text class="sch-t${cls ? ' ' + cls : ''}" x="${x}" y="${yy}"${fin ? ' text-anchor="end"' : ''}>${esc(t)}</text>`);
+  const texte = (x, yy, t, cls, fin) => textes.push(`<text class="sch-t${cls ? ' ' + cls : ''}" x="${x}" y="${yy}"${fin ? ' text-anchor="end"' : ''}>${esc(t)}</text>`);
   const cl = (l, t) => (l.liquide ? 'liq ' : '') + classeTapis(t, l.liquide);
   // --- une bande d'entrée : de (x0, départ) jusqu'aux machines (xM), à la hauteur y(i) + dy ; renvoie le point de départ
   function bandeE(l, x0, xM, dy, j){
+    porte = l.item;
     let y0 = y(0) + dy;
     if(l.mode === 'direct') trait(`M${x0},${y0} H${xM}`, cl(l, l.ligne));
     else if(l.mode === 'manifold'){
@@ -584,28 +646,32 @@ function schemaMontage(e, D, rang){
   }
   const largeurE = l => l.mode === 'direct' ? 26 : l.mode === 'manifold' ? 50 : (boucle ? 40 : 18) + M.equilibre(n).facteurs.length * DX + 8;
   // --- entrées : bande 0 à gauche (après la marge des noms), bandes suivantes vers les machines
-  const AMORCE = kE > 1 ? 96 : 0;
+  const AMORCE = kE > 1 ? 28 : 0;
   const x0E = []; let xc = AMORCE;
   ents.forEach(l => { x0E.push(xc); xc += largeurE(l); });
   const xM = Math.max(xc, 46);
   const yEs = {}; let yE = y(0);
   ents.forEach((l, j) => {
+    porte = l.item;
     const y0 = bandeE(l, x0E[j], xM, dE(j), j);
-    const nom = kE > 1 ? `${couper(nomItem(l.item), 15)} ${tapisCourt(l.ligne)}` : tapisCourt(l.ligne);
     if(j === 0){
       if(x0E[0] > 0) trait(`M0,${y0} H${x0E[0]}`, cl(l, l.ligne));
-      yE = y0; yEs[l.item] = y0; texte(2, y0 - 6, nom, 'tap');
+      yE = y0; yEs[l.item] = y0;
     } else {
       trait(`M0,${yF(j)} H${x0E[j]} V${y0}`, cl(l, l.ligne));
-      yEs[l.item] = yF(j); texte(2, yF(j) - 3, nom, 'tap');
+      yEs[l.item] = yF(j);
     }
   });
   if(kE === 1 && n > 1) texte(xM + 2, y(0) - MHk / 2 - 3, tapisCourt(ents[0].branche));
   // --- machines
-  for(let i = 0; i < n; i++) out.push(`<rect class="mach" x="${xM}" y="${y(i) - MHk / 2}" width="${MW}" height="${MHk}" rx="2"><title>${esc(nomBat(e.recette.machine))} ${i + 1}</title></rect>`);
+  for(let i = 0; i < n; i++){
+    out.push(`<rect class="mach" x="${xM}" y="${y(i) - MHk / 2}" width="${MW}" height="${MHk}" rx="3"><title>${esc(nomBat(e.recette.machine))} ${i + 1}</title></rect>`);
+    if(n > 1) out.push(`<text class="mach-n" x="${xM + MW / 2}" y="${y(i) + 3.5}" text-anchor="middle">${i + 1}</text>`);
+  }
   // --- une bande de sortie : des machines (xO) jusqu'à x1 (début de la bande) + sa largeur ; renvoie [x de fin, y de fin]
   const xO = xM + MW;
   function bandeS(l, x1, dy, mesure){
+    porte = l.item;
     const t = mesure ? () => {} : trait, g = mesure ? () => {} : grp;
     if(l.mode === 'manifold'){
       const xT = x1 + 18;
@@ -640,7 +706,7 @@ function schemaMontage(e, D, rang){
     else { trait(`M${xb},${yb} H${xb + 4} V${yB(j)} H${xFin}`, cl(l, l.ligne)); ySs[l.item] = yB(j); texte(xFin - 2, yB(j) - 3, nom, 'tap', true); }
   });
   const h = bas + PAS * Math.max(0, kS - 1);
-  return {w: Math.max(GW, xFin + 14), h: h + 10, svg: out.join(''), nSep, nGrp, yE, yS, yEs, ySs};
+  return {w: Math.max(GW, xFin + 14), h: h + 10, svg: out.join('') + textes.join(''), nSep, nGrp, yE, yS, yEs, ySs};
 }
 // légende des couleurs : les niveaux de convoyeur et de tuyau présents dans le graphe
 function legende(u){
@@ -911,6 +977,7 @@ function rendreGraphe(){
   box.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="${W * S.zoom}" height="${H * S.zoom}" viewBox="0 0 ${W} ${H}"
     role="img" aria-label="${esc(L({fr: 'Graphe de production', en: 'Production graph'}))}" data-w="${W}" data-h="${H}">${liens}${noeuds}</svg>`;
   document.getElementById('zoomVal').textContent = num(S.zoom * 100, 0) + ' %';
+  { const sv = box.querySelector('svg'); NPORTES = 0; G.liens.forEach((_, k) => portesLien(sv, k)); majProche(sv); }
   legende(UTILISES);
   const toutDeplie = !G.noeuds.some(n => n.type === 'etape' && replies.has(n.id)), bd = document.getElementById('deplier');
   bd.title = toutDeplie ? L({fr: 'Tout replier', en: 'Fold all'}) : L({fr: 'Tout déplier', en: 'Expand all'});
@@ -927,6 +994,7 @@ function deplacer(id, x, y){
     const g = cheminLien(l);
     svg.querySelectorAll(`.lien[data-k="${k}"], .defile[data-k="${k}"]`).forEach(x => x.setAttribute('d', g.d));
     const t = svg.querySelector(`.etiq[data-k="${k}"]`); t.setAttribute('x', g.mx); t.setAttribute('y', g.my - 5);
+    portesLien(svg, k);
   });
 }
 // panneau sous le graphe : montage du bloc choisi
@@ -960,7 +1028,7 @@ function isoler(id){
   };
   const amont = parcours('de', 'vers'), aval = parcours('vers', 'de');
   new Set([...amont, ...aval]).forEach(x => { const g = svg.querySelector(`.noeud[data-id="${CSS.escape(x)}"]`); if(g) g.classList.add('lie'); });
-  svg.querySelectorAll('.lien, .etiq, .defile[data-k]').forEach(l => {
+  svg.querySelectorAll('.lien, .etiq, .defile[data-k], .porte-lien').forEach(l => {
     const {de, vers} = l.dataset;
     if((amont.has(de) && amont.has(vers)) || (aval.has(de) && aval.has(vers))) l.classList.add('lie');
   });
@@ -1085,6 +1153,7 @@ boxG.addEventListener('wheel', e => {
   const r2 = svg.getBoundingClientRect();   // le point sous le pointeur ne bouge pas
   boxG.scrollLeft += r2.left + sx * z2 - e.clientX; boxG.scrollTop += r2.top + sy * z2 - e.clientY;
   document.getElementById('zoomVal').textContent = num(z2 * 100, 0) + ' %';
+  majProche(svg);
   clearTimeout(ZT); ZT = setTimeout(garder, 300);
 }, {passive: false});
 document.querySelector('.zoom').addEventListener('click', e => {
@@ -1265,3 +1334,9 @@ rendreCibles();
 rendreVue();
 chargerUsine();
 majAdresse();
+
+// arrière-plan (outil non affiché dans la coquille, classe en-fond) : les icônes qui avancent (SMIL) se mettent en pause aussi
+new MutationObserver(() => {
+  const fond = document.documentElement.classList.contains('en-fond');
+  document.querySelectorAll('#graphe svg').forEach(v => fond ? v.pauseAnimations() : v.unpauseAnimations());
+}).observe(document.documentElement, {attributes: true, attributeFilter: ['class']});

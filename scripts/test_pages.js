@@ -649,6 +649,27 @@ const INDICES = {
     await p.close();
   }
 
+  // items acheminés (planner.js) : icônes sur les liens des blocs repliés, et dans les montages dépliés seulement au zoom « proche »
+  {
+    const p = await b.newPage({viewport: {width: 1400, height: 900}}), errs = [];
+    p.on('pageerror', e => errs.push(e.message));
+    const code = Buffer.from(JSON.stringify({c: [['Stator', 10]]})).toString('base64url');
+    await p.goto('file://' + path.join(ROOT, 'planner.html') + '?p=' + code);
+    await p.waitForTimeout(800);
+    const etat = () => p.evaluate(() => { const v = document.querySelector('#graphe svg'), vis = q => [...v.querySelectorAll(q)].filter(e => e.getBoundingClientRect().width && getComputedStyle(e).display !== 'none').length;
+      return {proche: v.classList.contains('proche'), montage: vis('.porte-m'), points: vis('.defile.avec-ic'), liensD: vis('.porte-lien[data-src="d"]'), liensP: vis('.porte-lien[data-src="p"]')}; });
+    const pres = await etat();
+    await p.evaluate(() => { S.zoom = 0.5; rendreGraphe(); });
+    const loin = await etat();
+    await p.evaluate(() => { S.zoom = 1; S.replies = [...GEO.parId.values()].filter(n => n.type === 'etape').map(n => n.id); rendreGraphe(); });
+    const replie = await etat();
+    const bon = pres.proche && pres.montage > 0 && pres.points === 0 && !loin.proche && loin.montage === 0 && loin.points > 0 && loin.liensD > 0
+      && replie.montage === 0 && replie.liensP > 0 && !errs.length;
+    if (!bon) echecs.push('items acheminés : ' + JSON.stringify({pres, loin, replie}) + ' ' + errs.join(' | '));
+    console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : items acheminés (zoom, blocs repliés)`);
+    await p.close();
+  }
+
   // coquille (outils.html, en http) : un onglet de la barre montre l'outil dans un autre cadre, sans recharger la page ;
   // l'outil précédent garde son état ; l'adresse et le titre suivent ; « Précédent » revient au premier outil
   {

@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.33",
+          "date": "2026-10-07",
+          "texte": {
+            "fr": "Montage déplié plus lisible : lignes d'entrée deux fois plus espacées, machines numérotées. Les items sont acheminés : une icône par unité avance sur les convoyeurs, à la vitesse de leur niveau, dans les montages dépliés (à partir de 80 % de zoom) et sur les liens qui sortent d'un bloc replié (ou de n'importe quel bloc quand on s'éloigne). Les noms des entrées disparaissent, remplacés par ces icônes. Au-delà de 800 icônes ou en mouvement réduit, retour aux points ou icônes immobiles.",
+            "en": "Unfolded layouts easier to read: input lines spaced twice as far apart, numbered machines. Items are now carried: one icon per unit moves along the conveyors at their tier's speed, inside unfolded layouts (from 80 % zoom) and on links leaving a folded block (or any block when zoomed out). Input names are gone, replaced by these icons. Above 800 icons the dots come back; with reduced motion the icons stand still."
+          }
+        },
+        {
           "version": "1.32",
           "date": "2026-10-07",
           "texte": {

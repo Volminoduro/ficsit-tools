@@ -556,7 +556,7 @@ function majProche(svg){
   svg.classList.toggle('proche', S.zoom >= SEUIL_PROCHE);
   svg.classList.toggle('trop', svg.querySelectorAll('.porte-m').length > PLAFOND_PORTES);   // trop d'icônes à animer : les points
 }
-const RH0 = 20, DX = 26, MW = 30, MH = 12, MAXDESSIN = 27, PAS = 12, DECAL = 10;
+const RH0 = 20, DX = 26, MW = 30, MH = 12, MAXDESSIN = 27, PAS = 26, DECAL = 14;
 function schemaMontage(e, D, rang){
   const mo = M.montage(e, S.montage, D, LIQ), n = e.entieres;
   const tSep = L({fr: 'Séparateur', en: 'Splitter'}), tGrp = L({fr: 'Groupeur', en: 'Merger'});
@@ -708,10 +708,10 @@ function schemaMontage(e, D, rang){
     let amorce = [];
     if(j === 0){
       if(x0E[0] > 0){ trait(`M0,${y0} H${x0E[0]}`, cl(l, l.ligne)); amorce = suite(0, y0, [['H', x0E[0], l.ligne]], l.liquide); }
-      yE = y0; yEs[l.item] = y0; etiq(2, y0 - 6, l.ligne, l.liquide);
+      yE = y0; yEs[l.item] = y0; etiq(4, y0 - 9, l.ligne, l.liquide);
     } else {
       trait(`M0,${yF(j)} H${x0E[j]} V${y0}`, cl(l, l.ligne)); amorce = suite(0, yF(j), [['H', x0E[j], l.ligne], ['V', y0, l.ligne]], l.liquide);
-      yEs[l.item] = yF(j); etiq(2, yF(j) - 3, l.ligne, l.liquide);
+      yEs[l.item] = yF(j); etiq(4, yF(j) - 9, l.ligne, l.liquide);
     }
     if(P.ic[l.item]) bandes.push(prevoir(l.item, l.liquide, trajets.map(r => amorce.concat(r))));
   });
@@ -754,16 +754,15 @@ function schemaMontage(e, D, rang){
   // sorties : bande 0 la plus à droite (vers le bord), les suivantes plus près des machines
   const x1S = new Array(kS); xc = xO;
   for(let j = kS - 1; j >= 0; j--){ x1S[j] = xc; xc = bandeS(sors[j], xc, dS(j), true)[0] + 8; }
-  const QUEUE = kS > 1 ? 96 : 34, xFin = xc + QUEUE - 8;
+  const QUEUE = kS > 1 ? 24 : 14, xFin = xc + QUEUE - 8;
   // sorties suivantes (sous-produits) : repartent par le bas, comme leurs blocs « surplus » en bas de colonne
   const bas = top + rows * RH + (boucle ? 12 + 4 * kE : 6), yB = j => bas + PAS * (j - 1) + 4;
   const ySs = {}; let yS = y(0);
   sors.forEach((l, j) => {
     const [xb, yb, trajets] = bandeS(l, x1S[j], dS(j), false);
-    const nom = kS > 1 ? `${couper(nomItem(l.item), 15)} ${tapisCourt(l.ligne)}` : tapisCourt(l.ligne);
     let queue;
-    if(j === 0){ trait(`M${xb},${yb} H${xFin}`, cl(l, l.ligne)); yS = yb; ySs[l.item] = yb; texte(xFin - 2, yb - 6, nom, 'tap', true); queue = [['H', xFin]]; }
-    else { trait(`M${xb},${yb} H${xb + 4} V${yB(j)} H${xFin}`, cl(l, l.ligne)); ySs[l.item] = yB(j); texte(xFin - 2, yB(j) - 3, nom, 'tap', true); queue = [['H', xb + 4], ['V', yB(j)], ['H', xFin]]; }
+    if(j === 0){ trait(`M${xb},${yb} H${xFin}`, cl(l, l.ligne)); yS = yb; ySs[l.item] = yb; queue = [['H', xFin]]; }
+    else { trait(`M${xb},${yb} H${xb + 4} V${yB(j)} H${xFin}`, cl(l, l.ligne)); ySs[l.item] = yB(j); queue = [['H', xb + 4], ['V', yB(j)], ['H', xFin]]; }
     if(P.ic[l.item]) bandes.push(prevoir(l.item, l.liquide, trajets.map(r => { const e = r[r.length - 1]; return r.concat(suite(e.x1, e.y1, queue.map(([k, v2]) => [k, v2, l.ligne]), l.liquide)); })));
   });
   // icônes qui acheminent les items le long des trajets (sinon, trop nombreuses : les points restent)

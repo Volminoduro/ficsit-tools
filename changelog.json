@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.36",
+          "date": "2026-10-07",
+          "texte": {
+            "fr": "Montages dépliés : le texte du Mk de sortie n'est plus répété (le lien, en dehors du bloc, l'indique déjà) ; les textes de Mk ont leur place sans recouvrir les convoyeurs (lignes d'entrée plus espacées, départs rehaussés).",
+            "en": "Unfolded layouts: the output Mk text is no longer repeated (the link outside the block already shows it); Mk texts now have room and no longer cover the conveyors (input lines spaced further apart, starts raised)."
+          }
+        },
+        {
           "version": "1.35",
           "date": "2026-10-07",
           "texte": {

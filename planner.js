@@ -697,10 +697,21 @@ function schemaMontage(e, D, rang){
   }
   const largeurE = l => l.mode === 'direct' ? 26 : l.mode === 'manifold' ? 50 : (boucle ? 40 : 18) + M.equilibre(n).facteurs.length * DX + 8;
   // --- entrées : bande 0 à gauche (après la marge des noms), bandes suivantes vers les machines
+  // Calage horizontal : bandes d'entrée, machines (xM, xO), début de chaque bande de sortie (x1S) et bord droit du bloc (xFin),
+  // où le dernier groupeur vient s'appuyer (le lien qui sort du bloc part de là). Si le montage est plus étroit que le bloc,
+  // il est décalé vers la droite (la ligne d'entrée s'allonge) plutôt que de tirer un trait de sortie jusqu'au bord.
   const AMORCE = kE > 1 ? 28 : 0;
-  const x0E = []; let xc = AMORCE;
-  ents.forEach(l => { x0E.push(xc); xc += largeurE(l); });
-  const xM = Math.max(xc, 46);
+  let x0E, xM, xO, x1S, xFin;
+  const calage = amorce => {
+    x0E = []; let xc = amorce;
+    ents.forEach(l => { x0E.push(xc); xc += largeurE(l); });
+    xM = Math.max(xc, 46); xO = xM + MW;
+    x1S = new Array(kS); xc = xO;
+    for(let j = kS - 1; j >= 0; j--){ x1S[j] = xc; xc = bandeS(sors[j], xc, dS(j), true)[0] + 8; }
+    xFin = xc - 8;
+  };
+  calage(AMORCE);
+  if(xFin < GW) calage(AMORCE + GW - xFin);
   const yEs = {}; let yE = y(0);
   ents.forEach((l, j) => {
     porte = l.item;
@@ -721,7 +732,6 @@ function schemaMontage(e, D, rang){
     if(n > 1) out.push(`<text class="mach-n" x="${xM + MW / 2}" y="${y(i) + 3.5}" text-anchor="middle">${i + 1}</text>`);
   }
   // --- une bande de sortie : des machines (xO) jusqu'à x1 (début de la bande) + sa largeur ; renvoie [x de fin, y de fin]
-  const xO = xM + MW;
   function bandeS(l, x1, dy, mesure){
     porte = l.item;
     const t = mesure ? () => {} : trait, g = mesure ? () => {} : grp, trajets = [];
@@ -751,17 +761,14 @@ function schemaMontage(e, D, rang){
     t(`M${xO},${y(0) + dy} H${x1 + 8}`, cl(l, l.ligne));
     return [x1 + 8, y(0) + dy, [suite(xO, y(0) + dy, [['H', x1 + 8, l.ligne]], l.liquide)]];
   }
-  // sorties : bande 0 la plus à droite (vers le bord), les suivantes plus près des machines
-  const x1S = new Array(kS); xc = xO;
-  for(let j = kS - 1; j >= 0; j--){ x1S[j] = xc; xc = bandeS(sors[j], xc, dS(j), true)[0] + 8; }
-  const QUEUE = kS > 1 ? 24 : 14, xFin = xc + QUEUE - 8;
+  // sorties : bande 0 la plus à droite (au bord du bloc), les suivantes plus près des machines
   // sorties suivantes (sous-produits) : repartent par le bas, comme leurs blocs « surplus » en bas de colonne
   const bas = top + rows * RH + (boucle ? 12 + 4 * kE : 6), yB = j => bas + PAS * (j - 1) + 4;
   const ySs = {}; let yS = y(0);
   sors.forEach((l, j) => {
     const [xb, yb, trajets] = bandeS(l, x1S[j], dS(j), false);
     let queue;
-    if(j === 0){ trait(`M${xb},${yb} H${xFin}`, cl(l, l.ligne)); yS = yb; ySs[l.item] = yb; queue = [['H', xFin]]; }
+    if(j === 0){ yS = yb; ySs[l.item] = yb; queue = []; }
     else { trait(`M${xb},${yb} H${xb + 4} V${yB(j)} H${xFin}`, cl(l, l.ligne)); ySs[l.item] = yB(j); queue = [['H', xb + 4], ['V', yB(j)], ['H', xFin]]; }
     if(P.ic[l.item]) bandes.push(prevoir(l.item, l.liquide, trajets.map(r => { const e = r[r.length - 1]; return r.concat(suite(e.x1, e.y1, queue.map(([k, v2]) => [k, v2, l.ligne]), l.liquide)); })));
   });
@@ -770,7 +777,7 @@ function schemaMontage(e, D, rang){
   if(iconesOk) bandes.forEach(b => out.push(porteurs(b)));
   out = out.map(x => x.replace(/@IC@/g, iconesOk ? ' avec-ic' : ''));
   const h = bas + PAS * Math.max(0, kS - 1);
-  return {w: Math.max(GW, xFin + 14), h: h + 10, svg: out.join('') + textes.join(''), nSep, nGrp, yE, yS, yEs, ySs};
+  return {w: Math.max(GW, xFin), h: h + 10, svg: out.join('') + textes.join(''), nSep, nGrp, yE, yS, yEs, ySs};
 }
 // légende des couleurs : les niveaux de convoyeur et de tuyau présents dans le graphe
 function legende(u){

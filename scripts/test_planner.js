@@ -30,6 +30,19 @@ let echecs = 0;
     fer && Math.abs(fer[0].parts['e:Recipe_IngotIron_C'] - 1200) < 1e-6 && Math.abs(fer[1].parts['e:Recipe_IngotIron_C'] - 300) < 1e-6 && Math.abs(fer[1].parts['e:Recipe_IngotSteel_C'] - 900) < 1e-6, JSON.stringify(fer));
   ok('sources : plafond inconnu ou assez grand → aucune scission', !Object.keys(M.sources(R, cib, () => null)).length && !Object.keys(M.sources(R, cib, () => 2400)).length, '');
   ok('sources : plafond de 270 → 9 sources de fer', M.sources(R, cib, i => 270)['Iron Ore'].length === 9, '');
+  // blocs scindés : à 1 200 /min la ligne, les lingots de fer (1 500) et les vis (2 100) se font en deux blocs
+  const orig = it => R.etapes.find(e => e.item === it);
+  const E = M.eclater(P, R, cib, () => 1200), blocs = it => E.etapes.filter(e => e.item === it);
+  ok('blocs : lingots de fer et vis en deux blocs, rien d\'autre', blocs('Iron Ingot').length === 2 && blocs('Screws').length === 2 && E.etapes.length === R.etapes.length + 2, E.etapes.map(e => e.item + (e.nsrc || '')).join());
+  ok('blocs : chaque bloc sort au plus une ligne, la somme est conservée', ['Iron Ingot', 'Screws'].every(it => blocs(it).every(e => e.sorties[0][1] <= 1200 + 1e-6)
+    && Math.abs(blocs(it).reduce((a, e) => a + e.sorties[0][1], 0) - orig(it).sorties[0][1]) < 1e-6), '');
+  ok('blocs : machines entières par bloc, MW du plan = somme des blocs', E.etapes.every(e => Number.isInteger(e.entieres) && e.entieres >= 1)
+    && Math.abs(E.mw - E.etapes.reduce((a, e) => a + e.mw, 0)) < 1e-9 && blocs('Iron Ingot').reduce((a, e) => a + e.entieres, 0) >= orig('Iron Ingot').entieres, '');
+  ok('blocs : les entrées de chaque bloc suivent son débit', blocs('Iron Ingot').every(e => Math.abs(e.entrees[0][1] / e.sorties[0][1] - orig('Iron Ingot').entrees[0][1] / orig('Iron Ingot').sorties[0][1]) < 1e-9), '');
+  const GE = M.graphe(E, cib, M.sources(E, cib, () => 1200)), sortieDe = id => GE.liens.filter(l => l.de === id).reduce((a, l) => a + l.debit, 0);
+  ok('graphe : chaque bloc débite ce qu\'il produit, chaque consommateur reçoit son besoin', blocs('Iron Ingot').every(e => Math.abs(sortieDe(e.id) - e.sorties[0][1]) < 1e-6)
+    && GE.noeuds.filter(n => n.type === 'etape').every(n => n.etape.entrees.every(p => R.bruts[p[0]] !== undefined || Math.abs(GE.liens.filter(l => l.vers === n.id && l.item === p[0]).reduce((a, l) => a + l.debit, 0) - p[1]) < 1e-6)), '');
+  ok('blocs : pas de scission sans plafond ou assez grand', M.eclater(P, R, cib, () => null).etapes.length === R.etapes.length && M.eclater(P, R, cib, () => 5000).etapes.length === R.etapes.length, '');
   const G = M.graphe(R, cib, S1), bruts = G.noeuds.filter(n => n.type === 'brut' && n.item === 'Iron Ore');
   const sortie = id => G.liens.filter(l => l.de === id).reduce((a, l) => a + l.debit, 0);
   ok('graphe : un nœud par source, le premier garde l\'identifiant', bruts.length === 2 && bruts[0].id === 'b:Iron Ore' && bruts[1].id === 'b:Iron Ore#1' && bruts.every(n => n.nsrc === 2), JSON.stringify(bruts.map(n => n.id)));

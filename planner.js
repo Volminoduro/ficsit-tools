@@ -287,10 +287,10 @@ function critereExtraction(){
   return S.extraction === 'sobre' || S.extraction === 'dense' ? S.extraction : (S.mode === 'defaut' || S.mode === 'energie' ? 'sobre' : 'dense');
 }
 // sources d'extraction : au-delà de la ligne la plus forte, une ressource se prend à plusieurs sources (réglage « scindée »)
+// plafond d'une ligne pour un item : le débit du convoyeur (ou tuyau) le plus fort débloqué
+const plafondLigne = D => i => i === 'Nitrogen Gas' ? null : LIQ.has(i) ? (D.tuy.length ? D.tuy[D.tuy.length - 1][0] : null) : D.conv[D.conv.length - 1][0];
 function sourcesPlan(R, D, scinde){
-  if(!scinde) return {};
-  const capSolide = D.conv[D.conv.length - 1][0], capFluide = D.tuy.length ? D.tuy[D.tuy.length - 1][0] : null;
-  return M.sources(R, S.cibles, i => i === 'Nitrogen Gas' ? null : LIQ.has(i) ? capFluide : capSolide);
+  return scinde ? M.sources(R, S.cibles, plafondLigne(D)) : {};
 }
 const idSource = (item, k) => 'b:' + item + (k ? '#' + k : '');
 function extractionPlan(R, C, D, SRC){
@@ -494,13 +494,14 @@ function calcul(){
   const opt = S.mode !== 'defaut';
   if(opt) solveur();
   // chaîne standard (une recette par item) : référence de la synthèse et des écarts affichés dans le bilan
-  const Rstd = opt ? M.calculer(P, S.cibles, {permise: C.permise, choix: S.choix}) : null;
+  const D = dispo(C), scinder = r => S.scinde ? M.eclater(P, r, S.cibles, plafondLigne(D)) : r;   // blocs scindés (réglage « Sources »)
+  const Rstd0 = opt ? M.calculer(P, S.cibles, {permise: C.permise, choix: S.choix}) : null, Rstd = Rstd0 && scinder(Rstd0);
   const REF = Rstd ? M.mesures(P, Rstd) : null;
   let R = opt && HIGHS ? optimise(C, REF) : null;
   const repli = opt && !R;
   if(!R) R = M.calculer(P, S.cibles, {permise: C.permise, choix: S.choix, preferees: C.preferees});
-  const EC = INST ? new Map(R.etapes.map(e => [e, M.ecart(e, INST)])) : null;
-  const D = dispo(C);
+  const R0 = R; R = scinder(R0);   // R0 : une étape par recette ; R : avec les blocs scindés
+  const EC = INST ? new Map(R0.etapes.map(e => [e, M.ecart(e, INST)])) : null;
   const SRC = sourcesPlan(R, D, S.scinde), X = extractionPlan(R, C, D, SRC), Xstd = Rstd ? extractionPlan(Rstd, C, D, sourcesPlan(Rstd, D, S.scinde)) : null;
   const cibles = new Set(S.cibles.map(c => c.item));
 
@@ -512,12 +513,14 @@ function calcul(){
     + L({fr: '. Ils sont comptés comme ressources à fournir.', en: '. They are counted as resources to supply.'}));
   if(!R.converge) al.push(L({fr: 'Le calcul ne se stabilise pas (boucle de recettes qui consomme plus qu\'elle ne produit) : changez une des recettes en boucle.',
     en: 'The plan does not settle (a recipe loop consumes more than it makes): change one of the looping recipes.'}));
-  // extraction scindée : ce qu'elle coûte ou fait gagner face à une seule source par ressource
+  // sources et blocs scindés : ce qu'ils coûtent ou font gagner face à une seule source et un seul bloc par item
   let note = '';
-  if(Object.keys(SRC).length){
-    const X0 = extractionPlan(R, C, D, {}), dn = X.n - X0.n, dw = X.mw - X0.mw, sg = v => (v > 0 ? '+' : v < 0 ? '−' : '±') + num(Math.abs(v), 0);
-    note = `<div class="alerte info">${L({fr: `Extraction scindée en ${Object.values(SRC).reduce((a, v) => a + v.length, 0)} sources pour ${Object.keys(SRC).length} ressource(s) (une ligne au plus par source) : ${sg(dn)} extracteur(s), ${sg(dw)} MW face à une seule source par ressource.`,
-      en: `Extraction split into ${Object.values(SRC).reduce((a, v) => a + v.length, 0)} sources for ${Object.keys(SRC).length} resource(s) (one line at most per source): ${sg(dn)} extractor(s), ${sg(dw)} MW compared with one source per resource.`})}</div>`;
+  const nbSrc = Object.values(SRC).reduce((a, v) => a + v.length, 0), nbBlocs = R.etapes.length - R0.etapes.length;
+  if(nbSrc || nbBlocs){
+    const X0 = extractionPlan(R0, C, D, {}), sg = v => (v > 0 ? '+' : v < 0 ? '−' : '±') + num(Math.abs(v), 0);
+    const dm = R.etapes.reduce((a, e) => a + e.entieres, 0) - R0.etapes.reduce((a, e) => a + e.entieres, 0) + X.n - X0.n, dw = R.mw + X.mw - R0.mw - X0.mw;
+    note = `<div class="alerte info">${L({fr: `Scindé : ${nbSrc} source(s) d'extraction pour ${Object.keys(SRC).length} ressource(s), ${nbBlocs} bloc(s) de plus (une ligne au plus chacun) : ${sg(dm)} machine(s) et extracteur(s), ${sg(dw)} MW face à une seule source et un seul bloc par item.`,
+      en: `Split: ${nbSrc} extraction source(s) for ${Object.keys(SRC).length} resource(s), ${nbBlocs} more block(s) (one line at most each): ${sg(dm)} machine(s) and extractor(s), ${sg(dw)} MW compared with one source and one block per item.`})}</div>`;
   }
   document.getElementById('alertes').innerHTML = al.map(t => `<div class="alerte">${t}</div>`).join('') + note;
 
@@ -538,7 +541,7 @@ function calcul(){
     tuile(num(MS.mat, 2) + ' ‰', L({fr: 'des ressources de la carte', en: 'of the map\'s resources'}), 'rare', ecart('mat')) +
     tuile(num(MS.esp, 0) + ' m²', L({fr: 'Espace au sol (machines et extraction)', en: 'Floor space (machines and extraction)'}), 'esp', ecart('esp')) +
     tuile(num(nbMach + X.n, 0), L({fr: 'Machines et extracteurs', en: 'Machines and extractors'})) +
-    tuile(num(R.etapes.length, 0), L({fr: 'Recettes', en: 'Recipes'})) +
+    tuile(num(R0.etapes.length, 0), L({fr: 'Recettes', en: 'Recipes'})) +
     (EC ? tuile(num([...EC.values()].reduce((s, x) => s + Math.ceil(x.machines - 1e-6), 0), 0),
       L({fr: 'Machines à construire', en: 'Machines to build'})) : '');
 
@@ -548,7 +551,7 @@ function calcul(){
   document.getElementById('surplus').innerHTML = tri(R.surplus).map(n => flux(n, R.surplus[n], 'sp')).join('')
     || `<p class="vide">${L({fr: 'Aucun.', en: 'None.'})}</p>`;
   // recettes alternatives du plan : un bouton par recette, qui choisit son bloc dans le graphe
-  const alts = R.etapes.filter(e => e.recette.alt);
+  const alts = R0.etapes.filter(e => e.recette.alt);
   document.getElementById('alts').innerHTML = alts.map(e => `<button type="button" class="flux alt" data-aller="${esc('e:' + e.recette.classe)}">${ico(e.item, 1)}<span>${esc(nomRec(e.recette.nom))}
       <small>· ${esc(nomBat(e.recette.machine))}</small></span></button>`).join('')
     || `<p class="vide">${L({fr: 'Aucune : recettes standard seulement.', en: 'None: standard recipes only.'})}</p>`;
@@ -558,7 +561,7 @@ function calcul(){
     const opts = cand.map(c => `<option value="${esc(c.classe)}"${c === r ? ' selected' : ''}>${esc(libRecette(c))}</option>`).join('')
       + `<option value="brut">${L({fr: 'Fourni (hors chaîne)', en: 'Supplied (outside the chain)'})}</option>`;
     const cad = e.cadence > 0.99999 ? '100 %' : num(e.cadence * 100, 1) + ' %';
-    const x = EC && EC.get(e), u = unite(e.item);
+    const x = EC && EC.get(e.orig || e), u = unite(e.item);
     const usine = !x ? '' : `<div class="usine">${x.n
       ? L({fr: `Votre usine : <b>${num(x.n, 0)}</b> machine(s) avec cette recette, <b>${num(x.installe)}</b> ${u}`,
           en: `Your factory: <b>${num(x.n, 0)}</b> machine(s) with this recipe, <b>${num(x.installe)}</b> ${u}`})
@@ -570,7 +573,7 @@ function calcul(){
         : `<span class="okc">${L({fr: 'capacité suffisante', en: 'enough capacity'})}</span>`}</div>`;
     const etat = !x ? '' : x.manque > 1e-6 ? ' manque' : ' couvert';
     return `<div class="etape${cibles.has(e.item) ? ' cib' : etat}">${ico(e.item)}
-      <div class="nom">${esc(nomItem(e.item))}<small>${esc(nomBat(r.machine))}</small></div>
+      <div class="nom">${esc(nomItem(e.item))}${e.nsrc > 1 ? ' (' + String.fromCharCode(65 + e.src % 26) + ')' : ''}<small>${esc(nomBat(r.machine))}</small></div>
       <div class="mach">${num(e.entieres, 0)} × ${cad}<small>${num(e.machines, 2)} ${L({fr: 'machines exactes', en: 'exact machines'})} · ${num(e.mw, 1)} MW</small></div>
       <div class="det">
         <select data-item="${esc(e.item)}" aria-label="${esc(L({fr: 'Recette', en: 'Recipe'}))}">${opts}</select>
@@ -580,7 +583,7 @@ function calcul(){
       </div>${usine}${(() => { const m = texteMontage(e, D);
         return `<details class="montage"><summary>${L({fr: 'Montage', en: 'Layout'})} : ${m.resume}</summary>${m.lignes.join('')}</details>`; })()}</div>`;
   }).join('') || `<p class="vide">${L({fr: 'Rien à produire.', en: 'Nothing to make.'})}</p>`;
-  DERNIER = {R, EC, D, C, X, SRC};
+  DERNIER = {R, R0, EC, D, C, X, SRC};
   rendreGraphe();   // le graphe reste dessous, même quand la liste est ouverte
 }
 
@@ -1082,7 +1085,7 @@ function rendreGraphe(){
   ports(sortants, 'ps', 'vers'); ports(entrants, 'pe', 'de');
   GEO = {parId, liens: G.liens};
   const maxD = Math.max(...G.liens.map(l => l.debit), 1e-9), UTILISES = new Set();
-  G.liens.forEach(l => { const a = parId.get(l.de); l.src = a.type === 'brut' && a.nsrc > 1 ? a.src : null; });
+  G.liens.forEach(l => { const a = parId.get(l.de); l.src = a.nsrc > 1 ? a.src : null; });
   const rails = G.liens.map((l, k) => {
     if(l.src == null) return '';
     const ep = 1.5 + 6 * Math.sqrt(l.debit / maxD);
@@ -1107,7 +1110,7 @@ function rendreGraphe(){
       const e = n.etape, cad = e.cadence > 0.99999 ? '100 %' : num(e.cadence * 100, 0) + ' %';
       l2 = `${num(e.entieres, 0)} × ${cad} · ${nomBat(e.recette.machine)}`;
       titre += ` — ${nomRec(e.recette.nom)} (${nomBat(e.recette.machine)}) : ${num(e.machines, 2)} ${L({fr: 'machines exactes', en: 'exact machines'})}, ${num(e.mw, 1)} MW`;
-      const x = EC && EC.get(e);
+      const x = EC && EC.get(e.orig || e);
       if(x){
         cls += x.manque > 1e-6 ? ' manque' : ' couvert';
         l3 = x.manque > 1e-6 ? `<tspan class="n3">${L({fr: `+${num(Math.ceil(x.machines - 1e-6), 0)} à construire`, en: `+${num(Math.ceil(x.machines - 1e-6), 0)} to build`})}</tspan>`
@@ -1130,9 +1133,9 @@ function rendreGraphe(){
           L({fr: `Pureté des nœuds : ${L(pn[1]).toLowerCase()} (cliquer pour changer)`, en: `Node purity: ${L(pn[1]).toLowerCase()} (click to change)`}));
       }
     }
-    const marqueSrc = n.type === 'brut' && n.nsrc > 1 ? `<rect class="src-bande" x="0" y="0" width="6" height="${n.h}" fill="${COUL_SRC[n.src % COUL_SRC.length]}"/>`
-      + pastilleSrc(n.w - 14, 14, n.src, 'pastille-n') : '';
-    if(n.type === 'brut' && n.nsrc > 1) titre += ` — ${L({fr: 'source', en: 'source'})} ${String.fromCharCode(65 + n.src % 26)}`;
+    const marqueSrc = n.nsrc > 1 ? `<rect class="src-bande" x="0" y="0" width="6" height="${n.h}" fill="${COUL_SRC[n.src % COUL_SRC.length]}"/>`
+      + (n.type === 'etape' ? pastilleSrc(17, 67, n.src, 'pastille-n') : pastilleSrc(n.w - 14, 14, n.src, 'pastille-n')) : '';
+    if(n.nsrc > 1) titre += ` — ${L({fr: 'source', en: 'source'})} ${String.fromCharCode(65 + n.src % 26)}`;
     if(n.id === CHOISI) cls += ' choisi';
     // recette alternative : liseré et pastille orange, et son nom sous le bloc (sauf déplié : le montage prend la place)
     const alt = n.type === 'etape' && n.etape.recette.alt;

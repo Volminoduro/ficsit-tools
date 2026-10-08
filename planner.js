@@ -626,10 +626,28 @@ function pastillesLien(svg, k){
   svg.querySelectorAll(`.pastille[data-k="${k}"]`).forEach(g => g.remove());
   const l = GEO.liens[k], lien = svg.querySelector(`.lien[data-k="${k}"]`);
   if(!lien || l.src == null) return;
-  const len = lien.getTotalLength(), a = lien.getPointAtLength(Math.min(16, len / 3)), b = lien.getPointAtLength(Math.max(len - 16, len * 2 / 3));
+  const len = lien.getTotalLength(), fus = GEO.liens.filter(m => m.vers === l.vers && m.item === l.item && m.src != null).length > 1;   // lignes qui se rejoignent : pastille en retrait du point de jonction
+  const a = lien.getPointAtLength(Math.min(16, len / 3)), b = lien.getPointAtLength(Math.max(len - (fus ? 36 : 16), len / 2));
   const tmp = document.createElementNS('http://www.w3.org/2000/svg', 'g'), at = ` data-k="${k}" data-de="${esc(l.de)}" data-vers="${esc(l.vers)}"`;
   tmp.innerHTML = pastilleSrc(a.x, a.y, l.src, 'pastille', at) + pastilleSrc(b.x, b.y, l.src, 'pastille', at);
   const noeud = svg.querySelector('.noeud'); [...tmp.children].forEach(g => svg.insertBefore(g, noeud));
+}
+/* un consommateur qui reçoit le même item de plusieurs sources ou blocs : le point où leurs lignes se rejoignent est marqué à
+   l'entrée du poste, avec ce que chacune apporte (« A 375 + B 300 = 675 ») */
+function fusionsEntree(svg){
+  svg.querySelectorAll('.fusion').forEach(g => g.remove());
+  const groupes = new Map();
+  GEO.liens.forEach((l, k) => { if(l.src == null) return; const c = l.vers + '|' + l.item; (groupes.get(c) || groupes.set(c, []).get(c)).push([l, k]); });
+  const tmp = document.createElementNS('http://www.w3.org/2000/svg', 'g'), noeud = svg.querySelector('.noeud');
+  groupes.forEach(ls => {
+    if(ls.length < 2) return;
+    const [l0, k0] = ls[0], lien = svg.querySelector(`.lien[data-k="${k0}"]`); if(!lien) return;
+    const bout = lien.getPointAtLength(lien.getTotalLength()), tot = ls.reduce((a, [l]) => a + l.debit, 0);
+    const txt = ls.map(([l]) => `${String.fromCharCode(65 + l.src % 26)} ${num(l.debit, 0)}`).join(' + ') + ` = ${num(tot, 0)}`;
+    tmp.insertAdjacentHTML('beforeend', `<g class="fusion" data-de="${esc(ls[0][0].de)}" data-vers="${esc(l0.vers)}"><circle cx="${bout.x - 3}" cy="${bout.y}" r="4.5"/>
+      <text x="${bout.x - 8}" y="${bout.y - 9}" text-anchor="end">${esc(txt)}</text></g>`);
+  });
+  [...tmp.children].forEach(g => svg.insertBefore(g, noeud));
 }
 function portesLien(svg, k){
   svg.querySelectorAll(`.porte-lien[data-k="${k}"]`).forEach(g => g.remove());
@@ -1168,7 +1186,7 @@ function rendreGraphe(){
   box.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="${W * S.zoom}" height="${H * S.zoom}" viewBox="0 0 ${W} ${H}"
     role="img" aria-label="${esc(L({fr: 'Graphe de production', en: 'Production graph'}))}" data-w="${W}" data-h="${H}">${rails}${liens}${noeuds}</svg>`;
   document.getElementById('zoomVal').textContent = num(S.zoom * 100, 0) + ' %';
-  { const sv = box.querySelector('svg'); NPORTES = 0; G.liens.forEach((_, k) => { portesLien(sv, k); pastillesLien(sv, k); }); majProche(sv); }
+  { const sv = box.querySelector('svg'); NPORTES = 0; G.liens.forEach((_, k) => { portesLien(sv, k); pastillesLien(sv, k); }); fusionsEntree(sv); majProche(sv); }
   legende(UTILISES);
   const toutDeplie = !G.noeuds.some(n => n.type === 'etape' && replies.has(n.id)), bd = document.getElementById('deplier');
   bd.title = toutDeplie ? L({fr: 'Tout replier', en: 'Fold all'}) : L({fr: 'Tout déplier', en: 'Expand all'});
@@ -1187,6 +1205,7 @@ function deplacer(id, x, y){
     const t = svg.querySelector(`.etiq[data-k="${k}"]`); t.setAttribute('x', g.mx); t.setAttribute('y', g.my - 5);
     portesLien(svg, k); pastillesLien(svg, k);
   });
+  fusionsEntree(svg);
 }
 // panneau sous le graphe : montage du bloc choisi
 function rendreDetail(){
@@ -1219,7 +1238,7 @@ function isoler(id){
   };
   const amont = parcours('de', 'vers'), aval = parcours('vers', 'de');
   new Set([...amont, ...aval]).forEach(x => { const g = svg.querySelector(`.noeud[data-id="${CSS.escape(x)}"]`); if(g) g.classList.add('lie'); });
-  svg.querySelectorAll('.lien, .rail, .pastille, .etiq, .defile[data-k], .porte-lien').forEach(l => {
+  svg.querySelectorAll('.lien, .rail, .pastille, .fusion, .etiq, .defile[data-k], .porte-lien').forEach(l => {
     const {de, vers} = l.dataset;
     if((amont.has(de) && amont.has(vers)) || (aval.has(de) && aval.has(vers))) l.classList.add('lie');
   });

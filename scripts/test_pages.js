@@ -727,7 +727,7 @@ const INDICES = {
     const scinde = await lire();
     const adresse = await p.evaluate(() => JSON.parse(atob(new URLSearchParams(location.search).get('p').replace(/-/g, '+').replace(/_/g, '/'))).s);
     const bon = groupe.fer === 1 && !groupe.bandes && !groupe.blocs && !groupe.rails && !groupe.note && !groupe.sw
-      && scinde.fer === 2 && scinde.bandes === 2 && scinde.blocs === 4 && scinde.rails >= 9 && scinde.pastilles === 2 * scinde.rails && scinde.note && scinde.sw && adresse === 1 && !errs.length;
+      && scinde.fer === 2 && scinde.bandes === 2 && scinde.blocs === 4 && scinde.rails >= 8 && scinde.pastilles === 2 * scinde.rails && scinde.note && scinde.sw && adresse === 1 && !errs.length;
     if (!bon) echecs.push('extraction scindée : ' + JSON.stringify({groupe, scinde, adresse}) + ' ' + errs.join(' | '));
     console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : extraction scindée en sources`);
     await p.close();

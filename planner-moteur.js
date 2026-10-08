@@ -194,22 +194,39 @@
     etapes.forEach(function(e){ e.rang = rang.get(e); });
   }
 
-  /* Répartit des consommateurs [{id, col, q}] en groupes d'au plus `cap` /min : du plus éloigné du produit fini (col la plus
-     haute) au plus proche, remplis dans l'ordre, un consommateur trop gros est coupé. → [{debit, parts: {id: débit}}] */
+  /* Répartit des consommateurs [{id, col, q}] en groupes d'au plus `cap` /min. Du plus éloigné du produit fini (col la plus
+     haute) au plus proche, chaque consommateur entier dans un seul groupe tant que cela n'exige pas plus de groupes que le
+     minimum (⌈total ÷ cap⌉) ; sinon, remplis dans l'ordre et le trop gros coupé. Un consommateur plus gros qu'une ligne est
+     toujours coupé : lignes pleines d'abord, le reste avec les suivants. → [{debit, parts: {id: débit}}] */
   function remplir(cs, cap){
     cs = cs.slice().sort(function(a, b){ return b.col - a.col || (a.id < b.id ? -1 : 1); });
-    var out = [], cur = {debit: 0, parts: {}};
-    cs.forEach(function(c){
-      var reste = c.q;
-      while(reste > 1e-9){
-        var place = cap - cur.debit;
-        if(place <= 1e-9){ out.push(cur); cur = {debit: 0, parts: {}}; place = cap; }
-        var v = Math.min(reste, place);
-        cur.debit += v; cur.parts[c.id] = (cur.parts[c.id] || 0) + v; reste -= v;
-      }
-    });
-    if(cur.debit > 1e-9) out.push(cur);
-    return out;
+    var tot = cs.reduce(function(a, c){ return a + c.q; }, 0), mini = Math.max(1, Math.ceil(tot / cap - 1e-9));
+    function remplissage(entier){
+      var out = [], cur = {debit: 0, parts: {}};
+      var ferme = function(){ if(cur.debit > 1e-9) out.push(cur); cur = {debit: 0, parts: {}}; };
+      cs.forEach(function(c){
+        var reste = c.q;
+        if(entier && reste <= cap + 1e-9){
+          if(cur.debit + reste > cap + 1e-9) ferme();
+          cur.debit += reste; cur.parts[c.id] = (cur.parts[c.id] || 0) + reste; return;
+        }
+        if(entier){   // plus gros qu'une ligne : lignes pleines, le reste suit les autres
+          while(reste > cap + 1e-9){ ferme(); out.push({debit: cap, parts: (function(o){ o[c.id] = cap; return o; })({})}); reste -= cap; }
+          if(cur.debit + reste > cap + 1e-9) ferme();
+          cur.debit += reste; cur.parts[c.id] = (cur.parts[c.id] || 0) + reste; return;
+        }
+        while(reste > 1e-9){
+          var place = cap - cur.debit;
+          if(place <= 1e-9){ ferme(); place = cap; }
+          var v = Math.min(reste, place);
+          cur.debit += v; cur.parts[c.id] = (cur.parts[c.id] || 0) + v; reste -= v;
+        }
+      });
+      ferme();
+      return out;
+    }
+    var e = remplissage(true);
+    return e.length <= mini ? e : remplissage(false);
   }
   var idEtape = function(e){ return e.id || 'e:' + e.recette.classe; };
 

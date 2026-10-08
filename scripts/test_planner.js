@@ -42,6 +42,11 @@ let echecs = 0;
   const GE = M.graphe(E, cib, M.sources(E, cib, () => 1200)), sortieDe = id => GE.liens.filter(l => l.de === id).reduce((a, l) => a + l.debit, 0);
   ok('graphe : chaque bloc débite ce qu\'il produit, chaque consommateur reçoit son besoin', blocs('Iron Ingot').every(e => Math.abs(sortieDe(e.id) - e.sorties[0][1]) < 1e-6)
     && GE.noeuds.filter(n => n.type === 'etape').every(n => n.etape.entrees.every(p => R.bruts[p[0]] !== undefined || Math.abs(GE.liens.filter(l => l.vers === n.id && l.item === p[0]).reduce((a, l) => a + l.debit, 0) - p[1]) < 1e-6)), '');
+  // pas de coupure inutile : chaque consommateur des lingots de fer (barres 825, plaques 675) reçoit d'un seul bloc
+  const parConso = {}; (E.routes['Iron Ingot'] || []).forEach(rt => Object.keys(rt.parts).forEach(c => { parConso[c] = (parConso[c] || 0) + 1; }));
+  ok('blocs : un consommateur plus petit qu\'une ligne n\'est servi que par un bloc', Object.keys(parConso).length === 2 && Object.values(parConso).every(n => n === 1), JSON.stringify(parConso));
+  const SC = M.sources(E, cib, () => 1200)['Iron Ore'];
+  ok('sources : 3 consommateurs (825, 675, 900) ne tiennent pas entiers sur 2 lignes → le minimum de sources, un consommateur coupé', SC.length === 2 && SC.reduce((a, g) => a + Object.keys(g.parts).length, 0) === 4, JSON.stringify(SC));
   ok('blocs : pas de scission sans plafond ou assez grand', M.eclater(P, R, cib, () => null).etapes.length === R.etapes.length && M.eclater(P, R, cib, () => 5000).etapes.length === R.etapes.length, '');
   const G = M.graphe(R, cib, S1), bruts = G.noeuds.filter(n => n.type === 'brut' && n.item === 'Iron Ore');
   const sortie = id => G.liens.filter(l => l.de === id).reduce((a, l) => a + l.debit, 0);

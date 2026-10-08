@@ -713,7 +713,7 @@ const INDICES = {
   }
 
   // extraction et blocs scindés : Cadre modulaire lourd à 10 /min, 2 400 minerai de fer sur des lignes de 1 200 → deux sources (A, B),
-  // les lingots de fer et les vis en deux blocs chacun, de leur couleur, avec rail et pastilles sur leurs liens ; groupées, rien de tout cela ; le réglage suit l'adresse
+  // les lingots de fer et les vis en deux blocs chacun (sans marque : chaque bloc sert ses propres consommateurs ; seules les sources de minerai, dont un consommateur est servi par deux, sont marquées), de leur couleur, avec rail et pastilles sur leurs liens ; groupées, rien de tout cela ; le réglage suit l'adresse
   {
     const p = await b.newPage({viewport: {width: 1400, height: 900}}), errs = [];
     p.on('pageerror', e => errs.push(e.message));
@@ -727,7 +727,7 @@ const INDICES = {
     const scinde = await lire();
     const adresse = await p.evaluate(() => JSON.parse(atob(new URLSearchParams(location.search).get('p').replace(/-/g, '+').replace(/_/g, '/'))).s);
     const bon = groupe.fer === 1 && !groupe.bandes && !groupe.blocs && !groupe.rails && !groupe.note && !groupe.sw
-      && scinde.fer === 2 && scinde.bandes === 2 && scinde.blocs === 4 && scinde.rails >= 8 && scinde.pastilles === 2 * scinde.rails && scinde.note && scinde.sw && adresse === 1 && !errs.length;
+      && scinde.fer === 2 && scinde.bandes === 2 && scinde.blocs === 0 && scinde.rails >= 4 && scinde.pastilles === 2 * scinde.rails && scinde.note && scinde.sw && adresse === 1 && !errs.length;
     if (!bon) echecs.push('extraction scindée : ' + JSON.stringify({groupe, scinde, adresse}) + ' ' + errs.join(' | '));
     console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : extraction scindée en sources`);
     await p.close();

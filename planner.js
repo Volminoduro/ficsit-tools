@@ -503,6 +503,14 @@ function calcul(){
   const R0 = R; R = scinder(R0);   // R0 : une étape par recette ; R : avec les blocs scindés
   const EC = INST ? new Map(R0.etapes.map(e => [e, M.ecart(e, INST)])) : null;
   const SRC = sourcesPlan(R, D, S.scinde), X = extractionPlan(R, C, D, SRC), Xstd = Rstd ? extractionPlan(Rstd, C, D, sourcesPlan(Rstd, D, S.scinde)) : null;
+  // les marques de source (lettre, couleur, rail) n'ont de sens que pour un item dont un consommateur reçoit de plusieurs sources ou
+  // blocs : il faut alors dire quelle ligne vient d'où ; quand chaque source ou bloc sert ses propres consommateurs, rien à marquer
+  const MARQ = new Set(), voisins = (item, groupes) => {
+    const n = {}; groupes.forEach(g => Object.keys(g).forEach(c => { n[c] = (n[c] || 0) + 1; }));
+    if(Object.values(n).some(v => v > 1)) MARQ.add(item);
+  };
+  Object.keys(SRC).forEach(i => voisins(i, SRC[i].map(g => g.parts)));
+  Object.keys(R.routes || {}).forEach(i => voisins(i, R.routes[i].map(g => g.parts)));
   const cibles = new Set(S.cibles.map(c => c.item));
 
   const al = [];
@@ -582,7 +590,7 @@ function calcul(){
         : `<span class="okc">${L({fr: 'capacité suffisante', en: 'enough capacity'})}</span>`}</div>`;
     const etat = !x ? '' : x.manque > 1e-6 ? ' manque' : ' couvert';
     return `<div class="etape${cibles.has(e.item) ? ' cib' : etat}">${ico(e.item)}
-      <div class="nom">${esc(nomItem(e.item))}${e.nsrc > 1 ? ' (' + String.fromCharCode(65 + e.src % 26) + ')' : ''}<small>${esc(nomBat(r.machine))}</small></div>
+      <div class="nom">${esc(nomItem(e.item))}${e.nsrc > 1 && MARQ.has(e.item) ? ' (' + String.fromCharCode(65 + e.src % 26) + ')' : ''}<small>${esc(nomBat(r.machine))}</small></div>
       <div class="mach">${num(e.entieres, 0)} × ${cad}<small>${num(e.machines, 2)} ${L({fr: 'machines exactes', en: 'exact machines'})} · ${num(e.mw, 1)} MW</small></div>
       <div class="det">
         <select data-item="${esc(e.item)}" aria-label="${esc(L({fr: 'Recette', en: 'Recipe'}))}">${opts}</select>
@@ -592,7 +600,7 @@ function calcul(){
       </div>${usine}${(() => { const m = texteMontage(e, D);
         return `<details class="montage"><summary>${L({fr: 'Montage', en: 'Layout'})} : ${m.resume}</summary>${m.lignes.join('')}</details>`; })()}</div>`;
   }).join('') || `<p class="vide">${L({fr: 'Rien à produire.', en: 'Nothing to make.'})}</p>`;
-  DERNIER = {R, R0, EC, D, C, X, SRC};
+  DERNIER = {R, R0, EC, D, C, X, SRC, MARQ};
   rendreGraphe();   // le graphe reste dessous, même quand la liste est ouverte
 }
 
@@ -1119,7 +1127,7 @@ function rendreGraphe(){
   ports(sortants, 'ps', 'vers'); ports(entrants, 'pe', 'de');
   GEO = {parId, liens: G.liens};
   const maxD = Math.max(...G.liens.map(l => l.debit), 1e-9), UTILISES = new Set();
-  G.liens.forEach(l => { const a = parId.get(l.de); l.src = a.nsrc > 1 ? a.src : null; });
+  G.liens.forEach(l => { const a = parId.get(l.de); l.src = a.nsrc > 1 && DERNIER.MARQ.has(l.item) ? a.src : null; });
   const rails = G.liens.map((l, k) => {
     if(l.src == null) return '';
     const ep = 1.5 + 6 * Math.sqrt(l.debit / maxD);
@@ -1168,9 +1176,9 @@ function rendreGraphe(){
           L({fr: `Pureté des nœuds : ${L(pn[1]).toLowerCase()} (cliquer pour changer)`, en: `Node purity: ${L(pn[1]).toLowerCase()} (click to change)`}));
       }
     }
-    const marqueSrc = n.nsrc > 1 ? `<rect class="src-bande" x="0" y="0" width="6" height="${n.h}" fill="${COUL_SRC[n.src % COUL_SRC.length]}"/>`
+    const marqueSrc = n.nsrc > 1 && DERNIER.MARQ.has(n.item) ? `<rect class="src-bande" x="0" y="0" width="6" height="${n.h}" fill="${COUL_SRC[n.src % COUL_SRC.length]}"/>`
       + (n.type === 'etape' ? '' : pastilleSrc(n.w - 14, 14, n.src, 'pastille-n')) : '';   // un bloc le doit déjà à ses lignes d'entrée : la lettre n'est répétée que sur les sources
-    if(n.nsrc > 1) titre += ` — ${L({fr: 'source', en: 'source'})} ${String.fromCharCode(65 + n.src % 26)}`;
+    if(n.nsrc > 1 && DERNIER.MARQ.has(n.item)) titre += ` — ${L({fr: 'source', en: 'source'})} ${String.fromCharCode(65 + n.src % 26)}`;
     if(n.id === CHOISI) cls += ' choisi';
     // recette alternative : liseré et pastille orange, et son nom sous le bloc (sauf déplié : le montage prend la place)
     const alt = n.type === 'etape' && n.etape.recette.alt;

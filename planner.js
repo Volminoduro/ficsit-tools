@@ -13,11 +13,11 @@ const unite = n => LIQ.has(n) ? 'm³/min' : '/min';
 /* ---------- état mémorisé (par navigateur) ---------- */
 const CLE = 'ficsit-tools:planner';
 const DEFAUT = {cibles: [{item: 'Reinforced Iron Plate', debit: 10}], choix: {}, palier: 9, alt: false, suivre: true, mode: 'defaut', vue: 'graphe', zoom: 1,
-  montage: 'manifold', poids: {mat: 5, mw: 5, esp: 5}, pos: {}, replies: [], v: 4};
+  montage: 'manifold', poids: {mat: 5, mw: 5, esp: 5}, pos: {}, replies: [], extraction: 'auto', puretes: {}, v: 4};
 /* Plusieurs plans, un par onglet : les champs propres à un plan (PLAN) vivent à plat dans S pour le plan affiché, et dans
    S.plans[i] pour tous ; garder() recopie le plan affiché dans S.plans. Vue, zoom, palier de la partie : communs. */
 const MODES_CLES = ['defaut', 'energie', 'ressources', 'place', 'synthese'];
-const PLAN = ['cibles', 'choix', 'mode', 'poids', 'montage', 'alt', 'palier', 'pos', 'replies'];
+const PLAN = ['cibles', 'choix', 'mode', 'poids', 'montage', 'alt', 'palier', 'pos', 'replies', 'puretes'];
 const copie = o => JSON.parse(JSON.stringify(o));
 const extrait = o => { const p = {}; PLAN.forEach(k => { p[k] = copie(o[k] !== undefined ? o[k] : DEFAUT[k]); }); return p; };
 const nomPlan = n => L({fr: `Plan ${n}`, en: `Plan ${n}`});
@@ -59,6 +59,7 @@ function compact(pl){
   if(pl.mode === 'synthese') o.w = [pl.poids.mw, pl.poids.mat, pl.poids.esp];
   if(pl.montage !== 'manifold') o.o = 1;
   if(pl.alt) o.a = 1;
+  if(Object.keys(pl.puretes || {}).length) o.u = pl.puretes;
   if(pl.palier !== 9) o.t = pl.palier;
   return b64(JSON.stringify(o));
 }
@@ -72,6 +73,7 @@ function deCompact(code){
     if(Array.isArray(o.w)) pl.poids = {mw: +o.w[0] || 0, mat: +o.w[1] || 0, esp: +o.w[2] || 0};
     if(o.o) pl.montage = 'equilibre';
     pl.alt = !!o.a;
+    if(o.u && typeof o.u === 'object') pl.puretes = o.u;
     if(Number.isInteger(o.t) && o.t >= 0 && o.t <= 9) pl.palier = o.t;
     pl.nom = typeof o.n === 'string' ? o.n.slice(0, 40) : '';
     return pl;
@@ -155,12 +157,13 @@ function rendreModes(){
   document.getElementById('modeAide').textContent = L(AIDES[S.mode] || AIDES.defaut);
   const po = document.getElementById('poids'); po.hidden = S.mode !== 'synthese';
   po.querySelectorAll('input').forEach(i => { i.value = S.poids[i.dataset.p]; i.nextElementSibling.textContent = S.poids[i.dataset.p]; });
-  document.querySelectorAll('.interrupteur .sw-lib').forEach(x => x.classList.toggle('actif', x.dataset.cote === S.montage));
+  document.querySelectorAll('#swMont .sw-lib').forEach(x => x.classList.toggle('actif', x.dataset.cote === S.montage));
+  rendreExtraction();
 }
 // interrupteur : coché = équilibrage par séparateurs, décoché = manifold
 montSel.checked = S.montage === 'equilibre';
 montSel.addEventListener('change', () => { S.montage = montSel.checked ? 'equilibre' : 'manifold'; garder(); rendreModes(); calcul(); });
-document.querySelectorAll('.interrupteur .sw-lib').forEach(x => x.addEventListener('click', () => {
+document.querySelectorAll('#swMont .sw-lib').forEach(x => x.addEventListener('click', () => {
   if(S.montage === x.dataset.cote) return;
   montSel.checked = x.dataset.cote === 'equilibre'; montSel.dispatchEvent(new Event('change'));
 }));
@@ -268,6 +271,49 @@ function texteMontage(e, D){
   const resume = sep || grp ? L({fr: `${sep} sép. · ${grp} grp.`, en: `${sep} split. · ${grp} merg.`}) : L({fr: 'montage direct', en: 'direct feed'});
   return {resume, lignes};
 }
+
+/* ---------- extraction : les extracteurs des ressources brutes du plan ----------
+   Chaque ressource brute du plan a ses extracteurs : le meilleur débloqué (partie importée, sinon palier choisi), sur des
+   nœuds de la pureté choisie sur le bloc de la ressource (impur, normal ou pur), à une cadence commune. Réglage de la
+   cadence : sans surcadençage (≤ 100 %, le moins d'énergie par item) ou surcadencé (jusqu'à 250 %, le moins d'extracteurs,
+   donc de nœuds et d'espace) ; tant qu'on n'y touche pas, selon le critère du plan (énergie ou standard : sans surcadençage ;
+   matière, espace, synthèse : surcadencé). Le convoyeur (ou le tuyau) le plus fort débloqué plafonne la cadence. L'azote
+   (puits de pression) n'est pas planifié. L'extraction est comptée dans la consommation, les machines et l'espace du bilan ;
+   elle ne guide pas le choix des recettes. */
+const PURETES = [[0.5, {fr: 'Impur', en: 'Impure'}, 'Imp.'], [1, {fr: 'Normal', en: 'Normal'}, 'Norm.'], [2, {fr: 'Pur', en: 'Pure'}, 'Pur']];
+function critereExtraction(){
+  return S.extraction === 'sobre' || S.extraction === 'dense' ? S.extraction : (S.mode === 'defaut' || S.mode === 'energie' ? 'sobre' : 'dense');
+}
+function extractionPlan(R, C, D){
+  const E = P.ext, kmax = critereExtraction() === 'dense' ? 2.5 : 1, puretes = S.puretes || {};
+  const ok = x => C.p ? (C.p.recettes || []).includes(x[3]) : x[2] <= S.palier;
+  const mineurs = E.mineurs.filter(ok), mineur = mineurs.length ? mineurs[mineurs.length - 1] : E.mineurs[0], mk = E.mineurs.indexOf(mineur) + 1;
+  const capSolide = D.conv[D.conv.length - 1][0], capFluide = D.tuy.length ? D.tuy[D.tuy.length - 1][0] : null;
+  const X = {mw: 0, esp: 0, n: 0, lignes: new Map()};
+  Object.keys(R.bruts).forEach(item => {
+    if(item === 'Nitrogen Gas') return;
+    const liq = LIQ.has(item), eau = item === 'Water', ext = item === 'Crude Oil' ? E.petrole : eau ? E.eau : mineur;
+    const bat = item === 'Crude Oil' ? 'Oil Extractor' : eau ? 'Water Extractor' : 'Miner Mk.' + mk;
+    if(!ok(ext)){ X.lignes.set(item, {bat, manque: true}); return; }
+    const pur = eau ? 1 : (puretes[item] || 1);
+    const q = M.extraire(R.bruts[item], ext[0] * pur, ext[1], E.exp, kmax, liq ? capFluide : capSolide);
+    const aire = E.aire[item === 'Crude Oil' || eau ? item : 'solide'] * q.n;
+    X.mw += q.mw; X.esp += aire; X.n += q.n;
+    X.lignes.set(item, Object.assign({bat, pur, eau, aire}, q));
+  });
+  return X;
+}
+// interrupteur d'extraction (réglages) : coché = surcadencé
+function rendreExtraction(){
+  const dense = critereExtraction() === 'dense';
+  document.getElementById('extSel').checked = dense;
+  document.querySelectorAll('#swExt .sw-lib').forEach(x => x.classList.toggle('actif', x.dataset.cote === (dense ? 'dense' : 'sobre')));
+}
+document.getElementById('extSel').addEventListener('change', e => { S.extraction = e.target.checked ? 'dense' : 'sobre'; garder(); rendreExtraction(); calcul(); });
+document.querySelectorAll('#swExt .sw-lib').forEach(x => x.addEventListener('click', () => {
+  const sel = document.getElementById('extSel'); if(critereExtraction() === x.dataset.cote) return;
+  sel.checked = x.dataset.cote === 'dense'; sel.dispatchEvent(new Event('change'));
+}));
 
 /* recettes proposées pour un item : celles permises (meilleure d'abord), plus la recette actuelle si elle n'en est pas */
 function optionsRecette(item, actuelle, C){
@@ -426,12 +472,14 @@ function calcul(){
   const opt = S.mode !== 'defaut';
   if(opt) solveur();
   // chaîne standard (une recette par item) : référence de la synthèse et des écarts affichés dans le bilan
-  const REF = opt ? M.mesures(P, M.calculer(P, S.cibles, {permise: C.permise, choix: S.choix})) : null;
+  const Rstd = opt ? M.calculer(P, S.cibles, {permise: C.permise, choix: S.choix}) : null;
+  const REF = Rstd ? M.mesures(P, Rstd) : null;
   let R = opt && HIGHS ? optimise(C, REF) : null;
   const repli = opt && !R;
   if(!R) R = M.calculer(P, S.cibles, {permise: C.permise, choix: S.choix, preferees: C.preferees});
   const EC = INST ? new Map(R.etapes.map(e => [e, M.ecart(e, INST)])) : null;
   const D = dispo(C);
+  const X = extractionPlan(R, C, D), Xstd = Rstd ? extractionPlan(Rstd, C, D) : null;
   const cibles = new Set(S.cibles.map(c => c.item));
 
   const al = [];
@@ -448,17 +496,19 @@ function calcul(){
   const tuile = (v, l, k, ec) => `<div class="tuile"${k ? ` data-k="${k}"` : ''}><div class="big">${v}</div><div class="lbl">${l}</div>${ec || ''}</div>`;
   // en mode optimisé : écart de chaque critère face à la chaîne standard
   const MS = M.mesures(P, R);
+  MS.mw += X.mw; MS.esp += X.esp;   // l'extraction fait partie du plan
   const ecart = k => {
     if(!REF || repli || !(REF[k] > 1e-9)) return '';
-    const d = (MS[k] / REF[k] - 1) * 100;
+    const ref = k === 'mw' ? REF.mw + Xstd.mw : k === 'esp' ? REF.esp + Xstd.esp : REF[k];
+    const d = (MS[k] / ref - 1) * 100;
     if(Math.abs(d) < 0.5) return `<div class="ec">= ${L({fr: 'standard', en: 'standard'})}</div>`;
     return `<div class="ec ${d < 0 ? 'mieux' : 'pire'}">${d > 0 ? '+' : '−'}${num(Math.abs(d), 0)} % ${L({fr: 'face au standard', en: 'vs standard'})}</div>`;
   };
   document.getElementById('tuiles').innerHTML =
-    tuile(num(R.mw, 1) + ' MW', L({fr: 'Consommation des machines', en: 'Machine power draw'}), 'mw', ecart('mw')) +
+    tuile(num(MS.mw, 1) + ' MW', L({fr: 'Consommation (machines et extraction)', en: 'Power draw (machines and extraction)'}), 'mw', ecart('mw')) +
     tuile(num(MS.mat, 2) + ' ‰', L({fr: 'des ressources de la carte', en: 'of the map\'s resources'}), 'rare', ecart('mat')) +
-    tuile(num(MS.esp, 0) + ' m²', L({fr: 'Espace au sol (machines)', en: 'Floor space (machines)'}), 'esp', ecart('esp')) +
-    tuile(num(nbMach, 0), L({fr: 'Machines', en: 'Machines'})) +
+    tuile(num(MS.esp, 0) + ' m²', L({fr: 'Espace au sol (machines et extraction)', en: 'Floor space (machines and extraction)'}), 'esp', ecart('esp')) +
+    tuile(num(nbMach + X.n, 0), L({fr: 'Machines et extracteurs', en: 'Machines and extractors'})) +
     tuile(num(R.etapes.length, 0), L({fr: 'Recettes', en: 'Recipes'})) +
     (EC ? tuile(num([...EC.values()].reduce((s, x) => s + Math.ceil(x.machines - 1e-6), 0), 0),
       L({fr: 'Machines à construire', en: 'Machines to build'})) : '');
@@ -501,7 +551,7 @@ function calcul(){
       </div>${usine}${(() => { const m = texteMontage(e, D);
         return `<details class="montage"><summary>${L({fr: 'Montage', en: 'Layout'})} : ${m.resume}</summary>${m.lignes.join('')}</details>`; })()}</div>`;
   }).join('') || `<p class="vide">${L({fr: 'Rien à produire.', en: 'Nothing to make.'})}</p>`;
-  DERNIER = {R, EC, D, C};
+  DERNIER = {R, EC, D, C, X};
   rendreGraphe();   // le graphe reste dessous, même quand la liste est ouverte
 }
 
@@ -999,7 +1049,7 @@ function rendreGraphe(){
   }).join('');
   const noeuds = G.noeuds.map(n => {
     const ic = P.ic[n.item] ? `<image href="commun/icones-44/${P.ic[n.item]}.webp" x="8" y="9" width="30" height="30"/>` : '';
-    let l2 = '', l3 = '', l4 = '', cls = n.type, titre = nomItem(n.item);
+    let l2 = '', l3 = '', l4 = '', cls = n.type, titre = nomItem(n.item), puretePill = '';
     if(n.type === 'etape'){
       const e = n.etape, cad = e.cadence > 0.99999 ? '100 %' : num(e.cadence * 100, 0) + ' %';
       l2 = `${num(e.entieres, 0)} × ${cad} · ${nomBat(e.recette.machine)}`;
@@ -1014,6 +1064,18 @@ function rendreGraphe(){
     } else {
       l2 = n.type === 'brut' ? L({fr: 'ressource', en: 'resource'}) : n.type === 'cible' ? L({fr: 'objectif', en: 'target'}) : L({fr: 'surplus', en: 'surplus'});
       l3 = `<tspan class="n3${n.type === 'surplus' ? ' okc' : ''}">${num(n.debit)} ${unite(n.item)}</tspan>`;
+      // ressource brute : ses extracteurs (nombre, cadence commune, MW, fragments d'énergie) et la pureté du nœud, au choix
+      const x = n.type === 'brut' && DERNIER.X ? DERNIER.X.lignes.get(n.item) : null;
+      if(x && x.manque) l2 = `${nomBat(x.bat)} : ${L({fr: 'non débloqué', en: 'not unlocked'})}`;
+      else if(x){
+        l2 = `${x.n}× ${nomBat(x.bat)} · ${num(x.c * 100, 0)}%`;   // compact : « 1× Pompe à pétrole · 210% » tient dans le bloc
+        const pn = PURETES.find(p => p[0] === x.pur);
+        l4 = `${num(x.mw, 0)} MW${x.fragments ? ' · ⚡' + x.fragments : ''}${x.eau ? '' : ' · ' + L(pn[1])}`;
+        titre += ` — ${x.n} × ${nomBat(x.bat)} · ${num(x.c * 100, 1)} % · ${num(x.mw, 1)} MW · ${x.fragments ? L({fr: `${x.fragments} fragment(s) d'énergie`, en: `${x.fragments} power shard(s)`}) : L({fr: 'sans fragment d\'énergie', en: 'no power shard'})}${x.plafond ? ' · ' + L({fr: 'cadence plafonnée par le convoyeur ou le tuyau', en: 'clock capped by the belt or pipe'}) : ''}`;
+        if(!x.eau) puretePill = (nn => `<g class="pur" data-pur="${esc(n.item)}" role="button" aria-label="${esc(nn)}"><title>${esc(nn)}</title>
+          <rect x="${n.w - 50}" y="42" width="44" height="17" rx="2"/><text x="${n.w - 28}" y="54.5" text-anchor="middle">${esc(pn[2])}</text></g>`)(
+          L({fr: `Pureté des nœuds : ${L(pn[1]).toLowerCase()} (cliquer pour changer)`, en: `Node purity: ${L(pn[1]).toLowerCase()} (click to change)`}));
+      }
     }
     if(n.id === CHOISI) cls += ' choisi';
     // recette alternative : liseré et pastille orange, et son nom sous le bloc (sauf déplié : le montage prend la place)
@@ -1038,7 +1100,7 @@ function rendreGraphe(){
     const tx = n.objectif != null ? `${L({fr: 'OBJECTIF', en: 'TARGET'})} · ${num(n.objectif)} ${unite(n.objectifItem)}` : '';
     const onglet = tx ? `<g class="obj-tab"><rect x="-1" y="-13" width="${Math.round(tx.length * 6.3 + 14)}" height="14" rx="2"/><text x="6" y="-2.5">${esc(tx)}</text></g>` : '';
     return `<g class="noeud ${cls}${n.objectif != null ? ' objectif' : ''}${n.sch ? ' deplie' : ''}" data-id="${esc(n.id)}" tabindex="0" transform="translate(${n.px},${n.py})"><title>${esc(titre)}${tx ? ' — ' + esc(tx.toLowerCase()) : ''}</title>
-      <rect x="0" y="0" width="${n.w}" height="${n.h}" rx="2"/>${onglet}${marqueAlt}${ic}${recette}${plier}${n.sch ? n.sch.svg : ''}
+      <rect x="0" y="0" width="${n.w}" height="${n.h}" rx="2"/>${onglet}${marqueAlt}${ic}${recette}${plier}${puretePill}${n.sch ? n.sch.svg : ''}
       <text x="46" y="19" class="n1">${esc(couper(nomItem(n.item), n.type === 'etape' ? 15 : changeable ? 18 : 21))}</text>
       <text x="46" y="35" class="n2">${esc(couper(l2, 26))}</text>
       <text x="46" y="52">${l3}</text>
@@ -1168,6 +1230,12 @@ boxG.addEventListener('pointerdown', e => {
   if(rb){ e.preventDefault(); if(MENU === rb.dataset.recette) fermerMenu(false); else ouvrirMenu(rb.dataset.recette); return; }
   const pl = e.target.closest('.plier');
   if(pl){ e.preventDefault(); basculer(pl.dataset.plier); return; }
+  const pu = e.target.closest('.pur');
+  if(pu){   // pureté des nœuds d'une ressource : impur → normal → pur
+    e.preventDefault();
+    const v = PURETES.map(p => p[0]), i = v.indexOf((S.puretes || {})[pu.dataset.pur] || 1);
+    S.puretes = Object.assign({}, S.puretes, {[pu.dataset.pur]: v[(i + 1) % v.length]}); garder(); calcul(); return;
+  }
   const g = e.target.closest('.noeud');
   if(!g){ if(CHOISI && e.target.closest('svg')) choisir(null); return; }   // dans le vide : plus de bloc choisi
   if(!GEO || e.button > 0) return;

@@ -8,6 +8,18 @@ const html = fs.readFileSync(path.join(ROOT, 'planner.html'), 'utf8');
 const P = JSON.parse(/<script id="payload" type="application\/json">([\s\S]*?)<\/script>/.exec(html)[1]);
 
 let echecs = 0;
+// extraction : nombre d'extracteurs, cadence commune, MW, fragments d'énergie
+{
+  const X = 1.321929, e1 = M.extraire(525, 480, 45, X, 1, null);   // 525 minerai /min sur un nœud pur avec des Mk.3, sans surcadençage
+  ok('extraction : 2 Mk.3 à 54,7 %', e1.n === 2 && Math.abs(e1.c - 525 / 960) < 1e-9 && e1.fragments === 0, JSON.stringify(e1));
+  ok('extraction : MW = 2 × 45 × c^1,32', Math.abs(e1.mw - 90 * Math.pow(525 / 960, X)) < 1e-9, e1.mw);
+  const e2 = M.extraire(525, 240, 45, X, 2.5, null);   // nœud normal, surcadencé : un seul Mk.3 à 218,75 %, 3 fragments
+  ok('extraction : 1 Mk.3 à 218,75 % avec 3 fragments', e2.n === 1 && Math.abs(e2.c - 2.1875) < 1e-9 && e2.fragments === 3, JSON.stringify(e2));
+  const e3 = M.extraire(525, 480, 45, X, 2.5, 60);   // convoyeur Mk.1 (60 /min) : 9 extracteurs à 12,2 %, plafonné
+  ok('extraction : plafond du convoyeur', e3.n === 9 && e3.plafond && Math.abs(e3.c - 525 / 4320) < 1e-9, JSON.stringify(e3));
+  const e4 = M.extraire(100, 240, 45, X, 2.5, null);   // 100 /min sur un nœud normal : un Mk.3 à 41,7 %, rien d'autre
+  ok('extraction : 1 extracteur sous 100 %, sans fragment', e4.n === 1 && !e4.plafond && e4.fragments === 0, JSON.stringify(e4));
+}
 const proche = (a, b) => Math.abs(a - b) < 1e-6 * Math.max(1, Math.abs(b));
 function ok(nom, cond, detail){
   console.log(`${cond ? 'ok  ' : 'ÉCHEC'} ${nom}${cond ? '' : ' : ' + detail}`);

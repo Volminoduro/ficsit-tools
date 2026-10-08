@@ -713,7 +713,7 @@ const INDICES = {
   }
 
   // extraction et blocs scindés : Cadre modulaire lourd à 10 /min, 2 400 minerai de fer sur des lignes de 1 200 → deux sources (A, B),
-  // les lingots de fer et les vis en deux blocs chacun, de leur couleur, avec rail et pastilles sur leurs liens ; groupées, rien de tout cela ; le réglage suit l'adresse
+  // les lingots de fer et les vis en deux blocs chacun (sans marque : chaque bloc sert ses propres consommateurs ; seules les sources de minerai, dont un consommateur est servi par deux, sont marquées), de leur couleur, avec rail et pastilles sur leurs liens ; groupées, rien de tout cela ; le réglage suit l'adresse
   {
     const p = await b.newPage({viewport: {width: 1400, height: 900}}), errs = [];
     p.on('pageerror', e => errs.push(e.message));
@@ -727,9 +727,27 @@ const INDICES = {
     const scinde = await lire();
     const adresse = await p.evaluate(() => JSON.parse(atob(new URLSearchParams(location.search).get('p').replace(/-/g, '+').replace(/_/g, '/'))).s);
     const bon = groupe.fer === 1 && !groupe.bandes && !groupe.blocs && !groupe.rails && !groupe.note && !groupe.sw
-      && scinde.fer === 2 && scinde.bandes === 2 && scinde.blocs === 4 && scinde.rails >= 8 && scinde.pastilles === 2 * scinde.rails && scinde.note && scinde.sw && adresse === 1 && !errs.length;
+      && scinde.fer === 2 && scinde.bandes === 2 && scinde.blocs === 0 && scinde.rails >= 4 && scinde.pastilles === 2 * scinde.rails && scinde.note && scinde.sw && adresse === 1 && !errs.length;
     if (!bon) echecs.push('extraction scindée : ' + JSON.stringify({groupe, scinde, adresse}) + ' ' + errs.join(' | '));
     console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : extraction scindée en sources`);
+    await p.close();
+  }
+
+  // Awesome Sink : les points du surplus (et de tout ce que le plan produit) sont dans le récap et sur le bloc de surplus ;
+  // le montage en équilibrage dessine les sorties renvoyées comme des emplacements sans machine, avec leur débit
+  {
+    const p = await b.newPage({viewport: {width: 1400, height: 900}}), errs = [];
+    p.on('pageerror', e => errs.push(e.message));
+    const url = o => 'file://' + path.join(ROOT, 'planner.html') + '?p=' + Buffer.from(JSON.stringify(o)).toString('base64url');
+    await p.goto(url({c: [['Fuel', 100]]})); await p.waitForTimeout(800);
+    const sp = await p.evaluate(() => ({recap: document.getElementById('ptsSink').textContent, noeud: [...document.querySelectorAll('#graphe .noeud.surplus')].map(n => n.textContent).join(' ')}));
+    await p.goto(url({c: [['Heavy Modular Frame', 10]]})); await p.waitForTimeout(800);
+    const tout = await p.evaluate(() => document.getElementById('ptsSink').textContent);
+    await p.goto(url({c: [['Smart Plating', 10]], o: 1})); await p.waitForTimeout(800);
+    const bo = await p.evaluate(() => ({fant: document.querySelectorAll('#graphe .mach.fantome').length, txt: [...document.querySelectorAll('#graphe .sch-t.boucle-t')].map(t => t.textContent), fl: document.querySelectorAll('#graphe .boucle-fl').length}));
+    const bon = /900/.test(sp.recap) && /900/.test(sp.noeud) && /108\s?000/.test(tout.replace(/\u202f|\u00a0/g, ' ')) && bo.fant >= 1 && bo.txt.length >= 1 && /↺/.test(bo.txt[0]) && bo.fl >= bo.txt.length && !errs.length;
+    if (!bon) echecs.push('Awesome Sink et boucle lisible : ' + JSON.stringify({sp, tout, bo}) + ' ' + errs.join(' | '));
+    console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : points du broyeur et boucle de l'équilibrage`);
     await p.close();
   }
 

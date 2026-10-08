@@ -503,6 +503,14 @@ function calcul(){
   const R0 = R; R = scinder(R0);   // R0 : une étape par recette ; R : avec les blocs scindés
   const EC = INST ? new Map(R0.etapes.map(e => [e, M.ecart(e, INST)])) : null;
   const SRC = sourcesPlan(R, D, S.scinde), X = extractionPlan(R, C, D, SRC), Xstd = Rstd ? extractionPlan(Rstd, C, D, sourcesPlan(Rstd, D, S.scinde)) : null;
+  // les marques de source (lettre, couleur, rail) n'ont de sens que pour un item dont un consommateur reçoit de plusieurs sources ou
+  // blocs : il faut alors dire quelle ligne vient d'où ; quand chaque source ou bloc sert ses propres consommateurs, rien à marquer
+  const MARQ = new Set(), voisins = (item, groupes) => {
+    const n = {}; groupes.forEach(g => Object.keys(g).forEach(c => { n[c] = (n[c] || 0) + 1; }));
+    if(Object.values(n).some(v => v > 1)) MARQ.add(item);
+  };
+  Object.keys(SRC).forEach(i => voisins(i, SRC[i].map(g => g.parts)));
+  Object.keys(R.routes || {}).forEach(i => voisins(i, R.routes[i].map(g => g.parts)));
   const cibles = new Set(S.cibles.map(c => c.item));
 
   const al = [];
@@ -550,6 +558,15 @@ function calcul(){
     || `<p class="vide">${L({fr: 'Aucune.', en: 'None.'})}</p>`;
   document.getElementById('surplus').innerHTML = tri(R.surplus).map(n => flux(n, R.surplus[n], 'sp')).join('')
     || `<p class="vide">${L({fr: 'Aucun.', en: 'None.'})}</p>`;
+  // Awesome Sink : points par minute du surplus, et de tout ce que le plan produit (objectifs et surplus) si on broie tout
+  {
+    const pts = o => Object.keys(o).reduce((a, n) => a + o[n] * (P.pts[n] || 0), 0), objectifs = {};
+    S.cibles.forEach(c => { if(c.item && c.debit > 0) objectifs[c.item] = (objectifs[c.item] || 0) + c.debit; });
+    const pS = pts(R.surplus), pT = pS + pts(objectifs), ligne = (v, t) => `<div class="pts-l"><b>${num(v, 0)}</b> ${t}</div>`;
+    document.getElementById('ptsSink').innerHTML =
+      (pS > 0 ? ligne(pS, L({fr: 'points/min si le surplus est broyé (Awesome Sink)', en: 'points/min if the surplus is sunk (Awesome Sink)'})) : '')
+      + (pT > pS ? ligne(pT, L({fr: 'points/min si tout est broyé (objectifs et surplus)', en: 'points/min if everything is sunk (targets and surplus)'})) : '');
+  }
   // recettes alternatives du plan : un bouton par recette, qui choisit son bloc dans le graphe
   const alts = R0.etapes.filter(e => e.recette.alt);
   document.getElementById('alts').innerHTML = alts.map(e => `<button type="button" class="flux alt" data-aller="${esc('e:' + e.recette.classe)}">${ico(e.item, 1)}<span>${esc(nomRec(e.recette.nom))}
@@ -573,7 +590,7 @@ function calcul(){
         : `<span class="okc">${L({fr: 'capacité suffisante', en: 'enough capacity'})}</span>`}</div>`;
     const etat = !x ? '' : x.manque > 1e-6 ? ' manque' : ' couvert';
     return `<div class="etape${cibles.has(e.item) ? ' cib' : etat}">${ico(e.item)}
-      <div class="nom">${esc(nomItem(e.item))}${e.nsrc > 1 ? ' (' + String.fromCharCode(65 + e.src % 26) + ')' : ''}<small>${esc(nomBat(r.machine))}</small></div>
+      <div class="nom">${esc(nomItem(e.item))}${e.nsrc > 1 && MARQ.has(e.item) ? ' (' + String.fromCharCode(65 + e.src % 26) + ')' : ''}<small>${esc(nomBat(r.machine))}</small></div>
       <div class="mach">${num(e.entieres, 0)} × ${cad}<small>${num(e.machines, 2)} ${L({fr: 'machines exactes', en: 'exact machines'})} · ${num(e.mw, 1)} MW</small></div>
       <div class="det">
         <select data-item="${esc(e.item)}" aria-label="${esc(L({fr: 'Recette', en: 'Recipe'}))}">${opts}</select>
@@ -583,7 +600,7 @@ function calcul(){
       </div>${usine}${(() => { const m = texteMontage(e, D);
         return `<details class="montage"><summary>${L({fr: 'Montage', en: 'Layout'})} : ${m.resume}</summary>${m.lignes.join('')}</details>`; })()}</div>`;
   }).join('') || `<p class="vide">${L({fr: 'Rien à produire.', en: 'Nothing to make.'})}</p>`;
-  DERNIER = {R, R0, EC, D, C, X, SRC};
+  DERNIER = {R, R0, EC, D, C, X, SRC, MARQ};
   rendreGraphe();   // le graphe reste dessous, même quand la liste est ouverte
 }
 
@@ -682,11 +699,13 @@ function schemaMontage(e, D, rang){
   const poids = (l, prem) => rang && rang[l.item] != null ? rang[l.item] : (l.item === prem ? -2 : l.liquide ? 1 : 0);
   const ordre = (ls, prem) => ls.slice().sort((a, b) => poids(a, prem) - poids(b, prem));
   const ents = ordre(mo.entrees), sors = ordre(mo.sorties, e.item), kE = ents.length, kS = sors.length, K = Math.max(kE, kS, 1);
-  const MHk = MH + (K - 1) * DECAL, RH = Math.max(RH0, MHk + 8);
   const boucle = Math.max(0, ...ents.map(l => l.mode === 'equilibre' ? l.boucle : 0)), rows = n + boucle;
+  const DEC = DECAL;
+  // avec une boucle de retour, le groupeur est sur le tronc d'une bande : des rangs un peu plus hauts évitent que ce tronc frôle (à 2-3 px) une branche d'une autre bande
+  const MHk = MH + (K - 1) * DEC, RH = Math.max(RH0, MHk + 8, boucle && K === 2 ? 56 : 0);
   const top = GH + 12 + PAS * (K - 1);   // au-dessus : les lignes qui arrivent ou repartent par le haut
   const y = i => top + RH * i + RH / 2;
-  const dE = j => (j - (kE - 1) / 2) * DECAL, dS = j => (j - (kS - 1) / 2) * DECAL;
+  const dE = j => (j - (kE - 1) / 2) * DEC, dS = j => (j - (kS - 1) / 2) * DEC;
   const yF = j => top - PAS * j + 2;     // ligne j > 0 : passage par le haut
   let out = [], nSep = 0, nGrp = 0, porte = null;
   const textes = [], fixe = calme();
@@ -791,7 +810,7 @@ function schemaMontage(e, D, rang){
         trajets.push(suite(x0, y0, pas, l.liquide));
       }
       // sorties en trop : renvoyées sur l'entrée par le groupeur ; les items y suivent leur feuille puis le trait de retour
-      const yb = top + rows * RH + 4 + j * 4;
+      const yb = top + rows * RH + 26 + j * 22;   // chaque retour sur sa propre ligne, bien sous les machines
       for(let L = n; L < n + l.boucle; L++){
         const pas = [['H', xR, l.ligne]]; let pr = 1, tap = l.branche;
         f.forEach((fk, k) => {
@@ -803,10 +822,12 @@ function schemaMontage(e, D, rang){
         pas.push(['V', yb, tap], ['H', x0 + 16, tap], ['V', y0, tap]);
         trajets.push(suite(x0, y0, pas, l.liquide));
       }
-      for(let r = n; r < n + l.boucle; r++){
-        if(j === 0) texte(xM + 2, y(r) + 3, '↺');
-        trait(`M${xM},${y(r) + dy} V${yb} H${x0 + 16} V${y0}`, 'boucle');
-      }
+      for(let r = n; r < n + l.boucle; r++) trait(`M${xM},${y(r) + dy} V${yb} H${x0 + 16} V${y0}`, 'boucle');
+      // sens du retour : flèches le long du trait (vers la gauche en bas, vers le haut à l'arrivée), et le débit qui revient
+      const dBoucle = l.debitLigne * l.boucle / q.m, xe = x0 + 16, xs0 = xM - 34;
+      for(let xx = xs0; xx > xe + 26; xx -= 42) out.push(`<path class="boucle-fl" d="M${xx + 3.5},${yb - 4} L${xx - 3.5},${yb} L${xx + 3.5},${yb + 4} Z"/>`);
+      out.push(`<path class="boucle-fl" d="M${xe - 4},${y0 + 24} L${xe},${y0 + 17} L${xe + 4},${y0 + 24} Z"/>`);
+      texte(xs0 + 22, yb - 6, `↺ ${num(dBoucle, 1)} ${unite(l.item)}`, 'boucle-t', true);
     }
     return {y0, trajets};
   }
@@ -846,6 +867,11 @@ function schemaMontage(e, D, rang){
     out.push(`<rect class="mach" x="${xM}" y="${y(i) - MHk / 2}" width="${MW}" height="${MHk}" rx="3"><title>${esc(nomBat(e.recette.machine))} ${i + 1}</title></rect>`);
     if(n > 1) out.push(`<text class="mach-n" x="${xM + MW / 2}" y="${y(i) + 3.5}" text-anchor="middle">${i + 1}</text>`);
   }
+  // emplacements des sorties renvoyées : ce ne sont pas des machines (pointillés), leur contenu revient sur l'entrée
+  for(let i = n; i < rows; i++){
+    out.push(`<rect class="mach fantome" x="${xM}" y="${y(i) - MHk / 2}" width="${MW}" height="${MHk}" rx="3"><title>${esc(L({fr: 'Pas de machine : cette sortie est renvoyée sur la ligne d\'entrée', en: 'No machine: this output is sent back to the input line'}))}</title></rect>`);
+    out.push(`<text class="mach-n fantome-n" x="${xM + MW / 2}" y="${y(i) + 3.5}" text-anchor="middle">↺</text>`);
+  }
   // --- une bande de sortie : des machines (xO) jusqu'à x1 (début de la bande) + sa largeur ; renvoie [x de fin, y de fin]
   function bandeS(l, x1, dy, mesure){
     porte = l.item;
@@ -863,7 +889,7 @@ function schemaMontage(e, D, rang){
   }
   // sorties : bande 0 la plus à droite (au bord du bloc), les suivantes plus près des machines
   // sorties suivantes (sous-produits) : repartent par le bas, comme leurs blocs « surplus » en bas de colonne
-  const bas = top + rows * RH + (boucle ? 12 + 4 * kE : 6), yB = j => bas + PAS * (j - 1) + 4;
+  const bas = top + rows * RH + (boucle ? 40 + 22 * kE : 6), yB = j => bas + PAS * (j - 1) + 4;
   const ySs = {}; let yS = y(0);
   sors.forEach((l, j) => {
     const [xb, yb, trajets] = bandeS(l, x1S[j], dS(j), false);
@@ -1101,7 +1127,7 @@ function rendreGraphe(){
   ports(sortants, 'ps', 'vers'); ports(entrants, 'pe', 'de');
   GEO = {parId, liens: G.liens};
   const maxD = Math.max(...G.liens.map(l => l.debit), 1e-9), UTILISES = new Set();
-  G.liens.forEach(l => { const a = parId.get(l.de); l.src = a.nsrc > 1 ? a.src : null; });
+  G.liens.forEach(l => { const a = parId.get(l.de); l.src = a.nsrc > 1 && DERNIER.MARQ.has(l.item) ? a.src : null; });
   const rails = G.liens.map((l, k) => {
     if(l.src == null) return '';
     const ep = 1.5 + 6 * Math.sqrt(l.debit / maxD);
@@ -1136,6 +1162,7 @@ function rendreGraphe(){
     } else {
       l2 = n.type === 'brut' ? L({fr: 'ressource', en: 'resource'}) : n.type === 'cible' ? L({fr: 'objectif', en: 'target'}) : L({fr: 'surplus', en: 'surplus'});
       l3 = `<tspan class="n3${n.type === 'surplus' ? ' okc' : ''}">${num(n.debit)} ${unite(n.item)}</tspan>`;
+      if(n.type === 'surplus' && P.pts[n.item]) l4 = L({fr: `${num(n.debit * P.pts[n.item], 0)} points/min (broyeur)`, en: `${num(n.debit * P.pts[n.item], 0)} points/min (sink)`});
       // ressource brute : ses extracteurs (nombre, cadence commune, MW, fragments d'énergie) et la pureté du nœud, au choix
       const x = n.type === 'brut' && DERNIER.X ? DERNIER.X.lignes.get(n.id) : null;
       if(x && x.manque) l2 = `${nomBat(x.bat)} : ${L({fr: 'non débloqué', en: 'not unlocked'})}`;
@@ -1149,9 +1176,9 @@ function rendreGraphe(){
           L({fr: `Pureté des nœuds : ${L(pn[1]).toLowerCase()} (cliquer pour changer)`, en: `Node purity: ${L(pn[1]).toLowerCase()} (click to change)`}));
       }
     }
-    const marqueSrc = n.nsrc > 1 ? `<rect class="src-bande" x="0" y="0" width="6" height="${n.h}" fill="${COUL_SRC[n.src % COUL_SRC.length]}"/>`
+    const marqueSrc = n.nsrc > 1 && DERNIER.MARQ.has(n.item) ? `<rect class="src-bande" x="0" y="0" width="6" height="${n.h}" fill="${COUL_SRC[n.src % COUL_SRC.length]}"/>`
       + (n.type === 'etape' ? '' : pastilleSrc(n.w - 14, 14, n.src, 'pastille-n')) : '';   // un bloc le doit déjà à ses lignes d'entrée : la lettre n'est répétée que sur les sources
-    if(n.nsrc > 1) titre += ` — ${L({fr: 'source', en: 'source'})} ${String.fromCharCode(65 + n.src % 26)}`;
+    if(n.nsrc > 1 && DERNIER.MARQ.has(n.item)) titre += ` — ${L({fr: 'source', en: 'source'})} ${String.fromCharCode(65 + n.src % 26)}`;
     if(n.id === CHOISI) cls += ' choisi';
     // recette alternative : liseré et pastille orange, et son nom sous le bloc (sauf déplié : le montage prend la place)
     const alt = n.type === 'etape' && n.etape.recette.alt;

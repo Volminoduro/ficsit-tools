@@ -413,6 +413,9 @@ def planner_donnees():
             # emprise au sol de chaque machine (m², donnees/emprises.json, comme le mode « Espace » de l'infographie)
             "em": emprises_machines(machines),
             "liq": [i for i in items if REF["items"].get(i, {}).get("liquide")],
+            # points de l'Awesome Sink par item (solides seulement : le broyeur ne prend pas les fluides)
+            "pts": {i: REF["items"][i]["points"] for i in items
+                    if REF["items"].get(i, {}).get("points", 0) > 0 and not REF["items"][i].get("liquide")},
             # convoyeurs et tuyaux (montage) : [débit max /min, palier, recette de construction] ; tuyaux absents de la
             # source, comme pour energie-noeuds.html
             "conv": [[cap, B[f"Conveyor Belt Mk.{k}"]["palier"], "Recipe_" + B[f"Conveyor Belt Mk.{k}"]["classe"][5:]]

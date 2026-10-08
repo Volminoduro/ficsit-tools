@@ -694,7 +694,7 @@ function schemaMontage(e, D, rang){
   const boucle = Math.max(0, ...ents.map(l => l.mode === 'equilibre' ? l.boucle : 0)), rows = n + boucle;
   const DEC = DECAL;
   // avec une boucle de retour, le groupeur est sur le tronc d'une bande : des rangs un peu plus hauts évitent que ce tronc frôle (à 2-3 px) une branche d'une autre bande
-  const MHk = MH + (K - 1) * DEC, RH = Math.max(RH0, MHk + 8, boucle && K === 2 ? 44 : 0);
+  const MHk = MH + (K - 1) * DEC, RH = Math.max(RH0, MHk + 8, boucle && K === 2 ? 56 : 0);
   const top = GH + 12 + PAS * (K - 1);   // au-dessus : les lignes qui arrivent ou repartent par le haut
   const y = i => top + RH * i + RH / 2;
   const dE = j => (j - (kE - 1) / 2) * DEC, dS = j => (j - (kS - 1) / 2) * DEC;

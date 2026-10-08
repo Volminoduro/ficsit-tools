@@ -712,6 +712,27 @@ const INDICES = {
     await p.close();
   }
 
+  // extraction scindée : Cadre modulaire lourd à 10 /min, 2 400 minerai de fer sur des lignes de 1 200 → deux sources (A, B)
+  // de leur couleur, avec rail et pastilles sur leurs liens ; groupées, rien de tout cela ; le réglage suit l'adresse
+  {
+    const p = await b.newPage({viewport: {width: 1400, height: 900}}), errs = [];
+    p.on('pageerror', e => errs.push(e.message));
+    const url = o => 'file://' + path.join(ROOT, 'planner.html') + '?p=' + Buffer.from(JSON.stringify(Object.assign({c: [['Heavy Modular Frame', 10]]}, o))).toString('base64url');
+    const lire = () => p.evaluate(() => ({fer: [...document.querySelectorAll('#graphe .noeud.brut')].filter(g => /Iron Ore|Minerai de fer|Iron ore/i.test(g.textContent)).length,
+      bandes: document.querySelectorAll('#graphe .src-bande').length, rails: document.querySelectorAll('#graphe .rail').length, pastilles: document.querySelectorAll('#graphe .pastille').length,
+      note: !!document.querySelector('#alertes .alerte.info'), sw: document.getElementById('srcSel').checked, X: Math.round(DERNIER.X.n)}));
+    await p.goto(url({})); await p.waitForTimeout(800);
+    const groupe = await lire();
+    await p.goto(url({s: 1})); await p.waitForTimeout(800);
+    const scinde = await lire();
+    const adresse = await p.evaluate(() => JSON.parse(atob(new URLSearchParams(location.search).get('p').replace(/-/g, '+').replace(/_/g, '/'))).s);
+    const bon = groupe.fer === 1 && !groupe.bandes && !groupe.rails && !groupe.note && !groupe.sw
+      && scinde.fer === 2 && scinde.bandes === 2 && scinde.rails === 3 && scinde.pastilles === 6 && scinde.note && scinde.sw && adresse === 1 && !errs.length;
+    if (!bon) echecs.push('extraction scindée : ' + JSON.stringify({groupe, scinde, adresse}) + ' ' + errs.join(' | '));
+    console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : extraction scindée en sources`);
+    await p.close();
+  }
+
   // coquille (outils.html, en http) : un onglet de la barre montre l'outil dans un autre cadre, sans recharger la page ;
   // l'outil précédent garde son état ; l'adresse et le titre suivent ; « Précédent » revient au premier outil
   {

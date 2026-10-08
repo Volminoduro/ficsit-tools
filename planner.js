@@ -1150,7 +1150,7 @@ function rendreGraphe(){
       }
     }
     const marqueSrc = n.nsrc > 1 ? `<rect class="src-bande" x="0" y="0" width="6" height="${n.h}" fill="${COUL_SRC[n.src % COUL_SRC.length]}"/>`
-      + (n.type === 'etape' ? pastilleSrc(17, 67, n.src, 'pastille-n') : pastilleSrc(n.w - 14, 14, n.src, 'pastille-n')) : '';
+      + (n.type === 'etape' ? '' : pastilleSrc(n.w - 14, 14, n.src, 'pastille-n')) : '';   // un bloc le doit déjà à ses lignes d'entrée : la lettre n'est répétée que sur les sources
     if(n.nsrc > 1) titre += ` — ${L({fr: 'source', en: 'source'})} ${String.fromCharCode(65 + n.src % 26)}`;
     if(n.id === CHOISI) cls += ' choisi';
     // recette alternative : liseré et pastille orange, et son nom sous le bloc (sauf déplié : le montage prend la place)

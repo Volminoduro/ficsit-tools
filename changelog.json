@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.38",
+          "date": "2026-10-08",
+          "texte": {
+            "fr": "L'extraction fait partie du plan : le bloc de chaque ressource brute porte ses extracteurs (le meilleur niveau débloqué, nombre et cadence communes, MW, fragments d'énergie à poser) et un bouton de pureté du nœud (impur, normal, pur). Un réglage « Extraction » choisit la cadence : sans surcadençage (le moins d'énergie par item) ou jusqu'à 250 % (le moins d'extracteurs, de nœuds et d'espace) ; par défaut selon le critère du plan. La consommation, l'espace et le nombre de machines du bilan comptent l'extraction. Le convoyeur ou le tuyau le plus fort débloqué plafonne la cadence ; l'azote n'est pas planifié.",
+            "en": "Extraction is part of the plan: each raw resource block shows its extractors (best unlocked tier, shared count and clock, MW, power shards to fit) and a node purity button (impure, normal, pure). An « Extraction » setting picks the clock: no overclock (least power per item) or up to 250% (fewest extractors, nodes and floor space); by default it follows the plan's criterion. The summary's power draw, floor space and machine count include extraction. The best unlocked belt or pipe caps the clock; nitrogen is not planned."
+          }
+        },
+        {
           "version": "1.37",
           "date": "2026-10-07",
           "texte": {

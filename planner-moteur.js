@@ -194,6 +194,42 @@
     etapes.forEach(function(e){ e.rang = rang.get(e); });
   }
 
+  /* Répartit des consommateurs [{id, col, q}] en groupes d'au plus `cap` /min. Du plus éloigné du produit fini (col la plus
+     haute) au plus proche, chaque consommateur entier dans un seul groupe tant que cela n'exige pas plus de groupes que le
+     minimum (⌈total ÷ cap⌉) ; sinon, remplis dans l'ordre et le trop gros coupé. Un consommateur plus gros qu'une ligne est
+     toujours coupé : lignes pleines d'abord, le reste avec les suivants. → [{debit, parts: {id: débit}}] */
+  function remplir(cs, cap){
+    cs = cs.slice().sort(function(a, b){ return b.col - a.col || (a.id < b.id ? -1 : 1); });
+    var tot = cs.reduce(function(a, c){ return a + c.q; }, 0), mini = Math.max(1, Math.ceil(tot / cap - 1e-9));
+    function remplissage(entier){
+      var out = [], cur = {debit: 0, parts: {}};
+      var ferme = function(){ if(cur.debit > 1e-9) out.push(cur); cur = {debit: 0, parts: {}}; };
+      cs.forEach(function(c){
+        var reste = c.q;
+        if(entier && reste <= cap + 1e-9){
+          if(cur.debit + reste > cap + 1e-9) ferme();
+          cur.debit += reste; cur.parts[c.id] = (cur.parts[c.id] || 0) + reste; return;
+        }
+        if(entier){   // plus gros qu'une ligne : lignes pleines, le reste suit les autres
+          while(reste > cap + 1e-9){ ferme(); out.push({debit: cap, parts: (function(o){ o[c.id] = cap; return o; })({})}); reste -= cap; }
+          if(cur.debit + reste > cap + 1e-9) ferme();
+          cur.debit += reste; cur.parts[c.id] = (cur.parts[c.id] || 0) + reste; return;
+        }
+        while(reste > 1e-9){
+          var place = cap - cur.debit;
+          if(place <= 1e-9){ ferme(); place = cap; }
+          var v = Math.min(reste, place);
+          cur.debit += v; cur.parts[c.id] = (cur.parts[c.id] || 0) + v; reste -= v;
+        }
+      });
+      ferme();
+      return out;
+    }
+    var e = remplissage(true);
+    return e.length <= mini ? e : remplissage(false);
+  }
+  var idEtape = function(e){ return e.id || 'e:' + e.recette.classe; };
+
   /* Sources d'une ressource brute : au-delà du convoyeur (ou tuyau) le plus fort, la ressource se prend à plusieurs sources,
      chacune dans la limite d'une ligne. Les consommateurs sont rangés du plus éloigné du produit fini au plus proche, et
      remplis dans cet ordre : une source dessert des postes voisins dans la chaîne, un consommateur trop gros est coupé.
@@ -203,7 +239,7 @@
     var cible = {}, cons = {}, res = {};
     (cibles || []).forEach(function(c){ if(c.item && c.debit > 0) cible[c.item] = (cible[c.item] || 0) + c.debit; });
     R.etapes.forEach(function(e){
-      e.entrees.forEach(function(s){ if(R.bruts[s[0]] !== undefined) (cons[s[0]] = cons[s[0]] || []).push({id: 'e:' + e.recette.classe, col: (e.rang || 0) + 1, q: s[1]}); });
+      e.entrees.forEach(function(s){ if(R.bruts[s[0]] !== undefined) (cons[s[0]] = cons[s[0]] || []).push({id: idEtape(e), col: (e.rang || 0) + 1, q: s[1]}); });
     });
     Object.keys(R.bruts).forEach(function(i){
       var cap = plafond ? plafond(i) : null, tot = R.bruts[i];
@@ -213,21 +249,67 @@
       cs.forEach(function(c){ som += c.q; });
       if(!(som > 0)) return;
       cs.forEach(function(c){ c.q *= tot / som; });
-      cs.sort(function(a, b){ return b.col - a.col || (a.id < b.id ? -1 : 1); });
-      var out = [], cur = {debit: 0, parts: {}};
-      cs.forEach(function(c){
-        var reste = c.q;
-        while(reste > 1e-9){
-          var place = cap - cur.debit;
-          if(place <= 1e-9){ out.push(cur); cur = {debit: 0, parts: {}}; place = cap; }
-          var v = Math.min(reste, place);
-          cur.debit += v; cur.parts[c.id] = (cur.parts[c.id] || 0) + v; reste -= v;
-        }
-      });
-      if(cur.debit > 1e-9) out.push(cur);
+      var out = remplir(cs, cap);
       if(out.length > 1) res[i] = out;
     });
     return res;
+  }
+
+  /* Blocs scindés : une étape dont l'unique produit dépasse la ligne la plus forte (plafond(item), null : pas de scission) est
+     refaite en plusieurs blocs, chacun d'au plus une ligne, qui servent des consommateurs voisins dans la chaîne (même
+     remplissage que les sources). Chaque bloc a ses machines entières, sa cadence et ses entrées au prorata ; les blocs en
+     aval d'abord, donc les entrées des blocs scindés se répartissent à leur tour entre les blocs en amont. Les étapes à
+     plusieurs produits et celles d'une boucle ne sont pas scindées.
+     → un plan comme celui de calculer, plus routes {item: [{de: id du bloc, parts: {id du consommateur: débit}}]} (les
+     liens des items scindés), et pour chaque bloc : id, src, nsrc, orig (l'étape d'origine). */
+  function eclater(P, R, cibles, plafond){
+    var cible = {};
+    (cibles || []).forEach(function(c){ if(c.item && c.debit > 0) cible[c.item] = (cible[c.item] || 0) + c.debit; });
+    var copies = new Map(), routes = {}, etapes = [], mw = 0;
+    var pos = new Map(R.etapes.map(function(e, k){ return [e, k]; }));
+    function consommateurs(item, e0){
+      var l = [], tot = 0;
+      R.etapes.forEach(function(f){
+        f.entrees.forEach(function(p){
+          if(p[0] !== item) return;
+          (copies.get(f) || [f]).forEach(function(g){
+            var q = (g === f ? p[1] : g.entrees.filter(function(t){ return t[0] === item; })[0][1]);
+            l.push({id: idEtape(g), col: (f.rang || 0) + 1, q: q, etape: f}); tot += q;
+          });
+        });
+      });
+      if(cible[item]){ l.push({id: 'c:' + item, col: 0, q: cible[item]}); tot += cible[item]; }
+      if(R.surplus[item]){ l.push({id: 's:' + item, col: 0, q: R.surplus[item]}); tot += R.surplus[item]; }
+      return {l: l, tot: tot};
+    }
+    R.etapes.forEach(function(e){
+      var copie = [e];
+      var cap = e.sorties.length === 1 && plafond ? plafond(e.sorties[0][0]) : null, tot = e.sorties.length === 1 ? e.sorties[0][1] : 0;
+      if(cap && tot > cap * (1 + 1e-9)){
+        var c = consommateurs(e.sorties[0][0]);
+        // une boucle (un consommateur pas encore traité, de rang plus haut) : pas de scission
+        var boucle = c.l.some(function(x){ return x.etape && (x.etape.rang || 0) >= (e.rang || 0) && x.etape !== e; });
+        if(!boucle && c.tot > 0){
+          c.l.forEach(function(x){ x.q *= tot / c.tot; });
+          var groupes = remplir(c.l, cap);
+          if(groupes.length > 1){
+            var r = e.recette, b = P.b[r.machine] || [0, 1.321929, 0], base = r.mw || b[0];
+            copie = groupes.map(function(g, k){
+              var f = g.debit / tot, m = e.machines * f, ent = Math.max(1, Math.ceil(m - 1e-6)), cad = m / ent;
+              var cp = Object.assign({}, e, {id: k ? 'e:' + r.classe + '#' + k : 'e:' + r.classe, src: k, nsrc: groupes.length, orig: e,
+                machines: m, entieres: ent, cadence: cad, mw: ent * base * Math.pow(cad, b[1]),
+                entrees: e.entrees.map(function(p){ return [p[0], p[1] * f]; }), sorties: e.sorties.map(function(p){ return [p[0], p[1] * f]; })});
+              (routes[e.sorties[0][0]] = routes[e.sorties[0][0]] || []).push({de: cp.id, parts: g.parts});
+              return cp;
+            });
+          }
+        }
+      }
+      copies.set(e, copie);
+    });
+    // les étapes sont traitées de l'aval vers l'amont : on les parcourt dans l'ordre de R.etapes (rang croissant)
+    R.etapes.forEach(function(e){ copies.get(e).forEach(function(g){ etapes.push(g); mw += g.mw; }); });
+    return Object.assign({}, R, {etapes: etapes, mw: mw, routes: routes});
   }
 
   /* Graphe d'un plan (résultat de calculer ou optimiser) : nœuds = étapes, ressources brutes, objectifs, surplus ;
@@ -241,7 +323,8 @@
     var noeuds = [], prod = {}, cons = {}, maxRang = 0;
     var ajoute = function(t, i, nd, v){ (t[i] = t[i] || []).push([nd, v]); };
     R.etapes.forEach(function(e, k){
-      var nd = {id: 'e:' + e.recette.classe, type: 'etape', item: e.item, debit: 0, etape: e, col: (e.rang || 0) + 1};
+      var nd = {id: idEtape(e), type: 'etape', item: e.item, debit: 0, etape: e, col: (e.rang || 0) + 1};
+      if(e.nsrc > 1){ nd.src = e.src; nd.nsrc = e.nsrc; }
       maxRang = Math.max(maxRang, nd.col);
       e.sorties.forEach(function(s){ if(s[0] === e.item) nd.debit += s[1]; ajoute(prod, s[0], nd, s[1]); });
       e.entrees.forEach(function(s){ ajoute(cons, s[0], nd, s[1]); });
@@ -271,6 +354,15 @@
         nd.debit = sc.debit; nd.src = k; nd.nsrc = n;
         if(k) noeuds.push(nd);
         cons[i].forEach(function(c){ var v = sc.parts[c[0].id]; if(v > 1e-9) liens.push({de: nd.id, vers: c[0].id, item: i, debit: v}); });
+      });
+    });
+    // item produit par plusieurs blocs scindés : chaque bloc relié à ses consommateurs
+    var parNoeud = {};
+    noeuds.forEach(function(nd){ parNoeud[nd.id] = nd; });
+    Object.keys(R.routes || {}).forEach(function(i){
+      eclate[i] = true;
+      R.routes[i].forEach(function(rt){
+        Object.keys(rt.parts).forEach(function(cid){ if(parNoeud[cid] && rt.parts[cid] > 1e-9) liens.push({de: rt.de, vers: cid, item: i, debit: rt.parts[cid]}); });
       });
     });
     Object.keys(cons).forEach(function(i){
@@ -508,7 +600,7 @@
       plafond: cap != null && k < kmax - 1e-9};
   }
 
-  var API = {sources: sources, candidates: candidates, calculer: calculer, optimiser: optimiser, mesures: mesures, graphe: graphe, installe: installe, ecart: ecart,
+  var API = {sources: sources, eclater: eclater, candidates: candidates, calculer: calculer, optimiser: optimiser, mesures: mesures, graphe: graphe, installe: installe, ecart: ecart,
     convoyeur: convoyeur, equilibre: equilibre, montage: montage, extraire: extraire};
   if(typeof module !== 'undefined' && module.exports) module.exports = API;
   else racine.PlannerMoteur = API;

@@ -20,6 +20,21 @@ let echecs = 0;
   const e4 = M.extraire(100, 240, 45, X, 2.5, null);   // 100 /min sur un nœud normal : un Mk.3 à 41,7 %, rien d'autre
   ok('extraction : 1 extracteur sous 100 %, sans fragment', e4.n === 1 && !e4.plafond && e4.fragments === 0, JSON.stringify(e4));
 }
+// sources d'extraction : Cadre modulaire lourd, 10 /min = 2 400 minerai de fer (900 aux lingots d'acier, 1 500 aux lingots de fer)
+{
+  const cib = [{item: 'Heavy Modular Frame', debit: 10}], R = M.calculer(P, cib, {permise: r => !r.alt});
+  const S1 = M.sources(R, cib, i => 1200), fer = S1['Iron Ore'];
+  ok('sources : 2 400 /min sur des lignes de 1 200 → 2 sources pleines', fer && fer.length === 2 && fer.every(x => Math.abs(x.debit - 1200) < 1e-6), JSON.stringify(S1));
+  ok('sources : seule la ressource au-delà d\'une ligne est scindée', Object.keys(S1).join() === 'Iron Ore', Object.keys(S1).join());
+  ok('sources : la première sert le poste le plus éloigné, la seconde complète puis dessert l\'acier',
+    fer && Math.abs(fer[0].parts['e:Recipe_IngotIron_C'] - 1200) < 1e-6 && Math.abs(fer[1].parts['e:Recipe_IngotIron_C'] - 300) < 1e-6 && Math.abs(fer[1].parts['e:Recipe_IngotSteel_C'] - 900) < 1e-6, JSON.stringify(fer));
+  ok('sources : plafond inconnu ou assez grand → aucune scission', !Object.keys(M.sources(R, cib, () => null)).length && !Object.keys(M.sources(R, cib, () => 2400)).length, '');
+  ok('sources : plafond de 270 → 9 sources de fer', M.sources(R, cib, i => 270)['Iron Ore'].length === 9, '');
+  const G = M.graphe(R, cib, S1), bruts = G.noeuds.filter(n => n.type === 'brut' && n.item === 'Iron Ore');
+  const sortie = id => G.liens.filter(l => l.de === id).reduce((a, l) => a + l.debit, 0);
+  ok('graphe : un nœud par source, le premier garde l\'identifiant', bruts.length === 2 && bruts[0].id === 'b:Iron Ore' && bruts[1].id === 'b:Iron Ore#1' && bruts.every(n => n.nsrc === 2), JSON.stringify(bruts.map(n => n.id)));
+  ok('graphe : chaque source débite ce qu\'elle porte, la somme reste 2 400', bruts.every(n => Math.abs(sortie(n.id) - n.debit) < 1e-6) && Math.abs(bruts.reduce((a, n) => a + n.debit, 0) - 2400) < 1e-6, '');
+}
 const proche = (a, b) => Math.abs(a - b) < 1e-6 * Math.max(1, Math.abs(b));
 function ok(nom, cond, detail){
   console.log(`${cond ? 'ok  ' : 'ÉCHEC'} ${nom}${cond ? '' : ' : ' + detail}`);

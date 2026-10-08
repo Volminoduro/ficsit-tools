@@ -194,12 +194,48 @@
     etapes.forEach(function(e){ e.rang = rang.get(e); });
   }
 
+  /* Sources d'une ressource brute : au-delà du convoyeur (ou tuyau) le plus fort, la ressource se prend à plusieurs sources,
+     chacune dans la limite d'une ligne. Les consommateurs sont rangés du plus éloigné du produit fini au plus proche, et
+     remplis dans cet ordre : une source dessert des postes voisins dans la chaîne, un consommateur trop gros est coupé.
+     plafond(item) = débit max d'une ligne (null : pas de scission). → {item: [{debit, parts: {id du consommateur: débit}}]},
+     seulement pour les ressources à plusieurs sources. */
+  function sources(R, cibles, plafond){
+    var cible = {}, cons = {}, res = {};
+    (cibles || []).forEach(function(c){ if(c.item && c.debit > 0) cible[c.item] = (cible[c.item] || 0) + c.debit; });
+    R.etapes.forEach(function(e){
+      e.entrees.forEach(function(s){ if(R.bruts[s[0]] !== undefined) (cons[s[0]] = cons[s[0]] || []).push({id: 'e:' + e.recette.classe, col: (e.rang || 0) + 1, q: s[1]}); });
+    });
+    Object.keys(R.bruts).forEach(function(i){
+      var cap = plafond ? plafond(i) : null, tot = R.bruts[i];
+      if(!cap || !(tot > cap * (1 + 1e-9))) return;
+      var cs = (cons[i] || []).slice(), som = 0;
+      if(cible[i]) cs.push({id: 'c:' + i, col: 0, q: cible[i]});
+      cs.forEach(function(c){ som += c.q; });
+      if(!(som > 0)) return;
+      cs.forEach(function(c){ c.q *= tot / som; });
+      cs.sort(function(a, b){ return b.col - a.col || (a.id < b.id ? -1 : 1); });
+      var out = [], cur = {debit: 0, parts: {}};
+      cs.forEach(function(c){
+        var reste = c.q;
+        while(reste > 1e-9){
+          var place = cap - cur.debit;
+          if(place <= 1e-9){ out.push(cur); cur = {debit: 0, parts: {}}; place = cap; }
+          var v = Math.min(reste, place);
+          cur.debit += v; cur.parts[c.id] = (cur.parts[c.id] || 0) + v; reste -= v;
+        }
+      });
+      if(cur.debit > 1e-9) out.push(cur);
+      if(out.length > 1) res[i] = out;
+    });
+    return res;
+  }
+
   /* Graphe d'un plan (résultat de calculer ou optimiser) : nœuds = étapes, ressources brutes, objectifs, surplus ;
      liens = débit d'un item d'un nœud à l'autre. Quand plusieurs nœuds produisent un item, chaque consommateur reçoit
      de chacun au prorata de sa production. col : colonne de mise en page, 0 = objectifs et surplus (à droite), puis
      les étapes par rang ; chaque ressource brute juste à gauche de son consommateur le plus en amont.
      → {noeuds: [{id, type: 'etape' | 'brut' | 'cible' | 'surplus', item, debit, etape?, col}], liens: [{de, vers, item, debit}]} */
-  function graphe(R, cibles){
+  function graphe(R, cibles, srcs){
     var cible = {};
     (cibles || []).forEach(function(c){ if(c.item && c.debit > 0) cible[c.item] = (cible[c.item] || 0) + c.debit; });
     var noeuds = [], prod = {}, cons = {}, maxRang = 0;
@@ -223,8 +259,22 @@
       var nd = {id: 's:' + i, type: 'surplus', item: i, debit: R.surplus[i], col: 0};
       noeuds.push(nd); ajoute(cons, i, nd, R.surplus[i]);
     });
-    var liens = [];
+    var liens = [], eclate = {};
+    // ressource à plusieurs sources : un nœud par source (le premier garde l'identifiant de la ressource), chacun relié à ses consommateurs
+    Object.keys(srcs || {}).forEach(function(i){
+      var ps = prod[i] || [];
+      if(ps.length !== 1 || ps[0][0].type !== 'brut') return;
+      eclate[i] = true;
+      var n0 = ps[0][0], n = srcs[i].length;
+      srcs[i].forEach(function(sc, k){
+        var nd = k ? {id: 'b:' + i + '#' + k, type: 'brut', item: i, col: n0.col} : n0;
+        nd.debit = sc.debit; nd.src = k; nd.nsrc = n;
+        if(k) noeuds.push(nd);
+        cons[i].forEach(function(c){ var v = sc.parts[c[0].id]; if(v > 1e-9) liens.push({de: nd.id, vers: c[0].id, item: i, debit: v}); });
+      });
+    });
     Object.keys(cons).forEach(function(i){
+      if(eclate[i]) return;
       var ps = prod[i] || [], total = ps.reduce(function(s, p){ return s + p[1]; }, 0);
       if(total <= 0) return;
       cons[i].forEach(function(c){ ps.forEach(function(p){
@@ -458,7 +508,7 @@
       plafond: cap != null && k < kmax - 1e-9};
   }
 
-  var API = {candidates: candidates, calculer: calculer, optimiser: optimiser, mesures: mesures, graphe: graphe, installe: installe, ecart: ecart,
+  var API = {sources: sources, candidates: candidates, calculer: calculer, optimiser: optimiser, mesures: mesures, graphe: graphe, installe: installe, ecart: ecart,
     convoyeur: convoyeur, equilibre: equilibre, montage: montage, extraire: extraire};
   if(typeof module !== 'undefined' && module.exports) module.exports = API;
   else racine.PlannerMoteur = API;

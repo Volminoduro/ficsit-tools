@@ -13,11 +13,11 @@ const unite = n => LIQ.has(n) ? 'm³/min' : '/min';
 /* ---------- état mémorisé (par navigateur) ---------- */
 const CLE = 'ficsit-tools:planner';
 const DEFAUT = {cibles: [{item: 'Reinforced Iron Plate', debit: 10}], choix: {}, palier: 9, alt: false, suivre: true, mode: 'defaut', vue: 'graphe', zoom: 1,
-  montage: 'manifold', poids: {mat: 5, mw: 5, esp: 5}, pos: {}, replies: [], extraction: 'auto', puretes: {}, v: 4};
+  montage: 'manifold', poids: {mat: 5, mw: 5, esp: 5}, pos: {}, replies: [], extraction: 'auto', puretes: {}, scinde: false, v: 4};
 /* Plusieurs plans, un par onglet : les champs propres à un plan (PLAN) vivent à plat dans S pour le plan affiché, et dans
    S.plans[i] pour tous ; garder() recopie le plan affiché dans S.plans. Vue, zoom, palier de la partie : communs. */
 const MODES_CLES = ['defaut', 'energie', 'ressources', 'place', 'synthese'];
-const PLAN = ['cibles', 'choix', 'mode', 'poids', 'montage', 'alt', 'palier', 'pos', 'replies', 'puretes'];
+const PLAN = ['cibles', 'choix', 'mode', 'poids', 'montage', 'alt', 'palier', 'pos', 'replies', 'puretes', 'scinde'];
 const copie = o => JSON.parse(JSON.stringify(o));
 const extrait = o => { const p = {}; PLAN.forEach(k => { p[k] = copie(o[k] !== undefined ? o[k] : DEFAUT[k]); }); return p; };
 const nomPlan = n => L({fr: `Plan ${n}`, en: `Plan ${n}`});
@@ -60,6 +60,7 @@ function compact(pl){
   if(pl.montage !== 'manifold') o.o = 1;
   if(pl.alt) o.a = 1;
   if(Object.keys(pl.puretes || {}).length) o.u = pl.puretes;
+  if(pl.scinde) o.s = 1;
   if(pl.palier !== 9) o.t = pl.palier;
   return b64(JSON.stringify(o));
 }
@@ -74,6 +75,7 @@ function deCompact(code){
     if(o.o) pl.montage = 'equilibre';
     pl.alt = !!o.a;
     if(o.u && typeof o.u === 'object') pl.puretes = o.u;
+    pl.scinde = !!o.s;
     if(Number.isInteger(o.t) && o.t >= 0 && o.t <= 9) pl.palier = o.t;
     pl.nom = typeof o.n === 'string' ? o.n.slice(0, 40) : '';
     return pl;
@@ -158,7 +160,7 @@ function rendreModes(){
   const po = document.getElementById('poids'); po.hidden = S.mode !== 'synthese';
   po.querySelectorAll('input').forEach(i => { i.value = S.poids[i.dataset.p]; i.nextElementSibling.textContent = S.poids[i.dataset.p]; });
   document.querySelectorAll('#swMont .sw-lib').forEach(x => x.classList.toggle('actif', x.dataset.cote === S.montage));
-  rendreExtraction();
+  rendreExtraction(); rendreSources();
 }
 // interrupteur : coché = équilibrage par séparateurs, décoché = manifold
 montSel.checked = S.montage === 'equilibre';
@@ -284,7 +286,14 @@ const PURETES = [[0.5, {fr: 'Impur', en: 'Impure'}, 'Imp.'], [1, {fr: 'Normal', 
 function critereExtraction(){
   return S.extraction === 'sobre' || S.extraction === 'dense' ? S.extraction : (S.mode === 'defaut' || S.mode === 'energie' ? 'sobre' : 'dense');
 }
-function extractionPlan(R, C, D){
+// sources d'extraction : au-delà de la ligne la plus forte, une ressource se prend à plusieurs sources (réglage « scindée »)
+function sourcesPlan(R, D, scinde){
+  if(!scinde) return {};
+  const capSolide = D.conv[D.conv.length - 1][0], capFluide = D.tuy.length ? D.tuy[D.tuy.length - 1][0] : null;
+  return M.sources(R, S.cibles, i => i === 'Nitrogen Gas' ? null : LIQ.has(i) ? capFluide : capSolide);
+}
+const idSource = (item, k) => 'b:' + item + (k ? '#' + k : '');
+function extractionPlan(R, C, D, SRC){
   const E = P.ext, kmax = critereExtraction() === 'dense' ? 2.5 : 1, puretes = S.puretes || {};
   const ok = x => C.p ? (C.p.recettes || []).includes(x[3]) : x[2] <= S.palier;
   const mineurs = E.mineurs.filter(ok), mineur = mineurs.length ? mineurs[mineurs.length - 1] : E.mineurs[0], mk = E.mineurs.indexOf(mineur) + 1;
@@ -294,12 +303,14 @@ function extractionPlan(R, C, D){
     if(item === 'Nitrogen Gas') return;
     const liq = LIQ.has(item), eau = item === 'Water', ext = item === 'Crude Oil' ? E.petrole : eau ? E.eau : mineur;
     const bat = item === 'Crude Oil' ? 'Oil Extractor' : eau ? 'Water Extractor' : 'Miner Mk.' + mk;
-    if(!ok(ext)){ X.lignes.set(item, {bat, manque: true}); return; }
+    if(!ok(ext)){ X.lignes.set(idSource(item, 0), {bat, manque: true}); return; }
     const pur = eau ? 1 : (puretes[item] || 1);
-    const q = M.extraire(R.bruts[item], ext[0] * pur, ext[1], E.exp, kmax, liq ? capFluide : capSolide);
-    const aire = E.aire[item === 'Crude Oil' || eau ? item : 'solide'] * q.n;
-    X.mw += q.mw; X.esp += aire; X.n += q.n;
-    X.lignes.set(item, Object.assign({bat, pur, eau, aire}, q));
+    (SRC && SRC[item] ? SRC[item].map(s0 => s0.debit) : [R.bruts[item]]).forEach((debit, k) => {
+      const q = M.extraire(debit, ext[0] * pur, ext[1], E.exp, kmax, liq ? capFluide : capSolide);
+      const aire = E.aire[item === 'Crude Oil' || eau ? item : 'solide'] * q.n;
+      X.mw += q.mw; X.esp += aire; X.n += q.n;
+      X.lignes.set(idSource(item, k), Object.assign({bat, pur, eau, aire}, q));
+    });
   });
   return X;
 }
@@ -313,6 +324,17 @@ document.getElementById('extSel').addEventListener('change', e => { S.extraction
 document.querySelectorAll('#swExt .sw-lib').forEach(x => x.addEventListener('click', () => {
   const sel = document.getElementById('extSel'); if(critereExtraction() === x.dataset.cote) return;
   sel.checked = x.dataset.cote === 'dense'; sel.dispatchEvent(new Event('change'));
+}));
+
+// interrupteur des sources (réglages) : coché = extraction scindée
+function rendreSources(){
+  document.getElementById('srcSel').checked = !!S.scinde;
+  document.querySelectorAll('#swSrc .sw-lib').forEach(x => x.classList.toggle('actif', x.dataset.cote === (S.scinde ? 'scinde' : 'groupe')));
+}
+document.getElementById('srcSel').addEventListener('change', e => { S.scinde = e.target.checked; garder(); rendreSources(); calcul(); });
+document.querySelectorAll('#swSrc .sw-lib').forEach(x => x.addEventListener('click', () => {
+  const sel = document.getElementById('srcSel'); if(!!S.scinde === (x.dataset.cote === 'scinde')) return;
+  sel.checked = x.dataset.cote === 'scinde'; sel.dispatchEvent(new Event('change'));
 }));
 
 /* recettes proposées pour un item : celles permises (meilleure d'abord), plus la recette actuelle si elle n'en est pas */
@@ -479,7 +501,7 @@ function calcul(){
   if(!R) R = M.calculer(P, S.cibles, {permise: C.permise, choix: S.choix, preferees: C.preferees});
   const EC = INST ? new Map(R.etapes.map(e => [e, M.ecart(e, INST)])) : null;
   const D = dispo(C);
-  const X = extractionPlan(R, C, D), Xstd = Rstd ? extractionPlan(Rstd, C, D) : null;
+  const SRC = sourcesPlan(R, D, S.scinde), X = extractionPlan(R, C, D, SRC), Xstd = Rstd ? extractionPlan(Rstd, C, D, sourcesPlan(Rstd, D, S.scinde)) : null;
   const cibles = new Set(S.cibles.map(c => c.item));
 
   const al = [];
@@ -490,7 +512,14 @@ function calcul(){
     + L({fr: '. Ils sont comptés comme ressources à fournir.', en: '. They are counted as resources to supply.'}));
   if(!R.converge) al.push(L({fr: 'Le calcul ne se stabilise pas (boucle de recettes qui consomme plus qu\'elle ne produit) : changez une des recettes en boucle.',
     en: 'The plan does not settle (a recipe loop consumes more than it makes): change one of the looping recipes.'}));
-  document.getElementById('alertes').innerHTML = al.map(t => `<div class="alerte">${t}</div>`).join('');
+  // extraction scindée : ce qu'elle coûte ou fait gagner face à une seule source par ressource
+  let note = '';
+  if(Object.keys(SRC).length){
+    const X0 = extractionPlan(R, C, D, {}), dn = X.n - X0.n, dw = X.mw - X0.mw, sg = v => (v > 0 ? '+' : v < 0 ? '−' : '±') + num(Math.abs(v), 0);
+    note = `<div class="alerte info">${L({fr: `Extraction scindée en ${Object.values(SRC).reduce((a, v) => a + v.length, 0)} sources pour ${Object.keys(SRC).length} ressource(s) (une ligne au plus par source) : ${sg(dn)} extracteur(s), ${sg(dw)} MW face à une seule source par ressource.`,
+      en: `Extraction split into ${Object.values(SRC).reduce((a, v) => a + v.length, 0)} sources for ${Object.keys(SRC).length} resource(s) (one line at most per source): ${sg(dn)} extractor(s), ${sg(dw)} MW compared with one source per resource.`})}</div>`;
+  }
+  document.getElementById('alertes').innerHTML = al.map(t => `<div class="alerte">${t}</div>`).join('') + note;
 
   const nbMach = R.etapes.reduce((s, e) => s + e.entieres, 0);
   const tuile = (v, l, k, ec) => `<div class="tuile"${k ? ` data-k="${k}"` : ''}><div class="big">${v}</div><div class="lbl">${l}</div>${ec || ''}</div>`;
@@ -551,7 +580,7 @@ function calcul(){
       </div>${usine}${(() => { const m = texteMontage(e, D);
         return `<details class="montage"><summary>${L({fr: 'Montage', en: 'Layout'})} : ${m.resume}</summary>${m.lignes.join('')}</details>`; })()}</div>`;
   }).join('') || `<p class="vide">${L({fr: 'Rien à produire.', en: 'Nothing to make.'})}</p>`;
-  DERNIER = {R, EC, D, C, X};
+  DERNIER = {R, EC, D, C, X, SRC};
   rendreGraphe();   // le graphe reste dessous, même quand la liste est ouverte
 }
 
@@ -581,6 +610,24 @@ const porteSvg = (item, d, dur, decal, taille, fixe, titre) => {
     + `<image href="commun/icones-44/${f}.webp" x="${-taille / 2}" y="${-taille / 2}" width="${taille}" height="${taille}"/>${titre ? `<title>${esc(titre)}</title>` : ''}</g>`;
 };
 // icônes des liens entre blocs : posées après coup (la longueur d'une courbe se mesure dans le DOM), refaites quand un bloc bouge
+/* sources d'une même ressource : chacune a sa couleur et sa forme (cercle, carré, triangle, losange) et sa lettre ; sur le
+   graphe, un rail de sa couleur double ses lignes et des pastilles marquent leurs deux bouts */
+const COUL_SRC = ['#4aa3ff', '#ff6fb5', '#6fd16f', '#e8d44a', '#b58cff', '#ff9a52'];
+function pastilleSrc(x, y, k, cls, attrs){
+  const c = COUL_SRC[k % COUL_SRC.length], f = `fill="#141414" stroke="${c}" stroke-width="2"`;
+  const forme = [`<circle cx="${x}" cy="${y}" r="9" ${f}/>`, `<rect x="${x - 9}" y="${y - 9}" width="18" height="18" rx="2.5" ${f}/>`,
+    `<path d="M${x},${y - 11} L${x + 11},${y + 8} L${x - 11},${y + 8} Z" ${f} stroke-linejoin="round"/>`, `<path d="M${x},${y - 11} L${x + 11},${y} L${x},${y + 11} L${x - 11},${y} Z" ${f} stroke-linejoin="round"/>`][k % 4];
+  return `<g class="${cls}"${attrs || ''}>${forme}<text x="${x}" y="${y + (k % 4 === 2 ? 6 : 4.5)}" text-anchor="middle" fill="${c}">${String.fromCharCode(65 + k % 26)}</text></g>`;
+}
+function pastillesLien(svg, k){
+  svg.querySelectorAll(`.pastille[data-k="${k}"]`).forEach(g => g.remove());
+  const l = GEO.liens[k], lien = svg.querySelector(`.lien[data-k="${k}"]`);
+  if(!lien || l.src == null) return;
+  const len = lien.getTotalLength(), a = lien.getPointAtLength(Math.min(16, len / 3)), b = lien.getPointAtLength(Math.max(len - 16, len * 2 / 3));
+  const tmp = document.createElementNS('http://www.w3.org/2000/svg', 'g'), at = ` data-k="${k}" data-de="${esc(l.de)}" data-vers="${esc(l.vers)}"`;
+  tmp.innerHTML = pastilleSrc(a.x, a.y, l.src, 'pastille', at) + pastilleSrc(b.x, b.y, l.src, 'pastille', at);
+  const noeud = svg.querySelector('.noeud'); [...tmp.children].forEach(g => svg.insertBefore(g, noeud));
+}
 function portesLien(svg, k){
   svg.querySelectorAll(`.porte-lien[data-k="${k}"]`).forEach(g => g.remove());
   const l = GEO.liens[k], lien = svg.querySelector(`.lien[data-k="${k}"]`), pt = svg.querySelector(`.defile[data-k="${k}"]`);
@@ -965,7 +1012,7 @@ function rendreGraphe(){
     box.innerHTML = `<p class="vide" style="padding:12px">${L({fr: 'Rien à produire.', en: 'Nothing to make.'})}</p>`;
     document.getElementById('detail').innerHTML = ''; document.getElementById('legende').innerHTML = ''; GEO = null; return;
   }
-  const {R, EC, D} = DERNIER, G = M.graphe(R, S.cibles);
+  const {R, EC, D} = DERNIER, G = M.graphe(R, S.cibles, DERNIER.SRC);
   // objectif replié sur son bloc : quand tout ce qu'une étape produit va à un seul objectif, le cadre de l'objectif (et son
   // lien) disparaît ; le bloc porte l'objectif en onglet. Un item qui sert aussi d'autres blocs, ou plusieurs objectifs,
   // gardent leur cadre.
@@ -1035,6 +1082,12 @@ function rendreGraphe(){
   ports(sortants, 'ps', 'vers'); ports(entrants, 'pe', 'de');
   GEO = {parId, liens: G.liens};
   const maxD = Math.max(...G.liens.map(l => l.debit), 1e-9), UTILISES = new Set();
+  G.liens.forEach(l => { const a = parId.get(l.de); l.src = a.type === 'brut' && a.nsrc > 1 ? a.src : null; });
+  const rails = G.liens.map((l, k) => {
+    if(l.src == null) return '';
+    const ep = 1.5 + 6 * Math.sqrt(l.debit / maxD);
+    return `<path class="rail" data-k="${k}" data-de="${esc(l.de)}" data-vers="${esc(l.vers)}" stroke="${COUL_SRC[l.src % COUL_SRC.length]}" stroke-width="${(ep + 7).toFixed(1)}" d="${cheminLien(l).d}"/>`;
+  }).join('');
   const liens = G.liens.map((l, k) => {
     const g = cheminLien(l), liq = LIQ.has(l.item), c = M.convoyeur(l.debit, liq, D);
     l.tapis = c;
@@ -1065,7 +1118,7 @@ function rendreGraphe(){
       l2 = n.type === 'brut' ? L({fr: 'ressource', en: 'resource'}) : n.type === 'cible' ? L({fr: 'objectif', en: 'target'}) : L({fr: 'surplus', en: 'surplus'});
       l3 = `<tspan class="n3${n.type === 'surplus' ? ' okc' : ''}">${num(n.debit)} ${unite(n.item)}</tspan>`;
       // ressource brute : ses extracteurs (nombre, cadence commune, MW, fragments d'énergie) et la pureté du nœud, au choix
-      const x = n.type === 'brut' && DERNIER.X ? DERNIER.X.lignes.get(n.item) : null;
+      const x = n.type === 'brut' && DERNIER.X ? DERNIER.X.lignes.get(n.id) : null;
       if(x && x.manque) l2 = `${nomBat(x.bat)} : ${L({fr: 'non débloqué', en: 'not unlocked'})}`;
       else if(x){
         l2 = `${x.n}× ${nomBat(x.bat)} · ${num(x.c * 100, 0)}%`;   // compact : « 1× Pompe à pétrole · 210% » tient dans le bloc
@@ -1077,6 +1130,9 @@ function rendreGraphe(){
           L({fr: `Pureté des nœuds : ${L(pn[1]).toLowerCase()} (cliquer pour changer)`, en: `Node purity: ${L(pn[1]).toLowerCase()} (click to change)`}));
       }
     }
+    const marqueSrc = n.type === 'brut' && n.nsrc > 1 ? `<rect class="src-bande" x="0" y="0" width="6" height="${n.h}" fill="${COUL_SRC[n.src % COUL_SRC.length]}"/>`
+      + pastilleSrc(n.w - 14, 14, n.src, 'pastille-n') : '';
+    if(n.type === 'brut' && n.nsrc > 1) titre += ` — ${L({fr: 'source', en: 'source'})} ${String.fromCharCode(65 + n.src % 26)}`;
     if(n.id === CHOISI) cls += ' choisi';
     // recette alternative : liseré et pastille orange, et son nom sous le bloc (sauf déplié : le montage prend la place)
     const alt = n.type === 'etape' && n.etape.recette.alt;
@@ -1100,16 +1156,16 @@ function rendreGraphe(){
     const tx = n.objectif != null ? `${L({fr: 'OBJECTIF', en: 'TARGET'})} · ${num(n.objectif)} ${unite(n.objectifItem)}` : '';
     const onglet = tx ? `<g class="obj-tab"><rect x="-1" y="-13" width="${Math.round(tx.length * 6.3 + 14)}" height="14" rx="2"/><text x="6" y="-2.5">${esc(tx)}</text></g>` : '';
     return `<g class="noeud ${cls}${n.objectif != null ? ' objectif' : ''}${n.sch ? ' deplie' : ''}" data-id="${esc(n.id)}" tabindex="0" transform="translate(${n.px},${n.py})"><title>${esc(titre)}${tx ? ' — ' + esc(tx.toLowerCase()) : ''}</title>
-      <rect x="0" y="0" width="${n.w}" height="${n.h}" rx="2"/>${onglet}${marqueAlt}${ic}${recette}${plier}${puretePill}${n.sch ? n.sch.svg : ''}
+      <rect x="0" y="0" width="${n.w}" height="${n.h}" rx="2"/>${onglet}${marqueAlt}${marqueSrc}${ic}${recette}${plier}${puretePill}${n.sch ? n.sch.svg : ''}
       <text x="46" y="19" class="n1">${esc(couper(nomItem(n.item), n.type === 'etape' ? 15 : changeable ? 18 : 21))}</text>
       <text x="46" y="35" class="n2">${esc(couper(l2, 26))}</text>
       <text x="46" y="52">${l3}</text>
       ${l4 ? `<text x="46" y="68" class="n4">${esc(couper(l4, 28))}</text>` : ''}</g>`;
   }).join('');
   box.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="${W * S.zoom}" height="${H * S.zoom}" viewBox="0 0 ${W} ${H}"
-    role="img" aria-label="${esc(L({fr: 'Graphe de production', en: 'Production graph'}))}" data-w="${W}" data-h="${H}">${liens}${noeuds}</svg>`;
+    role="img" aria-label="${esc(L({fr: 'Graphe de production', en: 'Production graph'}))}" data-w="${W}" data-h="${H}">${rails}${liens}${noeuds}</svg>`;
   document.getElementById('zoomVal').textContent = num(S.zoom * 100, 0) + ' %';
-  { const sv = box.querySelector('svg'); NPORTES = 0; G.liens.forEach((_, k) => portesLien(sv, k)); majProche(sv); }
+  { const sv = box.querySelector('svg'); NPORTES = 0; G.liens.forEach((_, k) => { portesLien(sv, k); pastillesLien(sv, k); }); majProche(sv); }
   legende(UTILISES);
   const toutDeplie = !G.noeuds.some(n => n.type === 'etape' && replies.has(n.id)), bd = document.getElementById('deplier');
   bd.title = toutDeplie ? L({fr: 'Tout replier', en: 'Fold all'}) : L({fr: 'Tout déplier', en: 'Expand all'});
@@ -1124,9 +1180,9 @@ function deplacer(id, x, y){
   GEO.liens.forEach((l, k) => {
     if(l.de !== id && l.vers !== id) return;
     const g = cheminLien(l);
-    svg.querySelectorAll(`.lien[data-k="${k}"], .defile[data-k="${k}"]`).forEach(x => x.setAttribute('d', g.d));
+    svg.querySelectorAll(`.lien[data-k="${k}"], .rail[data-k="${k}"], .defile[data-k="${k}"]`).forEach(x => x.setAttribute('d', g.d));
     const t = svg.querySelector(`.etiq[data-k="${k}"]`); t.setAttribute('x', g.mx); t.setAttribute('y', g.my - 5);
-    portesLien(svg, k);
+    portesLien(svg, k); pastillesLien(svg, k);
   });
 }
 // panneau sous le graphe : montage du bloc choisi
@@ -1160,7 +1216,7 @@ function isoler(id){
   };
   const amont = parcours('de', 'vers'), aval = parcours('vers', 'de');
   new Set([...amont, ...aval]).forEach(x => { const g = svg.querySelector(`.noeud[data-id="${CSS.escape(x)}"]`); if(g) g.classList.add('lie'); });
-  svg.querySelectorAll('.lien, .etiq, .defile[data-k], .porte-lien').forEach(l => {
+  svg.querySelectorAll('.lien, .rail, .pastille, .etiq, .defile[data-k], .porte-lien').forEach(l => {
     const {de, vers} = l.dataset;
     if((amont.has(de) && amont.has(vers)) || (aval.has(de) && aval.has(vers))) l.classList.add('lie');
   });

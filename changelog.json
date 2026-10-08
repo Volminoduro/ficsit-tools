@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.39",
+          "date": "2026-10-08",
+          "texte": {
+            "fr": "Réglage « Sources » : en mode scindé, une ressource brute au-delà de la ligne la plus forte du convoyeur (ou tuyau) débloqué se prend à plusieurs sources, chacune remplissant au plus une ligne ; les consommateurs sont rangés du plus éloigné du produit fini au plus proche et servis dans cet ordre, donc une source dessert des postes voisins dans la chaîne (un gros consommateur est coupé). Chaque source a ses extracteurs, sa cadence, sa couleur et sa forme (A rond bleu, B carré rose…) : un rail de sa couleur double ses lignes et des pastilles marquent leurs deux bouts. Le bilan indique l'écart d'extracteurs et de MW face à une seule source par ressource. Par défaut : groupées, comme avant ; le réglage suit l'adresse partageable.",
+            "en": "New « Sources » setting: in split mode, a raw resource beyond the strongest unlocked belt (or pipe) line is taken from several sources, each filling at most one line; consumers are sorted from the furthest from the finished product to the nearest and served in that order, so a source serves neighbouring stations in the chain (a large consumer is cut). Each source has its own extractors, clock, colour and shape (A blue circle, B pink square…): a rail of its colour doubles its lines and badges mark both ends. The summary shows the extractor and MW difference against one source per resource. Default: merged, as before; the setting follows the shareable address."
+          }
+        },
+        {
           "version": "1.38",
           "date": "2026-10-08",
           "texte": {

@@ -1068,7 +1068,7 @@ function rendreGraphe(){
       const x = n.type === 'brut' && DERNIER.X ? DERNIER.X.lignes.get(n.item) : null;
       if(x && x.manque) l2 = `${nomBat(x.bat)} : ${L({fr: 'non débloqué', en: 'not unlocked'})}`;
       else if(x){
-        l2 = `${x.n} × ${nomBat(x.bat)} · ${num(x.c * 100, 0)} %`;
+        l2 = `${x.n}× ${nomBat(x.bat)} · ${num(x.c * 100, 0)}%`;   // compact : « 1× Pompe à pétrole · 210% » tient dans le bloc
         const pn = PURETES.find(p => p[0] === x.pur);
         l4 = `${num(x.mw, 0)} MW${x.fragments ? ' · ⚡' + x.fragments : ''}${x.eau ? '' : ' · ' + L(pn[1])}`;
         titre += ` — ${x.n} × ${nomBat(x.bat)} · ${num(x.c * 100, 1)} % · ${num(x.mw, 1)} MW · ${x.fragments ? L({fr: `${x.fragments} fragment(s) d'énergie`, en: `${x.fragments} power shard(s)`}) : L({fr: 'sans fragment d\'énergie', en: 'no power shard'})}${x.plafond ? ' · ' + L({fr: 'cadence plafonnée par le convoyeur ou le tuyau', en: 'clock capped by the belt or pipe'}) : ''}`;

@@ -696,7 +696,7 @@ const INDICES = {
     await p.goto('file://' + path.join(ROOT, 'planner.html') + '?p=' + Buffer.from(JSON.stringify({c: [['Reinforced Iron Plate', 20]]})).toString('base64url'));
     await p.waitForTimeout(800);
     const lire = () => p.evaluate(() => { const g = document.querySelector('#graphe .noeud.brut'), t = g ? [...g.querySelectorAll('text')].map(x => x.textContent).join(' | ') : '';
-      const m = /(\d+) × [^|·]*· (\d+) %/.exec(t);
+      const m = /(\d+)× [^|·]*· (\d+)%/.exec(t);
       return {texte: t, n: m ? +m[1] : 0, c: m ? +m[2] : 0, pill: g ? !!g.querySelector('.pur') : false, X: Math.round(DERNIER.X.mw * 100) / 100,
         mwTuile: document.querySelector('.tuile[data-k="mw"] .big').textContent, sw: document.getElementById('extSel').checked}; });
     const sobre = await lire();

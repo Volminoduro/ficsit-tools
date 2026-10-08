@@ -733,6 +733,24 @@ const INDICES = {
     await p.close();
   }
 
+  // Awesome Sink : les points du surplus (et de tout ce que le plan produit) sont dans le récap et sur le bloc de surplus ;
+  // le montage en équilibrage dessine les sorties renvoyées comme des emplacements sans machine, avec leur débit
+  {
+    const p = await b.newPage({viewport: {width: 1400, height: 900}}), errs = [];
+    p.on('pageerror', e => errs.push(e.message));
+    const url = o => 'file://' + path.join(ROOT, 'planner.html') + '?p=' + Buffer.from(JSON.stringify(o)).toString('base64url');
+    await p.goto(url({c: [['Fuel', 100]]})); await p.waitForTimeout(800);
+    const sp = await p.evaluate(() => ({recap: document.getElementById('ptsSink').textContent, noeud: [...document.querySelectorAll('#graphe .noeud.surplus')].map(n => n.textContent).join(' ')}));
+    await p.goto(url({c: [['Heavy Modular Frame', 10]]})); await p.waitForTimeout(800);
+    const tout = await p.evaluate(() => document.getElementById('ptsSink').textContent);
+    await p.goto(url({c: [['Smart Plating', 10]], o: 1})); await p.waitForTimeout(800);
+    const bo = await p.evaluate(() => ({fant: document.querySelectorAll('#graphe .mach.fantome').length, txt: [...document.querySelectorAll('#graphe .sch-t.boucle-t')].map(t => t.textContent), fl: document.querySelectorAll('#graphe .boucle-fl').length}));
+    const bon = /900/.test(sp.recap) && /900/.test(sp.noeud) && /108\s?000/.test(tout.replace(/\u202f|\u00a0/g, ' ')) && bo.fant >= 1 && bo.txt.length >= 1 && /↺/.test(bo.txt[0]) && bo.fl === bo.txt.length && !errs.length;
+    if (!bon) echecs.push('Awesome Sink et boucle lisible : ' + JSON.stringify({sp, tout, bo}) + ' ' + errs.join(' | '));
+    console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : points du broyeur et boucle de l'équilibrage`);
+    await p.close();
+  }
+
   // coquille (outils.html, en http) : un onglet de la barre montre l'outil dans un autre cadre, sans recharger la page ;
   // l'outil précédent garde son état ; l'adresse et le titre suivent ; « Précédent » revient au premier outil
   {

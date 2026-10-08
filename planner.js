@@ -550,6 +550,15 @@ function calcul(){
     || `<p class="vide">${L({fr: 'Aucune.', en: 'None.'})}</p>`;
   document.getElementById('surplus').innerHTML = tri(R.surplus).map(n => flux(n, R.surplus[n], 'sp')).join('')
     || `<p class="vide">${L({fr: 'Aucun.', en: 'None.'})}</p>`;
+  // Awesome Sink : points par minute du surplus, et de tout ce que le plan produit (objectifs et surplus) si on broie tout
+  {
+    const pts = o => Object.keys(o).reduce((a, n) => a + o[n] * (P.pts[n] || 0), 0), objectifs = {};
+    S.cibles.forEach(c => { if(c.item && c.debit > 0) objectifs[c.item] = (objectifs[c.item] || 0) + c.debit; });
+    const pS = pts(R.surplus), pT = pS + pts(objectifs), ligne = (v, t) => `<div class="pts-l"><b>${num(v, 0)}</b> ${t}</div>`;
+    document.getElementById('ptsSink').innerHTML =
+      (pS > 0 ? ligne(pS, L({fr: 'points/min si le surplus est broyé (Awesome Sink)', en: 'points/min if the surplus is sunk (Awesome Sink)'})) : '')
+      + (pT > pS ? ligne(pT, L({fr: 'points/min si tout est broyé (objectifs et surplus)', en: 'points/min if everything is sunk (targets and surplus)'})) : '');
+  }
   // recettes alternatives du plan : un bouton par recette, qui choisit son bloc dans le graphe
   const alts = R0.etapes.filter(e => e.recette.alt);
   document.getElementById('alts').innerHTML = alts.map(e => `<button type="button" class="flux alt" data-aller="${esc('e:' + e.recette.classe)}">${ico(e.item, 1)}<span>${esc(nomRec(e.recette.nom))}
@@ -803,10 +812,11 @@ function schemaMontage(e, D, rang){
         pas.push(['V', yb, tap], ['H', x0 + 16, tap], ['V', y0, tap]);
         trajets.push(suite(x0, y0, pas, l.liquide));
       }
-      for(let r = n; r < n + l.boucle; r++){
-        if(j === 0) texte(xM + 2, y(r) + 3, '↺');
-        trait(`M${xM},${y(r) + dy} V${yb} H${x0 + 16} V${y0}`, 'boucle');
-      }
+      for(let r = n; r < n + l.boucle; r++) trait(`M${xM},${y(r) + dy} V${yb} H${x0 + 16} V${y0}`, 'boucle');
+      // ce qui revient : débit renvoyé, écrit le long du retour, et pointe de flèche à l'arrivée sur la ligne d'entrée
+      const dBoucle = l.debitLigne * l.boucle / q.m;
+      texte(x0 + 22, yb - 3, `↺ ${num(dBoucle, 1)} ${unite(l.item)}`, 'boucle-t');
+      out.push(`<path class="boucle-fl" d="M${x0 + 16 - 3.5},${y0 + 15} L${x0 + 16 + 3.5},${y0 + 15} L${x0 + 16},${y0 + 8} Z"/>`);
     }
     return {y0, trajets};
   }
@@ -845,6 +855,11 @@ function schemaMontage(e, D, rang){
   for(let i = 0; i < n; i++){
     out.push(`<rect class="mach" x="${xM}" y="${y(i) - MHk / 2}" width="${MW}" height="${MHk}" rx="3"><title>${esc(nomBat(e.recette.machine))} ${i + 1}</title></rect>`);
     if(n > 1) out.push(`<text class="mach-n" x="${xM + MW / 2}" y="${y(i) + 3.5}" text-anchor="middle">${i + 1}</text>`);
+  }
+  // emplacements des sorties renvoyées : ce ne sont pas des machines (pointillés), leur contenu revient sur l'entrée
+  for(let i = n; i < rows; i++){
+    out.push(`<rect class="mach fantome" x="${xM}" y="${y(i) - MHk / 2}" width="${MW}" height="${MHk}" rx="3"><title>${esc(L({fr: 'Pas de machine : cette sortie est renvoyée sur la ligne d\'entrée', en: 'No machine: this output is sent back to the input line'}))}</title></rect>`);
+    out.push(`<text class="mach-n fantome-n" x="${xM + MW / 2}" y="${y(i) + 3.5}" text-anchor="middle">↺</text>`);
   }
   // --- une bande de sortie : des machines (xO) jusqu'à x1 (début de la bande) + sa largeur ; renvoie [x de fin, y de fin]
   function bandeS(l, x1, dy, mesure){
@@ -1136,6 +1151,7 @@ function rendreGraphe(){
     } else {
       l2 = n.type === 'brut' ? L({fr: 'ressource', en: 'resource'}) : n.type === 'cible' ? L({fr: 'objectif', en: 'target'}) : L({fr: 'surplus', en: 'surplus'});
       l3 = `<tspan class="n3${n.type === 'surplus' ? ' okc' : ''}">${num(n.debit)} ${unite(n.item)}</tspan>`;
+      if(n.type === 'surplus' && P.pts[n.item]) l4 = L({fr: `${num(n.debit * P.pts[n.item], 0)} points/min (broyeur)`, en: `${num(n.debit * P.pts[n.item], 0)} points/min (sink)`});
       // ressource brute : ses extracteurs (nombre, cadence commune, MW, fragments d'énergie) et la pureté du nœud, au choix
       const x = n.type === 'brut' && DERNIER.X ? DERNIER.X.lignes.get(n.id) : null;
       if(x && x.manque) l2 = `${nomBat(x.bat)} : ${L({fr: 'non débloqué', en: 'not unlocked'})}`;

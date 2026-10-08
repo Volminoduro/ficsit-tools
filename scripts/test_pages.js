@@ -687,6 +687,25 @@ const INDICES = {
     await p.close();
   }
 
+  // extraction : le panneau donne, par ressource brute, nombre et cadence d'extracteurs pour les trois puretés ; surcadencé
+  // il n'en pose jamais plus que sans surcadençage
+  {
+    const p = await b.newPage({viewport: {width: 1400, height: 900}}), errs = [];
+    p.on('pageerror', e => errs.push(e.message));
+    await p.goto('file://' + path.join(ROOT, 'planner.html') + '?p=' + Buffer.from(JSON.stringify({c: [['Reinforced Iron Plate', 20]]})).toString('base64url'));
+    await p.waitForTimeout(800);
+    const lire = () => p.evaluate(() => { const c = [...document.querySelectorAll('#extraction .ext-c b')].map(x => x.textContent);
+      return {cellules: c.length, extracteurs: c.reduce((s, t) => s + (+t.split('×')[0] || 0), 0), pressed: [...document.querySelectorAll('#critExt [data-ext]')].map(x => x.getAttribute('aria-pressed'))}; });
+    const sobre = await lire();
+    await p.click('#critExt [data-ext="dense"]'); await p.waitForTimeout(200);
+    const dense = await lire();
+    const bon = sobre.cellules >= 3 && sobre.cellules % 3 === 0 && sobre.pressed.join() === 'true,false' && dense.pressed.join() === 'false,true'
+      && dense.cellules === sobre.cellules && dense.extracteurs <= sobre.extracteurs && !errs.length;
+    if (!bon) echecs.push('extraction : ' + JSON.stringify({sobre, dense}) + ' ' + errs.join(' | '));
+    console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : extraction (sans surcadençage / surcadencé)`);
+    await p.close();
+  }
+
   // coquille (outils.html, en http) : un onglet de la barre montre l'outil dans un autre cadre, sans recharger la page ;
   // l'outil précédent garde son état ; l'adresse et le titre suivent ; « Précédent » revient au premier outil
   {

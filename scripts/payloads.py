@@ -398,6 +398,10 @@ def planner_donnees():
     mw = lambda r: round((r["mwMin"] + r["mwMax"]) / 2, 3) if r.get("mwMax", 0) > r.get("mwMin", 0) else 0
     machines = sorted({r["machine"] for _, r in rec})
     items = sorted({x[0] for _, r in rec for x in r["ingredients"] + r["produits"]} | set(REF["ressources"]))
+    # extraction : [débit à 100 % sur nœud normal, MW, palier, recette de construction] ; exposant de la puissance en fonction de la cadence
+    constr = lambda nom: "Recipe_" + B[nom]["classe"][5:]
+    ext = lambda nom, base: [base, B[nom]["mw"], B[nom]["palier"], constr(nom)]
+    extracteurs = ["Miner Mk.1", "Miner Mk.2", "Miner Mk.3", "Oil Extractor", "Water Extractor"]
     return {"r": [[r["classe"], n, int(r["alternative"]), r["palier"], r["machine"], r["temps"],
                    r["ingredients"], r["produits"], mw(r)] for n, r in rec],
             "b": {m: [B[m]["mw"], B[m]["exposant"], B[m]["palier"], "Build_" + B[m]["classe"][5:], SOMERSLOOPS.get(m, 0)]
@@ -412,7 +416,9 @@ def planner_donnees():
             "conv": [[cap, B[f"Conveyor Belt Mk.{k}"]["palier"], "Recipe_" + B[f"Conveyor Belt Mk.{k}"]["classe"][5:]]
                      for k, cap in enumerate([60, 120, 270, 480, 780, 1200], 1)],
             "tuy": [[300, 3, "Recipe_Pipeline_C"], [600, 6, "Recipe_PipelineMK2_C"]],
-            "ic": {n: icone_fichier(n) for n in items + machines if n in SLUGS}}
+            "ext": {"mineurs": [ext("Miner Mk.1", 60), ext("Miner Mk.2", 120), ext("Miner Mk.3", 240)],
+                    "petrole": ext("Oil Extractor", 120), "eau": ext("Water Extractor", 120), "exp": B["Miner Mk.1"]["exposant"]},
+            "ic": {n: icone_fichier(n) for n in items + machines + extracteurs if n in SLUGS}}
 
 
 def payload_planner():

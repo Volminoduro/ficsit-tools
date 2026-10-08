@@ -13,7 +13,7 @@ const unite = n => LIQ.has(n) ? 'm³/min' : '/min';
 /* ---------- état mémorisé (par navigateur) ---------- */
 const CLE = 'ficsit-tools:planner';
 const DEFAUT = {cibles: [{item: 'Reinforced Iron Plate', debit: 10}], choix: {}, palier: 9, alt: false, suivre: true, mode: 'defaut', vue: 'graphe', zoom: 1,
-  montage: 'manifold', poids: {mat: 5, mw: 5, esp: 5}, pos: {}, replies: [], v: 4};
+  montage: 'manifold', poids: {mat: 5, mw: 5, esp: 5}, pos: {}, replies: [], extraction: 'auto', v: 4};
 /* Plusieurs plans, un par onglet : les champs propres à un plan (PLAN) vivent à plat dans S pour le plan affiché, et dans
    S.plans[i] pour tous ; garder() recopie le plan affiché dans S.plans. Vue, zoom, palier de la partie : communs. */
 const MODES_CLES = ['defaut', 'energie', 'ressources', 'place', 'synthese'];
@@ -269,6 +269,52 @@ function texteMontage(e, D){
   return {resume, lignes};
 }
 
+/* ---------- extraction : les extracteurs des ressources brutes du plan ----------
+   Pour chaque ressource brute : le meilleur extracteur débloqué (partie importée, sinon palier choisi), et, pour un nœud
+   impur, normal ou pur, combien en poser et à quelle cadence commune. Deux réglages : sans surcadençage (cadence ≤ 100 %,
+   la plus sobre en énergie par item) ou surcadencé (jusqu'à 250 %, le moins d'extracteurs, donc d'espace et de nœuds) ; par
+   défaut selon le critère du plan (énergie ou standard : sans surcadençage ; matière, espace, synthèse : surcadencé). Le
+   convoyeur (ou le tuyau) le plus fort débloqué plafonne la cadence. L'azote (puits de pression) n'est pas planifié. */
+const PURETES = [[0.5, {fr: 'Impur', en: 'Impure'}], [1, {fr: 'Normal', en: 'Normal'}], [2, {fr: 'Pur', en: 'Pure'}]];
+function critereExtraction(){
+  return S.extraction === 'sobre' || S.extraction === 'dense' ? S.extraction : (S.mode === 'defaut' || S.mode === 'energie' ? 'sobre' : 'dense');
+}
+function rendreExtraction(R, C, D){
+  const boite = document.getElementById('extraction'); if(!boite) return;
+  const E = P.ext, crit = critereExtraction(), kmax = crit === 'dense' ? 2.5 : 1;
+  document.querySelectorAll('#critExt [data-ext]').forEach(b => b.setAttribute('aria-pressed', b.dataset.ext === crit));
+  const ok = x => C.p ? (C.p.recettes || []).includes(x[3]) : x[2] <= S.palier;
+  const mineur = [...E.mineurs].reverse().find(ok) || E.mineurs[0], mk = E.mineurs.indexOf(mineur) + 1;
+  const capSolide = D.conv[D.conv.length - 1][0], capFluide = D.tuy.length ? D.tuy[D.tuy.length - 1][0] : null;
+  const noms = Object.keys(R.bruts).sort((a, b) => R.bruts[b] - R.bruts[a]);
+  let plafonne = false;
+  const cellule = (x, base, ext, cap, debit, unite0) => {
+    const q = M.extraire(debit, base, ext[1], E.exp, kmax, cap); if(q.plafond) plafonne = true;
+    const fr = q.fragments ? L({fr: `${q.fragments} fragment(s) d'énergie en tout`, en: `${q.fragments} power shard(s) in total`}) : L({fr: 'sans fragment d\'énergie', en: 'no power shard'});
+    const titre = `${q.n} × ${nomBat(x)} · ${num(q.c * 100, 0)} % · ${num(q.mw, 1)} MW\n${fr}${q.plafond ? '\n' + L({fr: 'cadence plafonnée par le convoyeur ou le tuyau', en: 'clock capped by the belt or pipe'}) : ''}`;
+    return `<span class="ext-c${q.plafond ? ' plaf' : ''}" title="${esc(titre)}"><b>${q.n} × ${num(q.c * 100, 0)} %</b><small>${num(q.mw, 0)} MW${q.fragments ? ' · ⚡' + q.fragments : ''}</small></span>`;
+  };
+  const lignes = noms.map(n => {
+    const liq = LIQ.has(n), debit = R.bruts[n];
+    const tete = (nomExt, x) => `<span class="ext-n">${ico(n, 1)}<span><b>${num(debit)}</b> ${esc(nomItem(n))} <span class="fl">${unite(n)}</span>${x ? `<small>${ico(x, 1)}${esc(nomBat(x))}</small>` : ''}</span></span>`;
+    if(n === 'Nitrogen Gas') return `${tete()}<span class="ext-x">${L({fr: 'puits de pression : non planifié', en: 'resource well: not planned'})}</span>`;
+    const fixe = n === 'Water', ext = n === 'Crude Oil' ? E.petrole : fixe ? E.eau : mineur;
+    const xnom = n === 'Crude Oil' ? 'Oil Extractor' : fixe ? 'Water Extractor' : 'Miner Mk.' + mk, cap = liq ? capFluide : capSolide;
+    if(!ok(ext)) return `${tete(0, xnom)}<span class="ext-x">${L({fr: 'extracteur non débloqué', en: 'extractor not unlocked'})}</span>`;
+    return tete(0, xnom) + (fixe ? `<span class="ext-un">${cellule(xnom, ext[0], ext, cap, debit)}</span>`
+      : PURETES.map(([p]) => cellule(xnom, ext[0] * p, ext, cap, debit)).join(''));
+  });
+  boite.innerHTML = noms.length ? `<div class="ext-grille"><span></span>${PURETES.map(([, t]) => `<span class="ext-e">${L(t)}</span>`).join('')}${lignes.join('')}</div>`
+    + `<p class="ext-note">${L(crit === 'dense' ? {fr: 'Surcadencé jusqu\'à 250 % : le moins d\'extracteurs, donc de nœuds et d\'espace. Cadence commune à tous ; ⚡ = fragments d\'énergie à poser.', en: 'Overclocked up to 250%: fewest extractors, hence nodes and floor space. One shared clock; ⚡ = power shards to fit.'}
+      : {fr: 'Sans surcadençage (≤ 100 %) : le moins d\'énergie par item. Cadence commune à tous.', en: 'No overclock (≤ 100%): least power per item. One shared clock.'})}`
+    + `${plafonne ? ' ' + L({fr: 'Cadence parfois plafonnée par le convoyeur ou le tuyau.', en: 'Clock sometimes capped by the belt or pipe.'}) : ''}</p>` : '';
+}
+document.getElementById('critExt').addEventListener('click', e => {
+  const b = e.target.closest('[data-ext]'); if(!b || !DERNIER) return;
+  S.extraction = S.extraction === b.dataset.ext ? 'auto' : b.dataset.ext; garder();
+  rendreExtraction(DERNIER.R, DERNIER.C, DERNIER.D);
+});
+
 /* recettes proposées pour un item : celles permises (meilleure d'abord), plus la recette actuelle si elle n'en est pas */
 function optionsRecette(item, actuelle, C){
   const cand = M.candidates(P, item, C.permise);
@@ -466,6 +512,7 @@ function calcul(){
   const tri = o => Object.keys(o).sort((a, b) => o[b] - o[a]);
   document.getElementById('bruts').innerHTML = tri(R.bruts).map(n => flux(n, R.bruts[n])).join('')
     || `<p class="vide">${L({fr: 'Aucune.', en: 'None.'})}</p>`;
+  rendreExtraction(R, C, D);
   document.getElementById('surplus').innerHTML = tri(R.surplus).map(n => flux(n, R.surplus[n], 'sp')).join('')
     || `<p class="vide">${L({fr: 'Aucun.', en: 'None.'})}</p>`;
   // recettes alternatives du plan : un bouton par recette, qui choisit son bloc dans le graphe

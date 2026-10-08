@@ -22,6 +22,7 @@
      mesures(P, R)                  les trois critères d'un plan → {mat (‰ des ressources de la carte), mw, esp (m²)}
      graphe(R, cibles)              nœuds et liens d'un plan, pour la vue en graphe (voir plus bas)
      convoyeur(debit, liquide, dispo), equilibre(n), montage(etape, mode, dispo, liquides)
+     extraire(debit, base, mw, exp, kmax, cap)   extracteurs d'une ressource brute : nombre, cadence commune, MW, fragments d'énergie
                                      niveau de tapis ou de tuyau d'un débit ; arbre de séparateurs vers n machines ;
                                      montage d'une étape en manifold ou en équilibrage (voir plus bas)
      installe(P, batis)             usine existante (bâtiments lus par commun/ficsit-usine-worker.js : {c, rec, clk, sloops,
@@ -445,8 +446,20 @@
     return {installe: installe, besoin: besoin, manque: manque, machines: manque / (60 / r.temps * q), n: i ? i.n : 0, prod: i ? i.prod : null};
   }
 
+  /* extraction d'une ressource brute : `debit` /min avec des extracteurs de base `base` /min à 100 % sur le nœud (déjà multipliée
+     par la pureté), `mw` MW à 100 %, puissance en cadence^exp. kmax = cadence maximale voulue (1 : sans surcadençage ; 2,5 :
+     surcadencé) ; cap = débit maximal de ce que reçoit l'extracteur (convoyeur ou tuyau), qui plafonne la cadence.
+     Le moins d'extracteurs possible à cette cadence maximale, tous à la même cadence c.
+     → {n, c, mw, fragments (d'énergie : 1 jusqu'à 150 %, 2 jusqu'à 200 %, 3 au-delà), plafond (la cadence est bornée par cap)} */
+  function extraire(debit, base, mw, exp, kmax, cap){
+    var k = Math.min(kmax, (cap == null ? Infinity : cap) / base);
+    var n = Math.max(1, Math.ceil(debit / (base * k) - 1e-9)), c = debit / (n * base);
+    return {n: n, c: c, mw: n * mw * Math.pow(c, exp), fragments: c > 1 + 1e-9 ? n * Math.ceil((c - 1) / 0.5 - 1e-9) : 0,
+      plafond: cap != null && k < kmax - 1e-9};
+  }
+
   var API = {candidates: candidates, calculer: calculer, optimiser: optimiser, mesures: mesures, graphe: graphe, installe: installe, ecart: ecart,
-    convoyeur: convoyeur, equilibre: equilibre, montage: montage};
+    convoyeur: convoyeur, equilibre: equilibre, montage: montage, extraire: extraire};
   if(typeof module !== 'undefined' && module.exports) module.exports = API;
   else racine.PlannerMoteur = API;
 })(typeof self !== 'undefined' ? self : this);

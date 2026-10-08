@@ -633,7 +633,7 @@ function pastillesLien(svg, k){
   const noeud = svg.querySelector('.noeud'); [...tmp.children].forEach(g => svg.insertBefore(g, noeud));
 }
 /* un consommateur qui reçoit le même item de plusieurs sources ou blocs : le point où leurs lignes se rejoignent est marqué à
-   l'entrée du poste, avec ce que chacune apporte (« A 375 + B 300 = 675 ») */
+   l'entrée du poste (sans texte : les pastilles, les rails et les débits de chaque ligne disent d'où elles viennent) */
 function fusionsEntree(svg){
   svg.querySelectorAll('.fusion').forEach(g => g.remove());
   const groupes = new Map();
@@ -642,10 +642,8 @@ function fusionsEntree(svg){
   groupes.forEach(ls => {
     if(ls.length < 2) return;
     const [l0, k0] = ls[0], lien = svg.querySelector(`.lien[data-k="${k0}"]`); if(!lien) return;
-    const bout = lien.getPointAtLength(lien.getTotalLength()), tot = ls.reduce((a, [l]) => a + l.debit, 0);
-    const txt = ls.map(([l]) => `${String.fromCharCode(65 + l.src % 26)} ${num(l.debit, 0)}`).join(' + ') + ` = ${num(tot, 0)}`;
-    tmp.insertAdjacentHTML('beforeend', `<g class="fusion" data-de="${esc(ls[0][0].de)}" data-vers="${esc(l0.vers)}"><circle cx="${bout.x - 3}" cy="${bout.y}" r="4.5"/>
-      <text x="${bout.x - 8}" y="${bout.y - 9}" text-anchor="end">${esc(txt)}</text></g>`);
+    const bout = lien.getPointAtLength(lien.getTotalLength());
+    tmp.insertAdjacentHTML('beforeend', `<g class="fusion" aria-hidden="true" data-de="${esc(l0.de)}" data-vers="${esc(l0.vers)}"><circle cx="${bout.x - 3}" cy="${bout.y}" r="4.5"/></g>`);
   });
   [...tmp.children].forEach(g => svg.insertBefore(g, noeud));
 }

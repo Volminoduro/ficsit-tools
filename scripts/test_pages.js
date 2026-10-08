@@ -687,22 +687,28 @@ const INDICES = {
     await p.close();
   }
 
-  // extraction : le panneau donne, par ressource brute, nombre et cadence d'extracteurs pour les trois puretés ; surcadencé
-  // il n'en pose jamais plus que sans surcadençage
+  // extraction dans le plan : le bloc de chaque ressource brute porte ses extracteurs (nombre × bâtiment · cadence) et un
+  // bouton de pureté ; surcadencé, le plan n'en pose jamais plus que sans surcadençage ; la pureté change leur nombre ; les
+  // totaux du bilan comptent l'extraction
   {
     const p = await b.newPage({viewport: {width: 1400, height: 900}}), errs = [];
     p.on('pageerror', e => errs.push(e.message));
     await p.goto('file://' + path.join(ROOT, 'planner.html') + '?p=' + Buffer.from(JSON.stringify({c: [['Reinforced Iron Plate', 20]]})).toString('base64url'));
     await p.waitForTimeout(800);
-    const lire = () => p.evaluate(() => { const c = [...document.querySelectorAll('#extraction .ext-c b')].map(x => x.textContent);
-      return {cellules: c.length, extracteurs: c.reduce((s, t) => s + (+t.split('×')[0] || 0), 0), pressed: [...document.querySelectorAll('#critExt [data-ext]')].map(x => x.getAttribute('aria-pressed'))}; });
+    const lire = () => p.evaluate(() => { const g = document.querySelector('#graphe .noeud.brut'), t = g ? [...g.querySelectorAll('text')].map(x => x.textContent).join(' | ') : '';
+      const m = /(\d+) × [^|·]*· (\d+) %/.exec(t);
+      return {texte: t, n: m ? +m[1] : 0, c: m ? +m[2] : 0, pill: g ? !!g.querySelector('.pur') : false, X: Math.round(DERNIER.X.mw * 100) / 100,
+        mwTuile: document.querySelector('.tuile[data-k="mw"] .big').textContent, sw: document.getElementById('extSel').checked}; });
     const sobre = await lire();
-    await p.click('#critExt [data-ext="dense"]'); await p.waitForTimeout(200);
+    await p.click('#swExt .sw-lib[data-cote="dense"]'); await p.waitForTimeout(300);
     const dense = await lire();
-    const bon = sobre.cellules >= 3 && sobre.cellules % 3 === 0 && sobre.pressed.join() === 'true,false' && dense.pressed.join() === 'false,true'
-      && dense.cellules === sobre.cellules && dense.extracteurs <= sobre.extracteurs && !errs.length;
-    if (!bon) echecs.push('extraction : ' + JSON.stringify({sobre, dense}) + ' ' + errs.join(' | '));
-    console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : extraction (sans surcadençage / surcadencé)`);
+    await p.click('#swExt .sw-lib[data-cote="sobre"]'); await p.waitForTimeout(300);
+    await p.evaluate(() => document.querySelector('#graphe .noeud.brut .pur').dispatchEvent(new PointerEvent('pointerdown', {bubbles: true, button: 0, pointerId: 3}))); await p.waitForTimeout(300);
+    const pur = await lire();   // normal → pur
+    const bon = /Foreuse|Miner/.test(sobre.texte) && sobre.n >= 1 && sobre.pill && !sobre.sw && dense.sw && dense.n <= sobre.n && dense.c >= sobre.c
+      && pur.n <= sobre.n && /Pur|Pure/.test(pur.texte) && sobre.X > 0 && !errs.length;
+    if (!bon) echecs.push('extraction dans le plan : ' + JSON.stringify({sobre, dense, pur}) + ' ' + errs.join(' | '));
+    console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : extraction dans le plan`);
     await p.close();
   }
 

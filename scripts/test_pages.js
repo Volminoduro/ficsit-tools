@@ -745,7 +745,7 @@ const INDICES = {
     const tout = await p.evaluate(() => document.getElementById('ptsSink').textContent);
     await p.goto(url({c: [['Smart Plating', 10]], o: 1})); await p.waitForTimeout(800);
     const bo = await p.evaluate(() => ({fant: document.querySelectorAll('#graphe .mach.fantome').length, txt: [...document.querySelectorAll('#graphe .sch-t.boucle-t')].map(t => t.textContent), fl: document.querySelectorAll('#graphe .boucle-fl').length}));
-    const bon = /900/.test(sp.recap) && /900/.test(sp.noeud) && /108\s?000/.test(tout.replace(/\u202f|\u00a0/g, ' ')) && bo.fant >= 1 && bo.txt.length >= 1 && /↺/.test(bo.txt[0]) && bo.fl === bo.txt.length && !errs.length;
+    const bon = /900/.test(sp.recap) && /900/.test(sp.noeud) && /108\s?000/.test(tout.replace(/\u202f|\u00a0/g, ' ')) && bo.fant >= 1 && bo.txt.length >= 1 && /↺/.test(bo.txt[0]) && bo.fl >= bo.txt.length && !errs.length;
     if (!bon) echecs.push('Awesome Sink et boucle lisible : ' + JSON.stringify({sp, tout, bo}) + ' ' + errs.join(' | '));
     console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : points du broyeur et boucle de l'équilibrage`);
     await p.close();

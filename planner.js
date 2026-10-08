@@ -800,7 +800,7 @@ function schemaMontage(e, D, rang){
         trajets.push(suite(x0, y0, pas, l.liquide));
       }
       // sorties en trop : renvoyées sur l'entrée par le groupeur ; les items y suivent leur feuille puis le trait de retour
-      const yb = top + rows * RH + 4 + j * 4;
+      const yb = top + rows * RH + 26 + j * 22;   // chaque retour sur sa propre ligne, bien sous les machines
       for(let L = n; L < n + l.boucle; L++){
         const pas = [['H', xR, l.ligne]]; let pr = 1, tap = l.branche;
         f.forEach((fk, k) => {
@@ -813,10 +813,11 @@ function schemaMontage(e, D, rang){
         trajets.push(suite(x0, y0, pas, l.liquide));
       }
       for(let r = n; r < n + l.boucle; r++) trait(`M${xM},${y(r) + dy} V${yb} H${x0 + 16} V${y0}`, 'boucle');
-      // ce qui revient : débit renvoyé, écrit le long du retour, et pointe de flèche à l'arrivée sur la ligne d'entrée
-      const dBoucle = l.debitLigne * l.boucle / q.m;
-      texte(x0 + 22, yb - 3, `↺ ${num(dBoucle, 1)} ${unite(l.item)}`, 'boucle-t');
-      out.push(`<path class="boucle-fl" d="M${x0 + 16 - 3.5},${y0 + 15} L${x0 + 16 + 3.5},${y0 + 15} L${x0 + 16},${y0 + 8} Z"/>`);
+      // sens du retour : flèches le long du trait (vers la gauche en bas, vers le haut à l'arrivée), et le débit qui revient
+      const dBoucle = l.debitLigne * l.boucle / q.m, xe = x0 + 16, xs0 = xM - 34;
+      for(let xx = xs0; xx > xe + 26; xx -= 42) out.push(`<path class="boucle-fl" d="M${xx + 3.5},${yb - 4} L${xx - 3.5},${yb} L${xx + 3.5},${yb + 4} Z"/>`);
+      out.push(`<path class="boucle-fl" d="M${xe - 4},${y0 + 24} L${xe},${y0 + 17} L${xe + 4},${y0 + 24} Z"/>`);
+      texte(xs0 + 22, yb - 6, `↺ ${num(dBoucle, 1)} ${unite(l.item)}`, 'boucle-t', true);
     }
     return {y0, trajets};
   }
@@ -878,7 +879,7 @@ function schemaMontage(e, D, rang){
   }
   // sorties : bande 0 la plus à droite (au bord du bloc), les suivantes plus près des machines
   // sorties suivantes (sous-produits) : repartent par le bas, comme leurs blocs « surplus » en bas de colonne
-  const bas = top + rows * RH + (boucle ? 12 + 4 * kE : 6), yB = j => bas + PAS * (j - 1) + 4;
+  const bas = top + rows * RH + (boucle ? 40 + 22 * kE : 6), yB = j => bas + PAS * (j - 1) + 4;
   const ySs = {}; let yS = y(0);
   sors.forEach((l, j) => {
     const [xb, yb, trajets] = bandeS(l, x1S[j], dS(j), false);

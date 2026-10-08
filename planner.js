@@ -691,11 +691,13 @@ function schemaMontage(e, D, rang){
   const poids = (l, prem) => rang && rang[l.item] != null ? rang[l.item] : (l.item === prem ? -2 : l.liquide ? 1 : 0);
   const ordre = (ls, prem) => ls.slice().sort((a, b) => poids(a, prem) - poids(b, prem));
   const ents = ordre(mo.entrees), sors = ordre(mo.sorties, e.item), kE = ents.length, kS = sors.length, K = Math.max(kE, kS, 1);
-  const MHk = MH + (K - 1) * DECAL, RH = Math.max(RH0, MHk + 8);
   const boucle = Math.max(0, ...ents.map(l => l.mode === 'equilibre' ? l.boucle : 0)), rows = n + boucle;
+  const DEC = DECAL;
+  // avec une boucle de retour, le groupeur est sur le tronc d'une bande : des rangs un peu plus hauts évitent que ce tronc frôle (à 2-3 px) une branche d'une autre bande
+  const MHk = MH + (K - 1) * DEC, RH = Math.max(RH0, MHk + 8, boucle && K === 2 ? 44 : 0);
   const top = GH + 12 + PAS * (K - 1);   // au-dessus : les lignes qui arrivent ou repartent par le haut
   const y = i => top + RH * i + RH / 2;
-  const dE = j => (j - (kE - 1) / 2) * DECAL, dS = j => (j - (kS - 1) / 2) * DECAL;
+  const dE = j => (j - (kE - 1) / 2) * DEC, dS = j => (j - (kS - 1) / 2) * DEC;
   const yF = j => top - PAS * j + 2;     // ligne j > 0 : passage par le haut
   let out = [], nSep = 0, nGrp = 0, porte = null;
   const textes = [], fixe = calme();

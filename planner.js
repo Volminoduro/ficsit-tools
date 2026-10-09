@@ -933,6 +933,32 @@ function legende(u){
   document.getElementById('legende').innerHTML = Object.keys(noms).filter(k => u.has(k))
     .map(k => `<span class="lg"><i class="${k}"></i>${esc(noms[k])}</span>`).join('');
 }
+/* nom écrit sur un bloc : à la taille normale s'il tient avant les boutons du bloc, sinon en plus petit, sinon abrégé (« … ») ; la
+   largeur est mesurée dans un petit dessin caché (les caractères larges ne se comptent pas au nombre de lettres) */
+let MESURE = null;
+const NOMS_AJUSTES = new Map();
+function largeurNom(t, petit){
+  if(!MESURE){
+    const d = document.createElement('div'); d.className = 'graphe'; d.setAttribute('aria-hidden', 'true');
+    d.style.cssText = 'position:absolute;left:-9999px;top:0;width:0;height:0;overflow:hidden;visibility:hidden';
+    d.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="30"><text class="n1" x="0" y="20"></text></svg>';
+    document.body.appendChild(d); MESURE = d.querySelector('text');
+  }
+  MESURE.setAttribute('class', petit ? 'n1 n1-p' : 'n1'); MESURE.textContent = t;
+  return MESURE.getComputedTextLength();
+}
+function ajusterNom(t, max){
+  const cle = t + '|' + max, c = NOMS_AJUSTES.get(cle); if(c) return c;
+  let r;
+  if(largeurNom(t, false) <= max) r = {t, petit: false};
+  else if(largeurNom(t, true) <= max) r = {t, petit: true};
+  else {
+    let lo = 1, hi = t.length - 1;   // plus long préfixe qui tient avec « … »
+    while(lo < hi){ const m = (lo + hi + 1) >> 1; if(largeurNom(t.slice(0, m).trimEnd() + '…', true) <= max) lo = m; else hi = m - 1; }
+    r = {t: t.slice(0, lo).trimEnd() + '…', petit: true};
+  }
+  NOMS_AJUSTES.set(cle, r); return r;
+}
 function couper(t, max){ return t.length > max ? t.slice(0, max - 1).trimEnd() + '…' : t; }
 function cheminLien(l){
   const a = GEO.parId.get(l.de), b = GEO.parId.get(l.vers);
@@ -1220,6 +1246,7 @@ function rendreGraphe(){
       <g class="alt-p"><rect x="8" y="44" width="30" height="13" rx="2"/><text x="23" y="54" text-anchor="middle">ALT</text></g>`;
 
     const changeable = n.type === 'etape' || (n.type === 'brut' && (S.choix[n.item] === 'brut' || !P.res.includes(n.item)));
+    const nomAj = ajusterNom(nomN, n.w - (n.type === 'etape' ? 100 : changeable ? 76 : 52));   // jusqu'aux boutons du bloc, avec 6 px de jeu
     const xr = n.type === 'etape' ? n.w - 48 : n.w - 24;
     // alternatives permises pour l'item, autres que la recette du bloc : pastille sur ⇄ (où une alternative pourrait servir)
     const nAlt = n.type === 'etape' ? optionsRecette(n.item, n.etape.recette, DERNIER.C).filter(c => c.alt && c !== n.etape.recette).length : 0;
@@ -1236,7 +1263,7 @@ function rendreGraphe(){
     const onglet = tx ? `<g class="obj-tab"><rect x="-1" y="-13" width="${Math.round(tx.length * 6.3 + 14)}" height="14" rx="2"/><text x="6" y="-2.5">${esc(tx)}</text></g>` : '';
     return `<g class="noeud ${cls}${n.objectif != null ? ' objectif' : ''}${n.sch ? ' deplie' : ''}" data-id="${esc(n.id)}" tabindex="0" transform="translate(${n.px},${n.py})"><title>${esc(titre)}${tx ? ' — ' + esc(tx.toLowerCase()) : ''}</title>
       <rect x="0" y="0" width="${n.w}" height="${n.h}" rx="2"/>${onglet}${marqueAlt}${marqueSrc}${ic}${recette}${plier}${puretePill}${n.sch ? n.sch.svg : ''}
-      <text x="46" y="19" class="n1${nomN.length > 15 && n.type === 'etape' ? ' n1-p' : ''}">${esc(couper(nomN, n.type === 'etape' ? (nomN.length > 15 ? 16 : 15) : changeable ? 18 : 21))}</text>
+      <text x="46" y="19" class="n1${nomAj.petit ? ' n1-p' : ''}">${esc(nomAj.t)}</text>
       <text x="46" y="35" class="n2">${esc(couper(l2, 26))}</text>
       <text x="46" y="52">${l3}</text>
       ${l4 ? `<text x="46" y="68" class="n4">${esc(couper(l4, 28))}</text>` : ''}</g>`;
@@ -1629,6 +1656,9 @@ rendreCibles();
 rendreVue();
 chargerUsine();
 majAdresse();
+
+// les noms des blocs sont mesurés avec la police du site : si elle n'était pas encore chargée au premier dessin, on les refait une fois chargée
+if(document.fonts) document.fonts.addEventListener('loadingdone', () => { NOMS_AJUSTES.clear(); if(DERNIER) rendreGraphe(); });   // (les polices se chargent à la première utilisation)
 
 // arrière-plan (outil non affiché dans la coquille, classe en-fond) : les icônes qui avancent (SMIL) se mettent en pause aussi
 new MutationObserver(() => {

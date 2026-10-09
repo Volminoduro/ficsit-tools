@@ -501,6 +501,14 @@ function calcul(){
   const repli = opt && !R;
   if(!R) R = M.calculer(P, S.cibles, {permise: C.permise, choix: S.choix, preferees: C.preferees});
   const R0 = R; R = scinder(R0);   // R0 : une étape par recette ; R : avec les blocs scindés
+  if(APRES){   // recette changée : les nouveaux blocs de l'item reprennent l'état (replié, place) des anciens
+    const nouveaux = R.etapes.filter(e => e.item === APRES.item).map(e => e.id || 'e:' + e.recette.classe), {ids, replie, pos} = APRES;
+    ids.forEach(i => { if(!nouveaux.includes(i)){ S.replies = S.replies.filter(x => x !== i); delete S.pos[i]; } });
+    nouveaux.forEach((i, k) => { const j = Math.min(k, ids.length - 1);
+      if(replie[j] && !S.replies.includes(i)) S.replies.push(i);
+      if(pos[j] && !S.pos[i]) S.pos[i] = Object.assign({}, pos[j]); });
+    APRES = null; garder();
+  }
   const EC = INST ? new Map(R0.etapes.map(e => [e, M.ecart(e, INST)])) : null;
   const SRC = sourcesPlan(R, D, S.scinde), X = extractionPlan(R, C, D, SRC), Xstd = Rstd ? extractionPlan(Rstd, C, D, sourcesPlan(Rstd, D, S.scinde)) : null;
   // les marques de source (lettre, couleur, rail) n'ont de sens que pour un item dont un consommateur reçoit de plusieurs sources ou
@@ -1110,7 +1118,18 @@ function rendreGraphe(){
   });
   if(refaire){ cols0.forEach((c, x) => { colonnes[x] = c.slice(); }); disposer(G, colonnes); }
   // positions choisies à la main
-  G.noeuds.forEach(n => { const q = S.pos[n.id]; if(q){ n.px = Math.max(0, q.x); n.py = Math.max(n.objectif != null ? 14 : 0, q.y); } });
+  G.noeuds.forEach(n => { const q = S.pos[n.id]; if(q){ n.ax = n.px; n.ay = n.py; n.px = Math.max(0, q.x); n.py = Math.max(n.objectif != null ? 14 : 0, q.y); } });
+  // une place gardée peut ne plus convenir (un bloc a grandi : tout déplié, recette changée…) : un bloc qui en recouvrirait un
+  // autre retrouve sa place automatique et la place gardée est oubliée ; on recommence jusqu'à ce que plus rien ne se recouvre
+  {
+    const recouvre = (a, b) => a !== b && a.px < b.px + b.w - 6 && b.px < a.px + a.w - 6 && a.py < b.py + b.h - 6 && b.py < a.py + a.h - 6;
+    let oubli = false, change = true;
+    while(change){
+      change = false;
+      G.noeuds.forEach(n => { if(S.pos[n.id] && n.ax != null && G.noeuds.some(m => recouvre(n, m))){ n.px = n.ax; n.py = n.ay; delete S.pos[n.id]; change = oubli = true; } });
+    }
+    if(oubli) garder();
+  }
   // un lien ne passe par ses points de passage que si ses deux bouts sont à leur place automatique
   G.liens.forEach(l => { if(l.via && (S.pos[l.de] || S.pos[l.vers])) l.via = null; });
   const pts = G.noeuds.concat(...G.liens.map(l => l.via || []));
@@ -1304,11 +1323,19 @@ function fermerMenu(rendre){
   const id = MENU; MENU = null; menu.hidden = true;
   if(rendre){ const g = document.querySelector(`#graphe .noeud[data-id="${CSS.escape(id)}"]`); if(g) g.focus({preventScroll: true}); }
 }
+/* changer la recette d'un item : l'identifiant de ses blocs suit la recette ; un bloc replié le reste (et un bloc déplacé garde sa
+   place) : on retient l'état des anciens blocs, calcul() le reporte sur les nouveaux (APRES) */
+let APRES = null;
+function changerRecette(item, v){
+  const ids = DERNIER ? DERNIER.R.etapes.filter(e => e.item === item).map(e => e.id || 'e:' + e.recette.classe) : [];
+  APRES = ids.length ? {item, ids, replie: ids.map(i => S.replies.includes(i)), pos: ids.map(i => S.pos[i] || null)} : null;
+  if(v) S.choix[item] = v; else delete S.choix[item];
+  garder(); calcul();
+}
 menu.addEventListener('click', e => {
   const b = e.target.closest('button[data-val]'); if(!b || !MENU) return;
   const item = GEO.parId.get(MENU).item, v = b.dataset.val;
-  if(v) S.choix[item] = v; else delete S.choix[item];
-  fermerMenu(false); garder(); calcul();
+  fermerMenu(false); changerRecette(item, v);
 });
 menu.addEventListener('keydown', e => {
   const bs = [...menu.querySelectorAll('button')], i = bs.indexOf(document.activeElement);
@@ -1321,7 +1348,7 @@ document.addEventListener('pointerdown', e => {
 boxG.addEventListener('scroll', () => fermerMenu(false));
 document.getElementById('detail').addEventListener('change', e => {
   const t = e.target; if(!t.dataset.item) return;
-  S.choix[t.dataset.item] = t.value; garder(); calcul();
+  changerRecette(t.dataset.item, t.value);
 });
 function basculer(id){
   const r = new Set(S.replies);
@@ -1435,7 +1462,7 @@ document.getElementById('alts').addEventListener('click', e => {
 document.getElementById('detail').addEventListener('click', e => { if(e.target.closest('[data-fermer-d]')) choisir(null); });
 document.getElementById('etapes').addEventListener('change', e => {
   const t = e.target; if(!t.dataset.item) return;
-  S.choix[t.dataset.item] = t.value; garder(); calcul();
+  changerRecette(t.dataset.item, t.value);
 });
 
 /* ---------- panneaux flottants : repli (mémorisé), à propos, glisser le fond pour se déplacer ---------- */

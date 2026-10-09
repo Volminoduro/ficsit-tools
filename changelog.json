@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.42",
+          "date": "2026-10-09",
+          "texte": {
+            "fr": "Les blocs rangés à la main ne se recouvrent plus quand on déplie tout (ou qu'une recette change et qu'un bloc grandit) : la place gardée d'un bloc qui en recouvrirait un autre est oubliée, et il retrouve sa place automatique. Changer la recette d'un bloc replié le laisse replié (et un bloc déplacé garde sa place) : l'état suit la recette au lieu d'être perdu avec l'ancien identifiant.",
+            "en": "Blocks arranged by hand no longer overlap when everything is unfolded (or when a recipe changes and a block grows): the kept position of a block that would overlap another is forgotten, and it goes back to its automatic place. Changing the recipe of a folded block leaves it folded (and a moved block keeps its place): the state follows the recipe instead of being lost with the old identifier."
+          }
+        },
+        {
           "version": "1.41",
           "date": "2026-10-08",
           "texte": {

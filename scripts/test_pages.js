@@ -839,6 +839,25 @@ const INDICES = {
     await p.close();
   }
 
+  // noms des blocs : jamais sur les boutons du bloc (au moins 3 px de jeu), même avec des noms de recettes alternatives longs
+  {
+    const p = await b.newPage({viewport: {width: 1400, height: 900}}), errs = [];
+    p.on('pageerror', e => errs.push(e.message));
+    const h = {'Copper Ingot': 'Recipe_Alternate_CopperAlloyIngot_C', Rotor: 'Recipe_Alternate_CopperRotor_C', Wire: 'Recipe_Alternate_FusedWire_C',
+      'Copper Sheet': 'Recipe_Alternate_SteamedCopperSheet_C', Screws: 'Recipe_Alternate_Screw_2_C', 'Caterium Ingot': 'Recipe_Alternate_CateriumIngot_Tempered_C', 'Heavy Oil Residue': 'Recipe_Alternate_HeavyOilResidue_C'};
+    await p.goto('file://' + path.join(ROOT, 'planner.html') + '?p=' + Buffer.from(JSON.stringify({c: [['Motor', 50]], a: 1, h})).toString('base64url'));
+    await p.waitForTimeout(1800);
+    const r = await p.evaluate(() => [...document.querySelectorAll('#graphe .noeud')].map(g => {
+      const t = g.querySelector('.n1'), bs = [g.querySelector('.recette'), g.querySelector('.plier')].filter(Boolean);
+      return bs.length ? {nom: t.textContent, jeu: Math.round(Math.min(...bs.map(x => x.getBoundingClientRect().left)) - t.getBoundingClientRect().right)} : null;
+    }).filter(Boolean));
+    const mal = r.filter(x => x.jeu < 3);
+    const bon = r.length >= 10 && !mal.length && !errs.length;
+    if (!bon) echecs.push('noms de blocs sur leurs boutons : ' + JSON.stringify(mal) + ' ' + errs.join(' | '));
+    console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : le nom d'un bloc ne touche pas ses boutons`);
+    await p.close();
+  }
+
   // coquille (outils.html, en http) : un onglet de la barre montre l'outil dans un autre cadre, sans recharger la page ;
   // l'outil précédent garde son état ; l'adresse et le titre suivent ; « Précédent » revient au premier outil
   {

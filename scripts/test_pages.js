@@ -858,6 +858,28 @@ const INDICES = {
     await p.close();
   }
 
+  // montage en équilibrage : le retour (trait pointillé, flèches, débit « ↺ ») n'est dessiné que pour une entrée qui a une boucle ; un
+  // bloc sans sortie en trop ne montre aucun retour fantôme
+  {
+    const p = await b.newPage({viewport: {width: 1500, height: 1000}}), errs = [];
+    p.on('pageerror', e => errs.push(e.message));
+    const h = {'Copper Ingot': 'Recipe_Alternate_CopperAlloyIngot_C', Rotor: 'Recipe_Alternate_CopperRotor_C', Wire: 'Recipe_Alternate_FusedWire_C',
+      'Copper Sheet': 'Recipe_Alternate_SteamedCopperSheet_C', Screws: 'Recipe_Alternate_Screw_2_C', 'Steel Pipe': 'Recipe_Alternate_SteelPipe_Molded_C'};
+    const plans = [{c: [['Motor', 50]], a: 1, h, o: 1}, {c: [['Smart Plating', 10]], o: 1}, {c: [['Heavy Modular Frame', 10]], o: 1}];
+    const bad = []; let avecBoucle = 0, sansBoucle = 0;
+    for (const pl of plans) {
+      await p.goto('file://' + path.join(ROOT, 'planner.html') + '?p=' + Buffer.from(JSON.stringify(pl)).toString('base64url'));
+      await p.waitForTimeout(1800);
+      const r = await p.evaluate(() => [...document.querySelectorAll('#graphe .noeud.etape.deplie')].map(g => ({nom: g.querySelector('.n1').textContent,
+        chemins: g.querySelectorAll('path.sch.boucle').length, textes: g.querySelectorAll('.boucle-t').length, fleches: g.querySelectorAll('.boucle-fl').length})));
+      r.forEach(x => { if (x.chemins) avecBoucle++; else sansBoucle++; if (!x.chemins && (x.textes || x.fleches)) bad.push(x); if (x.textes > x.chemins) bad.push(x); });
+    }
+    const bon = !bad.length && avecBoucle >= 3 && sansBoucle >= 5 && !errs.length;
+    if (!bon) echecs.push('retour fantôme en équilibrage : ' + JSON.stringify({bad, avecBoucle, sansBoucle}) + ' ' + errs.join(' | '));
+    console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : pas de retour fantôme sur un bloc sans boucle`);
+    await p.close();
+  }
+
   // coquille (outils.html, en http) : un onglet de la barre montre l'outil dans un autre cadre, sans recharger la page ;
   // l'outil précédent garde son état ; l'adresse et le titre suivent ; « Précédent » revient au premier outil
   {

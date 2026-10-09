@@ -822,6 +822,23 @@ const INDICES = {
     if (errs.length) { echecs.push('menu de recette : ' + errs.join(' | ')); }
   }
 
+  // recette alternative : le bloc porte le nom de sa recette (pas celui de l'item), replié comme déplié, et la liste aussi
+  {
+    const p = await b.newPage({viewport: {width: 1400, height: 900}}), errs = [];
+    p.on('pageerror', e => errs.push(e.message));
+    await p.goto('file://' + path.join(ROOT, 'planner.html') + '?p=' + Buffer.from(JSON.stringify({c: [['Motor', 50]], a: 1, h: {Rotor: 'Recipe_Alternate_CopperRotor_C'}})).toString('base64url'));
+    await p.waitForTimeout(1500);
+    const lire = () => p.evaluate(() => ({graphe: [...document.querySelectorAll('#graphe .noeud.alt .n1')].map(n => n.textContent), liste: [...document.querySelectorAll('#etapes .etape .nom')].map(n => n.firstChild.textContent)}));
+    const deplie = await lire();
+    await p.click('#deplier'); await p.waitForTimeout(500);
+    const replie = await lire();
+    const ok = x => x.graphe.some(t => /cuivre|copper/i.test(t) && /Rotor/i.test(t)) && !x.graphe.includes('Rotor') && x.liste.some(t => /Rotor (en cuivre|copper)|Copper Rotor/i.test(t));
+    const bon = ok(deplie) && ok(replie) && !errs.length;
+    if (!bon) echecs.push('nom de la recette alternative : ' + JSON.stringify({deplie, replie}) + ' ' + errs.join(' | '));
+    console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : un bloc en recette alternative porte le nom de la recette`);
+    await p.close();
+  }
+
   // coquille (outils.html, en http) : un onglet de la barre montre l'outil dans un autre cadre, sans recharger la page ;
   // l'outil précédent garde son état ; l'adresse et le titre suivent ; « Précédent » revient au premier outil
   {

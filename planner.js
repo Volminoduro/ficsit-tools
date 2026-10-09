@@ -6,6 +6,8 @@ const num = (v, d) => FicsitLang.num(v, {maximumFractionDigits: d == null ? 2 : 
 const ico = (n, s) => P.ic[n] ? `<img class="ic${s ? ' s' : ''}" alt="" loading="lazy" src="commun/icones-44/${P.ic[n]}.webp">` : '';
 const nomItem = n => FicsitLang.item(n);
 const nomRec = n => n.startsWith('Alternate: ') ? FicsitLang.recette(n.slice(11)) : FicsitLang.recette(n);
+// nom d'un bloc : celui de l'item, ou de sa recette quand elle est alternative (c'est elle qui le distingue)
+const nomBloc = e => e.recette.alt ? nomRec(e.recette.nom) : nomItem(e.item);
 const nomBat = n => FicsitLang.batiment(n);
 const LIQ = new Set(P.liq);
 const unite = n => LIQ.has(n) ? 'm³/min' : '/min';
@@ -598,7 +600,7 @@ function calcul(){
         : `<span class="okc">${L({fr: 'capacité suffisante', en: 'enough capacity'})}</span>`}</div>`;
     const etat = !x ? '' : x.manque > 1e-6 ? ' manque' : ' couvert';
     return `<div class="etape${cibles.has(e.item) ? ' cib' : etat}">${ico(e.item)}
-      <div class="nom">${esc(nomItem(e.item))}${e.nsrc > 1 && MARQ.has(e.item) ? ' (' + String.fromCharCode(65 + e.src % 26) + ')' : ''}<small>${esc(nomBat(r.machine))}</small></div>
+      <div class="nom">${esc(nomBloc(e))}${e.nsrc > 1 && MARQ.has(e.item) ? ' (' + String.fromCharCode(65 + e.src % 26) + ')' : ''}<small>${esc(nomBat(r.machine))}</small></div>
       <div class="mach">${num(e.entieres, 0)} × ${cad}<small>${num(e.machines, 2)} ${L({fr: 'machines exactes', en: 'exact machines'})} · ${num(e.mw, 1)} MW</small></div>
       <div class="det">
         <select data-item="${esc(e.item)}" aria-label="${esc(L({fr: 'Recette', en: 'Recipe'}))}">${opts}</select>
@@ -931,7 +933,7 @@ function legende(u){
   document.getElementById('legende').innerHTML = Object.keys(noms).filter(k => u.has(k))
     .map(k => `<span class="lg"><i class="${k}"></i>${esc(noms[k])}</span>`).join('');
 }
-function couper(t, max){ return t.length > max ? t.slice(0, max - 1) + '…' : t; }
+function couper(t, max){ return t.length > max ? t.slice(0, max - 1).trimEnd() + '…' : t; }
 function cheminLien(l){
   const a = GEO.parId.get(l.de), b = GEO.parId.get(l.vers);
   // bloc déplié : les liens partent de sa ligne de sortie et arrivent sur sa ligne d'entrée (resserrés autour)
@@ -1101,7 +1103,6 @@ function rendreGraphe(){
   const tailler = (n, rang) => {
     n.w = GW; n.h = GH; n.sch = null; n.reel = true;
     if(n.type === 'etape' && !replies.has(n.id)){ n.sch = schemaMontage(n.etape, D, rang); n.w = n.sch.w; n.h = n.sch.h; }
-    else if(n.type === 'etape' && n.etape.recette.alt) n.h = GH + 16;   // ligne du nom de la recette alternative
     // hauteur où arrivent et partent les liens (bloc déplié : ses lignes d'entrée et de sortie)
     n.ae = n.sch && n.sch.yE != null ? n.sch.yE : n.h / 2;
     n.as = n.sch && n.sch.yS != null ? n.sch.yS : n.h / 2;
@@ -1211,12 +1212,13 @@ function rendreGraphe(){
       + (n.type === 'etape' ? '' : pastilleSrc(n.w - 14, 14, n.src, 'pastille-n')) : '';   // un bloc le doit déjà à ses lignes d'entrée : la lettre n'est répétée que sur les sources
     if(n.nsrc > 1 && DERNIER.MARQ.has(n.item)) titre += ` — ${L({fr: 'source', en: 'source'})} ${String.fromCharCode(65 + n.src % 26)}`;
     if(n.id === CHOISI) cls += ' choisi';
-    // recette alternative : liseré et pastille orange, et son nom sous le bloc (sauf déplié : le montage prend la place)
+    const nomN = n.type === 'etape' ? nomBloc(n.etape) : nomItem(n.item);   // nom écrit sur le bloc
+    // recette alternative : liseré et pastille orange (son nom est celui du bloc)
     const alt = n.type === 'etape' && n.etape.recette.alt;
     if(alt) cls += ' alt';
     const marqueAlt = !alt ? '' : `<rect class="alt-l" x="0" y="0" width="4" height="${n.h}"/>
-      <g class="alt-p"><rect x="8" y="44" width="30" height="13" rx="2"/><text x="23" y="54" text-anchor="middle">ALT</text></g>
-      ${n.sch ? '' : `<text x="46" y="${GH + 8}" class="n5">${esc(couper(nomRec(n.etape.recette.nom), 26))}</text>`}`;
+      <g class="alt-p"><rect x="8" y="44" width="30" height="13" rx="2"/><text x="23" y="54" text-anchor="middle">ALT</text></g>`;
+
     const changeable = n.type === 'etape' || (n.type === 'brut' && (S.choix[n.item] === 'brut' || !P.res.includes(n.item)));
     const xr = n.type === 'etape' ? n.w - 48 : n.w - 24;
     // alternatives permises pour l'item, autres que la recette du bloc : pastille sur ⇄ (où une alternative pourrait servir)
@@ -1234,7 +1236,7 @@ function rendreGraphe(){
     const onglet = tx ? `<g class="obj-tab"><rect x="-1" y="-13" width="${Math.round(tx.length * 6.3 + 14)}" height="14" rx="2"/><text x="6" y="-2.5">${esc(tx)}</text></g>` : '';
     return `<g class="noeud ${cls}${n.objectif != null ? ' objectif' : ''}${n.sch ? ' deplie' : ''}" data-id="${esc(n.id)}" tabindex="0" transform="translate(${n.px},${n.py})"><title>${esc(titre)}${tx ? ' — ' + esc(tx.toLowerCase()) : ''}</title>
       <rect x="0" y="0" width="${n.w}" height="${n.h}" rx="2"/>${onglet}${marqueAlt}${marqueSrc}${ic}${recette}${plier}${puretePill}${n.sch ? n.sch.svg : ''}
-      <text x="46" y="19" class="n1">${esc(couper(nomItem(n.item), n.type === 'etape' ? 15 : changeable ? 18 : 21))}</text>
+      <text x="46" y="19" class="n1${nomN.length > 15 && n.type === 'etape' ? ' n1-p' : ''}">${esc(couper(nomN, n.type === 'etape' ? (nomN.length > 15 ? 16 : 15) : changeable ? 18 : 21))}</text>
       <text x="46" y="35" class="n2">${esc(couper(l2, 26))}</text>
       <text x="46" y="52">${l3}</text>
       ${l4 ? `<text x="46" y="68" class="n4">${esc(couper(l4, 28))}</text>` : ''}</g>`;
@@ -1272,7 +1274,7 @@ function rendreDetail(){
   const opts = optionsRecette(e.item, e.recette, DERNIER.C).map(c => `<option value="${esc(c.classe)}"${c === e.recette ? ' selected' : ''}>${esc(libRecette(c))}</option>`).join('')
     + `<option value="brut">${L({fr: 'Fourni (hors chaîne)', en: 'Supplied (outside the chain)'})}</option>`;
   el.innerHTML = `<div class="boite"><button type="button" class="replier fermer-d" data-fermer-d
-    aria-label="${esc(L({fr: 'Fermer', en: 'Close'}))}">×</button><h3>${esc(nomItem(e.item))} — ${num(e.entieres, 0)} × ${esc(nomBat(e.recette.machine))}
+    aria-label="${esc(L({fr: 'Fermer', en: 'Close'}))}">×</button><h3>${esc(nomBloc(e))} — ${num(e.entieres, 0)} × ${esc(nomBat(e.recette.machine))}
     · ${L({fr: 'montage', en: 'layout'})} ${esc(L(MONTAGES[S.montage]).toLowerCase())}</h3>
     <select data-item="${esc(e.item)}" aria-label="${esc(L({fr: 'Recette', en: 'Recipe'}))}">${opts}</select>${m.lignes.join('')}</div>`;
 }

@@ -796,6 +796,32 @@ const INDICES = {
     await p.close();
   }
 
+  // menu de recette : s'ouvre juste sous le bouton ⇄ du bloc, quels que soient le zoom, le défilement et les marges du graphe
+  {
+    const errs = [];
+    for (const [larg, zoom] of [[1400, 1], [1400, 0.6], [1400, 1.5], [390, 1]]) {
+      const p = await b.newPage({viewport: {width: larg, height: 900}});
+      p.on('pageerror', e => errs.push(e.message));
+      await p.goto('file://' + path.join(ROOT, 'planner.html') + '?p=' + Buffer.from(JSON.stringify({c: [['Motor', 50]], a: 1})).toString('base64url'));
+      await p.waitForTimeout(1500);
+      await p.evaluate(z => { S.zoom = z; garder(); rendreGraphe(); }, zoom); await p.waitForTimeout(300);
+      const r = await p.evaluate(async () => {
+        const g = [...document.querySelectorAll('#graphe .noeud.etape')].find(n => n.querySelector('.recette'));
+        g.querySelector('.recette').scrollIntoView({block: 'center', inline: 'center'}); await new Promise(r => setTimeout(r, 250));
+        const bt = g.querySelector('.recette').getBoundingClientRect();
+        g.querySelector('.recette').dispatchEvent(new PointerEvent('pointerdown', {bubbles: true, button: 0, pointerId: 1}));
+        g.querySelector('.recette').dispatchEvent(new MouseEvent('click', {bubbles: true})); await new Promise(r => setTimeout(r, 250));
+        const m = document.getElementById('menuRec'), mr = m.getBoundingClientRect();
+        return {visible: !m.hidden, dy: Math.round(mr.top - bt.bottom), dx: Math.round(mr.left - bt.left), l: Math.round(mr.width)};
+      });
+      const bon = r.visible && r.dy >= 0 && r.dy <= 12 && r.dx <= 0 && r.dx > -r.l;
+      if (!bon) echecs.push(`menu de recette [${larg}px, zoom ${zoom}] loin du bouton : ` + JSON.stringify(r));
+      console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : menu de recette sous le bouton [${larg} px, zoom ${zoom}]`);
+      await p.close();
+    }
+    if (errs.length) { echecs.push('menu de recette : ' + errs.join(' | ')); }
+  }
+
   // coquille (outils.html, en http) : un onglet de la barre montre l'outil dans un autre cadre, sans recharger la page ;
   // l'outil précédent garde son état ; l'adresse et le titre suivent ; « Précédent » revient au premier outil
   {

@@ -1322,11 +1322,13 @@ function ouvrirMenu(id){
     + '<div class="sep-m"></div>'
     + btn('brut', L({fr: 'Fourni (hors chaîne)', en: 'Supplied (outside the chain)'}), choix === 'brut')
     + (choix ? btn('', L({fr: 'Recette par défaut', en: 'Default recipe'}), false) : '');
-  const cadre = menu.parentElement.getBoundingClientRect(), r = boxG.getBoundingClientRect();
+  // sous le bouton ⇄ du bloc (sa place réelle à l'écran : tient compte du zoom, du défilement et des marges du graphe)
+  const cadre = menu.parentElement.getBoundingClientRect(), g = document.querySelector(`#graphe .noeud[data-id="${CSS.escape(id)}"]`);
+  const ref = (g && (g.querySelector('.recette') || g.querySelector('rect'))).getBoundingClientRect();
   menu.hidden = false;
-  const x = r.left - cadre.left + n.px * S.zoom - boxG.scrollLeft, y = r.top - cadre.top + (n.py + Math.min(n.h, GH)) * S.zoom - boxG.scrollTop + 2;
+  const x = ref.left - cadre.left, y = ref.bottom - cadre.top + 4;
   menu.style.left = Math.max(0, Math.min(x, cadre.width - menu.offsetWidth - 4)) + 'px';
-  menu.style.top = Math.max(0, y) + 'px';
+  menu.style.top = Math.max(0, y + menu.offsetHeight > cadre.height ? ref.top - cadre.top - menu.offsetHeight - 4 : y) + 'px';
   MENU = id;
   (menu.querySelector('[aria-checked="true"]') || menu.querySelector('button')).focus({preventScroll: true});
 }

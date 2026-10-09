@@ -751,6 +751,51 @@ const INDICES = {
     await p.close();
   }
 
+  // places gardées périmées : des blocs rangés à la main une fois repliés, puis tout déplié (ou une recette changée), ne se recouvrent
+  // pas ; ceux qui se recouvriraient retrouvent leur place automatique et leur place gardée est oubliée
+  {
+    const p = await b.newPage({viewport: {width: 1500, height: 1000}}), errs = [];
+    p.on('pageerror', e => errs.push(e.message));
+    const h = {'Copper Ingot': 'Recipe_Alternate_CopperAlloyIngot_C', Rotor: 'Recipe_Alternate_CopperRotor_C', Wire: 'Recipe_Alternate_FusedWire_C',
+      'Copper Sheet': 'Recipe_Alternate_SteamedCopperSheet_C', Screws: 'Recipe_Alternate_Screw_2_C', 'Caterium Ingot': 'Recipe_Alternate_CateriumIngot_Tempered_C'};
+    await p.goto('file://' + path.join(ROOT, 'planner.html') + '?p=' + Buffer.from(JSON.stringify({c: [['Motor', 50]], a: 1, h})).toString('base64url'));
+    await p.waitForTimeout(1800);
+    const recouvre = () => p.evaluate(() => {
+      const bo = [...document.querySelectorAll('#graphe .noeud')].map(n => n.querySelector('rect').getBoundingClientRect());
+      let r = 0; bo.forEach((a, i) => bo.forEach((c, j) => { if (j > i && a.x < c.x + c.width - 1 && c.x < a.x + a.width - 1 && a.y < c.y + c.height - 1 && c.y < a.y + a.height - 1) r++; })); return r;
+    });
+    await p.click('#deplier'); await p.waitForTimeout(500);   // tout replié
+    await p.evaluate(() => { let k = 0; for (const [id, n] of GEO.parId) { if (!n.reel) continue; S.pos[id] = {x: Math.round(n.px + (k % 3) * 4), y: Math.round(n.py + (k % 2) * 4)}; k++; } garder(); rendreGraphe(); });
+    await p.waitForTimeout(300);
+    const replie = await recouvre();
+    await p.click('#deplier'); await p.waitForTimeout(700);   // tout déplié
+    const deplie = await recouvre(), gardees = await p.evaluate(() => Object.keys(S.pos).length);
+    const bon = replie === 0 && deplie === 0 && !errs.length;
+    if (!bon) echecs.push('places gardées périmées : ' + JSON.stringify({replie, deplie, gardees}) + ' ' + errs.join(' | '));
+    console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : places gardées périmées oubliées au dépliage`);
+    await p.close();
+  }
+
+  // recette changée sur un bloc replié : l'identifiant du bloc suit la recette, le nouveau bloc reste replié
+  {
+    const p = await b.newPage({viewport: {width: 1500, height: 1000}}), errs = [];
+    p.on('pageerror', e => errs.push(e.message));
+    await p.goto('file://' + path.join(ROOT, 'planner.html') + '?p=' + Buffer.from(JSON.stringify({c: [['Motor', 50]], a: 1})).toString('base64url'));
+    await p.waitForTimeout(1800);
+    const r = await p.evaluate(() => {
+      const e = DERNIER.R.etapes.find(x => x.item === 'Rotor'), id = 'e:' + e.recette.classe;
+      S.replies = [id]; garder(); rendreGraphe();
+      const alt = optionsRecette('Rotor', e.recette, DERNIER.C).find(c => c !== e.recette);
+      changerRecette('Rotor', alt.classe);
+      const nid = 'e:' + DERNIER.R.etapes.find(x => x.item === 'Rotor').recette.classe, g = document.querySelector(`#graphe .noeud[data-id="${CSS.escape(nid)}"]`);
+      return {change: id !== nid, replie: S.replies.includes(nid), deplie: g.classList.contains('deplie'), ancien: S.replies.includes(id)};
+    });
+    const bon = r.change && r.replie && !r.deplie && !r.ancien && !errs.length;
+    if (!bon) echecs.push('recette changée sur un bloc replié : ' + JSON.stringify(r) + ' ' + errs.join(' | '));
+    console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : un bloc replié reste replié quand sa recette change`);
+    await p.close();
+  }
+
   // coquille (outils.html, en http) : un onglet de la barre montre l'outil dans un autre cadre, sans recharger la page ;
   // l'outil précédent garde son état ; l'adresse et le titre suivent ; « Précédent » revient au premier outil
   {

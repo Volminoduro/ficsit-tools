@@ -501,6 +501,14 @@ function calcul(){
   const repli = opt && !R;
   if(!R) R = M.calculer(P, S.cibles, {permise: C.permise, choix: S.choix, preferees: C.preferees});
   const R0 = R; R = scinder(R0);   // R0 : une étape par recette ; R : avec les blocs scindés
+  if(APRES){   // recette changée : les nouveaux blocs de l'item reprennent l'état (replié, place) des anciens
+    const nouveaux = R.etapes.filter(e => e.item === APRES.item).map(e => e.id || 'e:' + e.recette.classe), {ids, replie, pos} = APRES;
+    ids.forEach(i => { if(!nouveaux.includes(i)){ S.replies = S.replies.filter(x => x !== i); delete S.pos[i]; } });
+    nouveaux.forEach((i, k) => { const j = Math.min(k, ids.length - 1);
+      if(replie[j] && !S.replies.includes(i)) S.replies.push(i);
+      if(pos[j] && !S.pos[i]) S.pos[i] = Object.assign({}, pos[j]); });
+    APRES = null; garder();
+  }
   const EC = INST ? new Map(R0.etapes.map(e => [e, M.ecart(e, INST)])) : null;
   const SRC = sourcesPlan(R, D, S.scinde), X = extractionPlan(R, C, D, SRC), Xstd = Rstd ? extractionPlan(Rstd, C, D, sourcesPlan(Rstd, D, S.scinde)) : null;
   // les marques de source (lettre, couleur, rail) n'ont de sens que pour un item dont un consommateur reçoit de plusieurs sources ou
@@ -639,36 +647,48 @@ function pastilleSrc(x, y, k, cls, attrs){
     `<path d="M${x},${y - 11} L${x + 11},${y + 8} L${x - 11},${y + 8} Z" ${f} stroke-linejoin="round"/>`, `<path d="M${x},${y - 11} L${x + 11},${y} L${x},${y + 11} L${x - 11},${y} Z" ${f} stroke-linejoin="round"/>`][k % 4];
   return `<g class="${cls}"${attrs || ''}>${forme}<text x="${x}" y="${y + (k % 4 === 2 ? 6 : 4.5)}" text-anchor="middle" fill="${c}">${String.fromCharCode(65 + k % 26)}</text></g>`;
 }
-function pastillesLien(svg, k){
+/* mesures d'un lien (longueur, points des icônes qui l'acheminent, pastilles, bout) : toutes lues d'un coup, avant d'ajouter quoi que ce
+   soit au dessin (lire la géométrie entre deux ajouts force un nouveau calcul de mise en page à chaque lien : très lent à 300 liens) */
+function mesurerLien(svg, k){
+  const lien = svg.querySelector(`.lien[data-k="${k}"]`); if(!lien) return null;
+  const l = GEO.liens[k], len = lien.getTotalLength(), m = Math.max(1, Math.round(len / 90)), o = {len, m, portes: null, a: null, b: null, fin: null};
+  if(P.ic[l.item] && calme()){ o.portes = []; for(let i = 0; i < m; i++) o.portes.push(lien.getPointAtLength(len * (i + 0.5) / m)); }
+  if(l.src != null){
+    const fus = GEO.liens.filter(x => x.vers === l.vers && x.item === l.item && x.src != null).length > 1;   // lignes qui se rejoignent : pastille en retrait du point de jonction
+    o.a = lien.getPointAtLength(Math.min(16, len / 3)); o.b = lien.getPointAtLength(Math.max(len - (fus ? 36 : 16), len / 2)); o.fin = lien.getPointAtLength(len);
+  }
+  return o;
+}
+function pastillesLien(svg, k, mes){
   svg.querySelectorAll(`.pastille[data-k="${k}"]`).forEach(g => g.remove());
-  const l = GEO.liens[k], lien = svg.querySelector(`.lien[data-k="${k}"]`);
-  if(!lien || l.src == null) return;
-  const len = lien.getTotalLength(), fus = GEO.liens.filter(m => m.vers === l.vers && m.item === l.item && m.src != null).length > 1;   // lignes qui se rejoignent : pastille en retrait du point de jonction
-  const a = lien.getPointAtLength(Math.min(16, len / 3)), b = lien.getPointAtLength(Math.max(len - (fus ? 36 : 16), len / 2));
+  const l = GEO.liens[k];
+  if(l.src == null) return;
+  const o = mes || mesurerLien(svg, k); if(!o) return;
+  const a = o.a, b = o.b;
   const tmp = document.createElementNS('http://www.w3.org/2000/svg', 'g'), at = ` data-k="${k}" data-de="${esc(l.de)}" data-vers="${esc(l.vers)}"`;
   tmp.innerHTML = pastilleSrc(a.x, a.y, l.src, 'pastille', at) + pastilleSrc(b.x, b.y, l.src, 'pastille', at);
   const noeud = svg.querySelector('.noeud'); [...tmp.children].forEach(g => svg.insertBefore(g, noeud));
 }
 /* un consommateur qui reçoit le même item de plusieurs sources ou blocs : le point où leurs lignes se rejoignent est marqué à
    l'entrée du poste (sans texte : les pastilles, les rails et les débits de chaque ligne disent d'où elles viennent) */
-function fusionsEntree(svg){
+function fusionsEntree(svg, mes){
   svg.querySelectorAll('.fusion').forEach(g => g.remove());
   const groupes = new Map();
   GEO.liens.forEach((l, k) => { if(l.src == null) return; const c = l.vers + '|' + l.item; (groupes.get(c) || groupes.set(c, []).get(c)).push([l, k]); });
   const tmp = document.createElementNS('http://www.w3.org/2000/svg', 'g'), noeud = svg.querySelector('.noeud');
   groupes.forEach(ls => {
     if(ls.length < 2) return;
-    const [l0, k0] = ls[0], lien = svg.querySelector(`.lien[data-k="${k0}"]`); if(!lien) return;
-    const bout = lien.getPointAtLength(lien.getTotalLength());
+    const [l0, k0] = ls[0], o = mes ? mes[k0] : mesurerLien(svg, k0); if(!o || !o.fin) return;
+    const bout = o.fin;
     tmp.insertAdjacentHTML('beforeend', `<g class="fusion" aria-hidden="true" data-de="${esc(l0.de)}" data-vers="${esc(l0.vers)}"><circle cx="${bout.x - 3}" cy="${bout.y}" r="4.5"/></g>`);
   });
   [...tmp.children].forEach(g => svg.insertBefore(g, noeud));
 }
-function portesLien(svg, k){
-  svg.querySelectorAll(`.porte-lien[data-k="${k}"]`).forEach(g => g.remove());
+function portesLien(svg, k, mes){
+  if(!mes) svg.querySelectorAll(`.porte-lien[data-k="${k}"]`).forEach(g => g.remove());   // dessin neuf : rien à retirer
   const l = GEO.liens[k], lien = svg.querySelector(`.lien[data-k="${k}"]`), pt = svg.querySelector(`.defile[data-k="${k}"]`);
   if(!lien || !pt || !P.ic[l.item]) return;
-  const len = lien.getTotalLength(), m = Math.max(1, Math.round(len / 90));
+  const o = mes || mesurerLien(svg, k), len = o.len, m = o.m;
   if(NPORTES + m > PLAFOND_PORTES){ pt.removeAttribute('data-src'); return; }
   NPORTES += m;
   const niv = classeTapis(l.tapis, LIQ.has(l.item)).split(' ')[0], dur = len / (VITESSE[niv] || 12), fixe = calme();
@@ -676,7 +696,7 @@ function portesLien(svg, k){
   pt.setAttribute('data-src', src);
   let html = '';
   for(let i = 0; i < m; i++){
-    const q = fixe ? lien.getPointAtLength(len * (i + 0.5) / m) : null;
+    const q = fixe && o.portes ? o.portes[i] : null;
     html += porteSvg(l.item, d, dur, dur * i / m, 14, q ? [q.x, q.y] : null, '').replace('class="porte"', `class="porte porte-lien" data-k="${k}" data-de="${esc(l.de)}" data-vers="${esc(l.vers)}" data-src="${src}"`);
   }
   const noeud = svg.querySelector('.noeud');
@@ -1110,7 +1130,18 @@ function rendreGraphe(){
   });
   if(refaire){ cols0.forEach((c, x) => { colonnes[x] = c.slice(); }); disposer(G, colonnes); }
   // positions choisies à la main
-  G.noeuds.forEach(n => { const q = S.pos[n.id]; if(q){ n.px = Math.max(0, q.x); n.py = Math.max(n.objectif != null ? 14 : 0, q.y); } });
+  G.noeuds.forEach(n => { const q = S.pos[n.id]; if(q){ n.ax = n.px; n.ay = n.py; n.px = Math.max(0, q.x); n.py = Math.max(n.objectif != null ? 14 : 0, q.y); } });
+  // une place gardée peut ne plus convenir (un bloc a grandi : tout déplié, recette changée…) : un bloc qui en recouvrirait un
+  // autre retrouve sa place automatique et la place gardée est oubliée ; on recommence jusqu'à ce que plus rien ne se recouvre
+  {
+    const recouvre = (a, b) => a !== b && a.px < b.px + b.w - 6 && b.px < a.px + a.w - 6 && a.py < b.py + b.h - 6 && b.py < a.py + a.h - 6;
+    let oubli = false, change = true;
+    while(change){
+      change = false;
+      G.noeuds.forEach(n => { if(S.pos[n.id] && n.ax != null && G.noeuds.some(m => recouvre(n, m))){ n.px = n.ax; n.py = n.ay; delete S.pos[n.id]; change = oubli = true; } });
+    }
+    if(oubli) garder();
+  }
   // un lien ne passe par ses points de passage que si ses deux bouts sont à leur place automatique
   G.liens.forEach(l => { if(l.via && (S.pos[l.de] || S.pos[l.vers])) l.via = null; });
   const pts = G.noeuds.concat(...G.liens.map(l => l.via || []));
@@ -1211,7 +1242,7 @@ function rendreGraphe(){
   box.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="${W * S.zoom}" height="${H * S.zoom}" viewBox="0 0 ${W} ${H}"
     role="img" aria-label="${esc(L({fr: 'Graphe de production', en: 'Production graph'}))}" data-w="${W}" data-h="${H}">${rails}${liens}${noeuds}</svg>`;
   document.getElementById('zoomVal').textContent = num(S.zoom * 100, 0) + ' %';
-  { const sv = box.querySelector('svg'); NPORTES = 0; G.liens.forEach((_, k) => { portesLien(sv, k); pastillesLien(sv, k); }); fusionsEntree(sv); majProche(sv); }
+  { const sv = box.querySelector('svg'); NPORTES = 0; const mes = G.liens.map((_, k) => mesurerLien(sv, k)); G.liens.forEach((_, k) => { portesLien(sv, k, mes[k]); pastillesLien(sv, k, mes[k]); }); fusionsEntree(sv, mes); majProche(sv); }
   legende(UTILISES);
   const toutDeplie = !G.noeuds.some(n => n.type === 'etape' && replies.has(n.id)), bd = document.getElementById('deplier');
   bd.title = toutDeplie ? L({fr: 'Tout replier', en: 'Fold all'}) : L({fr: 'Tout déplier', en: 'Expand all'});
@@ -1304,11 +1335,19 @@ function fermerMenu(rendre){
   const id = MENU; MENU = null; menu.hidden = true;
   if(rendre){ const g = document.querySelector(`#graphe .noeud[data-id="${CSS.escape(id)}"]`); if(g) g.focus({preventScroll: true}); }
 }
+/* changer la recette d'un item : l'identifiant de ses blocs suit la recette ; un bloc replié le reste (et un bloc déplacé garde sa
+   place) : on retient l'état des anciens blocs, calcul() le reporte sur les nouveaux (APRES) */
+let APRES = null;
+function changerRecette(item, v){
+  const ids = DERNIER ? DERNIER.R.etapes.filter(e => e.item === item).map(e => e.id || 'e:' + e.recette.classe) : [];
+  APRES = ids.length ? {item, ids, replie: ids.map(i => S.replies.includes(i)), pos: ids.map(i => S.pos[i] || null)} : null;
+  if(v) S.choix[item] = v; else delete S.choix[item];
+  garder(); calcul();
+}
 menu.addEventListener('click', e => {
   const b = e.target.closest('button[data-val]'); if(!b || !MENU) return;
   const item = GEO.parId.get(MENU).item, v = b.dataset.val;
-  if(v) S.choix[item] = v; else delete S.choix[item];
-  fermerMenu(false); garder(); calcul();
+  fermerMenu(false); changerRecette(item, v);
 });
 menu.addEventListener('keydown', e => {
   const bs = [...menu.querySelectorAll('button')], i = bs.indexOf(document.activeElement);
@@ -1318,10 +1357,19 @@ menu.addEventListener('keydown', e => {
 document.addEventListener('pointerdown', e => {
   if(MENU && !e.target.closest('#menuRec') && !e.target.closest('.recette')) fermerMenu(false);
 }, true);
-boxG.addEventListener('scroll', () => fermerMenu(false));
+/* pendant un défilement, un glissé ou un zoom, les animations (icônes qui avancent, traits qui défilent) sont gelées puis reprennent
+   quelques instants après : des centaines d'animations à redessiner à chaque image font ramer un grand plan déplié */
+let GEL = 0;
+function figer(){
+  const svg = boxG.querySelector('svg[data-w]'); if(!svg) return;
+  if(!GEL){ svg.pauseAnimations(); svg.classList.add('fige'); }
+  clearTimeout(GEL);
+  GEL = setTimeout(() => { GEL = 0; const v = boxG.querySelector('svg[data-w]'); if(v && !document.documentElement.classList.contains('en-fond')){ v.unpauseAnimations(); v.classList.remove('fige'); } }, 180);
+}
+boxG.addEventListener('scroll', () => { fermerMenu(false); figer(); }, {passive: true});
 document.getElementById('detail').addEventListener('change', e => {
   const t = e.target; if(!t.dataset.item) return;
-  S.choix[t.dataset.item] = t.value; garder(); calcul();
+  changerRecette(t.dataset.item, t.value);
 });
 function basculer(id){
   const r = new Set(S.replies);
@@ -1352,6 +1400,7 @@ boxG.addEventListener('pointermove', e => {
   const dx = (e.clientX - GLISSE.sx) / S.zoom, dy = (e.clientY - GLISSE.sy) / S.zoom;
   if(!GLISSE.bouge && Math.hypot(dx, dy) < 4) return;
   if(!GLISSE.bouge){ GLISSE.bouge = true; boxG.classList.add('glisse'); isoler(GLISSE.id); }
+  figer();
   deplacer(GLISSE.id, GLISSE.x0 + dx, GLISSE.y0 + dy);
 });
 function lacher(e){
@@ -1384,6 +1433,7 @@ let ZT = null;
 boxG.addEventListener('wheel', e => {
   const svg = boxG.querySelector('svg[data-w]'); if(!svg) return;
   e.preventDefault();
+  figer();
   const z1 = S.zoom, k = e.deltaMode === 1 ? 0.05 : e.deltaMode === 2 ? 1 : 0.0015;
   const z2 = Math.min(ZMAX, Math.max(ZMIN, z1 * Math.exp(-e.deltaY * k * (e.ctrlKey ? 4 : 1))));
   if(Math.abs(z2 - z1) < 1e-4) return;
@@ -1435,7 +1485,7 @@ document.getElementById('alts').addEventListener('click', e => {
 document.getElementById('detail').addEventListener('click', e => { if(e.target.closest('[data-fermer-d]')) choisir(null); });
 document.getElementById('etapes').addEventListener('change', e => {
   const t = e.target; if(!t.dataset.item) return;
-  S.choix[t.dataset.item] = t.value; garder(); calcul();
+  changerRecette(t.dataset.item, t.value);
 });
 
 /* ---------- panneaux flottants : repli (mémorisé), à propos, glisser le fond pour se déplacer ---------- */

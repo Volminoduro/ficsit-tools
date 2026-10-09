@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.43",
+          "date": "2026-10-09",
+          "texte": {
+            "fr": "Le menu de changement de recette s'ouvre de nouveau juste sous le bouton ⇄ du bloc : sa place était calculée sans les marges du graphe (la colonne de gauche) et tombait loin à gauche du bouton ; elle suit maintenant la place réelle du bouton à l'écran, quels que soient le zoom et le défilement.",
+            "en": "The recipe-change menu opens right below the block's ⇄ button again: its position was computed without the graph margins (the left column) and landed far to the left of the button; it now follows the button's real position on screen, whatever the zoom and scroll."
+          }
+        },
+        {
           "version": "1.42",
           "date": "2026-10-09",
           "texte": {

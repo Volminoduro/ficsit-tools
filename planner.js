@@ -844,12 +844,14 @@ function schemaMontage(e, D, rang){
         pas.push(['V', yb, tap], ['H', x0 + 16, tap], ['V', y0, tap]);
         trajets.push(suite(x0, y0, pas, l.liquide));
       }
-      for(let r = n; r < n + l.boucle; r++) trait(`M${xM},${y(r) + dy} V${yb} H${x0 + 16} V${y0}`, 'boucle');
-      // sens du retour : flèches le long du trait (vers la gauche en bas, vers le haut à l'arrivée), et le débit qui revient
-      const dBoucle = l.debitLigne * l.boucle / q.m, xe = x0 + 16, xs0 = xM - 34;
-      for(let xx = xs0; xx > xe + 26; xx -= 42) out.push(`<path class="boucle-fl" d="M${xx + 3.5},${yb - 4} L${xx - 3.5},${yb} L${xx + 3.5},${yb + 4} Z"/>`);
-      out.push(`<path class="boucle-fl" d="M${xe - 4},${y0 + 24} L${xe},${y0 + 17} L${xe + 4},${y0 + 24} Z"/>`);
-      texte(xs0 + 22, yb - 6, `↺ ${num(dBoucle, 1)} ${unite(l.item)}`, 'boucle-t', true);
+      if(l.boucle){   // sorties en trop : le retour sur la ligne d'entrée (rien à dessiner sans boucle)
+        for(let r = n; r < n + l.boucle; r++) trait(`M${xM},${y(r) + dy} V${yb} H${x0 + 16} V${y0}`, 'boucle');
+        // sens du retour : flèches le long du trait (vers la gauche en bas, vers le haut à l'arrivée), et le débit qui revient
+        const dBoucle = l.debitLigne * l.boucle / q.m, xe = x0 + 16, xs0 = xM - 34;
+        for(let xx = xs0; xx > xe + 26; xx -= 42) out.push(`<path class="boucle-fl" d="M${xx + 3.5},${yb - 4} L${xx - 3.5},${yb} L${xx + 3.5},${yb + 4} Z"/>`);
+        out.push(`<path class="boucle-fl" d="M${xe - 4},${y0 + 24} L${xe},${y0 + 17} L${xe + 4},${y0 + 24} Z"/>`);
+        texte(xs0 + 22, yb - 6, `↺ ${num(dBoucle, 1)} ${unite(l.item)}`, 'boucle-t', true);
+      }
     }
     return {y0, trajets};
   }

@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.46",
+          "date": "2026-10-09",
+          "texte": {
+            "fr": "Montage en équilibrage : un bloc sans sortie en trop n'affiche plus de retour fantôme (flèches orange, « ↺ 0 /min » sous le bloc) ; le retour (pointillés, flèches, débit) n'est dessiné que pour une entrée qui a vraiment une boucle. Défaut introduit par la lisibilité de la boucle (1.41), qui dessinait flèches et débit même à 0.",
+            "en": "Load-balancing layout: a block with no spare output no longer shows a ghost return (orange arrows, “↺ 0 /min” under the block); the return (dashes, arrows, flow) is only drawn for an input that really has a loop. A defect introduced by the loop readability change (1.41), which drew arrows and flow even at 0."
+          }
+        },
+        {
           "version": "1.45",
           "date": "2026-10-09",
           "texte": {

@@ -614,12 +614,13 @@ window.FicsitRecettes={"items":["AI Expansion Server","AI Limiter","Adaptive Con
       var repli = function(){ var r = document.createRange(); r.selectNodeContents(c); getSelection().removeAllRanges(); getSelection().addRange(r); try{ document.execCommand('copy'); }catch(_){} fait(); };
       if(navigator.clipboard) navigator.clipboard.writeText(c.textContent).then(fait, repli); else repli();
     });
-    // tout bouton de la page marqué data-partie-ouvrir ouvre le panneau
-    document.addEventListener('click', function(e){ var o = e.target.closest && e.target.closest('[data-partie-ouvrir]'); if(o){ e.preventDefault(); e.stopPropagation(); FP.ouvrir(); } });
     rendu();
   }
+  // tout bouton de la page marqué data-partie-ouvrir ouvre le panneau ; dans un cadre de la coquille (pas de dock ici), c'est le
+  // panneau de la coquille qui s'ouvre, sur demande par message
+  document.addEventListener('click', function(e){ var o = e.target.closest && e.target.closest('[data-partie-ouvrir]'); if(o){ e.preventDefault(); e.stopPropagation(); FP.ouvrir(); } });
   FP.ouvrir = function(){
-    if(!pn) return;
+    if(!pn){ try{ if(window.parent !== window) window.parent.postMessage({ficsitPartie: 'ouvrir'}, location.origin); }catch(e){} return; }
     pn.hidden = false; btn.setAttribute('aria-expanded', 'true'); rendu();
     document.getElementById('fpartieX').focus({preventScroll: true});
   };

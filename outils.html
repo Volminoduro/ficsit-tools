@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <!-- FICSIT-LANG:START -->
 <link rel="stylesheet" href="commun/ficsit-commun.css?v=3227e87fff">
-<script src="commun/ficsit-commun.js?v=e4cde1df12"></script>
+<script src="commun/ficsit-commun.js?v=6d3abe69f0"></script>
 <!-- FICSIT-LANG:END -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-fr="FICSIT Inc. — Outils" data-en="FICSIT Inc. — Tools">FICSIT Inc. — Outils</title>
@@ -126,6 +126,7 @@
     var d = e.data, de = Object.keys(cadres).filter(function(k){ return cadres[k].contentWindow === e.source; })[0];
     if(!de) return;
     if(typeof d.ficsitOuvrir === 'string') montrer(d.ficsitOuvrir, 'pousser');
+    if(d.ficsitPartie === 'ouvrir' && window.FicsitPartie && FicsitPartie.ouvrir) FicsitPartie.ouvrir();   // « Importer ma partie » d'un outil : le panneau de la coquille
     // l'outil affiché a changé de titre (langue) ou d'adresse (paramètres) : la coquille suit
     if(cadres[de] === actif && typeof d.ficsitTitre === 'string') document.title = d.ficsitTitre;
     if(d.ficsitEtat && typeof d.ficsitEtat === 'object'){ etats[de] = d.ficsitEtat; if(cadres[de] === actif) habiller(); }

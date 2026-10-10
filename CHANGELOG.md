@@ -158,6 +158,8 @@ Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
+- **v1.44** (10/10/2026) : Corrigé : le bouton « Importer ma partie » du panneau « Mes alternatives » ne faisait rien quand l'outil est ouvert dans la barre commune ; il ouvre maintenant le panneau « Ma partie ».
+  *EN — Fixed: the "Import my save" button in the "My alternatives" panel did nothing when the tool is opened in the shared bar; it now opens the "My save" panel.*
 - **v1.43** (07/10/2026) : Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.
   *EN — Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter.*
 - **v1.42** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.

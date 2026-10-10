@@ -616,6 +616,14 @@
       },
       "entrees": [
         {
+          "version": "1.44",
+          "date": "2026-10-10",
+          "texte": {
+            "fr": "Corrigé : le bouton « Importer ma partie » du panneau « Mes alternatives » ne faisait rien quand l'outil est ouvert dans la barre commune ; il ouvre maintenant le panneau « Ma partie ».",
+            "en": "Fixed: the \"Import my save\" button in the \"My alternatives\" panel did nothing when the tool is opened in the shared bar; it now opens the \"My save\" panel."
+          }
+        },
+        {
           "version": "1.43",
           "date": "2026-10-07",
           "texte": {

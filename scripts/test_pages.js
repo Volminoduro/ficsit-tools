@@ -970,6 +970,19 @@ const INDICES = {
       ouverts = (await p.evaluate(() => [...document.querySelectorAll('iframe')].filter(f => f.dataset.pret).map(f => f.dataset.outil))).sort().join();
     }
     if (ouverts !== attendus) pb.push(`préchargement : ${ouverts} au lieu de ${attendus}`);
+    // « Importer ma partie » du Registre (cadre sans dock) : le clic ouvre le panneau « Ma partie » de la coquille
+    {
+      await p.goto(base + 'outils.html#satisfactory_infographie.html');
+      await p.waitForFunction(() => document.querySelector('iframe.actif'));
+      const fr = cadreDe('satisfactory_infographie.html');
+      await fr.waitForSelector('#partieTab', {state: 'attached'});
+      await fr.evaluate(() => { document.querySelector('#partieTab').click(); });
+      await fr.waitForSelector('#pnImport', {state: 'visible'});
+      await fr.click('#pnImport');
+      await p.waitForTimeout(300);
+      const ouvert = await p.evaluate(() => { const e = document.querySelector('#fpartiePn'); return !!e && !e.hidden && getComputedStyle(e).display !== 'none'; });
+      if (!ouvert) pb.push('Importer ma partie (Registre) n\'ouvre pas le panneau de la coquille');
+    }
     if (errs.length) pb.push('erreurs JS : ' + errs.slice(0, 2).join(' | '));
     pb.forEach(x => echecs.push('coquille : ' + x));
     console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} coquille (onglets sans rechargement)`);

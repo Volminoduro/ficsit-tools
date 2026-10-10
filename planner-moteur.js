@@ -67,13 +67,15 @@
      propre recette par défaut consomme l'item : déballer ce qu'on vient d'emballer, matière noire qui consomme son
      propre résidu). Si toutes bouclent (turbocarburant sans son alternative : seulement le déballage), aucune : l'item
      est signalé manquant, l'utilisateur peut encore imposer une recette. */
-  function parDefaut(P, item, permise, preferees){
-    var c = candidates(P, item, permise), res = index(P).res;
-    if(preferees) c = c.filter(function(r){ return preferees.has(r.classe); }).concat(c.filter(function(r){ return !preferees.has(r.classe); }));
+  function parDefaut(P, item, permise, preferees, standard){
+    // standard : la recette par défaut est une standard quand il y en a une (les alternatives restent permises, au choix de l'utilisateur)
+    var premieres = function(i){ var l = candidates(P, i, permise), st = standard ? l.filter(function(r){ return !r.alt; }) : []; return st.length ? st : l; };
+    var c = premieres(item), res = index(P).res;
+    if(preferees) c = candidates(P, item, permise).filter(function(r){ return preferees.has(r.classe); }).concat(c.filter(function(r){ return !preferees.has(r.classe); }));
     return c.filter(function(r){
       return !r.ing.some(function(p){
         if(res.has(p[0])) return false;
-        var s = candidates(P, p[0], permise)[0];
+        var s = premieres(p[0])[0];
         return s && s.ing.some(function(q){ return q[0] === item; });
       });
     })[0] || null;
@@ -95,7 +97,7 @@
       if(c === 'brut') r = null;
       else if(c && ix.parClasse[c] && (!permise || permise(ix.parClasse[c])) && qte(ix.parClasse[c].prod, item) > 0) r = ix.parClasse[c];
       else if(!ix.res.has(item)){
-        r = parDefaut(P, item, permise, opts.preferees);
+        r = parDefaut(P, item, permise, opts.preferees, opts.standard);
         if(!r) manquants.add(item);
       }
       return (retenue[item] = r);

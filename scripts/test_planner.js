@@ -53,6 +53,20 @@ let echecs = 0;
   ok('graphe : un nœud par source, le premier garde l\'identifiant', bruts.length === 2 && bruts[0].id === 'b:Iron Ore' && bruts[1].id === 'b:Iron Ore#1' && bruts.every(n => n.nsrc === 2), JSON.stringify(bruts.map(n => n.id)));
   ok('graphe : chaque source débite ce qu\'elle porte, la somme reste 2 400', bruts.every(n => Math.abs(sortie(n.id) - n.debit) < 1e-6) && Math.abs(bruts.reduce((a, n) => a + n.debit, 0) - 2400) < 1e-6, '');
 }
+// recette par défaut : avec toutes les alternatives permises, c'est quand même la standard (les alternatives sont au choix, ou à l'optimisation)
+{
+  const std = r => !r.alt, tout = () => true, items = Array.from(new Set(P.r.flatMap(r => r[7].map(p => p[0])))).filter(i => !P.res.includes(i));
+  let compares = 0; const diff = [];
+  items.forEach(it => {
+    const A = M.calculer(P, [{item: it, debit: 1}], {permise: std});
+    if(A.manquants.length) return;   // item sans recette standard : rien à comparer
+    const B = M.calculer(P, [{item: it, debit: 1}], {permise: tout, standard: true});
+    compares++;
+    const cl = R => R.etapes.map(e => e.recette.classe).sort().join();
+    if(cl(A) !== cl(B)) diff.push(it);
+  });
+  ok('défaut avec alternatives permises = recettes standard (' + compares + ' items comparés)', compares > 90 && !diff.length, diff.slice(0, 5).join(', '));
+}
 const proche = (a, b) => Math.abs(a - b) < 1e-6 * Math.max(1, Math.abs(b));
 function ok(nom, cond, detail){
   console.log(`${cond ? 'ok  ' : 'ÉCHEC'} ${nom}${cond ? '' : ' : ' + detail}`);

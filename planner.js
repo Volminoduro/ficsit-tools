@@ -14,12 +14,12 @@ const unite = n => LIQ.has(n) ? 'm³/min' : '/min';
 
 /* ---------- état mémorisé (par navigateur) ---------- */
 const CLE = 'ficsit-tools:planner';
-const DEFAUT = {cibles: [{item: 'Reinforced Iron Plate', debit: 10}], choix: {}, palier: 9, alt: false, suivre: true, mode: 'defaut', vue: 'graphe', zoom: 1,
-  montage: 'manifold', poids: {mat: 5, mw: 5, esp: 5}, pos: {}, replies: [], extraction: 'auto', puretes: {}, scinde: false, v: 4};
+const DEFAUT = {cibles: [{item: 'Reinforced Iron Plate', debit: 10}], choix: {}, palier: 9, suivre: true, mode: 'defaut', vue: 'graphe', zoom: 1,
+  montage: 'manifold', poids: {mat: 5, mw: 5, esp: 5}, pos: {}, replies: [], extraction: 'auto', puretes: {}, scinde: false, sansPartie: false, v: 4};
 /* Plusieurs plans, un par onglet : les champs propres à un plan (PLAN) vivent à plat dans S pour le plan affiché, et dans
    S.plans[i] pour tous ; garder() recopie le plan affiché dans S.plans. Vue, zoom, palier de la partie : communs. */
 const MODES_CLES = ['defaut', 'energie', 'ressources', 'place', 'synthese'];
-const PLAN = ['cibles', 'choix', 'mode', 'poids', 'montage', 'alt', 'palier', 'pos', 'replies', 'puretes', 'scinde'];
+const PLAN = ['cibles', 'choix', 'mode', 'poids', 'montage', 'palier', 'pos', 'replies', 'puretes', 'scinde', 'sansPartie'];
 const copie = o => JSON.parse(JSON.stringify(o));
 const extrait = o => { const p = {}; PLAN.forEach(k => { p[k] = copie(o[k] !== undefined ? o[k] : DEFAUT[k]); }); return p; };
 const nomPlan = n => L({fr: `Plan ${n}`, en: `Plan ${n}`});
@@ -60,9 +60,9 @@ function compact(pl){
   if(pl.mode !== 'defaut') o.m = pl.mode;
   if(pl.mode === 'synthese') o.w = [pl.poids.mw, pl.poids.mat, pl.poids.esp];
   if(pl.montage !== 'manifold') o.o = 1;
-  if(pl.alt) o.a = 1;
   if(Object.keys(pl.puretes || {}).length) o.u = pl.puretes;
   if(pl.scinde) o.s = 1;
+  if(pl.sansPartie) o.i = 1;
   if(pl.palier !== 9) o.t = pl.palier;
   return b64(JSON.stringify(o));
 }
@@ -75,9 +75,9 @@ function deCompact(code){
     if(MODES_CLES.includes(o.m)) pl.mode = o.m;
     if(Array.isArray(o.w)) pl.poids = {mw: +o.w[0] || 0, mat: +o.w[1] || 0, esp: +o.w[2] || 0};
     if(o.o) pl.montage = 'equilibre';
-    pl.alt = !!o.a;
     if(o.u && typeof o.u === 'object') pl.puretes = o.u;
     pl.scinde = !!o.s;
+    pl.sansPartie = !!o.i;
     if(Number.isInteger(o.t) && o.t >= 0 && o.t <= 9) pl.palier = o.t;
     pl.nom = typeof o.n === 'string' ? o.n.slice(0, 40) : '';
     return pl;
@@ -212,7 +212,7 @@ modeSel.addEventListener('keydown', e => {
 
 /* ---------- recettes permises : partie importée, sinon palier + alternatives ---------- */
 function contexte(){
-  const p = FicsitPartie.charger();
+  const p = S.sansPartie ? null : FicsitPartie.charger();   // « Ignorer ma partie » : propre à ce plan
   if(p){
     // palier de la partie : réglé tout seul à chaque nouvel import, puis au choix (jamais au-delà de celui atteint)
     const ok = FicsitPartie.permises(p), max = FicsitPartie.palier(p);
@@ -221,11 +221,10 @@ function contexte(){
     // au palier de la partie : toutes ses recettes débloquées (une alternative de disque dur peut porter un palier plus
     // haut) ; plus bas : seulement celles jusqu'au palier choisi
     return {p, palier: t, palierMax: max, permise: t >= max ? r => ok.has(r.classe) : r => ok.has(r.classe) && (r.palier || 0) <= t,
-      preferees: INST && S.suivre ? new Set(Object.keys(INST)) : null};
+      preferees: INST && S.suivre ? new Set(Object.keys(INST)) : null, standard: S.mode === 'defaut'};
   }
-  // optimisé : les alternatives sont toujours permises (l'optimisation n'a de sens qu'en les comparant)
-  const alt = S.alt || S.mode !== 'defaut';
-  return {p: null, palier: S.palier, permise: r => r.palier <= S.palier && (alt || !r.alt)};
+  // les alternatives sont toujours permises (au choix sur un bloc ; l'optimisation les compare) ; par défaut, la recette standard
+  return {p: null, palier: S.palier, permise: r => r.palier <= S.palier, standard: S.mode === 'defaut'};
 }
 
 /* convoyeurs et tuyaux débloqués : recettes de construction de la partie, sinon palier choisi */
@@ -448,6 +447,16 @@ function grillePaliers(C){
       : L({fr: `Palier ${t} : recettes jusqu'à ce palier`, en: `Tier ${t}: recipes up to this tier`}),
     clic: t => { if(C.p) S.palierPartie.t = t; else S.palier = t; garder(); calcul(); }});
 }
+// case « ignorer ma partie » de ce plan (seulement quand une partie est importée) : les autres plans gardent la leur
+function caseSansPartie(){
+  if(!FicsitPartie.charger()) return '';
+  return ` <label class="sans-partie" title="${esc(L({fr: 'Ce plan se calcule comme sans sauvegarde (palier et alternatives au choix, pas de comparaison avec l\'usine) ; les autres plans gardent la partie importée.',
+    en: 'This plan is computed as if there were no save (tier and alternates of your choice, no comparison with the factory); other plans keep the imported game.'}))}"><input type="checkbox" id="sansPartie"${S.sansPartie ? ' checked' : ''}> ${L({fr: 'Ignorer ma partie pour ce plan', en: 'Ignore my game for this plan'})}</label>`;
+}
+function brancherSansPartie(){
+  const c = document.getElementById('sansPartie');
+  if(c) c.onchange = e => { S.sansPartie = e.target.checked; garder(); calcul(); };
+}
 function rendreContexte(C){
   const el = document.getElementById('ctx');
   if(C.p){
@@ -460,20 +469,17 @@ function rendreContexte(C){
           en: 'Save file not kept by this browser: import it again ("My game") to compare with your factory.'})
       : ETAT_U.erreur ? L({fr: 'Usine illisible dans cette sauvegarde : comparaison indisponible.', en: 'Factory unreadable in this save: no comparison.'})
       : L({fr: `Lecture de l'usine… ${num(ETAT_U.f * 100, 0)} %`, en: `Reading the factory… ${num(ETAT_U.f * 100, 0)}%`});
-    document.getElementById('altBox').innerHTML = '';
     el.innerHTML = `<div class="b-pal" id="paliers"></div>
       <span>${L({fr: `Partie importée : palier <b>${C.palierMax}</b> atteint, recettes débloquées dans la sauvegarde.`,
-      en: `Imported game: tier <b>${C.palierMax}</b> reached, recipes unlocked in the save.`})}</span> <span id="etatUsine">${u}</span>`;
-    grillePaliers(C);
+      en: `Imported game: tier <b>${C.palierMax}</b> reached, recipes unlocked in the save.`})}</span> <span id="etatUsine">${u}</span>${caseSansPartie()}`;
+    grillePaliers(C); brancherSansPartie();
     const su = document.getElementById('suivre');
     if(su) su.onchange = e => { S.suivre = e.target.checked; garder(); calcul(); };
     return;
   }
-  el.innerHTML = `<div class="b-pal" id="paliers"></div>`;
-  document.getElementById('altBox').innerHTML = `<label${S.mode !== 'defaut' ? ` class="force" title="${esc(L({fr: 'Toujours incluses quand les recettes sont optimisées', en: 'Always included when recipes are optimised'}))}"` : ''}><input type="checkbox" id="alt"${S.alt || S.mode !== 'defaut' ? ' checked' : ''}${S.mode !== 'defaut' ? ' disabled' : ''}> ${L({fr: 'Alternatives', en: 'Alternates'})}${S.mode !== 'defaut' ? ` <small>${L({fr: '(incluses par l\'optimisation)', en: '(included by the optimisation)'})}</small>` : ''}</label>
-`;
+  el.innerHTML = `<div class="b-pal" id="paliers"></div>${caseSansPartie()}`;
+  brancherSansPartie();
   grillePaliers(C);
-  document.getElementById('alt').onchange = e => { S.alt = e.target.checked; garder(); calcul(); };
 }
 
 /* ---------- calcul et rendu ---------- */
@@ -483,7 +489,7 @@ const flux = (n, v, cls) => `<span class="flux${cls ? ' ' + cls : ''}">${ico(n, 
 // changer le montage, la langue ou la vue ne la relance pas
 const OPTI = new Map();
 function optimise(C, REF){
-  const cle = JSON.stringify([S.cibles, S.choix, S.mode, S.mode === 'synthese' ? S.poids : 0, C.p ? [...FicsitPartie.permises(C.p)].sort().concat(C.palier) : [S.palier, S.alt]]);
+  const cle = JSON.stringify([S.cibles, S.choix, S.mode, S.mode === 'synthese' ? S.poids : 0, C.p ? [...FicsitPartie.permises(C.p)].sort().concat(C.palier) : [S.palier]]);
   if(!OPTI.has(cle)){
     if(OPTI.size > 12) OPTI.delete(OPTI.keys().next().value);
     OPTI.set(cle, M.optimiser(P, S.cibles, {permise: C.permise, choix: S.choix, critere: S.mode, poids: S.poids, ref: REF}, HIGHS));
@@ -501,7 +507,7 @@ function calcul(){
   const REF = Rstd ? M.mesures(P, Rstd) : null;
   let R = opt && HIGHS ? optimise(C, REF) : null;
   const repli = opt && !R;
-  if(!R) R = M.calculer(P, S.cibles, {permise: C.permise, choix: S.choix, preferees: C.preferees});
+  if(!R) R = M.calculer(P, S.cibles, {permise: C.permise, choix: S.choix, preferees: C.preferees, standard: C.standard});
   const R0 = R; R = scinder(R0);   // R0 : une étape par recette ; R : avec les blocs scindés
   if(APRES){   // recette changée : les nouveaux blocs de l'item reprennent l'état (replié, place) des anciens
     const nouveaux = R.etapes.filter(e => e.item === APRES.item).map(e => e.id || 'e:' + e.recette.classe), {ids, replie, pos} = APRES;
@@ -511,7 +517,7 @@ function calcul(){
       if(pos[j] && !S.pos[i]) S.pos[i] = Object.assign({}, pos[j]); });
     APRES = null; garder();
   }
-  const EC = INST ? new Map(R0.etapes.map(e => [e, M.ecart(e, INST)])) : null;
+  const EC = INST && !S.sansPartie ? new Map(R0.etapes.map(e => [e, M.ecart(e, INST)])) : null;
   const SRC = sourcesPlan(R, D, S.scinde), X = extractionPlan(R, C, D, SRC), Xstd = Rstd ? extractionPlan(Rstd, C, D, sourcesPlan(Rstd, D, S.scinde)) : null;
   // les marques de source (lettre, couleur, rail) n'ont de sens que pour un item dont un consommateur reçoit de plusieurs sources ou
   // blocs : il faut alors dire quelle ligne vient d'où ; quand chaque source ou bloc sert ses propres consommateurs, rien à marquer

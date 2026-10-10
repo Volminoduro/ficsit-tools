@@ -880,6 +880,34 @@ const INDICES = {
     await p.close();
   }
 
+  // « Ignorer ma partie pour ce plan » : propre à l'onglet (les autres gardent la sauvegarde), mémorisé dans le plan et dans l'adresse
+  {
+    const p = await b.newPage({viewport: {width: 1400, height: 900}}), errs = [];
+    p.on('pageerror', e => errs.push(e.message));
+    await p.goto('file://' + path.join(ROOT, 'planner.html') + '?p=' + Buffer.from(JSON.stringify({c: [['Iron Plate', 10]]})).toString('base64url'));
+    await p.waitForTimeout(1200);
+    const r = await p.evaluate(async () => {
+      const attente = ms => new Promise(r => setTimeout(r, ms)), depart = P.r.filter(r => r[3] === 0).map(r => r[0]);
+      FicsitPartie.enregistrer({nom: 'Test plan', date: '2026-01-31T03:06:00.000Z', duree: 3600, version: 58, lu: 'test-plan', recettes: depart, schemas: ['Schematic_1-1_C'], attente: []});
+      await attente(600);
+      const avec = {partie: !!contexte().p, caseVisible: !!document.getElementById('sansPartie'), cochee: document.getElementById('sansPartie')?.checked};
+      document.getElementById('sansPartie').click(); await attente(500);
+      const sans = {partie: !!contexte().p, cochee: document.getElementById('sansPartie')?.checked, saved: S.plans[S.actif].sansPartie,
+        adresse: JSON.parse(atob(new URLSearchParams(location.search).get('p').replace(/-/g, '+').replace(/_/g, '/'))).i};
+      const i0 = S.actif;
+      document.getElementById('planAjout').click(); await attente(600);   // un second onglet
+      const autre = {partie: !!contexte().p, cochee: document.getElementById('sansPartie')?.checked};
+      document.querySelector(`#plans .p-nom[data-i="${i0}"]`).click(); await attente(600);   // retour au premier
+      const retour = {partie: !!contexte().p, cochee: document.getElementById('sansPartie')?.checked};
+      return {avec, sans, autre, retour};
+    });
+    const bon = r.avec.partie && r.avec.caseVisible && !r.avec.cochee && !r.sans.partie && r.sans.cochee && r.sans.saved === true && r.sans.adresse === 1
+      && r.autre.partie && !r.autre.cochee && !r.retour.partie && r.retour.cochee && !errs.length;
+    if (!bon) echecs.push('ignorer ma partie pour ce plan : ' + JSON.stringify(r) + ' ' + errs.join(' | '));
+    console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : ignorer ma partie, plan par plan`);
+    await p.close();
+  }
+
   // coquille (outils.html, en http) : un onglet de la barre montre l'outil dans un autre cadre, sans recharger la page ;
   // l'outil précédent garde son état ; l'adresse et le titre suivent ; « Précédent » revient au premier outil
   {

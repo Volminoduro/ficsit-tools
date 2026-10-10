@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.47",
+          "date": "2026-10-10",
+          "texte": {
+            "fr": "Une case « Ignorer ma partie pour ce plan » (dans les réglages du plan, visible quand une partie est importée) : le plan se calcule alors comme sans sauvegarde (palier et alternatives au choix, extracteurs et convoyeurs selon le palier, pas de comparaison avec l'usine), sans toucher à l'import ni aux autres plans, qui gardent la partie. Le choix est propre à l'onglet, mémorisé avec lui et repris dans l'adresse partageable.",
+            "en": "A “Ignore my game for this plan” checkbox (in the plan settings, shown when a game is imported): the plan is then computed as if there were no save (tier and alternates of your choice, extractors and belts by tier, no comparison with the factory), without touching the import or the other plans, which keep the game. The choice belongs to the tab, is stored with it and carried in the shareable address."
+          }
+        },
+        {
           "version": "1.46",
           "date": "2026-10-09",
           "texte": {

@@ -8,6 +8,14 @@
       },
       "entrees": [
         {
+          "version": "1.48",
+          "date": "2026-10-10",
+          "texte": {
+            "fr": "Plus de case « Alternatives » : les recettes alternatives sont toujours proposées sur un bloc (menu ⇄ et liste), en mode standard comme optimisé, sans rien changer à la recette par défaut, qui reste la standard tant que vous n'en choisissez pas une autre ; l'optimisation continue de les comparer toute seule. Les anciennes adresses avec l'option sont lues sans elle.",
+            "en": "No more “Alternates” checkbox: alternate recipes are always offered on a block (⇄ menu and list), in standard and optimised modes alike, without changing the default recipe, which stays the standard one until you pick another; the optimisation still compares them on its own. Old addresses carrying the option are read without it."
+          }
+        },
+        {
           "version": "1.47",
           "date": "2026-10-10",
           "texte": {

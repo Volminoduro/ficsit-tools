@@ -337,10 +337,9 @@ const CHECKS = {
     if (document.getElementById('vueListe').hidden) out.push('retour à la liste impossible');
     // optimisation : solveur chargé à la demande (file:// compris), moins de ressources que le choix simple
     const rare = () => parseFloat(document.querySelector('#tuiles [data-k="rare"] .big').innerText.replace(/\s/g, '').replace(',', '.'));
-    document.getElementById('alt').click();   // alternatives permises : l'optimum en profite
     const avant = rare(), mode = m => document.querySelector(`#mode [data-mode="${m}"]`).click();
     mode('ressources');
-    if (!document.getElementById('alt').disabled || !document.getElementById('alt').checked) out.push('mode optimisé : alternatives pas imposées');
+    if (document.getElementById('alt')) out.push('case « Alternatives » toujours présente');
     for (let k = 0; k < 200 && !HIGHS && ETAT_H !== 'erreur'; k++) await new Promise(r => setTimeout(r, 100));
     if (!HIGHS) out.push('solveur non chargé : ' + ETAT_H);
     else {
@@ -357,7 +356,6 @@ const CHECKS = {
       }
     }
     mode('defaut');
-    document.getElementById('alt').click();
     const sel = document.querySelector('#etapes select[data-item="Iron Plate"]');
     sel.value = 'brut'; sel.dispatchEvent(new Event('change', {bubbles: true}));
     if (!/60\b.*(Iron Plate|Plaque de fer)/.test(txt('bruts'))) out.push('plaques « fournies » absentes des ressources : ' + txt('bruts'));
@@ -905,6 +903,23 @@ const INDICES = {
       && r.autre.partie && !r.autre.cochee && !r.retour.partie && r.retour.cochee && !errs.length;
     if (!bon) echecs.push('ignorer ma partie pour ce plan : ' + JSON.stringify(r) + ' ' + errs.join(' | '));
     console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : ignorer ma partie, plan par plan`);
+    await p.close();
+  }
+
+  // plus de case « Alternatives » : les alternatives sont toujours proposées sur un bloc (menu et liste), la recette par défaut reste la standard
+  {
+    const p = await b.newPage({viewport: {width: 1400, height: 900}}), errs = [];
+    p.on('pageerror', e => errs.push(e.message));
+    await p.goto('file://' + path.join(ROOT, 'planner.html') + '?p=' + Buffer.from(JSON.stringify({c: [['Motor', 50]]})).toString('base64url'));
+    await p.waitForTimeout(1500);
+    const r = await p.evaluate(() => {
+      const e = DERNIER.R.etapes.find(x => x.item === 'Rotor');
+      return {case: !!document.getElementById('alt') || !!document.getElementById('altBox'), alts: optionsRecette('Rotor', e.recette, DERNIER.C).filter(c => c.alt).length,
+        standard: DERNIER.R.etapes.every(x => !x.recette.alt)};
+    });
+    const bon = !r.case && r.alts >= 1 && r.standard && !errs.length;
+    if (!bon) echecs.push('alternatives toujours proposées : ' + JSON.stringify(r) + ' ' + errs.join(' | '));
+    console.log(`${bon ? 'ok   ' : 'ÉCHEC'} planificateur : alternatives au choix sans case, recettes standard par défaut`);
     await p.close();
   }
 

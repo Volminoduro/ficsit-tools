@@ -205,7 +205,9 @@ def sigle(e):
     t = e["texte"]
     def court(s):
         s = re.split(r"(?<=[.:;])\s", s, maxsplit=1)[0].rstrip(".:;")
-        return s if len(s) <= 80 else s[:77].rstrip() + "…"
+        if len(s) <= 80: return s
+        cut = s[:77]; cut = cut[:cut.rfind(" ")] if " " in cut else cut
+        return cut.rstrip(" ,;:") + "…"
     return {l: court(t[l]) for l in ("fr", "en")}
 
 def titre(e):

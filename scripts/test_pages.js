@@ -948,6 +948,62 @@ const INDICES = {
     console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} planificateur : champ de quantité de l'objectif aligné sur le sélecteur d'item`);
   }
 
+  // menu de choix de l'item d'un objectif : il s'ouvre juste sous son bouton (même bord gauche, 4 px dessous) et reste dans la fenêtre,
+  // quelle que soit la taille de la fenêtre (le bandeau des objectifs est au-dessus de la zone du graphe)
+  {
+    const pb = [];
+    for (const [w, h] of [[1280, 800], [1000, 700], [1280, 420]]) {
+      const p = await b.newPage({viewport: {width: w, height: h}});
+      await p.goto('file://' + path.join(ROOT, 'planner.html') + '?p=' + Buffer.from(JSON.stringify({c: [['Motor', 5]]})).toString('base64url'));
+      await p.waitForTimeout(900);
+      await p.click('.choix-item'); await p.waitForTimeout(250);
+      const r = await p.evaluate(() => { const a = document.querySelector('.choix-item').getBoundingClientRect(), k = document.getElementById('picker').getBoundingClientRect();
+        return {dx: k.left - a.left, dy: k.top - a.bottom, bas: k.bottom, ih: innerHeight, haut: k.top, vide: document.getElementById('picker').hidden}; });
+      const sous = Math.abs(r.dx) < 1 && Math.abs(r.dy - 4) < 1.5;
+      const dans = r.haut >= 0 && r.bas <= r.ih + 0.5;
+      if (r.vide || !dans || (h >= 700 && !sous)) pb.push(`${w}×${h} : menu mal placé ${JSON.stringify(r)}`);
+      await p.close();
+    }
+    pb.forEach(x => echecs.push('menu des objectifs : ' + x));
+    console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} planificateur : le menu de choix de l'item s'ouvre sous son bouton`);
+  }
+
+  // accueil : journal du site seul (badge dans la barre, version du site) ; outils : la ligne « Site » est sous la dernière version
+  {
+    const pb = [];
+    const p = await b.newPage({viewport: {width: 1280, height: 800}});
+    await p.goto('file://' + path.join(ROOT, 'index.html')); await p.waitForTimeout(500);
+    const acc = await p.evaluate(() => ({badge: !!document.querySelector('#journal .pn-btn'), cur: !!document.querySelector('#journal .pn-cur'), site: !!document.querySelector('#journal details.pn-site'),
+      v: document.querySelector('#journal .pn-btn span:last-child').textContent, sv: document.getElementById('journal').dataset.sv}));
+    if (!acc.badge || !acc.cur || acc.site || acc.v !== 'v' + acc.sv) pb.push('accueil : journal du site seul attendu ' + JSON.stringify(acc));
+    await p.goto('file://' + path.join(ROOT, 'planner.html')); await p.waitForTimeout(500);
+    const ord = await p.evaluate(() => { const c = document.querySelector('.pn-cur'), si = document.querySelector('.pn-site'), h = document.querySelector('.pn-hist');
+      return !!(c && si && h) && !!(c.compareDocumentPosition(si) & 4) && !!(si.compareDocumentPosition(h) & 4); });
+    if (!ord) pb.push('outil : ordre dernière version → Site → versions précédentes attendu');
+    await p.close();
+    pb.forEach(x => echecs.push('journal du site : ' + x));
+    console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} journal du site : accueil, et ligne Site sous la dernière version`);
+  }
+
+  // coquille : la mention IA de chaque outil, dans son cadre, porte son texte (elle restait vide)
+  {
+    const pb = [];
+    const http = require('http'), fs = require('fs');
+    const TYPES = {'.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.webp': 'image/webp', '.woff2': 'font/woff2', '.wasm': 'application/wasm', '.svg': 'image/svg+xml', '.png': 'image/png'};
+    const srv = http.createServer((q, r) => { const f = path.join(ROOT, decodeURIComponent(q.url.split('?')[0]).replace(/^\/+/, '') || 'index.html');
+      fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); r.end(); return; } r.writeHead(200, {'Content-Type': TYPES[path.extname(f)] || 'application/octet-stream'}); r.end(d); }); });
+    await new Promise(res => srv.listen(0, '127.0.0.1', res));
+    const p = await b.newPage({viewport: {width: 1280, height: 800}});
+    await p.goto(`http://127.0.0.1:${srv.address().port}/outils.html#memo-ficsit.html`);
+    await p.waitForFunction(() => document.querySelector('iframe.actif')); await p.waitForTimeout(1200);
+    const fr = p.frames().find(f => f.parentFrame() && new URL(f.url()).pathname.endsWith('/memo-ficsit.html'));
+    const n = await fr.evaluate(() => (document.getElementById('fia') || {textContent: ''}).textContent.length);
+    if (n < 20) pb.push('mention IA vide dans le cadre');
+    pb.forEach(x => echecs.push('coquille : ' + x));
+    console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} coquille : mention IA avec son texte`);
+    await p.close(); srv.close();
+  }
+
   // journal des révisions (scripts/patchnotes.py) : trois niveaux lus dans le numéro (x.y.0 fonctionnalité, x.y.z ajustement,
   // x.y.z.w correctif), la pastille suit le niveau le plus élevé des entrées pas encore vues (orange qui pulse, point gris, rien),
   // la clé de mémorisation est « vu2 » (l'ancienne est supprimée), le correctif est plus discret que l'ajustement, et le

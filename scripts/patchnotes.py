@@ -43,6 +43,7 @@ THEMES = {
   "depot-dimensionnel.html": dict(ancre=("<footer", "avant")),
   "energie-noeuds.html": dict(ancre=("<footer", "avant")),
   "planner.html": dict(ancre=("<footer", "avant")),
+  "index.html": dict(ancre=("<footer", "avant")),
 }
 
 CSS = """
@@ -123,6 +124,7 @@ CSS = """
 .pn-site > summary small{font-weight:400;font-size:.8rem;margin-left:4px}
 .pn-site > summary:hover{color:var(--pn-ink)}
 .pn-site .pn-hist{padding:0 0 6px;border-top:0}
+.pn-site + .pn-hist{margin-top:4px}
 .pn-foot{height:8px}
 html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none}
 @media (max-width:560px){.pn-btn{padding:0 8px;gap:5px}.pn-panel{width:100vw}}
@@ -255,8 +257,9 @@ def historique(gs, src):
 
 def section_site(site):
     gs = groupes(site["entrees"]); der = max(site["entrees"], key=lambda e: vers(e["version"]))
+    t = titre(gs[0]["tete"])
     return (f'<details class="pn-site"><summary>{bi("Site", "Site")} · v{html.escape(der["version"])}'
-            f'<small>{bi("barre, onglets, « Ma partie », langue…", "bar, tabs, “My save”, language…")}</small></summary>'
+            f'<small>{bie(t)}</small></summary>'
             + historique(gs, "site") + '</details>')
 
 JS = """
@@ -311,11 +314,15 @@ ICONE_JOURNAL = ('<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5h8v
                  '<path d="M5 4.5h4M5 7h4M5 9.5h2.5"/></svg>')
 
 def bloc(fichier, outil, icone, site):
-    gs = groupes(outil["entrees"])
-    der = max(outil["entrees"], key=lambda e: vers(e["version"])); v = html.escape(der["version"])
+    seul = outil is None    # accueil : le journal du site, seul
+    es = site["entrees"] if seul else outil["entrees"]
+    src = "site" if seul else "outil"
+    gs = groupes(es)
+    der = max(es, key=lambda e: vers(e["version"])); v = html.escape(der["version"])
     sder = max(site["entrees"], key=lambda e: vers(e["version"]))["version"]
     slot = f'<span class="pn-slot"><img src="{icone}" alt=""></span>' if icone else ""
     date = der["date"]
+    sous = bi("Journal du site : barre, onglets, « Ma partie », langue…", "Site log: bar, tabs, “My game”, language…")
     h = [START, f'<style>{CSS.strip()}</style>',
          f'<div class="pn" id="journal" data-fdock data-outil="{html.escape(fichier)}" data-v="{v}" data-sv="{html.escape(sder)}">',
          f'<button type="button" class="pn-btn" aria-expanded="false" aria-controls="pn-panel" '
@@ -325,9 +332,9 @@ def bloc(fichier, outil, icone, site):
          f'<div class="pn-panel" id="pn-panel" role="region" aria-labelledby="pn-titre" hidden><div class="pn-hz"></div>',
          f'<div class="pn-head">{slot}<div><div class="pn-title" id="pn-titre" role="heading" aria-level="2">'
          f'{bi("Journal des révisions", "Revision log")}</div>',
-         f'<p class="pn-sub">{bi(f"Version {v}, mise à jour le {fr(date)}", f"Version {v}, updated {en(date)}")}</p></div>'
+         f'<p class="pn-sub">{sous if seul else bi(f"Version {v}, mise à jour le {fr(date)}", f"Version {v}, updated {en(date)}")}</p></div>'
          f'<button type="button" class="pn-x" data-fr-aria-label="Fermer" data-en-aria-label="Close" aria-label="Fermer">×</button></div>',
-         bloc_courant(gs[0], "outil"), historique(gs[1:], "outil"), section_site(site),
+         bloc_courant(gs[0], src), "" if seul else section_site(site), historique(gs[1:], src),
          '<div class="pn-foot"></div></div></div>',
          f'<script>{JS.strip()}</script>', END]
     return "\n".join(h)
@@ -374,5 +381,7 @@ if __name__ == "__main__":
     for f, o in data["outils"].items():
         injecter(f, bloc(f, o, ic.get(f), data["site"]))
         print(f"{f} : v{max(o['entrees'], key=lambda e: vers(e['version']))['version']} ({len(o['entrees'])} entrée(s))")
+    injecter("index.html", bloc("index.html", None, None, data["site"]))
+    print(f"index.html : journal du site v{max(data['site']['entrees'], key=lambda e: vers(e['version']))['version']}")
     changelog_md(data)
     print("CHANGELOG.md régénéré")

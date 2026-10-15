@@ -409,12 +409,15 @@ function ouvrirPicker(i){
   // items qu'une recette permise sait faire (palier et alternatives, ou partie importée) ; l'objectif actuel reste listé
   const C = contexte(), cur = S.cibles[i].item;
   PICK = {i, ok: FABRICABLES.filter(n => n === cur || M.candidates(P, n, C.permise).length)};
-  const r = b.getBoundingClientRect(), a = document.getElementById('app').getBoundingClientRect();
-  picker.style.left = Math.max(8, r.left - a.left) + 'px';
-  picker.style.top = (r.bottom - a.top + 4) + 'px';
-  picker.style.width = Math.max(280, r.width) + 'px';
+  // menu en position fixe : repère pris sur la place réelle du bouton à l'écran, quel que soit le bloc qui le contient
+  // (le bandeau des objectifs est au-dessus de #zone) ; il reste dans la fenêtre
   picker.hidden = false; b.setAttribute('aria-expanded', 'true');
-  pickQ.value = ''; listePicker(); pickQ.focus();
+  pickQ.value = ''; listePicker();
+  const r = b.getBoundingClientRect();
+  picker.style.left = Math.max(8, Math.min(r.left, innerWidth - 288)) + 'px';
+  picker.style.width = Math.max(280, r.width) + 'px';
+  picker.style.top = Math.max(8, Math.min(r.bottom + 4, innerHeight - picker.offsetHeight - 8)) + 'px';
+  pickQ.focus();
 }
 function fermerPicker(rendreFocus){
   if(!PICK) return;

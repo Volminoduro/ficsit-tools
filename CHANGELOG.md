@@ -11,6 +11,10 @@ Le journal distingue trois niveaux : fonctionnalités (pastille orange qui pulse
 
 *EN — Revised log. The log now has three levels: features (pulsing orange dot), adjustments (grey dot) and fixes (discreet, filed under the adjustment they belong to). Site-wide changes have their own “Site” log instead of being repeated in every tool.*
 
+- **1.11.4** (15/10/2026) : Dans le journal, les replis s'ouvrent en glissant vers le bas et se referment en remontant, au lieu d'apparaître d'un coup.
+  *EN — In the log, folds slide open downwards and close upwards, instead of popping in.*
+- **1.11.3** (15/10/2026) : Le journal du site n'est plus une ligne dans le journal de chaque outil : il vit sur la page d'accueil, où il a déjà son badge.
+  *EN — The site log is no longer a line in each tool's log: it lives on the home page, where it already has its badge.*
 - **1.11.2** (15/10/2026) : Le journal du site est aussi sur la page d'accueil, et sa ligne « Site » remonte sous la dernière version du journal de chaque outil (elle était tout en bas).
   *EN — The site log is also on the home page, and its “Site” line moves up under the latest version of each tool's log (it was at the very bottom).*
 - **1.11.1** (15/10/2026) : Dans le journal, les versions et leurs ajustements s'ouvrent au survol et restent ouverts au clic ; un second clic les ferme (au tactile, le clic ouvre et ferme).

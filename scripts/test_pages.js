@@ -968,7 +968,7 @@ const INDICES = {
     console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} planificateur : le menu de choix de l'item s'ouvre sous son bouton`);
   }
 
-  // accueil : journal du site seul (badge dans la barre, version du site) ; outils : la ligne « Site » est sous la dernière version
+  // accueil : journal du site seul (badge dans la barre, version du site) ; outils : pas de ligne « Site » dans leur journal
   {
     const pb = [];
     const p = await b.newPage({viewport: {width: 1280, height: 800}});
@@ -977,12 +977,12 @@ const INDICES = {
       v: document.querySelector('#journal .pn-btn span:last-child').textContent, sv: document.getElementById('journal').dataset.sv}));
     if (!acc.badge || !acc.cur || acc.site || acc.v !== 'v' + acc.sv) pb.push('accueil : journal du site seul attendu ' + JSON.stringify(acc));
     await p.goto('file://' + path.join(ROOT, 'planner.html')); await p.waitForTimeout(500);
-    const ord = await p.evaluate(() => { const c = document.querySelector('.pn-cur'), si = document.querySelector('.pn-site'), h = document.querySelector('.pn-hist');
-      return !!(c && si && h) && !!(c.compareDocumentPosition(si) & 4) && !!(si.compareDocumentPosition(h) & 4); });
-    if (!ord) pb.push('outil : ordre dernière version → Site → versions précédentes attendu');
+    const ord = await p.evaluate(() => { const c = document.querySelector('.pn-cur'), h = document.querySelector('.pn-hist');
+      return !!(c && h) && !!(c.compareDocumentPosition(h) & 4) && !document.querySelector('details.pn-site') && !document.getElementById('journal').dataset.sv; });
+    if (!ord) pb.push('outil : dernière version puis versions précédentes attendues, sans ligne « Site »');
     await p.close();
     pb.forEach(x => echecs.push('journal du site : ' + x));
-    console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} journal du site : accueil, et ligne Site sous la dernière version`);
+    console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} journal du site : accueil seul, pas de ligne Site dans les outils`);
   }
 
   // coquille : la mention IA de chaque outil, dans son cadre, porte son texte (elle restait vide)
@@ -1071,7 +1071,12 @@ const INDICES = {
     await p.click('.pn-btn'); await p.waitForTimeout(200);
     const ouvert = i => p.evaluate(i => document.querySelectorAll('.pn-panel > .pn-hist > li > details.pn-g')[i].open, i);
     const sm = i => p.locator('.pn-panel > .pn-hist > li > details.pn-g > summary').nth(i);
-    await sm(1).hover(); await p.waitForTimeout(400);
+    const haut = i => p.evaluate(i => document.querySelectorAll('.pn-panel > .pn-hist > li > details.pn-g')[i].querySelector('.pn-co').getBoundingClientRect().height, i);
+    await sm(1).hover(); await p.waitForTimeout(170);
+    const milieu = await haut(1);   // ouverture en cours : le contenu glisse vers le bas (hauteur entre 0 et la hauteur finale)
+    await p.waitForTimeout(400);
+    const plein = await haut(1);
+    if (!(milieu > 0 && milieu < plein - 2)) pb.push(`pas de glissement à l'ouverture (hauteur ${milieu.toFixed(0)} px en cours, ${plein.toFixed(0)} px au final)`);
     if (!await ouvert(1)) pb.push('pas ouvert au survol');
     await p.mouse.move(300, 600); await p.waitForTimeout(500);
     if (await ouvert(1)) pb.push('pas refermé à la sortie du survol');

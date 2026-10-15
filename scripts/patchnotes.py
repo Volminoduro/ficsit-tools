@@ -92,6 +92,7 @@ CSS = """
 .pn-tt{margin:0 0 4px;padding:0;border:0;background:none;font-family:var(--pn-disp);font-weight:700;font-size:1rem;line-height:1.25;
   letter-spacing:0;color:var(--pn-ink)}
 .pn-t{margin:0;padding:0;font-size:.92rem;line-height:1.5;color:var(--pn-ink);max-width:none}
+.pn-co{overflow:hidden}
 .pn-aj{margin:10px 0 2px;border-top:1px dashed var(--pn-line)}
 .pn-aj > summary{cursor:pointer;list-style:none;padding:8px 0;font-family:var(--pn-disp);font-weight:600;font-size:.78rem;line-height:1;
   letter-spacing:.06em;text-transform:uppercase;color:var(--pn-dim)}
@@ -235,7 +236,7 @@ def repli_aj(enfants, src, ouvert):
     elif nb_f == n: fr_, en_ = f"Correctifs · {n}", f"Fixes · {n}"
     else: fr_, en_ = f"Ajustements et correctifs · {n}", f"Adjustments and fixes · {n}"
     return (f'<details class="pn-aj"{" open" if ouvert else ""}><summary>{bi(fr_, en_)}</summary>'
-            f'{liste_aj(enfants, src)}</details>')
+            f'<div class="pn-co">{liste_aj(enfants, src)}</div></details>')
 
 def bloc_courant(g, src):
     e = g["tete"]; v = html.escape(e["version"]); t = e.get("titre")
@@ -248,7 +249,7 @@ def bloc_courant(g, src):
 def ligne_groupe(g, src):
     e = g["tete"]; v = html.escape(e["version"]); n = len(g["enfants"])
     plus = f'<span class="pn-hc">+{n}</span>' if n else ""
-    corps = f'<div class="pn-gd"><p class="pn-t">{bie(e["texte"])}</p>{repli_aj(g["enfants"], src, False)}</div>'
+    corps = f'<div class="pn-co"><div class="pn-gd"><p class="pn-t">{bie(e["texte"])}</p>{repli_aj(g["enfants"], src, False)}</div></div>'
     return (f'<li><details class="pn-g"><summary {meta(None, e, src)}><span class="pn-hv">v{v}</span>'
             f'<span class="pn-hn">{bie(titre(e))}</span>{plus}</summary>{corps}</details></li>')
 
@@ -260,7 +261,7 @@ def section_site(site):
     t = titre(gs[0]["tete"])
     return (f'<details class="pn-site"><summary>{bi("Site", "Site")} · v{html.escape(der["version"])}'
             f'<small>{bie(t)}</small></summary>'
-            + historique(gs, "site") + '</details>')
+            + '<div class="pn-co">' + historique(gs, "site") + '</div></details>')
 
 JS = """
 (function(){
@@ -288,16 +289,30 @@ JS = """
   // replis (versions, ajustements, journal Site) : ouverts au survol, gardés ouverts au clic ; un second clic les ferme.
   // Sans survol (tactile), le clic ouvre et ferme. Un repli ouvert d'office (nouveautés, dernière version) est déjà gardé.
   var survol = window.matchMedia && matchMedia('(hover:hover) and (pointer:fine)').matches;
+  // ouverture vers le bas, fermeture en remontant (hauteur et transparence du contenu) ; sans animation si le système demande moins de mouvement
+  var calme = window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function glisse(d, vers){
+    var c = d.querySelector(':scope > .pn-co'), h0 = c && d.open ? c.getBoundingClientRect().height : 0;   // fermé : on part de zéro
+    if(d._an){ d._an.cancel(); d._an = null; }
+    if(vers){ d._ferm = false; d.open = true; } else if(!d.open){ return; }
+    if(!c || calme || !c.animate){ if(!vers) d.open = false; return; }
+    var h1 = vers ? c.scrollHeight : 0;
+    if(vers) h0 = Math.min(h0, h1);
+    var a = d._an = c.animate([{height: h0 + 'px', opacity: vers && !h0 ? 0 : 1}, {height: vers ? h1 + 'px' : '0px', opacity: vers ? 1 : 0}],
+      {duration: vers ? 240 : 190, easing: vers ? 'ease-out' : 'ease-in'});
+    if(!vers) d._ferm = true;
+    a.onfinish = function(){ d._an = null; if(!vers){ d.open = false; d._ferm = false; } };
+  }
   r.querySelectorAll('details.pn-g, details.pn-aj, details.pn-site').forEach(function(d){
     var sm = d.querySelector(':scope > summary'), t;
     d.dataset.pin = d.open ? '1' : '';
     sm.addEventListener('click', function(e){
       e.preventDefault(); clearTimeout(t);
-      if(d.open && d.dataset.pin === '1'){ d.open = false; d.dataset.pin = ''; } else { d.open = true; d.dataset.pin = '1'; }
+      if(d.open && !d._ferm && d.dataset.pin === '1'){ glisse(d, false); d.dataset.pin = ''; } else { glisse(d, true); d.dataset.pin = '1'; }
     });
     if(!survol) return;
-    d.addEventListener('mouseenter', function(){ clearTimeout(t); if(!d.open) t = setTimeout(function(){ d.open = true; d.dataset.pin = ''; }, 110); });
-    d.addEventListener('mouseleave', function(){ clearTimeout(t); if(d.open && d.dataset.pin !== '1') t = setTimeout(function(){ d.open = false; }, 180); });
+    d.addEventListener('mouseenter', function(){ clearTimeout(t); if(!d.open || d._ferm) t = setTimeout(function(){ glisse(d, true); d.dataset.pin = ''; }, d._ferm ? 0 : 110); });
+    d.addEventListener('mouseleave', function(){ clearTimeout(t); if(d.open && !d._ferm && d.dataset.pin !== '1') t = setTimeout(function(){ glisse(d, false); }, 180); });
   });
   function ouvrir(o){
     p.hidden = !o; b.setAttribute('aria-expanded', o);
@@ -324,7 +339,7 @@ def bloc(fichier, outil, icone, site):
     date = der["date"]
     sous = bi("Journal du site : barre, onglets, « Ma partie », langue…", "Site log: bar, tabs, “My game”, language…")
     h = [START, f'<style>{CSS.strip()}</style>',
-         f'<div class="pn" id="journal" data-fdock data-outil="{html.escape(fichier)}" data-v="{v}" data-sv="{html.escape(sder)}">',
+         f'<div class="pn" id="journal" data-fdock data-outil="{html.escape(fichier)}" data-v="{v}"{f' data-sv="{html.escape(sder)}"' if seul else ''}>',
          f'<button type="button" class="pn-btn" aria-expanded="false" aria-controls="pn-panel" '
          f'data-fr-title="Journal des révisions : ce qui a changé" data-en-title="Revision log: what changed" '
          f'title="Journal des révisions : ce qui a changé">'
@@ -334,7 +349,7 @@ def bloc(fichier, outil, icone, site):
          f'{bi("Journal des révisions", "Revision log")}</div>',
          f'<p class="pn-sub">{sous if seul else bi(f"Version {v}, mise à jour le {fr(date)}", f"Version {v}, updated {en(date)}")}</p></div>'
          f'<button type="button" class="pn-x" data-fr-aria-label="Fermer" data-en-aria-label="Close" aria-label="Fermer">×</button></div>',
-         bloc_courant(gs[0], src), "" if seul else section_site(site), historique(gs[1:], src),
+         bloc_courant(gs[0], src), historique(gs[1:], src),
          '<div class="pn-foot"></div></div></div>',
          f'<script>{JS.strip()}</script>', END]
     return "\n".join(h)

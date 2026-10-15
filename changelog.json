@@ -1,5 +1,185 @@
 {
-  "_doc": "Source unique des journaux de révision. Après modification : python3 scripts/patchnotes.py (met à jour l'encart de chaque outil et CHANGELOG.md). Entrées de la plus récente à la plus ancienne ; version en SemVer propre à chaque outil ; texte obligatoire en fr et en.",
+  "_doc": "Source unique des journaux de révision. Après modification : python3 scripts/patchnotes.py (met à jour l'encart de chaque outil et CHANGELOG.md). Trois niveaux lus dans le numéro : x.y.0 fonctionnalité (titre fr/en obligatoire, texte court), x.y.z ajustement (une ligne), x.y.z.w correctif (une ligne, rangé sous l'ajustement z). Les changements du site entier vont dans « site » (journal commun affiché en bas du panneau de chaque outil), pas dans chaque outil. Les entrées à deux segments (« 1.43 ») sont d'anciennes entrées pas encore regroupées. Entrées de la plus récente à la plus ancienne ; texte obligatoire en fr et en en.",
+  "site": {
+    "nom": {
+      "fr": "Site",
+      "en": "Site"
+    },
+    "entrees": [
+      {
+        "version": "1.8.0",
+        "date": "2026-10-15",
+        "titre": {
+          "fr": "Journal refondu",
+          "en": "Revised log"
+        },
+        "texte": {
+          "fr": "Le journal distingue trois niveaux : fonctionnalités (pastille orange qui pulse), ajustements (point gris) et correctifs (discrets, rangés sous l'ajustement concerné). Les changements du site entier ont leur propre journal « Site », en bas du panneau, au lieu d'être répétés dans chaque outil.",
+          "en": "The log now has three levels: features (pulsing orange dot), adjustments (grey dot) and fixes (discreet, filed under the adjustment they belong to). Site-wide changes have their own “Site” log, at the bottom of the panel, instead of being repeated in every tool."
+        }
+      },
+      {
+        "version": "1.7.4",
+        "date": "2026-10-06",
+        "texte": {
+          "fr": "Une seule barre de titre pour tout le site ; le journal de la barre est celui de l'outil affiché.",
+          "en": "A single title bar for the whole site; the changelog in the bar is the one of the tool on screen."
+        }
+      },
+      {
+        "version": "1.7.3",
+        "date": "2026-10-06",
+        "texte": {
+          "fr": "Plus d'écran noir en changeant d'outil : l'outil courant reste affiché, avec un liseré de chargement, jusqu'à ce que le suivant soit prêt.",
+          "en": "No more black screen when switching tools: the current tool stays on screen, with a loading line, until the next one is ready."
+        }
+      },
+      {
+        "version": "1.7.2",
+        "date": "2026-10-06",
+        "texte": {
+          "fr": "Les autres outils s'ouvrent en arrière-plan, un à un : même à la première visite, un onglet s'affiche aussitôt.",
+          "en": "The other tools open in the background, one by one: even on a first visit, a tab shows at once."
+        }
+      },
+      {
+        "version": "1.7.1",
+        "date": "2026-10-06",
+        "texte": {
+          "fr": "Changer d'outil ne fait plus clignoter la page : le contenu passe en fondu et l'outil survolé est préparé à l'avance (Chrome et Edge).",
+          "en": "Switching tools no longer makes the page flicker: the content fades across and a hovered tool is prepared ahead (Chrome and Edge)."
+        }
+      },
+      {
+        "version": "1.7.0",
+        "date": "2026-10-06",
+        "titre": {
+          "fr": "Un site en une seule page",
+          "en": "A single-page site"
+        },
+        "texte": {
+          "fr": "Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.",
+          "en": "The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and “Back” returns to the previous tool."
+        }
+      },
+      {
+        "version": "1.6.1",
+        "date": "2026-10-05",
+        "texte": {
+          "fr": "Le bouton « Accueil » passe à gauche de la barre de titre, avant les onglets des outils.",
+          "en": "The “Home” button moves to the left of the title bar, before the tool tabs."
+        }
+      },
+      {
+        "version": "1.6.0",
+        "date": "2026-10-04",
+        "titre": {
+          "fr": "Barre de titre à onglets",
+          "en": "Title bar with tabs"
+        },
+        "texte": {
+          "fr": "La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».",
+          "en": "The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu."
+        }
+      },
+      {
+        "version": "1.5.1",
+        "date": "2026-10-07",
+        "texte": {
+          "fr": "Infobulles au tactile (appui long de 0,5 s) et contraste renforcé quand le système le demande.",
+          "en": "Tooltips on touch screens (0.5 s long press) and higher contrast when the system asks for it."
+        }
+      },
+      {
+        "version": "1.5.0.1",
+        "date": "2026-10-06",
+        "texte": {
+          "fr": "Une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.",
+          "en": "A bubble with the tool's file name (“planner.html”…) followed the cursor all over the page."
+        }
+      },
+      {
+        "version": "1.5.0",
+        "date": "2026-10-04",
+        "titre": {
+          "fr": "Infobulles de la charte",
+          "en": "Style-guide tooltips"
+        },
+        "texte": {
+          "fr": "Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.",
+          "en": "Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard."
+        }
+      },
+      {
+        "version": "1.4.0",
+        "date": "2026-10-02",
+        "titre": {
+          "fr": "Habillage des menus du jeu",
+          "en": "Game-menu look"
+        },
+        "texte": {
+          "fr": "Habillage au plus près des menus du jeu : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans embarquée dans le site (même rendu hors ligne), filet orange du HUD à la place des hachures. Les boutons du haut forment une barre de titre pleine largeur ; couleurs et polices viennent d'une charte commune.",
+          "en": "Look brought as close as possible to the game's menus: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the Noto Sans typeface shipped with the site (same look offline), the HUD's orange line instead of hazard stripes. The top buttons form a full-width title bar; colours and fonts come from one style sheet shared by every tool."
+        }
+      },
+      {
+        "version": "1.3.0",
+        "date": "2026-09-30",
+        "titre": {
+          "fr": "Fonctionnement hors ligne",
+          "en": "Offline use"
+        },
+        "texte": {
+          "fr": "Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.",
+          "en": "The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection."
+        }
+      },
+      {
+        "version": "1.2.1",
+        "date": "2026-09-29",
+        "texte": {
+          "fr": "Le français emploie les termes du jeu : « cadence », « surcadençage », « sous-cadençage », « éclats de charge ».",
+          "en": "The French text uses the game's own terms for clock speed, overclocking and power shards. English unchanged."
+        }
+      },
+      {
+        "version": "1.2.0",
+        "date": "2026-09-29",
+        "titre": {
+          "fr": "Ma partie, commune à tous les outils",
+          "en": "“My game”, shared by every tool"
+        },
+        "texte": {
+          "fr": "Bouton « Ma partie » en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.",
+          "en": "“My game” button at the top right of every tool and of the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game."
+        }
+      },
+      {
+        "version": "1.1.0",
+        "date": "2026-09-25",
+        "titre": {
+          "fr": "Bouton Accueil",
+          "en": "Home button"
+        },
+        "texte": {
+          "fr": "Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.",
+          "en": "“Home” button in the top-right dock, to go back to the list of tools."
+        }
+      },
+      {
+        "version": "1.0.0",
+        "date": "2026-09-24",
+        "titre": {
+          "fr": "Journal des révisions",
+          "en": "Revision log"
+        },
+        "texte": {
+          "fr": "Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d'un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal.",
+          "en": "The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven't seen yet, and new entries are marked in the log."
+        }
+      }
+    ]
+  },
   "outils": {
     "planner.html": {
       "nom": {
@@ -8,395 +188,335 @@
       },
       "entrees": [
         {
-          "version": "1.48",
+          "version": "1.14.0",
           "date": "2026-10-10",
+          "titre": {
+            "fr": "Alternatives toujours disponibles",
+            "en": "Alternates always available"
+          },
           "texte": {
-            "fr": "Plus de case « Alternatives » : les recettes alternatives sont toujours proposées sur un bloc (menu ⇄ et liste), en mode standard comme optimisé, sans rien changer à la recette par défaut, qui reste la standard tant que vous n'en choisissez pas une autre ; l'optimisation continue de les comparer toute seule. Les anciennes adresses avec l'option sont lues sans elle.",
-            "en": "No more “Alternates” checkbox: alternate recipes are always offered on a block (⇄ menu and list), in standard and optimised modes alike, without changing the default recipe, which stays the standard one until you pick another; the optimisation still compares them on its own. Old addresses carrying the option are read without it."
+            "fr": "Plus de case « Alternatives » : les recettes alternatives sont toujours proposées sur un bloc (menu ⇄ et liste), en mode standard comme optimisé. La recette par défaut reste la standard tant que vous n'en choisissez pas une autre, et l'optimisation continue de les comparer toute seule.",
+            "en": "No more “Alternates” checkbox: alternate recipes are always offered on a block (⇄ menu and list), in standard as in optimised mode. The default stays the standard recipe until you choose another, and optimisation still compares them on its own."
           }
         },
         {
-          "version": "1.47",
+          "version": "1.13.0",
           "date": "2026-10-10",
+          "titre": {
+            "fr": "Ignorer ma partie",
+            "en": "Ignore my game"
+          },
           "texte": {
-            "fr": "Une case « Ignorer ma partie pour ce plan » (dans les réglages du plan, visible quand une partie est importée) : le plan se calcule alors comme sans sauvegarde (palier et alternatives au choix, extracteurs et convoyeurs selon le palier, pas de comparaison avec l'usine), sans toucher à l'import ni aux autres plans, qui gardent la partie. Le choix est propre à l'onglet, mémorisé avec lui et repris dans l'adresse partageable.",
-            "en": "A “Ignore my game for this plan” checkbox (in the plan settings, shown when a game is imported): the plan is then computed as if there were no save (tier and alternates of your choice, extractors and belts by tier, no comparison with the factory), without touching the import or the other plans, which keep the game. The choice belongs to the tab, is stored with it and carried in the shareable address."
+            "fr": "Case « Ignorer ma partie pour ce plan » dans les réglages (visible avec une partie importée) : le plan se calcule comme sans sauvegarde (palier et alternatives au choix, pas de comparaison avec l'usine), sans toucher à l'import ni aux autres plans. Le choix est propre à l'onglet et repris dans l'adresse partageable.",
+            "en": "“Ignore my game for this plan” checkbox in the settings (shown with an imported game): the plan is computed as without a save (tier and alternates your choice, no factory comparison), without touching the import or other plans. The choice belongs to the tab and is kept in the shareable address."
           }
         },
         {
-          "version": "1.46",
-          "date": "2026-10-09",
+          "version": "1.12.0",
+          "date": "2026-10-08",
+          "titre": {
+            "fr": "Points Awesome Sink",
+            "en": "Awesome Sink points"
+          },
           "texte": {
-            "fr": "Montage en équilibrage : un bloc sans sortie en trop n'affiche plus de retour fantôme (flèches orange, « ↺ 0 /min » sous le bloc) ; le retour (pointillés, flèches, débit) n'est dessiné que pour une entrée qui a vraiment une boucle. Défaut introduit par la lisibilité de la boucle (1.41), qui dessinait flèches et débit même à 0.",
-            "en": "Load-balancing layout: a block with no spare output no longer shows a ghost return (orange arrows, “↺ 0 /min” under the block); the return (dashes, arrows, flow) is only drawn for an input that really has a loop. A defect introduced by the loop readability change (1.41), which drew arrows and flow even at 0."
+            "fr": "Le récap indique les points par minute du surplus s'il est broyé, et de tout ce que le plan produit si tout est broyé ; chaque bloc de surplus affiche ses points.",
+            "en": "The summary shows the points per minute of the surplus if it is sunk, and of everything the plan produces if everything is sunk; each surplus block shows its points."
           }
         },
         {
-          "version": "1.45",
-          "date": "2026-10-09",
-          "texte": {
-            "fr": "Le nom d'un bloc ne chevauche plus ses boutons (changer de recette, replier) : il est mesuré à l'écran avec la police du site, écrit à la taille normale s'il tient, en plus petit sinon, et abrégé (« … ») en dernier recours, au lieu de compter les lettres (les lettres larges débordaient). Le nom complet reste dans l'infobulle.",
-            "en": "A block’s name no longer overlaps its buttons (change recipe, fold): it is measured on screen with the site font, written at normal size if it fits, smaller otherwise, and shortened (“…”) as a last resort, instead of counting letters (wide letters overflowed). The full name stays in the tooltip."
-          }
-        },
-        {
-          "version": "1.44",
-          "date": "2026-10-09",
-          "texte": {
-            "fr": "Un bloc en recette alternative porte le nom de sa recette (« Rotor en cuivre », « Fil fusionné »…) au lieu de celui de l'item, replié comme déplié, dans la liste et dans le détail ; la ligne orange sous le nom, devenue redondante, disparaît (les blocs alternatifs ont la hauteur des autres). Un nom trop long est abrégé sur le bloc, en entier dans l'infobulle.",
-            "en": "A block on an alternate recipe carries the recipe’s name (“Copper Rotor”, “Fused Wire”…) instead of the item’s, folded or unfolded, in the list and in the detail; the orange line under the name, now redundant, is gone (alternate blocks have the same height as the others). A name that is too long is shortened on the block, in full in the tooltip."
-          }
-        },
-        {
-          "version": "1.43",
-          "date": "2026-10-09",
-          "texte": {
-            "fr": "Le menu de changement de recette s'ouvre de nouveau juste sous le bouton ⇄ du bloc : sa place était calculée sans les marges du graphe (la colonne de gauche) et tombait loin à gauche du bouton ; elle suit maintenant la place réelle du bouton à l'écran, quels que soient le zoom et le défilement.",
-            "en": "The recipe-change menu opens right below the block's ⇄ button again: its position was computed without the graph margins (the left column) and landed far to the left of the button; it now follows the button's real position on screen, whatever the zoom and scroll."
-          }
-        },
-        {
-          "version": "1.42",
-          "date": "2026-10-09",
-          "texte": {
-            "fr": "Les blocs rangés à la main ne se recouvrent plus quand on déplie tout (ou qu'une recette change et qu'un bloc grandit) : la place gardée d'un bloc qui en recouvrirait un autre est oubliée, et il retrouve sa place automatique. Changer la recette d'un bloc replié le laisse replié (et un bloc déplacé garde sa place) : l'état suit la recette au lieu d'être perdu avec l'ancien identifiant. Un grand plan déplié ramait : les animations (icônes qui avancent, traits qui défilent) sont gelées pendant un défilement, un glissé ou un zoom et reprennent aussitôt après (60 images/s au lieu de 56, images lentes divisées par deux sur 50 moteurs dépliés), et les mesures des liens sont lues avant d'ajouter des éléments au dessin.",
-            "en": "Blocks arranged by hand no longer overlap when everything is unfolded (or when a recipe changes and a block grows): the kept position of a block that would overlap another is forgotten, and it goes back to its automatic place. Changing the recipe of a folded block leaves it folded (and a moved block keeps its place): the state follows the recipe instead of being lost with the old identifier. A large unfolded plan was sluggish: animations (moving icons, flowing dashes) are frozen during scrolling, dragging or zooming and resume right after (60 frames/s instead of 56, slow frames halved on 50 unfolded motors), and link measurements are read before adding elements to the drawing."
-          }
-        },
-        {
-          "version": "1.41",
+          "version": "1.12.1",
           "date": "2026-10-08",
           "texte": {
-            "fr": "Awesome Sink : le récap indique les points par minute du surplus s'il est broyé, et de tout ce que le plan produit (objectifs et surplus) si tout est broyé ; chaque bloc de surplus affiche ses points. Montage en équilibrage plus lisible : l'emplacement de la sortie renvoyée est dessiné comme un emplacement sans machine (pointillés, ↺), le débit qui revient est écrit le long du trait de retour, des flèches en donnent le sens, et chaque retour a sa propre ligne, bien espacée sous les machines ; quand deux entrées ont une boucle, les rangs sont plus hauts pour que le tronc d'une bande ne frôle plus une branche de l'autre. Les marques de source (lettre, couleur, rail, pastilles) n'apparaissent que pour un item dont un poste est servi par plusieurs sources ou blocs ; quand chaque source ou bloc sert ses propres consommateurs, la topologie suffit.",
-            "en": "Awesome Sink: the summary shows the points per minute of the surplus if it is sunk, and of everything the plan makes (targets and surplus) if everything is sunk; each surplus block shows its points. Clearer load-balancing layout: the looped-back output is drawn as a slot without a machine (dashed, ↺), the flow that returns is written along the return line, arrows show its direction, and each return has its own line, well spaced below the machines; when two inputs have a loop, the rows are taller so one band's trunk no longer grazes a branch of the other. Source marks (letter, colour, rail, badges) only appear for an item with a station served by several sources or blocks; when each source or block serves its own consumers, the layout is enough."
+            "fr": "Montage en équilibrage plus lisible : le retour a son débit, des flèches et sa propre ligne ; les marques de source ne servent que si un poste a plusieurs sources.",
+            "en": "Balanced set-up easier to read: the return is drawn with its flow, arrows and its own spaced line; source marks only show when a station has several sources."
           }
         },
         {
-          "version": "1.40",
+          "version": "1.12.1.1",
+          "date": "2026-10-09",
+          "texte": {
+            "fr": "Un bloc sans sortie en trop n'affiche plus de retour fantôme (« ↺ 0 /min »).",
+            "en": "A block with no excess output no longer shows a ghost return (“↺ 0 /min”)."
+          }
+        },
+        {
+          "version": "1.12.2",
+          "date": "2026-10-09",
+          "texte": {
+            "fr": "Les blocs rangés à la main ne se recouvrent plus quand on déplie tout ou qu'une recette change.",
+            "en": "Blocks placed by hand no longer overlap when you expand everything or a recipe changes."
+          }
+        },
+        {
+          "version": "1.12.2.1",
+          "date": "2026-10-09",
+          "texte": {
+            "fr": "Changer la recette d'un bloc replié le laisse replié.",
+            "en": "Changing a folded block's recipe leaves it folded."
+          }
+        },
+        {
+          "version": "1.12.3",
+          "date": "2026-10-09",
+          "texte": {
+            "fr": "Un grand plan déplié est plus fluide : les animations sont gelées pendant un défilement, un glissé ou un zoom.",
+            "en": "A big expanded plan is smoother: animations freeze during a scroll, drag or zoom."
+          }
+        },
+        {
+          "version": "1.12.3.1",
+          "date": "2026-10-09",
+          "texte": {
+            "fr": "Le menu de changement de recette s'ouvre de nouveau juste sous le bouton ⇄.",
+            "en": "The recipe-change menu opens right under the ⇄ button again."
+          }
+        },
+        {
+          "version": "1.12.4",
+          "date": "2026-10-09",
+          "texte": {
+            "fr": "Un bloc en recette alternative porte le nom de sa recette (« Rotor en cuivre »…) ; un nom trop long est abrégé, en entier dans l'infobulle.",
+            "en": "A block on an alternate recipe carries the recipe's name (“Copper Rotor”…); a long name is shortened, in full in the tooltip."
+          }
+        },
+        {
+          "version": "1.12.4.1",
+          "date": "2026-10-09",
+          "texte": {
+            "fr": "Le nom d'un bloc ne chevauche plus ses boutons (changer de recette, replier).",
+            "en": "A block's name no longer overlaps its buttons (change recipe, fold)."
+          }
+        },
+        {
+          "version": "1.11.0",
           "date": "2026-10-08",
+          "titre": {
+            "fr": "Sources scindées",
+            "en": "Split sources"
+          },
           "texte": {
-            "fr": "Le réglage « Sources » scinde aussi les produits intermédiaires : en mode scindé, une étape dont l'unique produit dépasse la ligne du convoyeur (ou tuyau) le plus fort débloqué se refait en plusieurs blocs, chacun d'au plus une ligne, qui servent des postes voisins dans la chaîne (les plus éloignés du produit fini d'abord). Chaque bloc a ses machines entières, sa cadence et ses entrées au prorata, et reçoit à son tour ses propres sources d'extraction ou blocs amont ; il porte la couleur, la forme et la lettre de sa source (bande, pastille, rail sur ses liens), comme les sources d'extraction. Le bilan indique l'écart de machines, d'extracteurs et de MW face à un seul bloc par recette. Les étapes à plusieurs produits et celles d'une boucle ne sont pas scindées. Un consommateur n'est coupé entre deux sources ou blocs que si son besoin dépasse une ligne, ou si le garder entier exigerait plus de sources que le minimum ; quand un poste reçoit le même item de plusieurs sources ou blocs, le point où leurs lignes se rejoignent est marqué à son entrée.",
-            "en": "The « Sources » setting now also splits intermediate products: in split mode, a step whose only product exceeds the strongest unlocked belt (or pipe) line is rebuilt as several blocks, each of at most one line, serving neighbouring stations in the chain (the furthest from the finished product first). Each block has its own whole machines, clock and inputs in proportion, and in turn gets its own extraction sources or upstream blocks; it carries the colour, shape and letter of its source (band, badge, rail on its links), like extraction sources. The summary shows the machine, extractor and MW difference against one block per recipe. Steps with several products and steps inside a loop are not split. A consumer is only cut between two sources or blocks if its need exceeds one line, or if keeping it whole would need more sources than the minimum; when a station receives the same item from several sources or blocks, the point where their lines join is marked at its input."
+            "fr": "Réglage « Sources » : en mode scindé, une ressource brute ou un produit intermédiaire au-delà de la ligne la plus forte du convoyeur débloqué se prend à plusieurs sources ou blocs, chacun remplissant au plus une ligne et servant des postes voisins dans la chaîne. Chaque source a sa couleur, sa lettre et son rail ; le bilan donne l'écart face à une seule source. Groupées par défaut.",
+            "en": "“Sources” setting: in split mode, a raw resource or intermediate product beyond the strongest unlocked conveyor line is taken from several sources or blocks, each filling at most one line and serving neighbouring stations in the chain. Each source has its own colour, letter and rail; the summary shows the gap against a single source. Grouped by default."
           }
         },
         {
-          "version": "1.39",
+          "version": "1.10.0",
           "date": "2026-10-08",
+          "titre": {
+            "fr": "Extraction dans le plan",
+            "en": "Extraction in the plan"
+          },
           "texte": {
-            "fr": "Réglage « Sources » : en mode scindé, une ressource brute au-delà de la ligne la plus forte du convoyeur (ou tuyau) débloqué se prend à plusieurs sources, chacune remplissant au plus une ligne ; les consommateurs sont rangés du plus éloigné du produit fini au plus proche et servis dans cet ordre, donc une source dessert des postes voisins dans la chaîne (un gros consommateur est coupé). Chaque source a ses extracteurs, sa cadence, sa couleur et sa forme (A rond bleu, B carré rose…) : un rail de sa couleur double ses lignes et des pastilles marquent leurs deux bouts. Le bilan indique l'écart d'extracteurs et de MW face à une seule source par ressource. Par défaut : groupées, comme avant ; le réglage suit l'adresse partageable.",
-            "en": "New « Sources » setting: in split mode, a raw resource beyond the strongest unlocked belt (or pipe) line is taken from several sources, each filling at most one line; consumers are sorted from the furthest from the finished product to the nearest and served in that order, so a source serves neighbouring stations in the chain (a large consumer is cut). Each source has its own extractors, clock, colour and shape (A blue circle, B pink square…): a rail of its colour doubles its lines and badges mark both ends. The summary shows the extractor and MW difference against one source per resource. Default: merged, as before; the setting follows the shareable address."
+            "fr": "Le bloc de chaque ressource brute porte ses extracteurs (meilleur niveau débloqué, nombre, cadence, MW) et un bouton de pureté du nœud. Le réglage « Extraction » choisit la cadence : sans surcadençage ou jusqu'à 250 %. Consommation, espace et machines du bilan comptent l'extraction ; le convoyeur ou le tuyau le plus fort débloqué plafonne la cadence.",
+            "en": "Each raw resource block carries its extractors (best unlocked tier, count, clock speed, MW) and a node purity button. The “Extraction” setting picks the clock speed: no overclock or up to 250%. The summary's power, space and machines count extraction; the strongest unlocked conveyor or pipe caps the clock speed."
           }
         },
         {
-          "version": "1.38",
-          "date": "2026-10-08",
+          "version": "1.9.0",
+          "date": "2026-10-07",
+          "titre": {
+            "fr": "Items acheminés sur les convoyeurs",
+            "en": "Items on the conveyors"
+          },
           "texte": {
-            "fr": "L'extraction fait partie du plan : le bloc de chaque ressource brute porte ses extracteurs (le meilleur niveau débloqué, nombre et cadence communes, MW, fragments d'énergie à poser) et un bouton de pureté du nœud (impur, normal, pur). Un réglage « Extraction » choisit la cadence : sans surcadençage (le moins d'énergie par item) ou jusqu'à 250 % (le moins d'extracteurs, de nœuds et d'espace) ; par défaut selon le critère du plan. La consommation, l'espace et le nombre de machines du bilan comptent l'extraction. Le convoyeur ou le tuyau le plus fort débloqué plafonne la cadence ; l'azote n'est pas planifié.",
-            "en": "Extraction is part of the plan: each raw resource block shows its extractors (best unlocked tier, shared count and clock, MW, power shards to fit) and a node purity button (impure, normal, pure). An « Extraction » setting picks the clock: no overclock (least power per item) or up to 250% (fewest extractors, nodes and floor space); by default it follows the plan's criterion. The summary's power draw, floor space and machine count include extraction. The best unlocked belt or pipe caps the clock; nitrogen is not planned."
+            "fr": "Une icône par unité avance sur les convoyeurs, à la vitesse de leur niveau : dans les montages dépliés (à partir de 80 % de zoom) et sur les liens qui sortent d'un bloc replié. Un item suit un trajet d'un seul tenant et choisit sa branche tour à tour à chaque séparateur ; le niveau de convoyeur (Mk) est écrit à chaque changement.",
+            "en": "One icon per unit moves along the conveyors, at their tier's speed: in expanded set-ups (from 80% zoom) and on links leaving a folded block. An item follows one continuous path and takes each splitter branch in turn; the conveyor tier (Mk) is written at every change."
           }
         },
         {
-          "version": "1.37",
+          "version": "1.9.1",
           "date": "2026-10-07",
           "texte": {
-            "fr": "Montages dépliés : les sorties des machines sont toujours réunies par un seul collecteur (n − 1 groupeurs), quel que soit le montage des entrées ; le dernier groupeur s'appuie sur le bord du bloc, d'où part le lien (plus de trait de sortie). Un montage plus étroit que le bloc est calé à droite.",
-            "en": "Unfolded layouts: machine outputs are always merged by a single collector (n − 1 mergers), whatever the input layout; the last merger sits on the block's edge, where the link starts (no more output stub). A layout narrower than the block is aligned to the right."
+            "fr": "Montage déplié plus lisible : lignes d'entrée deux fois plus espacées, machines numérotées, textes de Mk sans recouvrir les convoyeurs.",
+            "en": "Expanded set-up easier to read: input lines twice as far apart, machines numbered, Mk labels clear of the conveyors."
           }
         },
         {
-          "version": "1.36",
+          "version": "1.9.2",
           "date": "2026-10-07",
           "texte": {
-            "fr": "Montages dépliés : le texte du Mk de sortie n'est plus répété (le lien, en dehors du bloc, l'indique déjà) ; les textes de Mk ont leur place sans recouvrir les convoyeurs (lignes d'entrée plus espacées, départs rehaussés).",
-            "en": "Unfolded layouts: the output Mk text is no longer repeated (the link outside the block already shows it); Mk texts now have room and no longer cover the conveyors (input lines spaced further apart, starts raised)."
+            "fr": "Les sorties des machines sont toujours réunies par un seul collecteur (n − 1 groupeurs), quel que soit le montage des entrées.",
+            "en": "Machine outputs are always joined by a single collector (n − 1 mergers), whatever the input layout."
           }
         },
         {
-          "version": "1.35",
+          "version": "1.8.0",
+          "date": "2026-10-06",
+          "titre": {
+            "fr": "Graphe plus lisible",
+            "en": "More readable graph"
+          },
+          "texte": {
+            "fr": "Bien moins de flux qui se croisent (souvent de moitié) : chaque bloc est aligné sur ceux qu'il alimente et dont il dépend, et un flux qui saute plusieurs colonnes passe entre les blocs au lieu de les traverser. Survoler un bloc met en lumière toute sa chaîne, des ressources brutes aux objectifs.",
+            "en": "Far fewer crossing flows (often half): each block lines up with the ones it feeds and depends on, and a flow skipping several columns passes between blocks instead of through them. Hovering a block highlights its whole chain, from raw resources to targets."
+          }
+        },
+        {
+          "version": "1.8.1",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Les convoyeurs prennent les couleurs du mémo de terrain, du froid au chaud (Mk.1 ardoise… Mk.6 rouge).",
+            "en": "Conveyors use the field memo's colours, cold to hot (Mk.1 slate … Mk.6 red)."
+          }
+        },
+        {
+          "version": "1.8.2",
+          "date": "2026-10-06",
+          "texte": {
+            "fr": "Montage déplié : chaque ingrédient a sa ligne dessinée jusqu'aux machines, avec son nom, ses séparateurs et son convoyeur.",
+            "en": "Expanded set-up: each ingredient has its own line drawn to the machines, with its name, splitters and conveyor."
+          }
+        },
+        {
+          "version": "1.8.3",
           "date": "2026-10-07",
           "texte": {
-            "fr": "Items acheminés de façon cohérente dans les montages dépliés : un item suit un trajet d'un seul tenant, de l'entrée à la machine (ou de la machine à la sortie, ou par le trait de retour), et choisit sa branche tour à tour à chaque séparateur au lieu de disparaître et réapparaître ; l'espacement se répartit donc comme le flux, et la vitesse suit le niveau de convoyeur de chaque tronçon. Le texte du Mk apparaît au départ de chaque entrée et à chaque changement de niveau (étage de séparateurs, branche, regroupement).",
-            "en": "Items are now carried consistently inside unfolded layouts: an item follows a single path from the input to the machine (or from the machine to the output, or around the return line) and picks its branch in turn at each splitter instead of vanishing and reappearing; spacing therefore follows the flow, and speed follows the conveyor tier of each stretch. The Mk text appears at the start of each input and wherever the tier changes (splitter stage, branch, merge)."
+            "fr": "Objectif replié sur son bloc : quand une étape ne sert qu'un objectif, le cadre disparaît et le bloc porte un onglet « OBJECTIF ».",
+            "en": "Target folded onto its block: when a step feeds a single target, the frame goes and the block gets an “OBJECTIVE” tab."
           }
         },
         {
-          "version": "1.34",
-          "date": "2026-10-07",
-          "texte": {
-            "fr": "Objectif replié sur son bloc : quand tout ce qu'une étape produit va à un seul objectif, le cadre « objectif » et son lien disparaissent ; le bloc prend un liseré orange et un onglet « OBJECTIF · 5 /min ». Un item qui sert aussi d'autres blocs, ou plusieurs objectifs, gardent leur cadre.",
-            "en": "Target folded onto its block: when everything a step makes goes to a single target, the « target » box and its link disappear; the block gets an orange outline and a « TARGET · 5 /min » tab. An item that also feeds other blocks, or several targets, keep their box."
-          }
-        },
-        {
-          "version": "1.33",
-          "date": "2026-10-07",
-          "texte": {
-            "fr": "Montage déplié plus lisible : lignes d'entrée deux fois plus espacées, machines numérotées. Les items sont acheminés : une icône par unité avance sur les convoyeurs, à la vitesse de leur niveau, dans les montages dépliés (à partir de 80 % de zoom) et sur les liens qui sortent d'un bloc replié (ou de n'importe quel bloc quand on s'éloigne). Les noms des entrées disparaissent, remplacés par ces icônes. Au-delà de 800 icônes ou en mouvement réduit, retour aux points ou icônes immobiles.",
-            "en": "Unfolded layouts easier to read: input lines spaced twice as far apart, numbered machines. Items are now carried: one icon per unit moves along the conveyors at their tier's speed, inside unfolded layouts (from 80 % zoom) and on links leaving a folded block (or any block when zoomed out). Input names are gone, replaced by these icons. Above 800 icons the dots come back; with reduced motion the icons stand still."
-          }
-        },
-        {
-          "version": "1.32",
-          "date": "2026-10-07",
-          "texte": {
-            "fr": "Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.",
-            "en": "Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter."
-          }
-        },
-        {
-          "version": "1.31",
+          "version": "1.7.0",
           "date": "2026-10-06",
+          "titre": {
+            "fr": "Plusieurs plans",
+            "en": "Several plans"
+          },
           "texte": {
-            "fr": "Survoler un bloc du graphe met en lumière toute sa chaîne : en amont jusqu'aux ressources brutes (fournisseurs, leurs fournisseurs…) et en aval jusqu'aux objectifs (consommateurs, leurs consommateurs…), avec les flux qui les relient ; le reste s'efface.",
-            "en": "Hovering a graph box highlights its whole chain: upstream down to the raw resources (suppliers, their suppliers…) and downstream up to the targets (consumers, their consumers…), with the flows linking them; the rest fades out."
+            "fr": "Plusieurs plans à la fois, dans des onglets au-dessus des objectifs : « + » en ouvre un, double-clic ou ✎ le renomme, × le ferme ; chaque plan garde ses objectifs, ses recettes, son mode et sa disposition. Le plan affiché est inscrit dans l'adresse : envoyer le lien suffit pour le partager.",
+            "en": "Several plans at once, in tabs above the targets: “+” opens one, double-click or ✎ renames it, × closes it; each plan keeps its targets, recipes, mode and layout. The plan on screen is written in the address: sending the link is enough to share it."
           }
         },
         {
-          "version": "1.30",
-          "date": "2026-10-06",
+          "version": "1.6.0",
+          "date": "2026-10-05",
+          "titre": {
+            "fr": "Alternatives visibles et bandeau de réglages",
+            "en": "Visible alternates and settings strip"
+          },
           "texte": {
-            "fr": "Survoler un bloc du graphe met en lumière toute sa lignée en amont, de ses fournisseurs directs jusqu'aux ressources brutes, avec les flux qui les relient (et toujours ses consommateurs directs) ; le reste s'efface.",
-            "en": "Hovering a graph box highlights its whole upstream lineage, from its direct suppliers down to the raw resources, with the flows linking them (and still its direct consumers); the rest fades out."
+            "fr": "Un bloc qui utilise une recette alternative porte un liseré et une pastille ALT, et le bilan les liste. Objectifs et réglages passent dans un bandeau en haut ; le choix des recettes devient une glissière (Standard, puis les modes optimisés), et les objectifs se choisissent dans une liste avec icônes et recherche.",
+            "en": "A block using an alternate recipe gets an edge and an ALT badge, and the summary lists them. Targets and settings move into a strip at the top; the recipe choice becomes a slider (Standard, then the optimised modes), and targets are picked from a list with icons and search."
           }
         },
         {
-          "version": "1.29",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Montage déplié : chaque ingrédient a maintenant sa propre ligne dessinée jusqu'aux machines, avec son nom, ses séparateurs et son convoyeur (le charbon et le minerai de fer d'une fonderie d'acier, par exemple), au lieu d'une note « même montage » sous le bloc. Les sous-produits ont aussi leur ligne de sortie. Chaque lien du graphe arrive sur la ligne de son item, et les lignes sont rangées selon la place des blocs voisins pour éviter que les flux se croisent.",
-            "en": "Unfolded layout: each ingredient now has its own line drawn up to the machines, with its name, splitters and belt (the coal and the iron ore of a steel foundry, for instance), instead of a \"same layout\" note under the box. By-products get their own output line too. Each graph link reaches its item's line, and the lines are ordered by where the neighbouring boxes sit so flows do not cross."
-          }
-        },
-        {
-          "version": "1.28",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Les convoyeurs du graphe prennent les couleurs du mémo de terrain, du froid au chaud : Mk.1 ardoise, Mk.2 lavande, Mk.3 bleu, Mk.4 bronze, Mk.5 orange, Mk.6 rouge. Une seule échelle pour tout le site.",
-            "en": "Graph belts take the field notes' colours, from cool to warm: Mk.1 slate, Mk.2 lavender, Mk.3 blue, Mk.4 bronze, Mk.5 orange, Mk.6 red. One scale for the whole site."
-          }
-        },
-        {
-          "version": "1.27",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.",
-            "en": "Fixed: a bubble with the tool's file name (\"planner.html\"…) followed the cursor all over the page."
-          }
-        },
-        {
-          "version": "1.26",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Graphe plus lisible : bien moins de flux qui se croisent (souvent de moitié, parfois plus), chaque bloc est aligné sur ceux qu'il alimente et dont il dépend pour des liens plus droits, et un flux qui saute plusieurs colonnes passe entre les blocs, en ligne droite, au lieu de les traverser.",
-            "en": "A clearer graph: far fewer flows crossing each other (often half as many, sometimes fewer still), each box is lined up with the boxes it feeds and draws from so links run straighter, and a flow that skips several columns runs straight between the boxes instead of through them."
-          }
-        },
-        {
-          "version": "1.25",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Plusieurs plans à la fois, dans des onglets au-dessus des objectifs : « + » en ouvre un nouveau, double-clic ou ✎ pour le renommer, × pour le fermer ; chaque plan garde ses objectifs, ses recettes, son mode et sa disposition. Le plan affiché est aussi inscrit dans l'adresse de la page : envoyer le lien suffit pour le partager, il s'ouvre chez l'autre dans un nouvel onglet.",
-            "en": "Several plans at once, in tabs above the targets: \"+\" opens a new one, double-click or ✎ renames it, × closes it; each plan keeps its targets, recipes, mode and layout. The plan on screen is also written in the page address: sending the link is enough to share it, and it opens in a new tab on the other side."
-          }
-        },
-        {
-          "version": "1.24",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.",
-            "en": "A single title bar for the whole site: tabs, changelog, \"My game\" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen."
-          }
-        },
-        {
-          "version": "1.23",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.",
-            "en": "No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations."
-          }
-        },
-        {
-          "version": "1.22",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.",
-            "en": "The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame."
-          }
-        },
-        {
-          "version": "1.21",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.",
-            "en": "The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and \"Back\" returns to the previous tool."
-          }
-        },
-        {
-          "version": "1.20",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).",
-            "en": "Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge)."
-          }
-        },
-        {
-          "version": "1.19",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Les modes optimisés suivent l'ordre des critères de l'infographie : Énergie, Matière, Espace (au lieu de « Place »), puis Synthèse. Même ordre pour les poids de la synthèse et les tuiles du bilan.",
-            "en": "Optimised modes follow the order of the infographic's criteria: Power, Materials, Space, then Synthesis. Same order for the synthesis weights and the summary tiles."
-          }
-        },
-        {
-          "version": "1.18",
+          "version": "1.6.1",
           "date": "2026-10-05",
           "texte": {
-            "fr": "Les montages sont dépliés par défaut dans le graphe (séparateurs, machines, groupeurs de chaque étape) ; le bouton − d'un bloc le replie et la page s'en souvient, « Tout replier » / « Tout déplier » bascule l'ensemble. L'interrupteur manifold / équilibrage est plus grand.",
-            "en": "Layouts are unfolded by default in the graph (each step's splitters, machines, mergers); a box's − button folds it and the page remembers, \"Fold all\" / \"Expand all\" toggles them all. The manifold / load balancing switch is larger."
+            "fr": "Le palier se choisit dans la même grille que les autres outils ; avec une partie importée, le palier atteint est sélectionné à chaque import.",
+            "en": "The tier is picked in the same grid as the other tools; with an imported game, the reached tier is selected on each import."
           }
         },
         {
-          "version": "1.17",
+          "version": "1.6.2",
           "date": "2026-10-05",
           "texte": {
-            "fr": "Le palier se choisit dans la même grille que les autres outils (icône et numéro de chaque palier du HUB). Avec une partie importée, le palier atteint est sélectionné tout seul à chaque import ; on peut descendre plus bas pour préparer un plan plus modeste, les paliers pas encore atteints sont hachurés. La case Alternatives et « Recettes par défaut » passent sous le choix des recettes.",
-            "en": "The tier is picked from the same grid as the other tools (each HUB tier's icon and number). With an imported game, the tier reached is selected automatically at each import; you can go lower to prepare a smaller plan, tiers not reached yet are hatched. The Alternates box and \"Default recipes\" move under the recipe choice."
+            "fr": "Les montages sont dépliés par défaut ; le bouton − d'un bloc le replie et la page s'en souvient.",
+            "en": "Set-ups are expanded by default; a block's − button folds it and the page remembers."
           }
         },
         {
-          "version": "1.16",
-          "date": "2026-10-05",
+          "version": "1.5.0",
+          "date": "2026-10-03",
+          "titre": {
+            "fr": "Trois optimisations et la synthèse",
+            "en": "Three optimisations and the synthesis"
+          },
           "texte": {
-            "fr": "Objectifs et réglages passent dans un bandeau en haut, sur toute la largeur : objectifs côte à côte, choix des recettes, palier et alternatives, montage ; il se replie (objectifs seuls), et la colonne de gauche ne garde que le bilan et les outils. Le choix des recettes devient une glissière : son curseur se fait glisser d'un mode à l'autre (ou un clic sur un mode, ou les flèches). La liste des objectifs ne propose que les items qu'on peut fabriquer avec les recettes permises (palier, alternatives, ou partie importée).",
-            "en": "Targets and settings move to a band across the top: targets side by side, recipe choice, tier and alternates, layout; it folds away (targets only), and the left column keeps only the summary and tools. The recipe choice becomes a slider: drag its handle from one mode to another (or click a mode, or use the arrow keys). The target list only offers items that the allowed recipes can make (tier, alternates, or imported game)."
+            "fr": "Trois optimisations, comme les critères de l'infographie : moins de matière, moins d'énergie et, nouveau, moins de place (m² au sol des machines). Une synthèse réunit les trois, avec un curseur de poids par critère. Le bilan donne la place au sol et, en mode optimisé, l'écart de chaque critère face à la chaîne standard.",
+            "en": "Three optimisations, like the infographic's criteria: less material, less energy and, new, less space (floor area of the machines). A synthesis combines the three, with a weight slider per criterion. The summary gives floor area and, in optimised mode, each criterion's gap against the standard chain."
           }
         },
         {
-          "version": "1.15",
-          "date": "2026-10-05",
-          "texte": {
-            "fr": "Recettes alternatives visibles : un bloc qui en utilise une porte un liseré et une pastille ALT orange, avec le nom de la recette ; le bilan les liste, et un clic amène à leur bloc. Le bouton ⇄ d'un bloc affiche combien d'alternatives permises pourraient le remplacer. Le choix des recettes devient une règlette (Standard, puis Matière, Énergie, Place, Synthèse optimisées) : un clic au lieu de deux. En mode optimisé, les alternatives sont toujours incluses (case cochée et grisée). Les objectifs se choisissent dans une liste avec icônes et recherche (clavier compris), et la quantité a des boutons − et + de la hauteur du champ (Maj : par 10).",
-            "en": "Alternate recipes are visible: a box that uses one gets an orange edge and ALT tag, with the recipe's name; the summary lists them, and a click takes you to their box. A box's ⇄ button shows how many allowed alternates could replace it. The recipe choice becomes a segmented bar (Standard, then optimised Materials, Power, Space, All three): one click instead of two. In optimised modes, alternates are always included (box ticked and greyed out). Targets are picked from a list with icons and search (keyboard included), and the amount has − and + buttons as tall as the field (Shift: by 10)."
-          }
-        },
-        {
-          "version": "1.14",
-          "date": "2026-10-05",
-          "texte": {
-            "fr": "Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.",
-            "en": "The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right."
-          }
-        },
-        {
-          "version": "1.13",
+          "version": "1.5.1",
           "date": "2026-10-04",
           "texte": {
-            "fr": "La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».",
-            "en": "The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu."
+            "fr": "« Moins de place » compte des bâtiments entiers (une machine à 10 % prend autant de place qu'à 100 %) ; les optimisations sont mémorisées.",
+            "en": "“Less space” counts whole buildings (a machine at 10% takes as much room as at 100%); optimisations are remembered."
           }
         },
         {
-          "version": "1.12",
+          "version": "1.5.1.1",
           "date": "2026-10-04",
           "texte": {
-            "fr": "Corrigé : faire glisser le fond du graphe surlignait le texte des blocs et des liens.",
-            "en": "Fixed: dragging the graph's background highlighted the text of boxes and links."
+            "fr": "Sur une grosse chaîne, « moins d'énergie » ou « moins de place » pouvait laisser des items « à fournir » au lieu de les fabriquer.",
+            "en": "On a big chain, “less energy” or “less space” could leave items as “to supply” instead of making them."
           }
         },
         {
-          "version": "1.11",
-          "date": "2026-10-04",
+          "version": "1.5.2",
+          "date": "2026-10-06",
           "texte": {
-            "fr": "Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.",
-            "en": "Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard."
+            "fr": "Les modes optimisés suivent l'ordre de l'infographie : Énergie, Matière, Espace, puis Synthèse.",
+            "en": "Optimised modes follow the infographic's order: Energy, Material, Space, then Synthesis."
           }
         },
         {
-          "version": "1.10",
-          "date": "2026-10-04",
+          "version": "1.4.0",
+          "date": "2026-10-03",
+          "titre": {
+            "fr": "Graphe en plein écran",
+            "en": "Full-screen graph"
+          },
           "texte": {
-            "fr": "Moins de place : la surface compte désormais des bâtiments entiers (une machine à 10 % prend autant de place qu'à 100 %), résolu en nombres entiers à 1 % près de l'optimum, au lieu d'une surface au prorata de la cadence qui n'avait pas de sens. Corrigé : sur une grosse chaîne, « moins d'énergie » ou « moins de place » pouvait laisser des items (jusqu'aux objectifs) comme « à fournir » au lieu de les fabriquer. Les optimisations sont mémorisées : changer le montage, la vue ou la langue ne les relance plus.",
-            "en": "Less space: the floor area now counts whole buildings (a machine at 10% takes as much room as at 100%), solved in whole numbers within 1% of the optimum, instead of an area pro rata of the clock speed that made no sense. Fixed: on a large chain, \"less power\" or \"less space\" could leave items (up to the targets) as \"to supply\" instead of making them. Optimisations are remembered: changing the layout, view or language no longer reruns them."
+            "fr": "L'outil devient un graphe en plein écran : réglages et bilan sur le bord gauche, détail du bloc choisi sur le bord droit, outils en bas ; chaque panneau se replie. La molette zoome autour du pointeur, le fond se fait glisser, « Ajuster » remplit la place libre. Les convoyeurs sont colorés par niveau, avec une légende.",
+            "en": "The tool becomes a full-screen graph: settings and summary on the left edge, the selected block's detail on the right, tools at the bottom; every panel folds away. The wheel zooms around the pointer, the background drags, “Fit” fills the free space. Conveyors are coloured by tier, with a legend."
           }
         },
         {
-          "version": "1.9",
+          "version": "1.4.1",
           "date": "2026-10-03",
           "texte": {
-            "fr": "Trois optimisations, comme les critères de l'infographie : moins de matière (ressources pesées par leur rareté), moins d'énergie (MW des machines), et nouveau, moins de place (m² au sol des machines, au prorata de leur usage). Nouvelle synthèse des trois : chaque critère compte en part de sa valeur pour la chaîne standard, avec un curseur de poids par critère. Le bilan donne la place au sol et, en mode optimisé, l'écart de chaque critère face à la chaîne standard.",
-            "en": "Three optimisations, like the infographic's criteria: fewer materials (resources weighed by their scarcity), less power (machine MW), and new, less space (the machines' floor m², pro rata of their use). New combination of all three: each criterion counts as a share of its value for the standard chain, with one weight slider per criterion. The summary gives the floor space and, when optimised, each criterion's gap from the standard chain."
+            "fr": "Les convoyeurs s'animent : les items défilent dans le sens du flux, plus vite aux niveaux supérieurs (coupé en mouvement réduit).",
+            "en": "Conveyors are animated: items move along the flow, faster on higher tiers (off with reduced motion)."
           }
         },
         {
-          "version": "1.8",
-          "date": "2026-10-03",
-          "texte": {
-            "fr": "La molette (ou le pincement du pavé tactile) zoome sur le graphe autour du pointeur. Tous les réglages et le bilan passent dans une colonne sur le bord gauche, avec les outils à son pied ; repliée, elle devient une barre d'icônes, et le graphe prend toute la largeur. Le détail du bloc choisi s'ouvre sur le bord droit, avec un bouton pour le fermer : plus rien ne se pose au milieu du graphe. Sous le choix des recettes, une phrase dit ce que fait chaque option. Les convoyeurs s'animent : les items défilent dans le sens du flux, plus vite aux niveaux supérieurs (coupé si le système demande moins d'animations).",
-            "en": "The mouse wheel (or a touchpad pinch) zooms the graph around the pointer. All settings and the summary move to a column on the left edge, with the tools at its foot; folded, it becomes a bar of icons and the graph takes the whole width. The chosen box's details open on the right edge, with a button to close them: nothing sits in the middle of the graph any more. Under the recipe choice, a sentence says what each option does. Belts are animated: items move along the flow, faster on higher tiers (turned off when the system asks for less motion)."
-          }
-        },
-        {
-          "version": "1.7",
-          "date": "2026-10-03",
-          "texte": {
-            "fr": "L'outil devient un graphe en plein écran : objectifs et réglages dans un panneau à gauche, bilan (MW, machines, ressources brutes, surplus) à droite, outils (vue, zoom, réorganiser, déplier) en bas, détail du bloc choisi en bas à gauche ; chaque panneau se replie (mémorisé), la liste des étapes et les hypothèses s'ouvrent par-dessus. Le fond du graphe se fait glisser pour se déplacer, « Ajuster » remplit la place laissée par les panneaux. Le montage manifold / équilibrage devient un interrupteur. Les convoyeurs (et les tuyaux) sont colorés par niveau, dans les liens comme dans les montages dépliés, avec une légende ; tirets quand il faut plusieurs lignes.",
-            "en": "The tool becomes a full-screen graph: targets and settings in a panel on the left, summary (MW, machines, raw resources, surplus) on the right, tools (view, zoom, re-arrange, unfold) at the bottom, the chosen box's details at the bottom left; each panel folds away (remembered), the step list and the assumptions open on top. Drag the graph's background to move around, \"Fit\" fills the room the panels leave. The manifold / load balancing layout becomes a switch. Belts (and pipes) are coloured by tier, on links and in unfolded layouts, with a legend; dashes when several lines are needed."
-          }
-        },
-        {
-          "version": "1.6",
+          "version": "1.3.0",
           "date": "2026-10-02",
+          "titre": {
+            "fr": "Vue en graphe",
+            "en": "Graph view"
+          },
           "texte": {
-            "fr": "Les recettes se changent depuis le graphe : le bouton ⇄ d'une étape (ou la touche R) ouvre sur le graphe la liste des recettes permises pour son item, la recette actuelle cochée, avec « Fourni (hors chaîne) ». Un item fourni garde le bouton sur son bloc de ressource, avec « Recette par défaut » pour le refabriquer. Le panneau du bloc choisi propose aussi la liste des recettes.",
-            "en": "Recipes can be changed from the graph: a step's ⇄ button (or the R key) opens on the graph the list of allowed recipes for its item, the current one ticked, with \"Supplied (outside the chain)\". A supplied item keeps the button on its resource box, with \"Default recipe\" to make it again. The chosen box's panel also offers the recipe list."
+            "fr": "Les étapes de production en blocs reliés par les débits, des ressources brutes (à gauche) aux objectifs et surplus (à droite). Chaque lien indique le convoyeur ou le tuyau qu'il lui faut. Le bouton + d'un bloc (ou « Tout déplier ») dessine son montage, séparateurs, machines et groupeurs, en manifold ou en équilibrage ; le bouton ⇄ (ou la touche R) change la recette depuis le graphe. Les blocs se déplacent à la souris, au doigt ou au clavier.",
+            "en": "Production steps as blocks linked by flow rates, from raw resources (left) to targets and surplus (right). Each link shows the conveyor or pipe it needs. A block's + button (or “Expand all”) draws its set-up, splitters, machines and mergers, in manifold or balanced layout; the ⇄ button (or the R key) changes the recipe from the graph. Blocks can be moved with the mouse, a finger or the keyboard."
           }
         },
         {
-          "version": "1.5",
+          "version": "1.2.0",
           "date": "2026-10-02",
+          "titre": {
+            "fr": "Recettes optimisées",
+            "en": "Optimised recipes"
+          },
           "texte": {
-            "fr": "Montage dessiné dans le graphe : le bouton + d'une étape (ou « Tout déplier ») déplie son bloc et dessine la ligne d'entrée, les séparateurs, une rangée par machine, les groupeurs et la ligne de sortie, avec le convoyeur de chaque tronçon. En manifold, le tronc et un séparateur par machine ; en équilibrage, l'arbre de séparateurs étage par étage et la boucle de retour des sorties en trop ; groupeurs en chaîne ou en arbre. Les autres entrées et sorties, au même montage, sont rappelées dessous. Les liens du graphe arrivent sur la ligne d'entrée et partent de la ligne de sortie du bloc déplié.",
-            "en": "Layout drawn in the graph: a step's + button (or \"Expand all\") unfolds its box and draws the input line, the splitters, one row per machine, the mergers and the output line, with each section's belt. As a manifold, the trunk and one splitter per machine; with load balancing, the splitter tree level by level and the loop back of extra outputs; mergers in a row or in a tree. The other inputs and outputs, with the same layout, are listed below. Graph links reach the unfolded box's input line and leave from its output line."
+            "fr": "Le planificateur peut choisir lui-même les recettes, en combinant librement toutes celles qui sont permises, pour consommer le moins de ressources (pesées par leur rareté sur la carte) ou le moins d'énergie. Calcul exact par programmation linéaire (solveur HiGHS, chargé à la première optimisation puis gardé hors ligne). Une tuile du bilan donne la part des ressources de la carte que demande le plan.",
+            "en": "The planner can choose recipes itself, freely mixing all the allowed ones, to use the fewest resources (weighted by their scarcity on the map) or the least energy. Exact linear programming (HiGHS solver, loaded on the first optimisation, then kept offline). A summary tile shows the share of the map's resources the plan needs."
           }
         },
         {
-          "version": "1.4",
+          "version": "1.1.0",
           "date": "2026-10-02",
+          "titre": {
+            "fr": "Comparaison avec votre usine",
+            "en": "Comparison with your factory"
+          },
           "texte": {
-            "fr": "Le graphe devient la vue par défaut. Chaque lien indique le convoyeur (ou le tuyau) qu'il lui faut, le plus petit niveau débloqué qui passe son débit, plusieurs lignes au-delà du Mk.6. Les blocs se déplacent à la souris, au doigt ou aux flèches du clavier, et gardent leur place ; « Réorganiser » revient à la disposition automatique. Nouveau choix de montage : manifold (séparateurs et groupeurs en chaîne) ou équilibrage (arbre de séparateurs 1 → 2 ou 1 → 3, avec boucle de retour quand le nombre de machines ne s'y prête pas, groupeurs en arbre) ; chaque bloc résume ses séparateurs et groupeurs, et le toucher donne sous le graphe le montage de chaque entrée et sortie, avec le convoyeur de chaque branche. Le même détail se déplie dans la liste.",
-            "en": "The graph becomes the default view. Each link shows the belt (or pipe) it needs, the smallest unlocked tier that carries its rate, several lines beyond Mk.6. Boxes move with the mouse, a finger or the arrow keys, and keep their place; \"Re-arrange\" goes back to the automatic layout. New layout choice: manifold (splitters and mergers in a row) or load balancing (tree of 1 → 2 or 1 → 3 splitters, with a loop back when the machine count does not allow it, mergers in a tree); each box sums up its splitters and mergers, and tapping it shows below the graph the layout of each input and output, with the belt of each branch. The same detail unfolds in the list."
+            "fr": "Avec une partie importée, le planificateur lit les machines déjà construites et compare, étape par étape, ce qu'elles produisent (cadence et Somersloops compris) à ce que le plan demande : débit manquant et machines à construire, avec leur total dans le bilan. « Recettes de mon usine d'abord » choisit par défaut celles que vous avez déjà construites.",
+            "en": "With an imported game, the planner reads the machines you already built and compares, step by step, what they produce (clock speed and Somersloops included) with what the plan needs: missing rate and machines to build, totalled in the summary. “My factory's recipes first” picks the recipes you already built by default."
           }
         },
         {
-          "version": "1.3",
-          "date": "2026-10-02",
-          "texte": {
-            "fr": "Vue en graphe : les étapes de production en blocs reliés par les débits, des ressources brutes (à gauche) aux objectifs et surplus (à droite), avec l'épaisseur de chaque lien selon son débit et les fluides en bleu. Survoler ou toucher un bloc isole ses liens ; zoom et ajustement à la largeur ; avec une partie importée, les blocs disent ce qu'il reste à construire. Les boucles de recettes (recyclage plastique ↔ caoutchouc) ne déroulent plus l'ordre des étapes.",
-            "en": "Graph view: production steps as boxes linked by their rates, from raw resources (left) to targets and surplus (right), each link as wide as its rate and fluids in blue. Hover or tap a box to isolate its links; zoom and fit to width; with an imported game, boxes tell what is left to build. Recipe loops (plastic ↔ rubber recycling) no longer stretch the step order."
-          }
-        },
-        {
-          "version": "1.2",
-          "date": "2026-10-02",
-          "texte": {
-            "fr": "Recettes optimisées : le planificateur peut choisir lui-même les recettes, en combinant librement toutes celles qui sont permises (un item peut en utiliser plusieurs), pour consommer le moins de ressources (chacune comptée selon sa rareté sur la carte) ou le moins d'énergie. Calcul exact par programmation linéaire (solveur HiGHS, chargé seulement à la première optimisation, puis gardé hors ligne). Nouvelle tuile du bilan : la part des ressources de la carte que demande le plan, pour comparer les modes.",
-            "en": "Optimised recipes: the planner can pick the recipes itself, freely combining every allowed one (an item may use several), to use the fewest resources (each weighted by its scarcity on the map) or the least power. Exact computation by linear programming (HiGHS solver, loaded only at the first optimisation, then kept offline). New summary tile: the share of the map's resources the plan needs, to compare modes."
-          }
-        },
-        {
-          "version": "1.1",
-          "date": "2026-10-02",
-          "texte": {
-            "fr": "Comparaison avec votre usine : avec une partie importée, le planificateur lit les machines déjà construites (la même lecture que l'outil Depot, gardée en cache). Pour chaque étape, ce que vos machines produisent avec la même recette, à leur cadence et avec leurs Somersloops, la part du temps où elles tournent (mesurée par le jeu), et ce qu'il manque : débit et machines à construire, avec leur total dans le bilan. « Recettes de mon usine d'abord » choisit par défaut les recettes que vous avez déjà construites.",
-            "en": "Comparison with your factory: with an imported game, the planner reads the machines already built (the same reading as the Depot tool, kept in cache). For each step, what your machines make with the same recipe, at their clock speed and with their Somersloops, how much of the time they run (measured by the game), and what is missing: rate and machines to build, with their total in the summary. \"My factory's recipes first\" picks by default the recipes you have already built."
-          }
-        },
-        {
-          "version": "1.0",
+          "version": "1.0.0",
           "date": "2026-10-01",
+          "titre": {
+            "fr": "Objectifs et chaîne de production",
+            "en": "Targets and production chain"
+          },
           "texte": {
-            "fr": "Nouvel outil : vos objectifs de production par minute, et la chaîne qui y mène jusqu'aux ressources brutes. Pour chaque recette, le nombre de machines (exact, puis entier avec la cadence qui va), leur consommation, ce qui entre et ce qui sort ; les sous-produits servent d'abord aux autres étapes, le reste part en surplus. Recette de chaque item au choix, ou « fournie » de l'extérieur. Avec une partie importée, seules les recettes débloquées sont proposées ; sinon, palier et alternatives à régler.",
-            "en": "New tool: your production targets per minute, and the chain that leads to them, down to the raw resources. For each recipe, the number of machines (exact, then whole with the matching clock speed), their power draw, what goes in and what comes out; by-products first feed the other steps, the rest goes to surplus. Each item's recipe can be picked, or \"supplied\" from elsewhere. With an imported game, only unlocked recipes are offered; otherwise, set the tier and alternates."
+            "fr": "Vos objectifs de production par minute, et la chaîne qui y mène jusqu'aux ressources brutes : pour chaque recette, le nombre de machines, leur consommation, ce qui entre et ce qui sort. Les sous-produits servent d'abord aux autres étapes, le reste part en surplus. Recette de chaque item au choix ; avec une partie importée, seules les recettes débloquées sont proposées.",
+            "en": "Your production targets per minute, and the chain that leads to them down to raw resources: for each recipe, the number of machines, their power draw, what goes in and what comes out. By-products first feed other steps, the rest becomes surplus. Pick each item's recipe; with an imported game, only unlocked recipes are offered."
           }
         }
       ]
@@ -408,91 +528,11 @@
       },
       "entrees": [
         {
-          "version": "1.24",
-          "date": "2026-10-07",
-          "texte": {
-            "fr": "Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.",
-            "en": "Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter."
-          }
-        },
-        {
-          "version": "1.23",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.",
-            "en": "Fixed: a bubble with the tool's file name (\"planner.html\"…) followed the cursor all over the page."
-          }
-        },
-        {
-          "version": "1.22",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.",
-            "en": "A single title bar for the whole site: tabs, changelog, \"My game\" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen."
-          }
-        },
-        {
-          "version": "1.21",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.",
-            "en": "No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations."
-          }
-        },
-        {
-          "version": "1.20",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.",
-            "en": "The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame."
-          }
-        },
-        {
-          "version": "1.19",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.",
-            "en": "The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and \"Back\" returns to the previous tool."
-          }
-        },
-        {
-          "version": "1.18",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).",
-            "en": "Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge)."
-          }
-        },
-        {
-          "version": "1.17",
-          "date": "2026-10-05",
-          "texte": {
-            "fr": "Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.",
-            "en": "The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right."
-          }
-        },
-        {
-          "version": "1.16",
-          "date": "2026-10-04",
-          "texte": {
-            "fr": "La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».",
-            "en": "The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu."
-          }
-        },
-        {
           "version": "1.15",
           "date": "2026-10-04",
           "texte": {
             "fr": "L'infobulle d'une ligne de l'inventaire se place près du curseur, comme la bulle du navigateur, au lieu de se centrer sur la ligne entière.",
             "en": "A row's tooltip in the inventory now sits near the cursor, like the browser's own bubble, instead of being centred on the whole row."
-          }
-        },
-        {
-          "version": "1.14",
-          "date": "2026-10-04",
-          "texte": {
-            "fr": "Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.",
-            "en": "Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard."
           }
         },
         {
@@ -509,14 +549,6 @@
           "texte": {
             "fr": "Sauvegarde importée depuis une autre page (accueil, autre outil) : l'outil la reprend aussi quand on y revient par le bouton « retour » du navigateur, et un import interrompu (page quittée avant la fin) ne fait plus perdre la partie précédente. Pendant l'enregistrement du fichier, le panneau « Ma partie » le signale et le navigateur demande confirmation avant de quitter la page.",
             "en": "Save imported from another page (home, another tool): the tool also picks it up when you come back with the browser's back button, and an interrupted import (page left before the end) no longer loses the previous game. While the file is being saved, the \"My game\" panel says so and the browser asks for confirmation before leaving the page."
-          }
-        },
-        {
-          "version": "1.11",
-          "date": "2026-10-02",
-          "texte": {
-            "fr": "Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.",
-            "en": "Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts."
           }
         },
         {
@@ -541,14 +573,6 @@
           "texte": {
             "fr": "Fluides et électricité par circuit. Chaque réseau de tuyaux lu dans la sauvegarde devient un réservoir commun : extracteurs d'eau et de pétrole, puits, raffineries, conditionneuses et générateurs y versent ou y puisent, un fluide ne passant que par les tuyaux. Les machines sont désormais limitées par leurs fluides, les centrales à charbon et nucléaires par leur eau, et les générateurs à carburant comptent dans la production. Un réseau à qui il manque du fluide est signalé, avec la quantité manquante, ainsi qu'un réseau dont le débit dépasse son tuyau le plus faible. Chaque bâtiment est rattaché à son circuit : bilan par circuit, circuit en déficit ou sans générateur signalé, et un bâtiment sur un circuit dont le fusible a grillé, ou branché à aucun circuit, est compté à l'arrêt. Recoupement avec le jeu : 77 % des machines à 10 points près sur une grosse partie (74 % avant).",
             "en": "Fluids and power per circuit. Each pipe network read from the save becomes a shared pool: water and oil extractors, resource wells, refineries, packagers and generators feed into it or draw from it, and a fluid only travels through pipes. Machines are now limited by their fluids, coal and nuclear plants by their water, and fuel generators count towards production. A network short of fluid is flagged, with the missing amount, as is a network whose flow exceeds its weakest pipe. Each building is tied to its circuit: balance per circuit, circuits in deficit or without a generator flagged, and a building on a circuit with a blown fuse, or connected to no circuit, is counted as stopped. Cross-check with the game: 77% of machines within 10 points on a large save (74% before)."
-          }
-        },
-        {
-          "version": "1.7",
-          "date": "2026-09-30",
-          "texte": {
-            "fr": "Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.",
-            "en": "The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection."
           }
         },
         {
@@ -624,78 +648,6 @@
           }
         },
         {
-          "version": "1.43",
-          "date": "2026-10-07",
-          "texte": {
-            "fr": "Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.",
-            "en": "Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter."
-          }
-        },
-        {
-          "version": "1.42",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.",
-            "en": "Fixed: a bubble with the tool's file name (\"planner.html\"…) followed the cursor all over the page."
-          }
-        },
-        {
-          "version": "1.41",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.",
-            "en": "A single title bar for the whole site: tabs, changelog, \"My game\" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen."
-          }
-        },
-        {
-          "version": "1.40",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.",
-            "en": "No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations."
-          }
-        },
-        {
-          "version": "1.39",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.",
-            "en": "The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame."
-          }
-        },
-        {
-          "version": "1.38",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.",
-            "en": "The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and \"Back\" returns to the previous tool."
-          }
-        },
-        {
-          "version": "1.37",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).",
-            "en": "Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge)."
-          }
-        },
-        {
-          "version": "1.36",
-          "date": "2026-10-05",
-          "texte": {
-            "fr": "Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.",
-            "en": "The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right."
-          }
-        },
-        {
-          "version": "1.35",
-          "date": "2026-10-04",
-          "texte": {
-            "fr": "La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».",
-            "en": "The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu."
-          }
-        },
-        {
           "version": "1.34",
           "date": "2026-10-04",
           "texte": {
@@ -728,35 +680,11 @@
           }
         },
         {
-          "version": "1.30",
-          "date": "2026-10-02",
-          "texte": {
-            "fr": "Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.",
-            "en": "Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts."
-          }
-        },
-        {
-          "version": "1.29",
-          "date": "2026-09-30",
-          "texte": {
-            "fr": "Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.",
-            "en": "The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection."
-          }
-        },
-        {
           "version": "1.28",
           "date": "2026-09-29",
           "texte": {
             "fr": "Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée. Le panneau « Ma partie » du registre garde l'analyse (filtre, simulation, alternatives et disques notés) et renvoie au bouton commun pour l'import.",
             "en": "Shared \"My game\" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game. The registry's \"My game\" panel keeps the analysis (filter, simulation, rated alternates and hard drives) and points to the shared button for importing."
-          }
-        },
-        {
-          "version": "1.27",
-          "date": "2026-09-29",
-          "texte": {
-            "fr": "Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.",
-            "en": "The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged."
           }
         },
         {
@@ -837,14 +765,6 @@
           "texte": {
             "fr": "Page allégée de 190 Ko : les combinaisons Énergie et Espace sont calculées dans la page, pour le palier affiché (moins d'un dixième de seconde), au lieu d'être embarquées pour chaque palier. La Matière reste précalculée : ses chaînes à égalité la rendraient trop lente en direct.",
             "en": "Page 190 KB lighter: Energy and Space combinations are computed in the page, for the tier shown (under a tenth of a second), instead of being embedded for every tier. Materials stay precomputed: their tied chains would make them too slow live."
-          }
-        },
-        {
-          "version": "1.16",
-          "date": "2026-09-25",
-          "texte": {
-            "fr": "Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.",
-            "en": "\"Home\" button in the top-right dock, to go back to the list of tools."
           }
         },
         {
@@ -984,123 +904,11 @@
       },
       "entrees": [
         {
-          "version": "1.23",
-          "date": "2026-10-07",
-          "texte": {
-            "fr": "Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.",
-            "en": "Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter."
-          }
-        },
-        {
-          "version": "1.22",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.",
-            "en": "Fixed: a bubble with the tool's file name (\"planner.html\"…) followed the cursor all over the page."
-          }
-        },
-        {
-          "version": "1.21",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.",
-            "en": "A single title bar for the whole site: tabs, changelog, \"My game\" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen."
-          }
-        },
-        {
-          "version": "1.20",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.",
-            "en": "No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations."
-          }
-        },
-        {
-          "version": "1.19",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.",
-            "en": "The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame."
-          }
-        },
-        {
-          "version": "1.18",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.",
-            "en": "The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and \"Back\" returns to the previous tool."
-          }
-        },
-        {
-          "version": "1.17",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).",
-            "en": "Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge)."
-          }
-        },
-        {
-          "version": "1.16",
-          "date": "2026-10-05",
-          "texte": {
-            "fr": "Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.",
-            "en": "The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right."
-          }
-        },
-        {
-          "version": "1.15",
-          "date": "2026-10-04",
-          "texte": {
-            "fr": "La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».",
-            "en": "The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu."
-          }
-        },
-        {
-          "version": "1.14",
-          "date": "2026-10-04",
-          "texte": {
-            "fr": "Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.",
-            "en": "Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard."
-          }
-        },
-        {
-          "version": "1.13",
-          "date": "2026-10-02",
-          "texte": {
-            "fr": "Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.",
-            "en": "Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts."
-          }
-        },
-        {
-          "version": "1.12",
-          "date": "2026-09-30",
-          "texte": {
-            "fr": "Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.",
-            "en": "The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection."
-          }
-        },
-        {
           "version": "1.11",
           "date": "2026-09-30",
           "texte": {
             "fr": "Le régime d'éclats se règle sur votre partie importée (bouton « Ma partie ») : « éclats illimités » si l'éclat de charge synthétique est débloqué, « éclats rares » sinon. Réglé à chaque nouvel import, toujours modifiable à la main.",
             "en": "The shard regime follows your imported game (\"My game\" button): \"unlimited shards\" if the synthetic power shard is unlocked, \"scarce shards\" otherwise. Set on each new import, still changeable by hand."
-          }
-        },
-        {
-          "version": "1.10",
-          "date": "2026-09-29",
-          "texte": {
-            "fr": "Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.",
-            "en": "Shared \"My game\" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game."
-          }
-        },
-        {
-          "version": "1.9",
-          "date": "2026-09-29",
-          "texte": {
-            "fr": "Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.",
-            "en": "The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged."
           }
         },
         {
@@ -1128,27 +936,11 @@
           }
         },
         {
-          "version": "1.5",
-          "date": "2026-09-25",
-          "texte": {
-            "fr": "Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.",
-            "en": "\"Home\" button in the top-right dock, to go back to the list of tools."
-          }
-        },
-        {
           "version": "1.4",
           "date": "2026-09-24",
           "texte": {
             "fr": "Mention en bas de page : le site est généré par IA.",
             "en": "Footer notice: the site is AI-generated."
-          }
-        },
-        {
-          "version": "1.3",
-          "date": "2026-09-24",
-          "texte": {
-            "fr": "Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d'un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal.",
-            "en": "The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven't seen yet, and new entries are marked in the log."
           }
         },
         {
@@ -1183,118 +975,6 @@
         "en": "Recycling optimizer"
       },
       "entrees": [
-        {
-          "version": "1.31",
-          "date": "2026-10-07",
-          "texte": {
-            "fr": "Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.",
-            "en": "Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter."
-          }
-        },
-        {
-          "version": "1.30",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.",
-            "en": "Fixed: a bubble with the tool's file name (\"planner.html\"…) followed the cursor all over the page."
-          }
-        },
-        {
-          "version": "1.29",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.",
-            "en": "A single title bar for the whole site: tabs, changelog, \"My game\" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen."
-          }
-        },
-        {
-          "version": "1.28",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.",
-            "en": "No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations."
-          }
-        },
-        {
-          "version": "1.27",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.",
-            "en": "The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame."
-          }
-        },
-        {
-          "version": "1.26",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.",
-            "en": "The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and \"Back\" returns to the previous tool."
-          }
-        },
-        {
-          "version": "1.25",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).",
-            "en": "Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge)."
-          }
-        },
-        {
-          "version": "1.24",
-          "date": "2026-10-05",
-          "texte": {
-            "fr": "Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.",
-            "en": "The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right."
-          }
-        },
-        {
-          "version": "1.23",
-          "date": "2026-10-04",
-          "texte": {
-            "fr": "La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».",
-            "en": "The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu."
-          }
-        },
-        {
-          "version": "1.22",
-          "date": "2026-10-04",
-          "texte": {
-            "fr": "Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.",
-            "en": "Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard."
-          }
-        },
-        {
-          "version": "1.21",
-          "date": "2026-10-02",
-          "texte": {
-            "fr": "Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.",
-            "en": "Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts."
-          }
-        },
-        {
-          "version": "1.20",
-          "date": "2026-09-30",
-          "texte": {
-            "fr": "Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.",
-            "en": "The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection."
-          }
-        },
-        {
-          "version": "1.19",
-          "date": "2026-09-29",
-          "texte": {
-            "fr": "Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.",
-            "en": "Shared \"My game\" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game."
-          }
-        },
-        {
-          "version": "1.18",
-          "date": "2026-09-29",
-          "texte": {
-            "fr": "Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.",
-            "en": "The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged."
-          }
-        },
         {
           "version": "1.17",
           "date": "2026-09-28",
@@ -1384,14 +1064,6 @@
           }
         },
         {
-          "version": "1.6",
-          "date": "2026-09-24",
-          "texte": {
-            "fr": "Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d'un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal.",
-            "en": "The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven't seen yet, and new entries are marked in the log."
-          }
-        },
-        {
           "version": "1.5",
           "date": "2026-09-24",
           "texte": {
@@ -1448,99 +1120,11 @@
       },
       "entrees": [
         {
-          "version": "1.24",
-          "date": "2026-10-07",
-          "texte": {
-            "fr": "Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.",
-            "en": "Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter."
-          }
-        },
-        {
           "version": "1.23",
           "date": "2026-10-06",
           "texte": {
             "fr": "Couleurs des convoyeurs partagées avec le planificateur ; Mk.1 et Mk.2 éclaircis, plus lisibles (chiffres sombres sur la case).",
             "en": "Belt colours shared with the planner; Mk.1 and Mk.2 made lighter and easier to read (dark figures on the cell)."
-          }
-        },
-        {
-          "version": "1.22",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.",
-            "en": "Fixed: a bubble with the tool's file name (\"planner.html\"…) followed the cursor all over the page."
-          }
-        },
-        {
-          "version": "1.21",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.",
-            "en": "A single title bar for the whole site: tabs, changelog, \"My game\" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen."
-          }
-        },
-        {
-          "version": "1.20",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.",
-            "en": "No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations."
-          }
-        },
-        {
-          "version": "1.19",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.",
-            "en": "The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame."
-          }
-        },
-        {
-          "version": "1.18",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.",
-            "en": "The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and \"Back\" returns to the previous tool."
-          }
-        },
-        {
-          "version": "1.17",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).",
-            "en": "Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge)."
-          }
-        },
-        {
-          "version": "1.16",
-          "date": "2026-10-05",
-          "texte": {
-            "fr": "Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.",
-            "en": "The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right."
-          }
-        },
-        {
-          "version": "1.15",
-          "date": "2026-10-04",
-          "texte": {
-            "fr": "La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».",
-            "en": "The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu."
-          }
-        },
-        {
-          "version": "1.14",
-          "date": "2026-10-04",
-          "texte": {
-            "fr": "Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.",
-            "en": "Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard."
-          }
-        },
-        {
-          "version": "1.13",
-          "date": "2026-10-02",
-          "texte": {
-            "fr": "Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.",
-            "en": "Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts."
           }
         },
         {
@@ -1560,35 +1144,11 @@
           }
         },
         {
-          "version": "1.10",
-          "date": "2026-09-30",
-          "texte": {
-            "fr": "Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.",
-            "en": "The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection."
-          }
-        },
-        {
           "version": "1.9",
           "date": "2026-09-30",
           "texte": {
             "fr": "Jalons du HUB : ceux obtenus dans votre partie importée (bouton « Ma partie ») sont cochés, les paliers complets marqués, avec un bilan en tête de section.",
             "en": "HUB milestones: those obtained in your imported game (\"My game\" button) are ticked, completed tiers highlighted, with a summary at the top of the section."
-          }
-        },
-        {
-          "version": "1.8",
-          "date": "2026-09-29",
-          "texte": {
-            "fr": "Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.",
-            "en": "Shared \"My game\" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game."
-          }
-        },
-        {
-          "version": "1.7",
-          "date": "2026-09-29",
-          "texte": {
-            "fr": "Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.",
-            "en": "The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged."
           }
         },
         {
@@ -1608,27 +1168,11 @@
           }
         },
         {
-          "version": "1.4",
-          "date": "2026-09-25",
-          "texte": {
-            "fr": "Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.",
-            "en": "\"Home\" button in the top-right dock, to go back to the list of tools."
-          }
-        },
-        {
           "version": "1.3",
           "date": "2026-09-24",
           "texte": {
             "fr": "Mention en bas de page : le site est généré par IA.",
             "en": "Footer notice: the site is AI-generated."
-          }
-        },
-        {
-          "version": "1.2",
-          "date": "2026-09-24",
-          "texte": {
-            "fr": "Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d'un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal.",
-            "en": "The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven't seen yet, and new entries are marked in the log."
           }
         },
         {
@@ -1656,107 +1200,11 @@
       },
       "entrees": [
         {
-          "version": "1.20",
-          "date": "2026-10-07",
-          "texte": {
-            "fr": "Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.",
-            "en": "Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter."
-          }
-        },
-        {
-          "version": "1.19",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.",
-            "en": "Fixed: a bubble with the tool's file name (\"planner.html\"…) followed the cursor all over the page."
-          }
-        },
-        {
-          "version": "1.18",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.",
-            "en": "A single title bar for the whole site: tabs, changelog, \"My game\" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen."
-          }
-        },
-        {
-          "version": "1.17",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.",
-            "en": "No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations."
-          }
-        },
-        {
-          "version": "1.16",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.",
-            "en": "The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame."
-          }
-        },
-        {
-          "version": "1.15",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.",
-            "en": "The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and \"Back\" returns to the previous tool."
-          }
-        },
-        {
-          "version": "1.14",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).",
-            "en": "Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge)."
-          }
-        },
-        {
-          "version": "1.13",
-          "date": "2026-10-05",
-          "texte": {
-            "fr": "Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.",
-            "en": "The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right."
-          }
-        },
-        {
-          "version": "1.12",
-          "date": "2026-10-04",
-          "texte": {
-            "fr": "La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».",
-            "en": "The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu."
-          }
-        },
-        {
           "version": "1.11",
           "date": "2026-10-04",
           "texte": {
             "fr": "L'infobulle du graphique reprend l'habillage commun des bulles d'aide (fenêtre sombre sous un filet orange, points AWESOME en orange). Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.",
             "en": "The chart tooltip now shares the common help-bubble look (dark window under an orange line, AWESOME points in orange). Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard."
-          }
-        },
-        {
-          "version": "1.10",
-          "date": "2026-10-02",
-          "texte": {
-            "fr": "Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.",
-            "en": "Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts."
-          }
-        },
-        {
-          "version": "1.9",
-          "date": "2026-09-30",
-          "texte": {
-            "fr": "Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.",
-            "en": "The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection."
-          }
-        },
-        {
-          "version": "1.8",
-          "date": "2026-09-29",
-          "texte": {
-            "fr": "Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.",
-            "en": "Shared \"My game\" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game."
           }
         },
         {
@@ -1781,14 +1229,6 @@
           "texte": {
             "fr": "Le palier se choisit dans la même grille à icônes que les autres outils, au lieu d'un menu : seuls les paliers qui font apparaître au moins un item sont cliquables ; retoucher le palier choisi affiche tout.",
             "en": "The tier is picked from the same icon grid as the other tools, instead of a menu: only tiers that bring at least one item can be clicked; tapping the chosen tier again shows everything."
-          }
-        },
-        {
-          "version": "1.4",
-          "date": "2026-09-25",
-          "texte": {
-            "fr": "Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.",
-            "en": "\"Home\" button in the top-right dock, to go back to the list of tools."
           }
         },
         {
@@ -1831,94 +1271,6 @@
         "en": "Power per node"
       },
       "entrees": [
-        {
-          "version": "1.13",
-          "date": "2026-10-07",
-          "texte": {
-            "fr": "Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.",
-            "en": "Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter."
-          }
-        },
-        {
-          "version": "1.12",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.",
-            "en": "Fixed: a bubble with the tool's file name (\"planner.html\"…) followed the cursor all over the page."
-          }
-        },
-        {
-          "version": "1.11",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.",
-            "en": "A single title bar for the whole site: tabs, changelog, \"My game\" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen."
-          }
-        },
-        {
-          "version": "1.10",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.",
-            "en": "No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations."
-          }
-        },
-        {
-          "version": "1.9",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.",
-            "en": "The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame."
-          }
-        },
-        {
-          "version": "1.8",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.",
-            "en": "The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and \"Back\" returns to the previous tool."
-          }
-        },
-        {
-          "version": "1.7",
-          "date": "2026-10-06",
-          "texte": {
-            "fr": "Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).",
-            "en": "Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge)."
-          }
-        },
-        {
-          "version": "1.6",
-          "date": "2026-10-05",
-          "texte": {
-            "fr": "Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.",
-            "en": "The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right."
-          }
-        },
-        {
-          "version": "1.5",
-          "date": "2026-10-04",
-          "texte": {
-            "fr": "La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».",
-            "en": "The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu."
-          }
-        },
-        {
-          "version": "1.4",
-          "date": "2026-10-04",
-          "texte": {
-            "fr": "Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.",
-            "en": "Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard."
-          }
-        },
-        {
-          "version": "1.3",
-          "date": "2026-10-02",
-          "texte": {
-            "fr": "Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.",
-            "en": "Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts."
-          }
-        },
         {
           "version": "1.2",
           "date": "2026-10-01",

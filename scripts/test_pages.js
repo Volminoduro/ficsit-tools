@@ -1069,8 +1069,8 @@ const INDICES = {
     await p.goto('file://' + path.join(ROOT, 'planner.html'));
     await p.waitForTimeout(500);
     await p.click('.pn-btn'); await p.waitForTimeout(200);
-    const ouvert = i => p.evaluate(i => document.querySelectorAll('.pn-hist details.pn-g')[i].open, i);
-    const sm = i => p.locator('.pn-hist details.pn-g > summary').nth(i);
+    const ouvert = i => p.evaluate(i => document.querySelectorAll('.pn-panel > .pn-hist > li > details.pn-g')[i].open, i);
+    const sm = i => p.locator('.pn-panel > .pn-hist > li > details.pn-g > summary').nth(i);
     await sm(1).hover(); await p.waitForTimeout(400);
     if (!await ouvert(1)) pb.push('pas ouvert au survol');
     await p.mouse.move(300, 600); await p.waitForTimeout(500);

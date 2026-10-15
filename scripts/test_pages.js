@@ -923,6 +923,64 @@ const INDICES = {
     await p.close();
   }
 
+  // journal des révisions (scripts/patchnotes.py) : trois niveaux lus dans le numéro (x.y.0 fonctionnalité, x.y.z ajustement,
+  // x.y.z.w correctif), la pastille suit le niveau le plus élevé des entrées pas encore vues (orange qui pulse, point gris, rien),
+  // la clé de mémorisation est « vu2 » (l'ancienne est supprimée), le correctif est plus discret que l'ajustement, et le
+  // journal « Site » est en bas de chaque outil
+  {
+    const p = await b.newPage({viewport: {width: 1280, height: 900}}), errs = [];
+    p.on('pageerror', e => errs.push(e.message));
+    await p.addInitScript(() => { try { localStorage.setItem('ficsit-tools:vu:planner.html', '1.48'); } catch (e) {} });
+    await p.goto('file://' + path.join(ROOT, 'planner.html'));
+    await p.waitForTimeout(500);
+    const pb = [];
+    const etat = () => p.evaluate(() => { const c = document.getElementById('journal').classList; return c.contains('pn-neuf') ? 'neuf' : c.contains('pn-ajust') ? 'ajust' : 'rien'; });
+    // jamais vu (nouvelle clé) : pastille orange ; ancienne clé supprimée
+    if (await etat() !== 'neuf') pb.push('jamais vu : pastille orange attendue');
+    if (await p.evaluate(() => localStorage.getItem('ficsit-tools:vu:planner.html') !== null)) pb.push('ancienne clé vu non supprimée');
+    const der = await p.evaluate(() => document.getElementById('journal').dataset.v);
+    const dsite = await p.evaluate(() => document.getElementById('journal').dataset.sv);
+    // ouvrir mémorise la version vue (outil et site) et éteint la pastille
+    await p.click('.pn-btn');
+    const memo = await p.evaluate(() => [localStorage.getItem('ficsit-tools:vu2:planner.html'), localStorage.getItem('ficsit-tools:vu2:site')]);
+    if (memo[0] !== der || memo[1] !== dsite) pb.push('versions vues non mémorisées : ' + memo.join(' / ') + ' ≠ ' + der + ' / ' + dsite);
+    if (await etat() !== 'rien') pb.push('pastille toujours là après ouverture');
+    // les trois niveaux : on ajoute une entrée plus récente de chaque niveau et on rejoue le script du journal
+    const cas = await p.evaluate(async ([der]) => {
+      const seg = der.split('.').map(Number), rep = {};
+      const code = [...document.querySelectorAll('script')].find(s => /ficsit-tools:vu2/.test(s.textContent)).textContent;
+      for (const [niv, v] of [['feat', `${seg[0]}.${seg[1] + 1}.0`], ['aj', `${seg[0]}.${seg[1]}.${seg[2] + 1}`], ['fix', `${seg[0]}.${seg[1]}.${seg[2]}.1`]]) {
+        const r = document.getElementById('journal'); r.className = 'pn';
+        r.querySelectorAll('.pn-pt').forEach(x => x.remove()); r.querySelectorAll('[data-test]').forEach(x => x.remove());
+        const li = document.createElement('li'); li.dataset.test = '1'; li.dataset.v = v; li.dataset.niv = niv; li.dataset.src = 'outil';
+        li.innerHTML = '<span class="n">x</span>'; r.querySelector('.pn-hist').appendChild(li);
+        localStorage.setItem('ficsit-tools:vu2:planner.html', der); localStorage.setItem('ficsit-tools:vu2:site', r.dataset.sv);
+        new Function(code)();
+        rep[niv] = r.classList.contains('pn-neuf') ? 'neuf' : r.classList.contains('pn-ajust') ? 'ajust' : 'rien';
+      }
+      return rep;
+    }, [der]);
+    if (cas.feat !== 'neuf' || cas.aj !== 'ajust' || cas.fix !== 'rien') pb.push('niveaux de pastille : ' + JSON.stringify(cas) + ' (attendu neuf / ajust / rien)');
+    // présentation : dernière version dépliée avec titre, ajustements dans des replis, correctifs plus discrets que les ajustements
+    await p.reload(); await p.waitForTimeout(400); await p.click('.pn-btn');
+    const m = await p.evaluate(() => {
+      const css = (e, k) => parseFloat(getComputedStyle(e)[k]), q = s => document.querySelector(s);
+      const aj = q('.pn-aj li.aj'), fx = q('.pn-aj li.fx');
+      return {titre: !!q('.pn-cur .pn-tt'), repli: !!q('.pn-hist details.pn-aj'), aj: !!aj, fx: !!fx,
+        plusPetit: aj && fx && css(fx, 'fontSize') < css(aj, 'fontSize'), plusSombre: aj && fx && getComputedStyle(fx).color !== getComputedStyle(aj).color,
+        anciennes: document.querySelectorAll('.pn-hist .pn-g').length, site: !!q('details.pn-site'),
+        sitePremier: !q('details.pn-site').open};
+    });
+    if (!m.titre || !m.repli) pb.push('dernière version avec titre, versions anciennes avec repli des ajustements attendus ' + JSON.stringify(m));
+    if (!m.aj || !m.fx || !m.plusPetit || !m.plusSombre) pb.push('correctif pas plus discret que l\'ajustement ' + JSON.stringify(m));
+    if (m.anciennes < 5) pb.push('versions anciennes repliées attendues');
+    if (!m.site) pb.push('journal « Site » absent du panneau');
+    if (errs.length) pb.push('erreurs JS : ' + errs.slice(0, 2).join(' | '));
+    pb.forEach(x => echecs.push('journal : ' + x));
+    console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} journal des révisions : niveaux, pastille, clé vu2, correctifs discrets, journal Site`);
+    await p.close();
+  }
+
   // coquille (outils.html, en http) : un onglet de la barre montre l'outil dans un autre cadre, sans recharger la page ;
   // l'outil précédent garde son état ; l'adresse et le titre suivent ; « Précédent » revient au premier outil
   {

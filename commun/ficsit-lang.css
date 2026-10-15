@@ -22,6 +22,7 @@ html.en-coquille .pn{position:relative;z-index:9999}   /* le panneau du journal 
 .fjournal .pn-dot{display:none;position:absolute;left:3px;top:3px;width:8px;height:8px;border-radius:50%;background:var(--f-or);
   box-shadow:0 0 0 2px var(--f-barre)}
 .fjournal.neuf .pn-dot{display:block}
+.fjournal.ajust:not(.neuf) .pn-dot{display:block;width:6px;height:6px;left:4px;top:4px;background:#9a9a9a}
 /* outil en arrière-plan dans la coquille (outils.html) : rien ne s'anime pour rien */
 html.en-fond *,html.en-fond *::before,html.en-fond *::after{animation-play-state:paused!important}
 .fdock{view-transition-name:fdock}

@@ -1,497 +1,512 @@
 # Journal des révisions
 
 Généré depuis `changelog.json` par `scripts/patchnotes.py` — ne pas éditer à la main.
+Version x.y.0 : fonctionnalité ; x.y.z : ajustement ; x.y.z.w : correctif de bug (rangé sous l'ajustement z).
+
+## Site / Site — journal commun
+
+### v1.11.0 — Journal refondu (15/10/2026)
+
+Le journal distingue trois niveaux : fonctionnalités (pastille orange qui pulse), ajustements (point gris) et correctifs (discrets, rangés sous l'ajustement concerné). Les changements du site entier ont leur propre journal « Site », en bas du panneau, au lieu d'être répétés dans chaque outil.
+
+*EN — Revised log. The log now has three levels: features (pulsing orange dot), adjustments (grey dot) and fixes (discreet, filed under the adjustment they belong to). Site-wide changes have their own “Site” log, at the bottom of the panel, instead of being repeated in every tool.*
+
+### v1.10.0 — Un site en une seule page (06/10/2026)
+
+Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.
+
+*EN — A single-page site. The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and “Back” returns to the previous tool.*
+
+- **1.10.4** (06/10/2026) : Une seule barre de titre pour tout le site ; le journal de la barre est celui de l'outil affiché.
+  *EN — A single title bar for the whole site; the changelog in the bar is the one of the tool on screen.*
+- **1.10.3** (06/10/2026) : Plus d'écran noir en changeant d'outil : l'outil courant reste affiché, avec un liseré de chargement, jusqu'à ce que le suivant soit prêt.
+  *EN — No more black screen when switching tools: the current tool stays on screen, with a loading line, until the next one is ready.*
+- **1.10.2** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un : même à la première visite, un onglet s'affiche aussitôt.
+  *EN — The other tools open in the background, one by one: even on a first visit, a tab shows at once.*
+- **1.10.1** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : le contenu passe en fondu et l'outil survolé est préparé à l'avance (Chrome et Edge).
+  *EN — Switching tools no longer makes the page flicker: the content fades across and a hovered tool is prepared ahead (Chrome and Edge).*
+
+### v1.9.0 — Barre de titre à onglets (04/10/2026)
+
+La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
+
+*EN — Title bar with tabs. The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
+
+- **1.9.1** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, avant les onglets des outils.
+  *EN — The “Home” button moves to the left of the title bar, before the tool tabs.*
+
+### v1.8.0 — Infobulles de la charte (04/10/2026)
+
+Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
+
+*EN — Style-guide tooltips. Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard.*
+
+- **1.8.1** (07/10/2026) : Infobulles au tactile (appui long de 0,5 s) et contraste renforcé quand le système le demande.
+  *EN — Tooltips on touch screens (0.5 s long press) and higher contrast when the system asks for it.*
+  - correctif **1.8.0.1** (06/10/2026) : Une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
+    *EN — A bubble with the tool's file name (“planner.html”…) followed the cursor all over the page.*
+
+### v1.7.0 — Habillage des menus du jeu (02/10/2026)
+
+Habillage au plus près des menus du jeu : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans embarquée dans le site (même rendu hors ligne), filet orange du HUD à la place des hachures. Les boutons du haut forment une barre de titre pleine largeur ; couleurs et polices viennent d'une charte commune.
+
+*EN — Game-menu look. Look brought as close as possible to the game's menus: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the Noto Sans typeface shipped with the site (same look offline), the HUD's orange line instead of hazard stripes. The top buttons form a full-width title bar; colours and fonts come from one style sheet shared by every tool.*
+
+### v1.6.0 — Fonctionnement hors ligne (30/09/2026)
+
+Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.
+
+*EN — Offline use. The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection.*
+
+### v1.5.0 — Ma partie, commune à tous les outils (29/09/2026)
+
+Bouton « Ma partie » en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.
+
+*EN — “My game”, shared by every tool. “My game” button at the top right of every tool and of the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game.*
+
+- **1.5.1** (29/09/2026) : Le français emploie les termes du jeu : « cadence », « surcadençage », « sous-cadençage », « éclats de charge ».
+  *EN — The French text uses the game's own terms for clock speed, overclocking and power shards. English unchanged.*
+
+### v1.4.0 — Fichiers communs et grille de paliers (26/09/2026)
+
+La langue, le glossaire, la grille de paliers et les icônes sont chargés depuis des fichiers communs, mis en cache une fois : les pages pèsent bien moins lourd. La grille de paliers est la même dans tous les outils.
+
+*EN — Shared files and tier grid. Language, glossary, tier grid and icons now load from shared files, cached once: pages weigh far less. The tier grid is the same in every tool.*
+
+### v1.3.0 — Bouton Accueil (25/09/2026)
+
+Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.
+
+*EN — Home button. “Home” button in the top-right dock, to go back to the list of tools.*
+
+### v1.2.0 — Données du jeu recalculées (24/09/2026)
+
+Noms français pour toutes les recettes, alternatives comprises (160 noms d'après la localisation officielle du jeu), et paliers des recettes du MAM recalculés d'après l'arbre de recherche du wiki officiel : la plupart des recherches de départ sortent dès le palier 1 ou 2 au lieu de 3.
+
+*EN — Game data recomputed. French names for every recipe, alternates included (160 names from the game's official localisation), and MAM recipe tiers recomputed from the official wiki's research tree: most early researches now come out at tier 1 or 2 instead of 3.*
+
+- **1.2.1** (24/09/2026) : Mention en bas de page : le site est généré par IA.
+  *EN — Footer note: the site is generated by AI.*
+
+### v1.1.0 — Journal des révisions (24/09/2026)
+
+Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d'un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal.
+
+*EN — Revision log. The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven't seen yet, and new entries are marked in the log.*
+
+### v1.0.0 — Langue FR/EN commune (22/09/2026)
+
+La langue se choisit avec un drapeau FR/EN commun à tous les outils, en haut à droite : textes, notes, noms du jeu et format des nombres suivent. Noms de bâtiments, d'items et de recettes de base en français d'après la localisation officielle.
+
+*EN — Shared FR/EN language. The language is chosen with one FR/EN flag shared by every tool, at the top right: texts, notes, game names and number format follow. Building, item and base-recipe names in French, from the game's official localisation.*
 
 ## Planificateur de production / Production planner — `planner.html`
 
-- **v1.48** (10/10/2026) : Plus de case « Alternatives » : les recettes alternatives sont toujours proposées sur un bloc (menu ⇄ et liste), en mode standard comme optimisé, sans rien changer à la recette par défaut, qui reste la standard tant que vous n'en choisissez pas une autre ; l'optimisation continue de les comparer toute seule. Les anciennes adresses avec l'option sont lues sans elle.
-  *EN — No more “Alternates” checkbox: alternate recipes are always offered on a block (⇄ menu and list), in standard and optimised modes alike, without changing the default recipe, which stays the standard one until you pick another; the optimisation still compares them on its own. Old addresses carrying the option are read without it.*
-- **v1.47** (10/10/2026) : Une case « Ignorer ma partie pour ce plan » (dans les réglages du plan, visible quand une partie est importée) : le plan se calcule alors comme sans sauvegarde (palier et alternatives au choix, extracteurs et convoyeurs selon le palier, pas de comparaison avec l'usine), sans toucher à l'import ni aux autres plans, qui gardent la partie. Le choix est propre à l'onglet, mémorisé avec lui et repris dans l'adresse partageable.
-  *EN — A “Ignore my game for this plan” checkbox (in the plan settings, shown when a game is imported): the plan is then computed as if there were no save (tier and alternates of your choice, extractors and belts by tier, no comparison with the factory), without touching the import or the other plans, which keep the game. The choice belongs to the tab, is stored with it and carried in the shareable address.*
-- **v1.46** (09/10/2026) : Montage en équilibrage : un bloc sans sortie en trop n'affiche plus de retour fantôme (flèches orange, « ↺ 0 /min » sous le bloc) ; le retour (pointillés, flèches, débit) n'est dessiné que pour une entrée qui a vraiment une boucle. Défaut introduit par la lisibilité de la boucle (1.41), qui dessinait flèches et débit même à 0.
-  *EN — Load-balancing layout: a block with no spare output no longer shows a ghost return (orange arrows, “↺ 0 /min” under the block); the return (dashes, arrows, flow) is only drawn for an input that really has a loop. A defect introduced by the loop readability change (1.41), which drew arrows and flow even at 0.*
-- **v1.45** (09/10/2026) : Le nom d'un bloc ne chevauche plus ses boutons (changer de recette, replier) : il est mesuré à l'écran avec la police du site, écrit à la taille normale s'il tient, en plus petit sinon, et abrégé (« … ») en dernier recours, au lieu de compter les lettres (les lettres larges débordaient). Le nom complet reste dans l'infobulle.
-  *EN — A block’s name no longer overlaps its buttons (change recipe, fold): it is measured on screen with the site font, written at normal size if it fits, smaller otherwise, and shortened (“…”) as a last resort, instead of counting letters (wide letters overflowed). The full name stays in the tooltip.*
-- **v1.44** (09/10/2026) : Un bloc en recette alternative porte le nom de sa recette (« Rotor en cuivre », « Fil fusionné »…) au lieu de celui de l'item, replié comme déplié, dans la liste et dans le détail ; la ligne orange sous le nom, devenue redondante, disparaît (les blocs alternatifs ont la hauteur des autres). Un nom trop long est abrégé sur le bloc, en entier dans l'infobulle.
-  *EN — A block on an alternate recipe carries the recipe’s name (“Copper Rotor”, “Fused Wire”…) instead of the item’s, folded or unfolded, in the list and in the detail; the orange line under the name, now redundant, is gone (alternate blocks have the same height as the others). A name that is too long is shortened on the block, in full in the tooltip.*
-- **v1.43** (09/10/2026) : Le menu de changement de recette s'ouvre de nouveau juste sous le bouton ⇄ du bloc : sa place était calculée sans les marges du graphe (la colonne de gauche) et tombait loin à gauche du bouton ; elle suit maintenant la place réelle du bouton à l'écran, quels que soient le zoom et le défilement.
-  *EN — The recipe-change menu opens right below the block's ⇄ button again: its position was computed without the graph margins (the left column) and landed far to the left of the button; it now follows the button's real position on screen, whatever the zoom and scroll.*
-- **v1.42** (09/10/2026) : Les blocs rangés à la main ne se recouvrent plus quand on déplie tout (ou qu'une recette change et qu'un bloc grandit) : la place gardée d'un bloc qui en recouvrirait un autre est oubliée, et il retrouve sa place automatique. Changer la recette d'un bloc replié le laisse replié (et un bloc déplacé garde sa place) : l'état suit la recette au lieu d'être perdu avec l'ancien identifiant. Un grand plan déplié ramait : les animations (icônes qui avancent, traits qui défilent) sont gelées pendant un défilement, un glissé ou un zoom et reprennent aussitôt après (60 images/s au lieu de 56, images lentes divisées par deux sur 50 moteurs dépliés), et les mesures des liens sont lues avant d'ajouter des éléments au dessin.
-  *EN — Blocks arranged by hand no longer overlap when everything is unfolded (or when a recipe changes and a block grows): the kept position of a block that would overlap another is forgotten, and it goes back to its automatic place. Changing the recipe of a folded block leaves it folded (and a moved block keeps its place): the state follows the recipe instead of being lost with the old identifier. A large unfolded plan was sluggish: animations (moving icons, flowing dashes) are frozen during scrolling, dragging or zooming and resume right after (60 frames/s instead of 56, slow frames halved on 50 unfolded motors), and link measurements are read before adding elements to the drawing.*
-- **v1.41** (08/10/2026) : Awesome Sink : le récap indique les points par minute du surplus s'il est broyé, et de tout ce que le plan produit (objectifs et surplus) si tout est broyé ; chaque bloc de surplus affiche ses points. Montage en équilibrage plus lisible : l'emplacement de la sortie renvoyée est dessiné comme un emplacement sans machine (pointillés, ↺), le débit qui revient est écrit le long du trait de retour, des flèches en donnent le sens, et chaque retour a sa propre ligne, bien espacée sous les machines ; quand deux entrées ont une boucle, les rangs sont plus hauts pour que le tronc d'une bande ne frôle plus une branche de l'autre. Les marques de source (lettre, couleur, rail, pastilles) n'apparaissent que pour un item dont un poste est servi par plusieurs sources ou blocs ; quand chaque source ou bloc sert ses propres consommateurs, la topologie suffit.
-  *EN — Awesome Sink: the summary shows the points per minute of the surplus if it is sunk, and of everything the plan makes (targets and surplus) if everything is sunk; each surplus block shows its points. Clearer load-balancing layout: the looped-back output is drawn as a slot without a machine (dashed, ↺), the flow that returns is written along the return line, arrows show its direction, and each return has its own line, well spaced below the machines; when two inputs have a loop, the rows are taller so one band's trunk no longer grazes a branch of the other. Source marks (letter, colour, rail, badges) only appear for an item with a station served by several sources or blocks; when each source or block serves its own consumers, the layout is enough.*
-- **v1.40** (08/10/2026) : Le réglage « Sources » scinde aussi les produits intermédiaires : en mode scindé, une étape dont l'unique produit dépasse la ligne du convoyeur (ou tuyau) le plus fort débloqué se refait en plusieurs blocs, chacun d'au plus une ligne, qui servent des postes voisins dans la chaîne (les plus éloignés du produit fini d'abord). Chaque bloc a ses machines entières, sa cadence et ses entrées au prorata, et reçoit à son tour ses propres sources d'extraction ou blocs amont ; il porte la couleur, la forme et la lettre de sa source (bande, pastille, rail sur ses liens), comme les sources d'extraction. Le bilan indique l'écart de machines, d'extracteurs et de MW face à un seul bloc par recette. Les étapes à plusieurs produits et celles d'une boucle ne sont pas scindées. Un consommateur n'est coupé entre deux sources ou blocs que si son besoin dépasse une ligne, ou si le garder entier exigerait plus de sources que le minimum ; quand un poste reçoit le même item de plusieurs sources ou blocs, le point où leurs lignes se rejoignent est marqué à son entrée.
-  *EN — The « Sources » setting now also splits intermediate products: in split mode, a step whose only product exceeds the strongest unlocked belt (or pipe) line is rebuilt as several blocks, each of at most one line, serving neighbouring stations in the chain (the furthest from the finished product first). Each block has its own whole machines, clock and inputs in proportion, and in turn gets its own extraction sources or upstream blocks; it carries the colour, shape and letter of its source (band, badge, rail on its links), like extraction sources. The summary shows the machine, extractor and MW difference against one block per recipe. Steps with several products and steps inside a loop are not split. A consumer is only cut between two sources or blocks if its need exceeds one line, or if keeping it whole would need more sources than the minimum; when a station receives the same item from several sources or blocks, the point where their lines join is marked at its input.*
-- **v1.39** (08/10/2026) : Réglage « Sources » : en mode scindé, une ressource brute au-delà de la ligne la plus forte du convoyeur (ou tuyau) débloqué se prend à plusieurs sources, chacune remplissant au plus une ligne ; les consommateurs sont rangés du plus éloigné du produit fini au plus proche et servis dans cet ordre, donc une source dessert des postes voisins dans la chaîne (un gros consommateur est coupé). Chaque source a ses extracteurs, sa cadence, sa couleur et sa forme (A rond bleu, B carré rose…) : un rail de sa couleur double ses lignes et des pastilles marquent leurs deux bouts. Le bilan indique l'écart d'extracteurs et de MW face à une seule source par ressource. Par défaut : groupées, comme avant ; le réglage suit l'adresse partageable.
-  *EN — New « Sources » setting: in split mode, a raw resource beyond the strongest unlocked belt (or pipe) line is taken from several sources, each filling at most one line; consumers are sorted from the furthest from the finished product to the nearest and served in that order, so a source serves neighbouring stations in the chain (a large consumer is cut). Each source has its own extractors, clock, colour and shape (A blue circle, B pink square…): a rail of its colour doubles its lines and badges mark both ends. The summary shows the extractor and MW difference against one source per resource. Default: merged, as before; the setting follows the shareable address.*
-- **v1.38** (08/10/2026) : L'extraction fait partie du plan : le bloc de chaque ressource brute porte ses extracteurs (le meilleur niveau débloqué, nombre et cadence communes, MW, fragments d'énergie à poser) et un bouton de pureté du nœud (impur, normal, pur). Un réglage « Extraction » choisit la cadence : sans surcadençage (le moins d'énergie par item) ou jusqu'à 250 % (le moins d'extracteurs, de nœuds et d'espace) ; par défaut selon le critère du plan. La consommation, l'espace et le nombre de machines du bilan comptent l'extraction. Le convoyeur ou le tuyau le plus fort débloqué plafonne la cadence ; l'azote n'est pas planifié.
-  *EN — Extraction is part of the plan: each raw resource block shows its extractors (best unlocked tier, shared count and clock, MW, power shards to fit) and a node purity button (impure, normal, pure). An « Extraction » setting picks the clock: no overclock (least power per item) or up to 250% (fewest extractors, nodes and floor space); by default it follows the plan's criterion. The summary's power draw, floor space and machine count include extraction. The best unlocked belt or pipe caps the clock; nitrogen is not planned.*
-- **v1.37** (07/10/2026) : Montages dépliés : les sorties des machines sont toujours réunies par un seul collecteur (n − 1 groupeurs), quel que soit le montage des entrées ; le dernier groupeur s'appuie sur le bord du bloc, d'où part le lien (plus de trait de sortie). Un montage plus étroit que le bloc est calé à droite.
-  *EN — Unfolded layouts: machine outputs are always merged by a single collector (n − 1 mergers), whatever the input layout; the last merger sits on the block's edge, where the link starts (no more output stub). A layout narrower than the block is aligned to the right.*
-- **v1.36** (07/10/2026) : Montages dépliés : le texte du Mk de sortie n'est plus répété (le lien, en dehors du bloc, l'indique déjà) ; les textes de Mk ont leur place sans recouvrir les convoyeurs (lignes d'entrée plus espacées, départs rehaussés).
-  *EN — Unfolded layouts: the output Mk text is no longer repeated (the link outside the block already shows it); Mk texts now have room and no longer cover the conveyors (input lines spaced further apart, starts raised).*
-- **v1.35** (07/10/2026) : Items acheminés de façon cohérente dans les montages dépliés : un item suit un trajet d'un seul tenant, de l'entrée à la machine (ou de la machine à la sortie, ou par le trait de retour), et choisit sa branche tour à tour à chaque séparateur au lieu de disparaître et réapparaître ; l'espacement se répartit donc comme le flux, et la vitesse suit le niveau de convoyeur de chaque tronçon. Le texte du Mk apparaît au départ de chaque entrée et à chaque changement de niveau (étage de séparateurs, branche, regroupement).
-  *EN — Items are now carried consistently inside unfolded layouts: an item follows a single path from the input to the machine (or from the machine to the output, or around the return line) and picks its branch in turn at each splitter instead of vanishing and reappearing; spacing therefore follows the flow, and speed follows the conveyor tier of each stretch. The Mk text appears at the start of each input and wherever the tier changes (splitter stage, branch, merge).*
-- **v1.34** (07/10/2026) : Objectif replié sur son bloc : quand tout ce qu'une étape produit va à un seul objectif, le cadre « objectif » et son lien disparaissent ; le bloc prend un liseré orange et un onglet « OBJECTIF · 5 /min ». Un item qui sert aussi d'autres blocs, ou plusieurs objectifs, gardent leur cadre.
-  *EN — Target folded onto its block: when everything a step makes goes to a single target, the « target » box and its link disappear; the block gets an orange outline and a « TARGET · 5 /min » tab. An item that also feeds other blocks, or several targets, keep their box.*
-- **v1.33** (07/10/2026) : Montage déplié plus lisible : lignes d'entrée deux fois plus espacées, machines numérotées. Les items sont acheminés : une icône par unité avance sur les convoyeurs, à la vitesse de leur niveau, dans les montages dépliés (à partir de 80 % de zoom) et sur les liens qui sortent d'un bloc replié (ou de n'importe quel bloc quand on s'éloigne). Les noms des entrées disparaissent, remplacés par ces icônes. Au-delà de 800 icônes ou en mouvement réduit, retour aux points ou icônes immobiles.
-  *EN — Unfolded layouts easier to read: input lines spaced twice as far apart, numbered machines. Items are now carried: one icon per unit moves along the conveyors at their tier's speed, inside unfolded layouts (from 80 % zoom) and on links leaving a folded block (or any block when zoomed out). Input names are gone, replaced by these icons. Above 800 icons the dots come back; with reduced motion the icons stand still.*
-- **v1.32** (07/10/2026) : Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.
-  *EN — Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter.*
-- **v1.31** (06/10/2026) : Survoler un bloc du graphe met en lumière toute sa chaîne : en amont jusqu'aux ressources brutes (fournisseurs, leurs fournisseurs…) et en aval jusqu'aux objectifs (consommateurs, leurs consommateurs…), avec les flux qui les relient ; le reste s'efface.
-  *EN — Hovering a graph box highlights its whole chain: upstream down to the raw resources (suppliers, their suppliers…) and downstream up to the targets (consumers, their consumers…), with the flows linking them; the rest fades out.*
-- **v1.30** (06/10/2026) : Survoler un bloc du graphe met en lumière toute sa lignée en amont, de ses fournisseurs directs jusqu'aux ressources brutes, avec les flux qui les relient (et toujours ses consommateurs directs) ; le reste s'efface.
-  *EN — Hovering a graph box highlights its whole upstream lineage, from its direct suppliers down to the raw resources, with the flows linking them (and still its direct consumers); the rest fades out.*
-- **v1.29** (06/10/2026) : Montage déplié : chaque ingrédient a maintenant sa propre ligne dessinée jusqu'aux machines, avec son nom, ses séparateurs et son convoyeur (le charbon et le minerai de fer d'une fonderie d'acier, par exemple), au lieu d'une note « même montage » sous le bloc. Les sous-produits ont aussi leur ligne de sortie. Chaque lien du graphe arrive sur la ligne de son item, et les lignes sont rangées selon la place des blocs voisins pour éviter que les flux se croisent.
-  *EN — Unfolded layout: each ingredient now has its own line drawn up to the machines, with its name, splitters and belt (the coal and the iron ore of a steel foundry, for instance), instead of a "same layout" note under the box. By-products get their own output line too. Each graph link reaches its item's line, and the lines are ordered by where the neighbouring boxes sit so flows do not cross.*
-- **v1.28** (06/10/2026) : Les convoyeurs du graphe prennent les couleurs du mémo de terrain, du froid au chaud : Mk.1 ardoise, Mk.2 lavande, Mk.3 bleu, Mk.4 bronze, Mk.5 orange, Mk.6 rouge. Une seule échelle pour tout le site.
-  *EN — Graph belts take the field notes' colours, from cool to warm: Mk.1 slate, Mk.2 lavender, Mk.3 blue, Mk.4 bronze, Mk.5 orange, Mk.6 red. One scale for the whole site.*
-- **v1.27** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
-  *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
-- **v1.26** (06/10/2026) : Graphe plus lisible : bien moins de flux qui se croisent (souvent de moitié, parfois plus), chaque bloc est aligné sur ceux qu'il alimente et dont il dépend pour des liens plus droits, et un flux qui saute plusieurs colonnes passe entre les blocs, en ligne droite, au lieu de les traverser.
-  *EN — A clearer graph: far fewer flows crossing each other (often half as many, sometimes fewer still), each box is lined up with the boxes it feeds and draws from so links run straighter, and a flow that skips several columns runs straight between the boxes instead of through them.*
-- **v1.25** (06/10/2026) : Plusieurs plans à la fois, dans des onglets au-dessus des objectifs : « + » en ouvre un nouveau, double-clic ou ✎ pour le renommer, × pour le fermer ; chaque plan garde ses objectifs, ses recettes, son mode et sa disposition. Le plan affiché est aussi inscrit dans l'adresse de la page : envoyer le lien suffit pour le partager, il s'ouvre chez l'autre dans un nouvel onglet.
-  *EN — Several plans at once, in tabs above the targets: "+" opens a new one, double-click or ✎ renames it, × closes it; each plan keeps its targets, recipes, mode and layout. The plan on screen is also written in the page address: sending the link is enough to share it, and it opens in a new tab on the other side.*
-- **v1.24** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
-  *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
-- **v1.23** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
-  *EN — No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations.*
-- **v1.22** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
-  *EN — The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame.*
-- **v1.21** (06/10/2026) : Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.
-  *EN — The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and "Back" returns to the previous tool.*
-- **v1.20** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
-  *EN — Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge).*
-- **v1.19** (06/10/2026) : Les modes optimisés suivent l'ordre des critères de l'infographie : Énergie, Matière, Espace (au lieu de « Place »), puis Synthèse. Même ordre pour les poids de la synthèse et les tuiles du bilan.
-  *EN — Optimised modes follow the order of the infographic's criteria: Power, Materials, Space, then Synthesis. Same order for the synthesis weights and the summary tiles.*
-- **v1.18** (05/10/2026) : Les montages sont dépliés par défaut dans le graphe (séparateurs, machines, groupeurs de chaque étape) ; le bouton − d'un bloc le replie et la page s'en souvient, « Tout replier » / « Tout déplier » bascule l'ensemble. L'interrupteur manifold / équilibrage est plus grand.
-  *EN — Layouts are unfolded by default in the graph (each step's splitters, machines, mergers); a box's − button folds it and the page remembers, "Fold all" / "Expand all" toggles them all. The manifold / load balancing switch is larger.*
-- **v1.17** (05/10/2026) : Le palier se choisit dans la même grille que les autres outils (icône et numéro de chaque palier du HUB). Avec une partie importée, le palier atteint est sélectionné tout seul à chaque import ; on peut descendre plus bas pour préparer un plan plus modeste, les paliers pas encore atteints sont hachurés. La case Alternatives et « Recettes par défaut » passent sous le choix des recettes.
-  *EN — The tier is picked from the same grid as the other tools (each HUB tier's icon and number). With an imported game, the tier reached is selected automatically at each import; you can go lower to prepare a smaller plan, tiers not reached yet are hatched. The Alternates box and "Default recipes" move under the recipe choice.*
-- **v1.16** (05/10/2026) : Objectifs et réglages passent dans un bandeau en haut, sur toute la largeur : objectifs côte à côte, choix des recettes, palier et alternatives, montage ; il se replie (objectifs seuls), et la colonne de gauche ne garde que le bilan et les outils. Le choix des recettes devient une glissière : son curseur se fait glisser d'un mode à l'autre (ou un clic sur un mode, ou les flèches). La liste des objectifs ne propose que les items qu'on peut fabriquer avec les recettes permises (palier, alternatives, ou partie importée).
-  *EN — Targets and settings move to a band across the top: targets side by side, recipe choice, tier and alternates, layout; it folds away (targets only), and the left column keeps only the summary and tools. The recipe choice becomes a slider: drag its handle from one mode to another (or click a mode, or use the arrow keys). The target list only offers items that the allowed recipes can make (tier, alternates, or imported game).*
-- **v1.15** (05/10/2026) : Recettes alternatives visibles : un bloc qui en utilise une porte un liseré et une pastille ALT orange, avec le nom de la recette ; le bilan les liste, et un clic amène à leur bloc. Le bouton ⇄ d'un bloc affiche combien d'alternatives permises pourraient le remplacer. Le choix des recettes devient une règlette (Standard, puis Matière, Énergie, Place, Synthèse optimisées) : un clic au lieu de deux. En mode optimisé, les alternatives sont toujours incluses (case cochée et grisée). Les objectifs se choisissent dans une liste avec icônes et recherche (clavier compris), et la quantité a des boutons − et + de la hauteur du champ (Maj : par 10).
-  *EN — Alternate recipes are visible: a box that uses one gets an orange edge and ALT tag, with the recipe's name; the summary lists them, and a click takes you to their box. A box's ⇄ button shows how many allowed alternates could replace it. The recipe choice becomes a segmented bar (Standard, then optimised Materials, Power, Space, All three): one click instead of two. In optimised modes, alternates are always included (box ticked and greyed out). Targets are picked from a list with icons and search (keyboard included), and the amount has − and + buttons as tall as the field (Shift: by 10).*
-- **v1.14** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
-  *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
-- **v1.13** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
-  *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
-- **v1.12** (04/10/2026) : Corrigé : faire glisser le fond du graphe surlignait le texte des blocs et des liens.
-  *EN — Fixed: dragging the graph's background highlighted the text of boxes and links.*
-- **v1.11** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
-  *EN — Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard.*
-- **v1.10** (04/10/2026) : Moins de place : la surface compte désormais des bâtiments entiers (une machine à 10 % prend autant de place qu'à 100 %), résolu en nombres entiers à 1 % près de l'optimum, au lieu d'une surface au prorata de la cadence qui n'avait pas de sens. Corrigé : sur une grosse chaîne, « moins d'énergie » ou « moins de place » pouvait laisser des items (jusqu'aux objectifs) comme « à fournir » au lieu de les fabriquer. Les optimisations sont mémorisées : changer le montage, la vue ou la langue ne les relance plus.
-  *EN — Less space: the floor area now counts whole buildings (a machine at 10% takes as much room as at 100%), solved in whole numbers within 1% of the optimum, instead of an area pro rata of the clock speed that made no sense. Fixed: on a large chain, "less power" or "less space" could leave items (up to the targets) as "to supply" instead of making them. Optimisations are remembered: changing the layout, view or language no longer reruns them.*
-- **v1.9** (03/10/2026) : Trois optimisations, comme les critères de l'infographie : moins de matière (ressources pesées par leur rareté), moins d'énergie (MW des machines), et nouveau, moins de place (m² au sol des machines, au prorata de leur usage). Nouvelle synthèse des trois : chaque critère compte en part de sa valeur pour la chaîne standard, avec un curseur de poids par critère. Le bilan donne la place au sol et, en mode optimisé, l'écart de chaque critère face à la chaîne standard.
-  *EN — Three optimisations, like the infographic's criteria: fewer materials (resources weighed by their scarcity), less power (machine MW), and new, less space (the machines' floor m², pro rata of their use). New combination of all three: each criterion counts as a share of its value for the standard chain, with one weight slider per criterion. The summary gives the floor space and, when optimised, each criterion's gap from the standard chain.*
-- **v1.8** (03/10/2026) : La molette (ou le pincement du pavé tactile) zoome sur le graphe autour du pointeur. Tous les réglages et le bilan passent dans une colonne sur le bord gauche, avec les outils à son pied ; repliée, elle devient une barre d'icônes, et le graphe prend toute la largeur. Le détail du bloc choisi s'ouvre sur le bord droit, avec un bouton pour le fermer : plus rien ne se pose au milieu du graphe. Sous le choix des recettes, une phrase dit ce que fait chaque option. Les convoyeurs s'animent : les items défilent dans le sens du flux, plus vite aux niveaux supérieurs (coupé si le système demande moins d'animations).
-  *EN — The mouse wheel (or a touchpad pinch) zooms the graph around the pointer. All settings and the summary move to a column on the left edge, with the tools at its foot; folded, it becomes a bar of icons and the graph takes the whole width. The chosen box's details open on the right edge, with a button to close them: nothing sits in the middle of the graph any more. Under the recipe choice, a sentence says what each option does. Belts are animated: items move along the flow, faster on higher tiers (turned off when the system asks for less motion).*
-- **v1.7** (03/10/2026) : L'outil devient un graphe en plein écran : objectifs et réglages dans un panneau à gauche, bilan (MW, machines, ressources brutes, surplus) à droite, outils (vue, zoom, réorganiser, déplier) en bas, détail du bloc choisi en bas à gauche ; chaque panneau se replie (mémorisé), la liste des étapes et les hypothèses s'ouvrent par-dessus. Le fond du graphe se fait glisser pour se déplacer, « Ajuster » remplit la place laissée par les panneaux. Le montage manifold / équilibrage devient un interrupteur. Les convoyeurs (et les tuyaux) sont colorés par niveau, dans les liens comme dans les montages dépliés, avec une légende ; tirets quand il faut plusieurs lignes.
-  *EN — The tool becomes a full-screen graph: targets and settings in a panel on the left, summary (MW, machines, raw resources, surplus) on the right, tools (view, zoom, re-arrange, unfold) at the bottom, the chosen box's details at the bottom left; each panel folds away (remembered), the step list and the assumptions open on top. Drag the graph's background to move around, "Fit" fills the room the panels leave. The manifold / load balancing layout becomes a switch. Belts (and pipes) are coloured by tier, on links and in unfolded layouts, with a legend; dashes when several lines are needed.*
-- **v1.6** (02/10/2026) : Les recettes se changent depuis le graphe : le bouton ⇄ d'une étape (ou la touche R) ouvre sur le graphe la liste des recettes permises pour son item, la recette actuelle cochée, avec « Fourni (hors chaîne) ». Un item fourni garde le bouton sur son bloc de ressource, avec « Recette par défaut » pour le refabriquer. Le panneau du bloc choisi propose aussi la liste des recettes.
-  *EN — Recipes can be changed from the graph: a step's ⇄ button (or the R key) opens on the graph the list of allowed recipes for its item, the current one ticked, with "Supplied (outside the chain)". A supplied item keeps the button on its resource box, with "Default recipe" to make it again. The chosen box's panel also offers the recipe list.*
-- **v1.5** (02/10/2026) : Montage dessiné dans le graphe : le bouton + d'une étape (ou « Tout déplier ») déplie son bloc et dessine la ligne d'entrée, les séparateurs, une rangée par machine, les groupeurs et la ligne de sortie, avec le convoyeur de chaque tronçon. En manifold, le tronc et un séparateur par machine ; en équilibrage, l'arbre de séparateurs étage par étage et la boucle de retour des sorties en trop ; groupeurs en chaîne ou en arbre. Les autres entrées et sorties, au même montage, sont rappelées dessous. Les liens du graphe arrivent sur la ligne d'entrée et partent de la ligne de sortie du bloc déplié.
-  *EN — Layout drawn in the graph: a step's + button (or "Expand all") unfolds its box and draws the input line, the splitters, one row per machine, the mergers and the output line, with each section's belt. As a manifold, the trunk and one splitter per machine; with load balancing, the splitter tree level by level and the loop back of extra outputs; mergers in a row or in a tree. The other inputs and outputs, with the same layout, are listed below. Graph links reach the unfolded box's input line and leave from its output line.*
-- **v1.4** (02/10/2026) : Le graphe devient la vue par défaut. Chaque lien indique le convoyeur (ou le tuyau) qu'il lui faut, le plus petit niveau débloqué qui passe son débit, plusieurs lignes au-delà du Mk.6. Les blocs se déplacent à la souris, au doigt ou aux flèches du clavier, et gardent leur place ; « Réorganiser » revient à la disposition automatique. Nouveau choix de montage : manifold (séparateurs et groupeurs en chaîne) ou équilibrage (arbre de séparateurs 1 → 2 ou 1 → 3, avec boucle de retour quand le nombre de machines ne s'y prête pas, groupeurs en arbre) ; chaque bloc résume ses séparateurs et groupeurs, et le toucher donne sous le graphe le montage de chaque entrée et sortie, avec le convoyeur de chaque branche. Le même détail se déplie dans la liste.
-  *EN — The graph becomes the default view. Each link shows the belt (or pipe) it needs, the smallest unlocked tier that carries its rate, several lines beyond Mk.6. Boxes move with the mouse, a finger or the arrow keys, and keep their place; "Re-arrange" goes back to the automatic layout. New layout choice: manifold (splitters and mergers in a row) or load balancing (tree of 1 → 2 or 1 → 3 splitters, with a loop back when the machine count does not allow it, mergers in a tree); each box sums up its splitters and mergers, and tapping it shows below the graph the layout of each input and output, with the belt of each branch. The same detail unfolds in the list.*
-- **v1.3** (02/10/2026) : Vue en graphe : les étapes de production en blocs reliés par les débits, des ressources brutes (à gauche) aux objectifs et surplus (à droite), avec l'épaisseur de chaque lien selon son débit et les fluides en bleu. Survoler ou toucher un bloc isole ses liens ; zoom et ajustement à la largeur ; avec une partie importée, les blocs disent ce qu'il reste à construire. Les boucles de recettes (recyclage plastique ↔ caoutchouc) ne déroulent plus l'ordre des étapes.
-  *EN — Graph view: production steps as boxes linked by their rates, from raw resources (left) to targets and surplus (right), each link as wide as its rate and fluids in blue. Hover or tap a box to isolate its links; zoom and fit to width; with an imported game, boxes tell what is left to build. Recipe loops (plastic ↔ rubber recycling) no longer stretch the step order.*
-- **v1.2** (02/10/2026) : Recettes optimisées : le planificateur peut choisir lui-même les recettes, en combinant librement toutes celles qui sont permises (un item peut en utiliser plusieurs), pour consommer le moins de ressources (chacune comptée selon sa rareté sur la carte) ou le moins d'énergie. Calcul exact par programmation linéaire (solveur HiGHS, chargé seulement à la première optimisation, puis gardé hors ligne). Nouvelle tuile du bilan : la part des ressources de la carte que demande le plan, pour comparer les modes.
-  *EN — Optimised recipes: the planner can pick the recipes itself, freely combining every allowed one (an item may use several), to use the fewest resources (each weighted by its scarcity on the map) or the least power. Exact computation by linear programming (HiGHS solver, loaded only at the first optimisation, then kept offline). New summary tile: the share of the map's resources the plan needs, to compare modes.*
-- **v1.1** (02/10/2026) : Comparaison avec votre usine : avec une partie importée, le planificateur lit les machines déjà construites (la même lecture que l'outil Depot, gardée en cache). Pour chaque étape, ce que vos machines produisent avec la même recette, à leur cadence et avec leurs Somersloops, la part du temps où elles tournent (mesurée par le jeu), et ce qu'il manque : débit et machines à construire, avec leur total dans le bilan. « Recettes de mon usine d'abord » choisit par défaut les recettes que vous avez déjà construites.
-  *EN — Comparison with your factory: with an imported game, the planner reads the machines already built (the same reading as the Depot tool, kept in cache). For each step, what your machines make with the same recipe, at their clock speed and with their Somersloops, how much of the time they run (measured by the game), and what is missing: rate and machines to build, with their total in the summary. "My factory's recipes first" picks by default the recipes you have already built.*
-- **v1.0** (01/10/2026) : Nouvel outil : vos objectifs de production par minute, et la chaîne qui y mène jusqu'aux ressources brutes. Pour chaque recette, le nombre de machines (exact, puis entier avec la cadence qui va), leur consommation, ce qui entre et ce qui sort ; les sous-produits servent d'abord aux autres étapes, le reste part en surplus. Recette de chaque item au choix, ou « fournie » de l'extérieur. Avec une partie importée, seules les recettes débloquées sont proposées ; sinon, palier et alternatives à régler.
-  *EN — New tool: your production targets per minute, and the chain that leads to them, down to the raw resources. For each recipe, the number of machines (exact, then whole with the matching clock speed), their power draw, what goes in and what comes out; by-products first feed the other steps, the rest goes to surplus. Each item's recipe can be picked, or "supplied" from elsewhere. With an imported game, only unlocked recipes are offered; otherwise, set the tier and alternates.*
+### v1.14.0 — Alternatives toujours disponibles (10/10/2026)
+
+Plus de case « Alternatives » : les recettes alternatives sont toujours proposées sur un bloc (menu ⇄ et liste), en mode standard comme optimisé. La recette par défaut reste la standard tant que vous n'en choisissez pas une autre, et l'optimisation continue de les comparer toute seule.
+
+*EN — Alternates always available. No more “Alternates” checkbox: alternate recipes are always offered on a block (⇄ menu and list), in standard as in optimised mode. The default stays the standard recipe until you choose another, and optimisation still compares them on its own.*
+
+### v1.13.0 — Ignorer ma partie (10/10/2026)
+
+Case « Ignorer ma partie pour ce plan » dans les réglages (visible avec une partie importée) : le plan se calcule comme sans sauvegarde (palier et alternatives au choix, pas de comparaison avec l'usine), sans toucher à l'import ni aux autres plans. Le choix est propre à l'onglet et repris dans l'adresse partageable.
+
+*EN — Ignore my game. “Ignore my game for this plan” checkbox in the settings (shown with an imported game): the plan is computed as without a save (tier and alternates your choice, no factory comparison), without touching the import or other plans. The choice belongs to the tab and is kept in the shareable address.*
+
+### v1.12.0 — Points Awesome Sink (08/10/2026)
+
+Le récap indique les points par minute du surplus s'il est broyé, et de tout ce que le plan produit si tout est broyé ; chaque bloc de surplus affiche ses points.
+
+*EN — Awesome Sink points. The summary shows the points per minute of the surplus if it is sunk, and of everything the plan produces if everything is sunk; each surplus block shows its points.*
+
+- **1.12.4** (09/10/2026) : Un bloc en recette alternative porte le nom de sa recette (« Rotor en cuivre »…) ; un nom trop long est abrégé, en entier dans l'infobulle.
+  *EN — A block on an alternate recipe carries the recipe's name (“Copper Rotor”…); a long name is shortened, in full in the tooltip.*
+  - correctif **1.12.4.1** (09/10/2026) : Le nom d'un bloc ne chevauche plus ses boutons (changer de recette, replier).
+    *EN — A block's name no longer overlaps its buttons (change recipe, fold).*
+- **1.12.3** (09/10/2026) : Un grand plan déplié est plus fluide : les animations sont gelées pendant un défilement, un glissé ou un zoom.
+  *EN — A big expanded plan is smoother: animations freeze during a scroll, drag or zoom.*
+  - correctif **1.12.3.1** (09/10/2026) : Le menu de changement de recette s'ouvre de nouveau juste sous le bouton ⇄.
+    *EN — The recipe-change menu opens right under the ⇄ button again.*
+- **1.12.2** (09/10/2026) : Les blocs rangés à la main ne se recouvrent plus quand on déplie tout ou qu'une recette change.
+  *EN — Blocks placed by hand no longer overlap when you expand everything or a recipe changes.*
+  - correctif **1.12.2.1** (09/10/2026) : Changer la recette d'un bloc replié le laisse replié.
+    *EN — Changing a folded block's recipe leaves it folded.*
+- **1.12.1** (08/10/2026) : Montage en équilibrage plus lisible : le retour a son débit, des flèches et sa propre ligne ; les marques de source ne servent que si un poste a plusieurs sources.
+  *EN — Balanced set-up easier to read: the return is drawn with its flow, arrows and its own spaced line; source marks only show when a station has several sources.*
+  - correctif **1.12.1.1** (09/10/2026) : Un bloc sans sortie en trop n'affiche plus de retour fantôme (« ↺ 0 /min »).
+    *EN — A block with no excess output no longer shows a ghost return (“↺ 0 /min”).*
+
+### v1.11.0 — Sources scindées (08/10/2026)
+
+Réglage « Sources » : en mode scindé, une ressource brute ou un produit intermédiaire au-delà de la ligne la plus forte du convoyeur débloqué se prend à plusieurs sources ou blocs, chacun remplissant au plus une ligne et servant des postes voisins dans la chaîne. Chaque source a sa couleur, sa lettre et son rail ; le bilan donne l'écart face à une seule source. Groupées par défaut.
+
+*EN — Split sources. “Sources” setting: in split mode, a raw resource or intermediate product beyond the strongest unlocked conveyor line is taken from several sources or blocks, each filling at most one line and serving neighbouring stations in the chain. Each source has its own colour, letter and rail; the summary shows the gap against a single source. Grouped by default.*
+
+### v1.10.0 — Extraction dans le plan (08/10/2026)
+
+Le bloc de chaque ressource brute porte ses extracteurs (meilleur niveau débloqué, nombre, cadence, MW) et un bouton de pureté du nœud. Le réglage « Extraction » choisit la cadence : sans surcadençage ou jusqu'à 250 %. Consommation, espace et machines du bilan comptent l'extraction ; le convoyeur ou le tuyau le plus fort débloqué plafonne la cadence.
+
+*EN — Extraction in the plan. Each raw resource block carries its extractors (best unlocked tier, count, clock speed, MW) and a node purity button. The “Extraction” setting picks the clock speed: no overclock or up to 250%. The summary's power, space and machines count extraction; the strongest unlocked conveyor or pipe caps the clock speed.*
+
+### v1.9.0 — Items acheminés sur les convoyeurs (07/10/2026)
+
+Une icône par unité avance sur les convoyeurs, à la vitesse de leur niveau : dans les montages dépliés (à partir de 80 % de zoom) et sur les liens qui sortent d'un bloc replié. Un item suit un trajet d'un seul tenant et choisit sa branche tour à tour à chaque séparateur ; le niveau de convoyeur (Mk) est écrit à chaque changement.
+
+*EN — Items on the conveyors. One icon per unit moves along the conveyors, at their tier's speed: in expanded set-ups (from 80% zoom) and on links leaving a folded block. An item follows one continuous path and takes each splitter branch in turn; the conveyor tier (Mk) is written at every change.*
+
+- **1.9.2** (07/10/2026) : Les sorties des machines sont toujours réunies par un seul collecteur (n − 1 groupeurs), quel que soit le montage des entrées.
+  *EN — Machine outputs are always joined by a single collector (n − 1 mergers), whatever the input layout.*
+- **1.9.1** (07/10/2026) : Montage déplié plus lisible : lignes d'entrée deux fois plus espacées, machines numérotées, textes de Mk sans recouvrir les convoyeurs.
+  *EN — Expanded set-up easier to read: input lines twice as far apart, machines numbered, Mk labels clear of the conveyors.*
+
+### v1.8.0 — Graphe plus lisible (06/10/2026)
+
+Bien moins de flux qui se croisent (souvent de moitié) : chaque bloc est aligné sur ceux qu'il alimente et dont il dépend, et un flux qui saute plusieurs colonnes passe entre les blocs au lieu de les traverser. Survoler un bloc met en lumière toute sa chaîne, des ressources brutes aux objectifs.
+
+*EN — More readable graph. Far fewer crossing flows (often half): each block lines up with the ones it feeds and depends on, and a flow skipping several columns passes between blocks instead of through them. Hovering a block highlights its whole chain, from raw resources to targets.*
+
+- **1.8.3** (07/10/2026) : Objectif replié sur son bloc : quand une étape ne sert qu'un objectif, le cadre disparaît et le bloc porte un onglet « OBJECTIF ».
+  *EN — Target folded onto its block: when a step feeds a single target, the frame goes and the block gets an “OBJECTIVE” tab.*
+- **1.8.2** (06/10/2026) : Montage déplié : chaque ingrédient a sa ligne dessinée jusqu'aux machines, avec son nom, ses séparateurs et son convoyeur.
+  *EN — Expanded set-up: each ingredient has its own line drawn to the machines, with its name, splitters and conveyor.*
+- **1.8.1** (06/10/2026) : Les convoyeurs prennent les couleurs du mémo de terrain, du froid au chaud (Mk.1 ardoise… Mk.6 rouge).
+  *EN — Conveyors use the field memo's colours, cold to hot (Mk.1 slate … Mk.6 red).*
+
+### v1.7.0 — Plusieurs plans (06/10/2026)
+
+Plusieurs plans à la fois, dans des onglets au-dessus des objectifs : « + » en ouvre un, double-clic ou ✎ le renomme, × le ferme ; chaque plan garde ses objectifs, ses recettes, son mode et sa disposition. Le plan affiché est inscrit dans l'adresse : envoyer le lien suffit pour le partager.
+
+*EN — Several plans. Several plans at once, in tabs above the targets: “+” opens one, double-click or ✎ renames it, × closes it; each plan keeps its targets, recipes, mode and layout. The plan on screen is written in the address: sending the link is enough to share it.*
+
+### v1.6.0 — Alternatives visibles et bandeau de réglages (05/10/2026)
+
+Un bloc qui utilise une recette alternative porte un liseré et une pastille ALT, et le bilan les liste. Objectifs et réglages passent dans un bandeau en haut ; le choix des recettes devient une glissière (Standard, puis les modes optimisés), et les objectifs se choisissent dans une liste avec icônes et recherche.
+
+*EN — Visible alternates and settings strip. A block using an alternate recipe gets an edge and an ALT badge, and the summary lists them. Targets and settings move into a strip at the top; the recipe choice becomes a slider (Standard, then the optimised modes), and targets are picked from a list with icons and search.*
+
+- **1.6.2** (05/10/2026) : Les montages sont dépliés par défaut ; le bouton − d'un bloc le replie et la page s'en souvient.
+  *EN — Set-ups are expanded by default; a block's − button folds it and the page remembers.*
+- **1.6.1** (05/10/2026) : Le palier se choisit dans la même grille que les autres outils ; avec une partie importée, le palier atteint est sélectionné à chaque import.
+  *EN — The tier is picked in the same grid as the other tools; with an imported game, the reached tier is selected on each import.*
+
+### v1.5.0 — Trois optimisations et la synthèse (03/10/2026)
+
+Trois optimisations, comme les critères de l'infographie : moins de matière, moins d'énergie et, nouveau, moins de place (m² au sol des machines). Une synthèse réunit les trois, avec un curseur de poids par critère. Le bilan donne la place au sol et, en mode optimisé, l'écart de chaque critère face à la chaîne standard.
+
+*EN — Three optimisations and the synthesis. Three optimisations, like the infographic's criteria: less material, less energy and, new, less space (floor area of the machines). A synthesis combines the three, with a weight slider per criterion. The summary gives floor area and, in optimised mode, each criterion's gap against the standard chain.*
+
+- **1.5.2** (06/10/2026) : Les modes optimisés suivent l'ordre de l'infographie : Énergie, Matière, Espace, puis Synthèse.
+  *EN — Optimised modes follow the infographic's order: Energy, Material, Space, then Synthesis.*
+- **1.5.1** (04/10/2026) : « Moins de place » compte des bâtiments entiers (une machine à 10 % prend autant de place qu'à 100 %) ; les optimisations sont mémorisées.
+  *EN — “Less space” counts whole buildings (a machine at 10% takes as much room as at 100%); optimisations are remembered.*
+  - correctif **1.5.1.1** (04/10/2026) : Sur une grosse chaîne, « moins d'énergie » ou « moins de place » pouvait laisser des items « à fournir » au lieu de les fabriquer.
+    *EN — On a big chain, “less energy” or “less space” could leave items as “to supply” instead of making them.*
+
+### v1.4.0 — Graphe en plein écran (03/10/2026)
+
+L'outil devient un graphe en plein écran : réglages et bilan sur le bord gauche, détail du bloc choisi sur le bord droit, outils en bas ; chaque panneau se replie. La molette zoome autour du pointeur, le fond se fait glisser, « Ajuster » remplit la place libre. Les convoyeurs sont colorés par niveau, avec une légende.
+
+*EN — Full-screen graph. The tool becomes a full-screen graph: settings and summary on the left edge, the selected block's detail on the right, tools at the bottom; every panel folds away. The wheel zooms around the pointer, the background drags, “Fit” fills the free space. Conveyors are coloured by tier, with a legend.*
+
+- **1.4.1** (03/10/2026) : Les convoyeurs s'animent : les items défilent dans le sens du flux, plus vite aux niveaux supérieurs (coupé en mouvement réduit).
+  *EN — Conveyors are animated: items move along the flow, faster on higher tiers (off with reduced motion).*
+
+### v1.3.0 — Vue en graphe (02/10/2026)
+
+Les étapes de production en blocs reliés par les débits, des ressources brutes (à gauche) aux objectifs et surplus (à droite). Chaque lien indique le convoyeur ou le tuyau qu'il lui faut. Le bouton + d'un bloc (ou « Tout déplier ») dessine son montage, séparateurs, machines et groupeurs, en manifold ou en équilibrage ; le bouton ⇄ (ou la touche R) change la recette depuis le graphe. Les blocs se déplacent à la souris, au doigt ou au clavier.
+
+*EN — Graph view. Production steps as blocks linked by flow rates, from raw resources (left) to targets and surplus (right). Each link shows the conveyor or pipe it needs. A block's + button (or “Expand all”) draws its set-up, splitters, machines and mergers, in manifold or balanced layout; the ⇄ button (or the R key) changes the recipe from the graph. Blocks can be moved with the mouse, a finger or the keyboard.*
+
+### v1.2.0 — Recettes optimisées (02/10/2026)
+
+Le planificateur peut choisir lui-même les recettes, en combinant librement toutes celles qui sont permises, pour consommer le moins de ressources (pesées par leur rareté sur la carte) ou le moins d'énergie. Calcul exact par programmation linéaire (solveur HiGHS, chargé à la première optimisation puis gardé hors ligne). Une tuile du bilan donne la part des ressources de la carte que demande le plan.
+
+*EN — Optimised recipes. The planner can choose recipes itself, freely mixing all the allowed ones, to use the fewest resources (weighted by their scarcity on the map) or the least energy. Exact linear programming (HiGHS solver, loaded on the first optimisation, then kept offline). A summary tile shows the share of the map's resources the plan needs.*
+
+### v1.1.0 — Comparaison avec votre usine (02/10/2026)
+
+Avec une partie importée, le planificateur lit les machines déjà construites et compare, étape par étape, ce qu'elles produisent (cadence et Somersloops compris) à ce que le plan demande : débit manquant et machines à construire, avec leur total dans le bilan. « Recettes de mon usine d'abord » choisit par défaut celles que vous avez déjà construites.
+
+*EN — Comparison with your factory. With an imported game, the planner reads the machines you already built and compares, step by step, what they produce (clock speed and Somersloops included) with what the plan needs: missing rate and machines to build, totalled in the summary. “My factory's recipes first” picks the recipes you already built by default.*
+
+### v1.0.0 — Objectifs et chaîne de production (01/10/2026)
+
+Vos objectifs de production par minute, et la chaîne qui y mène jusqu'aux ressources brutes : pour chaque recette, le nombre de machines, leur consommation, ce qui entre et ce qui sort. Les sous-produits servent d'abord aux autres étapes, le reste part en surplus. Recette de chaque item au choix ; avec une partie importée, seules les recettes débloquées sont proposées.
+
+*EN — Targets and production chain. Your production targets per minute, and the chain that leads to them down to raw resources: for each recipe, the number of machines, their power draw, what goes in and what comes out. By-products first feed other steps, the rest becomes surplus. Pick each item's recipe; with an imported game, only unlocked recipes are offered.*
 
 ## Débit vers le Dimensional Depot / Dimensional Depot throughput — `depot-dimensionnel.html`
 
-- **v1.24** (07/10/2026) : Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.
-  *EN — Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter.*
-- **v1.23** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
-  *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
-- **v1.22** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
-  *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
-- **v1.21** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
-  *EN — No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations.*
-- **v1.20** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
-  *EN — The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame.*
-- **v1.19** (06/10/2026) : Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.
-  *EN — The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and "Back" returns to the previous tool.*
-- **v1.18** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
-  *EN — Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge).*
-- **v1.17** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
-  *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
-- **v1.16** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
-  *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
-- **v1.15** (04/10/2026) : L'infobulle d'une ligne de l'inventaire se place près du curseur, comme la bulle du navigateur, au lieu de se centrer sur la ligne entière.
-  *EN — A row's tooltip in the inventory now sits near the cursor, like the browser's own bubble, instead of being centred on the whole row.*
-- **v1.14** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
-  *EN — Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard.*
-- **v1.13** (02/10/2026) : Le fichier de la partie est gardé tel quel (sur disque par le navigateur, sans copie en mémoire), avec un second stockage de secours si le premier refuse : une grosse sauvegarde importée depuis l'accueil est bien reprise ici. Si les deux refusent, le panneau « Ma partie » donne l'erreur exacte du navigateur.
-  *EN — The game file is kept as is (on disk by the browser, without an in-memory copy), with a second fallback storage if the first refuses: a large save imported from the home page is picked up here. If both refuse, the "My game" panel gives the browser's exact error.*
-- **v1.12** (02/10/2026) : Sauvegarde importée depuis une autre page (accueil, autre outil) : l'outil la reprend aussi quand on y revient par le bouton « retour » du navigateur, et un import interrompu (page quittée avant la fin) ne fait plus perdre la partie précédente. Pendant l'enregistrement du fichier, le panneau « Ma partie » le signale et le navigateur demande confirmation avant de quitter la page.
-  *EN — Save imported from another page (home, another tool): the tool also picks it up when you come back with the browser's back button, and an interrupted import (page left before the end) no longer loses the previous game. While the file is being saved, the "My game" panel says so and the browser asks for confirmation before leaving the page.*
-- **v1.11** (02/10/2026) : Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.
-  *EN — Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts.*
-- **v1.10** (01/10/2026) : Vue d'ensemble façon inventaire : une ligne par item (Uploaders et stock du Depot réunis) avec le débit théorique, le plafond qui le limite (E : vitesse d'envoi, R : raccord, A : chaîne en amont), le stock, la limite et le temps avant plein ; un carré rouge signale un Depot plein, avec une légende. Le détail d'un item (plafonds, sources en amont) s'ouvre au clic, une infobulle le résume au survol. Les hypothèses et alertes du calcul sont repliées.
-  *EN — Inventory-style overview: one row per item (Uploaders and Depot stock together) with the theoretical rate, the cap that limits it (E: upload speed, R: feed belt, A: upstream chain), the stock, the limit and the time until full; a red square flags a full Depot, with a legend. An item's details (caps, upstream sources) open on click, a tooltip sums them up on hover. The computation's assumptions and warnings are folded away.*
-- **v1.9** (01/10/2026) : Le débit affiché pour chaque item est désormais le débit théorique vers le Depot (le plus petit des trois plafonds : vitesse d'envoi, raccord, chaîne en amont), que le Depot soit plein ou non. Avant, un item dont le Depot était plein affichait 0 /min en titre. Le plein est signalé à part, en rouge, et le tableau du stock donne aussi le débit théorique.
-  *EN — The rate shown for each item is now the theoretical rate into the Depot (the smallest of the three caps: upload speed, feed, upstream chain), whether the Depot is full or not. Before, an item whose Depot was full showed 0/min as its headline. Being full is flagged separately, in red, and the stock table also gives the theoretical rate.*
-- **v1.8** (30/09/2026) : Fluides et électricité par circuit. Chaque réseau de tuyaux lu dans la sauvegarde devient un réservoir commun : extracteurs d'eau et de pétrole, puits, raffineries, conditionneuses et générateurs y versent ou y puisent, un fluide ne passant que par les tuyaux. Les machines sont désormais limitées par leurs fluides, les centrales à charbon et nucléaires par leur eau, et les générateurs à carburant comptent dans la production. Un réseau à qui il manque du fluide est signalé, avec la quantité manquante, ainsi qu'un réseau dont le débit dépasse son tuyau le plus faible. Chaque bâtiment est rattaché à son circuit : bilan par circuit, circuit en déficit ou sans générateur signalé, et un bâtiment sur un circuit dont le fusible a grillé, ou branché à aucun circuit, est compté à l'arrêt. Recoupement avec le jeu : 77 % des machines à 10 points près sur une grosse partie (74 % avant).
-  *EN — Fluids and power per circuit. Each pipe network read from the save becomes a shared pool: water and oil extractors, resource wells, refineries, packagers and generators feed into it or draw from it, and a fluid only travels through pipes. Machines are now limited by their fluids, coal and nuclear plants by their water, and fuel generators count towards production. A network short of fluid is flagged, with the missing amount, as is a network whose flow exceeds its weakest pipe. Each building is tied to its circuit: balance per circuit, circuits in deficit or without a generator flagged, and a building on a circuit with a blown fuse, or connected to no circuit, is counted as stopped. Cross-check with the game: 77% of machines within 10 points on a large save (74% before).*
-- **v1.7** (30/09/2026) : Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.
-  *EN — The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection.*
-- **v1.6** (30/09/2026) : Première visite plus rapide (~14 s au lieu de ~20 sur une grosse usine) : un seul modèle de l'usine au lieu de deux, le plafond « chaîne en amont » n'étant recalculé qu'en amont des Uploaders. Barre de progression pendant le calcul des débits.
-  *EN — Faster first visit (~14 s instead of ~20 on a large factory): a single factory model instead of two, the "upstream chain" cap being recomputed only upstream of the Uploaders. Progress bar while rates are computed.*
-- **v1.5** (29/09/2026) : Outil signalé « en chantier » dans son titre et sur l'accueil. Partie importée avant le bouton commun (fichier non gardé) : l'outil l'explique et propose un bouton « Réimporter ma sauvegarde ». Si le navigateur ne peut pas garder le fichier (navigation privée), il reste utilisable pendant la visite et le panneau le signale.
-  *EN — Tool marked "work in progress" in its title and on the home page. Game imported before the shared button (file not kept): the tool explains it and offers a "Re-import my save" button. If the browser cannot keep the file (private browsing), it stays usable during the visit and the panel says so.*
-- **v1.4** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée. L'outil n'a plus son propre import : il relit le fichier gardé par le bouton commun, et garde l'usine et les débits calculés dans ce navigateur (une nouvelle visite s'affiche aussitôt).
-  *EN — Shared "My game" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game. The tool no longer has its own import: it rereads the file kept by the shared button, and keeps the computed factory and rates in this browser (a new visit shows at once).*
-- **v1.3** (29/09/2026) : Les trois plafonds de chaque Uploader sont affichés séparément, le plus bas en évidence : vitesse d'envoi (recherches du MAM), raccord (le convoyeur ou l'ascenseur qui arrive dans l'Uploader, avec son Mk) et ce que la chaîne en amont peut fournir. Le débit vers le Depot est le plus petit des trois, 0 si le Depot est plein pour l'item. Un conteneur juste avant l'Uploader compte comme un tronçon de convoyeur : l'Uploader est servi d'abord.
-  *EN — Each Uploader's three caps are shown separately, the lowest highlighted: upload speed (MAM research), feed (the belt or lift coming into the Uploader, with its Mk) and what the upstream chain can supply. The rate into the Depot is the smallest of the three, 0 if the Depot is full for that item. A container right before the Uploader counts as a belt section: the Uploader is served first.*
-- **v1.2** (29/09/2026) : Étape 3 : régime actuel de l'usine. Un conteneur qui a encore de la place (contenu lu dans la sauvegarde) sert l'aval d'abord puis garde le surplus, avec le temps avant qu'il soit plein : le montage « production → conteneur industriel → Uploader » est compté comme en jeu. Gares, quais de camion et ports de drones : un réservoir commun par famille, ce qui est chargé ressort par ceux qui déchargent. Générateurs à combustible solide : consommation réelle (60 × MW × cadence / énergie du combustible). Bilan électrique estimé (production, consommation à la marche calculée) et fusibles grillés lus dans la sauvegarde.
-  *EN — Step 3: the factory's current regime. A container with room left (contents read from the save) serves downstream first and keeps the surplus, with the time until it is full: the "production → industrial container → Uploader" setup is counted as in game. Train stations, truck stations and drone ports: one shared pool per family, what is loaded comes out of those that unload. Solid-fuel generators: actual consumption (60 × MW × clock speed / fuel energy). Estimated power balance (production, consumption at the computed run rates) and blown fuses read from the save.*
-- **v1.1** (29/09/2026) : Étape 2 : débits théoriques en items/min. Chaque Uploader affiche son débit vers le Depot et ce qui le limite (vitesse d'envoi, Depot plein, production en amont), plus le débit potentiel si le Depot était plein. Calcul du régime permanent de toute l'usine, dans un Web Worker : pureté des nœuds (table de la carte, ou la sauvegarde si elle l'indique), cadence et Somersloops, machines limitées par leurs ingrédients et par la place en aval, plafonds des convoyeurs, séparateurs à parts égales avec les règles des séparateurs intelligents (excédent compris), vitesse d'envoi des Uploaders et limite du Depot par item. Le tableau du stock donne la limite, le débit et le temps avant plein ; un recoupement compare la marche calculée à la productivité mesurée par le jeu. Vocabulaire du jeu : « cadence » et « éclats de charge ».
-  *EN — Step 2: theoretical rates in items/min. Each Uploader shows its rate into the Depot and what limits it (upload speed, Depot full, upstream production), plus the potential rate if the Depot were not full. Steady state of the whole factory, computed in a Web Worker: node purity (map table, or the save when it holds it), clock speed and Somersloops, machines limited by their ingredients and by room downstream, belt caps, even splits with smart splitter rules (overflow included), Uploader upload speed and the Depot's per-item limit. The stock table gives the limit, the rate and the time until full; a cross-check compares the computed run rate with the productivity measured by the game.*
-- **v1.0** (29/09/2026) : Nouvel outil, étape 1 : importez une sauvegarde (.sav, lue dans le navigateur, hors du fil principal) ; l'usine est reconstruite (machines, extracteurs, convoyeurs, séparateurs et leurs liaisons) et chaque Uploader, regroupé par item, est relié aux machines et extracteurs qui l'alimentent (recette, horloge, éclats, Somersloops, productivité mesurée), avec le stock actuel du Depot et l'extension achetée. Les débits par minute viendront ensuite.
-  *EN — New tool, step 1: import a save (.sav, read in the browser, off the main thread); the factory is rebuilt (machines, extractors, belts, splitters and their links) and each Uploader, grouped by item, is traced back to the machines and extractors feeding it (recipe, clock, shards, Somersloops, measured productivity), next to the Depot's current stock and the purchased expansion. Per-minute rates come next.*
+### v1.4.0 — Vue d'ensemble façon inventaire (01/10/2026)
+
+Une ligne par item (Uploaders et stock du Depot réunis) avec le débit théorique, le plafond qui le limite, le stock, la limite et le temps avant plein ; un carré rouge signale un Depot plein. Le détail d'un item s'ouvre au clic. Le débit affiché est le débit théorique, que le Depot soit plein ou non.
+
+*EN — Inventory-style overview. One line per item (Uploaders and Depot stock together) with the theoretical rate, the cap limiting it, the stock, the limit and the time to full; a red square flags a full Depot. An item's detail opens on click. The rate shown is the theoretical one, whether the Depot is full or not.*
+
+- **1.4.1** (04/10/2026) : L'infobulle d'une ligne de l'inventaire se place près du curseur.
+  *EN — An inventory row's tooltip sits near the cursor.*
+
+### v1.3.0 — Fluides et circuits électriques (30/09/2026)
+
+Chaque réseau de tuyaux devient un réservoir commun : les machines sont limitées par leurs fluides, les centrales par leur eau, et un réseau à qui il manque du fluide est signalé. Chaque bâtiment est rattaché à son circuit : bilan par circuit, circuit en déficit ou sans générateur signalé, bâtiment sur un fusible grillé compté à l'arrêt.
+
+*EN — Fluids and power circuits. Each pipe network becomes a shared tank: machines are limited by their fluids, power plants by their water, and a network short of fluid is flagged. Each building is tied to its circuit: balance per circuit, deficit or generator-less circuit flagged, building on a blown fuse counted as stopped.*
+
+- **1.3.1** (30/09/2026) : Première visite plus rapide (~14 s au lieu de ~20 sur une grosse usine), avec une barre de progression pendant le calcul.
+  *EN — Faster first visit (~14 s instead of ~20 on a big factory), with a progress bar during the calculation.*
+
+### v1.2.0 — Régime actuel de l'usine (29/09/2026)
+
+Un conteneur qui a de la place sert l'aval d'abord puis garde le surplus, avec le temps avant plein ; gares, quais de camion et ports de drones forment un réservoir commun par famille ; générateurs à combustible solide, bilan électrique estimé et fusibles grillés lus dans la sauvegarde.
+
+*EN — The factory's current state. A container with room serves downstream first then keeps the surplus, with the time to full; stations, truck stops and drone ports form one shared tank per family; solid-fuel generators, estimated power balance and blown fuses read from the save.*
+
+- **1.2.2** (29/09/2026) : Outil signalé « en chantier » ; un bouton « Réimporter ma sauvegarde » si le fichier n'a pas été gardé par le navigateur.
+  *EN — Tool flagged “work in progress”; a “Re-import my save” button if the browser did not keep the file.*
+  - correctif **1.2.2.1** (02/10/2026) : Une sauvegarde importée depuis une autre page est reprise ici, même au retour par « précédent » ; un import interrompu ne fait plus perdre la partie précédente.
+    *EN — A save imported from another page is picked up here, even when coming back with “Back”; an interrupted import no longer loses the previous game.*
+  - correctif **1.2.2.2** (02/10/2026) : Une grosse sauvegarde est gardée sur disque, avec un stockage de secours ; le panneau donne l'erreur exacte du navigateur si les deux refusent.
+    *EN — A big save is kept on disk, with a backup store; the panel gives the browser's exact error if both refuse.*
+- **1.2.1** (29/09/2026) : L'outil relit le fichier gardé par le bouton « Ma partie » commun et garde l'usine et les débits calculés dans ce navigateur.
+  *EN — The tool rereads the file kept by the shared “My game” button and keeps the factory and computed rates in this browser.*
+
+### v1.1.0 — Débits théoriques (29/09/2026)
+
+Chaque Uploader affiche son débit vers le Depot et ce qui le limite (vitesse d'envoi, Depot plein, production en amont), plus le débit potentiel si le Depot était plein. Calcul du régime permanent de toute l'usine dans un Web Worker : pureté des nœuds, cadence et Somersloops, ingrédients, plafonds des convoyeurs, séparateurs. Le tableau du stock donne la limite, le débit et le temps avant plein.
+
+*EN — Theoretical rates. Each Uploader shows its rate to the Depot and what limits it (send speed, full Depot, upstream production), plus the potential rate if the Depot were full. Steady-state calculation of the whole factory in a Web Worker: node purity, clock speed and Somersloops, ingredients, conveyor caps, splitters. The stock table gives the limit, the rate and the time to full.*
+
+- **1.1.1** (29/09/2026) : Les trois plafonds de chaque Uploader sont affichés séparément, le plus bas en évidence : vitesse d'envoi, raccord et chaîne en amont.
+  *EN — Each Uploader's three caps are shown separately, the lowest highlighted: send speed, connection and upstream chain.*
+
+### v1.0.0 — Lecture de l'usine (29/09/2026)
+
+Importez une sauvegarde (.sav, lue dans le navigateur) : l'usine est reconstruite (machines, extracteurs, convoyeurs, séparateurs et leurs liaisons) et chaque Uploader est relié aux machines et extracteurs qui l'alimentent, avec le stock actuel du Depot et l'extension achetée.
+
+*EN — Reading the factory. Import a save (.sav, read in the browser): the factory is rebuilt (machines, extractors, conveyors, splitters and their links) and each Uploader is tied to the machines and extractors feeding it, with the Depot's current stock and the bought expansion.*
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
-- **v1.44** (10/10/2026) : Corrigé : le bouton « Importer ma partie » du panneau « Mes alternatives » ne faisait rien quand l'outil est ouvert dans la barre commune ; il ouvre maintenant le panneau « Ma partie ».
-  *EN — Fixed: the "Import my save" button in the "My alternatives" panel did nothing when the tool is opened in the shared bar; it now opens the "My save" panel.*
-- **v1.43** (07/10/2026) : Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.
-  *EN — Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter.*
-- **v1.42** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
-  *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
-- **v1.41** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
-  *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
-- **v1.40** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
-  *EN — No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations.*
-- **v1.39** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
-  *EN — The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame.*
-- **v1.38** (06/10/2026) : Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.
-  *EN — The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and "Back" returns to the previous tool.*
-- **v1.37** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
-  *EN — Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge).*
-- **v1.36** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
-  *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
-- **v1.35** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
-  *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
-- **v1.34** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier. Le registre n'a plus d'onglet vertical « Ma partie » (qui doublonnait le bouton du haut de page) : ses alternatives débloquées et disques durs s'ouvrent par un bouton « Mes alternatives » dans la rangée d'outils.
-  *EN — Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard. The registry no longer has the vertical “My game” tab (which duplicated the top-of-page button): its unlocked alternates and hard drives open from a “My alternates” button in the toolbar.*
-- **v1.33** (04/10/2026) : Combinaisons et chaînes optimisées repassent en orange, la couleur ordinaire : l'onglet dit déjà de quoi on parle. Dans la séquence d'une chaîne, la cible est une tuile blanche à chiffre sombre (comme le palier choisi du terminal du jeu), un coproduit a un trait pointillé, et le chiffre de l'extraction est lisible.
-  *EN — Combinations and optimised chains are back to orange, the ordinary colour: the tab already says what they are. In a chain's sequence the target is a white tile with a dark digit (like the game's selected tier), a co-product has a dashed edge, and the extraction digit is readable.*
-- **v1.32** (02/10/2026) : Synthèse : l'étiquette « perdante » s'affiche en blanc sur rouge, lisible ; elle prenait par erreur le style gris des sous-titres de groupe.
-  *EN — Synthesis: the “losing” tag now shows white on red, readable; it was wrongly picking up the grey style of group subtitles.*
-- **v1.31** (02/10/2026) : Combinaisons et chaînes optimisées en bleu, la couleur des graphes de puissance du jeu, au lieu du jaune absent de ses menus : l'orange reste aux recettes alternatives, le gris aux recettes de base.
-  *EN — Combinations and optimised chains in blue, the colour of the game's power graphs, instead of a yellow its menus never use: orange stays for alternate recipes, grey for standard ones.*
-- **v1.30** (02/10/2026) : Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.
-  *EN — Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts.*
-- **v1.29** (30/09/2026) : Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.
-  *EN — The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection.*
-- **v1.28** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée. Le panneau « Ma partie » du registre garde l'analyse (filtre, simulation, alternatives et disques notés) et renvoie au bouton commun pour l'import.
-  *EN — Shared "My game" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game. The registry's "My game" panel keeps the analysis (filter, simulation, rated alternates and hard drives) and points to the shared button for importing.*
-- **v1.27** (29/09/2026) : Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.
-  *EN — The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged.*
-- **v1.26** (28/09/2026) : Bouton « Copier le lien » : un lien vers la vue affichée (critère, palier, items filtrés, onglet, tri, poids de la synthèse), sans votre partie. Panneau « Ma partie » : le focus clavier y reste tant qu'il est ouvert, et chaque recalcul est annoncé aux lecteurs d'écran. Correction : les séquences de production pouvaient reprendre une chaîne calculée avant un changement de filtre « Ma partie ».
-  *EN — "Copy the link" button: a link to the view shown (criterion, tier, filtered items, tab, sort, synthesis weights), without your game. "My game" panel: keyboard focus stays in it while open, and each recomputation is announced to screen readers. Fix: production sequences could reuse a chain computed before a "My game" filter change.*
-- **v1.25** (28/09/2026) : Import de la sauvegarde environ cinq fois plus rapide (1 s au lieu de 5 pour une partie de 5 Mo) et beaucoup plus économe en mémoire : les trois listes utiles sont lues directement, le parseur complet ne sert plus qu'en secours (et n'est téléchargé que dans ce cas).
-  *EN — Save import about five times faster (1 s instead of 5 for a 5 MB game) and far lighter on memory: the three useful lists are read directly, the full parser is only a fallback (and only downloaded then).*
-- **v1.24** (28/09/2026) : « Ma partie » : le palier se règle sur celui de votre partie à chaque import ; un bandeau au-dessus des onglets rappelle le filtre et la simulation en cours ; dans les combinaisons, les alternatives débloquées seulement par la simulation sont marquées « simulée ». La simulation est désormais partagée avec l'arbre de production et l'optimiseur de recyclage.
-  *EN — "My game": the tier is set to your game's on each import; a banner above the tabs recalls the active filter and simulation; in combinations, alternates unlocked only by the simulation are marked "simulated". The simulation is now shared with the production tree and the recycling optimizer.*
-- **v1.23** (28/09/2026) : Simulation des choix de disques durs : dans le panneau « Ma partie », cochez l'alternative à retenir pour chaque disque en attente (par défaut la meilleure en Synthèse) et l'option « Simuler mes choix » : duels, combinaisons, catalogue et paliers font comme si elle était débloquée. Sur téléphone, les onglets, les noms longs et les chiffres clés ne débordent plus de l'écran, et l'onglet « Ma partie » passe en bas à droite.
-  *EN — Hard drive pick simulation: in the "My game" panel, tick the alternate to keep for each pending drive (by default the best in Synthesis) and the "Simulate my picks" option: duels, combinations, catalogue and tiers act as if it were unlocked. On phones, tabs, long names and key figures no longer overflow the screen, and the "My game" tab moves to the bottom right.*
-- **v1.22** (27/09/2026) : « Ma partie » passe dans un panneau latéral, ouvert par l'onglet sur le bord droit : import de la sauvegarde (il quitte l'accueil), filtre, disques durs en attente de choix et alternatives débloquées ou manquantes. Chaque alternative y est notée sur le critère affiché (énergie, matière, espace ou synthèse), avec son gain face à la base et son verdict ; l'onglet indique le nombre de disques en attente.
-  *EN — "My game" moves to a side panel, opened from the tab on the right edge: save import (it leaves the home page), filter, hard drives awaiting a choice and unlocked or missing alternates. Each alternate is rated there on the criterion shown (energy, materials, space or synthesis), with its gain over the standard and its verdict; the tab shows the number of pending drives.*
-- **v1.21** (27/09/2026) : « Ma partie » : les disques durs analysés dans le MAM mais pas encore réclamés s'affichent avec, pour chaque alternative proposée, son score Synthèse (vos poids actuels), son gain face à la recette de base et son verdict gagnante / compromis / perdante, meilleur choix signalé, pour trancher avant de valider en jeu. La sauvegarde est désormais lue par le parseur communautaire satisfactory-file-parser, hors de la page, avec une barre de progression.
-  *EN — "My game": hard drives analysed in the MAM but not yet claimed are listed with, for each offered alternate, its Synthesis score (your current weights), its gain over the standard recipe and its winning / trade-off / losing verdict, best pick flagged, to decide before confirming in game. The save is now read by the community satisfactory-file-parser, off the page, with a progress bar.*
-- **v1.20** (26/09/2026) : Option « Ma partie » : après import de votre sauvegarde depuis l'accueil, ne garder que les recettes débloquées dans votre partie (énergie, espace et synthèse instantanés ; matière en quelques secondes au pire, podium signalé s'il n'est pas prouvé optimal).
-  *EN — "My game" option: after importing your save from the home page, keep only the recipes unlocked in your game (energy, space and synthesis instantly; material within a few seconds at worst, podium flagged when not proven optimal).*
-- **v1.19** (26/09/2026) : Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois. Les icônes aussi, partagées avec les autres outils. (873 → 413 Ko)
-  *EN — Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once. Icons too, shared with the other tools. (873 → 413 KB)*
-- **v1.18** (26/09/2026) : La grille de paliers est désormais commune aux outils (même apparence que dans l'optimiseur et l'arbre).
-  *EN — The tier grid is now shared across tools (same look as in the optimizer and the tree).*
-- **v1.17** (26/09/2026) : Page allégée de 190 Ko : les combinaisons Énergie et Espace sont calculées dans la page, pour le palier affiché (moins d'un dixième de seconde), au lieu d'être embarquées pour chaque palier. La Matière reste précalculée : ses chaînes à égalité la rendraient trop lente en direct.
-  *EN — Page 190 KB lighter: Energy and Space combinations are computed in the page, for the tier shown (under a tenth of a second), instead of being embedded for every tier. Materials stay precomputed: their tied chains would make them too slow live.*
-- **v1.16** (25/09/2026) : Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.
-  *EN — "Home" button in the top-right dock, to go back to the list of tools.*
-- **v1.15** (24/09/2026) : Indices Énergie et Matière recalculés par la page, avec le même modèle de coût que l'Espace, la Synthèse et les combinaisons (ils étaient figés dans les données et suivaient une autre règle pour les coproduits) : une quarantaine de recettes à base de pétrole ou de coproduits changent de valeur. Les recettes de base n'affichent plus de gain « vs base ». Combinaisons recalculées.
-  *EN — Energy and Materials indices recomputed by the page, with the same cost model as Space, Synthesis and the combinations (they were frozen in the data and followed another rule for co-products): about forty oil or co-product recipes change value. Standard recipes no longer show a "vs standard" gain. Combinations recomputed.*
-- **v1.14** (24/09/2026) : Mode Espace : la séquence de production décrit les bâtiments employés — foreuses, pompes et part des puits d'azote à l'extraction, nombre de bâtiments et m² à chaque étape, et un récapitulatif par type de bâtiment. L'emprise d'extraction se compte désormais en bâtiments entiers, comme les machines.
-  *EN — Space mode: the production sequence describes the buildings used — miners, extractors and share of the nitrogen wells at extraction, number of buildings and m² at each step, and a summary by building type. Extraction footprint is now counted in whole buildings, like the machines.*
-- **v1.13** (24/09/2026) : Nouveau critère Synthèse : énergie, matière et espace réunis en un coût composite (taux de change médians entre critères), pondérés par trois curseurs. Chaque alternative y est classée gagnante, compromis ou perdante face à sa recette de base ; les combinaisons suivent les curseurs, recalculées dans la page par la même recherche exacte. Mention en bas de page : le site est généré par IA.
-  *EN — New Synthesis criterion: energy, materials and space combined into a composite cost (median exchange rates between criteria), weighted by three sliders. Each alternate is rated winning, trade-off or losing against its standard recipe; combinations follow the sliders, recomputed in the page with the same exact search. Footer notice: the site is AI-generated.*
-- **v1.12** (24/09/2026) : Paliers des recettes du MAM recalculés depuis l'arbre de recherche du wiki officiel et le coût de chaque recherche : la plupart des recherches de départ (Caterium, Quartz, protéines, Quickwire) sortent dès le palier 1 ou 2 au lieu de 3, Compacted Coal passe au palier 2. Mode Espace : emprises des bâtiments reprises du wiki (Assembler 9 × 16, Refinery 10 × 22, Smelter 5 × 10…) et azote compté sur l'ensemble des puits du monde. Combinaisons recalculées.
-  *EN — MAM recipe tiers recomputed from the official wiki's research tree and each research's cost: most starting research (Caterium, Quartz, proteins, Quickwire) now comes at tier 1 or 2 instead of 3, Compacted Coal moves to tier 2. Space mode: building footprints taken from the wiki (Assembler 9 × 16, Refinery 10 × 22, Smelter 5 × 10…) and nitrogen counted over all the world's wells. Combinations recomputed.*
-- **v1.11** (24/09/2026) : Noms français pour toutes les recettes, alternatives comprises (160 noms ajoutés d'après la localisation officielle du jeu), et pour les restes d'aliens. La mention sur les noms restés en anglais disparaît.
-  *EN — French names for every recipe, alternates included (160 names added from the game's official localization), and for alien remains. The note about names left in English is gone.*
-- **v1.10** (24/09/2026) : Nouveau critère « Espace » : chaque recette et chaque combinaison notée en sortie par m² au sol, machines et extraction surcadencées à 250 % (éclats de charge, sans Somersloop). Emprises des bâtiments relevées à la main ; convoyeurs et allées non comptés.
-  *EN — New "Space" criterion: every recipe and combination rated by output per floor m², machines and extraction overclocked to 250% (power shards, no Somersloop). Building footprints recorded by hand; belts and walkways not counted.*
-- **v1.9** (24/09/2026) : Noms français ajoutés : Foreuse portable, Restes de dardeuse, Restes de sanglier alien, Restes de cracheur.
-  *EN — French names added: Foreuse portable, Restes de dardeuse, Restes de sanglier alien, Restes de cracheur.*
-- **v1.8** (24/09/2026) : Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d'un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal. Page allégée de 87 Ko (données précalculées inutilisées retirées).
-  *EN — The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven't seen yet, and new entries are marked in the log. Page 87 KB lighter (unused precomputed data removed).*
-- **v1.7** (24/09/2026) : Paliers des alternatives de disque dur calculés depuis les recherches du MAM qu'elles exigent, au lieu d'un plancher au palier 1 : Cheap Silica, Fine Concrete, Fine Black Powder et Compacted Coal passent du palier 2 au palier 3. Combinaisons par palier recalculées.
-  *EN — Tiers of hard drive alternates now computed from the MAM research they require, instead of a tier 1 floor: Cheap Silica, Fine Concrete, Fine Black Powder and Compacted Coal move from tier 2 to tier 3. Per-tier combinations recomputed.*
-- **v1.6** (24/09/2026) : Registre des combinaisons sans plafond de palier désormais recalculé par script depuis les recettes de la page, comme les combinaisons par palier. Nombre de chaînes distinctes recompté par énumération complète (ex. Concrete 47 → 77, Rotor 19 688 → 32 528) et plafond relevé à un million : Modular Frame et High-Speed Connector gardent leur pire chaîne. Pire chaîne de Circuit Board corrigée (0,056 → 0,055).
-  *EN — Combination registry without a tier cap now recomputed by script from the page's recipes, like the per-tier combinations. Number of distinct chains recounted by full enumeration (e.g. Concrete 47 → 77, Rotor 19,688 → 32,528) and cap raised to one million: Modular Frame and High-Speed Connector keep their worst chain. Circuit Board's worst chain corrected (0.056 → 0.055).*
-- **v1.5** (23/09/2026) : Paliers de déblocage recalculés depuis un référentiel unique : 29 recettes changent de palier, dont des alternatives affichées jusqu'ici comme jouables trop tôt (Sloppy Alumina 5 → 7, Steel Canister 3 → 5) et les recettes SAM, jusqu'ici au palier 0. Les combinaisons optimales par palier ont été recalculées en conséquence.
-  *EN — Unlock tiers recomputed from a single reference dataset: 29 recipes change tier, including alternates shown as playable too early until now (Sloppy Alumina 5 → 7, Steel Canister 3 → 5) and the SAM recipes, previously at tier 0. Optimal combinations per tier were recomputed accordingly.*
-- **v1.4** (22/09/2026) : Interface entièrement bilingue : textes, notes, séquences et journal suivent le drapeau FR/EN commun à tous les outils, en haut à droite. En français, items, recettes de base et bâtiments portent leur nom du jeu ; les recettes alternatives, et quelques recettes de base sans traduction vérifiée, gardent leur nom anglais.
-  *EN — Fully bilingual interface: texts, notes, sequences and log follow the FR/EN flag shared by every tool, top right. In French, items, standard recipes and buildings use their in-game names; alternate recipes, and a few standard recipes with no verified translation, keep their English names.*
-- **v1.3** (22/09/2026) : Vos réglages sont mémorisés d'une visite à l'autre (critère, langue, palier, items cochés, onglet, filtres, séquences et cadences), avec un bouton Réinitialiser. La note du sélecteur de palier suit la langue des noms.
-  *EN — Your settings are remembered between visits (criterion, language, tier, checked items, tab, filters, sequences and rates), with a Reset button. The tier picker note follows the item-name language.*
-- **v1.2** (21/09/2026) : Filtre par palier atteint : recettes, alternatives et combinaisons se limitent à ce qui est réellement jouable au palier choisi. Correction de cinq optimums du mode Matière (famille du moteur).
-  *EN — Tier reached filter: recipes, alternates and combinations are limited to what is actually playable at the chosen tier. Fixed five optima in Materials mode (motor family).*
-- **v1.1** (15/09/2026) : Combinaisons : chaque chaîne du podium se déroule étape par étape, de l'extraction à la cible, avec machines, horloges et coproduits. La séquence s'affiche au clic.
-  *EN — Combinations: each podium chain unfolds step by step, from extraction to target, with machines, clock speeds and by-products. The sequence shows on click.*
-- **v1.0** (05/09/2026) : Première version : chaque recette notée en sortie par mégawatt (Énergie) et par matière brute (Matière), onglets Duels, Combinaisons et Catalogue, filtre multi-items et noms français.
-  *EN — First release: every recipe scored on output per megawatt (Energy) and per raw resource (Materials), with Duels, Combinations and Catalogue tabs, a multi-item filter and French names.*
+### v1.9.0 — Bouton « Mes alternatives » (04/10/2026)
+
+Le registre n'a plus d'onglet vertical « Ma partie » : ses alternatives débloquées et ses disques durs s'ouvrent par un bouton « Mes alternatives » dans la rangée d'outils.
+
+*EN — “My alternates” button. The registry no longer has a vertical “My game” tab: its unlocked alternates and hard drives open from a “My alternates” button in the toolbar.*
+
+- **1.9.1** (04/10/2026) : Combinaisons et chaînes optimisées en orange ; dans une séquence, la cible est une tuile blanche et un coproduit a un trait pointillé.
+  *EN — Optimised combinations and chains in orange; in a sequence, the target is a white tile and a co-product has a dotted line.*
+  - correctif **1.9.0.1** (10/10/2026) : Le bouton « Importer ma partie » du panneau « Mes alternatives » ne faisait rien dans la barre commune ; il ouvre maintenant le panneau « Ma partie ».
+    *EN — The “Import my game” button in the “My alternates” panel did nothing in the shared bar; it now opens the “My game” panel.*
+  - correctif **1.9.0.2** (02/10/2026) : L'étiquette « perdante » de la Synthèse est lisible (blanc sur rouge).
+    *EN — The Synthesis “loser” label is readable (white on red).*
+
+### v1.8.0 — Copier le lien (28/09/2026)
+
+Bouton « Copier le lien » : un lien vers la vue affichée (critère, palier, items filtrés, onglet, tri, poids de la synthèse), sans votre partie.
+
+*EN — Copy link. “Copy link” button: a link to the displayed view (criterion, tier, filtered items, tab, sort, synthesis weights), without your game.*
+
+- **1.8.1** (28/09/2026) : Panneau « Ma partie » : le focus clavier y reste tant qu'il est ouvert, et chaque recalcul est annoncé aux lecteurs d'écran.
+  *EN — “My game” panel: keyboard focus stays in it while open, and each recalculation is announced to screen readers.*
+  - correctif **1.8.0.1** (28/09/2026) : Les séquences de production pouvaient reprendre une chaîne calculée avant un changement du filtre « Ma partie ».
+    *EN — Production sequences could reuse a chain computed before a “My game” filter change.*
+
+### v1.7.0 — Simulation des choix de disques durs (28/09/2026)
+
+Dans le panneau « Ma partie », cochez l'alternative à retenir pour chaque disque en attente (par défaut la meilleure en Synthèse) et l'option « Simuler mes choix » : duels, combinaisons, catalogue et paliers font comme si elle était débloquée.
+
+*EN — Simulating hard-drive choices. In the “My game” panel, tick the alternate to keep for each pending drive (best in Synthesis by default) and the “Simulate my choices” option: duels, combinations, catalogue and tiers behave as if it were unlocked.*
+
+- **1.7.2** (28/09/2026) : Import de la sauvegarde environ cinq fois plus rapide (1 s au lieu de 5 pour 5 Mo) et bien plus économe en mémoire.
+  *EN — Save import about five times faster (1 s instead of 5 for 5 MB) and far lighter on memory.*
+- **1.7.1** (28/09/2026) : Le palier se règle sur celui de votre partie à chaque import ; un bandeau rappelle le filtre et la simulation ; les alternatives simulées sont marquées « simulée ».
+  *EN — The tier follows your game's on each import; a banner recalls the filter and the simulation; simulated alternates are marked “simulated”.*
+  - correctif **1.7.0.1** (28/09/2026) : Sur téléphone, les onglets, les noms longs et les chiffres clés ne débordent plus de l'écran.
+    *EN — On phones, tabs, long names and key figures no longer overflow the screen.*
+
+### v1.6.0 — Disques durs en attente (27/09/2026)
+
+Le panneau « Ma partie » liste les disques durs analysés dans le MAM mais pas encore réclamés : pour chaque alternative proposée, son score Synthèse, son gain face à la base et son verdict, meilleur choix signalé ; les alternatives débloquées ou manquantes sont notées sur le critère affiché.
+
+*EN — Pending hard drives. The “My game” panel lists hard drives analysed in the MAM but not yet claimed: for each alternate offered, its Synthesis score, its gain against the base and its verdict, best choice flagged; unlocked or missing alternates are rated on the displayed criterion.*
+
+### v1.5.0 — Ma partie : recettes débloquées (26/09/2026)
+
+Après import de votre sauvegarde depuis l'accueil, le registre peut ne garder que les recettes débloquées dans votre partie (énergie, espace et synthèse instantanés ; matière en quelques secondes au pire).
+
+*EN — My game: unlocked recipes. After importing your save from the home page, the registry can keep only the recipes unlocked in your game (energy, space and synthesis instant; material a few seconds at worst).*
+
+### v1.4.0 — Critère Synthèse (24/09/2026)
+
+Énergie, matière et espace réunis en un coût composite (taux de change médians entre critères), pondérés par trois curseurs. Chaque alternative y est classée gagnante, compromis ou perdante face à sa recette de base ; les combinaisons suivent les curseurs, recalculées dans la page.
+
+*EN — Synthesis criterion. Energy, material and space combined into one composite cost (median exchange rates between criteria), weighted by three sliders. Each alternate is ranked winner, trade-off or loser against its base recipe; combinations follow the sliders, recomputed in the page.*
+
+- **1.4.1** (26/09/2026) : Page allégée de 190 Ko : les combinaisons Énergie et Espace sont calculées dans la page, pour le palier affiché.
+  *EN — Page 190 KB lighter: Energy and Space combinations are computed in the page, for the displayed tier.*
+  - correctif **1.4.0.1** (24/09/2026) : Indices Énergie et Matière recalculés avec le même modèle de coût que l'Espace : une quarantaine de recettes à base de pétrole ou de coproduits changent de valeur.
+    *EN — Energy and Material indices recomputed by the page with the same cost model as Space: some forty oil- or co-product-based recipes change value.*
+
+### v1.3.0 — Critère Espace (24/09/2026)
+
+Nouveau critère « Espace » : chaque recette et chaque combinaison notée en sortie par m² au sol, machines et extraction surcadencées à 250 %. La séquence décrit les bâtiments employés (foreuses, pompes, puits d'azote, nombre et m² par étape, récapitulatif par type).
+
+*EN — Space criterion. New “Space” criterion: each recipe and combination rated by output per m² of floor, machines and extraction overclocked to 250%. The sequence describes the buildings used (miners, pumps, nitrogen wells, count and m² per step, summary by type).*
+
+- **1.3.1** (24/09/2026) : Emprises des bâtiments reprises du wiki (Assembler 9 × 16, Refinery 10 × 22…) et azote compté sur l'ensemble des puits du monde.
+  *EN — Building footprints taken from the wiki (Assembler 9 × 16, Refinery 10 × 22…) and nitrogen counted over all the world's wells.*
+
+### v1.2.0 — Filtre par palier atteint (21/09/2026)
+
+Recettes, alternatives et combinaisons se limitent à ce qui est réellement jouable au palier choisi.
+
+*EN — Filter by reached tier. Recipes, alternates and combinations are limited to what is actually playable at the chosen tier.*
+
+- **1.2.5** (24/09/2026) : Registre sans plafond de palier recalculé par script ; nombres de chaînes recomptés (Concrete 47 → 77, Rotor 19 688 → 32 528).
+  *EN — Registry without a tier cap recomputed by script; chain counts recounted (Concrete 47 → 77, Rotor 19,688 → 32,528).*
+- **1.2.4** (24/09/2026) : Paliers des alternatives de disque dur calculés depuis les recherches du MAM qu'elles exigent (Cheap Silica, Fine Concrete… passent au palier 3).
+  *EN — Hard-drive alternate tiers computed from the MAM researches they require (Cheap Silica, Fine Concrete… move to tier 3).*
+- **1.2.3** (23/09/2026) : Paliers recalculés depuis un référentiel unique : 29 recettes changent de palier (Sloppy Alumina 5 → 7, Steel Canister 3 → 5), recettes SAM comprises.
+  *EN — Tiers recomputed from a single reference: 29 recipes change tier (Sloppy Alumina 5 → 7, Steel Canister 3 → 5), SAM recipes included.*
+- **1.2.2** (22/09/2026) : Interface bilingue FR/EN : textes, notes, séquences et journal suivent le drapeau commun.
+  *EN — Bilingual FR/EN interface: texts, notes, sequences and log follow the shared flag.*
+- **1.2.1** (22/09/2026) : Réglages mémorisés d'une visite à l'autre, avec un bouton Réinitialiser.
+  *EN — Settings remembered between visits, with a Reset button.*
+  - correctif **1.2.0.1** (21/09/2026) : Cinq optimums du mode Matière (famille du moteur) corrigés.
+    *EN — Five Material-mode optima (motor family) fixed.*
+
+### v1.1.0 — Combinaisons en séquence (15/09/2026)
+
+Chaque chaîne du podium se déroule étape par étape, de l'extraction à la cible, avec machines, horloges et coproduits. La séquence s'affiche au clic.
+
+*EN — Combinations as sequences. Each podium chain unfolds step by step, from extraction to the target, with machines, clock speeds and co-products. The sequence shows on click.*
+
+### v1.0.0 — Registre des rendements (05/09/2026)
+
+Chaque recette notée en sortie par mégawatt (Énergie) et par matière brute (Matière), onglets Duels, Combinaisons et Catalogue, filtre multi-items et noms français.
+
+*EN — Yield registry. Each recipe rated by output per megawatt (Energy) and per raw material (Material), Duels, Combinations and Catalogue tabs, multi-item filter and French names.*
 
 ## Module d'étalonnage / Calibration module — `ficsit_horloge.html`
 
-- **v1.23** (07/10/2026) : Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.
-  *EN — Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter.*
-- **v1.22** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
-  *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
-- **v1.21** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
-  *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
-- **v1.20** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
-  *EN — No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations.*
-- **v1.19** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
-  *EN — The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame.*
-- **v1.18** (06/10/2026) : Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.
-  *EN — The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and "Back" returns to the previous tool.*
-- **v1.17** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
-  *EN — Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge).*
-- **v1.16** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
-  *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
-- **v1.15** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
-  *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
-- **v1.14** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
-  *EN — Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard.*
-- **v1.13** (02/10/2026) : Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.
-  *EN — Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts.*
-- **v1.12** (30/09/2026) : Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.
-  *EN — The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection.*
-- **v1.11** (30/09/2026) : Le régime d'éclats se règle sur votre partie importée (bouton « Ma partie ») : « éclats illimités » si l'éclat de charge synthétique est débloqué, « éclats rares » sinon. Réglé à chaque nouvel import, toujours modifiable à la main.
-  *EN — The shard regime follows your imported game ("My game" button): "unlimited shards" if the synthetic power shard is unlocked, "scarce shards" otherwise. Set on each new import, still changeable by hand.*
-- **v1.10** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.
-  *EN — Shared "My game" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game.*
-- **v1.9** (29/09/2026) : Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.
-  *EN — The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged.*
-- **v1.8** (28/09/2026) : Sur téléphone, la page ne déborde plus horizontalement : la colonne de résultats se resserre (son tableau défile dans son cadre) et le titre s'adapte à la largeur.
-  *EN — On phones, the page no longer overflows horizontally: the results column narrows (its table scrolls within its frame) and the title fits the width.*
-- **v1.7** (26/09/2026) : Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois.
-  *EN — Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once.*
-- **v1.6** (26/09/2026) : Liste des bâtiments tirée du référentiel du jeu (puissances, production des générateurs, plages des machines à puissance variable) au lieu d'être saisie à la main. La plage de l'accélérateur de particules est corrigée : 250 – 1 500 MW. L'infobulle du constructeur n'affiche plus de code parasite.
-  *EN — Building list taken from the game dataset (power, generator output, ranges of variable-power machines) instead of being typed by hand. The Particle Accelerator range is corrected: 250 – 1,500 MW. The Constructor tooltip no longer shows stray code.*
-- **v1.5** (25/09/2026) : Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.
-  *EN — "Home" button in the top-right dock, to go back to the list of tools.*
-- **v1.4** (24/09/2026) : Mention en bas de page : le site est généré par IA.
-  *EN — Footer notice: the site is AI-generated.*
-- **v1.3** (24/09/2026) : Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d'un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal.
-  *EN — The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven't seen yet, and new entries are marked in the log.*
-- **v1.2** (22/09/2026) : La langue se choisit désormais avec le drapeau FR/EN commun à tous les outils, en haut à droite. Noms de bâtiments, formule et fourchettes de consommation traduits.
-  *EN — Language is now set with the FR/EN flag shared by every tool, top right. Building names, formula and consumption ranges translated.*
-- **v1.1** (22/09/2026) : Vos réglages sont mémorisés d'une visite à l'autre (bâtiment, T, puissance de base, régime de shards, langue), avec un bouton Réinitialiser.
-  *EN — Your settings are remembered between visits (building, T, base power, shard regime, language), with a Reset button.*
-- **v1.0** (14/09/2026) : Première version : pour un besoin T en machines-équivalent, toutes les répartitions possibles avec horloge, shards, MW et écart à la répartition sans shard. Régime shards rares ou illimités, mode linéaire des générateurs, bascule FR/EN.
-  *EN — First release: for a need of T machine-equivalents, every possible split with clock speed, shards, MW and gap to the shard-free split. Scarce or unlimited shard regime, linear mode for generators, FR/EN toggle.*
+### v1.1.0 — Régime d'éclats selon votre partie (30/09/2026)
+
+Le régime d'éclats se règle sur votre partie importée : « éclats illimités » si l'éclat de charge synthétique est débloqué, « éclats rares » sinon. Réglé à chaque nouvel import, toujours modifiable à la main.
+
+*EN — Shard regime from your game. The shard regime follows your imported game: “unlimited shards” if the synthetic power shard is unlocked, “scarce shards” otherwise. Set on each new import, still editable by hand.*
+
+### v1.0.0 — Cadence et éclats (14/09/2026)
+
+Pour un besoin T en machines-équivalent, toutes les répartitions possibles avec cadence, éclats, MW et écart à la répartition sans éclat. Régime éclats rares ou illimités, mode linéaire des générateurs.
+
+*EN — Clock speed and shards. For a need T in machine-equivalents, every possible split with clock speed, shards, MW and gap to the shard-free split. Scarce or unlimited shards, linear mode for generators.*
+
+- **1.0.3** (26/09/2026) : Liste des bâtiments tirée du référentiel du jeu (puissances, production des générateurs, plages de puissance variable).
+  *EN — Building list drawn from the game reference (power, generator output, variable-power ranges).*
+  - correctif **1.0.3.1** (26/09/2026) : Plage de l'accélérateur de particules corrigée (250 – 1 500 MW) ; plus de code parasite dans l'infobulle du constructeur.
+    *EN — Particle accelerator range fixed (250 – 1,500 MW); no more stray code in the constructor tooltip.*
+- **1.0.2** (22/09/2026) : Version anglaise : noms de bâtiments, formule et fourchettes de consommation traduits.
+  *EN — English version: building names, formula and consumption ranges translated.*
+- **1.0.1** (22/09/2026) : Vos réglages sont mémorisés d'une visite à l'autre, avec un bouton Réinitialiser.
+  *EN — Your settings are remembered between visits, with a Reset button.*
+  - correctif **1.0.0.1** (28/09/2026) : Sur téléphone, la page ne déborde plus horizontalement : le tableau de résultats défile dans son cadre et le titre s'adapte.
+    *EN — On phones, the page no longer overflows horizontally: the results table scrolls in its frame and the title adapts.*
 
 ## Optimiseur de recyclage / Recycling optimizer — `broyeur-excedents.html`
 
-- **v1.31** (07/10/2026) : Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.
-  *EN — Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter.*
-- **v1.30** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
-  *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
-- **v1.29** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
-  *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
-- **v1.28** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
-  *EN — No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations.*
-- **v1.27** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
-  *EN — The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame.*
-- **v1.26** (06/10/2026) : Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.
-  *EN — The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and "Back" returns to the previous tool.*
-- **v1.25** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
-  *EN — Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge).*
-- **v1.24** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
-  *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
-- **v1.23** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
-  *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
-- **v1.22** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
-  *EN — Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard.*
-- **v1.21** (02/10/2026) : Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.
-  *EN — Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts.*
-- **v1.20** (30/09/2026) : Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.
-  *EN — The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection.*
-- **v1.19** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.
-  *EN — Shared "My game" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game.*
-- **v1.18** (29/09/2026) : Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.
-  *EN — The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged.*
-- **v1.17** (28/09/2026) : Avec une sauvegarde importée dans le registre des rendements : option (cochée par défaut) pour ne garder que les cibles que vos recettes débloquées, ou simulées, savent fabriquer ; le palier se règle sur celui de votre partie.
-  *EN — With a save imported in the yield registry: option (ticked by default) to keep only the targets your unlocked, or simulated, recipes can make; the tier is set to your game's.*
-- **v1.16** (26/09/2026) : Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois. Les icônes aussi, partagées avec les autres outils. (343 → 97 Ko)
-  *EN — Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once. Icons too, shared with the other tools. (343 → 97 KB)*
-- **v1.15** (26/09/2026) : La grille de paliers est désormais commune aux outils (même apparence que dans le registre et l'arbre).
-  *EN — The tier grid is now shared across tools (same look as in the registry and the tree).*
-- **v1.14** (25/09/2026) : Grille de paliers plus lisible : un palier non cliquable est hachuré et bordé de pointillés, un palier cliquable hors sélection reste un bouton plein.
-  *EN — Clearer tier grid: a tier that cannot be clicked is hatched with a dashed border, a clickable tier outside the selection stays a solid button.*
-- **v1.13** (25/09/2026) : Grille de paliers : par défaut, toutes les cibles sont affichées, jusqu'au dernier palier qui en apporte. Seuls les paliers qui font apparaître au moins une nouvelle cible sont cliquables ; les autres, sous le minimum de vos excédents ou sans rien de neuf, sont grisés. « Tout afficher » revient au défaut.
-  *EN — Tier grid: by default, all targets are shown, up to the last tier that adds any. Only tiers that bring at least one new target can be clicked; the others, below your surplus minimum or with nothing new, are greyed out. "Show all" goes back to the default.*
-- **v1.12** (25/09/2026) : Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils. Le palier se choisit dans une grille à icônes, comme dans le registre des rendements ; il part du palier minimum qu'impliquent vos excédents (les paliers inférieurs sont grisés). Le filtre « minerai neuf », qui ne correspondait pas aux données observées, est retiré. « Chaîne déjà payée » devient « avancement de la chaîne », expliqué en bas de page.
-  *EN — "Home" button in the top-right dock, to go back to the list of tools. The tier is picked from an icon grid, as in the yield registry; it starts at the minimum tier your surplus implies (lower tiers are greyed out). The "new ore" filter, which did not match observed data, is removed. "Chain already covered" becomes "chain progress", explained at the bottom of the page.*
-- **v1.11** (24/09/2026) : Style unifié avec les autres outils : mêmes polices (Saira Condensed et Barlow, au lieu d'Orbitron et Roboto embarquées), même palette, grand titre et bande hachurée. La page s'allège de 76 Ko.
-  *EN — Style unified with the other tools: same fonts (Saira Condensed and Barlow, instead of embedded Orbitron and Roboto), same palette, large title and hazard stripe. The page is 76 KB lighter.*
-- **v1.10** (24/09/2026) : Rangé avec « Complexité et valeur au broyeur » dans la catégorie Recyclage de l'accueil. Mention en bas de page : le site est généré par IA.
-  *EN — Grouped with "Complexity vs sink value" under Recycling on the home page. Footer notice: the site is AI-generated.*
-- **v1.9** (24/09/2026) : Paliers des recettes du MAM recalculés depuis l'arbre de recherche du wiki officiel et le coût de chaque recherche : la plupart des recherches de départ (Caterium, Quartz, protéines, Quickwire) sortent dès le palier 1 ou 2 au lieu de 3, Compacted Coal passe au palier 2.
-  *EN — MAM recipe tiers recomputed from the official wiki's research tree and each research's cost: most starting research (Caterium, Quartz, proteins, Quickwire) now comes at tier 1 or 2 instead of 3, Compacted Coal moves to tier 2.*
-- **v1.8** (24/09/2026) : Noms français pour toutes les recettes, alternatives comprises (160 noms ajoutés d'après la localisation officielle du jeu), et pour les restes d'aliens. La mention sur les noms restés en anglais disparaît du pied de page.
-  *EN — French names for every recipe, alternates included (160 names added from the game's official localization), and for alien remains. The note about names left in English is gone from the footer.*
-- **v1.7** (24/09/2026) : Les recettes alternatives s'affichent sans le préfixe anglais « Alternate: », suivies de la mention « (alternative) ». Noms français ajoutés : Foreuse portable, Restes de dardeuse, Restes de sanglier alien, Restes de cracheur.
-  *EN — Alternate recipes are shown without the "Alternate:" prefix, followed by "(alternate)". French names added: Foreuse portable, Restes de dardeuse, Restes de sanglier alien, Restes de cracheur.*
-- **v1.6** (24/09/2026) : Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d'un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal.
-  *EN — The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven't seen yet, and new entries are marked in the log.*
-- **v1.5** (24/09/2026) : Compacted Coal passe du tier 2 au tier 3 : sa recherche au MAM vient après celle de la poudre noire.
-  *EN — Compacted Coal moves from tier 2 to tier 3: its MAM research comes after Black Powder's.*
-- **v1.4** (24/09/2026) : Données recalculées par script depuis le référentiel commun. Les recettes retenues ne changent pas, mais minerai neuf et machines se lisent désormais sur la chaîne affichée (celle qui consomme le moins de MW) au lieu d'être minimisés chacun de leur côté : ils augmentent souvent (AI Limiter : 7,3 → 22 minerai/min par unité). Tiers alignés sur les autres outils, dont Circuit Board 3 → 5, Motor 7 → 8, Electromagnetic Control Rod 6 → 8.
-  *EN — Data recomputed by script from the shared reference dataset. Selected recipes are unchanged, but new ore and machines are now read from the displayed chain (the one that draws the fewest MW) instead of each being minimized separately: they often go up (AI Limiter: 7.3 → 22 ore/min per unit). Tiers aligned with the other tools, including Circuit Board 3 → 5, Motor 7 → 8, Electromagnetic Control Rod 6 → 8.*
-- **v1.3** (22/09/2026) : La langue se choisit désormais avec le drapeau FR/EN commun à tous les outils, en haut à droite. Les noms d'items et de recettes de base passent en français, et les nombres suivent le format de la langue.
-  *EN — Language is now set with the FR/EN flag shared by every tool, top right. Item and standard recipe names now switch to French, and numbers follow the language's format.*
-- **v1.2** (22/09/2026) : Excédents, débits, tri, filtres et langue sont mémorisés d'une visite à l'autre, avec un bouton Réinitialiser. Corrigé : la bascule FR/EN ne plante plus et le filtre de palier n'est plus remis à « tous » au changement de langue.
-  *EN — Surpluses, rates, sorting, filters and language are remembered between visits, with a Reset button. Fixed: the FR/EN toggle no longer crashes and the tier filter no longer resets to “all” when switching language.*
-- **v1.1** (14/09/2026) : Bascule FR/EN de l'interface et des noms d'items.
-  *EN — FR/EN toggle for the interface and item names.*
-- **v1.0** (02/09/2026) : Première version : à partir des excédents saisis, classement des cibles du broyeur AWESOME par points gagnés par mégawatt investi, avec filtres de palier et de minerai supplémentaire.
-  *EN — First release: from the surpluses you enter, AWESOME Sink targets ranked by points earned per megawatt invested, with tier and extra-ore filters.*
+### v1.3.0 — Ma partie (28/09/2026)
+
+Avec une sauvegarde importée dans le registre des rendements : option (cochée par défaut) pour ne garder que les cibles que vos recettes débloquées, ou simulées, savent fabriquer ; le palier se règle sur celui de votre partie.
+
+*EN — My game. With a save imported in the yield registry: an option (ticked by default) to keep only the targets your unlocked, or simulated, recipes can make; the tier follows your game's.*
+
+### v1.2.0 — Palier à icônes et avancement de la chaîne (25/09/2026)
+
+Le palier se choisit dans une grille à icônes, comme dans le registre ; il part du palier minimum qu'impliquent vos excédents, et seuls les paliers qui apportent au moins une nouvelle cible sont cliquables. Le filtre « minerai neuf », qui ne correspondait pas aux données observées, est retiré ; « Chaîne déjà payée » devient « avancement de la chaîne ».
+
+*EN — Icon tiers and chain progress. The tier is picked in an icon grid, as in the registry; it starts at the minimum tier your surplus implies, and only tiers bringing at least one new target are clickable. The “new ore” filter, which did not match observed data, is removed; “Chain already paid” becomes “chain progress”.*
+
+- **1.2.1** (25/09/2026) : Grille de paliers plus lisible : un palier non cliquable est hachuré et bordé de pointillés.
+  *EN — Tier grid easier to read: a non-clickable tier is hatched with a dotted border.*
+
+### v1.1.0 — Données recalculées (24/09/2026)
+
+Données recalculées par script depuis le référentiel commun : minerai neuf et machines se lisent sur la chaîne affichée (celle qui consomme le moins de MW) au lieu d'être minimisés chacun de leur côté, donc souvent plus élevés (AI Limiter : 7,3 → 22 minerai/min). Paliers alignés sur les autres outils (Circuit Board 3 → 5, Motor 7 → 8…).
+
+*EN — Recomputed data. Data recomputed by script from the shared reference: new ore and machines are read on the displayed chain (the one using the fewest MW) instead of each being minimised on its own, so often higher (AI Limiter: 7.3 → 22 ore/min). Tiers aligned with the other tools (Circuit Board 3 → 5, Motor 7 → 8…).*
+
+- **1.1.1** (24/09/2026) : Les recettes alternatives s'affichent sans le préfixe « Alternate: », suivies de « (alternative) ».
+  *EN — Alternate recipes show without the “Alternate:” prefix, followed by “(alternate)”.*
+
+### v1.0.0 — Optimiseur de recyclage (02/09/2026)
+
+À partir des excédents saisis, classement des cibles du broyeur AWESOME par points gagnés par mégawatt investi, avec filtres de palier et de minerai supplémentaire. Rangé avec « Complexité et valeur au broyeur » dans la catégorie Recyclage de l'accueil.
+
+*EN — Recycling optimiser. From the surplus you enter, ranking of AWESOME Sink targets by points gained per megawatt invested, with tier and extra-ore filters. Filed with “Complexity and sink value” in the Recycling category of the home page.*
+
+- **1.0.2** (24/09/2026) : Style unifié avec les autres outils (polices, palette, grand titre) ; la page s'allège de 76 Ko.
+  *EN — Style unified with the other tools (fonts, palette, big title); the page is 76 KB lighter.*
+- **1.0.1** (22/09/2026) : Excédents, débits, tri, filtres et langue sont mémorisés d'une visite à l'autre, avec un bouton Réinitialiser.
+  *EN — Surplus, rates, sort, filters and language are remembered between visits, with a Reset button.*
+  - correctif **1.0.1.1** (22/09/2026) : La bascule FR/EN ne plante plus et le filtre de palier n'est plus remis à « tous » au changement de langue.
+    *EN — The FR/EN switch no longer crashes and the tier filter is no longer reset to “all” when the language changes.*
 
 ## Mémo de terrain / Field memo — `memo-ficsit.html`
 
-- **v1.24** (07/10/2026) : Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.
-  *EN — Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter.*
-- **v1.23** (06/10/2026) : Couleurs des convoyeurs partagées avec le planificateur ; Mk.1 et Mk.2 éclaircis, plus lisibles (chiffres sombres sur la case).
-  *EN — Belt colours shared with the planner; Mk.1 and Mk.2 made lighter and easier to read (dark figures on the cell).*
-- **v1.22** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
-  *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
-- **v1.21** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
-  *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
-- **v1.20** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
-  *EN — No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations.*
-- **v1.19** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
-  *EN — The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame.*
-- **v1.18** (06/10/2026) : Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.
-  *EN — The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and "Back" returns to the previous tool.*
-- **v1.17** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
-  *EN — Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge).*
-- **v1.16** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
-  *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
-- **v1.15** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
-  *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
-- **v1.14** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
-  *EN — Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard.*
-- **v1.13** (02/10/2026) : Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.
-  *EN — Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts.*
-- **v1.12** (01/10/2026) : Avec une partie importée, l'extraction suit votre matériel : les foreuses et convoyeurs pas encore débloqués sont grisés, comme les débits du tableau qui demandent un convoyeur que vous n'avez pas, et un bandeau rappelle la meilleure foreuse et le meilleur convoyeur dont vous disposez.
-  *EN — With an imported game, extraction follows your equipment: miners and belts not unlocked yet are greyed out, as are the table's rates that need a belt you do not have, and a banner recalls the best miner and belt you have.*
-- **v1.11** (01/10/2026) : Rangé dans la nouvelle catégorie « Tableaux de lecture » de l'accueil, avec la rentabilité énergétique par nœud : les pages qu'on lit sans rien régler.
-  *EN — Moved to the new Reference charts category on the home page, next to Power per node: the pages you read without setting anything.*
-- **v1.10** (30/09/2026) : Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.
-  *EN — The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection.*
-- **v1.9** (30/09/2026) : Jalons du HUB : ceux obtenus dans votre partie importée (bouton « Ma partie ») sont cochés, les paliers complets marqués, avec un bilan en tête de section.
-  *EN — HUB milestones: those obtained in your imported game ("My game" button) are ticked, completed tiers highlighted, with a summary at the top of the section.*
-- **v1.8** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.
-  *EN — Shared "My game" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game.*
-- **v1.7** (29/09/2026) : Vocabulaire du jeu en français : « cadence » au lieu d'« horloge », « surcadençage » et « sous-cadençage » au lieu d'overclock et d'underclock, « éclats de charge » au lieu de shards.
-  *EN — The French text now uses the game's own French terms for clock speed, overclocking and power shards. English unchanged.*
-- **v1.6** (28/09/2026) : Sur très petit écran (320 px), les bandeaux de palier et les noms longs se replient au lieu de déborder.
-  *EN — On very small screens (320 px), tier banners and long names wrap instead of overflowing.*
-- **v1.5** (26/09/2026) : Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois.
-  *EN — Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once.*
-- **v1.4** (25/09/2026) : Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.
-  *EN — "Home" button in the top-right dock, to go back to the list of tools.*
-- **v1.3** (24/09/2026) : Mention en bas de page : le site est généré par IA.
-  *EN — Footer notice: the site is AI-generated.*
-- **v1.2** (24/09/2026) : Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d'un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal.
-  *EN — The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven't seen yet, and new entries are marked in the log.*
-- **v1.1** (22/09/2026) : Version anglaise complète, via le drapeau FR/EN commun à tous les outils. Noms de bâtiments alignés sur la localisation française du jeu, et huit recettes corrigées dans l'arbre des pièces de projet (batterie, turbomoteur, cube de conversion de pression…).
-  *EN — Full English version, via the FR/EN flag shared by every tool. Building names aligned with the game's French localization, and eight recipes fixed in the project parts tree (battery, turbo motor, pressure conversion cube…).*
-- **v1.0** (31/08/2026) : Première version : extraction par pureté de nœud et par horloge, cadences des convoyeurs, déblocages du HUB par palier et arborescence des pièces d'Ascenseur spatial.
-  *EN — First release: extraction by node purity and clock speed, conveyor belt rates, HUB unlocks by tier and the Space Elevator parts tree.*
+### v1.1.0 — Jalons du HUB et extraction selon votre partie (30/09/2026)
+
+Avec une partie importée, les jalons du HUB obtenus sont cochés et les paliers complets marqués, avec un bilan en tête de section ; l'extraction suit votre matériel : foreuses et convoyeurs pas encore débloqués sont grisés, avec un bandeau sur la meilleure foreuse et le meilleur convoyeur dont vous disposez.
+
+*EN — HUB milestones and extraction from your game. With an imported game, HUB milestones you got are ticked and completed tiers marked, with a summary at the top of the section; extraction follows your gear: miners and conveyors not yet unlocked are greyed out, with a banner on the best miner and conveyor you have.*
+
+- **1.1.1** (06/10/2026) : Couleurs des convoyeurs partagées avec le planificateur ; Mk.1 et Mk.2 éclaircis, plus lisibles.
+  *EN — Conveyor colours shared with the planner; Mk.1 and Mk.2 lightened, easier to read.*
+
+### v1.0.0 — Mémo de terrain (31/08/2026)
+
+Extraction par pureté de nœud et par cadence, débits des convoyeurs, déblocages du HUB par palier et arborescence des pièces d'Ascenseur spatial.
+
+*EN — Field memo. Extraction by node purity and clock speed, conveyor rates, HUB unlocks by tier and the Space Elevator part tree.*
+
+- **1.0.2** (01/10/2026) : Rangé dans la catégorie « Tableaux de lecture » de l'accueil, avec la rentabilité énergétique par nœud.
+  *EN — Filed in the “Reading tables” category of the home page, with the energy yield per node.*
+- **1.0.1** (22/09/2026) : Version anglaise complète ; noms de bâtiments alignés sur la localisation française du jeu.
+  *EN — Full English version; building names aligned with the game's French localisation.*
+  - correctif **1.0.0.1** (22/09/2026) : Huit recettes corrigées dans l'arbre des pièces de projet (batterie, turbomoteur, cube de conversion de pression…).
+    *EN — Eight recipes fixed in the project-parts tree (battery, turbo motor, pressure conversion cube…).*
+  - correctif **1.0.0.2** (28/09/2026) : Sur très petit écran (320 px), les bandeaux de palier et les noms longs se replient au lieu de déborder.
+    *EN — On very small screens (320 px), tier strips and long names wrap instead of overflowing.*
 
 ## Complexité et valeur au broyeur / Complexity vs sink value — `arbre-production.html`
 
-- **v1.20** (07/10/2026) : Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.
-  *EN — Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter.*
-- **v1.19** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
-  *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
-- **v1.18** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
-  *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
-- **v1.17** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
-  *EN — No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations.*
-- **v1.16** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
-  *EN — The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame.*
-- **v1.15** (06/10/2026) : Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.
-  *EN — The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and "Back" returns to the previous tool.*
-- **v1.14** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
-  *EN — Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge).*
-- **v1.13** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
-  *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
-- **v1.12** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
-  *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
-- **v1.11** (04/10/2026) : L'infobulle du graphique reprend l'habillage commun des bulles d'aide (fenêtre sombre sous un filet orange, points AWESOME en orange). Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
-  *EN — The chart tooltip now shares the common help-bubble look (dark window under an orange line, AWESOME points in orange). Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard.*
-- **v1.10** (02/10/2026) : Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.
-  *EN — Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts.*
-- **v1.9** (30/09/2026) : Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.
-  *EN — The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection.*
-- **v1.8** (29/09/2026) : Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.
-  *EN — Shared "My game" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game.*
-- **v1.7** (28/09/2026) : Troisième chaîne « Ma partie », dès qu'une sauvegarde est importée dans le registre des rendements : pour chaque item, l'alternative de la chaîne optimisée si vous l'avez débloquée (ou simulée), sinon la recette de base. Le palier se règle sur celui de votre partie.
-  *EN — Third chain "My game", once a save is imported in the yield registry: for each item, the optimized chain's alternate if you have unlocked (or simulated) it, otherwise the standard recipe. The tier is set to your game's.*
-- **v1.6** (26/09/2026) : Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois. Les icônes aussi, partagées avec les autres outils. (283 → 65 Ko)
-  *EN — Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once. Icons too, shared with the other tools. (283 → 65 KB)*
-- **v1.5** (26/09/2026) : Le palier se choisit dans la même grille à icônes que les autres outils, au lieu d'un menu : seuls les paliers qui font apparaître au moins un item sont cliquables ; retoucher le palier choisi affiche tout.
-  *EN — The tier is picked from the same icon grid as the other tools, instead of a menu: only tiers that bring at least one item can be clicked; tapping the chosen tier again shows everything.*
-- **v1.4** (25/09/2026) : Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.
-  *EN — "Home" button in the top-right dock, to go back to the list of tools.*
-- **v1.3** (24/09/2026) : Nouveau nom, « Complexité et valeur au broyeur », rangé avec l'optimiseur dans la catégorie Recyclage de l'accueil. Les minerais bruts solides (fer, cuivre, calcaire, charbon, caterium, quartz, soufre, bauxite, uranium, SAM) figurent désormais, à profondeur 0. Mention en bas de page : le site est généré par IA.
-  *EN — New name, "Complexity vs sink value", grouped with the optimizer under Recycling on the home page. Solid raw ores (iron, copper, limestone, coal, caterium, quartz, sulfur, bauxite, uranium, SAM) are now listed, at depth 0. Footer notice: the site is AI-generated.*
-- **v1.2** (24/09/2026) : Paliers des recettes du MAM recalculés depuis l'arbre de recherche du wiki officiel et le coût de chaque recherche : la plupart des recherches de départ (Caterium, Quartz, protéines, Quickwire) sortent dès le palier 1 ou 2 au lieu de 3, Compacted Coal passe au palier 2.
-  *EN — MAM recipe tiers recomputed from the official wiki's research tree and each research's cost: most starting research (Caterium, Quartz, proteins, Quickwire) now comes at tier 1 or 2 instead of 3, Compacted Coal moves to tier 2.*
-- **v1.1** (24/09/2026) : Noms français pour toutes les recettes, alternatives comprises (160 noms ajoutés d'après la localisation officielle du jeu), et pour les restes d'aliens.
-  *EN — French names for every recipe, alternates included (160 names added from the game's official localization), and for alien remains.*
-- **v1.0** (24/09/2026) : Première version : profondeur de l'arbre de production et nombre d'items intermédiaires de chaque item broyable, face à sa valeur AWESOME, en recettes de base ou en chaîne optimisée (MW), filtrable par palier.
-  *EN — First release: production tree depth and number of intermediate items for every sinkable item, against its AWESOME value, with standard recipes or the optimized (MW) chain, filterable by tier.*
+### v1.1.0 — Chaîne « Ma partie » (28/09/2026)
+
+Troisième chaîne dès qu'une sauvegarde est importée dans le registre : pour chaque item, l'alternative de la chaîne optimisée si vous l'avez débloquée (ou simulée), sinon la recette de base. Le palier se règle sur celui de votre partie.
+
+*EN — “My game” chain. A third chain as soon as a save is imported in the registry: for each item, the optimised chain's alternate if you unlocked (or simulated) it, otherwise the base recipe. The tier follows your game's.*
+
+- **1.1.1** (04/10/2026) : L'infobulle du graphique reprend l'habillage commun des bulles d'aide (points AWESOME en orange).
+  *EN — The chart tooltip uses the shared help-bubble look (AWESOME points in orange).*
+
+### v1.0.0 — Complexité et valeur au broyeur (24/09/2026)
+
+Profondeur de l'arbre de production et nombre d'items intermédiaires de chaque item broyable, face à sa valeur AWESOME, en recettes de base ou en chaîne optimisée (MW), filtrable par palier. Les minerais bruts solides figurent à profondeur 0. Rangé avec l'optimiseur dans la catégorie Recyclage de l'accueil.
+
+*EN — Complexity and sink value. Production-tree depth and number of intermediate items for each sinkable item, against its AWESOME value, in base recipes or in the optimised chain (MW), filterable by tier. Solid raw ores appear at depth 0. Filed with the optimiser in the Recycling category of the home page.*
+
+- **1.0.1** (26/09/2026) : Le palier se choisit dans la même grille à icônes que les autres outils : seuls les paliers qui font apparaître un item sont cliquables.
+  *EN — The tier is picked in the same icon grid as the other tools: only tiers that bring up at least one item are clickable.*
 
 ## Rentabilité énergétique par nœud / Power per node — `energie-noeuds.html`
 
-- **v1.13** (07/10/2026) : Infobulles au tactile : un appui long sur un élément (≈ 0,5 s) affiche sa bulle sans l'activer ; elle se ferme au toucher suivant. Contraste renforcé : si le système le demande (prefers-contrast: more), le texte posé sur l'orange passe au sombre et les textes secondaires s'éclaircissent.
-  *EN — Tooltips on touch screens: a long press on an element (≈ 0.5 s) shows its tooltip without activating it; it closes on the next touch. Higher contrast: when the system asks for it (prefers-contrast: more), text on orange turns dark and secondary text gets lighter.*
-- **v1.12** (06/10/2026) : Corrigé : une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
-  *EN — Fixed: a bubble with the tool's file name ("planner.html"…) followed the cursor all over the page.*
-- **v1.11** (06/10/2026) : Une seule barre de titre pour tout le site : onglets, journal, « Ma partie » et langue restent en place quand on change d'outil, seul le contenu en dessous change. Le journal de la barre est celui de l'outil affiché.
-  *EN — A single title bar for the whole site: tabs, changelog, "My game" and language stay put when switching tools, only the content below changes. The changelog in the bar is the one of the tool on screen.*
-- **v1.10** (06/10/2026) : Plus d'écran noir en changeant d'outil : tous les outils restent dessinés les uns derrière les autres, et celui demandé passe devant d'un coup ; s'il n'est pas encore prêt, l'outil courant reste affiché, avec un liseré de chargement en haut, jusqu'à ce qu'il le soit. Les outils en arrière-plan mettent leurs animations en pause.
-  *EN — No more black screen when switching tools: every tool stays drawn, one behind the other, and the one asked for jumps to the front at once; if it is not ready yet, the current tool stays on screen, with a loading line at the top, until it is. Tools in the background pause their animations.*
-- **v1.9** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un, dès que le premier est affiché : même à la première visite, un onglet s'affiche aussitôt, sans attente ni passage au noir.
-  *EN — The other tools open in the background, one by one, as soon as the first is shown: even on a first visit, a tab shows at once, with no wait and no black frame.*
-- **v1.8** (06/10/2026) : Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.
-  *EN — The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and "Back" returns to the previous tool.*
-- **v1.7** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : la barre de titre reste en place et le contenu passe en fondu (transition native du navigateur), et un outil survolé dans la barre est préparé à l'avance pour s'afficher aussitôt au clic (Chrome et Edge).
-  *EN — Switching tools no longer makes the page flicker: the title bar stays put and the content fades across (the browser's native transition), and a tool hovered in the bar is prepared ahead to show at once on click (Chrome and Edge).*
-- **v1.6** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, juste avant les onglets des outils ; le journal, « Ma partie » et la langue restent à droite.
-  *EN — The “Home” button moves to the left of the title bar, right before the tool tabs; the revision log, “My game” and language stay on the right.*
-- **v1.5** (04/10/2026) : La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
-  *EN — The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
-- **v1.4** (04/10/2026) : Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
-  *EN — Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard.*
-- **v1.3** (02/10/2026) : Habillage au plus près des menus du jeu, relevé sur des captures de la version 1.0 et 1.1 : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans (proche de celle du jeu), filet orange du HUD à la place des hachures. Les boutons du haut (accueil, journal, Ma partie, langue) forment une barre de titre pleine largeur, comme celle des fenêtres du jeu, qui ne recouvre plus les titres. Couleurs et polices viennent désormais d'une charte commune à tous les outils. La police est embarquée dans le site : même rendu hors ligne, sans appel à Google Fonts.
-  *EN — Look brought as close as possible to the game's menus, based on 1.0 and 1.1 screenshots: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the free Noto typeface (close to the game's font), the HUD's orange line instead of hazard stripes. The top buttons (home, changelog, My game, language) now form a full-width title bar, like the game's windows, that no longer covers headings. Colours and fonts now come from one style sheet shared by every tool. The typeface ships with the site: same look offline, with no call to Google Fonts.*
-- **v1.2** (01/10/2026) : Icônes des ressources dans la description de chaque filière : ressource du nœud, générateur, ressources d'appoint et surplus.
-  *EN — Resource icons in each chain's description: the node's resource, the generator, side resources and surplus.*
-- **v1.1** (01/10/2026) : Carburant ionisé : ses éclats de charge sont désormais fabriqués par la recette synthétique (palier 9), avec les MW de l'encodeur quantique, de l'accélérateur de particules et du convertisseur, et les ressources des cristaux temporels et de la matière noire. La filière passe au palier 9 et à environ 23 900 MW nets par nœud de pétrole normal, derrière le carburant de fusée nitro (27 900 MW).
-  *EN — Ionized fuel: its power shards are now made by the synthetic recipe (tier 9), with the power of the quantum encoder, particle accelerator and converter, and the resources of time crystals and dark matter. The chain moves to tier 9 and to about 23,900 net MW per normal oil node, behind nitro rocket fuel (27,900 MW).*
-- **v1.0** (01/10/2026) : Nouvel outil, à lire sans rien régler : combien de MW nets tirer d'un seul nœud, filière par filière (charbon, charbon compacté, carburant et ses variantes, turbocarburant, carburant de fusée, carburant ionisé, uranium, géothermie), par pureté du nœud, à 100 % et à 250 % de cadence. Nets : extraction du nœud, machines de la chaîne et ressources d'appoint payées. Chaînes calculées par script depuis le référentiel. Avec une partie importée, la foreuse, le convoyeur et le tuyau sont les vôtres, et les filières pas encore débloquées sont grisées avec ce qui leur manque.
-  *EN — New tool, read-only: how many net MW a single node can give, chain by chain (coal, compacted coal, fuel and its variants, turbofuel, rocket fuel, ionized fuel, uranium, geothermal), by node purity, at 100% and 250% clock speed. Net: the node's extraction, the chain's machines and side resources paid for. Chains computed by script from the shared dataset. With an imported game, the miner, belt and pipe are yours, and chains not unlocked yet are greyed out with what they are missing.*
+### v1.0.0 — Rentabilité énergétique par nœud (01/10/2026)
+
+À lire sans rien régler : combien de MW nets tirer d'un seul nœud, filière par filière (charbon, carburant et ses variantes, turbocarburant, carburant de fusée, carburant ionisé, uranium, géothermie), par pureté du nœud, à 100 % et à 250 % de cadence. Nets : extraction, machines de la chaîne et ressources d'appoint payées. Avec une partie importée, foreuse, convoyeur et tuyau sont les vôtres, et les filières pas débloquées sont grisées.
+
+*EN — Energy yield per node. To read without setting anything: how many net MW to draw from a single node, chain by chain (coal, fuel and its variants, turbofuel, rocket fuel, ionized fuel, uranium, geothermal), by node purity, at 100% and 250% clock speed. Net of extraction, the chain's machines and the top-up resources paid for. With an imported game, the miner, conveyor and pipe are yours, and chains not yet unlocked are greyed out.*
+
+- **1.0.2** (01/10/2026) : Icônes des ressources dans la description de chaque filière.
+  *EN — Resource icons in each chain's description.*
+- **1.0.1** (01/10/2026) : Carburant ionisé : ses éclats de charge passent par la recette synthétique (palier 9) ; la filière donne environ 23 900 MW nets par nœud de pétrole normal.
+  *EN — Ionized fuel: its power shards come from the synthetic recipe (tier 9); the chain yields about 23,900 net MW per normal oil node.*

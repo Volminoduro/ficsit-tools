@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <!-- FICSIT-LANG:START -->
-<link rel="stylesheet" href="commun/ficsit-commun.css?v=3227e87fff">
-<script src="commun/ficsit-commun.js?v=6d3abe69f0"></script>
+<link rel="stylesheet" href="commun/ficsit-commun.css?v=551980a855">
+<script src="commun/ficsit-commun.js?v=8f33c086e3"></script>
 <!-- FICSIT-LANG:END -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-fr="FICSIT Inc. — Outils" data-en="FICSIT Inc. — Tools">FICSIT Inc. — Outils</title>
@@ -90,7 +90,7 @@
     var h = document.getElementById('fhome'); if(h) h.hidden = k === 'index.html';
     var j = et.journal;
     journal.hidden = !j;
-    if(j){ journal.innerHTML = j.html; journal.title = j.titre; journal.classList.toggle('neuf', j.neuf);
+    if(j){ journal.innerHTML = j.html; journal.title = j.titre; journal.classList.toggle('neuf', j.neuf); journal.classList.toggle('ajust', !!j.ajust);
       journal.setAttribute('aria-expanded', String(j.ouvert)); }
   }
   journal.addEventListener('click', function(){ if(actif) try{ actif.contentWindow.postMessage({ficsitJournal: 'basculer'}, location.origin); }catch(e){} });

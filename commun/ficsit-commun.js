@@ -152,7 +152,7 @@
     var r = document.getElementById('journal'), b = r && r.querySelector('.pn-btn'), t = document.querySelector('title');
     var envoyer = function(){
       var tt = {}; CODES.forEach(function(c){ tt[c] = t && (t.getAttribute('data-' + c) || t.textContent) || ''; });
-      versCoquille({ficsitEtat: {titres: tt, journal: b ? {html: b.innerHTML, neuf: r.classList.contains('pn-neuf'),
+      versCoquille({ficsitEtat: {titres: tt, journal: b ? {html: b.innerHTML, neuf: r.classList.contains('pn-neuf'), ajust: r.classList.contains('pn-ajust'),
         ouvert: b.getAttribute('aria-expanded') === 'true', titre: b.getAttribute('title') || ''} : null}});
     };
     if(r) new MutationObserver(envoyer).observe(r, {attributes: true, subtree: true, childList: true, characterData: true});

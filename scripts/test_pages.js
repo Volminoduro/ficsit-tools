@@ -968,7 +968,7 @@ const INDICES = {
     console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} planificateur : le menu de choix de l'item s'ouvre sous son bouton`);
   }
 
-  // accueil : journal du site seul (badge dans la barre, version du site) ; outils : la ligne « Site » est sous la dernière version
+  // accueil : journal du site seul (badge dans la barre, version du site) ; outils : pas de ligne « Site » dans leur journal
   {
     const pb = [];
     const p = await b.newPage({viewport: {width: 1280, height: 800}});
@@ -977,12 +977,12 @@ const INDICES = {
       v: document.querySelector('#journal .pn-btn span:last-child').textContent, sv: document.getElementById('journal').dataset.sv}));
     if (!acc.badge || !acc.cur || acc.site || acc.v !== 'v' + acc.sv) pb.push('accueil : journal du site seul attendu ' + JSON.stringify(acc));
     await p.goto('file://' + path.join(ROOT, 'planner.html')); await p.waitForTimeout(500);
-    const ord = await p.evaluate(() => { const c = document.querySelector('.pn-cur'), si = document.querySelector('.pn-site'), h = document.querySelector('.pn-hist');
-      return !!(c && si && h) && !!(c.compareDocumentPosition(si) & 4) && !!(si.compareDocumentPosition(h) & 4); });
-    if (!ord) pb.push('outil : ordre dernière version → Site → versions précédentes attendu');
+    const ord = await p.evaluate(() => { const c = document.querySelector('.pn-cur'), h = document.querySelector('.pn-hist');
+      return !!(c && h) && !!(c.compareDocumentPosition(h) & 4) && !document.querySelector('details.pn-site') && !document.getElementById('journal').dataset.sv; });
+    if (!ord) pb.push('outil : dernière version puis versions précédentes attendues, sans ligne « Site »');
     await p.close();
     pb.forEach(x => echecs.push('journal du site : ' + x));
-    console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} journal du site : accueil, et ligne Site sous la dernière version`);
+    console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} journal du site : accueil seul, pas de ligne Site dans les outils`);
   }
 
   // coquille : la mention IA de chaque outil, dans son cadre, porte son texte (elle restait vide)
@@ -1007,7 +1007,7 @@ const INDICES = {
   // journal des révisions (scripts/patchnotes.py) : trois niveaux lus dans le numéro (x.y.0 fonctionnalité, x.y.z ajustement,
   // x.y.z.w correctif), la pastille suit le niveau le plus élevé des entrées pas encore vues (orange qui pulse, point gris, rien),
   // la clé de mémorisation est « vu2 » (l'ancienne est supprimée), le correctif est plus discret que l'ajustement, et le
-  // journal « Site » est en bas de chaque outil
+  // (le journal « Site » est sur l'accueil)
   {
     const p = await b.newPage({viewport: {width: 1280, height: 900}}), errs = [];
     p.on('pageerror', e => errs.push(e.message));
@@ -1020,11 +1020,10 @@ const INDICES = {
     if (await etat() !== 'neuf') pb.push('jamais vu : pastille orange attendue');
     if (await p.evaluate(() => localStorage.getItem('ficsit-tools:vu:planner.html') !== null)) pb.push('ancienne clé vu non supprimée');
     const der = await p.evaluate(() => document.getElementById('journal').dataset.v);
-    const dsite = await p.evaluate(() => document.getElementById('journal').dataset.sv);
     // ouvrir mémorise la version vue (outil et site) et éteint la pastille
     await p.click('.pn-btn');
     const memo = await p.evaluate(() => [localStorage.getItem('ficsit-tools:vu2:planner.html'), localStorage.getItem('ficsit-tools:vu2:site')]);
-    if (memo[0] !== der || memo[1] !== dsite) pb.push('versions vues non mémorisées : ' + memo.join(' / ') + ' ≠ ' + der + ' / ' + dsite);
+    if (memo[0] !== der || memo[1] !== null) pb.push('version vue non mémorisée (ou version du site marquée vue alors qu\'elle n\'est pas affichée) : ' + memo.join(' / ') + ' ≠ ' + der + ' / null');
     if (await etat() !== 'rien') pb.push('pastille toujours là après ouverture');
     // les trois niveaux : on ajoute une entrée plus récente de chaque niveau et on rejoue le script du journal
     const cas = await p.evaluate(async ([der]) => {
@@ -1035,7 +1034,7 @@ const INDICES = {
         r.querySelectorAll('.pn-pt').forEach(x => x.remove()); r.querySelectorAll('[data-test]').forEach(x => x.remove());
         const li = document.createElement('li'); li.dataset.test = '1'; li.dataset.v = v; li.dataset.niv = niv; li.dataset.src = 'outil';
         li.innerHTML = '<span class="n">x</span>'; r.querySelector('.pn-hist').appendChild(li);
-        localStorage.setItem('ficsit-tools:vu2:planner.html', der); localStorage.setItem('ficsit-tools:vu2:site', r.dataset.sv);
+        localStorage.setItem('ficsit-tools:vu2:planner.html', der);
         new Function(code)();
         rep[niv] = r.classList.contains('pn-neuf') ? 'neuf' : r.classList.contains('pn-ajust') ? 'ajust' : 'rien';
       }
@@ -1049,16 +1048,14 @@ const INDICES = {
       const aj = q('.pn-aj li.aj'), fx = q('.pn-aj li.fx');
       return {titre: !!q('.pn-cur .pn-tt'), repli: !!q('.pn-hist details.pn-aj'), aj: !!aj, fx: !!fx,
         plusPetit: aj && fx && css(fx, 'fontSize') < css(aj, 'fontSize'), plusSombre: aj && fx && getComputedStyle(fx).color !== getComputedStyle(aj).color,
-        anciennes: document.querySelectorAll('.pn-hist .pn-g').length, site: !!q('details.pn-site'),
-        sitePremier: !q('details.pn-site').open};
+        anciennes: document.querySelectorAll('.pn-hist .pn-g').length};
     });
     if (!m.titre || !m.repli) pb.push('dernière version avec titre, versions anciennes avec repli des ajustements attendus ' + JSON.stringify(m));
     if (!m.aj || !m.fx || !m.plusPetit || !m.plusSombre) pb.push('correctif pas plus discret que l\'ajustement ' + JSON.stringify(m));
     if (m.anciennes < 5) pb.push('versions anciennes repliées attendues');
-    if (!m.site) pb.push('journal « Site » absent du panneau');
     if (errs.length) pb.push('erreurs JS : ' + errs.slice(0, 2).join(' | '));
     pb.forEach(x => echecs.push('journal : ' + x));
-    console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} journal des révisions : niveaux, pastille, clé vu2, correctifs discrets, journal Site`);
+    console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} journal des révisions : niveaux, pastille, clé vu2, correctifs discrets`);
     await p.close();
   }
 
@@ -1071,13 +1068,18 @@ const INDICES = {
     await p.click('.pn-btn'); await p.waitForTimeout(200);
     const ouvert = i => p.evaluate(i => document.querySelectorAll('.pn-panel > .pn-hist > li > details.pn-g')[i].open, i);
     const sm = i => p.locator('.pn-panel > .pn-hist > li > details.pn-g > summary').nth(i);
-    await sm(1).hover(); await p.waitForTimeout(400);
+    const haut = i => p.evaluate(i => document.querySelectorAll('.pn-panel > .pn-hist > li > details.pn-g')[i].querySelector('.pn-co').getBoundingClientRect().height, i);
+    await sm(1).hover(); await p.waitForTimeout(170);
+    const milieu = await haut(1);   // ouverture en cours : le contenu glisse vers le bas (hauteur entre 0 et la hauteur finale)
+    await p.waitForTimeout(400);
+    const plein = await haut(1);
+    if (!(milieu > 0 && milieu < plein - 2)) pb.push(`pas de glissement à l'ouverture (hauteur ${milieu.toFixed(0)} px en cours, ${plein.toFixed(0)} px au final)`);
     if (!await ouvert(1)) pb.push('pas ouvert au survol');
     await p.mouse.move(300, 600); await p.waitForTimeout(500);
     if (await ouvert(1)) pb.push('pas refermé à la sortie du survol');
     await sm(1).hover(); await p.waitForTimeout(400); await sm(1).click(); await p.mouse.move(300, 600); await p.waitForTimeout(500);
     if (!await ouvert(1)) pb.push('refermé malgré le clic (doit rester ouvert)');
-    await sm(1).click(); await p.waitForTimeout(150);
+    await sm(1).click(); await p.waitForTimeout(400);
     if (await ouvert(1)) pb.push('le second clic ne ferme pas');
     await p.mouse.move(300, 600); await p.waitForTimeout(400);
     if (await ouvert(1)) pb.push('rouvert tout seul après le second clic et la sortie');

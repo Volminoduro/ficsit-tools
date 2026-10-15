@@ -245,6 +245,22 @@
           "fr": "Dans la barre commune, le texte de la mention IA en bas de chaque outil s'affiche de nouveau (l'encadré restait vide).",
           "en": "In the shared bar, the AI note at the bottom of each tool shows its text again (the box stayed empty)."
         }
+      },
+      {
+        "version": "1.11.3",
+        "date": "2026-10-15",
+        "texte": {
+          "fr": "Le journal du site n'est plus une ligne dans le journal de chaque outil : il vit sur la page d'accueil, où il a déjà son badge.",
+          "en": "The site log is no longer a line in each tool's log: it lives on the home page, where it already has its badge."
+        }
+      },
+      {
+        "version": "1.11.4",
+        "date": "2026-10-15",
+        "texte": {
+          "fr": "Dans le journal, les replis s'ouvrent en glissant vers le bas et se referment en remontant, au lieu d'apparaître d'un coup.",
+          "en": "In the log, folds slide open downwards and close upwards, instead of popping in."
+        }
       }
     ]
   },

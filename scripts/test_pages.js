@@ -1007,7 +1007,7 @@ const INDICES = {
   // journal des révisions (scripts/patchnotes.py) : trois niveaux lus dans le numéro (x.y.0 fonctionnalité, x.y.z ajustement,
   // x.y.z.w correctif), la pastille suit le niveau le plus élevé des entrées pas encore vues (orange qui pulse, point gris, rien),
   // la clé de mémorisation est « vu2 » (l'ancienne est supprimée), le correctif est plus discret que l'ajustement, et le
-  // journal « Site » est en bas de chaque outil
+  // (le journal « Site » est sur l'accueil)
   {
     const p = await b.newPage({viewport: {width: 1280, height: 900}}), errs = [];
     p.on('pageerror', e => errs.push(e.message));
@@ -1049,16 +1049,14 @@ const INDICES = {
       const aj = q('.pn-aj li.aj'), fx = q('.pn-aj li.fx');
       return {titre: !!q('.pn-cur .pn-tt'), repli: !!q('.pn-hist details.pn-aj'), aj: !!aj, fx: !!fx,
         plusPetit: aj && fx && css(fx, 'fontSize') < css(aj, 'fontSize'), plusSombre: aj && fx && getComputedStyle(fx).color !== getComputedStyle(aj).color,
-        anciennes: document.querySelectorAll('.pn-hist .pn-g').length, site: !!q('details.pn-site'),
-        sitePremier: !q('details.pn-site').open};
+        anciennes: document.querySelectorAll('.pn-hist .pn-g').length};
     });
     if (!m.titre || !m.repli) pb.push('dernière version avec titre, versions anciennes avec repli des ajustements attendus ' + JSON.stringify(m));
     if (!m.aj || !m.fx || !m.plusPetit || !m.plusSombre) pb.push('correctif pas plus discret que l\'ajustement ' + JSON.stringify(m));
     if (m.anciennes < 5) pb.push('versions anciennes repliées attendues');
-    if (!m.site) pb.push('journal « Site » absent du panneau');
     if (errs.length) pb.push('erreurs JS : ' + errs.slice(0, 2).join(' | '));
     pb.forEach(x => echecs.push('journal : ' + x));
-    console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} journal des révisions : niveaux, pastille, clé vu2, correctifs discrets, journal Site`);
+    console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} journal des révisions : niveaux, pastille, clé vu2, correctifs discrets`);
     await p.close();
   }
 

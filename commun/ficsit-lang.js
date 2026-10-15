@@ -102,10 +102,10 @@
     });
   }
   function boutons(){
+    var ia = document.getElementById('fia'); if(ia) ia.textContent = FL.t('ia');
     var w = document.getElementById('flang'); if(!w) return;
     w.setAttribute('aria-label', FL.t('groupe'));
     w.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.lang === cur); });
-    var ia = document.getElementById('fia'); if(ia) ia.textContent = FL.t('ia');
     var h = document.getElementById('fhome');
     if(h){ h.querySelector('span').textContent = FL.t('accueil'); h.title = FL.t('accueilTitle'); }
     var nb = document.getElementById('fnavbtn');

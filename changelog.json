@@ -7,6 +7,14 @@
     },
     "entrees": [
       {
+        "version": "1.11.1",
+        "date": "2026-10-15",
+        "texte": {
+          "fr": "Dans le journal, les versions et leurs ajustements s'ouvrent au survol et restent ouverts au clic ; un second clic les ferme (au tactile, le clic ouvre et ferme).",
+          "en": "In the log, versions and their adjustments open on hover and stay open on click; a second click closes them (on touch screens, a click opens and closes)."
+        }
+      },
+      {
         "version": "1.11.0",
         "date": "2026-10-15",
         "titre": {
@@ -14,8 +22,8 @@
           "en": "Revised log"
         },
         "texte": {
-          "fr": "Le journal distingue trois niveaux : fonctionnalités (pastille orange qui pulse), ajustements (point gris) et correctifs (discrets, rangés sous l'ajustement concerné). Les changements du site entier ont leur propre journal « Site », en bas du panneau, au lieu d'être répétés dans chaque outil.",
-          "en": "The log now has three levels: features (pulsing orange dot), adjustments (grey dot) and fixes (discreet, filed under the adjustment they belong to). Site-wide changes have their own “Site” log, at the bottom of the panel, instead of being repeated in every tool."
+          "fr": "Le journal distingue trois niveaux : fonctionnalités (pastille orange qui pulse), ajustements (point gris) et correctifs (discrets, rangés sous l'ajustement concerné). Les changements du site entier ont leur propre journal « Site », au lieu d'être répétés dans chaque outil.",
+          "en": "The log now has three levels: features (pulsing orange dot), adjustments (grey dot) and fixes (discreet, filed under the adjustment they belong to). Site-wide changes have their own “Site” log instead of being repeated in every tool."
         }
       },
       {
@@ -221,6 +229,22 @@
           "fr": "La langue se choisit avec un drapeau FR/EN commun à tous les outils, en haut à droite : textes, notes, noms du jeu et format des nombres suivent. Noms de bâtiments, d'items et de recettes de base en français d'après la localisation officielle.",
           "en": "The language is chosen with one FR/EN flag shared by every tool, at the top right: texts, notes, game names and number format follow. Building, item and base-recipe names in French, from the game's official localisation."
         }
+      },
+      {
+        "version": "1.11.2",
+        "date": "2026-10-15",
+        "texte": {
+          "fr": "Le journal du site est aussi sur la page d'accueil, et sa ligne « Site » remonte sous la dernière version du journal de chaque outil (elle était tout en bas).",
+          "en": "The site log is also on the home page, and its “Site” line moves up under the latest version of each tool's log (it was at the very bottom)."
+        }
+      },
+      {
+        "version": "1.2.1.1",
+        "date": "2026-10-15",
+        "texte": {
+          "fr": "Dans la barre commune, le texte de la mention IA en bas de chaque outil s'affiche de nouveau (l'encadré restait vide).",
+          "en": "In the shared bar, the AI note at the bottom of each tool shows its text again (the box stayed empty)."
+        }
       }
     ]
   },
@@ -231,6 +255,22 @@
         "en": "Production planner"
       },
       "entrees": [
+        {
+          "version": "1.14.0.2",
+          "date": "2026-10-15",
+          "texte": {
+            "fr": "Le menu de choix de l'item d'un objectif s'ouvre de nouveau juste sous son bouton (il s'ouvrait environ 230 px plus bas, sur le bilan).",
+            "en": "A target's item picker opens right under its button again (it opened about 230 px lower, over the summary)."
+          }
+        },
+        {
+          "version": "1.14.0.1",
+          "date": "2026-10-15",
+          "texte": {
+            "fr": "Le champ de quantité d'un objectif (− / valeur / +) est aligné au pixel sur le sélecteur d'item : même hauteur, même bord haut (décalé d'une fraction de pixel).",
+            "en": "A target's quantity field (− / value / +) lines up to the pixel with the item picker: same height and same top edge (it was off by a fraction of a pixel)."
+          }
+        },
         {
           "version": "1.14.0",
           "date": "2026-10-10",

@@ -1006,6 +1006,35 @@ const INDICES = {
     await p.close();
   }
 
+  // journal : les versions s'ouvrent au survol et se ferment à la sortie ; un clic les garde ouvertes (même souris partie),
+  // un second clic les ferme ; un repli ouvert d'office (dernière version) est gardé : sa fermeture demande un clic
+  {
+    const p = await b.newPage({viewport: {width: 1280, height: 900}}), pb = [];
+    await p.goto('file://' + path.join(ROOT, 'planner.html'));
+    await p.waitForTimeout(500);
+    await p.click('.pn-btn'); await p.waitForTimeout(200);
+    const ouvert = i => p.evaluate(i => document.querySelectorAll('.pn-hist details.pn-g')[i].open, i);
+    const sm = i => p.locator('.pn-hist details.pn-g > summary').nth(i);
+    await sm(1).hover(); await p.waitForTimeout(400);
+    if (!await ouvert(1)) pb.push('pas ouvert au survol');
+    await p.mouse.move(300, 600); await p.waitForTimeout(500);
+    if (await ouvert(1)) pb.push('pas refermé à la sortie du survol');
+    await sm(1).hover(); await p.waitForTimeout(400); await sm(1).click(); await p.mouse.move(300, 600); await p.waitForTimeout(500);
+    if (!await ouvert(1)) pb.push('refermé malgré le clic (doit rester ouvert)');
+    await sm(1).click(); await p.waitForTimeout(150);
+    if (await ouvert(1)) pb.push('le second clic ne ferme pas');
+    await p.mouse.move(300, 600); await p.waitForTimeout(400);
+    if (await ouvert(1)) pb.push('rouvert tout seul après le second clic et la sortie');
+    // sans survol préalable : un clic ouvre, un second ferme
+    await sm(2).click(); await p.mouse.move(300, 600); await p.waitForTimeout(500);
+    if (!await ouvert(2)) pb.push('un clic seul n\'ouvre pas');
+    await sm(2).click(); await p.mouse.move(300, 600); await p.waitForTimeout(400);
+    if (await ouvert(2)) pb.push('un clic seul ne ferme pas');
+    pb.forEach(x => echecs.push('journal (survol et clic) : ' + x));
+    console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} journal des révisions : replis ouverts au survol, gardés au clic`);
+    await p.close();
+  }
+
   // coquille (outils.html, en http) : un onglet de la barre montre l'outil dans un autre cadre, sans recharger la page ;
   // l'outil précédent garde son état ; l'adresse et le titre suivent ; « Précédent » revient au premier outil
   {

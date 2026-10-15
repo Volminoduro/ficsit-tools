@@ -7,6 +7,14 @@
     },
     "entrees": [
       {
+        "version": "1.11.1",
+        "date": "2026-10-15",
+        "texte": {
+          "fr": "Dans le journal, les versions et leurs ajustements s'ouvrent au survol et restent ouverts au clic ; un second clic les ferme (au tactile, le clic ouvre et ferme).",
+          "en": "In the log, versions and their adjustments open on hover and stay open on click; a second click closes them (on touch screens, a click opens and closes)."
+        }
+      },
+      {
         "version": "1.11.0",
         "date": "2026-10-15",
         "titre": {

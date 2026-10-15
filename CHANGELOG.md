@@ -11,6 +11,9 @@ Le journal distingue trois niveaux : fonctionnalités (pastille orange qui pulse
 
 *EN — Revised log. The log now has three levels: features (pulsing orange dot), adjustments (grey dot) and fixes (discreet, filed under the adjustment they belong to). Site-wide changes have their own “Site” log, at the bottom of the panel, instead of being repeated in every tool.*
 
+- **1.11.1** (15/10/2026) : Dans le journal, les versions et leurs ajustements s'ouvrent au survol et restent ouverts au clic ; un second clic les ferme (au tactile, le clic ouvre et ferme).
+  *EN — In the log, versions and their adjustments open on hover and stay open on click; a second click closes them (on touch screens, a click opens and closes).*
+
 ### v1.10.0 — Un site en une seule page (06/10/2026)
 
 Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.

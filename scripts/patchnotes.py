@@ -282,6 +282,20 @@ JS = """
   });
   function niveau(){ r.classList.toggle('pn-neuf', haut >= 3); r.classList.toggle('pn-ajust', haut === 2); }
   niveau();
+  // replis (versions, ajustements, journal Site) : ouverts au survol, gardés ouverts au clic ; un second clic les ferme.
+  // Sans survol (tactile), le clic ouvre et ferme. Un repli ouvert d'office (nouveautés, dernière version) est déjà gardé.
+  var survol = window.matchMedia && matchMedia('(hover:hover) and (pointer:fine)').matches;
+  r.querySelectorAll('details.pn-g, details.pn-aj, details.pn-site').forEach(function(d){
+    var sm = d.querySelector(':scope > summary'), t;
+    d.dataset.pin = d.open ? '1' : '';
+    sm.addEventListener('click', function(e){
+      e.preventDefault(); clearTimeout(t);
+      if(d.open && d.dataset.pin === '1'){ d.open = false; d.dataset.pin = ''; } else { d.open = true; d.dataset.pin = '1'; }
+    });
+    if(!survol) return;
+    d.addEventListener('mouseenter', function(){ clearTimeout(t); if(!d.open) t = setTimeout(function(){ d.open = true; d.dataset.pin = ''; }, 110); });
+    d.addEventListener('mouseleave', function(){ clearTimeout(t); if(d.open && d.dataset.pin !== '1') t = setTimeout(function(){ d.open = false; }, 180); });
+  });
   function ouvrir(o){
     p.hidden = !o; b.setAttribute('aria-expanded', o);
     if(o){ haut = 0; niveau(); try{ localStorage.setItem(KO, V.outil); if(V.site) localStorage.setItem(KS, V.site); }catch(e){} }

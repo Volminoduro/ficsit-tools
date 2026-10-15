@@ -5,79 +5,100 @@ Version x.y.0 : fonctionnalité ; x.y.z : ajustement ; x.y.z.w : correctif de bu
 
 ## Site / Site — journal commun
 
-### v1.8.0 — Journal refondu (15/10/2026)
+### v1.11.0 — Journal refondu (15/10/2026)
 
 Le journal distingue trois niveaux : fonctionnalités (pastille orange qui pulse), ajustements (point gris) et correctifs (discrets, rangés sous l'ajustement concerné). Les changements du site entier ont leur propre journal « Site », en bas du panneau, au lieu d'être répétés dans chaque outil.
 
 *EN — Revised log. The log now has three levels: features (pulsing orange dot), adjustments (grey dot) and fixes (discreet, filed under the adjustment they belong to). Site-wide changes have their own “Site” log, at the bottom of the panel, instead of being repeated in every tool.*
 
-### v1.7.0 — Un site en une seule page (06/10/2026)
+### v1.10.0 — Un site en une seule page (06/10/2026)
 
 Le site devient une seule page à onglets : changer d'outil n'en recharge plus aucun, chaque outil reste ouvert à côté des autres et retrouve son état (défilement, zoom, saisies) quand on y revient. L'adresse suit l'outil affiché, et « Précédent » ramène à l'outil d'avant.
 
 *EN — A single-page site. The site becomes a single page with tabs: switching tools no longer reloads anything, each tool stays open next to the others and keeps its state (scroll, zoom, inputs) when you come back. The address follows the tool on screen, and “Back” returns to the previous tool.*
 
-- **1.7.4** (06/10/2026) : Une seule barre de titre pour tout le site ; le journal de la barre est celui de l'outil affiché.
+- **1.10.4** (06/10/2026) : Une seule barre de titre pour tout le site ; le journal de la barre est celui de l'outil affiché.
   *EN — A single title bar for the whole site; the changelog in the bar is the one of the tool on screen.*
-- **1.7.3** (06/10/2026) : Plus d'écran noir en changeant d'outil : l'outil courant reste affiché, avec un liseré de chargement, jusqu'à ce que le suivant soit prêt.
+- **1.10.3** (06/10/2026) : Plus d'écran noir en changeant d'outil : l'outil courant reste affiché, avec un liseré de chargement, jusqu'à ce que le suivant soit prêt.
   *EN — No more black screen when switching tools: the current tool stays on screen, with a loading line, until the next one is ready.*
-- **1.7.2** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un : même à la première visite, un onglet s'affiche aussitôt.
+- **1.10.2** (06/10/2026) : Les autres outils s'ouvrent en arrière-plan, un à un : même à la première visite, un onglet s'affiche aussitôt.
   *EN — The other tools open in the background, one by one: even on a first visit, a tab shows at once.*
-- **1.7.1** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : le contenu passe en fondu et l'outil survolé est préparé à l'avance (Chrome et Edge).
+- **1.10.1** (06/10/2026) : Changer d'outil ne fait plus clignoter la page : le contenu passe en fondu et l'outil survolé est préparé à l'avance (Chrome et Edge).
   *EN — Switching tools no longer makes the page flicker: the content fades across and a hovered tool is prepared ahead (Chrome and Edge).*
 
-### v1.6.0 — Barre de titre à onglets (04/10/2026)
+### v1.9.0 — Barre de titre à onglets (04/10/2026)
 
 La barre de titre porte désormais des onglets vers tous les outils : plus besoin de repasser par l'accueil pour changer d'outil (outil courant en orange ; losange = outil en chantier). Sur écran étroit, ils se replient dans un menu « Outils ».
 
 *EN — Title bar with tabs. The title bar now carries tabs to every tool, so there is no need to go back through the home page to switch (current tool in orange; diamond = work in progress). On narrow screens they fold into a “Tools” menu.*
 
-- **1.6.1** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, avant les onglets des outils.
+- **1.9.1** (05/10/2026) : Le bouton « Accueil » passe à gauche de la barre de titre, avant les onglets des outils.
   *EN — The “Home” button moves to the left of the title bar, before the tool tabs.*
 
-### v1.5.0 — Infobulles de la charte (04/10/2026)
+### v1.8.0 — Infobulles de la charte (04/10/2026)
 
 Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
 
 *EN — Style-guide tooltips. Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard.*
 
-- **1.5.1** (07/10/2026) : Infobulles au tactile (appui long de 0,5 s) et contraste renforcé quand le système le demande.
+- **1.8.1** (07/10/2026) : Infobulles au tactile (appui long de 0,5 s) et contraste renforcé quand le système le demande.
   *EN — Tooltips on touch screens (0.5 s long press) and higher contrast when the system asks for it.*
-  - correctif **1.5.0.1** (06/10/2026) : Une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
+  - correctif **1.8.0.1** (06/10/2026) : Une bulle avec le nom du fichier de l'outil (« planner.html »…) suivait le curseur partout sur la page.
     *EN — A bubble with the tool's file name (“planner.html”…) followed the cursor all over the page.*
 
-### v1.4.0 — Habillage des menus du jeu (02/10/2026)
+### v1.7.0 — Habillage des menus du jeu (02/10/2026)
 
 Habillage au plus près des menus du jeu : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans embarquée dans le site (même rendu hors ligne), filet orange du HUD à la place des hachures. Les boutons du haut forment une barre de titre pleine largeur ; couleurs et polices viennent d'une charte commune.
 
 *EN — Game-menu look. Look brought as close as possible to the game's menus: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the Noto Sans typeface shipped with the site (same look offline), the HUD's orange line instead of hazard stripes. The top buttons form a full-width title bar; colours and fonts come from one style sheet shared by every tool.*
 
-### v1.3.0 — Fonctionnement hors ligne (30/09/2026)
+### v1.6.0 — Fonctionnement hors ligne (30/09/2026)
 
 Le site fonctionne hors ligne : une fois une page visitée, elle et ses fichiers sont gardés par le navigateur, pour garder l'outil ouvert à côté du jeu même sans connexion.
 
 *EN — Offline use. The site works offline: once a page has been visited, it and its files are kept by the browser, so the tool stays usable next to the game even without a connection.*
 
-### v1.2.0 — Ma partie, commune à tous les outils (29/09/2026)
+### v1.5.0 — Ma partie, commune à tous les outils (29/09/2026)
 
 Bouton « Ma partie » en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée.
 
 *EN — “My game”, shared by every tool. “My game” button at the top right of every tool and of the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game.*
 
-- **1.2.1** (29/09/2026) : Le français emploie les termes du jeu : « cadence », « surcadençage », « sous-cadençage », « éclats de charge ».
+- **1.5.1** (29/09/2026) : Le français emploie les termes du jeu : « cadence », « surcadençage », « sous-cadençage », « éclats de charge ».
   *EN — The French text uses the game's own terms for clock speed, overclocking and power shards. English unchanged.*
 
-### v1.1.0 — Bouton Accueil (25/09/2026)
+### v1.4.0 — Fichiers communs et grille de paliers (26/09/2026)
+
+La langue, le glossaire, la grille de paliers et les icônes sont chargés depuis des fichiers communs, mis en cache une fois : les pages pèsent bien moins lourd. La grille de paliers est la même dans tous les outils.
+
+*EN — Shared files and tier grid. Language, glossary, tier grid and icons now load from shared files, cached once: pages weigh far less. The tier grid is the same in every tool.*
+
+### v1.3.0 — Bouton Accueil (25/09/2026)
 
 Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils.
 
 *EN — Home button. “Home” button in the top-right dock, to go back to the list of tools.*
 
-### v1.0.0 — Journal des révisions (24/09/2026)
+### v1.2.0 — Données du jeu recalculées (24/09/2026)
+
+Noms français pour toutes les recettes, alternatives comprises (160 noms d'après la localisation officielle du jeu), et paliers des recettes du MAM recalculés d'après l'arbre de recherche du wiki officiel : la plupart des recherches de départ sortent dès le palier 1 ou 2 au lieu de 3.
+
+*EN — Game data recomputed. French names for every recipe, alternates included (160 names from the game's official localisation), and MAM recipe tiers recomputed from the official wiki's research tree: most early researches now come out at tier 1 or 2 instead of 3.*
+
+- **1.2.1** (24/09/2026) : Mention en bas de page : le site est généré par IA.
+  *EN — Footer note: the site is generated by AI.*
+
+### v1.1.0 — Journal des révisions (24/09/2026)
 
 Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d'un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal.
 
 *EN — Revision log. The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven't seen yet, and new entries are marked in the log.*
+
+### v1.0.0 — Langue FR/EN commune (22/09/2026)
+
+La langue se choisit avec un drapeau FR/EN commun à tous les outils, en haut à droite : textes, notes, noms du jeu et format des nombres suivent. Noms de bâtiments, d'items et de recettes de base en français d'après la localisation officielle.
+
+*EN — Shared FR/EN language. The language is chosen with one FR/EN flag shared by every tool, at the top right: texts, notes, game names and number format follow. Building, item and base-recipe names in French, from the game's official localisation.*
 
 ## Planificateur de production / Production planner — `planner.html`
 
@@ -217,554 +238,275 @@ Vos objectifs de production par minute, et la chaîne qui y mène jusqu'aux ress
 
 ## Débit vers le Dimensional Depot / Dimensional Depot throughput — `depot-dimensionnel.html`
 
-### v1.15 — L'infobulle d'une ligne de l'inventaire se place près du curseur, comme la… (04/10/2026)
+### v1.4.0 — Vue d'ensemble façon inventaire (01/10/2026)
 
-L'infobulle d'une ligne de l'inventaire se place près du curseur, comme la bulle du navigateur, au lieu de se centrer sur la ligne entière.
+Une ligne par item (Uploaders et stock du Depot réunis) avec le débit théorique, le plafond qui le limite, le stock, la limite et le temps avant plein ; un carré rouge signale un Depot plein. Le détail d'un item s'ouvre au clic. Le débit affiché est le débit théorique, que le Depot soit plein ou non.
 
-*EN — A row's tooltip in the inventory now sits near the cursor, like the…. A row's tooltip in the inventory now sits near the cursor, like the browser's own bubble, instead of being centred on the whole row.*
+*EN — Inventory-style overview. One line per item (Uploaders and Depot stock together) with the theoretical rate, the cap limiting it, the stock, the limit and the time to full; a red square flags a full Depot. An item's detail opens on click. The rate shown is the theoretical one, whether the Depot is full or not.*
 
-### v1.13 — Le fichier de la partie est gardé tel quel (sur disque par le navigateur… (02/10/2026)
+- **1.4.1** (04/10/2026) : L'infobulle d'une ligne de l'inventaire se place près du curseur.
+  *EN — An inventory row's tooltip sits near the cursor.*
 
-Le fichier de la partie est gardé tel quel (sur disque par le navigateur, sans copie en mémoire), avec un second stockage de secours si le premier refuse : une grosse sauvegarde importée depuis l'accueil est bien reprise ici. Si les deux refusent, le panneau « Ma partie » donne l'erreur exacte du navigateur.
+### v1.3.0 — Fluides et circuits électriques (30/09/2026)
 
-*EN — The game file is kept as is (on disk by the browser, without an in-memory…. The game file is kept as is (on disk by the browser, without an in-memory copy), with a second fallback storage if the first refuses: a large save imported from the home page is picked up here. If both refuse, the "My game" panel gives the browser's exact error.*
+Chaque réseau de tuyaux devient un réservoir commun : les machines sont limitées par leurs fluides, les centrales par leur eau, et un réseau à qui il manque du fluide est signalé. Chaque bâtiment est rattaché à son circuit : bilan par circuit, circuit en déficit ou sans générateur signalé, bâtiment sur un fusible grillé compté à l'arrêt.
 
-### v1.12 — Sauvegarde importée depuis une autre page (accueil, autre outil)  (02/10/2026)
+*EN — Fluids and power circuits. Each pipe network becomes a shared tank: machines are limited by their fluids, power plants by their water, and a network short of fluid is flagged. Each building is tied to its circuit: balance per circuit, deficit or generator-less circuit flagged, building on a blown fuse counted as stopped.*
 
-Sauvegarde importée depuis une autre page (accueil, autre outil) : l'outil la reprend aussi quand on y revient par le bouton « retour » du navigateur, et un import interrompu (page quittée avant la fin) ne fait plus perdre la partie précédente. Pendant l'enregistrement du fichier, le panneau « Ma partie » le signale et le navigateur demande confirmation avant de quitter la page.
+- **1.3.1** (30/09/2026) : Première visite plus rapide (~14 s au lieu de ~20 sur une grosse usine), avec une barre de progression pendant le calcul.
+  *EN — Faster first visit (~14 s instead of ~20 on a big factory), with a progress bar during the calculation.*
 
-*EN — Save imported from another page (home, another tool). Save imported from another page (home, another tool): the tool also picks it up when you come back with the browser's back button, and an interrupted import (page left before the end) no longer loses the previous game. While the file is being saved, the "My game" panel says so and the browser asks for confirmation before leaving the page.*
+### v1.2.0 — Régime actuel de l'usine (29/09/2026)
 
-### v1.10 — Vue d'ensemble façon inventaire  (01/10/2026)
+Un conteneur qui a de la place sert l'aval d'abord puis garde le surplus, avec le temps avant plein ; gares, quais de camion et ports de drones forment un réservoir commun par famille ; générateurs à combustible solide, bilan électrique estimé et fusibles grillés lus dans la sauvegarde.
 
-Vue d'ensemble façon inventaire : une ligne par item (Uploaders et stock du Depot réunis) avec le débit théorique, le plafond qui le limite (E : vitesse d'envoi, R : raccord, A : chaîne en amont), le stock, la limite et le temps avant plein ; un carré rouge signale un Depot plein, avec une légende. Le détail d'un item (plafonds, sources en amont) s'ouvre au clic, une infobulle le résume au survol. Les hypothèses et alertes du calcul sont repliées.
+*EN — The factory's current state. A container with room serves downstream first then keeps the surplus, with the time to full; stations, truck stops and drone ports form one shared tank per family; solid-fuel generators, estimated power balance and blown fuses read from the save.*
 
-*EN — Inventory-style overview. Inventory-style overview: one row per item (Uploaders and Depot stock together) with the theoretical rate, the cap that limits it (E: upload speed, R: feed belt, A: upstream chain), the stock, the limit and the time until full; a red square flags a full Depot, with a legend. An item's details (caps, upstream sources) open on click, a tooltip sums them up on hover. The computation's assumptions and warnings are folded away.*
+- **1.2.2** (29/09/2026) : Outil signalé « en chantier » ; un bouton « Réimporter ma sauvegarde » si le fichier n'a pas été gardé par le navigateur.
+  *EN — Tool flagged “work in progress”; a “Re-import my save” button if the browser did not keep the file.*
+  - correctif **1.2.2.1** (02/10/2026) : Une sauvegarde importée depuis une autre page est reprise ici, même au retour par « précédent » ; un import interrompu ne fait plus perdre la partie précédente.
+    *EN — A save imported from another page is picked up here, even when coming back with “Back”; an interrupted import no longer loses the previous game.*
+  - correctif **1.2.2.2** (02/10/2026) : Une grosse sauvegarde est gardée sur disque, avec un stockage de secours ; le panneau donne l'erreur exacte du navigateur si les deux refusent.
+    *EN — A big save is kept on disk, with a backup store; the panel gives the browser's exact error if both refuse.*
+- **1.2.1** (29/09/2026) : L'outil relit le fichier gardé par le bouton « Ma partie » commun et garde l'usine et les débits calculés dans ce navigateur.
+  *EN — The tool rereads the file kept by the shared “My game” button and keeps the factory and computed rates in this browser.*
 
-### v1.9 — Le débit affiché pour chaque item est désormais le débit théorique vers le… (01/10/2026)
+### v1.1.0 — Débits théoriques (29/09/2026)
 
-Le débit affiché pour chaque item est désormais le débit théorique vers le Depot (le plus petit des trois plafonds : vitesse d'envoi, raccord, chaîne en amont), que le Depot soit plein ou non. Avant, un item dont le Depot était plein affichait 0 /min en titre. Le plein est signalé à part, en rouge, et le tableau du stock donne aussi le débit théorique.
+Chaque Uploader affiche son débit vers le Depot et ce qui le limite (vitesse d'envoi, Depot plein, production en amont), plus le débit potentiel si le Depot était plein. Calcul du régime permanent de toute l'usine dans un Web Worker : pureté des nœuds, cadence et Somersloops, ingrédients, plafonds des convoyeurs, séparateurs. Le tableau du stock donne la limite, le débit et le temps avant plein.
 
-*EN — The rate shown for each item is now the theoretical rate into the Depot (the…. The rate shown for each item is now the theoretical rate into the Depot (the smallest of the three caps: upload speed, feed, upstream chain), whether the Depot is full or not. Before, an item whose Depot was full showed 0/min as its headline. Being full is flagged separately, in red, and the stock table also gives the theoretical rate.*
+*EN — Theoretical rates. Each Uploader shows its rate to the Depot and what limits it (send speed, full Depot, upstream production), plus the potential rate if the Depot were full. Steady-state calculation of the whole factory in a Web Worker: node purity, clock speed and Somersloops, ingredients, conveyor caps, splitters. The stock table gives the limit, the rate and the time to full.*
 
-### v1.8 — Fluides et électricité par circuit (30/09/2026)
+- **1.1.1** (29/09/2026) : Les trois plafonds de chaque Uploader sont affichés séparément, le plus bas en évidence : vitesse d'envoi, raccord et chaîne en amont.
+  *EN — Each Uploader's three caps are shown separately, the lowest highlighted: send speed, connection and upstream chain.*
 
-Fluides et électricité par circuit. Chaque réseau de tuyaux lu dans la sauvegarde devient un réservoir commun : extracteurs d'eau et de pétrole, puits, raffineries, conditionneuses et générateurs y versent ou y puisent, un fluide ne passant que par les tuyaux. Les machines sont désormais limitées par leurs fluides, les centrales à charbon et nucléaires par leur eau, et les générateurs à carburant comptent dans la production. Un réseau à qui il manque du fluide est signalé, avec la quantité manquante, ainsi qu'un réseau dont le débit dépasse son tuyau le plus faible. Chaque bâtiment est rattaché à son circuit : bilan par circuit, circuit en déficit ou sans générateur signalé, et un bâtiment sur un circuit dont le fusible a grillé, ou branché à aucun circuit, est compté à l'arrêt. Recoupement avec le jeu : 77 % des machines à 10 points près sur une grosse partie (74 % avant).
+### v1.0.0 — Lecture de l'usine (29/09/2026)
 
-*EN — Fluids and power per circuit. Fluids and power per circuit. Each pipe network read from the save becomes a shared pool: water and oil extractors, resource wells, refineries, packagers and generators feed into it or draw from it, and a fluid only travels through pipes. Machines are now limited by their fluids, coal and nuclear plants by their water, and fuel generators count towards production. A network short of fluid is flagged, with the missing amount, as is a network whose flow exceeds its weakest pipe. Each building is tied to its circuit: balance per circuit, circuits in deficit or without a generator flagged, and a building on a circuit with a blown fuse, or connected to no circuit, is counted as stopped. Cross-check with the game: 77% of machines within 10 points on a large save (74% before).*
+Importez une sauvegarde (.sav, lue dans le navigateur) : l'usine est reconstruite (machines, extracteurs, convoyeurs, séparateurs et leurs liaisons) et chaque Uploader est relié aux machines et extracteurs qui l'alimentent, avec le stock actuel du Depot et l'extension achetée.
 
-### v1.6 — Première visite plus rapide (~14 s au lieu de ~20 sur une grosse usine)  (30/09/2026)
-
-Première visite plus rapide (~14 s au lieu de ~20 sur une grosse usine) : un seul modèle de l'usine au lieu de deux, le plafond « chaîne en amont » n'étant recalculé qu'en amont des Uploaders. Barre de progression pendant le calcul des débits.
-
-*EN — Faster first visit (~14 s instead of ~20 on a large factory). Faster first visit (~14 s instead of ~20 on a large factory): a single factory model instead of two, the "upstream chain" cap being recomputed only upstream of the Uploaders. Progress bar while rates are computed.*
-
-### v1.5 — Outil signalé « en chantier » dans son titre et sur l'accueil (29/09/2026)
-
-Outil signalé « en chantier » dans son titre et sur l'accueil. Partie importée avant le bouton commun (fichier non gardé) : l'outil l'explique et propose un bouton « Réimporter ma sauvegarde ». Si le navigateur ne peut pas garder le fichier (navigation privée), il reste utilisable pendant la visite et le panneau le signale.
-
-*EN — Tool marked "work in progress" in its title and on the home page. Tool marked "work in progress" in its title and on the home page. Game imported before the shared button (file not kept): the tool explains it and offers a "Re-import my save" button. If the browser cannot keep the file (private browsing), it stays usable during the visit and the panel says so.*
-
-### v1.4 — Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil  (29/09/2026)
-
-Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée. L'outil n'a plus son propre import : il relit le fichier gardé par le bouton commun, et garde l'usine et les débits calculés dans ce navigateur (une nouvelle visite s'affiche aussitôt).
-
-*EN — Shared "My game" button, top right of every tool and the home page. Shared "My game" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game. The tool no longer has its own import: it rereads the file kept by the shared button, and keeps the computed factory and rates in this browser (a new visit shows at once).*
-
-### v1.3 — Les trois plafonds de chaque Uploader sont affichés séparément, le plus bas… (29/09/2026)
-
-Les trois plafonds de chaque Uploader sont affichés séparément, le plus bas en évidence : vitesse d'envoi (recherches du MAM), raccord (le convoyeur ou l'ascenseur qui arrive dans l'Uploader, avec son Mk) et ce que la chaîne en amont peut fournir. Le débit vers le Depot est le plus petit des trois, 0 si le Depot est plein pour l'item. Un conteneur juste avant l'Uploader compte comme un tronçon de convoyeur : l'Uploader est servi d'abord.
-
-*EN — Each Uploader's three caps are shown separately, the lowest highlighted. Each Uploader's three caps are shown separately, the lowest highlighted: upload speed (MAM research), feed (the belt or lift coming into the Uploader, with its Mk) and what the upstream chain can supply. The rate into the Depot is the smallest of the three, 0 if the Depot is full for that item. A container right before the Uploader counts as a belt section: the Uploader is served first.*
-
-### v1.2 — Étape 3  (29/09/2026)
-
-Étape 3 : régime actuel de l'usine. Un conteneur qui a encore de la place (contenu lu dans la sauvegarde) sert l'aval d'abord puis garde le surplus, avec le temps avant qu'il soit plein : le montage « production → conteneur industriel → Uploader » est compté comme en jeu. Gares, quais de camion et ports de drones : un réservoir commun par famille, ce qui est chargé ressort par ceux qui déchargent. Générateurs à combustible solide : consommation réelle (60 × MW × cadence / énergie du combustible). Bilan électrique estimé (production, consommation à la marche calculée) et fusibles grillés lus dans la sauvegarde.
-
-*EN — Step 3. Step 3: the factory's current regime. A container with room left (contents read from the save) serves downstream first and keeps the surplus, with the time until it is full: the "production → industrial container → Uploader" setup is counted as in game. Train stations, truck stations and drone ports: one shared pool per family, what is loaded comes out of those that unload. Solid-fuel generators: actual consumption (60 × MW × clock speed / fuel energy). Estimated power balance (production, consumption at the computed run rates) and blown fuses read from the save.*
-
-### v1.1 — Étape 2  (29/09/2026)
-
-Étape 2 : débits théoriques en items/min. Chaque Uploader affiche son débit vers le Depot et ce qui le limite (vitesse d'envoi, Depot plein, production en amont), plus le débit potentiel si le Depot était plein. Calcul du régime permanent de toute l'usine, dans un Web Worker : pureté des nœuds (table de la carte, ou la sauvegarde si elle l'indique), cadence et Somersloops, machines limitées par leurs ingrédients et par la place en aval, plafonds des convoyeurs, séparateurs à parts égales avec les règles des séparateurs intelligents (excédent compris), vitesse d'envoi des Uploaders et limite du Depot par item. Le tableau du stock donne la limite, le débit et le temps avant plein ; un recoupement compare la marche calculée à la productivité mesurée par le jeu. Vocabulaire du jeu : « cadence » et « éclats de charge ».
-
-*EN — Step 2. Step 2: theoretical rates in items/min. Each Uploader shows its rate into the Depot and what limits it (upload speed, Depot full, upstream production), plus the potential rate if the Depot were not full. Steady state of the whole factory, computed in a Web Worker: node purity (map table, or the save when it holds it), clock speed and Somersloops, machines limited by their ingredients and by room downstream, belt caps, even splits with smart splitter rules (overflow included), Uploader upload speed and the Depot's per-item limit. The stock table gives the limit, the rate and the time until full; a cross-check compares the computed run rate with the productivity measured by the game.*
-
-### v1.0 — Nouvel outil, étape 1  (29/09/2026)
-
-Nouvel outil, étape 1 : importez une sauvegarde (.sav, lue dans le navigateur, hors du fil principal) ; l'usine est reconstruite (machines, extracteurs, convoyeurs, séparateurs et leurs liaisons) et chaque Uploader, regroupé par item, est relié aux machines et extracteurs qui l'alimentent (recette, horloge, éclats, Somersloops, productivité mesurée), avec le stock actuel du Depot et l'extension achetée. Les débits par minute viendront ensuite.
-
-*EN — New tool, step 1. New tool, step 1: import a save (.sav, read in the browser, off the main thread); the factory is rebuilt (machines, extractors, belts, splitters and their links) and each Uploader, grouped by item, is traced back to the machines and extractors feeding it (recipe, clock, shards, Somersloops, measured productivity), next to the Depot's current stock and the purchased expansion. Per-minute rates come next.*
+*EN — Reading the factory. Import a save (.sav, read in the browser): the factory is rebuilt (machines, extractors, conveyors, splitters and their links) and each Uploader is tied to the machines and extractors feeding it, with the Depot's current stock and the bought expansion.*
 
 ## Registre des rendements / Yield registry — `satisfactory_infographie.html`
 
-### v1.44 — Corrigé  (10/10/2026)
+### v1.9.0 — Bouton « Mes alternatives » (04/10/2026)
 
-Corrigé : le bouton « Importer ma partie » du panneau « Mes alternatives » ne faisait rien quand l'outil est ouvert dans la barre commune ; il ouvre maintenant le panneau « Ma partie ».
+Le registre n'a plus d'onglet vertical « Ma partie » : ses alternatives débloquées et ses disques durs s'ouvrent par un bouton « Mes alternatives » dans la rangée d'outils.
 
-*EN — Fixed. Fixed: the "Import my save" button in the "My alternatives" panel did nothing when the tool is opened in the shared bar; it now opens the "My save" panel.*
+*EN — “My alternates” button. The registry no longer has a vertical “My game” tab: its unlocked alternates and hard drives open from a “My alternates” button in the toolbar.*
 
-### v1.34 — Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent… (04/10/2026)
+- **1.9.1** (04/10/2026) : Combinaisons et chaînes optimisées en orange ; dans une séquence, la cible est une tuile blanche et un coproduit a un trait pointillé.
+  *EN — Optimised combinations and chains in orange; in a sequence, the target is a white tile and a co-product has a dotted line.*
+  - correctif **1.9.0.1** (10/10/2026) : Le bouton « Importer ma partie » du panneau « Mes alternatives » ne faisait rien dans la barre commune ; il ouvre maintenant le panneau « Ma partie ».
+    *EN — The “Import my game” button in the “My alternates” panel did nothing in the shared bar; it now opens the “My game” panel.*
+  - correctif **1.9.0.2** (02/10/2026) : L'étiquette « perdante » de la Synthèse est lisible (blanc sur rouge).
+    *EN — The Synthesis “loser” label is readable (white on red).*
 
-Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier. Le registre n'a plus d'onglet vertical « Ma partie » (qui doublonnait le bouton du haut de page) : ses alternatives débloquées et disques durs s'ouvrent par un bouton « Mes alternatives » dans la rangée d'outils.
+### v1.8.0 — Copier le lien (28/09/2026)
 
-*EN — Help bubbles (on hover over buttons, icons and tags) now use the style…. Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard. The registry no longer has the vertical “My game” tab (which duplicated the top-of-page button): its unlocked alternates and hard drives open from a “My alternates” button in the toolbar.*
+Bouton « Copier le lien » : un lien vers la vue affichée (critère, palier, items filtrés, onglet, tri, poids de la synthèse), sans votre partie.
 
-### v1.33 — Combinaisons et chaînes optimisées repassent en orange, la couleur ordinaire  (04/10/2026)
+*EN — Copy link. “Copy link” button: a link to the displayed view (criterion, tier, filtered items, tab, sort, synthesis weights), without your game.*
 
-Combinaisons et chaînes optimisées repassent en orange, la couleur ordinaire : l'onglet dit déjà de quoi on parle. Dans la séquence d'une chaîne, la cible est une tuile blanche à chiffre sombre (comme le palier choisi du terminal du jeu), un coproduit a un trait pointillé, et le chiffre de l'extraction est lisible.
+- **1.8.1** (28/09/2026) : Panneau « Ma partie » : le focus clavier y reste tant qu'il est ouvert, et chaque recalcul est annoncé aux lecteurs d'écran.
+  *EN — “My game” panel: keyboard focus stays in it while open, and each recalculation is announced to screen readers.*
+  - correctif **1.8.0.1** (28/09/2026) : Les séquences de production pouvaient reprendre une chaîne calculée avant un changement du filtre « Ma partie ».
+    *EN — Production sequences could reuse a chain computed before a “My game” filter change.*
 
-*EN — Combinations and optimised chains are back to orange, the ordinary colour. Combinations and optimised chains are back to orange, the ordinary colour: the tab already says what they are. In a chain's sequence the target is a white tile with a dark digit (like the game's selected tier), a co-product has a dashed edge, and the extraction digit is readable.*
+### v1.7.0 — Simulation des choix de disques durs (28/09/2026)
 
-### v1.32 — Synthèse  (02/10/2026)
+Dans le panneau « Ma partie », cochez l'alternative à retenir pour chaque disque en attente (par défaut la meilleure en Synthèse) et l'option « Simuler mes choix » : duels, combinaisons, catalogue et paliers font comme si elle était débloquée.
 
-Synthèse : l'étiquette « perdante » s'affiche en blanc sur rouge, lisible ; elle prenait par erreur le style gris des sous-titres de groupe.
+*EN — Simulating hard-drive choices. In the “My game” panel, tick the alternate to keep for each pending drive (best in Synthesis by default) and the “Simulate my choices” option: duels, combinations, catalogue and tiers behave as if it were unlocked.*
 
-*EN — Synthesis. Synthesis: the “losing” tag now shows white on red, readable; it was wrongly picking up the grey style of group subtitles.*
+- **1.7.2** (28/09/2026) : Import de la sauvegarde environ cinq fois plus rapide (1 s au lieu de 5 pour 5 Mo) et bien plus économe en mémoire.
+  *EN — Save import about five times faster (1 s instead of 5 for 5 MB) and far lighter on memory.*
+- **1.7.1** (28/09/2026) : Le palier se règle sur celui de votre partie à chaque import ; un bandeau rappelle le filtre et la simulation ; les alternatives simulées sont marquées « simulée ».
+  *EN — The tier follows your game's on each import; a banner recalls the filter and the simulation; simulated alternates are marked “simulated”.*
+  - correctif **1.7.0.1** (28/09/2026) : Sur téléphone, les onglets, les noms longs et les chiffres clés ne débordent plus de l'écran.
+    *EN — On phones, tabs, long names and key figures no longer overflow the screen.*
 
-### v1.31 — Combinaisons et chaînes optimisées en bleu, la couleur des graphes de… (02/10/2026)
+### v1.6.0 — Disques durs en attente (27/09/2026)
 
-Combinaisons et chaînes optimisées en bleu, la couleur des graphes de puissance du jeu, au lieu du jaune absent de ses menus : l'orange reste aux recettes alternatives, le gris aux recettes de base.
+Le panneau « Ma partie » liste les disques durs analysés dans le MAM mais pas encore réclamés : pour chaque alternative proposée, son score Synthèse, son gain face à la base et son verdict, meilleur choix signalé ; les alternatives débloquées ou manquantes sont notées sur le critère affiché.
 
-*EN — Combinations and optimised chains in blue, the colour of the game's power…. Combinations and optimised chains in blue, the colour of the game's power graphs, instead of a yellow its menus never use: orange stays for alternate recipes, grey for standard ones.*
+*EN — Pending hard drives. The “My game” panel lists hard drives analysed in the MAM but not yet claimed: for each alternate offered, its Synthesis score, its gain against the base and its verdict, best choice flagged; unlocked or missing alternates are rated on the displayed criterion.*
 
-### v1.28 — Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil  (29/09/2026)
+### v1.5.0 — Ma partie : recettes débloquées (26/09/2026)
 
-Bouton « Ma partie » commun, en haut à droite de chaque outil et de l'accueil : un seul endroit pour importer sa sauvegarde, que tous les outils reprennent aussitôt. L'accueil résume la partie importée. Le panneau « Ma partie » du registre garde l'analyse (filtre, simulation, alternatives et disques notés) et renvoie au bouton commun pour l'import.
+Après import de votre sauvegarde depuis l'accueil, le registre peut ne garder que les recettes débloquées dans votre partie (énergie, espace et synthèse instantanés ; matière en quelques secondes au pire).
 
-*EN — Shared "My game" button, top right of every tool and the home page. Shared "My game" button, top right of every tool and the home page: one place to import your save, which every tool picks up at once. The home page summarises the imported game. The registry's "My game" panel keeps the analysis (filter, simulation, rated alternates and hard drives) and points to the shared button for importing.*
+*EN — My game: unlocked recipes. After importing your save from the home page, the registry can keep only the recipes unlocked in your game (energy, space and synthesis instant; material a few seconds at worst).*
 
-### v1.26 — Bouton « Copier le lien »  (28/09/2026)
+### v1.4.0 — Critère Synthèse (24/09/2026)
 
-Bouton « Copier le lien » : un lien vers la vue affichée (critère, palier, items filtrés, onglet, tri, poids de la synthèse), sans votre partie. Panneau « Ma partie » : le focus clavier y reste tant qu'il est ouvert, et chaque recalcul est annoncé aux lecteurs d'écran. Correction : les séquences de production pouvaient reprendre une chaîne calculée avant un changement de filtre « Ma partie ».
+Énergie, matière et espace réunis en un coût composite (taux de change médians entre critères), pondérés par trois curseurs. Chaque alternative y est classée gagnante, compromis ou perdante face à sa recette de base ; les combinaisons suivent les curseurs, recalculées dans la page.
 
-*EN — "Copy the link" button. "Copy the link" button: a link to the view shown (criterion, tier, filtered items, tab, sort, synthesis weights), without your game. "My game" panel: keyboard focus stays in it while open, and each recomputation is announced to screen readers. Fix: production sequences could reuse a chain computed before a "My game" filter change.*
+*EN — Synthesis criterion. Energy, material and space combined into one composite cost (median exchange rates between criteria), weighted by three sliders. Each alternate is ranked winner, trade-off or loser against its base recipe; combinations follow the sliders, recomputed in the page.*
 
-### v1.25 — Import de la sauvegarde environ cinq fois plus rapide (1 s au lieu de 5 pour… (28/09/2026)
+- **1.4.1** (26/09/2026) : Page allégée de 190 Ko : les combinaisons Énergie et Espace sont calculées dans la page, pour le palier affiché.
+  *EN — Page 190 KB lighter: Energy and Space combinations are computed in the page, for the displayed tier.*
+  - correctif **1.4.0.1** (24/09/2026) : Indices Énergie et Matière recalculés avec le même modèle de coût que l'Espace : une quarantaine de recettes à base de pétrole ou de coproduits changent de valeur.
+    *EN — Energy and Material indices recomputed by the page with the same cost model as Space: some forty oil- or co-product-based recipes change value.*
 
-Import de la sauvegarde environ cinq fois plus rapide (1 s au lieu de 5 pour une partie de 5 Mo) et beaucoup plus économe en mémoire : les trois listes utiles sont lues directement, le parseur complet ne sert plus qu'en secours (et n'est téléchargé que dans ce cas).
+### v1.3.0 — Critère Espace (24/09/2026)
 
-*EN — Save import about five times faster (1 s instead of 5 for a 5 MB game) and…. Save import about five times faster (1 s instead of 5 for a 5 MB game) and far lighter on memory: the three useful lists are read directly, the full parser is only a fallback (and only downloaded then).*
+Nouveau critère « Espace » : chaque recette et chaque combinaison notée en sortie par m² au sol, machines et extraction surcadencées à 250 %. La séquence décrit les bâtiments employés (foreuses, pompes, puits d'azote, nombre et m² par étape, récapitulatif par type).
 
-### v1.24 — « Ma partie »  (28/09/2026)
+*EN — Space criterion. New “Space” criterion: each recipe and combination rated by output per m² of floor, machines and extraction overclocked to 250%. The sequence describes the buildings used (miners, pumps, nitrogen wells, count and m² per step, summary by type).*
 
-« Ma partie » : le palier se règle sur celui de votre partie à chaque import ; un bandeau au-dessus des onglets rappelle le filtre et la simulation en cours ; dans les combinaisons, les alternatives débloquées seulement par la simulation sont marquées « simulée ». La simulation est désormais partagée avec l'arbre de production et l'optimiseur de recyclage.
+- **1.3.1** (24/09/2026) : Emprises des bâtiments reprises du wiki (Assembler 9 × 16, Refinery 10 × 22…) et azote compté sur l'ensemble des puits du monde.
+  *EN — Building footprints taken from the wiki (Assembler 9 × 16, Refinery 10 × 22…) and nitrogen counted over all the world's wells.*
 
-*EN — "My game". "My game": the tier is set to your game's on each import; a banner above the tabs recalls the active filter and simulation; in combinations, alternates unlocked only by the simulation are marked "simulated". The simulation is now shared with the production tree and the recycling optimizer.*
+### v1.2.0 — Filtre par palier atteint (21/09/2026)
 
-### v1.23 — Simulation des choix de disques durs  (28/09/2026)
+Recettes, alternatives et combinaisons se limitent à ce qui est réellement jouable au palier choisi.
 
-Simulation des choix de disques durs : dans le panneau « Ma partie », cochez l'alternative à retenir pour chaque disque en attente (par défaut la meilleure en Synthèse) et l'option « Simuler mes choix » : duels, combinaisons, catalogue et paliers font comme si elle était débloquée. Sur téléphone, les onglets, les noms longs et les chiffres clés ne débordent plus de l'écran, et l'onglet « Ma partie » passe en bas à droite.
+*EN — Filter by reached tier. Recipes, alternates and combinations are limited to what is actually playable at the chosen tier.*
 
-*EN — Hard drive pick simulation. Hard drive pick simulation: in the "My game" panel, tick the alternate to keep for each pending drive (by default the best in Synthesis) and the "Simulate my picks" option: duels, combinations, catalogue and tiers act as if it were unlocked. On phones, tabs, long names and key figures no longer overflow the screen, and the "My game" tab moves to the bottom right.*
+- **1.2.5** (24/09/2026) : Registre sans plafond de palier recalculé par script ; nombres de chaînes recomptés (Concrete 47 → 77, Rotor 19 688 → 32 528).
+  *EN — Registry without a tier cap recomputed by script; chain counts recounted (Concrete 47 → 77, Rotor 19,688 → 32,528).*
+- **1.2.4** (24/09/2026) : Paliers des alternatives de disque dur calculés depuis les recherches du MAM qu'elles exigent (Cheap Silica, Fine Concrete… passent au palier 3).
+  *EN — Hard-drive alternate tiers computed from the MAM researches they require (Cheap Silica, Fine Concrete… move to tier 3).*
+- **1.2.3** (23/09/2026) : Paliers recalculés depuis un référentiel unique : 29 recettes changent de palier (Sloppy Alumina 5 → 7, Steel Canister 3 → 5), recettes SAM comprises.
+  *EN — Tiers recomputed from a single reference: 29 recipes change tier (Sloppy Alumina 5 → 7, Steel Canister 3 → 5), SAM recipes included.*
+- **1.2.2** (22/09/2026) : Interface bilingue FR/EN : textes, notes, séquences et journal suivent le drapeau commun.
+  *EN — Bilingual FR/EN interface: texts, notes, sequences and log follow the shared flag.*
+- **1.2.1** (22/09/2026) : Réglages mémorisés d'une visite à l'autre, avec un bouton Réinitialiser.
+  *EN — Settings remembered between visits, with a Reset button.*
+  - correctif **1.2.0.1** (21/09/2026) : Cinq optimums du mode Matière (famille du moteur) corrigés.
+    *EN — Five Material-mode optima (motor family) fixed.*
 
-### v1.22 — « Ma partie » passe dans un panneau latéral, ouvert par l'onglet sur le bord… (27/09/2026)
+### v1.1.0 — Combinaisons en séquence (15/09/2026)
 
-« Ma partie » passe dans un panneau latéral, ouvert par l'onglet sur le bord droit : import de la sauvegarde (il quitte l'accueil), filtre, disques durs en attente de choix et alternatives débloquées ou manquantes. Chaque alternative y est notée sur le critère affiché (énergie, matière, espace ou synthèse), avec son gain face à la base et son verdict ; l'onglet indique le nombre de disques en attente.
+Chaque chaîne du podium se déroule étape par étape, de l'extraction à la cible, avec machines, horloges et coproduits. La séquence s'affiche au clic.
 
-*EN — "My game" moves to a side panel, opened from the tab on the right edge. "My game" moves to a side panel, opened from the tab on the right edge: save import (it leaves the home page), filter, hard drives awaiting a choice and unlocked or missing alternates. Each alternate is rated there on the criterion shown (energy, materials, space or synthesis), with its gain over the standard and its verdict; the tab shows the number of pending drives.*
+*EN — Combinations as sequences. Each podium chain unfolds step by step, from extraction to the target, with machines, clock speeds and co-products. The sequence shows on click.*
 
-### v1.21 — « Ma partie »  (27/09/2026)
+### v1.0.0 — Registre des rendements (05/09/2026)
 
-« Ma partie » : les disques durs analysés dans le MAM mais pas encore réclamés s'affichent avec, pour chaque alternative proposée, son score Synthèse (vos poids actuels), son gain face à la recette de base et son verdict gagnante / compromis / perdante, meilleur choix signalé, pour trancher avant de valider en jeu. La sauvegarde est désormais lue par le parseur communautaire satisfactory-file-parser, hors de la page, avec une barre de progression.
+Chaque recette notée en sortie par mégawatt (Énergie) et par matière brute (Matière), onglets Duels, Combinaisons et Catalogue, filtre multi-items et noms français.
 
-*EN — "My game". "My game": hard drives analysed in the MAM but not yet claimed are listed with, for each offered alternate, its Synthesis score (your current weights), its gain over the standard recipe and its winning / trade-off / losing verdict, best pick flagged, to decide before confirming in game. The save is now read by the community satisfactory-file-parser, off the page, with a progress bar.*
-
-### v1.20 — Option « Ma partie »  (26/09/2026)
-
-Option « Ma partie » : après import de votre sauvegarde depuis l'accueil, ne garder que les recettes débloquées dans votre partie (énergie, espace et synthèse instantanés ; matière en quelques secondes au pire, podium signalé s'il n'est pas prouvé optimal).
-
-*EN — "My game" option. "My game" option: after importing your save from the home page, keep only the recipes unlocked in your game (energy, space and synthesis instantly; material within a few seconds at worst, podium flagged when not proven optimal).*
-
-### v1.19 — Page plus légère  (26/09/2026)
-
-Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois. Les icônes aussi, partagées avec les autres outils. (873 → 413 Ko)
-
-*EN — Lighter page. Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once. Icons too, shared with the other tools. (873 → 413 KB)*
-
-### v1.18 — La grille de paliers est désormais commune aux outils (même apparence que… (26/09/2026)
-
-La grille de paliers est désormais commune aux outils (même apparence que dans l'optimiseur et l'arbre).
-
-*EN — The tier grid is now shared across tools (same look as in the optimizer and…. The tier grid is now shared across tools (same look as in the optimizer and the tree).*
-
-### v1.17 — Page allégée de 190 Ko  (26/09/2026)
-
-Page allégée de 190 Ko : les combinaisons Énergie et Espace sont calculées dans la page, pour le palier affiché (moins d'un dixième de seconde), au lieu d'être embarquées pour chaque palier. La Matière reste précalculée : ses chaînes à égalité la rendraient trop lente en direct.
-
-*EN — Page 190 KB lighter. Page 190 KB lighter: Energy and Space combinations are computed in the page, for the tier shown (under a tenth of a second), instead of being embedded for every tier. Materials stay precomputed: their tied chains would make them too slow live.*
-
-### v1.15 — Indices Énergie et Matière recalculés par la page, avec le même modèle de… (24/09/2026)
-
-Indices Énergie et Matière recalculés par la page, avec le même modèle de coût que l'Espace, la Synthèse et les combinaisons (ils étaient figés dans les données et suivaient une autre règle pour les coproduits) : une quarantaine de recettes à base de pétrole ou de coproduits changent de valeur. Les recettes de base n'affichent plus de gain « vs base ». Combinaisons recalculées.
-
-*EN — Energy and Materials indices recomputed by the page, with the same cost…. Energy and Materials indices recomputed by the page, with the same cost model as Space, Synthesis and the combinations (they were frozen in the data and followed another rule for co-products): about forty oil or co-product recipes change value. Standard recipes no longer show a "vs standard" gain. Combinations recomputed.*
-
-### v1.14 — Mode Espace  (24/09/2026)
-
-Mode Espace : la séquence de production décrit les bâtiments employés — foreuses, pompes et part des puits d'azote à l'extraction, nombre de bâtiments et m² à chaque étape, et un récapitulatif par type de bâtiment. L'emprise d'extraction se compte désormais en bâtiments entiers, comme les machines.
-
-*EN — Space mode. Space mode: the production sequence describes the buildings used — miners, extractors and share of the nitrogen wells at extraction, number of buildings and m² at each step, and a summary by building type. Extraction footprint is now counted in whole buildings, like the machines.*
-
-### v1.13 — Nouveau critère Synthèse  (24/09/2026)
-
-Nouveau critère Synthèse : énergie, matière et espace réunis en un coût composite (taux de change médians entre critères), pondérés par trois curseurs. Chaque alternative y est classée gagnante, compromis ou perdante face à sa recette de base ; les combinaisons suivent les curseurs, recalculées dans la page par la même recherche exacte. Mention en bas de page : le site est généré par IA.
-
-*EN — New Synthesis criterion. New Synthesis criterion: energy, materials and space combined into a composite cost (median exchange rates between criteria), weighted by three sliders. Each alternate is rated winning, trade-off or losing against its standard recipe; combinations follow the sliders, recomputed in the page with the same exact search. Footer notice: the site is AI-generated.*
-
-### v1.12 — Paliers des recettes du MAM recalculés depuis l'arbre de recherche du wiki… (24/09/2026)
-
-Paliers des recettes du MAM recalculés depuis l'arbre de recherche du wiki officiel et le coût de chaque recherche : la plupart des recherches de départ (Caterium, Quartz, protéines, Quickwire) sortent dès le palier 1 ou 2 au lieu de 3, Compacted Coal passe au palier 2. Mode Espace : emprises des bâtiments reprises du wiki (Assembler 9 × 16, Refinery 10 × 22, Smelter 5 × 10…) et azote compté sur l'ensemble des puits du monde. Combinaisons recalculées.
-
-*EN — MAM recipe tiers recomputed from the official wiki's research tree and each…. MAM recipe tiers recomputed from the official wiki's research tree and each research's cost: most starting research (Caterium, Quartz, proteins, Quickwire) now comes at tier 1 or 2 instead of 3, Compacted Coal moves to tier 2. Space mode: building footprints taken from the wiki (Assembler 9 × 16, Refinery 10 × 22, Smelter 5 × 10…) and nitrogen counted over all the world's wells. Combinations recomputed.*
-
-### v1.11 — Noms français pour toutes les recettes, alternatives comprises (160 noms… (24/09/2026)
-
-Noms français pour toutes les recettes, alternatives comprises (160 noms ajoutés d'après la localisation officielle du jeu), et pour les restes d'aliens. La mention sur les noms restés en anglais disparaît.
-
-*EN — French names for every recipe, alternates included (160 names added from the…. French names for every recipe, alternates included (160 names added from the game's official localization), and for alien remains. The note about names left in English is gone.*
-
-### v1.10 — Nouveau critère « Espace »  (24/09/2026)
-
-Nouveau critère « Espace » : chaque recette et chaque combinaison notée en sortie par m² au sol, machines et extraction surcadencées à 250 % (éclats de charge, sans Somersloop). Emprises des bâtiments relevées à la main ; convoyeurs et allées non comptés.
-
-*EN — New "Space" criterion. New "Space" criterion: every recipe and combination rated by output per floor m², machines and extraction overclocked to 250% (power shards, no Somersloop). Building footprints recorded by hand; belts and walkways not counted.*
-
-### v1.9 — Noms français ajoutés  (24/09/2026)
-
-Noms français ajoutés : Foreuse portable, Restes de dardeuse, Restes de sanglier alien, Restes de cracheur.
-
-*EN — French names added. French names added: Foreuse portable, Restes de dardeuse, Restes de sanglier alien, Restes de cracheur.*
-
-### v1.8 — Le journal des révisions quitte le bas de page  (24/09/2026)
-
-Le journal des révisions quitte le bas de page : un badge de version en haut à droite, à côté des drapeaux, le déroule d'un clic. Une pastille signale une version pas encore vue, et les nouveautés sont marquées dans le journal. Page allégée de 87 Ko (données précalculées inutilisées retirées).
-
-*EN — The revision log leaves the page footer. The revision log leaves the page footer: a version badge at the top right, next to the flags, opens it in one click. A dot flags a version you haven't seen yet, and new entries are marked in the log. Page 87 KB lighter (unused precomputed data removed).*
-
-### v1.7 — Paliers des alternatives de disque dur calculés depuis les recherches du MAM… (24/09/2026)
-
-Paliers des alternatives de disque dur calculés depuis les recherches du MAM qu'elles exigent, au lieu d'un plancher au palier 1 : Cheap Silica, Fine Concrete, Fine Black Powder et Compacted Coal passent du palier 2 au palier 3. Combinaisons par palier recalculées.
-
-*EN — Tiers of hard drive alternates now computed from the MAM research they…. Tiers of hard drive alternates now computed from the MAM research they require, instead of a tier 1 floor: Cheap Silica, Fine Concrete, Fine Black Powder and Compacted Coal move from tier 2 to tier 3. Per-tier combinations recomputed.*
-
-### v1.6 — Registre des combinaisons sans plafond de palier désormais recalculé par… (24/09/2026)
-
-Registre des combinaisons sans plafond de palier désormais recalculé par script depuis les recettes de la page, comme les combinaisons par palier. Nombre de chaînes distinctes recompté par énumération complète (ex. Concrete 47 → 77, Rotor 19 688 → 32 528) et plafond relevé à un million : Modular Frame et High-Speed Connector gardent leur pire chaîne. Pire chaîne de Circuit Board corrigée (0,056 → 0,055).
-
-*EN — Combination registry without a tier cap now recomputed by script from the…. Combination registry without a tier cap now recomputed by script from the page's recipes, like the per-tier combinations. Number of distinct chains recounted by full enumeration (e.g. Concrete 47 → 77, Rotor 19,688 → 32,528) and cap raised to one million: Modular Frame and High-Speed Connector keep their worst chain. Circuit Board's worst chain corrected (0.056 → 0.055).*
-
-### v1.5 — Paliers de déblocage recalculés depuis un référentiel unique  (23/09/2026)
-
-Paliers de déblocage recalculés depuis un référentiel unique : 29 recettes changent de palier, dont des alternatives affichées jusqu'ici comme jouables trop tôt (Sloppy Alumina 5 → 7, Steel Canister 3 → 5) et les recettes SAM, jusqu'ici au palier 0. Les combinaisons optimales par palier ont été recalculées en conséquence.
-
-*EN — Unlock tiers recomputed from a single reference dataset. Unlock tiers recomputed from a single reference dataset: 29 recipes change tier, including alternates shown as playable too early until now (Sloppy Alumina 5 → 7, Steel Canister 3 → 5) and the SAM recipes, previously at tier 0. Optimal combinations per tier were recomputed accordingly.*
-
-### v1.4 — Interface entièrement bilingue  (22/09/2026)
-
-Interface entièrement bilingue : textes, notes, séquences et journal suivent le drapeau FR/EN commun à tous les outils, en haut à droite. En français, items, recettes de base et bâtiments portent leur nom du jeu ; les recettes alternatives, et quelques recettes de base sans traduction vérifiée, gardent leur nom anglais.
-
-*EN — Fully bilingual interface. Fully bilingual interface: texts, notes, sequences and log follow the FR/EN flag shared by every tool, top right. In French, items, standard recipes and buildings use their in-game names; alternate recipes, and a few standard recipes with no verified translation, keep their English names.*
-
-### v1.3 — Vos réglages sont mémorisés d'une visite à l'autre (critère, langue, palier… (22/09/2026)
-
-Vos réglages sont mémorisés d'une visite à l'autre (critère, langue, palier, items cochés, onglet, filtres, séquences et cadences), avec un bouton Réinitialiser. La note du sélecteur de palier suit la langue des noms.
-
-*EN — Your settings are remembered between visits (criterion, language, tier…. Your settings are remembered between visits (criterion, language, tier, checked items, tab, filters, sequences and rates), with a Reset button. The tier picker note follows the item-name language.*
-
-### v1.2 — Filtre par palier atteint  (21/09/2026)
-
-Filtre par palier atteint : recettes, alternatives et combinaisons se limitent à ce qui est réellement jouable au palier choisi. Correction de cinq optimums du mode Matière (famille du moteur).
-
-*EN — Tier reached filter. Tier reached filter: recipes, alternates and combinations are limited to what is actually playable at the chosen tier. Fixed five optima in Materials mode (motor family).*
-
-### v1.1 — Combinaisons  (15/09/2026)
-
-Combinaisons : chaque chaîne du podium se déroule étape par étape, de l'extraction à la cible, avec machines, horloges et coproduits. La séquence s'affiche au clic.
-
-*EN — Combinations. Combinations: each podium chain unfolds step by step, from extraction to target, with machines, clock speeds and by-products. The sequence shows on click.*
-
-### v1.0 — Première version  (05/09/2026)
-
-Première version : chaque recette notée en sortie par mégawatt (Énergie) et par matière brute (Matière), onglets Duels, Combinaisons et Catalogue, filtre multi-items et noms français.
-
-*EN — First release. First release: every recipe scored on output per megawatt (Energy) and per raw resource (Materials), with Duels, Combinations and Catalogue tabs, a multi-item filter and French names.*
+*EN — Yield registry. Each recipe rated by output per megawatt (Energy) and per raw material (Material), Duels, Combinations and Catalogue tabs, multi-item filter and French names.*
 
 ## Module d'étalonnage / Calibration module — `ficsit_horloge.html`
 
-### v1.11 — Le régime d'éclats se règle sur votre partie importée (bouton « Ma partie »)  (30/09/2026)
+### v1.1.0 — Régime d'éclats selon votre partie (30/09/2026)
 
-Le régime d'éclats se règle sur votre partie importée (bouton « Ma partie ») : « éclats illimités » si l'éclat de charge synthétique est débloqué, « éclats rares » sinon. Réglé à chaque nouvel import, toujours modifiable à la main.
+Le régime d'éclats se règle sur votre partie importée : « éclats illimités » si l'éclat de charge synthétique est débloqué, « éclats rares » sinon. Réglé à chaque nouvel import, toujours modifiable à la main.
 
-*EN — The shard regime follows your imported game ("My game" button). The shard regime follows your imported game ("My game" button): "unlimited shards" if the synthetic power shard is unlocked, "scarce shards" otherwise. Set on each new import, still changeable by hand.*
+*EN — Shard regime from your game. The shard regime follows your imported game: “unlimited shards” if the synthetic power shard is unlocked, “scarce shards” otherwise. Set on each new import, still editable by hand.*
 
-### v1.8 — Sur téléphone, la page ne déborde plus horizontalement  (28/09/2026)
+### v1.0.0 — Cadence et éclats (14/09/2026)
 
-Sur téléphone, la page ne déborde plus horizontalement : la colonne de résultats se resserre (son tableau défile dans son cadre) et le titre s'adapte à la largeur.
+Pour un besoin T en machines-équivalent, toutes les répartitions possibles avec cadence, éclats, MW et écart à la répartition sans éclat. Régime éclats rares ou illimités, mode linéaire des générateurs.
 
-*EN — On phones, the page no longer overflows horizontally. On phones, the page no longer overflows horizontally: the results column narrows (its table scrolls within its frame) and the title fits the width.*
+*EN — Clock speed and shards. For a need T in machine-equivalents, every possible split with clock speed, shards, MW and gap to the shard-free split. Scarce or unlimited shards, linear mode for generators.*
 
-### v1.7 — Page plus légère  (26/09/2026)
-
-Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois.
-
-*EN — Lighter page. Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once.*
-
-### v1.6 — Liste des bâtiments tirée du référentiel du jeu (puissances, production des… (26/09/2026)
-
-Liste des bâtiments tirée du référentiel du jeu (puissances, production des générateurs, plages des machines à puissance variable) au lieu d'être saisie à la main. La plage de l'accélérateur de particules est corrigée : 250 – 1 500 MW. L'infobulle du constructeur n'affiche plus de code parasite.
-
-*EN — Building list taken from the game dataset (power, generator output, ranges…. Building list taken from the game dataset (power, generator output, ranges of variable-power machines) instead of being typed by hand. The Particle Accelerator range is corrected: 250 – 1,500 MW. The Constructor tooltip no longer shows stray code.*
-
-### v1.4 — Mention en bas de page  (24/09/2026)
-
-Mention en bas de page : le site est généré par IA.
-
-*EN — Footer notice. Footer notice: the site is AI-generated.*
-
-### v1.2 — La langue se choisit désormais avec le drapeau FR/EN commun à tous les… (22/09/2026)
-
-La langue se choisit désormais avec le drapeau FR/EN commun à tous les outils, en haut à droite. Noms de bâtiments, formule et fourchettes de consommation traduits.
-
-*EN — Language is now set with the FR/EN flag shared by every tool, top right. Language is now set with the FR/EN flag shared by every tool, top right. Building names, formula and consumption ranges translated.*
-
-### v1.1 — Vos réglages sont mémorisés d'une visite à l'autre (bâtiment, T, puissance… (22/09/2026)
-
-Vos réglages sont mémorisés d'une visite à l'autre (bâtiment, T, puissance de base, régime de shards, langue), avec un bouton Réinitialiser.
-
-*EN — Your settings are remembered between visits (building, T, base power, shard…. Your settings are remembered between visits (building, T, base power, shard regime, language), with a Reset button.*
-
-### v1.0 — Première version  (14/09/2026)
-
-Première version : pour un besoin T en machines-équivalent, toutes les répartitions possibles avec horloge, shards, MW et écart à la répartition sans shard. Régime shards rares ou illimités, mode linéaire des générateurs, bascule FR/EN.
-
-*EN — First release. First release: for a need of T machine-equivalents, every possible split with clock speed, shards, MW and gap to the shard-free split. Scarce or unlimited shard regime, linear mode for generators, FR/EN toggle.*
+- **1.0.3** (26/09/2026) : Liste des bâtiments tirée du référentiel du jeu (puissances, production des générateurs, plages de puissance variable).
+  *EN — Building list drawn from the game reference (power, generator output, variable-power ranges).*
+  - correctif **1.0.3.1** (26/09/2026) : Plage de l'accélérateur de particules corrigée (250 – 1 500 MW) ; plus de code parasite dans l'infobulle du constructeur.
+    *EN — Particle accelerator range fixed (250 – 1,500 MW); no more stray code in the constructor tooltip.*
+- **1.0.2** (22/09/2026) : Version anglaise : noms de bâtiments, formule et fourchettes de consommation traduits.
+  *EN — English version: building names, formula and consumption ranges translated.*
+- **1.0.1** (22/09/2026) : Vos réglages sont mémorisés d'une visite à l'autre, avec un bouton Réinitialiser.
+  *EN — Your settings are remembered between visits, with a Reset button.*
+  - correctif **1.0.0.1** (28/09/2026) : Sur téléphone, la page ne déborde plus horizontalement : le tableau de résultats défile dans son cadre et le titre s'adapte.
+    *EN — On phones, the page no longer overflows horizontally: the results table scrolls in its frame and the title adapts.*
 
 ## Optimiseur de recyclage / Recycling optimizer — `broyeur-excedents.html`
 
-### v1.17 — Avec une sauvegarde importée dans le registre des rendements  (28/09/2026)
+### v1.3.0 — Ma partie (28/09/2026)
 
 Avec une sauvegarde importée dans le registre des rendements : option (cochée par défaut) pour ne garder que les cibles que vos recettes débloquées, ou simulées, savent fabriquer ; le palier se règle sur celui de votre partie.
 
-*EN — With a save imported in the yield registry. With a save imported in the yield registry: option (ticked by default) to keep only the targets your unlocked, or simulated, recipes can make; the tier is set to your game's.*
+*EN — My game. With a save imported in the yield registry: an option (ticked by default) to keep only the targets your unlocked, or simulated, recipes can make; the tier follows your game's.*
 
-### v1.16 — Page plus légère  (26/09/2026)
+### v1.2.0 — Palier à icônes et avancement de la chaîne (25/09/2026)
 
-Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois. Les icônes aussi, partagées avec les autres outils. (343 → 97 Ko)
+Le palier se choisit dans une grille à icônes, comme dans le registre ; il part du palier minimum qu'impliquent vos excédents, et seuls les paliers qui apportent au moins une nouvelle cible sont cliquables. Le filtre « minerai neuf », qui ne correspondait pas aux données observées, est retiré ; « Chaîne déjà payée » devient « avancement de la chaîne ».
 
-*EN — Lighter page. Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once. Icons too, shared with the other tools. (343 → 97 KB)*
+*EN — Icon tiers and chain progress. The tier is picked in an icon grid, as in the registry; it starts at the minimum tier your surplus implies, and only tiers bringing at least one new target are clickable. The “new ore” filter, which did not match observed data, is removed; “Chain already paid” becomes “chain progress”.*
 
-### v1.15 — La grille de paliers est désormais commune aux outils (même apparence que… (26/09/2026)
+- **1.2.1** (25/09/2026) : Grille de paliers plus lisible : un palier non cliquable est hachuré et bordé de pointillés.
+  *EN — Tier grid easier to read: a non-clickable tier is hatched with a dotted border.*
 
-La grille de paliers est désormais commune aux outils (même apparence que dans le registre et l'arbre).
+### v1.1.0 — Données recalculées (24/09/2026)
 
-*EN — The tier grid is now shared across tools (same look as in the registry and…. The tier grid is now shared across tools (same look as in the registry and the tree).*
+Données recalculées par script depuis le référentiel commun : minerai neuf et machines se lisent sur la chaîne affichée (celle qui consomme le moins de MW) au lieu d'être minimisés chacun de leur côté, donc souvent plus élevés (AI Limiter : 7,3 → 22 minerai/min). Paliers alignés sur les autres outils (Circuit Board 3 → 5, Motor 7 → 8…).
 
-### v1.14 — Grille de paliers plus lisible  (25/09/2026)
+*EN — Recomputed data. Data recomputed by script from the shared reference: new ore and machines are read on the displayed chain (the one using the fewest MW) instead of each being minimised on its own, so often higher (AI Limiter: 7.3 → 22 ore/min). Tiers aligned with the other tools (Circuit Board 3 → 5, Motor 7 → 8…).*
 
-Grille de paliers plus lisible : un palier non cliquable est hachuré et bordé de pointillés, un palier cliquable hors sélection reste un bouton plein.
+- **1.1.1** (24/09/2026) : Les recettes alternatives s'affichent sans le préfixe « Alternate: », suivies de « (alternative) ».
+  *EN — Alternate recipes show without the “Alternate:” prefix, followed by “(alternate)”.*
 
-*EN — Clearer tier grid. Clearer tier grid: a tier that cannot be clicked is hatched with a dashed border, a clickable tier outside the selection stays a solid button.*
+### v1.0.0 — Optimiseur de recyclage (02/09/2026)
 
-### v1.13 — Grille de paliers  (25/09/2026)
+À partir des excédents saisis, classement des cibles du broyeur AWESOME par points gagnés par mégawatt investi, avec filtres de palier et de minerai supplémentaire. Rangé avec « Complexité et valeur au broyeur » dans la catégorie Recyclage de l'accueil.
 
-Grille de paliers : par défaut, toutes les cibles sont affichées, jusqu'au dernier palier qui en apporte. Seuls les paliers qui font apparaître au moins une nouvelle cible sont cliquables ; les autres, sous le minimum de vos excédents ou sans rien de neuf, sont grisés. « Tout afficher » revient au défaut.
+*EN — Recycling optimiser. From the surplus you enter, ranking of AWESOME Sink targets by points gained per megawatt invested, with tier and extra-ore filters. Filed with “Complexity and sink value” in the Recycling category of the home page.*
 
-*EN — Tier grid. Tier grid: by default, all targets are shown, up to the last tier that adds any. Only tiers that bring at least one new target can be clicked; the others, below your surplus minimum or with nothing new, are greyed out. "Show all" goes back to the default.*
-
-### v1.12 — Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste… (25/09/2026)
-
-Bouton « Accueil » dans le dock en haut à droite, pour revenir à la liste des outils. Le palier se choisit dans une grille à icônes, comme dans le registre des rendements ; il part du palier minimum qu'impliquent vos excédents (les paliers inférieurs sont grisés). Le filtre « minerai neuf », qui ne correspondait pas aux données observées, est retiré. « Chaîne déjà payée » devient « avancement de la chaîne », expliqué en bas de page.
-
-*EN — "Home" button in the top-right dock, to go back to the list of tools. "Home" button in the top-right dock, to go back to the list of tools. The tier is picked from an icon grid, as in the yield registry; it starts at the minimum tier your surplus implies (lower tiers are greyed out). The "new ore" filter, which did not match observed data, is removed. "Chain already covered" becomes "chain progress", explained at the bottom of the page.*
-
-### v1.11 — Style unifié avec les autres outils  (24/09/2026)
-
-Style unifié avec les autres outils : mêmes polices (Saira Condensed et Barlow, au lieu d'Orbitron et Roboto embarquées), même palette, grand titre et bande hachurée. La page s'allège de 76 Ko.
-
-*EN — Style unified with the other tools. Style unified with the other tools: same fonts (Saira Condensed and Barlow, instead of embedded Orbitron and Roboto), same palette, large title and hazard stripe. The page is 76 KB lighter.*
-
-### v1.10 — Rangé avec « Complexité et valeur au broyeur » dans la catégorie Recyclage… (24/09/2026)
-
-Rangé avec « Complexité et valeur au broyeur » dans la catégorie Recyclage de l'accueil. Mention en bas de page : le site est généré par IA.
-
-*EN — Grouped with "Complexity vs sink value" under Recycling on the home page. Grouped with "Complexity vs sink value" under Recycling on the home page. Footer notice: the site is AI-generated.*
-
-### v1.9 — Paliers des recettes du MAM recalculés depuis l'arbre de recherche du wiki… (24/09/2026)
-
-Paliers des recettes du MAM recalculés depuis l'arbre de recherche du wiki officiel et le coût de chaque recherche : la plupart des recherches de départ (Caterium, Quartz, protéines, Quickwire) sortent dès le palier 1 ou 2 au lieu de 3, Compacted Coal passe au palier 2.
-
-*EN — MAM recipe tiers recomputed from the official wiki's research tree and each…. MAM recipe tiers recomputed from the official wiki's research tree and each research's cost: most starting research (Caterium, Quartz, proteins, Quickwire) now comes at tier 1 or 2 instead of 3, Compacted Coal moves to tier 2.*
-
-### v1.8 — Noms français pour toutes les recettes, alternatives comprises (160 noms… (24/09/2026)
-
-Noms français pour toutes les recettes, alternatives comprises (160 noms ajoutés d'après la localisation officielle du jeu), et pour les restes d'aliens. La mention sur les noms restés en anglais disparaît du pied de page.
-
-*EN — French names for every recipe, alternates included (160 names added from the…. French names for every recipe, alternates included (160 names added from the game's official localization), and for alien remains. The note about names left in English is gone from the footer.*
-
-### v1.7 — Les recettes alternatives s'affichent sans le préfixe anglais « Alternate (24/09/2026)
-
-Les recettes alternatives s'affichent sans le préfixe anglais « Alternate: », suivies de la mention « (alternative) ». Noms français ajoutés : Foreuse portable, Restes de dardeuse, Restes de sanglier alien, Restes de cracheur.
-
-*EN — Alternate recipes are shown without the "Alternate:" prefix, followed by…. Alternate recipes are shown without the "Alternate:" prefix, followed by "(alternate)". French names added: Foreuse portable, Restes de dardeuse, Restes de sanglier alien, Restes de cracheur.*
-
-### v1.5 — Compacted Coal passe du tier 2 au tier 3  (24/09/2026)
-
-Compacted Coal passe du tier 2 au tier 3 : sa recherche au MAM vient après celle de la poudre noire.
-
-*EN — Compacted Coal moves from tier 2 to tier 3. Compacted Coal moves from tier 2 to tier 3: its MAM research comes after Black Powder's.*
-
-### v1.4 — Données recalculées par script depuis le référentiel commun (24/09/2026)
-
-Données recalculées par script depuis le référentiel commun. Les recettes retenues ne changent pas, mais minerai neuf et machines se lisent désormais sur la chaîne affichée (celle qui consomme le moins de MW) au lieu d'être minimisés chacun de leur côté : ils augmentent souvent (AI Limiter : 7,3 → 22 minerai/min par unité). Tiers alignés sur les autres outils, dont Circuit Board 3 → 5, Motor 7 → 8, Electromagnetic Control Rod 6 → 8.
-
-*EN — Data recomputed by script from the shared reference dataset. Data recomputed by script from the shared reference dataset. Selected recipes are unchanged, but new ore and machines are now read from the displayed chain (the one that draws the fewest MW) instead of each being minimized separately: they often go up (AI Limiter: 7.3 → 22 ore/min per unit). Tiers aligned with the other tools, including Circuit Board 3 → 5, Motor 7 → 8, Electromagnetic Control Rod 6 → 8.*
-
-### v1.3 — La langue se choisit désormais avec le drapeau FR/EN commun à tous les… (22/09/2026)
-
-La langue se choisit désormais avec le drapeau FR/EN commun à tous les outils, en haut à droite. Les noms d'items et de recettes de base passent en français, et les nombres suivent le format de la langue.
-
-*EN — Language is now set with the FR/EN flag shared by every tool, top right. Language is now set with the FR/EN flag shared by every tool, top right. Item and standard recipe names now switch to French, and numbers follow the language's format.*
-
-### v1.2 — Excédents, débits, tri, filtres et langue sont mémorisés d'une visite à… (22/09/2026)
-
-Excédents, débits, tri, filtres et langue sont mémorisés d'une visite à l'autre, avec un bouton Réinitialiser. Corrigé : la bascule FR/EN ne plante plus et le filtre de palier n'est plus remis à « tous » au changement de langue.
-
-*EN — Surpluses, rates, sorting, filters and language are remembered between…. Surpluses, rates, sorting, filters and language are remembered between visits, with a Reset button. Fixed: the FR/EN toggle no longer crashes and the tier filter no longer resets to “all” when switching language.*
-
-### v1.1 — Bascule FR/EN de l'interface et des noms d'items (14/09/2026)
-
-Bascule FR/EN de l'interface et des noms d'items.
-
-*EN — FR/EN toggle for the interface and item names. FR/EN toggle for the interface and item names.*
-
-### v1.0 — Première version  (02/09/2026)
-
-Première version : à partir des excédents saisis, classement des cibles du broyeur AWESOME par points gagnés par mégawatt investi, avec filtres de palier et de minerai supplémentaire.
-
-*EN — First release. First release: from the surpluses you enter, AWESOME Sink targets ranked by points earned per megawatt invested, with tier and extra-ore filters.*
+- **1.0.2** (24/09/2026) : Style unifié avec les autres outils (polices, palette, grand titre) ; la page s'allège de 76 Ko.
+  *EN — Style unified with the other tools (fonts, palette, big title); the page is 76 KB lighter.*
+- **1.0.1** (22/09/2026) : Excédents, débits, tri, filtres et langue sont mémorisés d'une visite à l'autre, avec un bouton Réinitialiser.
+  *EN — Surplus, rates, sort, filters and language are remembered between visits, with a Reset button.*
+  - correctif **1.0.1.1** (22/09/2026) : La bascule FR/EN ne plante plus et le filtre de palier n'est plus remis à « tous » au changement de langue.
+    *EN — The FR/EN switch no longer crashes and the tier filter is no longer reset to “all” when the language changes.*
 
 ## Mémo de terrain / Field memo — `memo-ficsit.html`
 
-### v1.23 — Couleurs des convoyeurs partagées avec le planificateur  (06/10/2026)
+### v1.1.0 — Jalons du HUB et extraction selon votre partie (30/09/2026)
 
-Couleurs des convoyeurs partagées avec le planificateur ; Mk.1 et Mk.2 éclaircis, plus lisibles (chiffres sombres sur la case).
+Avec une partie importée, les jalons du HUB obtenus sont cochés et les paliers complets marqués, avec un bilan en tête de section ; l'extraction suit votre matériel : foreuses et convoyeurs pas encore débloqués sont grisés, avec un bandeau sur la meilleure foreuse et le meilleur convoyeur dont vous disposez.
 
-*EN — Belt colours shared with the planner. Belt colours shared with the planner; Mk.1 and Mk.2 made lighter and easier to read (dark figures on the cell).*
+*EN — HUB milestones and extraction from your game. With an imported game, HUB milestones you got are ticked and completed tiers marked, with a summary at the top of the section; extraction follows your gear: miners and conveyors not yet unlocked are greyed out, with a banner on the best miner and conveyor you have.*
 
-### v1.12 — Avec une partie importée, l'extraction suit votre matériel  (01/10/2026)
+- **1.1.1** (06/10/2026) : Couleurs des convoyeurs partagées avec le planificateur ; Mk.1 et Mk.2 éclaircis, plus lisibles.
+  *EN — Conveyor colours shared with the planner; Mk.1 and Mk.2 lightened, easier to read.*
 
-Avec une partie importée, l'extraction suit votre matériel : les foreuses et convoyeurs pas encore débloqués sont grisés, comme les débits du tableau qui demandent un convoyeur que vous n'avez pas, et un bandeau rappelle la meilleure foreuse et le meilleur convoyeur dont vous disposez.
+### v1.0.0 — Mémo de terrain (31/08/2026)
 
-*EN — With an imported game, extraction follows your equipment. With an imported game, extraction follows your equipment: miners and belts not unlocked yet are greyed out, as are the table's rates that need a belt you do not have, and a banner recalls the best miner and belt you have.*
+Extraction par pureté de nœud et par cadence, débits des convoyeurs, déblocages du HUB par palier et arborescence des pièces d'Ascenseur spatial.
 
-### v1.11 — Rangé dans la nouvelle catégorie « Tableaux de lecture » de l'accueil, avec… (01/10/2026)
+*EN — Field memo. Extraction by node purity and clock speed, conveyor rates, HUB unlocks by tier and the Space Elevator part tree.*
 
-Rangé dans la nouvelle catégorie « Tableaux de lecture » de l'accueil, avec la rentabilité énergétique par nœud : les pages qu'on lit sans rien régler.
-
-*EN — Moved to the new Reference charts category on the home page, next to Power…. Moved to the new Reference charts category on the home page, next to Power per node: the pages you read without setting anything.*
-
-### v1.9 — Jalons du HUB  (30/09/2026)
-
-Jalons du HUB : ceux obtenus dans votre partie importée (bouton « Ma partie ») sont cochés, les paliers complets marqués, avec un bilan en tête de section.
-
-*EN — HUB milestones. HUB milestones: those obtained in your imported game ("My game" button) are ticked, completed tiers highlighted, with a summary at the top of the section.*
-
-### v1.6 — Sur très petit écran (320 px), les bandeaux de palier et les noms longs se… (28/09/2026)
-
-Sur très petit écran (320 px), les bandeaux de palier et les noms longs se replient au lieu de déborder.
-
-*EN — On very small screens (320 px), tier banners and long names wrap instead of…. On very small screens (320 px), tier banners and long names wrap instead of overflowing.*
-
-### v1.5 — Page plus légère  (26/09/2026)
-
-Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois.
-
-*EN — Lighter page. Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once.*
-
-### v1.3 — Mention en bas de page  (24/09/2026)
-
-Mention en bas de page : le site est généré par IA.
-
-*EN — Footer notice. Footer notice: the site is AI-generated.*
-
-### v1.1 — Version anglaise complète, via le drapeau FR/EN commun à tous les outils (22/09/2026)
-
-Version anglaise complète, via le drapeau FR/EN commun à tous les outils. Noms de bâtiments alignés sur la localisation française du jeu, et huit recettes corrigées dans l'arbre des pièces de projet (batterie, turbomoteur, cube de conversion de pression…).
-
-*EN — Full English version, via the FR/EN flag shared by every tool. Full English version, via the FR/EN flag shared by every tool. Building names aligned with the game's French localization, and eight recipes fixed in the project parts tree (battery, turbo motor, pressure conversion cube…).*
-
-### v1.0 — Première version  (31/08/2026)
-
-Première version : extraction par pureté de nœud et par horloge, cadences des convoyeurs, déblocages du HUB par palier et arborescence des pièces d'Ascenseur spatial.
-
-*EN — First release. First release: extraction by node purity and clock speed, conveyor belt rates, HUB unlocks by tier and the Space Elevator parts tree.*
+- **1.0.2** (01/10/2026) : Rangé dans la catégorie « Tableaux de lecture » de l'accueil, avec la rentabilité énergétique par nœud.
+  *EN — Filed in the “Reading tables” category of the home page, with the energy yield per node.*
+- **1.0.1** (22/09/2026) : Version anglaise complète ; noms de bâtiments alignés sur la localisation française du jeu.
+  *EN — Full English version; building names aligned with the game's French localisation.*
+  - correctif **1.0.0.1** (22/09/2026) : Huit recettes corrigées dans l'arbre des pièces de projet (batterie, turbomoteur, cube de conversion de pression…).
+    *EN — Eight recipes fixed in the project-parts tree (battery, turbo motor, pressure conversion cube…).*
+  - correctif **1.0.0.2** (28/09/2026) : Sur très petit écran (320 px), les bandeaux de palier et les noms longs se replient au lieu de déborder.
+    *EN — On very small screens (320 px), tier strips and long names wrap instead of overflowing.*
 
 ## Complexité et valeur au broyeur / Complexity vs sink value — `arbre-production.html`
 
-### v1.11 — L'infobulle du graphique reprend l'habillage commun des bulles d'aide… (04/10/2026)
+### v1.1.0 — Chaîne « Ma partie » (28/09/2026)
 
-L'infobulle du graphique reprend l'habillage commun des bulles d'aide (fenêtre sombre sous un filet orange, points AWESOME en orange). Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'habillage de la charte : fenêtre sombre sous un filet orange, titre en blanc, détail en gris, à la place de la bulle du navigateur. Elles s'affichent aussi au clavier.
+Troisième chaîne dès qu'une sauvegarde est importée dans le registre : pour chaque item, l'alternative de la chaîne optimisée si vous l'avez débloquée (ou simulée), sinon la recette de base. Le palier se règle sur celui de votre partie.
 
-*EN — The chart tooltip now shares the common help-bubble look (dark window under…. The chart tooltip now shares the common help-bubble look (dark window under an orange line, AWESOME points in orange). Help bubbles (on hover over buttons, icons and tags) now use the style guide's look: a dark window under an orange line, white heading, grey detail, instead of the browser's own bubble. They also show with the keyboard.*
+*EN — “My game” chain. A third chain as soon as a save is imported in the registry: for each item, the optimised chain's alternate if you unlocked (or simulated) it, otherwise the base recipe. The tier follows your game's.*
 
-### v1.7 — Troisième chaîne « Ma partie », dès qu'une sauvegarde est importée dans le… (28/09/2026)
+- **1.1.1** (04/10/2026) : L'infobulle du graphique reprend l'habillage commun des bulles d'aide (points AWESOME en orange).
+  *EN — The chart tooltip uses the shared help-bubble look (AWESOME points in orange).*
 
-Troisième chaîne « Ma partie », dès qu'une sauvegarde est importée dans le registre des rendements : pour chaque item, l'alternative de la chaîne optimisée si vous l'avez débloquée (ou simulée), sinon la recette de base. Le palier se règle sur celui de votre partie.
+### v1.0.0 — Complexité et valeur au broyeur (24/09/2026)
 
-*EN — Third chain "My game", once a save is imported in the yield registry. Third chain "My game", once a save is imported in the yield registry: for each item, the optimized chain's alternate if you have unlocked (or simulated) it, otherwise the standard recipe. The tier is set to your game's.*
+Profondeur de l'arbre de production et nombre d'items intermédiaires de chaque item broyable, face à sa valeur AWESOME, en recettes de base ou en chaîne optimisée (MW), filtrable par palier. Les minerais bruts solides figurent à profondeur 0. Rangé avec l'optimiseur dans la catégorie Recyclage de l'accueil.
 
-### v1.6 — Page plus légère  (26/09/2026)
+*EN — Complexity and sink value. Production-tree depth and number of intermediate items for each sinkable item, against its AWESOME value, in base recipes or in the optimised chain (MW), filterable by tier. Solid raw ores appear at depth 0. Filed with the optimiser in the Recycling category of the home page.*
 
-Page plus légère : la langue, le glossaire et la grille de paliers sont chargés depuis un fichier commun à tous les outils, mis en cache une fois. Les icônes aussi, partagées avec les autres outils. (283 → 65 Ko)
-
-*EN — Lighter page. Lighter page: language, glossary and tier grid are loaded from a file shared by all tools, cached once. Icons too, shared with the other tools. (283 → 65 KB)*
-
-### v1.5 — Le palier se choisit dans la même grille à icônes que les autres outils, au… (26/09/2026)
-
-Le palier se choisit dans la même grille à icônes que les autres outils, au lieu d'un menu : seuls les paliers qui font apparaître au moins un item sont cliquables ; retoucher le palier choisi affiche tout.
-
-*EN — The tier is picked from the same icon grid as the other tools, instead of a menu. The tier is picked from the same icon grid as the other tools, instead of a menu: only tiers that bring at least one item can be clicked; tapping the chosen tier again shows everything.*
-
-### v1.3 — Nouveau nom, « Complexité et valeur au broyeur », rangé avec l'optimiseur… (24/09/2026)
-
-Nouveau nom, « Complexité et valeur au broyeur », rangé avec l'optimiseur dans la catégorie Recyclage de l'accueil. Les minerais bruts solides (fer, cuivre, calcaire, charbon, caterium, quartz, soufre, bauxite, uranium, SAM) figurent désormais, à profondeur 0. Mention en bas de page : le site est généré par IA.
-
-*EN — New name, "Complexity vs sink value", grouped with the optimizer under…. New name, "Complexity vs sink value", grouped with the optimizer under Recycling on the home page. Solid raw ores (iron, copper, limestone, coal, caterium, quartz, sulfur, bauxite, uranium, SAM) are now listed, at depth 0. Footer notice: the site is AI-generated.*
-
-### v1.2 — Paliers des recettes du MAM recalculés depuis l'arbre de recherche du wiki… (24/09/2026)
-
-Paliers des recettes du MAM recalculés depuis l'arbre de recherche du wiki officiel et le coût de chaque recherche : la plupart des recherches de départ (Caterium, Quartz, protéines, Quickwire) sortent dès le palier 1 ou 2 au lieu de 3, Compacted Coal passe au palier 2.
-
-*EN — MAM recipe tiers recomputed from the official wiki's research tree and each…. MAM recipe tiers recomputed from the official wiki's research tree and each research's cost: most starting research (Caterium, Quartz, proteins, Quickwire) now comes at tier 1 or 2 instead of 3, Compacted Coal moves to tier 2.*
-
-### v1.1 — Noms français pour toutes les recettes, alternatives comprises (160 noms… (24/09/2026)
-
-Noms français pour toutes les recettes, alternatives comprises (160 noms ajoutés d'après la localisation officielle du jeu), et pour les restes d'aliens.
-
-*EN — French names for every recipe, alternates included (160 names added from the…. French names for every recipe, alternates included (160 names added from the game's official localization), and for alien remains.*
-
-### v1.0 — Première version  (24/09/2026)
-
-Première version : profondeur de l'arbre de production et nombre d'items intermédiaires de chaque item broyable, face à sa valeur AWESOME, en recettes de base ou en chaîne optimisée (MW), filtrable par palier.
-
-*EN — First release. First release: production tree depth and number of intermediate items for every sinkable item, against its AWESOME value, with standard recipes or the optimized (MW) chain, filterable by tier.*
+- **1.0.1** (26/09/2026) : Le palier se choisit dans la même grille à icônes que les autres outils : seuls les paliers qui font apparaître un item sont cliquables.
+  *EN — The tier is picked in the same icon grid as the other tools: only tiers that bring up at least one item are clickable.*
 
 ## Rentabilité énergétique par nœud / Power per node — `energie-noeuds.html`
 
-### v1.2 — Icônes des ressources dans la description de chaque filière  (01/10/2026)
+### v1.0.0 — Rentabilité énergétique par nœud (01/10/2026)
 
-Icônes des ressources dans la description de chaque filière : ressource du nœud, générateur, ressources d'appoint et surplus.
+À lire sans rien régler : combien de MW nets tirer d'un seul nœud, filière par filière (charbon, carburant et ses variantes, turbocarburant, carburant de fusée, carburant ionisé, uranium, géothermie), par pureté du nœud, à 100 % et à 250 % de cadence. Nets : extraction, machines de la chaîne et ressources d'appoint payées. Avec une partie importée, foreuse, convoyeur et tuyau sont les vôtres, et les filières pas débloquées sont grisées.
 
-*EN — Resource icons in each chain's description. Resource icons in each chain's description: the node's resource, the generator, side resources and surplus.*
+*EN — Energy yield per node. To read without setting anything: how many net MW to draw from a single node, chain by chain (coal, fuel and its variants, turbofuel, rocket fuel, ionized fuel, uranium, geothermal), by node purity, at 100% and 250% clock speed. Net of extraction, the chain's machines and the top-up resources paid for. With an imported game, the miner, conveyor and pipe are yours, and chains not yet unlocked are greyed out.*
 
-### v1.1 — Carburant ionisé  (01/10/2026)
-
-Carburant ionisé : ses éclats de charge sont désormais fabriqués par la recette synthétique (palier 9), avec les MW de l'encodeur quantique, de l'accélérateur de particules et du convertisseur, et les ressources des cristaux temporels et de la matière noire. La filière passe au palier 9 et à environ 23 900 MW nets par nœud de pétrole normal, derrière le carburant de fusée nitro (27 900 MW).
-
-*EN — Ionized fuel. Ionized fuel: its power shards are now made by the synthetic recipe (tier 9), with the power of the quantum encoder, particle accelerator and converter, and the resources of time crystals and dark matter. The chain moves to tier 9 and to about 23,900 net MW per normal oil node, behind nitro rocket fuel (27,900 MW).*
-
-### v1.0 — Nouvel outil, à lire sans rien régler  (01/10/2026)
-
-Nouvel outil, à lire sans rien régler : combien de MW nets tirer d'un seul nœud, filière par filière (charbon, charbon compacté, carburant et ses variantes, turbocarburant, carburant de fusée, carburant ionisé, uranium, géothermie), par pureté du nœud, à 100 % et à 250 % de cadence. Nets : extraction du nœud, machines de la chaîne et ressources d'appoint payées. Chaînes calculées par script depuis le référentiel. Avec une partie importée, la foreuse, le convoyeur et le tuyau sont les vôtres, et les filières pas encore débloquées sont grisées avec ce qui leur manque.
-
-*EN — New tool, read-only. New tool, read-only: how many net MW a single node can give, chain by chain (coal, compacted coal, fuel and its variants, turbofuel, rocket fuel, ionized fuel, uranium, geothermal), by node purity, at 100% and 250% clock speed. Net: the node's extraction, the chain's machines and side resources paid for. Chains computed by script from the shared dataset. With an imported game, the miner, belt and pipe are yours, and chains not unlocked yet are greyed out with what they are missing.*
+- **1.0.2** (01/10/2026) : Icônes des ressources dans la description de chaque filière.
+  *EN — Resource icons in each chain's description.*
+- **1.0.1** (01/10/2026) : Carburant ionisé : ses éclats de charge passent par la recette synthétique (palier 9) ; la filière donne environ 23 900 MW nets par nœud de pétrole normal.
+  *EN — Ionized fuel: its power shards come from the synthetic recipe (tier 9); the chain yields about 23,900 net MW per normal oil node.*

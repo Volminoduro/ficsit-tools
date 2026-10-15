@@ -108,6 +108,9 @@ Plus de case « Alternatives » : les recettes alternatives sont toujours propos
 
 *EN — Alternates always available. No more “Alternates” checkbox: alternate recipes are always offered on a block (⇄ menu and list), in standard as in optimised mode. The default stays the standard recipe until you choose another, and optimisation still compares them on its own.*
 
+  - correctif **1.14.0.1** (15/10/2026) : Le champ de quantité d'un objectif (− / valeur / +) est aligné au pixel sur le sélecteur d'item : même hauteur, même bord haut (décalé d'une fraction de pixel).
+    *EN — A target's quantity field (− / value / +) lines up to the pixel with the item picker: same height and same top edge (it was off by a fraction of a pixel).*
+
 ### v1.13.0 — Ignorer ma partie (10/10/2026)
 
 Case « Ignorer ma partie pour ce plan » dans les réglages (visible avec une partie importée) : le plan se calcule comme sans sauvegarde (palier et alternatives au choix, pas de comparaison avec l'usine), sans toucher à l'import ni aux autres plans. Le choix est propre à l'onglet et repris dans l'adresse partageable.

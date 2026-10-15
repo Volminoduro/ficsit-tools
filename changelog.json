@@ -232,6 +232,14 @@
       },
       "entrees": [
         {
+          "version": "1.14.0.1",
+          "date": "2026-10-15",
+          "texte": {
+            "fr": "Le champ de quantité d'un objectif (− / valeur / +) est aligné au pixel sur le sélecteur d'item : même hauteur, même bord haut (décalé d'une fraction de pixel).",
+            "en": "A target's quantity field (− / value / +) lines up to the pixel with the item picker: same height and same top edge (it was off by a fraction of a pixel)."
+          }
+        },
+        {
           "version": "1.14.0",
           "date": "2026-10-10",
           "titre": {

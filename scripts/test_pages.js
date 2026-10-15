@@ -923,6 +923,31 @@ const INDICES = {
     await p.close();
   }
 
+  // objectif : le champ de quantité (− / valeur / +) est aligné sur le sélecteur d'item (même bord haut, même hauteur), en une
+  // ligne (1280 px) comme en deux (390 px, quantité sous le sélecteur), avec un ou deux objectifs
+  {
+    const pb = [];
+    for (const w of [1280, 390]) {
+      const p = await b.newPage({viewport: {width: w, height: 900}});
+      await p.goto('file://' + path.join(ROOT, 'planner.html') + '?p=' + Buffer.from(JSON.stringify({c: [['Motor', 5], ['Rotor', 10]]})).toString('base64url'));
+      await p.waitForTimeout(900);
+      const r = await p.evaluate(() => [...document.querySelectorAll('.b-cibles .cible')].map(c => {
+        const a = c.querySelector('.choix-item').getBoundingClientRect(), q = c.querySelector('.qte').getBoundingClientRect(),
+          i = c.querySelector('.qte input').getBoundingClientRect(), bt = [...c.querySelectorAll('.qte button')].map(x => x.getBoundingClientRect());
+        return {h: [a.height, q.height, i.height, ...bt.map(x => x.height)], top: [q.top - a.top, i.top - q.top, ...bt.map(x => x.top - q.top)], mono: q.left >= a.right - 0.5 ? 'ligne' : 'dessous'};
+      }));
+      if (r.length < 2) pb.push(`${w} px : deux objectifs attendus`);
+      r.forEach((x, k) => {
+        const memeH = x.h.every(v => Math.abs(v - x.h[0]) < 0.1);
+        const memeTop = x.mono === 'ligne' ? x.top.every(v => Math.abs(v) < 0.1) : x.top.slice(1).every(v => Math.abs(v) < 0.1);
+        if (!memeH || !memeTop) pb.push(`${w} px, objectif ${k + 1} : champ de quantité décalé ${JSON.stringify(x)}`);
+      });
+      await p.close();
+    }
+    pb.forEach(x => echecs.push('objectif : ' + x));
+    console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} planificateur : champ de quantité de l'objectif aligné sur le sélecteur d'item`);
+  }
+
   // journal des révisions (scripts/patchnotes.py) : trois niveaux lus dans le numéro (x.y.0 fonctionnalité, x.y.z ajustement,
   // x.y.z.w correctif), la pastille suit le niveau le plus élevé des entrées pas encore vues (orange qui pulse, point gris, rien),
   // la clé de mémorisation est « vu2 » (l'ancienne est supprimée), le correctif est plus discret que l'ajustement, et le

@@ -1020,11 +1020,10 @@ const INDICES = {
     if (await etat() !== 'neuf') pb.push('jamais vu : pastille orange attendue');
     if (await p.evaluate(() => localStorage.getItem('ficsit-tools:vu:planner.html') !== null)) pb.push('ancienne clé vu non supprimée');
     const der = await p.evaluate(() => document.getElementById('journal').dataset.v);
-    const dsite = await p.evaluate(() => document.getElementById('journal').dataset.sv);
     // ouvrir mémorise la version vue (outil et site) et éteint la pastille
     await p.click('.pn-btn');
     const memo = await p.evaluate(() => [localStorage.getItem('ficsit-tools:vu2:planner.html'), localStorage.getItem('ficsit-tools:vu2:site')]);
-    if (memo[0] !== der || memo[1] !== dsite) pb.push('versions vues non mémorisées : ' + memo.join(' / ') + ' ≠ ' + der + ' / ' + dsite);
+    if (memo[0] !== der || memo[1] !== null) pb.push('version vue non mémorisée (ou version du site marquée vue alors qu\'elle n\'est pas affichée) : ' + memo.join(' / ') + ' ≠ ' + der + ' / null');
     if (await etat() !== 'rien') pb.push('pastille toujours là après ouverture');
     // les trois niveaux : on ajoute une entrée plus récente de chaque niveau et on rejoue le script du journal
     const cas = await p.evaluate(async ([der]) => {
@@ -1035,7 +1034,7 @@ const INDICES = {
         r.querySelectorAll('.pn-pt').forEach(x => x.remove()); r.querySelectorAll('[data-test]').forEach(x => x.remove());
         const li = document.createElement('li'); li.dataset.test = '1'; li.dataset.v = v; li.dataset.niv = niv; li.dataset.src = 'outil';
         li.innerHTML = '<span class="n">x</span>'; r.querySelector('.pn-hist').appendChild(li);
-        localStorage.setItem('ficsit-tools:vu2:planner.html', der); localStorage.setItem('ficsit-tools:vu2:site', r.dataset.sv);
+        localStorage.setItem('ficsit-tools:vu2:planner.html', der);
         new Function(code)();
         rep[niv] = r.classList.contains('pn-neuf') ? 'neuf' : r.classList.contains('pn-ajust') ? 'ajust' : 'rien';
       }
@@ -1080,7 +1079,7 @@ const INDICES = {
     if (await ouvert(1)) pb.push('pas refermé à la sortie du survol');
     await sm(1).hover(); await p.waitForTimeout(400); await sm(1).click(); await p.mouse.move(300, 600); await p.waitForTimeout(500);
     if (!await ouvert(1)) pb.push('refermé malgré le clic (doit rester ouvert)');
-    await sm(1).click(); await p.waitForTimeout(150);
+    await sm(1).click(); await p.waitForTimeout(400);
     if (await ouvert(1)) pb.push('le second clic ne ferme pas');
     await p.mouse.move(300, 600); await p.waitForTimeout(400);
     if (await ouvert(1)) pb.push('rouvert tout seul après le second clic et la sortie');

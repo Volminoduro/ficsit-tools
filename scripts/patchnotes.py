@@ -102,7 +102,7 @@ CSS = """
 .pn-aj > summary:hover,.pn-aj > summary:focus-visible{color:var(--pn-ink)}
 .pn-aj ul{list-style:none;margin:0;padding:0 0 8px}
 .pn-aj li{display:flex;gap:8px;align-items:baseline;padding:3px 0;font-size:.82rem;line-height:1.4;color:var(--pn-dim)}
-.pn-aj .n{flex:none;font-family:var(--pn-disp);font-weight:600;font-size:.72rem;line-height:1;color:#8a8a8a;min-width:3.4em;font-variant-numeric:tabular-nums}
+.pn-aj .n{flex:none;font-family:var(--pn-disp);font-weight:600;font-size:.72rem;line-height:1;color:#a3a3a3;min-width:3.4em;font-variant-numeric:tabular-nums}
 .pn-aj li.fx{padding:1px 0 1px 3.4em;gap:6px;font-size:.74rem;line-height:1.35;color:#6d6d6d}
 .pn-aj li.fx::before{content:"\\21B3";flex:none;color:#555}
 .pn-aj li.fx .n{font-weight:500;font-size:.66rem;color:#5c5c5c;min-width:0}
@@ -419,14 +419,14 @@ PAGE_CSS = """
   .jr-v p{margin:0;font-size:.92rem;line-height:1.5}
   .jr-aj{list-style:none;margin:10px 0 0;padding:6px 0 0;border-top:1px dashed var(--rule)}
   .jr-aj li{display:flex;gap:8px;align-items:baseline;padding:3px 0;font-size:.82rem;line-height:1.4;color:var(--dim)}
-  .jr-aj .n{flex:none;min-width:4.6em;font-family:var(--f-titre);font-weight:600;font-size:.72rem;color:#8a8a8a;font-variant-numeric:tabular-nums}
+  .jr-aj .n{flex:none;min-width:4.6em;font-family:var(--f-titre);font-weight:600;font-size:.72rem;color:#a3a3a3;font-variant-numeric:tabular-nums}
   .jr-aj li.fx{padding-left:3.4em;font-size:.74rem;color:#6d6d6d}
   .jr-aj li.fx::before{content:"\\21B3";flex:none;color:#555}
   .jr-aj li.fx .n{font-weight:500;font-size:.66rem;color:#5c5c5c;min-width:0}
   .niv-feat .jr-aj{display:none}
   .niv-aj .jr-aj li.fx{display:none}
   .niv-aj .jr-aj:not(:has(li.aj)){display:none}
-  .reste{all:unset;display:none;cursor:pointer;margin:6px 0 0;font-size:.76rem;color:#8a8a8a}
+  .reste{all:unset;display:none;cursor:pointer;margin:6px 0 0;font-size:.76rem;color:#a3a3a3}
   .reste:hover,.reste:focus-visible{color:var(--or);text-decoration:underline}
   .niv-feat .reste{display:block}
   html:not([lang|=en]) [data-l=en],html[lang|=en] [data-l=fr]{display:none}
@@ -510,11 +510,18 @@ def page_journal(data, ic):
 <meta charset="utf-8">
 {bloc_langue}
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Journal des révisions de tous les outils FICSIT Tools.">
+<meta name="theme-color" content="#1b1b1b">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FICSIT Tools">
+<meta property="og:title" content="FICSIT Tools">
+<meta property="og:description" content="Journal des révisions de tous les outils FICSIT Tools.">
 <title data-fr="FICSIT Inc. — Journal des révisions" data-en="FICSIT Inc. — Revision log">FICSIT Inc. — Journal des révisions</title>
 <style>{PAGE_CSS.strip()}</style>
 </head>
 <body>
-<main class="wrap niv-feat">
+<a class="saut" href="#contenu">{bi("Aller au contenu", "Skip to content")}</a>
+<main class="wrap niv-feat" id="contenu">
 <p class="eyebrow">{bi("Dossier · Journal", "File · Log")}</p>
 <h1>{bi("Journal des <em>révisions</em>", "Revision <em>log</em>")}</h1>
 <div class="stripe"></div>

@@ -158,3 +158,8 @@
 @media (prefers-contrast:more){
   :root{--f-or-encre:#141414;--f-encre2:#D6D6D6;--f-encre3:#BDBDBD}
 }
+
+/* Lien d'évitement : invisible tant qu'il n'a pas le focus clavier, puis ancré en haut à gauche */
+.saut{position:absolute;left:8px;top:-60px;z-index:10000;padding:8px 14px;background:var(--f-or);color:var(--f-or-encre);
+  font-weight:700;text-decoration:none;transition:top .12s}
+.saut:focus{top:8px}

@@ -5,6 +5,12 @@ Version x.y.0 : fonctionnalité ; x.y.z : ajustement ; x.y.z.w : correctif de bu
 
 ## Site / Site — journal commun
 
+### v1.13.0 — Accessibilité et métadonnées (16/10/2026)
+
+Chaque page a un lien « Aller au contenu » (visible au clavier) et une zone principale repérable par les lecteurs d'écran. Les pages portent une description, une couleur de thème et des métadonnées de partage. Les numéros du journal sont un peu plus lisibles.
+
+*EN — Accessibility and metadata. Every page has a “Skip to content” link (visible with the keyboard) and a main region that screen readers can find. Pages carry a description, a theme colour and sharing metadata. Log version numbers are a little easier to read.*
+
 ### v1.12.0 — Page Journal (16/10/2026)
 
 Un onglet « Journal » dans la barre récapitule tous les journaux, une section par outil (et le site), du plus récent au plus ancien : seules les fonctionnalités sont affichées, les ajustements et correctifs s'ajoutent d'un clic. Chaque journal d'outil y renvoie par « Tout le journal ».

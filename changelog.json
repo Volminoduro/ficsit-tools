@@ -7,6 +7,18 @@
     },
     "entrees": [
       {
+        "version": "1.13.0",
+        "date": "2026-10-16",
+        "titre": {
+          "fr": "Accessibilité et métadonnées",
+          "en": "Accessibility and metadata"
+        },
+        "texte": {
+          "fr": "Chaque page a un lien « Aller au contenu » (visible au clavier) et une zone principale repérable par les lecteurs d'écran. Les pages portent une description, une couleur de thème et des métadonnées de partage. Les numéros du journal sont un peu plus lisibles.",
+          "en": "Every page has a “Skip to content” link (visible with the keyboard) and a main region that screen readers can find. Pages carry a description, a theme colour and sharing metadata. Log version numbers are a little easier to read."
+        }
+      },
+      {
         "version": "1.12.3",
         "date": "2026-10-16",
         "texte": {

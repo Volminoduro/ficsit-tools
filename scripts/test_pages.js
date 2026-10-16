@@ -1157,6 +1157,22 @@ const INDICES = {
     await p.close();
   }
 
+  // accessibilité et métadonnées : chaque page (hors coquille) a une zone <main> ciblée par un lien d'évitement,
+  // une description et une couleur de thème
+  {
+    const fs = require('fs'), pb = [];
+    fs.readdirSync(ROOT).filter(x => x.endsWith('.html') && x !== 'outils.html').forEach(x => {
+      const h = fs.readFileSync(path.join(ROOT, x), 'utf8');
+      const m = h.match(/<a class="saut" href="#([^"]+)"/);
+      if (!m) pb.push(x + ' : pas de lien d\'évitement');
+      else if (!new RegExp('<main[^>]* id="' + m[1] + '"').test(h)) pb.push(x + ' : la cible du lien d\'évitement n\'est pas un <main>');
+      if (!/<meta name="description" content="[^"]{20,}"/.test(h)) pb.push(x + ' : pas de description');
+      if (!/<meta name="theme-color"/.test(h)) pb.push(x + ' : pas de theme-color');
+    });
+    pb.forEach(x => echecs.push('accessibilité : ' + x));
+    console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} accessibilité : <main>, lien d'évitement, description`);
+  }
+
   // coquille (outils.html, en http) : un onglet de la barre montre l'outil dans un autre cadre, sans recharger la page ;
   // l'outil précédent garde son état ; l'adresse et le titre suivent ; « Précédent » revient au premier outil
   {

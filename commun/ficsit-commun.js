@@ -12,7 +12,7 @@
      .pick({fr, en})       choisit la variante de la langue active
      .item(n) .recette(n) .batiment(n)   nom du jeu dans la langue active (glossaire.json, repli : anglais)
      .num(v, opts)         v.toLocaleString(locale, opts)
-   Accueil : un lien vers index.html ouvre le dock sur chaque outil (pas sur l'accueil lui-même).
+   Accueil : un lien vers index.html ouvre le dock sur chaque page, l'accueil compris (où il est l'onglet courant).
    Mention IA : un bandeau commun (texte langue.json > communs.ia) est ajouté en bas de chaque page.
    Hors ligne : enregistre sw.js (copie des fichiers servis, voir ce fichier).
    Dock : barre de titre commune, pleine largeur en haut de page, comme celle des fenêtres du jeu (« FICSIT » et le nom
@@ -192,9 +192,11 @@
       });
       d.insertBefore(id, d.firstChild);
     }
-    // Retour à l'accueil, à gauche juste après l'identité (lien relatif : valable en local comme sur GitHub Pages), sauf sur l'accueil.
-    if(!/(^|\/)(index\.html)?$/.test(location.pathname) && !document.getElementById('fhome')){
+    // Retour à l'accueil, à gauche juste après l'identité (lien relatif : valable en local comme sur GitHub Pages) ; affiché aussi
+    // sur l'accueil, où il est l'onglet courant.
+    if(!document.getElementById('fhome')){
       var h = document.createElement('a'); h.id = 'fhome'; h.className = 'fhome'; h.href = 'index.html';
+      if(/(^|\/)(index\.html)?$/.test(location.pathname)) h.setAttribute('aria-current', 'page');
       h.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 1 7.6l1 1.1L3 7.8V14h4v-4h2v4h4V7.8l1 .9 1-1.1z"/></svg><span></span>';
       d.querySelector('.fdock-id').after(h);
     }

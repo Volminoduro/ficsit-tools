@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <!-- FICSIT-LANG:START -->
-<link rel="stylesheet" href="commun/ficsit-commun.css?v=551980a855">
-<script src="commun/ficsit-commun.js?v=02ebf7f667"></script>
+<link rel="stylesheet" href="commun/ficsit-commun.css?v=aa423116d0">
+<script src="commun/ficsit-commun.js?v=8a8b322f43"></script>
 <!-- FICSIT-LANG:END -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-fr="FICSIT Inc. — Outils" data-en="FICSIT Inc. — Tools">FICSIT Inc. — Outils</title>
@@ -87,7 +87,7 @@
     document.querySelectorAll('#fnav a').forEach(function(a){
       if(a.getAttribute('href') === k) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
     });
-    var h = document.getElementById('fhome'); if(h) h.hidden = k === 'index.html';
+    var h = document.getElementById('fhome'); if(h){ h.hidden = false; if(k === 'index.html') h.setAttribute('aria-current', 'page'); else h.removeAttribute('aria-current'); }
     var j = et.journal;
     journal.hidden = !j;
     if(j){ journal.innerHTML = j.html; journal.title = j.titre; journal.classList.toggle('neuf', j.neuf); journal.classList.toggle('ajust', !!j.ajust);

@@ -14,7 +14,8 @@
     { "f": "memo-ficsit.html",                               "fr": "Mémo",          "en": "Memo",        "titre": { "fr": "Mémo de terrain", "en": "Field memo" } },
     { "f": "energie-noeuds.html",                            "fr": "Nœuds",         "en": "Nodes",       "titre": { "fr": "Rentabilité énergétique par nœud", "en": "Power per node" } },
     { "f": "broyeur-excedents.html",                         "fr": "Recyclage",     "en": "Recycling",   "titre": { "fr": "Optimiseur de recyclage (Broyeur AWESOME)", "en": "Recycling optimizer (AWESOME Sink)" } },
-    { "f": "arbre-production.html",                          "fr": "Arbre",         "en": "Tree",        "titre": { "fr": "Complexité et valeur au broyeur", "en": "Complexity vs sink value" } }
+    { "f": "arbre-production.html",                          "fr": "Arbre",         "en": "Tree",        "titre": { "fr": "Complexité et valeur au broyeur", "en": "Complexity vs sink value" } },
+    { "f": "journal.html",                                   "fr": "Journal",       "en": "Log",         "titre": { "fr": "Journal des révisions", "en": "Revision log" } }
   ],
   "communs": {
     "reset":      { "fr": "Réinitialiser", "en": "Reset" },

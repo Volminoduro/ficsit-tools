@@ -32,6 +32,7 @@ const PAGES = {
   'energie-noeuds.html': null,
   'planner.html': null,
   // vitrine de la charte commune (commun/ficsit-hud.css)
+  'journal.html': null,
   'charte.html': null,
 };
 /* Dimensional Depot : sauvegarde synthétique (objets tels que le parseur les rend) — foreuse Mk1 sur un nœud de fer
@@ -966,6 +967,47 @@ const INDICES = {
     }
     pb.forEach(x => echecs.push('menu des objectifs : ' + x));
     console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} planificateur : le menu de choix de l'item s'ouvre sous son bouton`);
+  }
+
+  // page « Journal » : une section par outil (le site d'abord), fonctionnalités seules par défaut, ajustements et correctifs au choix
+  // (mémorisé), sections dans l'ordre des onglets ; chaque journal d'outil y renvoie
+  {
+    const pb = [];
+    const p = await b.newPage({viewport: {width: 1280, height: 900}}), errs = [];
+    p.on('pageerror', e => errs.push(e.message));
+    await p.goto('file://' + path.join(ROOT, 'journal.html')); await p.waitForTimeout(500);
+    const vis = sel => p.evaluate(sel => [...document.querySelectorAll(sel)].filter(e => e.offsetParent !== null).length, sel);
+    const nbSec = await p.evaluate(() => document.querySelectorAll('.jr-sec').length);
+    const nbOutils = require(path.join(ROOT, 'commun', 'langue.json')).outils.length - 1;   // sans la page Journal elle-même
+    if (nbSec !== nbOutils + 1) pb.push(`${nbSec} sections au lieu de ${nbOutils + 1} (site + outils)`);
+    if (await p.evaluate(() => document.querySelector('.jr-sec').id) !== 's-site') pb.push('le site doit être la première section');
+    if (await vis('.jr-aj') !== 0) pb.push('ajustements visibles par défaut');
+    if (await vis('.jr-v') < nbSec) pb.push('fonctionnalités non visibles');
+    await p.click('.niv button[data-niv=aj]');
+    const aj = await vis('.jr-aj li.aj'), fx = await vis('.jr-aj li.fx');
+    if (!aj || fx) pb.push(`« + Ajustements » : ${aj} ajustements et ${fx} correctifs visibles (attendu : des ajustements, aucun correctif)`);
+    await p.click('.niv button[data-niv=fx]');
+    if (!await vis('.jr-aj li.fx')) pb.push('« + Correctifs » ne montre aucun correctif');
+    await p.reload(); await p.waitForTimeout(400);
+    if (!await vis('.jr-aj li.fx')) pb.push('le niveau choisi n\'est pas mémorisé');
+    await p.evaluate(() => localStorage.removeItem('ficsit-tools:journal-niveau'));
+    // le lien « Tout le journal » d'un outil mène à cette page, dans la coquille (http)
+    const http = require('http'), fs = require('fs');
+    const TYPES = {'.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.webp': 'image/webp', '.woff2': 'font/woff2', '.wasm': 'application/wasm', '.svg': 'image/svg+xml', '.png': 'image/png'};
+    const srv = http.createServer((q, r) => { const f2 = path.join(ROOT, decodeURIComponent(q.url.split('?')[0]).replace(/^\/+/, '') || 'index.html');
+      fs.readFile(f2, (e, d) => { if (e) { r.writeHead(404); r.end(); return; } r.writeHead(200, {'Content-Type': TYPES[path.extname(f2)] || 'application/octet-stream'}); r.end(d); }); });
+    await new Promise(res => srv.listen(0, '127.0.0.1', res));
+    const q = await b.newPage({viewport: {width: 1280, height: 800}});
+    await q.goto(`http://127.0.0.1:${srv.address().port}/outils.html#memo-ficsit.html`);
+    await q.waitForFunction(() => document.querySelector('iframe.actif')); await q.waitForTimeout(1200);
+    const fr = q.frames().find(f2 => f2.parentFrame() && new URL(f2.url()).pathname.endsWith('/memo-ficsit.html'));
+    await fr.click('.pn-btn'); await fr.click('.pn-tout'); await q.waitForTimeout(1200);
+    if (!(await q.evaluate(() => location.hash)).includes('journal.html')) pb.push('« Tout le journal » n\'ouvre pas la page Journal');
+    await q.close(); srv.close();
+    if (errs.length) pb.push('erreurs JS : ' + errs.slice(0, 2).join(' | '));
+    await p.close();
+    pb.forEach(x => echecs.push('page Journal : ' + x));
+    console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} page Journal : une section par outil, fonctionnalités par défaut, niveau mémorisé, lien depuis un outil`);
   }
 
   // accueil : journal du site seul (badge dans la barre, version du site) ; outils : pas de ligne « Site » dans leur journal

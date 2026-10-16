@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <!-- FICSIT-LANG:START -->
 <link rel="stylesheet" href="commun/ficsit-commun.css?v=551980a855">
-<script src="commun/ficsit-commun.js?v=2c2657037d"></script>
+<script src="commun/ficsit-commun.js?v=02ebf7f667"></script>
 <!-- FICSIT-LANG:END -->
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title data-fr="Rentabilité énergétique par nœud — combien de MW tirer d'un nœud" data-en="Power per node — how many MW a node can give">Rentabilité énergétique par nœud — combien de MW tirer d'un nœud</title>
@@ -142,7 +142,7 @@
 @keyframes pn-pulse{50%{box-shadow:0 0 0 2px var(--f-barre),0 0 0 5px rgba(229,147,69,.35)}}
 @media (prefers-reduced-motion:reduce){.pn-neuf .pn-dot{animation:none}}
 .pn-panel{position:fixed;top:var(--f-barre-h);right:0;width:min(440px,calc(100vw - 24px));max-height:min(72vh,640px);
-  overflow:auto;overscroll-behavior:contain;background:var(--pn-panel);color:var(--pn-ink);
+  overflow:auto;overscroll-behavior:contain;overflow-anchor:none;background:var(--pn-panel);color:var(--pn-ink);
   box-shadow:var(--f-ombre)}
 .pn-panel[hidden]{display:none}
 .pn-hz{height:3px;background:var(--pn-or)}
@@ -201,6 +201,8 @@
 .pn-site > summary:hover{color:var(--pn-ink)}
 .pn-site .pn-hist{padding:0 0 6px;border-top:0}
 .pn-site + .pn-hist{margin-top:4px}
+.pn-tout{display:block;margin:2px 16px 10px;font-size:.84rem;color:var(--pn-or);text-decoration:none}
+.pn-tout:hover,.pn-tout:focus-visible{text-decoration:underline}
 .pn-foot{height:8px}
 html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none}
 @media (max-width:560px){.pn-btn{padding:0 8px;gap:5px}.pn-panel{width:100vw}}
@@ -212,6 +214,7 @@ html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none
 <p class="pn-sub"><span data-l="fr">Version 1.0.2, mise à jour le 01/10/2026</span><span data-l="en" lang="en">Version 1.0.2, updated 1 Oct 2026</span></p></div><button type="button" class="pn-x" data-fr-aria-label="Fermer" data-en-aria-label="Close" aria-label="Fermer">×</button></div>
 <div class="pn-cur" data-v="1.0.0" data-niv="feat" data-src="outil"><div class="pn-meta"><span class="pn-v">v1.0.0</span><time class="pn-d" datetime="2026-10-01"><span data-l="fr">01/10/2026</span><span data-l="en" lang="en">1 Oct 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><h3 class="pn-tt"><span data-l="fr">Rentabilité énergétique par nœud</span><span data-l="en" lang="en">Energy yield per node</span></h3><p class="pn-t"><span data-l="fr">À lire sans rien régler : combien de MW nets tirer d&#x27;un seul nœud, filière par filière (charbon, carburant et ses variantes, turbocarburant, carburant de fusée, carburant ionisé, uranium, géothermie), par pureté du nœud, à 100 % et à 250 % de cadence. Nets : extraction, machines de la chaîne et ressources d&#x27;appoint payées. Avec une partie importée, foreuse, convoyeur et tuyau sont les vôtres, et les filières pas débloquées sont grisées.</span><span data-l="en" lang="en">To read without setting anything: how many net MW to draw from a single node, chain by chain (coal, fuel and its variants, turbofuel, rocket fuel, ionized fuel, uranium, geothermal), by node purity, at 100% and 250% clock speed. Net of extraction, the chain&#x27;s machines and the top-up resources paid for. With an imported game, the miner, conveyor and pipe are yours, and chains not yet unlocked are greyed out.</span></p><details class="pn-aj" open><summary><span data-l="fr">Ajustements · 2</span><span data-l="en" lang="en">Adjustments · 2</span></summary><div class="pn-co"><ul><li class="aj" data-v="1.0.2" data-niv="aj" data-src="outil"><span class="n">1.0.2</span><span><span data-l="fr">Icônes des ressources dans la description de chaque filière.</span><span data-l="en" lang="en">Resource icons in each chain&#x27;s description.</span></span></li><li class="aj" data-v="1.0.1" data-niv="aj" data-src="outil"><span class="n">1.0.1</span><span><span data-l="fr">Carburant ionisé : ses éclats de charge passent par la recette synthétique (palier 9) ; la filière donne environ 23 900 MW nets par nœud de pétrole normal.</span><span data-l="en" lang="en">Ionized fuel: its power shards come from the synthetic recipe (tier 9); the chain yields about 23,900 net MW per normal oil node.</span></span></li></ul></div></details></div>
 
+<a class="pn-tout" href="journal.html"><span data-l="fr">Tout le journal →</span><span data-l="en" lang="en">Full log →</span></a>
 <div class="pn-foot"></div></div></div>
 <script>(function(){
   var r = document.getElementById('journal'); if(!r) return;
@@ -247,9 +250,13 @@ html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none
     if(!c || calme || !c.animate){ if(!vers) d.open = false; return; }
     var h1 = vers ? c.scrollHeight : 0;
     if(vers) h0 = Math.min(h0, h1);
+    // la ligne cliquée reste en place : le contenu ne s'ouvre que vers le bas (aucune compensation de défilement du navigateur)
+    var pn = r.querySelector('.pn-panel'), sm = d.querySelector(':scope > summary'), y0 = sm.getBoundingClientRect().top;
+    function tenir(){ if(!d._an) return; var dy = sm.getBoundingClientRect().top - y0; if(dy > 0.5 || dy < -0.5) pn.scrollTop += dy; requestAnimationFrame(tenir); }
     var a = d._an = c.animate([{height: h0 + 'px', opacity: vers && !h0 ? 0 : 1}, {height: vers ? h1 + 'px' : '0px', opacity: vers ? 1 : 0}],
       {duration: vers ? 240 : 190, easing: vers ? 'ease-out' : 'ease-in'});
     if(!vers) d._ferm = true;
+    requestAnimationFrame(tenir);
     a.onfinish = function(){ d._an = null; if(!vers){ d.open = false; d._ferm = false; } };
   }
   r.querySelectorAll('details.pn-g, details.pn-aj, details.pn-site').forEach(function(d){

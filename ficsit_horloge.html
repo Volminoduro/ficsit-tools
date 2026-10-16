@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <!-- FICSIT-LANG:START -->
 <link rel="stylesheet" href="commun/ficsit-commun.css?v=551980a855">
-<script src="commun/ficsit-commun.js?v=2c2657037d"></script>
+<script src="commun/ficsit-commun.js?v=02ebf7f667"></script>
 <!-- FICSIT-LANG:END -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title data-fr="FICSIT — Calculateur de cadence" data-en="FICSIT — Clock Speed Calculator">FICSIT — Calculateur de cadence</title>
@@ -305,7 +305,7 @@ footer{color:var(--muted);font-size:.85rem;margin-top:30px;text-align:center}
 @keyframes pn-pulse{50%{box-shadow:0 0 0 2px var(--f-barre),0 0 0 5px rgba(229,147,69,.35)}}
 @media (prefers-reduced-motion:reduce){.pn-neuf .pn-dot{animation:none}}
 .pn-panel{position:fixed;top:var(--f-barre-h);right:0;width:min(440px,calc(100vw - 24px));max-height:min(72vh,640px);
-  overflow:auto;overscroll-behavior:contain;background:var(--pn-panel);color:var(--pn-ink);
+  overflow:auto;overscroll-behavior:contain;overflow-anchor:none;background:var(--pn-panel);color:var(--pn-ink);
   box-shadow:var(--f-ombre)}
 .pn-panel[hidden]{display:none}
 .pn-hz{height:3px;background:var(--pn-or)}
@@ -364,6 +364,8 @@ footer{color:var(--muted);font-size:.85rem;margin-top:30px;text-align:center}
 .pn-site > summary:hover{color:var(--pn-ink)}
 .pn-site .pn-hist{padding:0 0 6px;border-top:0}
 .pn-site + .pn-hist{margin-top:4px}
+.pn-tout{display:block;margin:2px 16px 10px;font-size:.84rem;color:var(--pn-or);text-decoration:none}
+.pn-tout:hover,.pn-tout:focus-visible{text-decoration:underline}
 .pn-foot{height:8px}
 html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none}
 @media (max-width:560px){.pn-btn{padding:0 8px;gap:5px}.pn-panel{width:100vw}}
@@ -375,6 +377,7 @@ html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none
 <p class="pn-sub"><span data-l="fr">Version 1.1.0, mise à jour le 30/09/2026</span><span data-l="en" lang="en">Version 1.1.0, updated 30 Sep 2026</span></p></div><button type="button" class="pn-x" data-fr-aria-label="Fermer" data-en-aria-label="Close" aria-label="Fermer">×</button></div>
 <div class="pn-cur" data-v="1.1.0" data-niv="feat" data-src="outil"><div class="pn-meta"><span class="pn-v">v1.1.0</span><time class="pn-d" datetime="2026-09-30"><span data-l="fr">30/09/2026</span><span data-l="en" lang="en">30 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><h3 class="pn-tt"><span data-l="fr">Régime d&#x27;éclats selon votre partie</span><span data-l="en" lang="en">Shard regime from your game</span></h3><p class="pn-t"><span data-l="fr">Le régime d&#x27;éclats se règle sur votre partie importée : « éclats illimités » si l&#x27;éclat de charge synthétique est débloqué, « éclats rares » sinon. Réglé à chaque nouvel import, toujours modifiable à la main.</span><span data-l="en" lang="en">The shard regime follows your imported game: “unlimited shards” if the synthetic power shard is unlocked, “scarce shards” otherwise. Set on each new import, still editable by hand.</span></p></div>
 <ul class="pn-hist"><li><details class="pn-g"><summary data-v="1.0.0" data-niv="feat" data-src="outil"><span class="pn-hv">v1.0.0</span><span class="pn-hn"><span data-l="fr">Cadence et éclats</span><span data-l="en" lang="en">Clock speed and shards</span></span><span class="pn-hc">+5</span></summary><div class="pn-co"><div class="pn-gd"><p class="pn-t"><span data-l="fr">Pour un besoin T en machines-équivalent, toutes les répartitions possibles avec cadence, éclats, MW et écart à la répartition sans éclat. Régime éclats rares ou illimités, mode linéaire des générateurs.</span><span data-l="en" lang="en">For a need T in machine-equivalents, every possible split with clock speed, shards, MW and gap to the shard-free split. Scarce or unlimited shards, linear mode for generators.</span></p><details class="pn-aj"><summary><span data-l="fr">Ajustements et correctifs · 5</span><span data-l="en" lang="en">Adjustments and fixes · 5</span></summary><div class="pn-co"><ul><li class="aj" data-v="1.0.3" data-niv="aj" data-src="outil"><span class="n">1.0.3</span><span><span data-l="fr">Liste des bâtiments tirée du référentiel du jeu (puissances, production des générateurs, plages de puissance variable).</span><span data-l="en" lang="en">Building list drawn from the game reference (power, generator output, variable-power ranges).</span></span></li><li class="fx" data-v="1.0.3.1" data-niv="fix" data-src="outil"><span class="n">1.0.3.1</span><span><span data-l="fr">Plage de l&#x27;accélérateur de particules corrigée (250 – 1 500 MW) ; plus de code parasite dans l&#x27;infobulle du constructeur.</span><span data-l="en" lang="en">Particle accelerator range fixed (250 – 1,500 MW); no more stray code in the constructor tooltip.</span></span></li><li class="aj" data-v="1.0.2" data-niv="aj" data-src="outil"><span class="n">1.0.2</span><span><span data-l="fr">Version anglaise : noms de bâtiments, formule et fourchettes de consommation traduits.</span><span data-l="en" lang="en">English version: building names, formula and consumption ranges translated.</span></span></li><li class="aj" data-v="1.0.1" data-niv="aj" data-src="outil"><span class="n">1.0.1</span><span><span data-l="fr">Vos réglages sont mémorisés d&#x27;une visite à l&#x27;autre, avec un bouton Réinitialiser.</span><span data-l="en" lang="en">Your settings are remembered between visits, with a Reset button.</span></span></li><li class="fx" data-v="1.0.0.1" data-niv="fix" data-src="outil"><span class="n">1.0.0.1</span><span><span data-l="fr">Sur téléphone, la page ne déborde plus horizontalement : le tableau de résultats défile dans son cadre et le titre s&#x27;adapte.</span><span data-l="en" lang="en">On phones, the page no longer overflows horizontally: the results table scrolls in its frame and the title adapts.</span></span></li></ul></div></details></div></div></details></li></ul>
+<a class="pn-tout" href="journal.html"><span data-l="fr">Tout le journal →</span><span data-l="en" lang="en">Full log →</span></a>
 <div class="pn-foot"></div></div></div>
 <script>(function(){
   var r = document.getElementById('journal'); if(!r) return;
@@ -410,9 +413,13 @@ html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none
     if(!c || calme || !c.animate){ if(!vers) d.open = false; return; }
     var h1 = vers ? c.scrollHeight : 0;
     if(vers) h0 = Math.min(h0, h1);
+    // la ligne cliquée reste en place : le contenu ne s'ouvre que vers le bas (aucune compensation de défilement du navigateur)
+    var pn = r.querySelector('.pn-panel'), sm = d.querySelector(':scope > summary'), y0 = sm.getBoundingClientRect().top;
+    function tenir(){ if(!d._an) return; var dy = sm.getBoundingClientRect().top - y0; if(dy > 0.5 || dy < -0.5) pn.scrollTop += dy; requestAnimationFrame(tenir); }
     var a = d._an = c.animate([{height: h0 + 'px', opacity: vers && !h0 ? 0 : 1}, {height: vers ? h1 + 'px' : '0px', opacity: vers ? 1 : 0}],
       {duration: vers ? 240 : 190, easing: vers ? 'ease-out' : 'ease-in'});
     if(!vers) d._ferm = true;
+    requestAnimationFrame(tenir);
     a.onfinish = function(){ d._an = null; if(!vers){ d.open = false; d._ferm = false; } };
   }
   r.querySelectorAll('details.pn-g, details.pn-aj, details.pn-site').forEach(function(d){

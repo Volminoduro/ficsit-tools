@@ -67,7 +67,7 @@ CSS = """
 @keyframes pn-pulse{50%{box-shadow:0 0 0 2px var(--f-barre),0 0 0 5px rgba(229,147,69,.35)}}
 @media (prefers-reduced-motion:reduce){.pn-neuf .pn-dot{animation:none}}
 .pn-panel{position:fixed;top:var(--f-barre-h);right:0;width:min(440px,calc(100vw - 24px));max-height:min(72vh,640px);
-  overflow:auto;overscroll-behavior:contain;background:var(--pn-panel);color:var(--pn-ink);
+  overflow:auto;overscroll-behavior:contain;overflow-anchor:none;background:var(--pn-panel);color:var(--pn-ink);
   box-shadow:var(--f-ombre)}
 .pn-panel[hidden]{display:none}
 .pn-hz{height:3px;background:var(--pn-or)}
@@ -126,6 +126,8 @@ CSS = """
 .pn-site > summary:hover{color:var(--pn-ink)}
 .pn-site .pn-hist{padding:0 0 6px;border-top:0}
 .pn-site + .pn-hist{margin-top:4px}
+.pn-tout{display:block;margin:2px 16px 10px;font-size:.84rem;color:var(--pn-or);text-decoration:none}
+.pn-tout:hover,.pn-tout:focus-visible{text-decoration:underline}
 .pn-foot{height:8px}
 html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none}
 @media (max-width:560px){.pn-btn{padding:0 8px;gap:5px}.pn-panel{width:100vw}}
@@ -298,9 +300,13 @@ JS = """
     if(!c || calme || !c.animate){ if(!vers) d.open = false; return; }
     var h1 = vers ? c.scrollHeight : 0;
     if(vers) h0 = Math.min(h0, h1);
+    // la ligne cliquée reste en place : le contenu ne s'ouvre que vers le bas (aucune compensation de défilement du navigateur)
+    var pn = r.querySelector('.pn-panel'), sm = d.querySelector(':scope > summary'), y0 = sm.getBoundingClientRect().top;
+    function tenir(){ if(!d._an) return; var dy = sm.getBoundingClientRect().top - y0; if(dy > 0.5 || dy < -0.5) pn.scrollTop += dy; requestAnimationFrame(tenir); }
     var a = d._an = c.animate([{height: h0 + 'px', opacity: vers && !h0 ? 0 : 1}, {height: vers ? h1 + 'px' : '0px', opacity: vers ? 1 : 0}],
       {duration: vers ? 240 : 190, easing: vers ? 'ease-out' : 'ease-in'});
     if(!vers) d._ferm = true;
+    requestAnimationFrame(tenir);
     a.onfinish = function(){ d._an = null; if(!vers){ d.open = false; d._ferm = false; } };
   }
   r.querySelectorAll('details.pn-g, details.pn-aj, details.pn-site').forEach(function(d){
@@ -350,9 +356,146 @@ def bloc(fichier, outil, icone, site):
          f'<p class="pn-sub">{sous if seul else bi(f"Version {v}, mise à jour le {fr(date)}", f"Version {v}, updated {en(date)}")}</p></div>'
          f'<button type="button" class="pn-x" data-fr-aria-label="Fermer" data-en-aria-label="Close" aria-label="Fermer">×</button></div>',
          bloc_courant(gs[0], src), historique(gs[1:], src),
+         f'<a class="pn-tout" href="journal.html">{bi("Tout le journal →", "Full log →")}</a>',
          '<div class="pn-foot"></div></div></div>',
          f'<script>{JS.strip()}</script>', END]
     return "\n".join(h)
+
+
+PAGE_CSS = """
+  :root{--bg:var(--f-fond);--panel:var(--f-fenetre);--rule:var(--f-trait);--ink:var(--f-encre);--dim:var(--f-encre2);--or:var(--f-or)}
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--f-police),Segoe UI,sans-serif;font-size:15px;line-height:1.55;-webkit-text-size-adjust:100%}
+  body{background-image:linear-gradient(180deg,rgba(229,147,69,.05) 0,transparent 420px)}
+  .wrap{max-width:980px;margin:0 auto;padding:26px 16px 70px}
+  h1,h2,h3{font-family:var(--f-titre),Arial Narrow,sans-serif;font-stretch:var(--f-serre)}
+  h1{font-size:clamp(30px,7vw,52px);line-height:.98;margin:0 0 4px;font-weight:700;text-transform:uppercase;color:#fff;overflow-wrap:anywhere}
+  h1 em{font-style:normal;color:var(--or)}
+  .eyebrow{font-family:var(--f-titre);font-stretch:var(--f-serre);color:var(--or);letter-spacing:.18em;text-transform:uppercase;font-size:13px;margin:0 0 6px}
+  .stripe{height:3px;margin:12px 0 14px;background:var(--f-or)}
+  .lede{color:var(--dim);max-width:72ch;margin:.5em 0 18px}
+  .barre{position:sticky;top:var(--f-barre-h,40px);z-index:5;background:var(--bg);padding:8px 0 10px;margin:0 0 6px;border-bottom:1px solid var(--rule)}
+  .barre-l{display:flex;gap:8px 14px;flex-wrap:wrap;align-items:center;margin:0 0 8px}
+  .barre-l:last-child{margin:0}
+  .barre-t{font:600 .72rem/1 var(--f-police);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);min-width:6.5em}
+  .barre a,.niv button{all:unset;box-sizing:border-box;cursor:pointer;padding:6px 11px;background:#3F3F3F;color:#ddd;font:600 .74rem/1 var(--f-police);letter-spacing:.08em;text-transform:uppercase}
+  .barre a:hover,.niv button:hover{background:#4A4A4A}
+  .niv button[aria-pressed=true]{background:var(--or);color:#fff}
+  .barre a:focus-visible,.niv button:focus-visible{outline:2px solid var(--f-or-clair);outline-offset:1px}
+  .niv{display:flex;gap:6px;flex-wrap:wrap}
+  .jr-sec{margin:34px 0 0;scroll-margin-top:calc(var(--f-barre-h,40px) + 96px)}
+  .jr-sec > h2{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 14px;padding-bottom:9px;border-bottom:1px solid var(--f-trait2);
+    font-size:clamp(17px,3.6vw,21px);color:#fff;text-transform:uppercase;letter-spacing:.14em;font-weight:500}
+  .slot{flex:none;width:36px;height:36px;display:grid;place-items:center;background:var(--f-case);border-radius:3px;color:var(--or);font-size:18px}
+  .slot img{width:26px;height:26px;object-fit:contain;display:block}
+  .jr-sec > h2 small{font-size:.8rem;letter-spacing:.06em;color:var(--dim);font-weight:400}
+  .jr-sec > h2 a{margin-left:auto;font-size:.78rem;letter-spacing:.08em;color:var(--or);text-decoration:none}
+  .jr-sec > h2 a:hover{text-decoration:underline}
+  ol{list-style:none;margin:0;padding:0}
+  .jr-v{background:var(--panel);margin:0 0 10px;padding:12px 16px;border-left:3px solid var(--or)}
+  .jr-v:not(:first-child){border-left-color:#4a4a4a}
+  .jr-m{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;margin-bottom:3px}
+  .v{font-family:var(--f-titre);font-weight:700;font-size:.85rem;padding:1px 7px;background:var(--or);color:var(--f-or-encre);border-radius:2px}
+  .jr-v:not(:first-child) .v{background:#3a3a3a;color:#ddd}
+  .d{color:var(--dim);font-size:.88rem}
+  .jr-v h3{margin:0 0 3px;font-size:1.02rem;font-weight:700;letter-spacing:0;color:var(--ink)}
+  .jr-v p{margin:0;font-size:.92rem;line-height:1.5}
+  .jr-aj{list-style:none;margin:10px 0 0;padding:6px 0 0;border-top:1px dashed var(--rule)}
+  .jr-aj li{display:flex;gap:8px;align-items:baseline;padding:3px 0;font-size:.82rem;line-height:1.4;color:var(--dim)}
+  .jr-aj .n{flex:none;min-width:4.6em;font-family:var(--f-titre);font-weight:600;font-size:.72rem;color:#8a8a8a;font-variant-numeric:tabular-nums}
+  .jr-aj li.fx{padding-left:3.4em;font-size:.74rem;color:#6d6d6d}
+  .jr-aj li.fx::before{content:"\\21B3";flex:none;color:#555}
+  .jr-aj li.fx .n{font-weight:500;font-size:.66rem;color:#5c5c5c;min-width:0}
+  .niv-feat .jr-aj{display:none}
+  .niv-aj .jr-aj li.fx{display:none}
+  .niv-aj .jr-aj:not(:has(li.aj)){display:none}
+  .reste{all:unset;display:none;cursor:pointer;margin:6px 0 0;font-size:.76rem;color:#8a8a8a}
+  .reste:hover,.reste:focus-visible{color:var(--or);text-decoration:underline}
+  .niv-feat .reste{display:block}
+  html:not([lang|=en]) [data-l=en],html[lang|=en] [data-l=fr]{display:none}
+  @media (max-width:560px){.barre-t{min-width:0;width:100%}.jr-sec > h2 a{margin-left:0}.jr-aj li.fx{padding-left:1.4em}.barre{position:static}}
+  @media print{.barre{display:none}.niv-feat .jr-aj{display:block}}
+"""
+
+PAGE_JS = """
+(function(){
+  var m = document.querySelector('main'), K = 'ficsit-tools:journal-niveau', bs = document.querySelectorAll('.niv button');
+  function fixer(n){
+    m.className = m.className.replace(/\\bniv-\\w+/g, '').trim() + ' niv-' + n;
+    bs.forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.niv === n); });
+    try{ localStorage.setItem(K, n); }catch(e){}
+  }
+  var n0 = 'feat'; try{ n0 = localStorage.getItem(K) || 'feat'; }catch(e){}
+  if(['feat', 'aj', 'fx'].indexOf(n0) < 0) n0 = 'feat';
+  fixer(n0);
+  document.querySelectorAll('.niv button, .reste').forEach(function(b){ b.addEventListener('click', function(){ fixer(b.dataset.niv); }); });
+})();
+"""
+
+def section_journal(cle, nom, icone, f, es):
+    gs = groupes(es)
+    der = max(es, key=lambda e: vers(e["version"]))
+    slot = f'<span class="slot"><img src="{icone}" alt=""></span>' if icone else '<span class="slot" aria-hidden="true">★</span>'
+    lien = f'<a href="{f}">{bi("Ouvrir l\'outil →", "Open the tool →")}</a>' if f else ""
+    li = []
+    for g in gs:
+        e = g["tete"]; t = e.get("titre")
+        aj = ""
+        if g["enfants"]:
+            ks = "".join(f'<li class="{"fx" if niveau(k["version"]) == "fix" else "aj"}"><span class="n">{html.escape(k["version"])}</span>'
+                         f'<span>{bie(k["texte"])}</span></li>' for k in g["enfants"])
+            na = sum(1 for k in g["enfants"] if niveau(k["version"]) == "aj"); nf = len(g["enfants"]) - na
+            def pl(n, mot, mots): return f"{n} {mot if n == 1 else mots}"
+            fr_p = " et ".join(x for x in (pl(na, "ajustement", "ajustements") if na else "", pl(nf, "correctif", "correctifs") if nf else "") if x)
+            en_p = " and ".join(x for x in (pl(na, "adjustment", "adjustments") if na else "", pl(nf, "fix", "fixes") if nf else "") if x)
+            aj = (f'<ul class="jr-aj">{ks}</ul><button type="button" class="reste" data-niv="fx">{bi("+ " + fr_p + " · afficher", "+ " + en_p + " · show")}</button>')
+        li.append(f'<li class="jr-v"><div class="jr-m"><span class="v">v{html.escape(e["version"])}</span>'
+                  f'<time class="d" datetime="{e["date"]}">{bi(fr(e["date"]), en(e["date"]))}</time></div>'
+                  + (f'<h3>{bie(t)}</h3>' if t else '') + f'<p>{bie(e["texte"])}</p>{aj}</li>')
+    return (f'<section class="jr-sec" id="s-{cle}"><h2>{slot}<span>{bie(nom)}</span><small>v{html.escape(der["version"])}</small>{lien}</h2>'
+            f'<ol>{"".join(li)}</ol></section>')
+
+def page_journal(data, ic):
+    p = ROOT / "journal.html"
+    bloc_langue = ""
+    if p.exists():
+        m = re.search(r"<!-- FICSIT-LANG:START -->[\s\S]*?<!-- FICSIT-LANG:END -->", p.read_text(encoding="utf-8"))
+        if m: bloc_langue = m.group(0)
+    if not bloc_langue: bloc_langue = "<!-- FICSIT-LANG:START -->\n<!-- FICSIT-LANG:END -->"
+    langue = json.loads((ROOT / "commun" / "langue.json").read_text(encoding="utf-8"))["outils"]
+    court = {o["f"]: {"fr": o["fr"], "en": o["en"]} for o in langue}
+    secs = [("site", data["site"]["nom"], None, None, data["site"]["entrees"], {"fr": "Site", "en": "Site"})]
+    for o in langue:
+        if o["f"] in data["outils"]:
+            d = data["outils"][o["f"]]
+            secs.append((o["f"].replace(".html", ""), d["nom"], ic.get(o["f"]), o["f"], d["entrees"], court[o["f"]]))
+    puces = "".join(f'<a href="#s-{c}">{bie(cc)}</a>' for c, _, _, _, _, cc in secs)
+    corps = "".join(section_journal(c, n, i, f, e) for c, n, i, f, e, _ in secs)
+    return f"""<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+{bloc_langue}
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title data-fr="FICSIT Inc. — Journal des révisions" data-en="FICSIT Inc. — Revision log">FICSIT Inc. — Journal des révisions</title>
+<style>{PAGE_CSS.strip()}</style>
+</head>
+<body>
+<main class="wrap niv-feat">
+<p class="eyebrow">{bi("Dossier · Journal", "File · Log")}</p>
+<h1>{bi("Journal des <em>révisions</em>", "Revision <em>log</em>")}</h1>
+<div class="stripe"></div>
+<p class="lede">{bi("Tout ce qui a changé sur le site et dans chaque outil, outil par outil, du plus récent au plus ancien. Par défaut, seules les fonctionnalités sont affichées.", "Everything that changed on the site and in each tool, tool by tool, newest first. By default, only features are shown.")}</p>
+<div class="barre">
+<div class="barre-l"><span class="barre-t">{bi("Aller à", "Jump to")}</span>{puces}</div>
+<div class="barre-l"><span class="barre-t">{bi("Afficher", "Show")}</span><div class="niv" role="group" aria-label="{html.escape("Niveau d'affichage")}"><button type="button" data-niv="feat" aria-pressed="true">{bi("Fonctionnalités", "Features")}</button><button type="button" data-niv="aj" aria-pressed="false">{bi("+ Ajustements", "+ Adjustments")}</button><button type="button" data-niv="fx" aria-pressed="false">{bi("+ Correctifs", "+ Fixes")}</button></div></div>
+</div>
+{corps}
+</main>
+<script>{PAGE_JS.strip()}</script>
+</body>
+</html>
+"""
 
 def injecter(fichier, contenu):
     p = ROOT / fichier; s = p.read_text(encoding="utf-8")
@@ -396,6 +539,8 @@ if __name__ == "__main__":
     for f, o in data["outils"].items():
         injecter(f, bloc(f, o, ic.get(f), data["site"]))
         print(f"{f} : v{max(o['entrees'], key=lambda e: vers(e['version']))['version']} ({len(o['entrees'])} entrée(s))")
+    (ROOT / "journal.html").write_text(page_journal(data, ic), encoding="utf-8")
+    print("journal.html : page du journal régénérée")
     injecter("index.html", bloc("index.html", None, None, data["site"]))
     print(f"index.html : journal du site v{max(data['site']['entrees'], key=lambda e: vers(e['version']))['version']}")
     changelog_md(data)

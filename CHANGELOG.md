@@ -5,6 +5,12 @@ Version x.y.0 : fonctionnalité ; x.y.z : ajustement ; x.y.z.w : correctif de bu
 
 ## Site / Site — journal commun
 
+### v1.12.0 — Page Journal (16/10/2026)
+
+Un onglet « Journal » dans la barre récapitule tous les journaux, une section par outil (et le site), du plus récent au plus ancien : seules les fonctionnalités sont affichées, les ajustements et correctifs s'ajoutent d'un clic. Chaque journal d'outil y renvoie par « Tout le journal ».
+
+*EN — Log page. A “Log” tab in the bar sums up every log, one section per tool (and the site), newest first: only features are shown, adjustments and fixes are added with one click. Each tool's log links to it with “Full log”.*
+
 ### v1.11.0 — Journal refondu (15/10/2026)
 
 Le journal distingue trois niveaux : fonctionnalités (pastille orange qui pulse), ajustements (point gris) et correctifs (discrets, rangés sous l'ajustement concerné). Les changements du site entier ont leur propre journal « Site », au lieu d'être répétés dans chaque outil.

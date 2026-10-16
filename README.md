@@ -18,6 +18,7 @@ Tout le dépôt — code, calculs, textes — est généré par IA (Claude, d'An
 | Module d'étalonnage | `ficsit_horloge.html` | coût de chaque palier d'horloge en éclats et en MW |
 | Débit vers le Dimensional Depot | `depot-dimensionnel.html` | débit par Uploader depuis une sauvegarde `.sav` |
 | Rentabilité énergétique par nœud | `energie-noeuds.html` | MW nets par filière, pureté et cadence |
+| Journal des révisions | `journal.html` | Récapitulatif de tous les journaux, une section par outil (générée par `patchnotes.py`) |
 | Optimiseur de recyclage | `broyeur-excedents.html` | cibles de broyage AWESOME classées par gain |
 | Complexité et valeur au broyeur | `arbre-production.html` | profondeur de l'arbre de production face à la valeur AWESOME |
 | Vitrine de la charte | `charte.html` | composants graphiques communs |

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <!-- FICSIT-LANG:START -->
 <link rel="stylesheet" href="commun/ficsit-commun.css?v=551980a855">
-<script src="commun/ficsit-commun.js?v=2c2657037d"></script>
+<script src="commun/ficsit-commun.js?v=02ebf7f667"></script>
 <!-- FICSIT-LANG:END -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title data-fr="FICSIT Inc. — Mémo de terrain" data-en="FICSIT Inc. — Field memo">FICSIT Inc. — Mémo de terrain</title>
@@ -513,7 +513,7 @@ footer{margin-top:34px;font-family:var(--d);font-stretch:var(--f-serre);font-wei
 @keyframes pn-pulse{50%{box-shadow:0 0 0 2px var(--f-barre),0 0 0 5px rgba(229,147,69,.35)}}
 @media (prefers-reduced-motion:reduce){.pn-neuf .pn-dot{animation:none}}
 .pn-panel{position:fixed;top:var(--f-barre-h);right:0;width:min(440px,calc(100vw - 24px));max-height:min(72vh,640px);
-  overflow:auto;overscroll-behavior:contain;background:var(--pn-panel);color:var(--pn-ink);
+  overflow:auto;overscroll-behavior:contain;overflow-anchor:none;background:var(--pn-panel);color:var(--pn-ink);
   box-shadow:var(--f-ombre)}
 .pn-panel[hidden]{display:none}
 .pn-hz{height:3px;background:var(--pn-or)}
@@ -572,6 +572,8 @@ footer{margin-top:34px;font-family:var(--d);font-stretch:var(--f-serre);font-wei
 .pn-site > summary:hover{color:var(--pn-ink)}
 .pn-site .pn-hist{padding:0 0 6px;border-top:0}
 .pn-site + .pn-hist{margin-top:4px}
+.pn-tout{display:block;margin:2px 16px 10px;font-size:.84rem;color:var(--pn-or);text-decoration:none}
+.pn-tout:hover,.pn-tout:focus-visible{text-decoration:underline}
 .pn-foot{height:8px}
 html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none}
 @media (max-width:560px){.pn-btn{padding:0 8px;gap:5px}.pn-panel{width:100vw}}
@@ -583,6 +585,7 @@ html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none
 <p class="pn-sub"><span data-l="fr">Version 1.1.1, mise à jour le 06/10/2026</span><span data-l="en" lang="en">Version 1.1.1, updated 6 Oct 2026</span></p></div><button type="button" class="pn-x" data-fr-aria-label="Fermer" data-en-aria-label="Close" aria-label="Fermer">×</button></div>
 <div class="pn-cur" data-v="1.1.0" data-niv="feat" data-src="outil"><div class="pn-meta"><span class="pn-v">v1.1.0</span><time class="pn-d" datetime="2026-09-30"><span data-l="fr">30/09/2026</span><span data-l="en" lang="en">30 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><h3 class="pn-tt"><span data-l="fr">Jalons du HUB et extraction selon votre partie</span><span data-l="en" lang="en">HUB milestones and extraction from your game</span></h3><p class="pn-t"><span data-l="fr">Avec une partie importée, les jalons du HUB obtenus sont cochés et les paliers complets marqués, avec un bilan en tête de section ; l&#x27;extraction suit votre matériel : foreuses et convoyeurs pas encore débloqués sont grisés, avec un bandeau sur la meilleure foreuse et le meilleur convoyeur dont vous disposez.</span><span data-l="en" lang="en">With an imported game, HUB milestones you got are ticked and completed tiers marked, with a summary at the top of the section; extraction follows your gear: miners and conveyors not yet unlocked are greyed out, with a banner on the best miner and conveyor you have.</span></p><details class="pn-aj" open><summary><span data-l="fr">Ajustements · 1</span><span data-l="en" lang="en">Adjustments · 1</span></summary><div class="pn-co"><ul><li class="aj" data-v="1.1.1" data-niv="aj" data-src="outil"><span class="n">1.1.1</span><span><span data-l="fr">Couleurs des convoyeurs partagées avec le planificateur ; Mk.1 et Mk.2 éclaircis, plus lisibles.</span><span data-l="en" lang="en">Conveyor colours shared with the planner; Mk.1 and Mk.2 lightened, easier to read.</span></span></li></ul></div></details></div>
 <ul class="pn-hist"><li><details class="pn-g"><summary data-v="1.0.0" data-niv="feat" data-src="outil"><span class="pn-hv">v1.0.0</span><span class="pn-hn"><span data-l="fr">Mémo de terrain</span><span data-l="en" lang="en">Field memo</span></span><span class="pn-hc">+4</span></summary><div class="pn-co"><div class="pn-gd"><p class="pn-t"><span data-l="fr">Extraction par pureté de nœud et par cadence, débits des convoyeurs, déblocages du HUB par palier et arborescence des pièces d&#x27;Ascenseur spatial.</span><span data-l="en" lang="en">Extraction by node purity and clock speed, conveyor rates, HUB unlocks by tier and the Space Elevator part tree.</span></p><details class="pn-aj"><summary><span data-l="fr">Ajustements et correctifs · 4</span><span data-l="en" lang="en">Adjustments and fixes · 4</span></summary><div class="pn-co"><ul><li class="aj" data-v="1.0.2" data-niv="aj" data-src="outil"><span class="n">1.0.2</span><span><span data-l="fr">Rangé dans la catégorie « Tableaux de lecture » de l&#x27;accueil, avec la rentabilité énergétique par nœud.</span><span data-l="en" lang="en">Filed in the “Reading tables” category of the home page, with the energy yield per node.</span></span></li><li class="aj" data-v="1.0.1" data-niv="aj" data-src="outil"><span class="n">1.0.1</span><span><span data-l="fr">Version anglaise complète ; noms de bâtiments alignés sur la localisation française du jeu.</span><span data-l="en" lang="en">Full English version; building names aligned with the game&#x27;s French localisation.</span></span></li><li class="fx" data-v="1.0.0.1" data-niv="fix" data-src="outil"><span class="n">1.0.0.1</span><span><span data-l="fr">Huit recettes corrigées dans l&#x27;arbre des pièces de projet (batterie, turbomoteur, cube de conversion de pression…).</span><span data-l="en" lang="en">Eight recipes fixed in the project-parts tree (battery, turbo motor, pressure conversion cube…).</span></span></li><li class="fx" data-v="1.0.0.2" data-niv="fix" data-src="outil"><span class="n">1.0.0.2</span><span><span data-l="fr">Sur très petit écran (320 px), les bandeaux de palier et les noms longs se replient au lieu de déborder.</span><span data-l="en" lang="en">On very small screens (320 px), tier strips and long names wrap instead of overflowing.</span></span></li></ul></div></details></div></div></details></li></ul>
+<a class="pn-tout" href="journal.html"><span data-l="fr">Tout le journal →</span><span data-l="en" lang="en">Full log →</span></a>
 <div class="pn-foot"></div></div></div>
 <script>(function(){
   var r = document.getElementById('journal'); if(!r) return;
@@ -618,9 +621,13 @@ html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none
     if(!c || calme || !c.animate){ if(!vers) d.open = false; return; }
     var h1 = vers ? c.scrollHeight : 0;
     if(vers) h0 = Math.min(h0, h1);
+    // la ligne cliquée reste en place : le contenu ne s'ouvre que vers le bas (aucune compensation de défilement du navigateur)
+    var pn = r.querySelector('.pn-panel'), sm = d.querySelector(':scope > summary'), y0 = sm.getBoundingClientRect().top;
+    function tenir(){ if(!d._an) return; var dy = sm.getBoundingClientRect().top - y0; if(dy > 0.5 || dy < -0.5) pn.scrollTop += dy; requestAnimationFrame(tenir); }
     var a = d._an = c.animate([{height: h0 + 'px', opacity: vers && !h0 ? 0 : 1}, {height: vers ? h1 + 'px' : '0px', opacity: vers ? 1 : 0}],
       {duration: vers ? 240 : 190, easing: vers ? 'ease-out' : 'ease-in'});
     if(!vers) d._ferm = true;
+    requestAnimationFrame(tenir);
     a.onfinish = function(){ d._an = null; if(!vers){ d.open = false; d._ferm = false; } };
   }
   r.querySelectorAll('details.pn-g, details.pn-aj, details.pn-site').forEach(function(d){

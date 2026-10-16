@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <!-- FICSIT-LANG:START -->
 <link rel="stylesheet" href="commun/ficsit-commun.css?v=551980a855">
-<script src="commun/ficsit-commun.js?v=2c2657037d"></script>
+<script src="commun/ficsit-commun.js?v=02ebf7f667"></script>
 <!-- FICSIT-LANG:END -->
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title data-fr="Complexité et valeur au broyeur — profondeur, branches et points AWESOME" data-en="Complexity vs sink value — depth, branches and AWESOME points">Complexité et valeur au broyeur — profondeur, branches et points AWESOME</title>
@@ -195,7 +195,7 @@
 @keyframes pn-pulse{50%{box-shadow:0 0 0 2px var(--f-barre),0 0 0 5px rgba(229,147,69,.35)}}
 @media (prefers-reduced-motion:reduce){.pn-neuf .pn-dot{animation:none}}
 .pn-panel{position:fixed;top:var(--f-barre-h);right:0;width:min(440px,calc(100vw - 24px));max-height:min(72vh,640px);
-  overflow:auto;overscroll-behavior:contain;background:var(--pn-panel);color:var(--pn-ink);
+  overflow:auto;overscroll-behavior:contain;overflow-anchor:none;background:var(--pn-panel);color:var(--pn-ink);
   box-shadow:var(--f-ombre)}
 .pn-panel[hidden]{display:none}
 .pn-hz{height:3px;background:var(--pn-or)}
@@ -254,6 +254,8 @@
 .pn-site > summary:hover{color:var(--pn-ink)}
 .pn-site .pn-hist{padding:0 0 6px;border-top:0}
 .pn-site + .pn-hist{margin-top:4px}
+.pn-tout{display:block;margin:2px 16px 10px;font-size:.84rem;color:var(--pn-or);text-decoration:none}
+.pn-tout:hover,.pn-tout:focus-visible{text-decoration:underline}
 .pn-foot{height:8px}
 html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none}
 @media (max-width:560px){.pn-btn{padding:0 8px;gap:5px}.pn-panel{width:100vw}}
@@ -265,6 +267,7 @@ html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none
 <p class="pn-sub"><span data-l="fr">Version 1.1.1, mise à jour le 04/10/2026</span><span data-l="en" lang="en">Version 1.1.1, updated 4 Oct 2026</span></p></div><button type="button" class="pn-x" data-fr-aria-label="Fermer" data-en-aria-label="Close" aria-label="Fermer">×</button></div>
 <div class="pn-cur" data-v="1.1.0" data-niv="feat" data-src="outil"><div class="pn-meta"><span class="pn-v">v1.1.0</span><time class="pn-d" datetime="2026-09-28"><span data-l="fr">28/09/2026</span><span data-l="en" lang="en">28 Sep 2026</span></time><span class="pn-nv"><span data-l="fr">nouveau</span><span data-l="en" lang="en">new</span></span></div><h3 class="pn-tt"><span data-l="fr">Chaîne « Ma partie »</span><span data-l="en" lang="en">“My game” chain</span></h3><p class="pn-t"><span data-l="fr">Troisième chaîne dès qu&#x27;une sauvegarde est importée dans le registre : pour chaque item, l&#x27;alternative de la chaîne optimisée si vous l&#x27;avez débloquée (ou simulée), sinon la recette de base. Le palier se règle sur celui de votre partie.</span><span data-l="en" lang="en">A third chain as soon as a save is imported in the registry: for each item, the optimised chain&#x27;s alternate if you unlocked (or simulated) it, otherwise the base recipe. The tier follows your game&#x27;s.</span></p><details class="pn-aj" open><summary><span data-l="fr">Ajustements · 1</span><span data-l="en" lang="en">Adjustments · 1</span></summary><div class="pn-co"><ul><li class="aj" data-v="1.1.1" data-niv="aj" data-src="outil"><span class="n">1.1.1</span><span><span data-l="fr">L&#x27;infobulle du graphique reprend l&#x27;habillage commun des bulles d&#x27;aide (points AWESOME en orange).</span><span data-l="en" lang="en">The chart tooltip uses the shared help-bubble look (AWESOME points in orange).</span></span></li></ul></div></details></div>
 <ul class="pn-hist"><li><details class="pn-g"><summary data-v="1.0.0" data-niv="feat" data-src="outil"><span class="pn-hv">v1.0.0</span><span class="pn-hn"><span data-l="fr">Complexité et valeur au broyeur</span><span data-l="en" lang="en">Complexity and sink value</span></span><span class="pn-hc">+1</span></summary><div class="pn-co"><div class="pn-gd"><p class="pn-t"><span data-l="fr">Profondeur de l&#x27;arbre de production et nombre d&#x27;items intermédiaires de chaque item broyable, face à sa valeur AWESOME, en recettes de base ou en chaîne optimisée (MW), filtrable par palier. Les minerais bruts solides figurent à profondeur 0. Rangé avec l&#x27;optimiseur dans la catégorie Recyclage de l&#x27;accueil.</span><span data-l="en" lang="en">Production-tree depth and number of intermediate items for each sinkable item, against its AWESOME value, in base recipes or in the optimised chain (MW), filterable by tier. Solid raw ores appear at depth 0. Filed with the optimiser in the Recycling category of the home page.</span></p><details class="pn-aj"><summary><span data-l="fr">Ajustements · 1</span><span data-l="en" lang="en">Adjustments · 1</span></summary><div class="pn-co"><ul><li class="aj" data-v="1.0.1" data-niv="aj" data-src="outil"><span class="n">1.0.1</span><span><span data-l="fr">Le palier se choisit dans la même grille à icônes que les autres outils : seuls les paliers qui font apparaître un item sont cliquables.</span><span data-l="en" lang="en">The tier is picked in the same icon grid as the other tools: only tiers that bring up at least one item are clickable.</span></span></li></ul></div></details></div></div></details></li></ul>
+<a class="pn-tout" href="journal.html"><span data-l="fr">Tout le journal →</span><span data-l="en" lang="en">Full log →</span></a>
 <div class="pn-foot"></div></div></div>
 <script>(function(){
   var r = document.getElementById('journal'); if(!r) return;
@@ -300,9 +303,13 @@ html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none
     if(!c || calme || !c.animate){ if(!vers) d.open = false; return; }
     var h1 = vers ? c.scrollHeight : 0;
     if(vers) h0 = Math.min(h0, h1);
+    // la ligne cliquée reste en place : le contenu ne s'ouvre que vers le bas (aucune compensation de défilement du navigateur)
+    var pn = r.querySelector('.pn-panel'), sm = d.querySelector(':scope > summary'), y0 = sm.getBoundingClientRect().top;
+    function tenir(){ if(!d._an) return; var dy = sm.getBoundingClientRect().top - y0; if(dy > 0.5 || dy < -0.5) pn.scrollTop += dy; requestAnimationFrame(tenir); }
     var a = d._an = c.animate([{height: h0 + 'px', opacity: vers && !h0 ? 0 : 1}, {height: vers ? h1 + 'px' : '0px', opacity: vers ? 1 : 0}],
       {duration: vers ? 240 : 190, easing: vers ? 'ease-out' : 'ease-in'});
     if(!vers) d._ferm = true;
+    requestAnimationFrame(tenir);
     a.onfinish = function(){ d._an = null; if(!vers){ d.open = false; d._ferm = false; } };
   }
   r.querySelectorAll('details.pn-g, details.pn-aj, details.pn-site').forEach(function(d){

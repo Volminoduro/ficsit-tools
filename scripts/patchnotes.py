@@ -367,7 +367,9 @@ PAGE_CSS = """
   *{box-sizing:border-box}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--f-police),Segoe UI,sans-serif;font-size:15px;line-height:1.55;-webkit-text-size-adjust:100%}
   body{background-image:linear-gradient(180deg,rgba(229,147,69,.05) 0,transparent 420px)}
-  .wrap{max-width:980px;margin:0 auto;padding:26px 16px 70px}
+  .wrap{max-width:1320px;margin:0 auto;padding:26px 16px 70px}
+  .jr-cols.agence{display:flex;gap:24px;align-items:flex-start}
+  .jr-col{flex:1 1 0;min-width:0}
   h1,h2,h3{font-family:var(--f-titre),Arial Narrow,sans-serif;font-stretch:var(--f-serre)}
   h1{font-size:clamp(30px,7vw,52px);line-height:.98;margin:0 0 4px;font-weight:700;text-transform:uppercase;color:#fff;overflow-wrap:anywhere}
   h1 em{font-style:normal;color:var(--or)}
@@ -383,7 +385,7 @@ PAGE_CSS = """
   .niv button[aria-pressed=true]{background:var(--or);color:#fff}
   .barre a:focus-visible,.niv button:focus-visible{outline:2px solid var(--f-or-clair);outline-offset:1px}
   .niv{display:flex;gap:6px;flex-wrap:wrap}
-  .jr-sec{margin:34px 0 0;scroll-margin-top:calc(var(--f-barre-h,40px) + 96px)}
+  .jr-sec{margin:0 0 26px;scroll-margin-top:calc(var(--f-barre-h,40px) + 96px)}
   .jr-sec > h2{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 14px;padding-bottom:9px;border-bottom:1px solid var(--f-trait2);
     font-size:clamp(17px,3.6vw,21px);color:#fff;text-transform:uppercase;letter-spacing:.14em;font-weight:500}
   .slot{flex:none;width:36px;height:36px;display:grid;place-items:center;background:var(--f-case);border-radius:3px;color:var(--or);font-size:18px}
@@ -424,10 +426,26 @@ PAGE_JS = """
     m.className = m.className.replace(/\\bniv-\\w+/g, '').trim() + ' niv-' + n;
     bs.forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.niv === n); });
     try{ localStorage.setItem(K, n); }catch(e){}
+    if(typeof agencer === 'function') agencer(true);
   }
   var n0 = 'feat'; try{ n0 = localStorage.getItem(K) || 'feat'; }catch(e){}
   if(['feat', 'aj', 'fx'].indexOf(n0) < 0) n0 = 'feat';
+  // sections en 1, 2 ou 3 colonnes selon la largeur : chacune va dans la colonne la moins haute (dans l'ordre des onglets)
+  var cols = document.querySelector('.jr-cols'), secs = [].slice.call(cols.children), nb = 0;
+  function agencer(force){
+    var n = innerWidth >= 1200 ? 3 : innerWidth >= 780 ? 2 : 1;
+    if(n === nb && !force) return;
+    nb = n; secs.forEach(function(x){ cols.appendChild(x); });
+    [].slice.call(cols.querySelectorAll(':scope > .jr-col')).forEach(function(x){ x.remove(); });
+    if(n === 1){ cols.classList.remove('agence'); return; }
+    cols.classList.add('agence');
+    var cs = [];
+    for(var i = 0; i < n; i++){ var c = document.createElement('div'); c.className = 'jr-col'; cols.appendChild(c); cs.push(c); }
+    secs.forEach(function(x){ var m = cs[0]; cs.forEach(function(c){ if(c.offsetHeight < m.offsetHeight) m = c; }); m.appendChild(x); });
+  }
   fixer(n0);
+  agencer(true);
+  addEventListener('resize', function(){ agencer(false); });
   document.querySelectorAll('.niv button, .reste').forEach(function(b){ b.addEventListener('click', function(){ fixer(b.dataset.niv); }); });
 })();
 """
@@ -490,7 +508,7 @@ def page_journal(data, ic):
 <div class="barre-l"><span class="barre-t">{bi("Aller à", "Jump to")}</span>{puces}</div>
 <div class="barre-l"><span class="barre-t">{bi("Afficher", "Show")}</span><div class="niv" role="group" aria-label="{html.escape("Niveau d'affichage")}"><button type="button" data-niv="feat" aria-pressed="true">{bi("Fonctionnalités", "Features")}</button><button type="button" data-niv="aj" aria-pressed="false">{bi("+ Ajustements", "+ Adjustments")}</button><button type="button" data-niv="fx" aria-pressed="false">{bi("+ Correctifs", "+ Fixes")}</button></div></div>
 </div>
-{corps}
+<div class="jr-cols">{corps}</div>
 </main>
 <script>{PAGE_JS.strip()}</script>
 </body>

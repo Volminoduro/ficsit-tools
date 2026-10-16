@@ -7,6 +7,14 @@
     },
     "entrees": [
       {
+        "version": "1.12.2",
+        "date": "2026-10-16",
+        "texte": {
+          "fr": "La page Journal répartit ses sections en deux ou trois colonnes équilibrées selon la largeur de l'écran, au lieu d'une longue liste.",
+          "en": "The Log page spreads its sections over two or three balanced columns depending on screen width, instead of one long list."
+        }
+      },
+      {
         "version": "1.12.1",
         "date": "2026-10-16",
         "texte": {

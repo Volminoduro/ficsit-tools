@@ -981,6 +981,14 @@ const INDICES = {
     const nbOutils = require(path.join(ROOT, 'commun', 'langue.json')).outils.length - 1;   // sans la page Journal elle-même
     if (nbSec !== nbOutils + 1) pb.push(`${nbSec} sections au lieu de ${nbOutils + 1} (site + outils)`);
     if (await p.evaluate(() => document.querySelector('.jr-sec').id) !== 's-site') pb.push('le site doit être la première section');
+    // colonnes : 3 à 1280 px, 2 vers 1000 px, 1 sur téléphone ; chaque section dans une seule colonne
+    const colonnes = async w => { await p.setViewportSize({width: w, height: 900}); await p.waitForTimeout(250);
+      return p.evaluate(() => new Set([...document.querySelectorAll('.jr-sec')].map(x => Math.round(x.getBoundingClientRect().left))).size); };
+    for (const [w, attendu] of [[1280, 3], [1000, 2], [390, 1]]) {
+      const n = await colonnes(w);
+      if (n !== attendu) pb.push(`${n} colonne(s) à ${w} px au lieu de ${attendu}`);
+    }
+    await p.setViewportSize({width: 1280, height: 900}); await p.waitForTimeout(250);
     if (await vis('.jr-aj') !== 0) pb.push('ajustements visibles par défaut');
     if (await vis('.jr-v') < nbSec) pb.push('fonctionnalités non visibles');
     await p.click('.niv button[data-niv=aj]');

@@ -11,6 +11,8 @@ Un onglet « Journal » dans la barre récapitule tous les journaux, une section
 
 *EN — Log page. A “Log” tab in the bar sums up every log, one section per tool (and the site), newest first: only features are shown, adjustments and fixes are added with one click. Each tool's log links to it with “Full log”.*
 
+- **1.12.3** (16/10/2026) : Dans le journal, viser une ligne plus bas ne déplace plus la cible : les lignes du dessus restent ouvertes jusqu'à la sortie du panneau. Défilement fin et discret.
+  *EN — In the log, aiming at a lower line no longer shifts the target: lines above stay open until the pointer leaves the panel. Thin, discreet scrollbar.*
 - **1.12.2** (16/10/2026) : La page Journal répartit ses sections en deux ou trois colonnes équilibrées selon la largeur de l'écran, au lieu d'une longue liste.
   *EN — The Log page spreads its sections over two or three balanced columns depending on screen width, instead of one long list.*
 - **1.12.1** (16/10/2026) : Le bouton « Accueil » reste affiché sur la page d'accueil, où il est l'onglet courant (en orange).

@@ -1128,18 +1128,29 @@ const INDICES = {
     const plein = await haut(1);
     if (!(milieu > 0 && milieu < plein - 2)) pb.push(`pas de glissement à l'ouverture (hauteur ${milieu.toFixed(0)} px en cours, ${plein.toFixed(0)} px au final)`);
     if (!await ouvert(1)) pb.push('pas ouvert au survol');
-    await p.mouse.move(300, 600); await p.waitForTimeout(500);
+    await p.mouse.move(300, 600); await p.waitForTimeout(900);
     if (await ouvert(1)) pb.push('pas refermé à la sortie du survol');
-    await sm(1).hover(); await p.waitForTimeout(400); await sm(1).click(); await p.mouse.move(300, 600); await p.waitForTimeout(500);
+    // survol « A+ » : viser une ligne plus bas laisse la ligne du dessus ouverte et ne déplace pas la cible
+    await sm(1).hover(); await p.waitForTimeout(500);
+    await sm(3).scrollIntoViewIfNeeded(); await p.waitForTimeout(100);
+    const y3 = (await sm(3).boundingBox()).y;
+    await sm(3).hover(); await p.waitForTimeout(600);
+    const y3b = (await sm(3).boundingBox()).y;
+    if (!await ouvert(3)) pb.push('A+ : la ligne visée plus bas ne s\'ouvre pas');
+    if (!await ouvert(1)) pb.push('A+ : la ligne du dessus s\'est refermée pendant le déplacement dans le panneau');
+    if (Math.abs(y3b - y3) > 1) pb.push(`A+ : la ligne visée a bougé de ${(y3b - y3).toFixed(0)} px`);
+    await p.mouse.move(300, 600); await p.waitForTimeout(900);
+    if (await ouvert(1) || await ouvert(3)) pb.push('A+ : lignes encore ouvertes après la sortie du panneau');
+    await sm(1).hover(); await p.waitForTimeout(400); await sm(1).click(); await p.mouse.move(300, 600); await p.waitForTimeout(900);
     if (!await ouvert(1)) pb.push('refermé malgré le clic (doit rester ouvert)');
     await sm(1).click(); await p.waitForTimeout(400);
     if (await ouvert(1)) pb.push('le second clic ne ferme pas');
-    await p.mouse.move(300, 600); await p.waitForTimeout(400);
+    await p.mouse.move(300, 600); await p.waitForTimeout(900);
     if (await ouvert(1)) pb.push('rouvert tout seul après le second clic et la sortie');
     // sans survol préalable : un clic ouvre, un second ferme
-    await sm(2).click(); await p.mouse.move(300, 600); await p.waitForTimeout(500);
+    await sm(2).click(); await p.mouse.move(300, 600); await p.waitForTimeout(900);
     if (!await ouvert(2)) pb.push('un clic seul n\'ouvre pas');
-    await sm(2).click(); await p.mouse.move(300, 600); await p.waitForTimeout(400);
+    await sm(2).click(); await p.mouse.move(300, 600); await p.waitForTimeout(900);
     if (await ouvert(2)) pb.push('un clic seul ne ferme pas');
     pb.forEach(x => echecs.push('journal (survol et clic) : ' + x));
     console.log(`${pb.length ? 'ÉCHEC' : 'ok   '} journal des révisions : replis ouverts au survol, gardés au clic`);

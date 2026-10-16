@@ -179,7 +179,7 @@
 @keyframes pn-pulse{50%{box-shadow:0 0 0 2px var(--f-barre),0 0 0 5px rgba(229,147,69,.35)}}
 @media (prefers-reduced-motion:reduce){.pn-neuf .pn-dot{animation:none}}
 .pn-panel{position:fixed;top:var(--f-barre-h);right:0;width:min(440px,calc(100vw - 24px));max-height:min(72vh,640px);
-  overflow:auto;overscroll-behavior:contain;overflow-anchor:none;background:var(--pn-panel);color:var(--pn-ink);
+  overflow:auto;overscroll-behavior:contain;overflow-anchor:none;background:var(--pn-panel);color:var(--pn-ink);scrollbar-width:thin;scrollbar-color:#4a4a4a transparent;
   box-shadow:var(--f-ombre)}
 .pn-panel[hidden]{display:none}
 .pn-hz{height:3px;background:var(--pn-or)}
@@ -287,16 +287,19 @@ html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none
     if(!c || calme || !c.animate){ if(!vers) d.open = false; return; }
     var h1 = vers ? c.scrollHeight : 0;
     if(vers) h0 = Math.min(h0, h1);
-    // la ligne cliquée reste en place : le contenu ne s'ouvre que vers le bas (aucune compensation de défilement du navigateur)
-    var pn = r.querySelector('.pn-panel'), sm = d.querySelector(':scope > summary'), y0 = sm.getBoundingClientRect().top;
-    function tenir(){ if(!d._an) return; var dy = sm.getBoundingClientRect().top - y0; if(dy > 0.5 || dy < -0.5) pn.scrollTop += dy; requestAnimationFrame(tenir); }
     var a = d._an = c.animate([{height: h0 + 'px', opacity: vers && !h0 ? 0 : 1}, {height: vers ? h1 + 'px' : '0px', opacity: vers ? 1 : 0}],
       {duration: vers ? 240 : 190, easing: vers ? 'ease-out' : 'ease-in'});
     if(!vers) d._ferm = true;
-    requestAnimationFrame(tenir);
     a.onfinish = function(){ d._an = null; if(!vers){ d.open = false; d._ferm = false; } };
   }
-  r.querySelectorAll('details.pn-g, details.pn-aj, details.pn-site').forEach(function(d){
+  var tous = [].slice.call(r.querySelectorAll('details.pn-g, details.pn-aj, details.pn-site')), vit = 0, mx = 0, my = 0, mt = 0, sortie;
+  p.addEventListener('mousemove', function(e){ var t = performance.now(), dt = t - mt || 1; vit = Math.hypot(e.clientX - mx, e.clientY - my) / dt; mx = e.clientX; my = e.clientY; mt = t; });
+  p.addEventListener('mouseenter', function(){ clearTimeout(sortie); });
+  p.addEventListener('mouseleave', function(){
+    clearTimeout(sortie);
+    sortie = setTimeout(function(){ tous.slice().reverse().forEach(function(o){ if(o.open && !o._ferm && o.dataset.pin !== '1') glisse(o, false); }); }, 350);
+  });
+  tous.forEach(function(d){
     var sm = d.querySelector(':scope > summary'), t;
     d.dataset.pin = d.open ? '1' : '';
     sm.addEventListener('click', function(e){
@@ -304,8 +307,20 @@ html:not([lang|=en]) .pn [data-l=en],html[lang|=en] .pn [data-l=fr]{display:none
       if(d.open && !d._ferm && d.dataset.pin === '1'){ glisse(d, false); d.dataset.pin = ''; } else { glisse(d, true); d.dataset.pin = '1'; }
     });
     if(!survol) return;
-    d.addEventListener('mouseenter', function(){ clearTimeout(t); if(!d.open || d._ferm) t = setTimeout(function(){ glisse(d, true); d.dataset.pin = ''; }, d._ferm ? 0 : 110); });
-    d.addEventListener('mouseleave', function(){ clearTimeout(t); if(d.open && !d._ferm && d.dataset.pin !== '1') t = setTimeout(function(){ glisse(d, false); }, 180); });
+    // survol : on n'ouvre que si la souris ralentit ; l'ouverture referme tout de suite les replis du dessous (la cible ne
+    // bouge pas), ceux du dessus restent ouverts jusqu'à la sortie du panneau (rien ne remonte sous le curseur)
+    sm.addEventListener('mouseenter', function(){
+      clearTimeout(t);
+      if(d.open && !d._ferm) return;
+      function essai(){
+        var v = performance.now() - mt > 90 ? 0 : vit;
+        if(v > 0.35){ t = setTimeout(essai, 70); return; }
+        glisse(d, true); d.dataset.pin = '';
+        tous.forEach(function(o){ if(o !== d && o.open && !o._ferm && o.dataset.pin !== '1' && !d.contains(o) && (d.compareDocumentPosition(o) & 4)) glisse(o, false); });
+      }
+      t = setTimeout(essai, 120);
+    });
+    sm.addEventListener('mouseleave', function(){ clearTimeout(t); });
   });
   function ouvrir(o){
     p.hidden = !o; b.setAttribute('aria-expanded', o);

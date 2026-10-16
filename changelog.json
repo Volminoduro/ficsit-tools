@@ -7,6 +7,14 @@
     },
     "entrees": [
       {
+        "version": "1.13.1",
+        "date": "2026-10-16",
+        "texte": {
+          "fr": "Cibles tactiles d'au moins 24 px (onglets du planificateur, barre du graphe, journal), panneau Bilan atteignable au clavier, titres de l'accueil dans l'ordre.",
+          "en": "Touch targets of at least 24 px (planner tabs, graph bar, log), Summary panel reachable by keyboard, home headings in order."
+        }
+      },
+      {
         "version": "1.13.0",
         "date": "2026-10-16",
         "titre": {

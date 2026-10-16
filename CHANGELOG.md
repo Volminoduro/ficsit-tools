@@ -11,6 +11,9 @@ Chaque page a un lien « Aller au contenu » (visible au clavier) et une zone pr
 
 *EN — Accessibility and metadata. Every page has a “Skip to content” link (visible with the keyboard) and a main region that screen readers can find. Pages carry a description, a theme colour and sharing metadata. Log version numbers are a little easier to read.*
 
+- **1.13.1** (16/10/2026) : Cibles tactiles d'au moins 24 px (onglets du planificateur, barre du graphe, journal), panneau Bilan atteignable au clavier, titres de l'accueil dans l'ordre.
+  *EN — Touch targets of at least 24 px (planner tabs, graph bar, log), Summary panel reachable by keyboard, home headings in order.*
+
 ### v1.12.0 — Page Journal (16/10/2026)
 
 Un onglet « Journal » dans la barre récapitule tous les journaux, une section par outil (et le site), du plus récent au plus ancien : seules les fonctionnalités sont affichées, les ajustements et correctifs s'ajoutent d'un clic. Chaque journal d'outil y renvoie par « Tout le journal ».

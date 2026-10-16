@@ -395,7 +395,7 @@ PAGE_CSS = """
   .barre-l{display:flex;gap:8px 14px;flex-wrap:wrap;align-items:center;margin:0 0 8px}
   .barre-l:last-child{margin:0}
   .barre-t{font:600 .72rem/1 var(--f-police);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);min-width:6.5em}
-  .barre a,.niv button{all:unset;box-sizing:border-box;cursor:pointer;padding:6px 11px;background:#3F3F3F;color:#ddd;font:600 .74rem/1 var(--f-police);letter-spacing:.08em;text-transform:uppercase}
+  .barre a,.niv button{all:unset;box-sizing:border-box;cursor:pointer;min-height:24px;padding:6px 11px;background:#3F3F3F;color:#ddd;font:600 .74rem/1 var(--f-police);letter-spacing:.08em;text-transform:uppercase}
   .barre a:hover,.niv button:hover{background:#4A4A4A}
   .niv button[aria-pressed=true]{background:var(--or);color:#fff}
   .barre a:focus-visible,.niv button:focus-visible{outline:2px solid var(--f-or-clair);outline-offset:1px}
@@ -426,7 +426,7 @@ PAGE_CSS = """
   .niv-feat .jr-aj{display:none}
   .niv-aj .jr-aj li.fx{display:none}
   .niv-aj .jr-aj:not(:has(li.aj)){display:none}
-  .reste{all:unset;display:none;cursor:pointer;margin:6px 0 0;font-size:.76rem;color:#a3a3a3}
+  .reste{all:unset;display:none;cursor:pointer;margin:6px 0 0;padding:3px 0;font-size:.76rem;color:#a3a3a3}
   .reste:hover,.reste:focus-visible{color:var(--or);text-decoration:underline}
   .niv-feat .reste{display:block}
   html:not([lang|=en]) [data-l=en],html[lang|=en] [data-l=fr]{display:none}

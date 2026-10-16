@@ -1001,7 +1001,7 @@ const INDICES = {
     await q.goto(`http://127.0.0.1:${srv.address().port}/outils.html#memo-ficsit.html`);
     await q.waitForFunction(() => document.querySelector('iframe.actif')); await q.waitForTimeout(1200);
     const fr = q.frames().find(f2 => f2.parentFrame() && new URL(f2.url()).pathname.endsWith('/memo-ficsit.html'));
-    await fr.click('.pn-btn'); await fr.click('.pn-tout'); await q.waitForTimeout(1200);
+    await q.click('#fjournal'); await q.waitForTimeout(400); await fr.click('.pn-tout'); await q.waitForTimeout(1200);
     if (!(await q.evaluate(() => location.hash)).includes('journal.html')) pb.push('« Tout le journal » n\'ouvre pas la page Journal');
     await q.close(); srv.close();
     if (errs.length) pb.push('erreurs JS : ' + errs.slice(0, 2).join(' | '));

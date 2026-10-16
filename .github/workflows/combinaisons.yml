@@ -35,9 +35,13 @@ jobs:
           BASE: ${{ github.base_ref }}
         run: |
           if [ "$EVENT" = "pull_request" ]; then
-            git show "origin/$BASE:satisfactory_infographie.html" > "$RUNNER_TEMP/base.html" 2>/dev/null || true
+            # la page de la base est reconstituée avec son code (satisfactory_infographie.js, lu à côté du HTML par
+            # empreinte_combinaisons.js) : sans lui l'empreinte de la base différait toujours de celle de la PR
+            mkdir -p "$RUNNER_TEMP/base"
+            git show "origin/$BASE:satisfactory_infographie.html" > "$RUNNER_TEMP/base/satisfactory_infographie.html" 2>/dev/null || true
+            git show "origin/$BASE:satisfactory_infographie.js" > "$RUNNER_TEMP/base/satisfactory_infographie.js" 2>/dev/null || rm -f "$RUNNER_TEMP/base/satisfactory_infographie.js"
             git show "origin/$BASE:scripts/paliers_combinaisons.js" > "$RUNNER_TEMP/base.js" 2>/dev/null || true
-            avant=$(node scripts/empreinte_combinaisons.js "$RUNNER_TEMP/base.html" "$RUNNER_TEMP/base.js" 2>/dev/null || true)
+            avant=$(node scripts/empreinte_combinaisons.js "$RUNNER_TEMP/base/satisfactory_infographie.html" "$RUNNER_TEMP/base.js" 2>/dev/null || true)
             apres=$(node scripts/empreinte_combinaisons.js satisfactory_infographie.html)
             if [ -n "$avant" ] && [ "$avant" = "$apres" ]; then
               echo "recalcul=non" >> "$GITHUB_OUTPUT"

@@ -5,6 +5,12 @@ Version x.y.0 : fonctionnalité ; x.y.z : ajustement ; x.y.z.w : correctif de bu
 
 ## Site / Site — journal commun
 
+### v1.12.0 — Page Journal (16/10/2026)
+
+Un onglet « Journal » dans la barre récapitule tous les journaux, une section par outil (et le site), du plus récent au plus ancien : seules les fonctionnalités sont affichées, les ajustements et correctifs s'ajoutent d'un clic. Chaque journal d'outil y renvoie par « Tout le journal ».
+
+*EN — Log page. A “Log” tab in the bar sums up every log, one section per tool (and the site), newest first: only features are shown, adjustments and fixes are added with one click. Each tool's log links to it with “Full log”.*
+
 ### v1.11.0 — Journal refondu (15/10/2026)
 
 Le journal distingue trois niveaux : fonctionnalités (pastille orange qui pulse), ajustements (point gris) et correctifs (discrets, rangés sous l'ajustement concerné). Les changements du site entier ont leur propre journal « Site », au lieu d'être répétés dans chaque outil.
@@ -59,7 +65,7 @@ Les bulles d'aide (au survol des boutons, icônes et étiquettes) prennent l'hab
 
 Habillage au plus près des menus du jeu : fenêtres gris neutre à barre de titre, coins droits, orange du jeu pour la sélection et les valeurs, police Noto Sans embarquée dans le site (même rendu hors ligne), filet orange du HUD à la place des hachures. Les boutons du haut forment une barre de titre pleine largeur ; couleurs et polices viennent d'une charte commune.
 
-*EN — Game-menu look. Look brought as close as possible to the game's menus: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the Noto Sans typeface shipped with the site (same look offline), the HUD's orange line instead of hazard stripes. The top buttons form a full-width title bar; colours and fonts come from one style sheet shared by every tool.*
+*EN — Game-menu look. Look brought as close as possible to the game's menus: neutral grey windows with a title bar, square corners, the game's orange for selection and values, the Noto typeface shipped with the site (same look offline), the HUD's orange line instead of hazard stripes. The top buttons form a full-width title bar; colours and fonts come from one style sheet shared by every tool.*
 
 ### v1.6.0 — Fonctionnement hors ligne (30/09/2026)
 

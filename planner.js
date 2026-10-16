@@ -1596,7 +1596,7 @@ const nomDe = i => S.plans[i].nom || nomPlan(i + 1);
 function rendreOnglets(){
   boxPlans.innerHTML = S.plans.map((pl, i) => {
     const sel = i === S.actif;
-    return `<div class="plan" role="presentation" aria-selected="${sel}">${i === RENOMME
+    return `<div class="plan${sel ? ' sel' : ''}" role="presentation">${i === RENOMME
       ? `<input type="text" maxlength="40" data-i="${i}" value="${esc(pl.nom || nomPlan(i + 1))}" aria-label="${esc(L({fr: 'Nom du plan', en: 'Plan name'}))}">`
       : `<button type="button" class="p-nom" role="tab" data-i="${i}" aria-selected="${sel}" tabindex="${sel ? 0 : -1}" title="${esc(nomDe(i))}${sel ? esc(L({fr: ' — double-clic pour renommer', en: ' — double-click to rename'})) : ''}">${esc(nomDe(i))}</button>`
       + `<button type="button" class="p-act" data-ren="${i}" title="${esc(L({fr: 'Renommer', en: 'Rename'}))}" aria-label="${esc(L({fr: 'Renommer', en: 'Rename'}))}">✎</button>`

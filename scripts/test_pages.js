@@ -1018,7 +1018,10 @@ const INDICES = {
     const acc = await p.evaluate(() => ({badge: !!document.querySelector('#journal .pn-btn'), cur: !!document.querySelector('#journal .pn-cur'), site: !!document.querySelector('#journal details.pn-site'),
       v: document.querySelector('#journal .pn-btn span:last-child').textContent, sv: document.getElementById('journal').dataset.sv}));
     if (!acc.badge || !acc.cur || acc.site || acc.v !== 'v' + acc.sv) pb.push('accueil : journal du site seul attendu ' + JSON.stringify(acc));
+    const home = await p.evaluate(() => { const h = document.getElementById('fhome'); return !!h && h.offsetParent !== null && h.getAttribute('aria-current') === 'page'; });
+    if (!home) pb.push('accueil : le bouton « Accueil » doit être affiché, comme onglet courant');
     await p.goto('file://' + path.join(ROOT, 'planner.html')); await p.waitForTimeout(500);
+    if (await p.evaluate(() => { const h = document.getElementById('fhome'); return !h || h.offsetParent === null || h.hasAttribute('aria-current'); })) pb.push('outil : le bouton « Accueil » doit être affiché, sans être l\'onglet courant');
     const ord = await p.evaluate(() => { const c = document.querySelector('.pn-cur'), h = document.querySelector('.pn-hist');
       return !!(c && h) && !!(c.compareDocumentPosition(h) & 4) && !document.querySelector('details.pn-site') && !document.getElementById('journal').dataset.sv; });
     if (!ord) pb.push('outil : dernière version puis versions précédentes attendues, sans ligne « Site »');

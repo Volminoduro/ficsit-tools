@@ -1598,8 +1598,7 @@ function rendreOnglets(){
     const sel = i === S.actif;
     return `<div class="plan${sel ? ' sel' : ''}" role="presentation">${i === RENOMME
       ? `<input type="text" maxlength="40" data-i="${i}" value="${esc(pl.nom || nomPlan(i + 1))}" aria-label="${esc(L({fr: 'Nom du plan', en: 'Plan name'}))}">`
-      : `<button type="button" class="p-nom" role="tab" data-i="${i}" aria-selected="${sel}" tabindex="${sel ? 0 : -1}" title="${esc(nomDe(i))}${sel ? esc(L({fr: ' — double-clic pour renommer', en: ' — double-click to rename'})) : ''}">${esc(nomDe(i))}</button>`
-      + `<button type="button" class="p-act" data-ren="${i}" title="${esc(L({fr: 'Renommer', en: 'Rename'}))}" aria-label="${esc(L({fr: 'Renommer', en: 'Rename'}))}">✎</button>`
+      : `<button type="button" class="p-nom" role="tab" data-i="${i}" aria-selected="${sel}" tabindex="${sel ? 0 : -1}" title="${esc(nomDe(i))}${sel ? esc(L({fr: ' — cliquer pour renommer', en: ' — click to rename'})) : ''}">${esc(nomDe(i))}</button>`
       + (S.plans.length > 1 ? `<button type="button" class="p-act" data-suppr="${i}" title="${esc(L({fr: 'Fermer ce plan', en: 'Close this plan'}))}" aria-label="${esc(L({fr: 'Fermer ce plan', en: 'Close this plan'}))}">×</button>` : '')}</div>`;
   }).join('') + `<button type="button" class="p-ajout" id="planAjout" title="${esc(L({fr: 'Nouveau plan', en: 'New plan'}))}" aria-label="${esc(L({fr: 'Nouveau plan', en: 'New plan'}))}">+</button>`;
   const inp = boxPlans.querySelector('input');
@@ -1630,16 +1629,15 @@ boxPlans.addEventListener('click', e => {
     S.plans.push(Object.assign({nom: ''}, extrait(DEFAUT)));
     S.actif = S.plans.length - 1; Object.assign(S, extrait(S.plans[S.actif]));
     appliquerPlan(); boxPlans.querySelector('.p-nom[aria-selected="true"]').focus();
-  } else if(t.dataset.ren){ RENOMME = +t.dataset.ren; rendreOnglets(); }
+  }
   else if(t.dataset.suppr){
     const i = +t.dataset.suppr;
     if(S.plans.length < 2 || !confirm(L({fr: `Fermer « ${nomDe(i)} » ? Le plan sera perdu.`, en: `Close "${nomDe(i)}"? The plan will be lost.`}))) return;
     S.plans.splice(i, 1);
     S.actif = Math.min(i, S.plans.length - 1); Object.assign(S, extrait(S.plans[S.actif]));
     appliquerPlan();
-  } else if(t.dataset.i) allerPlan(+t.dataset.i);
+  } else if(t.dataset.i){ const i = +t.dataset.i; if(i === S.actif){ RENOMME = i; rendreOnglets(); } else allerPlan(i); }
 });
-boxPlans.addEventListener('dblclick', e => { const t = e.target.closest('.p-nom'); if(t){ RENOMME = +t.dataset.i; rendreOnglets(); } });
 boxPlans.addEventListener('keydown', e => {
   const inp = e.target.closest('input');
   if(inp){

@@ -400,7 +400,7 @@ const CHECKS = {
       if (S.mode !== 'defaut' || S.cibles.length !== 1 || S.cibles[0].item !== 'Reinforced Iron Plate') out.push('onglets : nouveau plan pas par défaut');
       S.cibles = [{item: 'Iron Rod', debit: 30}]; garder(); calcul();
       const nom = document.querySelector('#plans .p-nom[aria-selected="true"]');
-      nom.dispatchEvent(new MouseEvent('dblclick', {bubbles: true}));
+      nom.click();   // un clic sur le nom du plan affiché propose de le renommer
       const inp = document.querySelector('#plans input');
       if (!inp) out.push('onglets : pas de champ de renommage');
       else { inp.value = 'Tiges'; inp.dispatchEvent(new KeyboardEvent('keydown', {key: 'Enter', bubbles: true})); }

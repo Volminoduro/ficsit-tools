@@ -328,6 +328,14 @@
       },
       "entrees": [
         {
+          "version": "1.14.1",
+          "date": "2026-10-16",
+          "texte": {
+            "fr": "Pour renommer un plan, il suffit de cliquer sur le nom de l'onglet affiché (le bouton ✎ disparaît ; F2 fonctionne toujours).",
+            "en": "To rename a plan, just click the name of the shown tab (the ✎ button is gone; F2 still works)."
+          }
+        },
+        {
           "version": "1.14.0.2",
           "date": "2026-10-15",
           "texte": {

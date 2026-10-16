@@ -1132,6 +1132,7 @@ const INDICES = {
     if (await ouvert(1)) pb.push('pas refermé à la sortie du survol');
     // survol « A+ » : viser une ligne plus bas laisse la ligne du dessus ouverte et ne déplace pas la cible
     await sm(1).hover(); await p.waitForTimeout(500);
+    await sm(3).scrollIntoViewIfNeeded(); await p.waitForTimeout(100);
     const y3 = (await sm(3).boundingBox()).y;
     await sm(3).hover(); await p.waitForTimeout(600);
     const y3b = (await sm(3).boundingBox()).y;

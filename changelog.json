@@ -7,6 +7,14 @@
     },
     "entrees": [
       {
+        "version": "1.12.3",
+        "date": "2026-10-16",
+        "texte": {
+          "fr": "Dans le journal, viser une ligne plus bas ne déplace plus la cible : les lignes du dessus restent ouvertes jusqu'à la sortie du panneau. Défilement fin et discret.",
+          "en": "In the log, aiming at a lower line no longer shifts the target: lines above stay open until the pointer leaves the panel. Thin, discreet scrollbar."
+        }
+      },
+      {
         "version": "1.12.2",
         "date": "2026-10-16",
         "texte": {

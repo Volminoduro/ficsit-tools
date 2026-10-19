@@ -11,6 +11,8 @@ Chaque page a un lien « Aller au contenu » (visible au clavier) et une zone pr
 
 *EN — Accessibility and metadata. Every page has a “Skip to content” link (visible with the keyboard) and a main region that screen readers can find. Pages carry a description, a theme colour and sharing metadata. Log version numbers are a little easier to read.*
 
+- **1.13.2** (19/10/2026) : Le planificateur et le Depot ne sont plus signalés « en chantier » (carte de l'accueil, titre, losange de l'onglet).
+  *EN — The planner and the Depot are no longer flagged “work in progress” (home card, title, tab diamond).*
 - **1.13.1** (16/10/2026) : Cibles tactiles d'au moins 24 px (onglets du planificateur, barre du graphe, journal), panneau Bilan atteignable au clavier, titres de l'accueil dans l'ordre.
   *EN — Touch targets of at least 24 px (planner tabs, graph bar, log), Summary panel reachable by keyboard, home headings in order.*
 

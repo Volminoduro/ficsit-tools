@@ -7,6 +7,14 @@
     },
     "entrees": [
       {
+        "version": "1.13.2",
+        "date": "2026-10-19",
+        "texte": {
+          "fr": "Le planificateur et le Depot ne sont plus signalés « en chantier » (carte de l'accueil, titre, losange de l'onglet).",
+          "en": "The planner and the Depot are no longer flagged “work in progress” (home card, title, tab diamond)."
+        }
+      },
+      {
         "version": "1.13.1",
         "date": "2026-10-16",
         "texte": {

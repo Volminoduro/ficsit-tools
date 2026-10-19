@@ -7,10 +7,10 @@
     "en": { "nom": "English", "court": "EN", "locale": "en-US", "titre": "Show in English" }
   },
   "outils": [
-    { "f": "planner.html",                 "chantier": true, "fr": "Planificateur", "en": "Planner",     "titre": { "fr": "Planificateur de production", "en": "Production planner" } },
+    { "f": "planner.html",                                  "fr": "Planificateur", "en": "Planner",     "titre": { "fr": "Planificateur de production", "en": "Production planner" } },
     { "f": "satisfactory_infographie.html",                  "fr": "Registre",      "en": "Registry",    "titre": { "fr": "Registre des rendements", "en": "Yield registry" } },
     { "f": "ficsit_horloge.html",                            "fr": "Étalonnage",    "en": "Calibration", "titre": { "fr": "Module d'étalonnage", "en": "Calibration module" } },
-    { "f": "depot-dimensionnel.html",      "chantier": true, "fr": "Depot",         "en": "Depot",       "titre": { "fr": "Débit vers le Dimensional Depot", "en": "Dimensional Depot throughput" } },
+    { "f": "depot-dimensionnel.html",                       "fr": "Depot",         "en": "Depot",       "titre": { "fr": "Débit vers le Dimensional Depot", "en": "Dimensional Depot throughput" } },
     { "f": "memo-ficsit.html",                               "fr": "Mémo",          "en": "Memo",        "titre": { "fr": "Mémo de terrain", "en": "Field memo" } },
     { "f": "energie-noeuds.html",                            "fr": "Nœuds",         "en": "Nodes",       "titre": { "fr": "Rentabilité énergétique par nœud", "en": "Power per node" } },
     { "f": "broyeur-excedents.html",                         "fr": "Recyclage",     "en": "Recycling",   "titre": { "fr": "Optimiseur de recyclage (Broyeur AWESOME)", "en": "Recycling optimizer (AWESOME Sink)" } },

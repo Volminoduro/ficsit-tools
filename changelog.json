@@ -692,6 +692,14 @@
       },
       "entrees": [
         {
+          "version": "1.4.2",
+          "date": "2026-10-19",
+          "texte": {
+            "fr": "Le texte d'en-tête ne parle plus d'« étape 3 sur 4 » : il décrit l'état de la sauvegarde à l'instant où elle a été faite.",
+            "en": "The header text no longer says “step 3 of 4”: it describes the state of the save at the moment it was made."
+          }
+        },
+        {
           "version": "1.4.1",
           "date": "2026-10-04",
           "texte": {

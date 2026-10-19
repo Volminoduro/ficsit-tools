@@ -390,7 +390,7 @@
                  "en": "measured productivity {p}%" },
     "depotNoeud": { "fr": "sur {n}",
                   "en": "on {n}" },
-    "depotEtape": { "fr": "Étape 3 sur 4 : débits théoriques en items/min, dans le régime actuel de l'usine. Extraction selon la pureté du nœud et la cadence, machines limitées par leurs ingrédients et par la place en aval, plafonds des convoyeurs, séparateurs, conteneurs qui se remplissent, gares et ports de drones, générateurs et bilan électrique, vitesse d'envoi des Uploaders et limite du Depot par item. Reste à venir : validation par comparaison de deux sauvegardes.",
-                   "en": "Step 3 of 4: theoretical rates in items/min, in the factory's current regime. Extraction by node purity and clock speed, machines limited by their ingredients and by room downstream, belt caps, splitters, containers that are filling, train stations and drone ports, generators and power balance, Uploader upload speed and the Depot's per-item limit. Still to come: validation by comparing two saves." }
+    "depotEtape": { "fr": "Débits théoriques en items/min, dans le régime actuel de l'usine (état de la sauvegarde). Extraction selon la pureté du nœud et la cadence, machines limitées par leurs ingrédients et par la place en aval, plafonds des convoyeurs, séparateurs, conteneurs qui se remplissent, gares et ports de drones, générateurs et bilan électrique, vitesse d'envoi des Uploaders et limite du Depot par item.",
+                   "en": "Theoretical rates in items/min, in the factory's current regime (state of the save). Extraction by node purity and clock speed, machines limited by their ingredients and by room downstream, belt caps, splitters, containers that are filling, train stations and drone ports, generators and power balance, Uploader upload speed and the Depot's per-item limit." }
   }
 }

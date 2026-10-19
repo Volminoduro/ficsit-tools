@@ -54,7 +54,7 @@ Entrée de journal à prévoir pour le broyeur (une seule version regroupant les
 
 ## Nouvel outil — débit vers le Dimensional Depot
 
-- [ ] **Estimer, depuis une sauvegarde, le débit envoyé au Dimensional Depot** — **L** (≫ 60 000 tokens, à découper en plusieurs PR ; H2 Opus)
+- [x] **Estimer, depuis une sauvegarde, le débit envoyé au Dimensional Depot** — **L** (≫ 60 000 tokens, à découper en plusieurs PR ; H2 Opus)
   Objectif : un outil qui estime, à partir d'une sauvegarde Satisfactory (.sav), le débit par minute et par item envoyé au Dimensional Depot via les Dimensional Depot Uploaders.
   1. **Lecture de la save**
      - Parser la save dans le navigateur (par ex. avec @etothepii/satisfactory-file-parser, déjà embarqué dans `commun/vendor/`), sans envoi serveur : la save ne quitte pas la machine de l'utilisateur.
@@ -106,7 +106,7 @@ Entrée de journal à prévoir pour le broyeur (une seule version regroupant les
     - générateurs à combustible solide : 60 × MW × cadence / énergie du combustible ; générateur à carburant supposé alimenté ; géothermie selon la pureté du geyser ;
     - bilan électrique global estimé et fusibles grillés (`FGPowerCircuit.mIsFuseTriggered`).
     Limites restantes : fluides (tuyaux non lus), répartition des bâtiments entre circuits (câbles non lus), trajets des trains et drones. Save 265 (même usine que 269 prise en marche) : 30 % seulement, régime transitoire (objets encore sur les convoyeurs).
-  - [ ] Étape 4 — validation : remplissage réel des convoyeurs, comparaison de deux saves (delta de stock / delta de temps).
+  - [x] Étape 4 — validation : abandonnée le 2026-10-19 (l'outil donne l'état à l'instant de la sauvegarde ; le recoupement avec la productivité mesurée par le jeu suffit, ni le remplissage des convoyeurs ni la comparaison de deux saves n'apportent d'information au joueur).
 
 ## Graphiques (lecture seule)
 

@@ -284,8 +284,8 @@ Une ligne par item (Uploaders et stock du Depot réunis) avec le débit théoriq
 
 *EN — Inventory-style overview. One line per item (Uploaders and Depot stock together) with the theoretical rate, the cap limiting it, the stock, the limit and the time to full; a red square flags a full Depot. An item's detail opens on click. The rate shown is the theoretical one, whether the Depot is full or not.*
 
-- **1.4.2** (19/10/2026) : Le texte d'en-tête ne parle plus d'« étape 3 sur 4 » : l'outil est terminé, il donne l'état de la sauvegarde à l'instant où elle a été faite.
-  *EN — The header text no longer says “step 3 of 4”: the tool is finished and shows the state of the save at the moment it was made.*
+- **1.4.2** (19/10/2026) : Le texte d'en-tête ne parle plus d'« étape 3 sur 4 » : il décrit l'état de la sauvegarde à l'instant où elle a été faite.
+  *EN — The header text no longer says “step 3 of 4”: it describes the state of the save at the moment it was made.*
 - **1.4.1** (04/10/2026) : L'infobulle d'une ligne de l'inventaire se place près du curseur.
   *EN — An inventory row's tooltip sits near the cursor.*
 
